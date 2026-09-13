@@ -3,19 +3,23 @@ import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { IconSymbol } from '@/ui/IconSymbol';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+
+
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[(colorScheme ?? 'light') as 'light' | 'dark'].tint,
+        tabBarActiveTintColor: '#c8e78b',
         headerShown: false,
+        tabBarInactiveTintColor: '#92a18d',
+        tabBarLabelStyle: { fontSize: 10, lineHeight: 14, fontWeight: '600' },
+        tabBarIconStyle: { height: 26 },
+        tabBarItemStyle: { paddingVertical: 0 },
         tabBarStyle: {
-          backgroundColor: Colors[(colorScheme ?? 'light') as 'light' | 'dark'].background,
-          borderTopWidth: 0,
+          backgroundColor: '#18261e',
+          borderTopWidth: 1, borderTopColor: '#34432f', height: 66, paddingTop: 8, paddingBottom: 10,
         },
       }}>
       <Tabs.Screen

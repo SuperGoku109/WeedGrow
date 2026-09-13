@@ -48,6 +48,7 @@ export interface Plant {
   // 📁 Subcollection: /plants/{plantId}/logs/{logId}
   // ================================
   export interface PlantLog {
+    category?: 'watering' | 'feeding' | 'pests' | 'training' | 'health' | 'notes';
     timestamp: FirebaseFirestore.Timestamp;
     type: 'watering' | 'fertilizing' | 'note' | 'photo' | 'training' | 'stage_change' | 'harvest';
     description?: string;

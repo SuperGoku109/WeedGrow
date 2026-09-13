@@ -1,7 +1,7 @@
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db, storage } from '@/services/firebase';
-import { cacheDirectory, copyAsync } from 'expo-file-system';
+import { cacheDirectory, copyAsync } from 'expo-file-system/legacy';
 
 /**
  * Uploads a progress picture to Firebase Storage and saves metadata to Firestore.

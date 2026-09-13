@@ -121,6 +121,7 @@ export default function PlantListScreen({
         {error && <ThemedText style={[styles.errorText, { color: Colors[theme].tint }]}>❌ Error: {error}</ThemedText>}
         {!loading && !error && filteredPlants.length > 0 && (
           <FlatList
+            testID="home-plants-list"
             data={filteredPlants}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => (

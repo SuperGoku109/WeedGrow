@@ -2,7 +2,7 @@
 // This component displays a card summarizing a plant group with a distinct "collection" design.
 // It uses a larger overlapping avatar cluster and a clean content layout to reinforce the group identity.
 
-import React, { useEffect, useState, useLayoutEffect, useCallback, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -22,6 +22,7 @@ import { waterAllPlantsInGroup } from '@/features/groups/api/groupApi';
 import { useGroupWeather } from '@/features/groups/hooks/useGroupWeather';
 import { ThemedView } from '@/ui/ThemedView';
 import { usePlantsWateredToday } from '@/features/plants/hooks/usePlantsWateredToday';
+import { GrowReveal } from '@/ui/GrowMotion';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 
 export interface GroupCardProps {
@@ -107,35 +108,6 @@ const GroupCard = React.memo(function GroupCard({
     };
   }, [watering, loadingAnim]);
 
-  // Mount animation
-  const scaleAnim = useRef(new Animated.Value(0)).current;
-  const opacityAnim = useRef(new Animated.Value(0)).current;
-  const initialMount = useRef(true);
-  useLayoutEffect(() => {
-    if (initialMount.current) {
-      scaleAnim.setValue(0);
-      opacityAnim.setValue(0);
-      Animated.parallel([
-        Animated.spring(scaleAnim, {
-          toValue: 1,
-          useNativeDriver: true,
-          friction: 5,
-        }),
-        Animated.timing(opacityAnim, {
-          toValue: 1,
-          duration: 800,
-          easing: Easing.inOut(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ]).start(() => {
-        initialMount.current = false;
-      });
-    } else {
-      scaleAnim.setValue(1);
-      opacityAnim.setValue(1);
-    }
-  }, [scaleAnim, opacityAnim]);
-
   // Optimistic watered flag
   const plantIds = useMemo(() => {
     if (Array.isArray(group.plantIds) && group.plantIds.length > 0) return group.plantIds;
@@ -204,11 +176,11 @@ const GroupCard = React.memo(function GroupCard({
   return (
     <>
       <TouchableOpacity onPress={handlePress} onLongPress={handleLongPress} activeOpacity={0.92}>
-        <Animated.View style={{ transform: [{ scale: scaleAnim }], opacity: opacityAnim }}>
+        <GrowReveal delay={180}>
           <ThemedView style={styles.card}>
             {/* Header: Env + Name + CTA */}
+            <WeedGrowEnvBadge environment={group.environment} size={14} style={{ alignSelf: "flex-start", marginBottom: 10 }} />
             <View style={styles.topRow}>
-              <WeedGrowEnvBadge environment={group.environment} size={18} style={{ marginRight: 8 }} />
               <ThemedText style={styles.groupName} numberOfLines={1}>{group.name}</ThemedText>
               <TouchableOpacity
                 onPress={confirmWaterAll}
@@ -243,7 +215,7 @@ const GroupCard = React.memo(function GroupCard({
                   return imageUri ? (
                     <Image key={p.id} source={{ uri: imageUri }} style={style as unknown as any} />
                   ) : (
-                    <View key={p.id} style={[styles.avatarPlaceholder, idx > 0 && { marginLeft: -AVATAR_OVERLAP }]} />
+                    <View key={p.id} style={[styles.avatarPlaceholder, idx > 0 && { marginLeft: -AVATAR_OVERLAP }]}><MaterialCommunityIcons name="sprout" size={24} color="#c8e78b" /></View>
                   );
                 })}
                 {moreCount > 0 && (
@@ -254,6 +226,7 @@ const GroupCard = React.memo(function GroupCard({
               </View>
             </View>
 
+            <ThemedText style={{ color: "#adbea4", fontSize: 11, marginTop: 2 }}>{_plants.length} plants in this space · Tap to explore</ThemedText>
             {/* Weather summary line (condensed, single-row) */}
             {group.environment === 'outdoor' && (
               <View style={styles.weatherLine}>
@@ -284,7 +257,7 @@ const GroupCard = React.memo(function GroupCard({
               <ThemedText style={styles.lastWatered}>Last watered: {lastWatered}</ThemedText>
             )}
           </ThemedView>
-        </Animated.View>
+        </GrowReveal>
       </TouchableOpacity>
 
       <Snackbar visible={snackVisible} onDismiss={() => setSnackVisible(false)} duration={3000}>
@@ -299,13 +272,14 @@ export default GroupCard;
 const styles = StyleSheet.create({
   card: {
     marginBottom: 2,
-    borderRadius: 18,
+    borderRadius: 24,
+    backgroundColor: "#26382a",
     overflow: 'hidden',
     padding: 14,
     minHeight: 160,
     // backgroundColor removed to use ThemedView background
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.04)',
+    borderColor: '#41523a',
   },
   topRow: {
     flexDirection: 'row',
@@ -313,7 +287,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   groupName: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
     color: '#fff',
     flexShrink: 1,
@@ -321,11 +295,11 @@ const styles = StyleSheet.create({
   },
   waterButtonPrimary: {
     marginLeft: 'auto',
-    backgroundColor: '#1e90ff',
+    backgroundColor: '#3e6357',
     borderRadius: 18,
     paddingHorizontal: 10,
     height: 34,
-    minWidth: 110,
+    minWidth: 88,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -355,14 +329,15 @@ const styles = StyleSheet.create({
     height: AVATAR_SIZE,
     borderRadius: AVATAR_SIZE / 2,
     borderWidth: AVATAR_BORDER,
-    borderColor: 'rgba(30,144,255,0.65)',
+    borderColor: '#92aa70',
     backgroundColor: 'rgba(255,255,255,0.12)'
   },
   avatarPlaceholder: {
     width: AVATAR_SIZE,
     height: AVATAR_SIZE,
     borderRadius: AVATAR_SIZE / 2,
-    backgroundColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: '#3c5135',
+    alignItems: 'center', justifyContent: 'center',
     borderWidth: AVATAR_BORDER,
     borderColor: 'rgba(255,255,255,0.16)',
   },

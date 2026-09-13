@@ -70,6 +70,7 @@ const GroupList = memo(function GroupList({
   return (
     <View style={{ flex: 1, position: 'relative' }}>
       <FlatList
+        testID="home-groups-list"
         data={groups}
         keyExtractor={item => item.id}
         renderItem={renderItem}
@@ -109,14 +110,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 14,
+    paddingVertical: 11,
     paddingHorizontal: 32,
     borderRadius: 28,
-    marginTop: -20,
+    marginTop: 0,
     marginBottom: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.09)',
+    backgroundColor: '#2d3e29',
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.03)',
+    borderColor: '#536344',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.13,
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
   addGroupText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 17,
+    fontSize: 13,
     marginLeft: 10,
     letterSpacing: 0.5,
   },

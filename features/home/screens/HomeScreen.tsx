@@ -1,9 +1,10 @@
-import React, { useState, useMemo, useCallback, memo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Snackbar, Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import GrowHero from '@/features/home/components/GrowHero';
+import HomeScrollbar from '@/features/home/components/HomeScrollbar';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
@@ -12,111 +13,28 @@ import EditGroupModal from '@/features/groups/components/EditGroupModal';
 import PlantListScreen from '@/features/plants/screens/PlantListScreen';
 import { SuggestionCatalog } from '@/ui/SuggestionCatalog';
 import { AppHeader } from '@/ui/AppHeader';
-import { ThemedText } from '@/ui/ThemedText';
+
 import HomeBackground from '@/features/home/components/HomeBackground';
 import { useHomeScreenState } from '@/features/home/hooks/useHomeScreenState';
 import { useWateringSuggestions } from '@/features/home/hooks/useWateringSuggestions';
 import SwipeTabs from '@/ui/SwipeTabs';
 
 const styles = StyleSheet.create({
-  appHeaderModern: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 32,
-    paddingBottom: 24,
-    backgroundColor: '#181f1b', // clean, dark, minimal
-    borderBottomLeftRadius: 32,
-    borderBottomRightRadius: 32,
-    marginBottom: 0,
-    borderBottomWidth: 1,
-    borderBottomColor: '#26332b',
-    elevation: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.10,
-    shadowRadius: 12,
-  },
-  appNameModern: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#fff',
-    letterSpacing: 2,
-    textShadowColor: 'rgba(0,0,0,0.10)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 6,
-    opacity: 0.95,
-  },
-  loading: { marginTop: 20 },
-  addGroupButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 24,
-    marginTop: 8,
-    marginBottom: 8,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 2,
-  },
-  addGroupText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-    marginLeft: 8,
-  },
-  searchRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 0, paddingHorizontal: 12 },
+  searchRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 0, paddingHorizontal: 18 },
   searchBar: {
     marginRight: 8,
-    height: 55,
-    minHeight: 55,
+    height: 46,
+    minHeight: 46,
     paddingVertical: 0,
     flex: 1,
-    backgroundColor: 'rgba(59, 67, 66, 0.55)',
-    borderRadius: 100,
+    backgroundColor: '#23332a',
+    borderRadius: 15,
     borderWidth: 0,
     paddingHorizontal: 10,
   },
-  filtersContainer: { marginBottom: 12, gap: 8 },
-  tabContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-  },
-  tabButton: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 12,
-  },
-  tabButtonActive: {
-    borderBottomWidth: 2,
-    borderBottomColor: Colors.light.tint,
-  },
-  tabText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
-  },
-  tabTextActive: {
-    color: Colors.light.tint,
-  },
+
 });
 
-
-const TLCIndicator = memo(function TLCIndicator({ count }: { count: number }) {
-  return (
-    <View style={{ alignItems: 'flex-start', marginBottom: 0, marginLeft: 20, flexDirection: 'row', gap: 0 }}>
-      <MaterialCommunityIcons name="heart-pulse" size={15} color="#ff6b81" style={{ marginRight: 1, marginTop: 6 }} />
-      <ThemedText style={{ color: '#ff6b81', fontWeight: '600', fontSize: 13 }}>({count}) TLC Needed</ThemedText>
-    </View>
-  );
-});
 
 export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: number }) {
   const router = useRouter();
@@ -153,7 +71,7 @@ export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: 
           value={searchQuery}
           onChangeText={setSearchQuery}
           style={styles.searchBar}
-          inputStyle={{ color: '#fff', textAlignVertical: 'center' }}
+          placeholderTextColor="#9aac97" iconColor="#aabd99" inputStyle={{ color: '#edf0e3', fontSize: 13, minHeight: 46 }}
         />
       </View>
       <GroupList
@@ -176,7 +94,7 @@ export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: 
           value={plantSearchQuery}
           onChangeText={setPlantSearchQuery}
           style={styles.searchBar}
-          inputStyle={{ color: '#fff', textAlignVertical: 'center' }}
+          placeholderTextColor="#9aac97" iconColor="#aabd99" inputStyle={{ color: '#edf0e3', fontSize: 13, minHeight: 46 }}
         />
       </View>
       <PlantListScreen
@@ -203,13 +121,14 @@ export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: 
   ], [renderGroupsTab, renderPlantsTab]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#181f1b', position: 'relative' }}>
+    <View style={{ flex: 1, backgroundColor: '#15231c', position: 'relative' }}>
+      <HomeScrollbar />
       <HomeBackground />
-      <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }} edges={['top', 'left', 'right']}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent', width: '100%', maxWidth: 760, alignSelf: 'center' }} edges={['top', 'left', 'right']}>
         {/* Modern App Header */}
         <AppHeader />
         {/* TLC needed indicator */}
-        <TLCIndicator count={tlcCount} />
+        <GrowHero plants={state.allPlants.length} groups={state.groups.length} attention={tlcCount} />
 
         {/* Suggestion Catalog */}
         {suggestionItems.length > 0 && (
