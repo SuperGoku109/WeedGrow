@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Image } from 'react-native';
-import Animated, { useAnimatedStyle, interpolate, Extrapolate } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, interpolate, Extrapolate, type SharedValue } from 'react-native-reanimated';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 
 interface CollapsingHeaderWithGalleryProps {
   plantId: string;
   plantImageUri?: string;
-  scrollY: Animated.SharedValue<number>;
+  scrollY: SharedValue<number>;
   children?: React.ReactNode;
 }
 

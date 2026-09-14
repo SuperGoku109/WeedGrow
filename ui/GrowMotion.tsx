@@ -1,7 +1,7 @@
 import React from 'react';
 import { AccessibilityInfo, Animated, Easing, Pressable, ViewProps } from 'react-native';
 export function useReducedMotion() {
-  const [reduced, setReduced] = React.useState(true);
+  const [reduced, setReduced] = React.useState(false);
   React.useEffect(() => {
     let active = true;
     AccessibilityInfo.isReduceMotionEnabled().then(v => { if (active) setReduced(v); });
@@ -12,7 +12,7 @@ export function useReducedMotion() {
 }
 export function GrowReveal({ children, style, delay = 0 }: ViewProps & { delay?: number }) {
   const reduced = useReducedMotion();
-  const value = React.useRef(new Animated.Value(1)).current;
+  const value = React.useRef(new Animated.Value(reduced ? 1 : 0)).current;
   React.useEffect(() => {
     if (reduced) { value.setValue(1); return; }
     value.setValue(0);

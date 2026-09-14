@@ -23,7 +23,7 @@ const initialForm: PlantForm = {
 
 export function useAddPlantForm() {
   const [form, setForm] = useState<PlantForm>(initialForm);
-  const setField = useCallback((field: keyof PlantForm, value: any) => {
+  const setField = useCallback(<K extends keyof PlantForm>(field: K, value: PlantForm[K]) => {
     setForm((prev: PlantForm) => ({ ...prev, [field]: value }));
   }, []);
   const resetForm = useCallback(() => setForm(initialForm), []);

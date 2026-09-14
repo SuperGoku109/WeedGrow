@@ -3,5 +3,5 @@
 // this hook simply returns "dark" regardless of the system
 // preference or hydration state.
 export function useColorScheme() {
-  return 'dark';
+  return 'dark' as const;
 }

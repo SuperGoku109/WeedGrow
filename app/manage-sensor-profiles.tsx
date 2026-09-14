@@ -1,26 +1,88 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView, Alert } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Alert, Animated, Easing, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Text, Button, List, Dialog, Portal, TextInput, ActivityIndicator } from 'react-native-paper';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { ActivityIndicator, Button, Dialog, Portal, TextInput } from 'react-native-paper';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { collection, deleteDoc, deleteField, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
+
 import { db } from '@/services/firebase';
-import { collection, getDocs, doc, updateDoc, deleteDoc, query, where, deleteField } from 'firebase/firestore';
 import HomeBackground from '@/features/home/components/HomeBackground';
+import { AppHeader } from '@/ui/AppHeader';
+import { GrowPress, GrowReveal, useReducedMotion } from '@/ui/GrowMotion';
+
+type SensorProfile = {
+  id: string;
+  name?: string;
+  environmentType?: 'indoor' | 'greenhouse';
+  isManual?: boolean;
+  defaultTemp?: number;
+  defaultHumidity?: number;
+};
+
+const palette = {
+  background: '#15231c', surface: '#23342a', elevated: '#2e4434', border: '#40523a',
+  text: '#edf0e3', muted: '#a9bba1', accent: '#c8e78b', onAccent: '#243420',
+  hero: '#eaf0d5', heroText: '#243420', warm: '#efb58d', danger: '#f0a999',
+};
+
+function ProfileHeroArt({ compact }: { compact: boolean }) {
+  const reduced = useReducedMotion();
+  const drift = React.useRef(new Animated.Value(0)).current;
+
+  React.useEffect(() => {
+    if (reduced) {
+      drift.setValue(0);
+      return;
+    }
+    const motion = Animated.loop(Animated.sequence([
+      Animated.timing(drift, { toValue: 1, duration: 3000, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      Animated.timing(drift, { toValue: 0, duration: 3000, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+    ]));
+    motion.start();
+    return () => motion.stop();
+  }, [drift, reduced]);
+
+  return (
+    <Animated.View
+      pointerEvents="none"
+      style={[
+        styles.heroArt,
+        compact && styles.heroArtCompact,
+        {
+          transform: [
+            { translateY: drift.interpolate({ inputRange: [0, 1], outputRange: [2, -4] }) },
+            { rotate: drift.interpolate({ inputRange: [0, 1], outputRange: ['-2deg', '2deg'] }) },
+          ],
+        },
+      ]}
+    >
+      <View style={styles.artHalo} />
+      <View style={styles.artRing} />
+      <MaterialCommunityIcons name="tune-variant" size={54} color="#365c37" />
+      <View style={[styles.artDot, styles.artDotOne]} />
+      <View style={[styles.artDot, styles.artDotTwo]} />
+    </Animated.View>
+  );
+}
 
 export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMessage?: string } = {}) {
-  const [profiles, setProfiles] = useState<any[]>([]);
+  const router = useRouter();
+  const { width } = useWindowDimensions();
+  const compact = width < 380;
+  const [profiles, setProfiles] = useState<SensorProfile[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState<any | null>(null);
+  const [editing, setEditing] = useState<SensorProfile | null>(null);
   const [editName, setEditName] = useState('');
   const [editEnv, setEditEnv] = useState<'indoor' | 'greenhouse'>('indoor');
   const [editManual, setEditManual] = useState(true);
   const [editTemp, setEditTemp] = useState('');
   const [editHumidity, setEditHumidity] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [linkedPlants, setLinkedPlants] = useState<any[]>([]);
+  const [linkedPlants, setLinkedPlants] = useState<{ name?: string }[]>([]);
+  const [linkedLoading, setLinkedLoading] = useState(false);
   const [showLinked, setShowLinked] = useState(false);
-  const theme = (useColorScheme() ?? 'dark') as keyof typeof Colors;
+  const [refreshVersion, setRefreshVersion] = useState(0);
 
   useEffect(() => {
     let isMounted = true;
@@ -28,9 +90,7 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
       setLoading(true);
       try {
         const snap = await getDocs(collection(db, 'sensorProfiles'));
-        if (isMounted) {
-          setProfiles(snap.docs.map((d: any) => ({ id: d.id, ...d.data() })));
-        }
+        if (isMounted) setProfiles(snap.docs.map(item => ({ id: item.id, ...item.data() })) as SensorProfile[]);
       } catch {
         if (isMounted) setProfiles([]);
       } finally {
@@ -39,265 +99,244 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
     };
     fetchProfiles();
     return () => { isMounted = false; };
-  }, [editing, deletingId]);
+  }, [refreshVersion]);
 
-  const handleEdit = (profile: any) => {
+  const manualCount = useMemo(() => profiles.filter(profile => profile.isManual).length, [profiles]);
+
+  const handleEdit = (profile: SensorProfile) => {
     setEditing(profile);
-    setEditName(profile.name);
-    setEditEnv(profile.environmentType);
-    setEditManual(profile.isManual);
-    setEditTemp(profile.defaultTemp ? String(profile.defaultTemp) : '');
-    setEditHumidity(profile.defaultHumidity ? String(profile.defaultHumidity) : '');
+    setEditName(profile.name || '');
+    setEditEnv(profile.environmentType || 'indoor');
+    setEditManual(profile.isManual !== false);
+    setEditTemp(profile.defaultTemp === undefined ? '' : String(profile.defaultTemp));
+    setEditHumidity(profile.defaultHumidity === undefined ? '' : String(profile.defaultHumidity));
   };
 
   const handleSaveEdit = async () => {
     if (!editing) return;
-    Alert.alert('DEBUG', 'Save button pressed!');
     try {
-      const update: any = {
-        name: editName.trim(),
-        environmentType: editEnv,
-        isManual: editManual,
-      };
+      const update: Record<string, unknown> = { name: editName.trim(), environmentType: editEnv, isManual: editManual };
       if (editManual) {
-        if (editTemp) update.defaultTemp = Number(editTemp);
-        else update.defaultTemp = deleteField();
-        if (editHumidity) update.defaultHumidity = Number(editHumidity);
-        else update.defaultHumidity = deleteField();
+        update.defaultTemp = editTemp ? Number(editTemp) : deleteField();
+        update.defaultHumidity = editHumidity ? Number(editHumidity) : deleteField();
       } else {
         update.defaultTemp = deleteField();
         update.defaultHumidity = deleteField();
       }
       await updateDoc(doc(db, 'sensorProfiles', editing.id), update);
       setEditing(null);
+      setRefreshVersion(version => version + 1);
     } catch {
-      Alert.alert('Error', 'Failed to update profile.');
+      Alert.alert('Could not save', 'The profile could not be updated. Please try again.');
     }
   };
 
   const handleDelete = async (id: string) => {
     setDeletingId(id);
-    await deleteDoc(doc(db, 'sensorProfiles', id));
-    setDeletingId(null);
+    try {
+      await deleteDoc(doc(db, 'sensorProfiles', id));
+      setRefreshVersion(version => version + 1);
+    } catch {
+      Alert.alert('Could not delete', 'The profile could not be removed. Please try again.');
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const handleShowLinkedPlants = async (profileId: string) => {
+    setLinkedPlants([]);
+    setLinkedLoading(true);
     setShowLinked(true);
-    const q = query(collection(db, 'plants'), where('sensorProfileId', '==', profileId));
-    const snap = await getDocs(q);
-    setLinkedPlants(snap.docs.map((d: any) => d.data()));
+    try {
+      const plantsQuery = query(collection(db, 'plants'), where('sensorProfileId', '==', profileId));
+      const snap = await getDocs(plantsQuery);
+      setLinkedPlants(snap.docs.map(item => item.data()));
+    } finally {
+      setLinkedLoading(false);
+    }
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#181f1b' }}>
+    <SafeAreaView edges={['top', 'left', 'right']} style={styles.safeArea}>
       <HomeBackground />
-      <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.heading}>Manage Sensor Profiles</Text>
-        <Text style={styles.topInfo}>
-          Create, edit, or delete sensor profiles for your grow spaces.
-        </Text>
-        {loading && <ActivityIndicator style={{ marginTop: 24 }} animating size="large" color={Colors[theme].tint} />}
-        {!loading && profiles.length === 0 && <Text style={styles.empty}>{emptyMessage || 'No sensor profiles found. Add one using the + button.'}</Text>}
-        {!loading && profiles.map(profile => (
-          <List.Section key={profile.id} style={styles.profileCard}>
-            <List.Item
-              title={profile.name}
-              description={`Env: ${profile.environmentType.charAt(0).toUpperCase() + profile.environmentType.slice(1)}  |  ${profile.isManual ? 'Manual' : 'Hardware'}`}
-              left={props => <List.Icon {...props} icon={profile.isManual ? 'pencil' : 'chip'} color={Colors[theme].tint} />}
-              style={{ backgroundColor: '#2226', borderRadius: 10 }}
-            />
-            <View style={styles.row}>
-              <Button icon="pencil" onPress={() => handleEdit(profile)} mode="outlined" style={styles.actionBtn}>Edit</Button>
-              <Button icon="link" onPress={() => handleShowLinkedPlants(profile.id)} mode="outlined" style={styles.actionBtn}>Linked Plants</Button>
-              <Button icon="delete" onPress={() => handleDelete(profile.id)} mode="text" color="red" style={styles.actionBtn} disabled={deletingId === profile.id}>Delete</Button>
+      <View style={styles.page}>
+        <AppHeader />
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
+          <GrowReveal style={styles.hero}>
+            <View style={[styles.heroCopy, compact && styles.heroCopyCompact]}>
+              <Text style={styles.eyebrow}>ENVIRONMENT CONTROL</Text>
+              <Text style={[styles.heading, compact && styles.headingCompact]}>Steady spaces.{`\n`}Healthier grows.</Text>
+              <Text style={styles.topInfo}>Save the conditions that help each indoor space feel at home.</Text>
+              <GrowPress accessibilityRole="button" accessibilityLabel="Create a sensor profile" onPress={() => router.push('/add-sensor-profile')} style={styles.heroButton}>
+                <MaterialCommunityIcons name="plus" size={18} color={palette.onAccent} />
+                <Text style={styles.heroButtonText}>New profile</Text>
+              </GrowPress>
             </View>
-          </List.Section>
-        ))}
-        <Portal>
-          <Dialog visible={!!editing} onDismiss={() => setEditing(null)}>
-            <Dialog.Title>Edit Sensor Profile</Dialog.Title>
-            <Dialog.Content>
-              <Text style={styles.dialogHint}>Update the details for this sensor profile. All fields are editable.</Text>
-              <TextInput
-                label="Profile Name"
-                value={editName}
-                onChangeText={setEditName}
-                style={styles.input}
-                placeholder="e.g. Main Tent"
-                autoFocus
-                left={<TextInput.Icon icon="label-outline" />}
-                maxLength={32}
-                returnKeyType="done"
-              />
-              <Text style={styles.label}>Environment Type</Text>
-              <View style={styles.row}>
-                <Button
-                  mode={editEnv === 'indoor' ? 'contained' : 'outlined'}
-                  onPress={() => setEditEnv('indoor')}
-                  icon="home"
-                  style={styles.envBtn}
-                >
-                  Indoor
-                </Button>
-                <Button
-                  mode={editEnv === 'greenhouse' ? 'contained' : 'outlined'}
-                  onPress={() => setEditEnv('greenhouse')}
-                  icon="leaf"
-                  style={styles.envBtn}
-                >
-                  Greenhouse
-                </Button>
-              </View>
-              <Text style={styles.label}>Data Source</Text>
-              <View style={styles.row}>
-                <Button
-                  mode={editManual ? 'contained' : 'outlined'}
-                  onPress={() => setEditManual(true)}
-                  icon="pencil"
-                  style={styles.envBtn}
-                >
-                  Manual
-                </Button>
-                <Button
-                  mode={!editManual ? 'contained' : 'outlined'}
-                  onPress={() => setEditManual(false)}
-                  icon="chip"
-                  style={styles.envBtn}
-                >
-                  Hardware
-                </Button>
-              </View>
-              {editManual && (
-                <>
-                  <Text style={styles.label}>Default Readings (Optional)</Text>
-                  <TextInput
-                    label="Default Temperature (°C)"
-                    value={editTemp}
-                    onChangeText={setEditTemp}
-                    keyboardType="numeric"
-                    style={styles.input}
-                    placeholder="e.g. 24"
-                    left={<TextInput.Icon icon="thermometer" />}
-                    maxLength={5}
-                  />
-                  <TextInput
-                    label="Default Humidity (%)"
-                    value={editHumidity}
-                    onChangeText={setEditHumidity}
-                    keyboardType="numeric"
-                    style={styles.input}
-                    placeholder="e.g. 60"
-                    left={<TextInput.Icon icon="water-percent" />}
-                    maxLength={5}
-                  />
-                </>
-              )}
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={() => setEditing(null)}>Cancel</Button>
-              <Button 
-                onPress={handleSaveEdit}
-                disabled={
-                  !editName.trim() ||
-                  (
-                    editName.trim() === editing?.name &&
-                    editEnv === editing?.environmentType &&
-                    editManual === editing?.isManual &&
-                    (editManual
-                      ? editTemp === (editing?.defaultTemp ? String(editing.defaultTemp) : '') &&
-                        editHumidity === (editing?.defaultHumidity ? String(editing.defaultHumidity) : '')
-                      : true)
-                  )
-                }
-              >
-                Save
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-          <Dialog visible={showLinked} onDismiss={() => setShowLinked(false)}>
-            <Dialog.Title>Linked Plants</Dialog.Title>
-            <Dialog.Content>
-              {linkedPlants.length === 0 ? (
-                <Text>No plants linked to this profile.</Text>
-              ) : (
-                linkedPlants.map((p, i) => (
-                  <Text key={i}>{p.name}</Text>
-                ))
-              )}
-            </Dialog.Content>
-            <Dialog.Actions>
-              <Button onPress={() => setShowLinked(false)}>Close</Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
-      </ScrollView>
+            <ProfileHeroArt compact={compact} />
+            <View style={styles.heroStatus}>
+              <View style={styles.statusItem}><Text style={styles.statusValue}>{profiles.length}</Text><Text style={styles.statusLabel}>PROFILES</Text></View>
+              <View style={styles.statusDivider} />
+              <View style={styles.statusItem}><Text style={styles.statusValue}>{manualCount}</Text><Text style={styles.statusLabel}>MANUAL</Text></View>
+              <Text style={styles.statusMessage}>Ready for your grow spaces</Text>
+            </View>
+          </GrowReveal>
+
+          <GrowReveal delay={80} style={styles.sectionHeading}>
+            <View><Text style={styles.sectionEyebrow}>YOUR SETUPS</Text><Text style={styles.sectionTitle}>Sensor profiles</Text></View>
+            <View style={styles.countBadge}><Text style={styles.countText}>{profiles.length}</Text></View>
+          </GrowReveal>
+
+          {loading && <View style={styles.loadingCard}><ActivityIndicator animating size="small" color={palette.accent} /><Text style={styles.loadingText}>Reading your grow spaces…</Text></View>}
+
+          {!loading && profiles.length === 0 && (
+            <View style={styles.emptyCard}>
+              <View style={styles.emptyIcon}><MaterialCommunityIcons name="access-point" size={27} color={palette.accent} /></View>
+              <Text style={styles.emptyTitle}>A clean slate</Text>
+              <Text style={styles.emptyText}>{emptyMessage || 'Create a profile to keep the conditions for each grow space together.'}</Text>
+              <GrowPress onPress={() => router.push('/add-sensor-profile')} style={styles.emptyButton}>
+                <Text style={styles.emptyButtonText}>Create your first profile</Text><MaterialCommunityIcons name="arrow-right" size={17} color={palette.onAccent} />
+              </GrowPress>
+            </View>
+          )}
+
+          {!loading && profiles.map((profile, index) => {
+            const environment = profile.environmentType || 'indoor';
+            const isManual = profile.isManual !== false;
+            return (
+              <GrowReveal key={profile.id} delay={130 + index * 65} style={styles.profileCard}>
+                <View style={styles.profileHeader}>
+                  <View style={styles.profileIcon}><MaterialCommunityIcons name={environment === 'greenhouse' ? 'greenhouse' : 'home-outline'} size={23} color={palette.accent} /></View>
+                  <View style={styles.profileIdentity}><Text style={styles.profileLabel}>SENSOR PROFILE</Text><Text style={styles.profileName}>{profile.name || 'Untitled profile'}</Text></View>
+                  <View style={styles.environmentBadge}><View style={styles.liveDot} /><Text style={styles.environmentText}>{environment}</Text></View>
+                </View>
+
+                <View style={styles.readingsRow}>
+                  <View style={styles.reading}><MaterialCommunityIcons name="thermometer" size={17} color={palette.warm} /><View><Text style={styles.readingLabel}>TEMPERATURE</Text><Text style={styles.readingValue}>{isManual && profile.defaultTemp !== undefined ? `${profile.defaultTemp}°C` : 'Not set'}</Text></View></View>
+                  <View style={styles.readingDivider} />
+                  <View style={styles.reading}><MaterialCommunityIcons name="water-percent" size={17} color="#a8d5df" /><View><Text style={styles.readingLabel}>HUMIDITY</Text><Text style={styles.readingValue}>{isManual && profile.defaultHumidity !== undefined ? `${profile.defaultHumidity}%` : 'Not set'}</Text></View></View>
+                </View>
+
+                <View style={styles.sourceRow}><MaterialCommunityIcons name={isManual ? 'pencil-outline' : 'memory'} size={15} color={palette.muted} /><Text style={styles.sourceText}>{isManual ? 'Manual readings' : 'Hardware sensor'}</Text></View>
+
+                <View style={styles.actionRow}>
+                  <GrowPress accessibilityRole="button" onPress={() => handleEdit(profile)} style={styles.primaryAction}><MaterialCommunityIcons name="pencil-outline" size={17} color={palette.onAccent} /><Text style={styles.primaryActionText}>Edit profile</Text></GrowPress>
+                  <GrowPress accessibilityRole="button" onPress={() => handleShowLinkedPlants(profile.id)} style={styles.secondaryAction}><MaterialCommunityIcons name="sprout-outline" size={17} color={palette.accent} /><Text style={styles.secondaryActionText}>Linked plants</Text></GrowPress>
+                  <GrowPress accessibilityRole="button" accessibilityLabel={`Delete ${profile.name || 'profile'}`} disabled={deletingId === profile.id} onPress={() => handleDelete(profile.id)} style={styles.deleteAction}>
+                    {deletingId === profile.id ? <ActivityIndicator size={16} color={palette.danger} /> : <MaterialCommunityIcons name="trash-can-outline" size={18} color={palette.danger} />}
+                  </GrowPress>
+                </View>
+              </GrowReveal>
+            );
+          })}
+        </ScrollView>
+      </View>
+
+      <Portal>
+        <Dialog visible={!!editing} onDismiss={() => setEditing(null)} style={styles.dialog}>
+          <Dialog.Title style={styles.dialogTitle}>Edit sensor profile</Dialog.Title>
+          <Dialog.Content>
+            <Text style={styles.dialogHint}>Tune the defaults for this grow space.</Text>
+            <TextInput mode="outlined" label="Profile name" value={editName} onChangeText={setEditName} style={styles.input} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} autoFocus left={<TextInput.Icon icon="label-outline" color={palette.muted} />} maxLength={32} />
+            <Text style={styles.dialogLabel}>ENVIRONMENT</Text>
+            <View style={styles.dialogRow}>
+              <Button mode={editEnv === 'indoor' ? 'contained' : 'outlined'} onPress={() => setEditEnv('indoor')} icon="home-outline" style={styles.dialogChoice} buttonColor={editEnv === 'indoor' ? palette.accent : undefined} textColor={editEnv === 'indoor' ? palette.onAccent : palette.text}>Indoor</Button>
+              <Button mode={editEnv === 'greenhouse' ? 'contained' : 'outlined'} onPress={() => setEditEnv('greenhouse')} icon="greenhouse" style={styles.dialogChoice} buttonColor={editEnv === 'greenhouse' ? palette.accent : undefined} textColor={editEnv === 'greenhouse' ? palette.onAccent : palette.text}>Greenhouse</Button>
+            </View>
+            <Text style={styles.dialogLabel}>DATA SOURCE</Text>
+            <View style={styles.dialogRow}>
+              <Button mode={editManual ? 'contained' : 'outlined'} onPress={() => setEditManual(true)} icon="pencil-outline" style={styles.dialogChoice} buttonColor={editManual ? palette.accent : undefined} textColor={editManual ? palette.onAccent : palette.text}>Manual</Button>
+              <Button mode={!editManual ? 'contained' : 'outlined'} onPress={() => setEditManual(false)} icon="memory" style={styles.dialogChoice} buttonColor={!editManual ? palette.accent : undefined} textColor={!editManual ? palette.onAccent : palette.text}>Hardware</Button>
+            </View>
+            {editManual && <View style={styles.readingInputs}>
+              <TextInput mode="outlined" label="Temperature (°C)" value={editTemp} onChangeText={setEditTemp} keyboardType="numeric" style={[styles.input, styles.halfInput]} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} />
+              <TextInput mode="outlined" label="Humidity (%)" value={editHumidity} onChangeText={setEditHumidity} keyboardType="numeric" style={[styles.input, styles.halfInput]} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} />
+            </View>}
+          </Dialog.Content>
+          <Dialog.Actions><Button textColor={palette.muted} onPress={() => setEditing(null)}>Cancel</Button><Button buttonColor={palette.accent} textColor={palette.onAccent} mode="contained" onPress={handleSaveEdit} disabled={!editName.trim()}>Save changes</Button></Dialog.Actions>
+        </Dialog>
+
+        <Dialog visible={showLinked} onDismiss={() => setShowLinked(false)} style={styles.dialog}>
+          <Dialog.Title style={styles.dialogTitle}>Linked plants</Dialog.Title>
+          <Dialog.Content>
+            {linkedLoading ? <ActivityIndicator color={palette.accent} /> : linkedPlants.length === 0 ? <Text style={styles.dialogHint}>No plants use this profile yet.</Text> : linkedPlants.map((plant, index) => <View key={`${plant.name || 'plant'}-${index}`} style={styles.linkedPlant}><MaterialCommunityIcons name="sprout" size={18} color={palette.accent} /><Text style={styles.linkedPlantText}>{plant.name || 'Unnamed plant'}</Text></View>)}
+          </Dialog.Content>
+          <Dialog.Actions><Button textColor={palette.accent} onPress={() => setShowLinked(false)}>Close</Button></Dialog.Actions>
+        </Dialog>
+      </Portal>
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    gap: 16,
-  },
-  heading: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 12,
-    textAlign: 'center',
-  },
-  topInfo: {
-    color: '#6a9',
-    fontSize: 15,
-    textAlign: 'center',
-    marginBottom: 8,
-    marginHorizontal: 8,
-  },
-  empty: {
-    textAlign: 'center',
-    color: '#888',
-    marginTop: 32,
-    fontSize: 16,
-  },
-  profileCard: {
-    marginBottom: 16,
-    backgroundColor: '#2226',
-    borderRadius: 12,
-    padding: 8,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    marginTop: 8,
-  },
-  actionBtn: {
-    flex: 1,
-  },
-  input: {
-    borderRadius: 8,
-    padding: 8,
-    fontSize: 16,
-    marginBottom: 8,
-  },
-  label: {
-    fontWeight: 'bold',
-    marginTop: 12,
-    marginBottom: 4,
-  },
-  dialogHint: {
-    color: '#888',
-    fontSize: 13,
-    marginBottom: 8,
-    textAlign: 'center',
-  },
-  envBtn: {
-    flex: 1,
-    marginHorizontal: 2,
-  },
+  safeArea: { flex: 1, backgroundColor: palette.background },
+  page: { flex: 1, width: '100%', maxWidth: 760, alignSelf: 'center' },
+  container: { paddingHorizontal: 18, paddingBottom: 24 },
+  hero: { minHeight: 208, borderRadius: 26, backgroundColor: palette.hero, overflow: 'hidden', marginBottom: 19 },
+  heroCopy: { padding: 18, paddingBottom: 49, width: '70%', zIndex: 2 },
+  heroCopyCompact: { width: '78%', paddingRight: 8 },
+  eyebrow: { fontFamily: 'SpaceMono', fontSize: 8, letterSpacing: 1.35, color: '#586547', marginBottom: 10 },
+  heading: { color: palette.heroText, fontSize: 27, lineHeight: 31, fontWeight: '700', letterSpacing: -1.1 },
+  headingCompact: { fontSize: 24, lineHeight: 28 },
+  topInfo: { color: '#5a674b', fontSize: 11, lineHeight: 16, marginTop: 8, maxWidth: 265 },
+  heroButton: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: palette.accent, borderRadius: 30, paddingHorizontal: 13, paddingVertical: 8, marginTop: 11 },
+  heroButtonText: { color: palette.onAccent, fontSize: 11, fontWeight: '700' },
+  heroArt: { position: 'absolute', width: 120, height: 120, right: 16, top: 24, alignItems: 'center', justifyContent: 'center' },
+  heroArtCompact: { right: -22, opacity: 0.48 },
+  artHalo: { position: 'absolute', width: 106, height: 106, borderRadius: 53, backgroundColor: '#dce7bd', borderWidth: 1, borderColor: '#bacb91' },
+  artRing: { position: 'absolute', width: 120, height: 120, borderRadius: 60, borderWidth: 1, borderColor: 'rgba(88, 101, 71, 0.18)', borderStyle: 'dashed' },
+  artDot: { position: 'absolute', width: 8, height: 8, borderRadius: 4, backgroundColor: '#ce7655' },
+  artDotOne: { top: 8, right: 15 },
+  artDotTwo: { bottom: 9, left: 10, backgroundColor: '#91aa5e' },
+  heroStatus: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 38, backgroundColor: '#dce5c4', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18 },
+  statusItem: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
+  statusValue: { color: palette.heroText, fontSize: 15, fontWeight: '800' },
+  statusLabel: { fontFamily: 'SpaceMono', color: '#617052', fontSize: 7, letterSpacing: 0.8 },
+  statusDivider: { width: 1, height: 17, backgroundColor: '#b9c7a0', marginHorizontal: 12 },
+  statusMessage: { marginLeft: 'auto', color: '#5b684e', fontSize: 9 },
+  sectionHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 11, paddingHorizontal: 2 },
+  sectionEyebrow: { fontFamily: 'SpaceMono', color: '#94a98a', fontSize: 8, letterSpacing: 1.4, marginBottom: 4 },
+  sectionTitle: { color: palette.text, fontSize: 20, fontWeight: '700', letterSpacing: -0.45 },
+  countBadge: { minWidth: 30, height: 30, paddingHorizontal: 8, borderRadius: 15, borderWidth: 1, borderColor: palette.border, backgroundColor: palette.surface, alignItems: 'center', justifyContent: 'center' },
+  countText: { color: palette.accent, fontSize: 11, fontWeight: '700' },
+  loadingCard: { minHeight: 118, borderRadius: 22, borderWidth: 1, borderColor: palette.border, backgroundColor: palette.surface, alignItems: 'center', justifyContent: 'center', gap: 12 },
+  loadingText: { color: palette.muted, fontSize: 11 },
+  emptyCard: { alignItems: 'center', borderRadius: 24, borderWidth: 1, borderColor: palette.border, backgroundColor: palette.surface, padding: 28 },
+  emptyIcon: { width: 52, height: 52, borderRadius: 18, backgroundColor: palette.elevated, alignItems: 'center', justifyContent: 'center', marginBottom: 15 },
+  emptyTitle: { color: palette.text, fontSize: 18, fontWeight: '700', marginBottom: 7 },
+  emptyText: { color: palette.muted, fontSize: 12, lineHeight: 19, textAlign: 'center', maxWidth: 340 },
+  emptyButton: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: palette.accent, borderRadius: 24, paddingHorizontal: 15, paddingVertical: 11, marginTop: 18 },
+  emptyButtonText: { color: palette.onAccent, fontSize: 11, fontWeight: '700' },
+  profileCard: { backgroundColor: palette.surface, borderWidth: 1, borderColor: palette.border, borderRadius: 22, padding: 14, marginBottom: 10 },
+  profileHeader: { flexDirection: 'row', alignItems: 'center' },
+  profileIcon: { width: 42, height: 42, borderRadius: 14, backgroundColor: palette.elevated, alignItems: 'center', justifyContent: 'center', marginRight: 10 },
+  profileIdentity: { flex: 1 },
+  profileLabel: { fontFamily: 'SpaceMono', color: '#9eb58f', fontSize: 7, letterSpacing: 1.2, marginBottom: 4 },
+  profileName: { color: palette.text, fontSize: 16, fontWeight: '700' },
+  environmentBadge: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 12, backgroundColor: '#1b2b22', paddingHorizontal: 9, paddingVertical: 7 },
+  liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: palette.accent },
+  environmentText: { color: palette.muted, fontSize: 9, textTransform: 'capitalize' },
+  readingsRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#1b2b22', borderRadius: 15, marginTop: 12, paddingVertical: 10, paddingHorizontal: 12 },
+  reading: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
+  readingDivider: { width: 1, height: 29, backgroundColor: '#34493a', marginHorizontal: 12 },
+  readingLabel: { fontFamily: 'SpaceMono', color: '#81957c', fontSize: 6.5, letterSpacing: 0.8 },
+  readingValue: { color: palette.text, fontSize: 12, fontWeight: '600', marginTop: 3 },
+  sourceRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 9, paddingHorizontal: 2 },
+  sourceText: { color: palette.muted, fontSize: 10 },
+  actionRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 11 },
+  primaryAction: { flex: 1, minHeight: 40, borderRadius: 13, backgroundColor: palette.accent, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  primaryActionText: { color: palette.onAccent, fontSize: 10, fontWeight: '700' },
+  secondaryAction: { flex: 1.2, minHeight: 40, borderRadius: 13, borderWidth: 1, borderColor: palette.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  secondaryActionText: { color: palette.text, fontSize: 10, fontWeight: '600' },
+  deleteAction: { width: 40, height: 40, borderRadius: 13, borderWidth: 1, borderColor: '#66483e', backgroundColor: '#362b27', alignItems: 'center', justifyContent: 'center' },
+  dialog: { backgroundColor: palette.surface, borderWidth: 1, borderColor: palette.border, borderRadius: 24 },
+  dialogTitle: { color: palette.text, fontSize: 19, fontWeight: '700' },
+  dialogHint: { color: palette.muted, fontSize: 12, lineHeight: 18, marginBottom: 13 },
+  dialogLabel: { fontFamily: 'SpaceMono', color: '#9eb58f', fontSize: 8, letterSpacing: 1.1, marginTop: 13, marginBottom: 8 },
+  dialogRow: { flexDirection: 'row', gap: 9 },
+  dialogChoice: { flex: 1, borderColor: palette.border },
+  input: { backgroundColor: '#1b2b22', fontSize: 13 },
+  readingInputs: { flexDirection: 'row', gap: 9, marginTop: 15 },
+  halfInput: { flex: 1 },
+  linkedPlant: { flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: palette.border },
+  linkedPlantText: { color: palette.text, fontSize: 13 },
 });

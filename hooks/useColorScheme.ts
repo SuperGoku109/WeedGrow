@@ -2,5 +2,5 @@
 // Instead of relying on the system preferences we simply
 // return "dark" so every screen is rendered with the dark theme.
 export function useColorScheme() {
-  return 'dark';
+  return 'dark' as const;
 }

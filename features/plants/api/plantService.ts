@@ -32,7 +32,7 @@ export type UpdatePlantFields = Partial<Omit<Plant, 'createdAt' | 'updatedAt' | 
 export async function updatePlant(id: string, updates: UpdatePlantFields) {
   try {
     const plantRef = doc(db, 'plants', id);
-    await updateDoc(plantRef, { ...updates, updatedAt: serverTimestamp() });
+    await updateDoc(plantRef, { ...updates, ...(updates.ageDays != null ? { ageKnown: true } : {}), updatedAt: serverTimestamp() });
     invalidatePlantCache();
   } catch (error) {
     logger.error('Error updating plant:', error);

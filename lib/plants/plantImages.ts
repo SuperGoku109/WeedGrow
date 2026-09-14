@@ -1,5 +1,5 @@
 import { doc, serverTimestamp, updateDoc } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { Platform } from 'react-native';
 import logger from '@/lib/logger';
 import { db, storage } from '@/services/firebase';
@@ -82,7 +82,13 @@ export async function uploadPlantImageUri(
   }
 
   const blob = await response.blob();
-  await uploadBytes(storageRef, blob);
+  const upload = uploadBytesResumable(storageRef, blob);
+  const timeout = setTimeout(() => upload.cancel(), 25000);
+  try {
+    await upload;
+  } finally {
+    clearTimeout(timeout);
+  }
   return getDownloadURL(storageRef);
 }
 

@@ -7,8 +7,9 @@ export interface Plant {
     name: string;
     strain: string;
     owners: string[];
-    growthStage: 'germination' | 'seedling' | 'vegetative' | 'flowering';
+    growthStage: 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone';
     ageDays?: number;
+    ageKnown?: boolean;
     status: 'active' | 'archived' | 'harvested' | 'dead';
     environment: 'outdoor' | 'greenhouse' | 'indoor';
     plantedIn: 'pot' | 'ground';
@@ -23,6 +24,11 @@ export interface Plant {
     imageUri?: string;
     waterLevel?: number; // 0-1 representing current watering level
     height?: number;
+    soilType?: string;
+    soilPh?: string;
+    permanentProtection?: string;
+    companionPlants?: string[];
+    environmentNotes?: string;
   
     location?: {
       lat: number;
