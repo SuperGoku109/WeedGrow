@@ -39,6 +39,7 @@ export function useGroupList() {
   const fetchGroups = useCallback(async () => {
     setLoading(true);
     setGroupsLoaded(false);
+    setError(null);
     try {
       const data = await getUserGroups(CURRENT_USER_ID);
       const dataHash = JSON.stringify(data);

@@ -1,7 +1,7 @@
 /**
  * Hook for managing group details screen state and operations
  */
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Alert, BackHandler } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
@@ -25,6 +25,8 @@ export function useGroupDetail(groupId?: string) {
   const [loading, setLoading] = useState(true);
   const [editVisible, setEditVisible] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
+  const deleteLock = useRef(false);
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false);
   const router = useRouter();
 
@@ -95,6 +97,7 @@ export function useGroupDetail(groupId?: string) {
    * Open delete confirmation
    */
   const handleDeleteGroup = useCallback(() => {
+    setDeleteError('');
     setConfirmDeleteVisible(true);
   }, []);
 
@@ -102,17 +105,20 @@ export function useGroupDetail(groupId?: string) {
    * Confirm deletion after user approves
    */
   const confirmDeleteGroup = useCallback(async () => {
-    if (!group) return;
+    if (!group || deleteLock.current) return;
+    deleteLock.current = true;
+    setDeleteError('');
     setDeleting(true);
     try {
       await deleteGroup(group.id);
+      setConfirmDeleteVisible(false);
       router.replace('/(tabs)');
     } catch (error) {
       logger.error('Error deleting group:', error);
-      Alert.alert('Error', 'Failed to delete group');
+      setDeleteError('Could not delete this group. Please try again.');
     } finally {
       setDeleting(false);
-      setConfirmDeleteVisible(false);
+      deleteLock.current = false;
     }
   }, [group, router]);
 
@@ -155,6 +161,7 @@ export function useGroupDetail(groupId?: string) {
     editVisible,
     setEditVisible,
     deleting,
+    deleteError,
     handleDeleteGroup,
     confirmDeleteGroup,
     cancelDeleteGroup,

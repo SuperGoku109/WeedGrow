@@ -9,7 +9,7 @@ import GroupPlantList from '@/features/groups/components/GroupPlantList';
 import GroupScreenLayout from '@/features/groups/components/GroupScreenLayout';
 import { useGroupDetail } from '@/features/groups/hooks/useGroupDetail';
 import { useGroupWeather } from '@/features/groups/hooks/useGroupWeather';
-import { View, StyleSheet, TouchableOpacity, Alert, Platform, ViewStyle } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Platform, ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/ui/ThemedText';
@@ -20,6 +20,7 @@ import { Snackbar, Searchbar } from 'react-native-paper';
 import { addPlantLog } from '@/lib/logs/addPlantLog';
 import logger from '@/lib/logger';
 import { usePlantsWateredToday } from '@/features/plants/hooks/usePlantsWateredToday';
+import { groupEditValues } from '../groupCollection';
 
 // Web-only style helper for backdrop blur without using `any`
 const webBackdropStyle: ViewStyle = Platform.OS === 'web'
@@ -83,7 +84,7 @@ const FloatingAddPlantButton = memo(function FloatingAddPlantButton({ bottom, on
         end={{ x: 1, y: 1 }}
       >
         <TouchableOpacity style={styles.fabInner} accessibilityLabel="Add Plant" onPress={onPress}>
-          <MaterialCommunityIcons name="plus" size={26} color="#fff" />
+          <MaterialCommunityIcons name="plus" size={26} color="#243420" />
           <ThemedText style={styles.fabText}>Add Plant</ThemedText>
         </TouchableOpacity>
       </LinearGradient>
@@ -103,6 +104,8 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
   // Data
   const {
     group,
+    deleting,
+    deleteError,
     plants,
     loading,
     editVisible,
@@ -145,12 +148,12 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
   const handleEditClose = useCallback(() => setEditVisible(false), [setEditVisible]);
   const handleEditSave = useCallback(async (updated: GroupWithId) => {
     try {
-      await updateGroup(updated.id, { name: updated.name, plantIds: updated.plantIds, weatherSourcePlantId: updated.weatherSourcePlantId });
+      await updateGroup(updated.id, groupEditValues(updated));
       setEditVisible(false);
       refreshGroup();
     } catch (e) {
       logger.error('Failed to update group', e);
-      Alert.alert('Error', 'Failed to save group changes. Please try again.');
+      throw new Error('Failed to save group changes. Please try again.');
     }
   }, [refreshGroup, setEditVisible]);
 
@@ -241,9 +244,11 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
         <View style={{ flex: 1 }}>
           <GroupPlantList
             plants={filteredPlants}
+            searchActive={!!query.trim()}
+            onClearSearch={() => setQuery('')}
             groupId={id ? String(id) : undefined}
             header={header}
-            stickyHeader
+            stickyHeader={false}
             showFooterAddButton={false}
             bottomInset={listBottomInset}
             onAddPlant={handleAddPlant}
@@ -266,6 +271,8 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
           />
 
           <ConfirmDeleteModal
+            loading={deleting}
+            error={deleteError}
             visible={confirmDeleteVisible}
             onCancel={cancelDeleteGroup}
             onConfirm={confirmDeleteGroup}
@@ -299,18 +306,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-    paddingHorizontal: 16,
+    paddingHorizontal: 0,
     paddingTop: 8,
     paddingBottom: 6,
   },
   searchBar: {
     flex: 1,
     marginRight: 8,
-    height: 55,
-    minHeight: 55,
+    height: 50,
+    minHeight: 50,
     paddingVertical: 0,
-    backgroundColor: 'rgba(59, 67, 66, 0.55)',
-    borderRadius: 100,
+    backgroundColor: '#23342a',
+    borderRadius: 16,
     borderWidth: 0,
     paddingHorizontal: 10,
   },
@@ -325,7 +332,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   fabInner: {
-    backgroundColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: '#c8e78b',
     borderColor: 'rgba(255,255,255,0.06)',
     borderWidth: 1,
     paddingHorizontal: 22,
@@ -341,7 +348,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   fabText: {
-    color: '#fff',
+    color: '#243420',
     fontWeight: '700',
     fontSize: 16,
     marginLeft: 6,

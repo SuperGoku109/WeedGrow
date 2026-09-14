@@ -3,7 +3,7 @@
 // Each plant is shown as a row with its image, name, and growth stage, and is clickable to view plant details.
 
 import React, { memo, useCallback } from 'react';
-import { View, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, FlatList, ScrollView } from 'react-native';
 import { ThemedText } from '@/ui/ThemedText';
 import type { Plant } from '@/firestoreModels';
 import { useRouter } from 'expo-router';
@@ -12,6 +12,8 @@ import { PlantCard } from '@/features/plants/components/PlantCard';
 import { Swipeable } from 'react-native-gesture-handler';
 
 interface GroupPlantListProps {
+  searchActive?: boolean;
+  onClearSearch?: () => void;
   plants: (Plant & { id: string })[];
   groupId?: string;
   onAddPlant?: () => void;
@@ -52,10 +54,10 @@ const RightActions = ({
   waterDisabled?: boolean;
 }) => (
   <View style={styles.rightActionsContainer}>
-    <TouchableOpacity style={[styles.actionBtn, styles.removeBtn]} onPress={onRemove} accessibilityLabel="Remove from group">
+    {onRemove && <TouchableOpacity style={[styles.actionBtn, styles.removeBtn]} onPress={onRemove} accessibilityLabel="Remove from group">
       <MaterialCommunityIcons name="trash-can-outline" size={20} color="#fecaca" />
       <ThemedText style={styles.actionText}>Remove</ThemedText>
-    </TouchableOpacity>
+    </TouchableOpacity>}
     <TouchableOpacity
       style={[styles.actionBtn, styles.waterBtn, waterDisabled && styles.disabledAction]}
       onPress={onQuickWater}
@@ -65,14 +67,14 @@ const RightActions = ({
       <MaterialCommunityIcons name="water" size={20} color="#dbeafe" />
       <ThemedText style={styles.actionText}>Water</ThemedText>
     </TouchableOpacity>
-    <TouchableOpacity style={[styles.actionBtn, styles.feedBtn]} onPress={onQuickFeed} accessibilityLabel="Quick feed">
+    {onQuickFeed && <TouchableOpacity style={[styles.actionBtn, styles.feedBtn]} onPress={onQuickFeed} accessibilityLabel="Quick feed">
       <MaterialCommunityIcons name="leaf" size={20} color="#fde68a" />
       <ThemedText style={styles.actionText}>Feed</ThemedText>
-    </TouchableOpacity>
-    <TouchableOpacity style={[styles.actionBtn, styles.noteBtn]} onPress={onQuickNote} accessibilityLabel="Quick note">
+    </TouchableOpacity>}
+    {onQuickNote && <TouchableOpacity style={[styles.actionBtn, styles.noteBtn]} onPress={onQuickNote} accessibilityLabel="Quick note">
       <MaterialCommunityIcons name="note-edit-outline" size={20} color="#e5e7eb" />
       <ThemedText style={styles.actionText}>Note</ThemedText>
-    </TouchableOpacity>
+    </TouchableOpacity>}
   </View>
 );
 
@@ -108,6 +110,8 @@ const GroupPlantList = memo(function GroupPlantList({
   wateredMap = {},
   waterLoadingMap = {},
   groupId,
+  searchActive,
+  onClearSearch,
 }: GroupPlantListProps) {
   const router = useRouter();
   const navigateToAddPlant = useCallback(() => {
@@ -129,10 +133,10 @@ const GroupPlantList = memo(function GroupPlantList({
 
   if (!plants || plants.length === 0) {
     return (
-      <View style={[styles.emptyContainer, { paddingBottom: 24 + bottomInset }]}> 
+      <ScrollView contentContainerStyle={[styles.emptyContainer, { paddingBottom: 24 + bottomInset }]}> 
         {header}
-        <ThemedText style={styles.emptyText}>No plants in this group yet.</ThemedText>
-        <View style={{ flexDirection: 'row', gap: 10 }}>
+        <ThemedText style={styles.emptyText}>{searchActive ? 'No plants match your search.' : 'No plants in this group yet.'}</ThemedText>
+        {searchActive ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Clear plant search" onPress={onClearSearch} style={styles.addPlantButton}><ThemedText>Clear search</ThemedText></TouchableOpacity> : <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10 }}>
           <TouchableOpacity accessibilityLabel="Add existing plants" onPress={navigateToAddPlant} style={styles.addPlantButton}>
             <MaterialCommunityIcons name="plus" size={24} color="#fff" style={{ marginRight: 4 }} />
             <ThemedText style={styles.addPlantText}>Add Plants</ThemedText>
@@ -141,8 +145,8 @@ const GroupPlantList = memo(function GroupPlantList({
             <MaterialCommunityIcons name="sprout" size={24} color="#fff" style={{ marginRight: 4 }} />
             <ThemedText style={styles.addPlantText}>Create Plant</ThemedText>
           </TouchableOpacity>
-        </View>
-      </View>
+        </View>}
+      </ScrollView>
     );
   }
 
@@ -151,7 +155,7 @@ const GroupPlantList = memo(function GroupPlantList({
       style={{ flex: 1 }}
       data={plants}
       keyExtractor={(item) => item.id}
-      renderItem={({ item, index }) => (
+      renderItem={({ item }) => (
         (onRemovePlant || onQuickWater || onQuickFeed || onQuickNote || onMoveUp || onMoveDown) ? (
           <Swipeable
             renderRightActions={() => (
@@ -163,12 +167,12 @@ const GroupPlantList = memo(function GroupPlantList({
                 waterDisabled={!!waterLoadingMap[item.id] || !!wateredMap[item.id]}
               />
             )}
-            renderLeftActions={() => (
+            renderLeftActions={onMoveUp || onMoveDown ? () => (
               <LeftActions
                 onMoveUp={onMoveUp ? () => onMoveUp(item.id) : undefined}
                 onMoveDown={onMoveDown ? () => onMoveDown(item.id) : undefined}
               />
-            )}
+            ) : undefined}
             overshootRight={false}
             overshootLeft={false}
           >
@@ -219,8 +223,8 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   emptyContainer: {
-    alignItems: 'center',
-    marginTop: 32,
+    paddingHorizontal: 16,
+    gap: 18,
   },
   emptyText: {
     fontSize: 16,
@@ -235,7 +239,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 24,
     borderRadius: 28,
-    marginTop: -20,
+    marginTop: 4,
     backgroundColor: 'rgba(255, 255, 255, 0.09)',
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.03)',

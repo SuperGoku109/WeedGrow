@@ -4,6 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/ui/ThemedText';
 import { ColorTokens, Typography } from '@/design-system/tokens';
+import { useReducedMotion } from '@/ui/GrowMotion';
 
 interface ConfirmDeleteModalProps {
   visible: boolean;
@@ -14,6 +15,7 @@ interface ConfirmDeleteModalProps {
   onConfirm: () => void;
   onCancel: () => void;
   loading?: boolean;
+  error?: string;
 }
 
 export default function ConfirmDeleteModal({
@@ -25,10 +27,12 @@ export default function ConfirmDeleteModal({
   onConfirm,
   onCancel,
   loading = false,
+  error,
 }: ConfirmDeleteModalProps) {
+  const reduced = useReducedMotion();
   if (!visible) return null;
   return (
-    <Modal visible={visible} animationType="fade" transparent>
+    <Modal visible={visible} animationType={reduced ? 'none' : 'fade'} transparent onRequestClose={() => { if (!loading) onCancel(); }}>
       <View style={styles.overlay}>
         <LinearGradient
           colors={['rgba(255,255,255,0.06)', 'rgba(255,255,255,0.03)']}
@@ -49,15 +53,16 @@ export default function ConfirmDeleteModal({
           </View>
           <ThemedText type="title" style={styles.title}>{title}</ThemedText>
           <ThemedText style={styles.subtitle}>{subtitle}</ThemedText>
+          {!!error && <ThemedText accessibilityRole="alert" style={{ color: '#f0b5a0', marginTop: 12 }}>{error}</ThemedText>}
 
           <View style={styles.row}>
-            <Pressable onPress={onCancel} style={({ pressed }) => [styles.btn, styles.cancelBtn, pressed && styles.pressed]}>
+            <Pressable accessibilityRole="button" disabled={loading} onPress={onCancel} style={({ pressed }) => [styles.btn, styles.cancelBtn, pressed && styles.pressed]}>
               <ThemedText style={styles.cancelText}>{cancelLabel}</ThemedText>
             </Pressable>
             <LinearGradient colors={[ColorTokens.status.error, '#b91c1c']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.confirmGrad}>
-              <Pressable disabled={loading} onPress={onConfirm} style={({ pressed }) => [styles.btn, styles.confirmBtn, pressed && styles.pressed]}>
+              <Pressable accessibilityRole="button" disabled={loading} onPress={onConfirm} style={({ pressed }) => [styles.btn, styles.confirmBtn, pressed && styles.pressed]}>
                 <MaterialCommunityIcons name="trash-can-outline" size={18} color="#fff" style={{ marginRight: 8 }} />
-                <ThemedText style={styles.confirmText}>{confirmLabel}</ThemedText>
+                <ThemedText style={styles.confirmText}>{loading ? 'Deleting…' : confirmLabel}</ThemedText>
               </Pressable>
             </LinearGradient>
           </View>
@@ -77,12 +82,13 @@ const styles = StyleSheet.create({
   },
   card: {
     width: '100%',
-    borderRadius: 16,
-    padding: 16,
+    maxWidth: 480,
+    borderRadius: 26,
+    padding: 24,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: 'rgba(17,24,39,0.9)',
+    backgroundColor: '#22332a',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 0.25,

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { usePlants } from '@/features/addGroup/hooks/usePlants';
 import { createGroup } from '@/features/groups/api/groupApi'; // <-- Use the correct API
@@ -13,6 +13,8 @@ export function useAddGroup() {
   const [groupLocationPlantId, setGroupLocationPlantId] = useState<string | null>(null);
   const [groupName, setGroupName] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const submittingRef = useRef(false);
 
   const handleTogglePlant = (id: string) => {
     setSelectedPlantIds((prev) =>
@@ -21,30 +23,33 @@ export function useAddGroup() {
   };
 
   const handleCreateGroup = async () => {
+    if (submittingRef.current) return;
     if (!groupName.trim() || selectedPlantIds.length === 0) {
-      alert('Please enter a group name and select at least one plant.');
+      setSubmitError('Enter a group name and select at least one plant.');
       return;
     }
+    submittingRef.current = true;
+    setSubmitError('');
     setSubmitting(true);
     try {
       const environment = plants.find(p => p.id === selectedPlantIds[0])?.environment;
       if (!environment) {
-        alert('Could not determine environment from selected plants.');
-        setSubmitting(false);
+        setSubmitError('Select a plant with an environment to continue.');
         return;
       }
-      await createGroup({
+      const id = await createGroup({
         name: groupName.trim(),
         plantIds: selectedPlantIds,
         environment,
         location: null, // or use groupLocationPlantId if you have location logic
         createdBy: CURRENT_USER_ID,
       });
-      router.back();
+      router.replace({ pathname: '/group/[id]', params: { id } });
     } catch {
-      alert('Failed to create group.');
+      setSubmitError('Could not create your group. Your selections are still here; please try again.');
     } finally {
       setSubmitting(false);
+      submittingRef.current = false;
     }
   };
 
@@ -59,6 +64,7 @@ export function useAddGroup() {
     groupName,
     setGroupName,
     submitting,
+    submitError,
     handleTogglePlant,
     handleCreateGroup,
   };

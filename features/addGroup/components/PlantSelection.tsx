@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Image, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { PlantItem } from '../api/fetchPlants';
@@ -26,7 +27,7 @@ export const PlantSelection: React.FC<PlantSelectionProps> = ({ plants, selected
   const hasOutdoor = selectedPlants.some(p => p.environment === 'outdoor');
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       {plants.map((plant) => {
         const isSelected = selectedPlantIds.includes(plant.id);
         const imageUri = getRenderablePlantImageUri(plant.imageUri);
@@ -40,6 +41,9 @@ export const PlantSelection: React.FC<PlantSelectionProps> = ({ plants, selected
 
         return (
           <TouchableOpacity
+            accessibilityRole="checkbox"
+            accessibilityLabel={plant.name}
+            accessibilityState={{ checked: isSelected, disabled: isDisabled }}
             key={plant.id}
             onPress={() => {
               if (isDisabled) return;
@@ -50,7 +54,7 @@ export const PlantSelection: React.FC<PlantSelectionProps> = ({ plants, selected
             }}
             style={[
               styles.card,
-              isSelected && { borderColor: Colors[theme].tint },
+              isSelected && { borderColor: '#c8e78b', backgroundColor: '#30442e' },
               isDisabled && { opacity: 0.4 },
             ]}
             disabled={isDisabled}
@@ -58,8 +62,8 @@ export const PlantSelection: React.FC<PlantSelectionProps> = ({ plants, selected
             {imageUri ? (
               <Image source={{ uri: imageUri }} style={styles.image} />
             ) : (
-              <View style={[styles.image, { backgroundColor: '#ccc', alignItems: 'center', justifyContent: 'center' }]}> 
-                <Text style={{ fontSize: 32, color: '#fff' }}>{plant.name?.[0] || '?'}</Text>
+              <View style={[styles.image, { backgroundColor: '#3c5135', alignItems: 'center', justifyContent: 'center' }]}> 
+                <MaterialCommunityIcons name="leaf" size={25} color="#c8e78b" />
               </View>
             )}
             <View style={styles.infoContainer}>
@@ -68,6 +72,7 @@ export const PlantSelection: React.FC<PlantSelectionProps> = ({ plants, selected
                 {plant.locationNickname || plant.environment}
               </Text>
             </View>
+            <MaterialCommunityIcons name={isSelected ? 'checkbox-marked-circle' : 'checkbox-blank-circle-outline'} size={23} color={isSelected ? '#c8e78b' : '#acbba2'} />
           </TouchableOpacity>
         );
       })}
@@ -83,35 +88,32 @@ export const PlantSelection: React.FC<PlantSelectionProps> = ({ plants, selected
           />
         </>
       )}
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    padding: 16,
+    gap: 10,
   },
   card: {
-    width: '48%',
-    borderWidth: 2,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    padding: 8,
-    marginBottom: 16,
-    backgroundColor: Colors.dark.background,
+    width: '100%',
+    borderWidth: 1,
+    borderColor: '#40523b',
+    borderRadius: 18,
+    padding: 14,
+    flexDirection: 'row',
+    gap: 14,
+    backgroundColor: '#22332a',
     alignItems: 'center',
   },
   image: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginBottom: 8,
+    width: 48,
+    height: 48,
+    borderRadius: 16,
   },
   infoContainer: {
-    alignItems: 'center',
+    flex: 1,
   },
   name: {
     fontSize: 16,

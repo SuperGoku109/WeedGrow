@@ -1,483 +1,126 @@
-/**
- * Modal component for editing group details
- * This component renders a modal for editing group details, including the group name and plant membership.
- * It provides form state, validation, and save/cancel actions.
- */
-import React, { useState, useEffect, useCallback, memo, useMemo } from 'react';
-import { Modal, View, StyleSheet, TextInput, ScrollView, Pressable } from 'react-native';
-import { ThemedText } from '@/ui/ThemedText';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { GroupWithId } from '../api/groupApi';
-import { PlantWithId } from '../hooks/useGroupDetail';
-import { LinearGradient } from 'expo-linear-gradient';
-import { MaterialCommunityIcons, Feather } from '@expo/vector-icons';
-import { ColorTokens, Typography } from '@/design-system/tokens';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { Modal, View, StyleSheet, TextInput, ScrollView, Pressable, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import type { GroupWithId } from '../api/groupApi';
+import type { PlantWithId } from '../hooks/useGroupDetail';
+import { CollectionButton, ink } from './CollectionUI';
+import { groupEditValues } from '../groupCollection';
+import { useReducedMotion } from '@/ui/GrowMotion';
 
-// Props for the EditGroupModal component
 interface EditGroupModalProps {
   visible: boolean;
-  group: GroupWithId;
+  group: GroupWithId | null;
   allPlants: PlantWithId[];
   onClose: () => void;
-  onSave?: (updatedGroup: GroupWithId) => void;
+  onSave?: (updatedGroup: GroupWithId) => void | Promise<void>;
 }
 
-interface PlantRowProps {
-  plant: PlantWithId;
-  isMember: boolean;
-  onToggle: (plantId: string) => void;
-}
-
-const PlantRow = memo(function PlantRow({ plant, isMember, onToggle }: PlantRowProps) {
-  const handlePress = useCallback(() => onToggle(plant.id), [onToggle, plant.id]);
-  return (
-    <View style={styles.plantRow}>
-      <ThemedText accessibilityRole="text" style={styles.plantName}>{plant.name}</ThemedText>
-      {isMember ? (
-        <Pressable
-          onPress={handlePress}
-          accessibilityRole="button"
-          accessibilityLabel={`Remove ${plant.name} from group`}
-          style={({ pressed }) => [
-            styles.toggleChip,
-            styles.removeChip,
-            pressed && styles.btnPressed,
-          ]}
-        >
-          <MaterialCommunityIcons
-            name="minus-circle-outline"
-            size={16}
-            color="#fecaca"
-            style={{ marginRight: 6 }}
-          />
-          <ThemedText style={[styles.toggleText, styles.removeText]}>Remove</ThemedText>
-        </Pressable>
-      ) : (
-        <Pressable
-          onPress={handlePress}
-          accessibilityRole="button"
-          accessibilityLabel={`Add ${plant.name} to group`}
-          style={({ pressed }) => [
-            styles.toggleChip,
-            styles.toggleOff,
-            pressed && styles.btnPressed,
-          ]}
-        >
-          <MaterialCommunityIcons
-            name={'plus'}
-            size={16}
-            color={'#dbeafe'}
-            style={{ marginRight: 6 }}
-          />
-          <ThemedText style={[styles.toggleText, styles.toggleTextOff]}>
-            Add
-          </ThemedText>
-        </Pressable>
-      )}
-    </View>
-  );
-});
-
-const EditGroupModal = memo(function EditGroupModal({ visible, group, allPlants, onClose, onSave }: EditGroupModalProps) {
-  const theme = (useColorScheme() ?? 'dark') as keyof typeof Colors;
-  const [name, setName] = useState(group?.name || '');
-  const [plantIds, setPlantIds] = useState<string[]>(group?.plantIds || []);
-  const [nameError, setNameError] = useState<string | null>(null);
-  // New: selected plant whose weather/location to use
-  const [weatherSourcePlantId, setWeatherSourcePlantId] = useState<string | undefined>(group?.weatherSourcePlantId ?? undefined);
-
+export default function EditGroupModal({ visible, group, allPlants, onClose, onSave }: EditGroupModalProps) {
+  const [name, setName] = useState('');
+  const [plantIds, setPlantIds] = useState<string[]>([]);
+  const [source, setSource] = useState('');
+  const [query, setQuery] = useState('');
+  const [error, setError] = useState('');
+  const [saving, setSaving] = useState(false);
+  const lock = useRef(false);
+  const reduced = useReducedMotion();
   useEffect(() => {
+    if (!visible) return;
     setName(group?.name || '');
     setPlantIds(group?.plantIds || []);
-    setNameError(null);
-    setWeatherSourcePlantId(group?.weatherSourcePlantId ?? undefined);
-  }, [group]);
+    setSource(group?.weatherSourcePlantId || '');
+    setQuery('');
+    setError('');
+  }, [group, visible]);
 
-  const togglePlantInGroup = useCallback((plantId: string) => {
-    setPlantIds((currentIds) =>
-      currentIds.includes(plantId)
-        ? currentIds.filter(id => id !== plantId)
-        : [...currentIds, plantId]
-    );
-  }, []);
-
-  const handleSave = useCallback(() => {
-    if (!name.trim()) {
-      setNameError('Group name cannot be empty');
-      return;
-    }
-    // If chosen weather source is not in group anymore, clear it
-    const safeWeatherSource = weatherSourcePlantId && plantIds.includes(weatherSourcePlantId)
-      ? weatherSourcePlantId
-      : undefined;
-
-    if (onSave && group) {
-      onSave({
-        ...group,
-        name: name.trim(),
-        plantIds,
-        // Persist new property
-        weatherSourcePlantId: safeWeatherSource,
-      });
-    }
-    onClose();
-  }, [name, plantIds, onSave, group, onClose, weatherSourcePlantId]);
-
-  const handleNameChange = useCallback((text: string) => {
-    setName(text);
-    if (text.trim()) setNameError(null);
-  }, []);
-
-  const plantRows = useMemo(() =>
-    allPlants.map((plant) => (
-      <PlantRow
-        key={plant.id}
-        plant={plant}
-        isMember={plantIds.includes(plant.id)}
-        onToggle={togglePlantInGroup}
-      />
-    )), [allPlants, plantIds, togglePlantInGroup]
-  );
-
-  // Derived: only plants currently in the group can be chosen as weather source
+  const choices = useMemo(() => allPlants.filter(p =>
+    (plantIds.includes(p.id) || p.environment === group?.environment) &&
+    (p.name || '').toLowerCase().includes(query.trim().toLowerCase())
+  ), [allPlants, group?.environment, plantIds, query]);
   const memberPlants = useMemo(() => allPlants.filter(p => plantIds.includes(p.id)), [allPlants, plantIds]);
 
-  if (!visible) return null;
-  return (
-    <Modal visible={visible} animationType="slide" transparent>
-      <View style={styles.overlay}>
-        <LinearGradient
-          colors={[ThemeColorsBgStart, ThemeColorsBgEnd]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={[styles.modal, theme === 'dark' ? styles.modalDark : styles.modalLight]}
-        >
-          {/* Accent sweep */}
-          <LinearGradient
-            colors={['rgba(16,185,129,0.22)', 'rgba(59,130,246,0.16)', 'transparent']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.accent}
-          />
-
-          {/* Header */}
-          <View style={styles.headerRow}>
-            <ThemedText type="title" style={styles.modalTitle} accessibilityRole="header">Edit Group</ThemedText>
-            <Pressable onPress={onClose} style={styles.iconBtn} accessibilityLabel="Close">
-              <Feather name="x" size={22} color={ColorTokens.text.secondary} />
-            </Pressable>
+  const save = async () => {
+    if (!group || !onSave || lock.current) return;
+    if (!name.trim()) { setError('Give your group a name before saving.'); return; }
+    lock.current = true;
+    setSaving(true);
+    setError('');
+    try {
+      const edited = { ...group, name, plantIds, weatherSourcePlantId: source };
+      await onSave({ ...edited, ...groupEditValues(edited) });
+      onClose();
+    } catch (failure) {
+      setError(failure instanceof Error ? failure.message : 'Could not save. Your changes are still here; try again.');
+    } finally {
+      lock.current = false;
+      setSaving(false);
+    }
+  };
+  if (!visible || !group) return null;
+  return <Modal visible transparent animationType={reduced ? 'none' : 'fade'} onRequestClose={() => { if (!saving) onClose(); }}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.overlay}>
+      <View accessibilityViewIsModal style={styles.modal}>
+        <View style={styles.header}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.eyebrow}>MAKE IT YOURS</Text>
+            <Text accessibilityRole="header" style={styles.title}>Edit collection</Text>
           </View>
-
-          {/* Name input */}
-          <TextInput
-            value={name}
-            onChangeText={handleNameChange}
-            placeholder="Group Name"
-            style={[
-              styles.input,
-              theme === 'dark' ? styles.inputDark : styles.inputLight,
-              { borderColor: nameError ? ColorTokens.status.error : 'rgba(255,255,255,0.08)' },
-            ]}
-            placeholderTextColor={ColorTokens.text.secondary}
-            accessibilityLabel="Group Name"
-            accessibilityHint="Enter the group name"
-            autoFocus
-            returnKeyType="done"
-            maxLength={40}
-          />
-          {nameError && (
-            <ThemedText style={styles.errorText} accessibilityRole="alert">{nameError}</ThemedText>
+          <Pressable accessibilityRole="button" accessibilityLabel="Close group editor" disabled={saving} onPress={onClose} style={styles.close}><MaterialCommunityIcons name="close" size={22} color={ink.text} /></Pressable>
+        </View>
+        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.body}>
+          <Text style={styles.label}>Group name</Text>
+          <TextInput accessibilityLabel="Group name" value={name} onChangeText={setName} editable={!saving} maxLength={40} style={styles.input} placeholder="Give this space a name" placeholderTextColor={ink.muted} />
+          <View style={styles.sectionRow}><Text style={styles.label}>Plants in this collection</Text><Text style={styles.count}>{plantIds.length} selected</Text></View>
+          <Text style={styles.hint}>Adding or removing a member only changes this group. Your plants stay in your library.</Text>
+          <TextInput accessibilityLabel="Search group members" value={query} onChangeText={setQuery} style={styles.input} placeholder="Find a plant…" placeholderTextColor={ink.muted} />
+          {choices.map(plant => {
+            const selected = plantIds.includes(plant.id);
+            return <Pressable key={plant.id} disabled={saving} accessibilityRole="checkbox" accessibilityLabel={plant.name} accessibilityState={{ checked: selected }}
+              onPress={() => setPlantIds(ids => selected ? ids.filter(id => id !== plant.id) : [...ids, plant.id])}
+              style={({ pressed }) => [styles.plantRow, selected && styles.selected, pressed && { opacity: 0.75 }]}>
+              <MaterialCommunityIcons name="leaf" size={20} color={ink.muted} />
+              <Text style={styles.plantName}>{plant.name}</Text>
+              <MaterialCommunityIcons name={selected ? 'checkbox-marked-circle' : 'checkbox-blank-circle-outline'} size={22} color={selected ? ink.lime : ink.muted} />
+            </Pressable>;
+          })}
+          {!choices.length && <Text style={styles.hint}>{query ? 'No plants match that name.' : 'No matching plants are available. You can keep this collection empty.'}</Text>}
+          <Text style={[styles.label, { marginTop: 12 }]}>Weather source</Text>
+          <Text style={styles.hint}>Keep the existing group location, or use a member’s saved location.</Text>
+          {[{ id: '', name: 'Use group location' }, ...memberPlants.filter(p => p.location)].map(plant =>
+            <Pressable key={plant.id} disabled={saving} accessibilityRole="radio" accessibilityLabel={plant.name === 'Use group location' ? plant.name : 'Use ' + plant.name + ' for weather'} accessibilityState={{ checked: source === plant.id }}
+              onPress={() => setSource(plant.id)} style={styles.radio}>
+              <MaterialCommunityIcons name={source === plant.id ? 'radiobox-marked' : 'radiobox-blank'} size={20} color={source === plant.id ? ink.lime : ink.muted} />
+              <Text style={styles.plantName}>{plant.name}</Text>
+            </Pressable>
           )}
-
-          {/* Members */}
-          <ThemedText style={styles.sectionHeader} accessibilityRole="header">Plants in Group</ThemedText>
-          <ScrollView style={styles.plantList} contentContainerStyle={{ paddingBottom: 8 }} keyboardShouldPersistTaps="handled">
-            {plantRows}
-          </ScrollView>
-
-          {/* Weather source selector */}
-          <ThemedText style={styles.sectionHeader} accessibilityRole="header">Weather Source</ThemedText>
-          <View style={styles.weatherSourceWrap}>
-            {memberPlants.length === 0 ? (
-              <ThemedText style={styles.hintText}>Add at least one plant to choose a weather source.</ThemedText>
-            ) : (
-              memberPlants.map(mp => (
-                <Pressable
-                  key={mp.id}
-                  onPress={() => setWeatherSourcePlantId(mp.id)}
-                  style={({ pressed }) => [
-                    styles.radioRow,
-                    pressed && styles.btnPressed,
-                    weatherSourcePlantId === mp.id ? styles.radioRowActive : null,
-                  ]}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Use ${mp.name} for weather`}
-                >
-                  <View style={[styles.radioOuter, weatherSourcePlantId === mp.id && styles.radioOuterActive]}>
-                    {weatherSourcePlantId === mp.id && <View style={styles.radioInner} />}
-                  </View>
-                  <ThemedText style={styles.radioLabel}>{mp.name}</ThemedText>
-                </Pressable>
-              ))
-            )}
-          </View>
-
-          {/* Actions */}
-          <View style={styles.buttonRow}>
-            <Pressable
-              onPress={onClose}
-              style={({ pressed }) => [styles.actionBtn, styles.cancelBtn, pressed && styles.btnPressed]}
-              accessibilityRole="button"
-              accessibilityLabel="Cancel editing group"
-            >
-              <ThemedText style={styles.cancelText}>Cancel</ThemedText>
-            </Pressable>
-
-            <LinearGradient
-              colors={[ColorTokens.brand.primary, ColorTokens.brand.primaryDark]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.saveGradient}
-            >
-              <Pressable
-                onPress={handleSave}
-                style={({ pressed }) => [styles.actionBtn, styles.saveBtn, pressed && styles.btnPressed]}
-                accessibilityRole="button"
-                accessibilityLabel="Save group changes"
-              >
-                <MaterialCommunityIcons name="content-save" size={18} color="#fff" style={{ marginRight: 8 }} />
-                <ThemedText style={styles.saveText}>Save</ThemedText>
-              </Pressable>
-            </LinearGradient>
-          </View>
-        </LinearGradient>
+          {!!error && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
+        </ScrollView>
+        <View style={styles.footer}>
+          <CollectionButton label="Cancel" disabled={saving} onPress={onClose} />
+          <CollectionButton label={saving ? 'Saving…' : 'Save changes'} primary disabled={saving || !onSave} onPress={save} icon="check" />
+        </View>
       </View>
-    </Modal>
-  );
-});
-
-export default EditGroupModal;
-
-// Compute solid gradient bases per theme
-const ThemeColorsBgStart = 'rgba(20, 24, 31, 1)';
-const ThemeColorsBgEnd = 'rgba(20, 24, 31, 1)';
+    </KeyboardAvoidingView>
+  </Modal>;
+}
 
 const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.55)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-  },
-  modal: {
-    width: '100%',
-    borderRadius: 16,
-    padding: 16,
-    overflow: 'hidden',
-    borderWidth: 1,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.25,
-    shadowRadius: 24,
-    elevation: 10,
-  },
-  modalDark: {
-    backgroundColor: ColorTokens.background.card,
-    borderColor: 'rgba(255,255,255,0.06)',
-  },
-  modalLight: {
-    backgroundColor: '#ffffff',
-    borderColor: 'rgba(0,0,0,0.06)',
-  },
-  accent: {
-    position: 'absolute',
-    top: -60,
-    right: -80,
-    width: 280,
-    height: 220,
-    transform: [{ rotate: '20deg' }],
-    borderRadius: 140,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 8,
-  },
-  modalTitle: {
-    ...Typography.styles.h3,
-    color: ColorTokens.text.primary,
-  },
-  iconBtn: {
-    padding: 6,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    fontSize: 16,
-    marginBottom: 6,
-  },
-  inputDark: {
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    color: ColorTokens.text.primary,
-  },
-  inputLight: {
-    backgroundColor: 'rgba(0,0,0,0.03)',
-    color: '#111827',
-  },
-  errorText: {
-    color: ColorTokens.status.error,
-    marginBottom: 8,
-    fontSize: 14,
-  },
-  sectionHeader: {
-    marginTop: 12,
-    marginBottom: 8,
-    ...Typography.styles.label,
-    color: ColorTokens.text.secondary,
-  },
-  plantList: {
-    maxHeight: 220,
-    marginBottom: 4,
-  },
-  plantRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-    borderRadius: 8,
-  },
-  plantName: {
-    ...Typography.styles.body,
-    color: ColorTokens.text.primary,
-  },
-  toggleChip: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 999,
-    borderWidth: 1,
-  },
-  toggleOn: {
-    backgroundColor: 'rgba(16,185,129,0.15)',
-    borderColor: 'rgba(16,185,129,0.25)',
-  },
-  toggleOff: {
-    backgroundColor: 'rgba(59,130,246,0.14)',
-    borderColor: 'rgba(59,130,246,0.22)',
-  },
-  // New explicit remove style for members
-  removeChip: {
-    backgroundColor: 'rgba(248,113,113,0.16)',
-    borderColor: 'rgba(248,113,113,0.28)',
-  },
-  toggleText: {
-    ...Typography.styles.label,
-  },
-  toggleTextOn: {
-    color: '#d1fae5',
-  },
-  toggleTextOff: {
-    color: '#dbeafe',
-  },
-  removeText: {
-    color: '#fecaca',
-  },
-  // Weather source UI
-  weatherSourceWrap: {
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-    borderRadius: 12,
-    padding: 8,
-    backgroundColor: 'rgba(255,255,255,0.03)'
-  },
-  radioRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 8,
-    borderRadius: 10,
-    marginBottom: 4,
-  },
-  radioRowActive: {
-    backgroundColor: 'rgba(59,130,246,0.12)'
-  },
-  radioOuter: {
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.45)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 10,
-  },
-  radioOuterActive: {
-    borderColor: '#60a5fa',
-  },
-  radioInner: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#60a5fa',
-  },
-  radioLabel: {
-    ...Typography.styles.body,
-    color: ColorTokens.text.primary,
-  },
-  hintText: {
-    ...Typography.styles.body,
-    color: ColorTokens.text.secondary,
-    paddingVertical: 8,
-    paddingHorizontal: 4,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    marginTop: 16,
-  },
-  actionBtn: {
-    flex: 1,
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  cancelBtn: {
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    borderColor: 'rgba(255,255,255,0.08)',
-    borderWidth: 1,
-  },
-  cancelText: {
-    color: ColorTokens.text.primary,
-    fontWeight: '700',
-  },
-  saveGradient: {
-    flex: 1,
-    borderRadius: 12,
-  },
-  saveBtn: {
-    backgroundColor: 'transparent',
-  },
-  saveText: {
-    color: '#fff',
-    fontWeight: '700',
-  },
-  btnPressed: {
-    opacity: 0.8,
-  },
+  overlay: { flex: 1, backgroundColor: 'rgba(7,16,11,0.78)', padding: 18, alignItems: 'center', justifyContent: 'center' },
+  modal: { width: '100%', maxWidth: 520, maxHeight: '90%', borderRadius: 28, borderWidth: 1, borderColor: ink.border, backgroundColor: ink.surface, overflow: 'hidden' },
+  header: { flexDirection: 'row', alignItems: 'center', padding: 24, borderBottomWidth: 1, borderBottomColor: ink.border },
+  eyebrow: { color: ink.lime, fontSize: 10, letterSpacing: 2, fontWeight: '700', marginBottom: 7 },
+  title: { color: ink.text, fontSize: 27, letterSpacing: -0.8, fontWeight: '600' },
+  close: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
+  body: { padding: 24, gap: 12 },
+  label: { color: ink.text, fontSize: 13, fontWeight: '700' },
+  input: { borderWidth: 1, borderColor: ink.border, backgroundColor: ink.background, color: ink.text, borderRadius: 14, minHeight: 50, paddingHorizontal: 14, fontSize: 15 },
+  sectionRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap', marginTop: 8 },
+  count: { color: ink.lime, fontSize: 12 },
+  hint: { color: ink.muted, fontSize: 12, lineHeight: 19 },
+  plantRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, minHeight: 56, borderWidth: 1, borderColor: ink.border, borderRadius: 14 },
+  selected: { backgroundColor: '#30442e', borderColor: '#70855a' },
+  plantName: { color: ink.text, fontSize: 14, flex: 1 },
+  radio: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 44 },
+  error: { color: '#f0b5a0', fontSize: 13, lineHeight: 20 },
+  footer: { flexDirection: 'row', justifyContent: 'space-between', gap: 12, padding: 20, borderTopWidth: 1, borderTopColor: ink.border },
 });

@@ -6,8 +6,8 @@ import { useRouter } from 'expo-router';
 import GrowHero from '@/features/home/components/GrowHero';
 import HomeScrollbar from '@/features/home/components/HomeScrollbar';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { Colors } from '@/constants/Colors';
+import { updateGroup } from '@/features/groups/api/groupApi';
+import { groupEditValues } from '@/features/groups/groupCollection';
 import GroupList from '@/features/home/components/GroupList';
 import EditGroupModal from '@/features/groups/components/EditGroupModal';
 import PlantListScreen from '@/features/plants/screens/PlantListScreen';
@@ -38,13 +38,10 @@ const styles = StyleSheet.create({
 
 export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: number }) {
   const router = useRouter();
-  const theme = (useColorScheme() ?? 'dark') as keyof typeof Colors;
   const initialKey = useMemo(() => (initialTabIndex === 0 ? 'groups' : 'plants'), [initialTabIndex]);
+  const [activeTab, setActiveTab] = useState(initialTabIndex === 0 ? 0 : 1);
   const {
     state,
-    searchQuery,
-    setSearchQuery,
-    filteredGroups,
     groupPlantsMap,
     snackVisible,
     setSnackVisible,
@@ -65,26 +62,17 @@ export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: 
 
   const renderGroupsTab = useCallback(() => (
     <View style={{ flex: 1 }}>
-      <View style={styles.searchRow}>
-        <Searchbar
-          placeholder="Search groups"
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          style={styles.searchBar}
-          placeholderTextColor="#9aac97" iconColor="#aabd99" inputStyle={{ color: '#edf0e3', fontSize: 13, minHeight: 46 }}
-        />
-      </View>
       <GroupList
-        groups={filteredGroups}
+        groups={state.groups}
         groupPlantsMap={groupPlantsMap}
         loading={state.loading}
         error={state.error}
         onEditGroup={handleEditGroup}
         onAddGroup={handleAddGroup}
-        theme={theme}
+        onRefresh={state.reloadGroups}
       />
     </View>
-  ), [searchQuery, setSearchQuery, filteredGroups, groupPlantsMap, state.loading, state.error, handleEditGroup, handleAddGroup, theme]);
+  ), [groupPlantsMap, state.groups, state.loading, state.error, state.reloadGroups, handleEditGroup, handleAddGroup]);
 
   const renderPlantsTab = useCallback(() => (
     <View style={{ flex: 1 }}>
@@ -128,26 +116,29 @@ export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: 
         {/* Modern App Header */}
         <AppHeader />
         {/* TLC needed indicator */}
-        <GrowHero plants={state.allPlants.length} groups={state.groups.length} attention={tlcCount} />
+        {activeTab === 1 && <GrowHero plants={state.allPlants.length} groups={state.groups.length} attention={tlcCount} />}
 
         {/* Suggestion Catalog */}
-        {suggestionItems.length > 0 && (
+        {activeTab === 1 && suggestionItems.length > 0 && (
           <SuggestionCatalog suggestions={suggestionItems} />
         )}
 
         {/* Swipe Tabs Implementation */}
         <View style={{ marginTop: 4, marginBottom: 4, flex: 1 }}>
-          <SwipeTabs tabs={tabs} initialKey={initialKey} />
+          <SwipeTabs tabs={tabs} initialKey={initialKey} index={activeTab} onIndexChange={setActiveTab} />
         </View>
         <Snackbar visible={snackVisible} onDismiss={() => setSnackVisible(false)} duration={3000}>
           {snackMessage}
         </Snackbar>
         <EditGroupModal
           visible={!!state.editGroup}
-          group={state.editGroup as any}
+          group={state.editGroup}
           allPlants={state.allPlants}
           onClose={() => state.setEditGroup(null)}
-          onSave={state.reloadGroups}
+          onSave={async updated => {
+            await updateGroup(updated.id, groupEditValues(updated));
+            await state.reloadGroups();
+          }}
         />
       </SafeAreaView>
     </View>

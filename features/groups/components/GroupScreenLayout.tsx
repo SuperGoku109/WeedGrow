@@ -23,7 +23,7 @@ const GroupScreenLayout = memo(function GroupScreenLayout({ loading, groupExists
   const theme = (useColorScheme() ?? 'dark') as keyof typeof Colors;
 
   // Show loading spinner if loading
-  if (loading) {
+  if (loading && !groupExists) {
     return (
       <SafeAreaView edges={['top','bottom']} style={[styles.flex1, { backgroundColor: Colors[theme].background }]}> 
         <View style={styles.center}><ActivityIndicator color={Colors[theme].tint} /></View>
@@ -61,6 +61,6 @@ export default GroupScreenLayout;
 const styles = StyleSheet.create({
   flex1: { flex: 1 },
   container: { padding: 20, gap: 16, flexGrow: 1, width: '100%' },
-  nonScrollableContainer: { padding: 0, gap: 0, flex: 1, width: '100%' },
+  nonScrollableContainer: { padding: 0, gap: 0, flex: 1, width: '100%', maxWidth: 760, alignSelf: 'center', backgroundColor: '#15231c' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 });
