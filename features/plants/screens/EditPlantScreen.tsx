@@ -4,21 +4,22 @@ import * as Location from 'expo-location';
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+
 import { Feather } from '@expo/vector-icons';
-import { AnimatedMakikoDropdownInput } from '@/components/ui/AnimatedMakikoDropdownInput';
-import { AnimatedMakikoInput } from '@/components/ui/AnimatedMakikoInput';
+import { EditorField, EditorSelect } from '../components/PlantEditorFields';
+
 import { getAvailableStrains } from '@/features/addPlant/api/basicInfoApi';
 import { potSizeOptions, sunlightOptions } from '@/features/addPlant/api/environmentApi';
 import type { Plant } from '@/firestoreModels';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { ColorTokens, Typography } from '@/design-system/tokens';
 import { ThemedText } from '@/ui/ThemedText';
 import logger from '@/lib/logger';
 import { deletePlantAndSubcollections, updatePlant } from '../api/plantService';
 import LoadingView from '../components/LoadingView';
 import NotFoundView from '../components/NotFoundView';
+import { plantThemes } from '../components/plantDetailTheme';
 import { usePlant } from '../hooks/usePlant';
+import ConfirmDeleteModal from '@/features/groups/components/ConfirmDeleteModal';
 
 type EditPlantFormState = {
   name: string;
@@ -144,7 +145,7 @@ function validateForm(form: EditPlantFormState) {
 
   if (form.height.trim()) {
     const nextHeight = Number(form.height);
-    if (Number.isNaN(nextHeight)) {
+    if (!Number.isFinite(nextHeight)) {
       nextErrors.height = 'Height must be a number.';
     } else if (nextHeight < 0) {
       nextErrors.height = 'Height cannot be negative.';
@@ -176,18 +177,23 @@ function validateForm(form: EditPlantFormState) {
 }
 
 function errorText(error?: string) {
-  return error ? <ThemedText style={styles.errorText}>{error}</ThemedText> : null;
+  return error ? <ThemedText accessibilityRole="alert" style={styles.errorText}>{error}</ThemedText> : null;
 }
 
 export default function EditPlantScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const { plant, loading } = usePlant(id);
-  const theme = (useColorScheme() ?? 'dark') as 'light' | 'dark';
+  const t = plantThemes.grove;
   const [form, setForm] = React.useState<EditPlantFormState>(emptyFormState);
   const [errors, setErrors] = React.useState<EditPlantFormErrors>({});
   const [saving, setSaving] = React.useState(false);
+  const [saveError, setSaveError] = React.useState('');
+  const saveLock = React.useRef(false);
   const [deleting, setDeleting] = React.useState(false);
+  const [deleteVisible, setDeleteVisible] = React.useState(false);
+  const [deleteError, setDeleteError] = React.useState('');
+  const deleteLock = React.useRef(false);
   const [locating, setLocating] = React.useState(false);
 
   React.useEffect(() => {
@@ -275,7 +281,8 @@ export default function EditPlantScreen() {
   }, [setField]);
 
   const handleSave = React.useCallback(async () => {
-    if (!plant || !id || saving) return;
+    if (!plant || !id || saving || saveLock.current) return;
+    setSaveError('');
 
     const nextErrors = validateForm(form);
     setErrors(nextErrors);
@@ -288,42 +295,42 @@ export default function EditPlantScreen() {
     }
 
     try {
+      saveLock.current = true;
       setSaving(true);
       await updatePlant(String(id), updates);
       handleClose();
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to save changes.';
       logger.error('Error saving plant edits', error);
-      Alert.alert('Save failed', message);
+      setSaveError(message);
     } finally {
       setSaving(false);
+      saveLock.current = false;
     }
   }, [form, handleClose, id, plant, saving]);
 
   const handleDelete = React.useCallback(() => {
-    if (!id || deleting) return;
+    if (saving || deleting) return;
+    setDeleteError('');
+    setDeleteVisible(true);
+  }, [saving, deleting]);
 
-    Alert.alert('Delete Plant?', 'This cannot be undone.', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Delete',
-        style: 'destructive',
-        onPress: async () => {
-          try {
-            setDeleting(true);
-            await deletePlantAndSubcollections(String(id));
-            router.replace('/(tabs)?tabIndex=1');
-          } catch (error) {
-            const message = error instanceof Error ? error.message : 'Failed to delete plant.';
-            logger.error('Error deleting plant', error);
-            Alert.alert('Delete failed', message);
-          } finally {
-            setDeleting(false);
-          }
-        },
-      },
-    ]);
-  }, [deleting, id, router]);
+  const confirmDelete = async () => {
+    if (!id || deleteLock.current) return;
+    deleteLock.current = true;
+    setDeleting(true);
+    setDeleteError('');
+    try {
+      await deletePlantAndSubcollections(String(id));
+      setDeleteVisible(false);
+      router.replace('/(tabs)?tabIndex=1');
+    } catch (error) {
+      setDeleteError(error instanceof Error ? error.message : 'Could not delete this plant.');
+    } finally {
+      deleteLock.current = false;
+      setDeleting(false);
+    }
+  };
 
   if (loading) return <LoadingView />;
   if (!plant || !id) return <NotFoundView />;
@@ -331,27 +338,19 @@ export default function EditPlantScreen() {
   const disablePrimaryActions = saving || deleting;
 
   return (
-    <SafeAreaView
-      style={[
-        styles.screen,
-        theme === 'dark' ? styles.screenDark : styles.screenLight,
-      ]}
-      edges={['top', 'left', 'right', 'bottom']}
-    >
-      <View style={styles.header}>
+    <SafeAreaView style={[styles.screen, { backgroundColor: t.background }]} edges={['top', 'left', 'right', 'bottom']}>
+      <View style={[styles.header, { borderBottomColor: t.border }]}>
         <Pressable
           accessibilityLabel="Close edit plant"
           accessibilityRole="button"
           onPress={handleClose}
-          style={styles.headerButton}
+          disabled={saving || deleting}
+          style={[styles.headerButton, { backgroundColor: t.surface, borderColor: t.border }]}
         >
-          <Feather name="arrow-left" size={20} color={ColorTokens.text.secondary} />
+          <Feather name="arrow-left" size={20} color={t.text} />
         </Pressable>
         <View style={styles.headerCopy}>
-          <ThemedText style={styles.title}>Edit Plant</ThemedText>
-          <ThemedText style={styles.subtitle}>
-            Update details without leaving the plant flow.
-          </ThemedText>
+          <ThemedText style={[styles.brand, { color: t.text }]}>weedgrow<ThemedText style={{ color: t.accent }}>.</ThemedText><ThemedText style={[styles.breadcrumb, { color: t.muted }]}> / plant space</ThemedText></ThemedText>
         </View>
       </View>
 
@@ -360,49 +359,47 @@ export default function EditPlantScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
+        <View style={[styles.hero, { backgroundColor: t.hero }]}> 
+          <View style={styles.heroCopy}>
+            <ThemedText style={[styles.eyebrow, { color: t.heroText }]}>PLANT PASSPORT</ThemedText>
+            <ThemedText style={[styles.heroTitle, { color: t.heroText }]}>Tend to the details.</ThemedText>
+            <ThemedText style={[styles.heroBody, { color: t.heroText }]}>Keep {plant.name}&apos;s story accurate as it grows.</ThemedText>
+          </View>
+          <View style={[styles.heroMark, { backgroundColor: t.elevated }]}>
+            <MaterialCommunityIcons name="sprout" size={38} color={t.accent} />
+          </View>
+        </View>
+
         <View
-          style={[
-            styles.section,
-            theme === 'dark' ? styles.sectionDark : styles.sectionLight,
-          ]}
+          style={[styles.section, { backgroundColor: t.surface, borderColor: t.border }]}
         >
-          <ThemedText style={styles.sectionTitle}>Essentials</ThemedText>
+          <View style={styles.sectionHeading}>
+            <View style={[styles.sectionIcon, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name="leaf" size={18} color={t.accent} /></View>
+            <View><ThemedText style={[styles.sectionEyebrow, { color: t.muted }]}>THE BASICS</ThemedText><ThemedText style={[styles.sectionTitle, { color: t.text }]}>Plant identity</ThemedText></View>
+          </View>
           <View style={styles.row}>
             <View style={styles.fieldWide}>
-              <AnimatedMakikoInput
+              <EditorField
                 label="Plant Name"
                 value={form.name}
                 onChangeText={(value) => setField('name', value)}
-                iconClass={FontAwesomeIcon}
-                iconColor={ColorTokens.brand.primary}
-                iconName="leaf"
-                inputStyle={styles.input}
-                style={styles.tightInput}
               />
               {errorText(errors.name)}
             </View>
 
             <View style={styles.fieldCompact}>
-              <AnimatedMakikoInput
+              <EditorField
                 label="Height (cm)"
                 value={form.height}
                 onChangeText={(value) => setField('height', value)}
                 keyboardType="decimal-pad"
-                iconClass={MaterialCommunityIcons}
-                iconColor={ColorTokens.brand.primary}
-                iconName="ruler"
-                inputStyle={styles.input}
-                style={styles.tightInput}
               />
               {errorText(errors.height)}
             </View>
           </View>
 
-          <AnimatedMakikoDropdownInput
+          <EditorSelect
             label="Strain"
-            iconClass={MaterialCommunityIcons}
-            iconColor={ColorTokens.brand.primary}
-            iconName="dna"
             onSelect={(value) => setField('strain', value)}
             options={strainOptions}
             placeholder="Select strain"
@@ -411,51 +408,39 @@ export default function EditPlantScreen() {
         </View>
 
         <View
-          style={[
-            styles.section,
-            theme === 'dark' ? styles.sectionDark : styles.sectionLight,
-          ]}
+          style={[styles.section, { backgroundColor: t.surface, borderColor: t.border }]}
         >
-          <ThemedText style={styles.sectionTitle}>Setup</ThemedText>
+          <View style={styles.sectionHeading}>
+            <View style={[styles.sectionIcon, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name="greenhouse" size={18} color={t.accent} /></View>
+            <View><ThemedText style={[styles.sectionEyebrow, { color: t.muted }]}>GROWING CONDITIONS</ThemedText><ThemedText style={[styles.sectionTitle, { color: t.text }]}>The setup</ThemedText></View>
+          </View>
 
-          <AnimatedMakikoDropdownInput
+          <EditorSelect
             label="Growth Stage"
-            iconClass={MaterialCommunityIcons}
-            iconColor={ColorTokens.brand.primary}
-            iconName="sprout"
             onSelect={(value) => setField('growthStage', value)}
             options={STAGE_OPTIONS}
             placeholder="Select stage"
             value={form.growthStage}
           />
 
-          <AnimatedMakikoDropdownInput
+          <EditorSelect
             label="Environment"
-            iconClass={MaterialCommunityIcons}
-            iconColor={ColorTokens.brand.primary}
-            iconName="weather-partly-cloudy"
             onSelect={(value) => setField('environment', value)}
             options={ENVIRONMENT_OPTIONS}
             placeholder="Select environment"
             value={form.environment}
           />
 
-          <AnimatedMakikoDropdownInput
+          <EditorSelect
             label="Pot Size"
-            iconClass={MaterialCommunityIcons}
-            iconColor={ColorTokens.brand.primary}
-            iconName="flower-outline"
             onSelect={(value) => setField('potSize', value)}
             options={potSizeOptions.map((option) => ({ label: option, value: option }))}
             placeholder="Select pot size"
             value={form.potSize}
           />
 
-          <AnimatedMakikoDropdownInput
+          <EditorSelect
             label="Sunlight Exposure"
-            iconClass={MaterialCommunityIcons}
-            iconColor={ColorTokens.brand.primary}
-            iconName="white-balance-sunny"
             onSelect={(value) => setField('sunlightExposure', value)}
             options={sunlightOptions.map((option) => ({ label: option.label, value: option.value }))}
             placeholder="Select sunlight"
@@ -464,13 +449,13 @@ export default function EditPlantScreen() {
         </View>
 
         <View
-          style={[
-            styles.section,
-            theme === 'dark' ? styles.sectionDark : styles.sectionLight,
-          ]}
+          style={[styles.section, { backgroundColor: t.surface, borderColor: t.border }]}
         >
-          <ThemedText style={styles.sectionTitle}>Location</ThemedText>
-          <ThemedText style={styles.sectionHint}>
+          <View style={styles.sectionHeading}>
+            <View style={[styles.sectionIcon, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name="map-marker-radius-outline" size={19} color={t.accent} /></View>
+            <View><ThemedText style={[styles.sectionEyebrow, { color: t.muted }]}>WEATHER & PLACE</ThemedText><ThemedText style={[styles.sectionTitle, { color: t.text }]}>Where it grows</ThemedText></View>
+          </View>
+          <ThemedText style={[styles.sectionHint, { color: t.muted }]}>
             Use current location or edit coordinates manually.
           </ThemedText>
 
@@ -489,7 +474,7 @@ export default function EditPlantScreen() {
                 <ActivityIndicator color="#d1fae5" size="small" style={styles.actionIcon} />
               ) : (
                 <MaterialCommunityIcons
-                  color="#d1fae5"
+                  color={t.accent}
                   name="crosshairs-gps"
                   size={16}
                   style={styles.actionIcon}
@@ -511,46 +496,31 @@ export default function EditPlantScreen() {
             </Pressable>
           </View>
 
-          <AnimatedMakikoInput
+          <EditorField
             label="Location Name"
             value={form.locationNickname}
             onChangeText={(value) => setField('locationNickname', value)}
             autoCapitalize="words"
             autoCorrect={false}
-            iconClass={MaterialCommunityIcons}
-            iconColor={ColorTokens.brand.primary}
-            iconName="map-marker-outline"
-            inputStyle={styles.input}
-            style={styles.tightInput}
           />
 
           <View style={styles.row}>
             <View style={styles.fieldWide}>
-              <AnimatedMakikoInput
+              <EditorField
                 label="Latitude"
                 value={form.lat}
                 onChangeText={(value) => setField('lat', value)}
                 keyboardType="numbers-and-punctuation"
-                iconClass={MaterialCommunityIcons}
-                iconColor={ColorTokens.brand.primary}
-                iconName="latitude"
-                inputStyle={styles.input}
-                style={styles.tightInput}
               />
               {errorText(errors.lat)}
             </View>
 
             <View style={styles.fieldWide}>
-              <AnimatedMakikoInput
+              <EditorField
                 label="Longitude"
                 value={form.lng}
                 onChangeText={(value) => setField('lng', value)}
                 keyboardType="numbers-and-punctuation"
-                iconClass={MaterialCommunityIcons}
-                iconColor={ColorTokens.brand.primary}
-                iconName="longitude"
-                inputStyle={styles.input}
-                style={styles.tightInput}
               />
               {errorText(errors.lng)}
             </View>
@@ -560,6 +530,7 @@ export default function EditPlantScreen() {
         </View>
 
         <View style={styles.buttonStack}>
+          {!!saveError && <ThemedText accessibilityRole="alert" style={styles.errorText}>{saveError}</ThemedText>}
           <Pressable
             accessibilityLabel="Save plant changes"
             accessibilityRole="button"
@@ -567,6 +538,7 @@ export default function EditPlantScreen() {
             onPress={handleSave}
             style={({ pressed }) => [
               styles.saveButton,
+              { backgroundColor: t.accent },
               disablePrimaryActions && styles.buttonDisabled,
               pressed && !disablePrimaryActions && styles.buttonPressed,
             ]}
@@ -575,13 +547,13 @@ export default function EditPlantScreen() {
               <ActivityIndicator color="#ffffff" size="small" style={styles.actionIcon} />
             ) : (
               <MaterialCommunityIcons
-                color="#ffffff"
+                color={t.onAccent}
                 name="content-save-outline"
                 size={18}
                 style={styles.actionIcon}
               />
             )}
-            <ThemedText style={styles.primaryButtonText}>
+            <ThemedText style={[styles.primaryButtonText, { color: t.onAccent }]}>
               {saving ? 'Saving...' : 'Save Changes'}
             </ThemedText>
           </Pressable>
@@ -594,7 +566,7 @@ export default function EditPlantScreen() {
               onPress={handleClose}
               style={({ pressed }) => [
                 styles.secondaryButton,
-                theme === 'dark' ? styles.secondaryButtonDark : styles.secondaryButtonLight,
+                { backgroundColor: t.surface, borderColor: t.border },
                 disablePrimaryActions && styles.buttonDisabled,
                 pressed && !disablePrimaryActions && styles.buttonPressed,
               ]}
@@ -630,6 +602,8 @@ export default function EditPlantScreen() {
           </View>
         </View>
       </ScrollView>
+      <ConfirmDeleteModal visible={deleteVisible} title="Delete this plant?" subtitle="This permanently deletes the plant and its history. This cannot be undone."
+        loading={deleting} error={deleteError} onCancel={() => setDeleteVisible(false)} onConfirm={confirmDelete} />
     </SafeAreaView>
   );
 }
@@ -646,13 +620,13 @@ const styles = StyleSheet.create({
   },
   buttonStack: {
     gap: 10,
-    marginTop: 8,
-    paddingBottom: 32,
+    marginTop: 2,
+    paddingBottom: 38,
   },
   clearLocationButton: {
     alignItems: 'center',
-    backgroundColor: 'rgba(148,163,184,0.12)',
-    borderColor: 'rgba(148,163,184,0.28)',
+    backgroundColor: '#2e4434',
+    borderColor: '#40523a',
     borderRadius: 999,
     borderWidth: 1,
     flexDirection: 'row',
@@ -661,17 +635,22 @@ const styles = StyleSheet.create({
   },
   clearLocationText: {
     ...Typography.styles.label,
-    color: '#cbd5e1',
+    color: '#a9bba1',
   },
   content: {
-    gap: 16,
-    paddingHorizontal: 16,
-    paddingTop: 8,
+    alignSelf: 'center',
+    gap: 14,
+    maxWidth: 760,
+    paddingHorizontal: 18,
+    paddingTop: 16,
+    width: '100%',
   },
   deleteButton: {
     alignItems: 'center',
-    backgroundColor: '#b91c1c',
-    borderRadius: 14,
+    backgroundColor: '#623a35',
+    borderColor: '#8b5b52',
+    borderRadius: 17,
+    borderWidth: 1,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -691,16 +670,20 @@ const styles = StyleSheet.create({
   },
   header: {
     alignItems: 'center',
+    alignSelf: 'center',
+    borderBottomWidth: 1,
     flexDirection: 'row',
-    gap: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    gap: 8,
+    maxWidth: 760,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    width: '100%',
   },
   headerButton: {
     alignItems: 'center',
     backgroundColor: 'rgba(255,255,255,0.06)',
     borderColor: 'rgba(255,255,255,0.08)',
-    borderRadius: 20,
+    borderRadius: 14,
     borderWidth: 1,
     height: 40,
     justifyContent: 'center',
@@ -709,8 +692,53 @@ const styles = StyleSheet.create({
   headerCopy: {
     flex: 1,
   },
+  brand: {
+    fontSize: 15,
+    fontWeight: '700',
+  },
+  breadcrumb: {
+    fontSize: 11,
+    fontWeight: '400',
+  },
+  eyebrow: {
+    fontSize: 10,
+    fontWeight: '700',
+    letterSpacing: 2,
+    marginBottom: 12,
+  },
+  hero: {
+    alignItems: 'center',
+    borderRadius: 26,
+    flexDirection: 'row',
+    minHeight: 170,
+    overflow: 'hidden',
+    padding: 22,
+  },
+  heroBody: {
+    fontSize: 13,
+    lineHeight: 20,
+    marginTop: 8,
+    opacity: 0.72,
+  },
+  heroCopy: {
+    flex: 1,
+    paddingRight: 16,
+  },
+  heroMark: {
+    alignItems: 'center',
+    borderRadius: 999,
+    height: 88,
+    justifyContent: 'center',
+    width: 88,
+  },
+  heroTitle: {
+    fontSize: 30,
+    fontWeight: '800',
+    letterSpacing: -0.8,
+    lineHeight: 34,
+  },
   input: {
-    color: '#fff',
+    color: '#edf0e3',
     fontSize: 16,
     height: 48,
     paddingBottom: 0,
@@ -720,8 +748,8 @@ const styles = StyleSheet.create({
   },
   locationActionButton: {
     alignItems: 'center',
-    backgroundColor: 'rgba(16,185,129,0.16)',
-    borderColor: 'rgba(16,185,129,0.28)',
+    backgroundColor: '#2e4434',
+    borderColor: '#40523a',
     borderRadius: 999,
     borderWidth: 1,
     flexDirection: 'row',
@@ -735,7 +763,7 @@ const styles = StyleSheet.create({
   },
   locationActionText: {
     ...Typography.styles.label,
-    color: '#d1fae5',
+    color: '#c8e78b',
   },
   primaryButtonText: {
     color: '#ffffff',
@@ -747,8 +775,7 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     alignItems: 'center',
-    backgroundColor: ColorTokens.brand.primary,
-    borderRadius: 14,
+    borderRadius: 17,
     flexDirection: 'row',
     justifyContent: 'center',
     minHeight: 52,
@@ -764,10 +791,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f6f7fb',
   },
   section: {
-    borderRadius: 18,
+    borderRadius: 23,
     borderWidth: 1,
-    gap: 12,
-    padding: 14,
+    gap: 14,
+    padding: 17,
   },
   sectionDark: {
     backgroundColor: 'rgba(255,255,255,0.04)',
@@ -783,12 +810,32 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(15,23,42,0.08)',
   },
   sectionTitle: {
-    ...Typography.styles.h4,
-    color: ColorTokens.text.primary,
+    fontSize: 19,
+    fontWeight: '700',
+    letterSpacing: -0.3,
+  },
+  sectionEyebrow: {
+    fontSize: 9,
+    fontWeight: '700',
+    letterSpacing: 1.5,
+    marginBottom: 3,
+  },
+  sectionHeading: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: 11,
+    marginBottom: 12,
+  },
+  sectionIcon: {
+    alignItems: 'center',
+    borderRadius: 13,
+    height: 42,
+    justifyContent: 'center',
+    width: 42,
   },
   secondaryButton: {
     alignItems: 'center',
-    borderRadius: 14,
+    borderRadius: 17,
     borderWidth: 1,
     flex: 1,
     justifyContent: 'center',
@@ -811,15 +858,7 @@ const styles = StyleSheet.create({
     color: ColorTokens.text.primary,
     fontWeight: '700',
   },
-  subtitle: {
-    ...Typography.styles.bodySmall,
-    color: ColorTokens.text.secondary,
-  },
   tightInput: {
     marginBottom: 0,
-  },
-  title: {
-    ...Typography.styles.h3,
-    color: ColorTokens.text.primary,
   },
 });
