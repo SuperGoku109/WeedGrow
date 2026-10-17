@@ -48,7 +48,7 @@ function resolveSeverity(context: SuggestionAlgorithmContext): SuggestionSeverit
   if (insight.needsWater) return 'warn';
   if (insight.hasSaturatingRecentRain || likelyRainToday || likelyRainTomorrow) return 'info';
   if (insight.forecastedToday && insight.todayRainfall >= 8) return 'watch';
-  return 'watch';
+  return 'info';
 }
 
 function resolveConfidence(context: SuggestionAlgorithmContext): SuggestionConfidence {

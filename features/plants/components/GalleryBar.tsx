@@ -1,5 +1,6 @@
+import { PlantImage as Image } from '@/ui/PlantImage';
 import React from 'react';
-import { Image, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { Plant } from '@/firestoreModels';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';

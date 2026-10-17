@@ -1,5 +1,6 @@
+import { PlantImage as Image } from '@/ui/PlantImage';
 import React from 'react';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { Group, Plant } from '@/firestoreModels';

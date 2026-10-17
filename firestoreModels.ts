@@ -18,6 +18,7 @@ export interface Plant {
     sunlightExposure?: string;
     wateringFrequency?: string;
     fertilizer?: string;
+    feedingFrequency?: string;
     pests?: string[];
     trainingTags?: string[];
     notes?: string;
@@ -59,6 +60,8 @@ export interface Plant {
     type: 'watering' | 'fertilizing' | 'note' | 'photo' | 'training' | 'stage_change' | 'harvest';
     description?: string;
     photoUri?: string;
+    careCheck?: 'powderyMildew' | 'rootRot';
+    inspectionResult?: 'no_symptoms';
     updatedBy: string; // UID
   }
   

@@ -311,7 +311,7 @@ function getHumidity(weather: WeatherCacheEntry | null | undefined): number | nu
 }
 
 function getWindSpeed(weather: WeatherCacheEntry | null | undefined): number | null {
-  return typeof weather?.windSpeed === 'number' ? weather.windSpeed : null;
+  return typeof weather?.windSpeed === 'number' ? weather.windSpeed * 3.6 : null;
 }
 
 function getDewPoint(weather: WeatherCacheEntry | null | undefined): number | null {
@@ -335,7 +335,7 @@ function getPrecipitationProbability(weather: WeatherCacheEntry | null | undefin
 }
 
 function getWindGust(weather: WeatherCacheEntry | null | undefined): number | null {
-  return typeof weather?.windGust === 'number' ? weather.windGust : null;
+  return typeof weather?.windGust === 'number' ? weather.windGust * 3.6 : null;
 }
 
 function getWeatherSummary(weather: WeatherCacheEntry | null | undefined): string | null {
@@ -399,7 +399,7 @@ function buildMildewSamples(
     const key = formatDate(addDays(today, -dayOffset));
     const weather = range[key]?.weather;
     const dayHumidity = getHumidity(weather);
-    const dayTemperatureC = getTemperatureMax(weather);
+    const dayTemperatureC = getDetailedTemp(weather, 'day') ?? weather?.temperature ?? null;
 
     if (dayHumidity === null || dayTemperatureC === null) continue;
 
@@ -431,7 +431,7 @@ function assessMildewFromTodayWeather(
 ): MildewRiskAssessment {
   if (!todayWeather) return LOW_MILDEW_ASSESSMENT;
   const dayHumidity = getHumidity(todayWeather);
-  const dayTemperatureC = getTemperatureMax(todayWeather);
+  const dayTemperatureC = getDetailedTemp(todayWeather, 'day') ?? todayWeather?.temperature ?? null;
 
   if (dayHumidity === null || dayTemperatureC === null) {
     return LOW_MILDEW_ASSESSMENT;
@@ -1059,7 +1059,8 @@ async function refreshWeatherIfMissing(
 
   const missingDates = targetDates.filter((date) => {
     const entry = range[date];
-    return !entry || !entry.weather;
+    const fetchedAt = entry?.weather?.fetchedAt?.toDate?.().getTime();
+    return !entry?.weather || !fetchedAt || Date.now() - fetchedAt > 6 * 3600000;
   });
 
   if (missingDates.length === 0) {

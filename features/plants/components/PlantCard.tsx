@@ -1,5 +1,6 @@
+import { PlantImage as Image } from '@/ui/PlantImage';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Image, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { ThemedText } from '@/ui/ThemedText';

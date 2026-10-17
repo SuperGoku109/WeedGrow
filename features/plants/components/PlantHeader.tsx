@@ -6,6 +6,7 @@ import { ThemedText } from '@/ui/ThemedText';
 import Animated, { useAnimatedStyle, interpolate, Extrapolate } from 'react-native-reanimated';
 import type { SharedValue } from 'react-native-reanimated';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
+import { usePhotoUri } from '@/ui/PlantImage';
 
 interface PlantHeaderProps {
   imageUri?: string;
@@ -34,7 +35,7 @@ export default function PlantHeader({
   topInset = 0,
 }: PlantHeaderProps) {
   const progress = collapseProgress ?? ({ value: 0 } as SharedValue<number>);
-  const renderableImageUri = getRenderablePlantImageUri(imageUri);
+  const { uri: renderableImageUri } = usePhotoUri(getRenderablePlantImageUri(imageUri), true);
   const AnimatedImageBackground = React.useMemo(
     () => Animated.createAnimatedComponent(ImageBackground),
     []

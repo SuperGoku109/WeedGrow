@@ -1,51 +1,24 @@
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db, storage } from '@/services/firebase';
-import { cacheDirectory, copyAsync } from 'expo-file-system/legacy';
+import { collection, doc, serverTimestamp, writeBatch } from 'firebase/firestore';
+import { db } from '@/services/firebase';
+import { preparePhotoRecord } from '@/lib/plants/photoRepository';
 
 /**
- * Uploads a progress picture to Firebase Storage and saves metadata to Firestore.
+ * Saves a compact photo and its gallery metadata atomically on the Spark plan.
  * @param plantId Plant ID
  * @param fileUri Local file URI
  * @param caption Optional caption
  * @returns The Firestore document reference
  */
 export async function uploadProgressPic(plantId: string, fileUri: string, caption?: string) {
-  try {
-    let localUri = fileUri;
-    // If Android content URI, copy to cache as file://
-    if (localUri.startsWith('content://')) {
-      if (!cacheDirectory) {
-        throw new Error('FileSystem cacheDirectory is unavailable on this platform.');
-      }
-      const fileName = `${Date.now()}_progresspic.jpg`;
-      const destPath = `${cacheDirectory}${fileName}`;
-      await copyAsync({ from: localUri, to: destPath });
-      localUri = destPath;
-    }
-    const filename = `${Date.now()}_${Math.floor(Math.random() * 100000)}.jpg`;
-    const storageRef = ref(storage, `progressPics/${plantId}/${filename}`);
-
-    // Fetch the file as a blob
-    const response = await fetch(localUri);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
-    }
-    const blob = await response.blob();
-
-    // Upload to Firebase Storage
-    await uploadBytes(storageRef, blob);
-    const downloadUrl = await getDownloadURL(storageRef);
-
-    // Save metadata to Firestore
-    const docRef = await addDoc(collection(db, 'plants', plantId, 'progressPics'), {
-      imageUrl: downloadUrl,
-      timestamp: serverTimestamp(),
-      caption: caption || '',
-    });
-    return docRef;
-  } catch (err) {
-    console.error('uploadProgressPic error:', err);
-    throw err;
-  }
+  const photo = await preparePhotoRecord(plantId, fileUri);
+  const docRef = doc(collection(db, 'plants', plantId, 'progressPics'));
+  const batch = writeBatch(db);
+  for (const write of photo.writes) batch.set(write.ref, write.data);
+  batch.set(docRef, {
+    imageUrl: photo.uri,
+    timestamp: serverTimestamp(),
+    caption: caption || '',
+  });
+  await batch.commit();
+  return docRef;
 }

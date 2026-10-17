@@ -10,15 +10,19 @@ export async function deletePlantAndSubcollections(id: string) {
 
   const deleteSubcollection = async (sub: string) => {
     const subSnap = await getDocs(collection(db, 'plants', id, sub));
-    const batch = writeBatch(db);
-    subSnap.forEach(doc => batch.delete(doc.ref));
-    await batch.commit();
+    // Photo assets add two documents per image; keep deletes below batch limits.
+    for (let offset = 0; offset < subSnap.docs.length; offset += 450) {
+      const batch = writeBatch(db);
+      subSnap.docs.slice(offset, offset + 450).forEach(item => batch.delete(item.ref));
+      await batch.commit();
+    }
   };
 
   await Promise.all([
     deleteSubcollection('logs'),
     deleteSubcollection('weatherCache'),
     deleteSubcollection('progressPics'),
+    deleteSubcollection('photoAssets'),
   ]);
 
   await deleteDoc(plantRef);

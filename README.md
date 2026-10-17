@@ -1,7 +1,7 @@
 ﻿# WeedGrow
 
 WeedGrow is a grow/plant tracking mobile app built with Expo (React Native).
-Data is stored in Firebase (Firestore, plus Storage for photo uploads), with optional weather lookups via
+Data and compact photos are stored in Firebase Firestore, with optional weather lookups via
 OpenWeatherMap.
 
 ## Domain Overview
@@ -115,6 +115,26 @@ TODO: Confirm which of these are planned vs should be removed or implemented.
 - Weather logic: `lib/weather/`
 - Log utilities: `lib/logs/`
 - Progress photo uploads: `lib/progressPics/uploadProgressPic.ts`
+
+## Photos without a paid Storage plan
+
+New photos use Firestore's Spark quota, without Firebase Storage or a billing upgrade.
+`lib/plants/preparePlantPhoto.ts` generates aspect-preserving JPEGs up to 960 pixels
+and 180 KiB encoded, plus thumbnails up to 240 pixels and 20 KiB encoded. Originals
+are not retained. This is intended for a small personal grow journal, not a large
+or full-resolution photo archive; database storage and read quotas still apply.
+
+Photo bytes live in `plants/{plantId}/photoAssets/{assetId}`. Plant and gallery
+records contain a `firestore-photo:` reference only. Saves commit the metadata,
+image and thumbnail atomically. `ui/PlantImage.tsx` loads thumbnails by default,
+full images on request, and deduplicates reads with a bounded cache. Existing
+HTTPS image links remain supported, but this does not restore access to files
+in a Firebase Storage bucket blocked by billing.
+
+Firestore rules must authorize the plant's photoAssets subcollection under the
+same ownership policy as its other data. Do not make storage or database rules
+public to enable photos. A future object-storage implementation can replace the
+photo repository without changing plant/journal screens.
 
 ## Firestore Admin Scripts (Optional)
 

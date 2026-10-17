@@ -1,5 +1,6 @@
+import { PlantImage as Image } from '@/ui/PlantImage';
 import React from 'react';
-import { View, FlatList, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { ThemedText } from '@/ui/ThemedText';
 
 interface ProgressPic {

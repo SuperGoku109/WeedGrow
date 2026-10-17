@@ -83,6 +83,7 @@ export default function AddPlantFlow() {
     savingRef.current = true; setSaving(true); setSaveError('');
     try {
       plantId.current ||= createPlantId();
+      // Plant metadata and prepared photo assets commit as one operation.
       await savePlantToFirestore(clean, plantId.current);
       setSuccess(true);
       if (Platform.OS !== 'web') void Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => {});

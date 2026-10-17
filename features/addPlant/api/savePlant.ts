@@ -4,7 +4,7 @@ import { MILLISECONDS_PER_DAY } from '@/constants/Time';
 import { fetchWeather } from '@/lib/weather/fetchWeather';
 import { parseWeatherData } from '@/lib/weather/parseWeatherData';
 import { updateWeatherCache } from '@/lib/weather/updateFirestore';
-import { shouldUploadPlantImageUri, uploadPlantImageUri } from '@/lib/plants/plantImages';
+import { preparePhotoRecord } from '@/lib/plants/photoRepository';
 import { invalidatePlantCache } from '@/features/plants/hooks/usePlantList';
 import type { PlantForm } from '@/features/plants/form/PlantForm';
 import { normalizePlantForm, validatePlantForm } from '../plantFlowModel';
@@ -16,15 +16,10 @@ export async function savePlantToFirestore(input: PlantForm, plantId = createPla
   const errors = validatePlantForm(form);
   if (Object.keys(errors).length) throw new Error(Object.values(errors)[0]);
 
-  let imageUri = form.imageUri || null;
-  // Upload before committing: a device-only photo must never become a saved cover.
-  if (shouldUploadPlantImageUri(imageUri)) {
-    try {
-      imageUri = await uploadPlantImageUri(plantId, imageUri!);
-    } catch {
-      throw new Error('Your photo couldn’t upload. Check your connection and retry, or remove the photo to continue.');
-    }
-  }
+  let photo;
+  try { photo = form.imageUri ? await preparePhotoRecord(plantId, form.imageUri) : null; }
+  catch { throw new Error('Your photo couldn’t be prepared. Choose it again, try a different photo, or remove it to continue.'); }
+  const imageUri = photo?.uri || null;
   const ageNum = Number(form.ageDays || '0');
   const plantRef = doc(db, 'plants', plantId);
   const data = {
@@ -47,7 +42,10 @@ export async function savePlantToFirestore(input: PlantForm, plantId = createPla
     // instead of silently queueing a new plant after the user has left the flow.
     await runTransaction(db, async transaction => {
       const existing = await transaction.get(plantRef);
-      if (!existing.exists()) transaction.set(plantRef, data);
+      if (!existing.exists()) {
+        for (const write of photo?.writes || []) transaction.set(write.ref, write.data);
+        transaction.set(plantRef, data);
+      }
     });
   } catch {
     throw new Error('Your plant couldn’t be saved. Check your connection and try again. Your details are still here.');

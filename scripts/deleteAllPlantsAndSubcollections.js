@@ -30,6 +30,7 @@ async function deleteAllPlantsAndSubcollections() {
       deleteSubcollection(plantRef, 'logs'),
       deleteSubcollection(plantRef, 'weatherCache'),
       deleteSubcollection(plantRef, 'progressPics'),
+      deleteSubcollection(plantRef, 'photoAssets'),
     ]);
 
     // Then delete the plant document itself
