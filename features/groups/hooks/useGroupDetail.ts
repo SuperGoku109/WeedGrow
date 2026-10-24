@@ -1,14 +1,17 @@
+import { useOwnedGroups } from '@/hooks/useGardenData';
+import { usePlantList } from '@/features/plants/hooks/usePlantList';
+import { useMinuteClock } from '@/hooks/useMinuteClock';
+import { plantDay } from '@/lib/dates/plantDay';
+import { plantAgeDays } from '@/lib/plants/plantAge';
 /**
  * Hook for managing group details screen state and operations
  */
-import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { Alert, BackHandler } from 'react-native';
+import { useState, useCallback, useMemo, useRef } from 'react';
+import { BackHandler } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useFocusEffect } from '@react-navigation/native';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/services/firebase';
 import type { Plant } from '@/firestoreModels';
-import { deleteGroup, getGroupById, GroupWithId } from '../api/groupApi';
+import { deleteGroup } from '../api/groupApi';
 import logger from '@/lib/logger';
 
 export type PlantWithId = Plant & { id: string };
@@ -19,10 +22,16 @@ export type PlantWithId = Plant & { id: string };
  * @returns Object containing group data, plants, loading state, and actions
  */
 export function useGroupDetail(groupId?: string) {
-  // State
-  const [group, setGroup] = useState<GroupWithId | null>(null);
-  const [plants, setPlants] = useState<PlantWithId[]>([]);
-  const [loading, setLoading] = useState(true);
+  const spaces = useOwnedGroups(); const garden = usePlantList();
+  const now = useMinuteClock();
+  const refreshSpaces = spaces.refresh; const refreshGarden = garden.refresh;
+  const group = useMemo(() => spaces.groups.find(item => item.id === groupId) || null, [spaces.groups, groupId]);
+  const plants = useMemo(() => {
+    const byId = new Map(garden.plants.map(plant => [plant.id, plant]));
+    return (group?.plantIds || []).flatMap(id => { const plant = byId.get(id); return plant ? [plant] : []; });
+  }, [garden.plants, group]);
+  const loading = spaces.loading || garden.loading;
+  const error = spaces.error || garden.error;
   const [editVisible, setEditVisible] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState('');
@@ -30,68 +39,14 @@ export function useGroupDetail(groupId?: string) {
   const [confirmDeleteVisible, setConfirmDeleteVisible] = useState(false);
   const router = useRouter();
 
-  /**
-   * Fetches the group and associated plant data
-   */
-  const fetchGroupData = useCallback(async () => {
-    if (!groupId) {
-      setLoading(false);
-      return;
-    }
-    
-    try {
-      setLoading(true);
-      
-      // Attempt to get group data first
-      const groupData = await getGroupById(String(groupId));
-      
-      if (!groupData) {
-        setGroup(null);
-        setPlants([]);
-        return;
-      }
-      
-      setGroup(groupData);
-
-      // If group has plants, fetch their data
-      if (groupData.plantIds?.length) {
-        const plantSnaps = await Promise.all(
-          groupData.plantIds.map((pid: string) => getDoc(doc(db, 'plants', pid)))
-        );
-        
-        const plantsData = plantSnaps
-          .filter((s) => s.exists())
-          .map((s) => ({ id: s.id, ...(s.data() as Plant) }));
-          
-        setPlants(plantsData);
-      } else {
-        setPlants([]);
-      }
-    } catch (error) {
-      logger.error('Error fetching group details:', error);
-      Alert.alert('Error', 'Failed to load group details');
-    } finally {
-      setLoading(false);
-    }
-  }, [groupId]);
-
-  // Fetch group data initially and when the groupId changes
-  useEffect(() => {
-    fetchGroupData();
-  }, [fetchGroupData]);
-
   // Derived stats
   const avgAgeDays = useMemo(() => {
     if (!plants.length) return null;
-    const ages = plants.map((p) => (p.ageDays ?? 0)).filter((v) => typeof v === 'number');
+    const ages = plants.map(p => plantAgeDays(p, plantDay(now, p.locationTimeZone))).filter((age): age is number => age != null);
     if (!ages.length) return null;
     return ages.reduce((a, b) => a + b, 0) / ages.length;
-  }, [plants]);
+  }, [plants, now]);
 
-  const needsWaterCount = useMemo(() => {
-    // Heuristic: count plants with waterLevel <= 0.25
-    return plants.reduce((acc, p) => acc + ((p.waterLevel ?? 1) <= 0.25 ? 1 : 0), 0);
-  }, [plants]);
 
   /**
    * Open delete confirmation
@@ -151,13 +106,14 @@ export function useGroupDetail(groupId?: string) {
    * Refreshes the group data
    */
   const refreshGroup = useCallback(() => {
-    fetchGroupData();
-  }, [fetchGroupData]);
+    refreshSpaces(); refreshGarden();
+  }, [refreshSpaces, refreshGarden]);
 
   return {
     group,
     plants,
     loading,
+    error,
     editVisible,
     setEditVisible,
     deleting,
@@ -169,6 +125,5 @@ export function useGroupDetail(groupId?: string) {
     refreshGroup,
     // derived
     avgAgeDays,
-    needsWaterCount,
   };
 }

@@ -1,21 +1,7 @@
 import React from 'react';
-import { ActivityIndicator } from 'react-native-paper';
-import { Container } from '@/design-system/components';
-import { useTheme } from '@/design-system/utils/useTheme';
+import LoadingState from '@/ui/LoadingState';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function LoadingView() {
-  const theme = useTheme();
-
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background.primary }}>
-      <Container 
-        style={{ flex: 1 }} 
-        align="center" 
-        justify="center"
-      >
-        <ActivityIndicator color={theme.colors.brand.primary} />
-      </Container>
-    </SafeAreaView>
-  );
+export default function LoadingView({ onBack }: { onBack?: () => void }) {
+  return <SafeAreaView style={{ flex: 1, backgroundColor: '#15231c' }}><LoadingState label="Loading your plant…" onBack={onBack} /></SafeAreaView>;
 }

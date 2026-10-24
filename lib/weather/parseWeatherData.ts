@@ -9,7 +9,7 @@ export function parseWeatherData(apiResponse: any): Record<string, WeatherCacheE
   if (!apiResponse) return {};
 
   const entries: Record<string, WeatherCacheEntry> = {};
-  const fetchedAt = Timestamp.now();
+  const fetchedAt = Number.isFinite(apiResponse._weedgrowFetchedAt) ? Timestamp.fromMillis(apiResponse._weedgrowFetchedAt) : Timestamp.now();
   const tzOffset = apiResponse.timezone_offset ?? 0; // seconds
   const NIGHT_START_HOUR = 20;
   const NIGHT_END_HOUR = 7;
@@ -58,6 +58,7 @@ export function parseWeatherData(apiResponse: any): Record<string, WeatherCacheE
     sourceData: any
   ): WeatherCacheEntry => {
     const base: WeatherCacheEntry = {
+      ...(typeof apiResponse.timezone === 'string' ? { timeZone: apiResponse.timezone } : {}),
       date: dateStr,
       fetchedAt,
       forecasted,
@@ -65,7 +66,7 @@ export function parseWeatherData(apiResponse: any): Record<string, WeatherCacheE
       temperature: sourceData.temp?.day ?? sourceData.temp,
       humidity: sourceData.humidity,
       windSpeed: sourceData.wind_speed,
-      rainfall: sourceData.rain ?? sourceData.rainfall ?? 0,
+      rainfall: typeof sourceData.rain === 'number' ? sourceData.rain : sourceData.rain?.['1h'] ?? sourceData.rainfall ?? 0,
       uvIndex: sourceData.uvi,
       weatherSummary: sourceData.weather?.[0]?.description ?? '',
       dewPoint: sourceData.dew_point,

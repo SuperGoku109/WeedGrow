@@ -1,7 +1,7 @@
+import { useEditDraft, DraftRecovery } from '@/ui/useEditDraft';
 import React from 'react';
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useRouter } from 'expo-router';
-import * as Location from 'expo-location';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Feather } from '@expo/vector-icons';
@@ -16,7 +16,9 @@ import type { Plant } from '@/firestoreModels';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ColorTokens, Typography } from '@/design-system/tokens';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { MapPicker } from '@/ui/MapPicker';
+import { useDiscardGuard } from '@/ui/useDiscardGuard';
+import PlantLocationEditor from '@/features/location/PlantLocationEditor';
+import { validCoordinates } from '@/features/location/locationService';
 
 type EditPlantFormState = {
   name: string;
@@ -27,6 +29,8 @@ type EditPlantFormState = {
   environment: string;
   sunlightExposure: string;
   locationNickname: string;
+  locationLabel: string;
+  locationMode: 'custom' | 'space';
   lat: string;
   lng: string;
 };
@@ -75,6 +79,8 @@ const emptyFormState: EditPlantFormState = {
   environment: '',
   sunlightExposure: '',
   locationNickname: '',
+  locationLabel: '',
+  locationMode: 'custom',
   lat: '',
   lng: '',
 };
@@ -93,11 +99,16 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
   const router = useRouter();
   const theme = (useColorScheme() ?? 'dark') as 'light' | 'dark';
   const [form, setForm] = React.useState<EditPlantFormState>(emptyFormState);
+  const initial = React.useRef('');
+  const hydratedForId = React.useRef<string | null>(null);
+  const dirty = visible && !!initial.current && JSON.stringify(form) !== initial.current;
+  const draft = useEditDraft(`plant.${plantId}.legacy`, form, plant as unknown as Record<string, unknown>, dirty, visible && hydratedForId.current === plantId);
+  const guard = useDiscardGuard(dirty, () => draft.clear());
   const [errors, setErrors] = React.useState<EditPlantFormErrors>({});
   const [saving, setSaving] = React.useState(false);
   const [deleting, setDeleting] = React.useState(false);
   const [locating, setLocating] = React.useState(false);
-  const hydratedForId = React.useRef<string | null>(null);
+
 
   const stageLabel = React.useMemo(
     () => STAGE_OPTIONS.find((option) => option.value === form.growthStage)?.label ?? 'Not set',
@@ -109,15 +120,6 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
     [],
   );
 
-  const mapLocation = React.useMemo(() => {
-    const lat = Number(form.lat);
-    const lng = Number(form.lng);
-
-    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return undefined;
-    if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return undefined;
-
-    return { lat, lng };
-  }, [form.lat, form.lng]);
 
   React.useEffect(() => {
     if (!visible) {
@@ -125,7 +127,7 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
       return;
     }
     if (hydratedForId.current === plantId) return;
-    setForm({
+    const next = {
       name: plant.name ?? '',
       height: typeof plant.height === 'number' ? String(plant.height) : '',
       strain: plant.strain ?? '',
@@ -134,9 +136,12 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
       environment: plant.environment ?? '',
       sunlightExposure: plant.sunlightExposure ?? '',
       locationNickname: plant.locationNickname ?? '',
+    locationLabel: plant.locationLabel ?? '',
+    locationMode: plant.locationMode || 'custom',
       lat: typeof plant.location?.lat === 'number' ? String(plant.location.lat) : '',
       lng: typeof plant.location?.lng === 'number' ? String(plant.location.lng) : '',
-    });
+    };
+    initial.current = JSON.stringify(next); setForm(next);
     setErrors({});
     hydratedForId.current = plantId;
   }, [visible, plant, plantId]);
@@ -199,6 +204,7 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
 
   const buildUpdates = React.useCallback((current: Plant) => {
     const updates: Partial<Plant> = {};
+  if (form.locationMode !== (current.locationMode || 'custom')) updates.locationMode = form.locationMode;
 
     const trimmedName = form.name.trim();
     if (trimmedName && trimmedName !== current.name) updates.name = trimmedName;
@@ -224,7 +230,8 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
       updates.sunlightExposure = nextSunlight as any;
     }
 
-    const nextLocationNickname = form.locationNickname.trim() || null;
+    if ((current.locationLabel || '') !== form.locationLabel.trim()) updates.locationLabel = form.locationLabel.trim();
+  const nextLocationNickname = form.locationNickname.trim() || null;
     const currentLocationNickname = current.locationNickname?.trim() || null;
     if (currentLocationNickname !== nextLocationNickname) {
       updates.locationNickname = nextLocationNickname as any;
@@ -257,14 +264,16 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
 
     const updates = buildUpdates(plant);
     if (Object.keys(updates).length === 0) {
-      onClose();
+      guard.finish(onClose);
       return;
     }
 
     try {
       setSaving(true);
-      await updatePlant(plantId, updates);
-      onClose();
+      if (!draft.ready || draft.saved) throw new Error('Choose whether to recover the saved draft first.');
+      await updatePlant(plantId, updates, draft.baseline.current);
+      await draft.clear().catch(() => {});
+      guard.finish(onClose);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to save changes.';
       Alert.alert('Save failed', message);
@@ -272,7 +281,7 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
     } finally {
       setSaving(false);
     }
-  }, [plant, plantId, saving, validate, buildUpdates, onClose]);
+  }, [plant, plantId, saving, validate, buildUpdates, onClose, guard, draft]);
 
   const handleDelete = React.useCallback(() => {
     if (deleting) return;
@@ -285,7 +294,7 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
           try {
             setDeleting(true);
             await deletePlantAndSubcollections(plantId);
-            onClose();
+            guard.finish(onClose);
             router.replace('/(tabs)?tabIndex=1');
           } catch (error) {
             const message = error instanceof Error ? error.message : 'Failed to delete plant.';
@@ -297,66 +306,11 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
         },
       },
     ]);
-  }, [plantId, deleting, router, onClose]);
-
-  const handleUseCurrentLocation = React.useCallback(async () => {
-    if (locating) return;
-    try {
-      setLocating(true);
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Permission denied', 'Location access is needed to auto-fill your position.');
-        return;
-      }
-
-      const lastKnown = await Location.getLastKnownPositionAsync();
-      const coords = lastKnown?.coords
-        ? lastKnown.coords
-        : (await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })).coords;
-
-      setForm((prev) => ({
-        ...prev,
-        lat: coords.latitude.toFixed(6),
-        lng: coords.longitude.toFixed(6),
-      }));
-      setErrors((prev) => {
-        const next = { ...prev };
-        delete next.lat;
-        delete next.lng;
-        delete next.location;
-        return next;
-      });
-    } catch (error) {
-      logger.error('Error fetching current location for plant edit', error);
-      Alert.alert('Location unavailable', 'Could not get your current location. Try moving the map pin manually.');
-    } finally {
-      setLocating(false);
-    }
-  }, [locating]);
-
-  const handleMapLocationChange = React.useCallback((coords: { lat: number; lng: number }) => {
-    setForm((prev) => ({
-      ...prev,
-      lat: coords.lat.toFixed(6),
-      lng: coords.lng.toFixed(6),
-    }));
-    setErrors((prev) => {
-      const next = { ...prev };
-      delete next.lat;
-      delete next.lng;
-      delete next.location;
-      return next;
-    });
-  }, []);
-
-  const handleClearLocation = React.useCallback(() => {
-    setField('lat', '');
-    setField('lng', '');
-  }, [setField]);
+  }, [plantId, deleting, router, onClose, guard]);
 
   if (!visible) return null;
 
-  const saveDisabled = saving || deleting;
+  const saveDisabled = saving || deleting || locating;
   const cancelDisabled = saving || deleting || locating;
 
   return (
@@ -364,7 +318,7 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
       visible={visible}
       animationType="slide"
       transparent
-      onRequestClose={onClose}
+      onRequestClose={() => { if (!cancelDisabled) guard.requestClose(() => { void draft.clear().catch(() => {}); onClose(); }); }}
     >
       <View style={styles.overlay}>
         <LinearGradient
@@ -390,7 +344,7 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
               </ThemedText>
             </View>
             <Pressable
-              onPress={onClose}
+              onPress={() => guard.requestClose(() => { void draft.clear().catch(() => {}); onClose(); })}
               style={styles.iconBtn}
               accessibilityRole="button"
               accessibilityLabel="Close edit plant"
@@ -416,6 +370,7 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
+            <DraftRecovery draft={draft} apply={setForm} />
             <View style={[styles.sectionCard, theme === 'dark' ? styles.sectionCardDark : styles.sectionCardLight]}>
               <View style={styles.sectionHead}>
                 <ThemedText style={styles.sectionTitle}>Essentials</ThemedText>
@@ -523,85 +478,8 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
                 <ThemedText style={styles.sectionHint}>Set nickname and pin location directly on the map.</ThemedText>
               </View>
 
-              <View style={styles.locationActionRow}>
-                <Pressable
-                  onPress={handleUseCurrentLocation}
-                  style={({ pressed }) => [styles.locationActionBtn, pressed && styles.btnPressed]}
-                  accessibilityRole="button"
-                  accessibilityLabel="Use current location"
-                  disabled={locating}
-                >
-                  {locating ? (
-                    <ActivityIndicator size="small" color="#d1fae5" style={{ marginRight: 8 }} />
-                  ) : (
-                    <MaterialCommunityIcons name="crosshairs-gps" size={16} color="#d1fae5" style={{ marginRight: 8 }} />
-                  )}
-                  <ThemedText style={styles.locationActionText}>
-                    {locating ? 'Locating...' : 'Use My Location'}
-                  </ThemedText>
-                </Pressable>
-
-                <Pressable
-                  onPress={handleClearLocation}
-                  style={({ pressed }) => [styles.clearLocationBtn, pressed && styles.btnPressed]}
-                  accessibilityRole="button"
-                  accessibilityLabel="Clear location pin"
-                >
-                  <Feather name="x-circle" size={14} color="#cbd5e1" style={{ marginRight: 6 }} />
-                  <ThemedText style={styles.clearLocationText}>Clear Pin</ThemedText>
-                </Pressable>
-              </View>
-
-              <AnimatedMakikoInput
-                label="Location Name"
-                iconClass={MaterialCommunityIcons}
-                iconName="map-marker-outline"
-                iconColor={ColorTokens.brand.primary}
-                value={form.locationNickname}
-                onChangeText={(val) => setField('locationNickname', val)}
-                inputStyle={styles.input}
-                style={styles.tightInput}
-                autoCapitalize="words"
-                autoCorrect={false}
-              />
-
-              <View style={styles.mapWrap}>
-                <MapPicker location={mapLocation} onLocationChange={handleMapLocationChange} />
-              </View>
-              <ThemedText style={styles.mapHint}>
-                Use the map or coordinates to move your plant marker.
-              </ThemedText>
-
-              <View style={styles.row}>
-                <View style={styles.locationField}>
-                  <AnimatedMakikoInput
-                    label="Latitude"
-                    iconClass={MaterialCommunityIcons}
-                    iconName="latitude"
-                    iconColor={ColorTokens.brand.primary}
-                    value={form.lat}
-                    onChangeText={(val) => setField('lat', val)}
-                    keyboardType="numbers-and-punctuation"
-                    inputStyle={styles.input}
-                    style={styles.tightInput}
-                  />
-                  {errors.lat ? <ThemedText style={styles.errorText}>{errors.lat}</ThemedText> : null}
-                </View>
-                <View style={styles.locationField}>
-                  <AnimatedMakikoInput
-                    label="Longitude"
-                    iconClass={MaterialCommunityIcons}
-                    iconName="longitude"
-                    iconColor={ColorTokens.brand.primary}
-                    value={form.lng}
-                    onChangeText={(val) => setField('lng', val)}
-                    keyboardType="numbers-and-punctuation"
-                    inputStyle={styles.input}
-                    style={styles.tightInput}
-                  />
-                  {errors.lng ? <ThemedText style={styles.errorText}>{errors.lng}</ThemedText> : null}
-                </View>
-              </View>
+          <AnimatedMakikoInput label="Location nickname (optional)" iconClass={MaterialCommunityIcons} iconName="map-marker-outline" iconColor={ColorTokens.brand.primary} value={form.locationNickname} onChangeText={value => setField('locationNickname', value)} />
+          <PlantLocationEditor groupId={plant.groupId} mode={form.locationMode} onModeChange={value => setField('locationMode', value)} location={form.lat.trim() && form.lng.trim() && validCoordinates({ lat: Number(form.lat), lng: Number(form.lng) }) ? { lat: Number(form.lat), lng: Number(form.lng) } : null} label={form.locationLabel} disabled={saving || deleting} onBusyChange={setLocating} onChange={(coords, name) => { setForm(previous => ({ ...previous, lat: coords ? String(coords.lat) : '', lng: coords ? String(coords.lng) : '', locationLabel: name })); setErrors(previous => ({ ...previous, lat: undefined, lng: undefined, location: undefined })); }} />
               {errors.location ? <ThemedText style={styles.errorText}>{errors.location}</ThemedText> : null}
             </View>
 
@@ -635,7 +513,7 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
 
               <View style={styles.secondaryButtonRow}>
                 <Pressable
-                  onPress={onClose}
+                  onPress={() => guard.requestClose(() => { void draft.clear().catch(() => {}); onClose(); })}
                   style={({ pressed }) => [
                     styles.actionBtn,
                     styles.cancelBtn,
@@ -679,6 +557,7 @@ export default function EditPlantModal({ visible, plant, plantId, onClose }: Edi
               </View>
             </View>
           </ScrollView>
+      {guard.dialog}
         </LinearGradient>
       </View>
     </Modal>

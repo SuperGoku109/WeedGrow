@@ -1,3 +1,5 @@
+import { mapConcurrent } from '@/lib/data/mapConcurrent';
+import { plantDay } from '@/lib/dates/plantDay';
 import type { Plant, PlantLog, WeatherCacheEntry } from '@/firestoreModels';
 import { fetchLogsAndWeatherForRange } from '@/lib/logs/fetchLogsAndWeatherForRange';
 import { fetchWeather } from '@/lib/weather/fetchWeather';
@@ -9,6 +11,7 @@ import {
   type MildewRiskLevel,
 } from '@/lib/weather/powderyMildewRisk';
 import { updateWeatherCache } from '@/lib/weather/updateFirestore';
+import { weatherMatchesLocation } from '@/features/location/locationState';
 import logger from '@/lib/logger';
 
 // Time + tuning constants for the recommendation heuristic.
@@ -71,6 +74,7 @@ export type PlantSummary = Plant & { id: string };
 type WaterSource = 'manual' | 'rain' | 'unknown';
 
 export interface WateringInsight {
+  weatherFetchedAtMs?: number;
   plantId: string;
   plantName: string;
   needsWater: boolean;
@@ -1010,6 +1014,7 @@ function buildPlanBInsight(
   const baseReason = `Yesterday's weather data unavailable - assuming no water was received. ${planBReason.join(' ')} Using current and forecast data only.`;
 
   return {
+    weatherFetchedAtMs: todayWeather?.fetchedAt?.toDate?.().getTime(),
     plantId: plant.id,
     plantName: plant.name || 'Unnamed plant',
     needsWater,
@@ -1057,10 +1062,11 @@ async function refreshWeatherIfMissing(
     return range;
   }
 
+  if (plant.currentWeather?.date && weatherMatchesLocation(plant.currentWeather, plant) && range[plant.currentWeather.date]) range = { ...range, [plant.currentWeather.date]: { ...range[plant.currentWeather.date], weather: plant.currentWeather } };
   const missingDates = targetDates.filter((date) => {
     const entry = range[date];
     const fetchedAt = entry?.weather?.fetchedAt?.toDate?.().getTime();
-    return !entry?.weather || !fetchedAt || Date.now() - fetchedAt > 6 * 3600000;
+    return !entry?.weather || !weatherMatchesLocation(entry.weather, plant) || !fetchedAt || Date.now() - fetchedAt > 6 * 3600000;
   });
 
   if (missingDates.length === 0) {
@@ -1070,10 +1076,10 @@ async function refreshWeatherIfMissing(
   try {
     const apiResponse = await fetchWeather(plant.location.lat, plant.location.lng);
     const parsed = parseWeatherData(apiResponse);
-    await updateWeatherCache(plant.id, parsed);
+    const committed = await updateWeatherCache(plant.id, parsed, { location: plant.location, locationRevision: plant.locationRevision, locationLabel: plant.locationLabel });
 
     const updatedRange: Record<string, RangeEntry> = { ...range };
-    Object.entries(parsed).forEach(([date, weatherEntry]) => {
+    Object.entries(committed || parsed).forEach(([date, weatherEntry]) => {
       const existing = updatedRange[date];
       if (existing) {
         updatedRange[date] = { ...existing, weather: weatherEntry };
@@ -1104,7 +1110,7 @@ async function evaluatePlantWatering(
 
   let range: Record<string, RangeEntry>;
   try {
-    range = await fetchLogsAndWeatherForRange(plant.id, startDate, endDate);
+    range = await fetchLogsAndWeatherForRange(plant.id, startDate, endDate, plant.locationTimeZone);
   } catch (error) {
     logger.error('Failed to fetch logs/weather for plant', { plantId: plant.id, error });
     // Early exit: without logs/weather we cannot compute a safe recommendation.
@@ -1121,8 +1127,8 @@ async function evaluatePlantWatering(
   // Phase 2: fill missing today/tomorrow weather from API cache refresh.
   range = await refreshWeatherIfMissing(plant, range, targetDates);
 
-  const todayWeather = range[todayKey]?.weather ?? null;
-  const tomorrowWeather = range[tomorrowKey]?.weather ?? null;
+  const todayWeather = weatherMatchesLocation(range[todayKey]?.weather, plant) ? range[todayKey].weather : null;
+  const tomorrowWeather = weatherMatchesLocation(range[tomorrowKey]?.weather, plant) ? range[tomorrowKey].weather : null;
 
   // Phase 3: if yesterday is missing but today exists, use a simpler fallback.
   if (todayWeather && !range[yesterdayKey]?.weather && !hasUsefulHistoryBeforeDate(range, startOfToday)) {
@@ -1313,6 +1319,7 @@ async function evaluatePlantWatering(
 
   // Final return: fully evaluated insight using historical logs, weather, and modifiers.
   return {
+    weatherFetchedAtMs: todayWeather?.fetchedAt?.toDate?.().getTime(),
     plantId: plant.id,
     plantName: plant.name || 'Unnamed plant',
     needsWater,
@@ -1353,11 +1360,12 @@ async function evaluatePlantWatering(
 
 /**
  * Evaluates watering insight for each plant.
- * Runs sequentially to avoid flooding the weather/cache services.
+ * Runs at most two plants concurrently, preserving order and respecting cancellation.
  */
 export async function evaluateWateringInsights(
   plants: PlantSummary[],
-  options?: Partial<EvaluateOptions>
+  options?: Partial<EvaluateOptions>,
+  signal?: AbortSignal
 ): Promise<WateringInsight[]> {
   if (!plants.length) return [];
 
@@ -1366,16 +1374,15 @@ export async function evaluateWateringInsights(
     rainfallThresholdMm: options?.rainfallThresholdMm ?? DEFAULT_RAIN_THRESHOLD_MM,
   };
 
-  const today = startOfDay(new Date());
-  const insights: WateringInsight[] = [];
-
-  for (const plant of plants) {
+  const insights = await mapConcurrent(plants, 2, async plant => {
+    if (signal?.aborted) return null;
     try {
-      const insight = await evaluatePlantWatering(plant, today, mergedOptions);
-      if (insight) insights.push(insight);
+      const insight = await evaluatePlantWatering(plant, new Date(plantDay(new Date(), plant.locationTimeZone) + 'T00:00:00'), mergedOptions);
+      return signal?.aborted ? null : insight;
     } catch (error) {
       logger.error('Failed to evaluate watering insight for plant', { plantId: plant.id, error });
+      return null;
     }
-  }
-  return insights;
+  });
+  return insights.filter((insight): insight is WateringInsight => !!insight);
 }

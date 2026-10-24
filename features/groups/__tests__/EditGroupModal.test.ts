@@ -1,0 +1,30 @@
+import React from 'react';
+import { Text } from 'react-native';
+// @ts-expect-error Expo includes the renderer without TypeScript declarations.
+import { act, create } from 'react-test-renderer';
+import EditGroupModal from '../components/EditGroupModal';
+import LocationPicker from '@/features/location/LocationPicker';
+jest.mock('react-native/Libraries/Modal/Modal', () => ({ __esModule: true, default: 'Modal' }));
+jest.mock('@/features/location/LocationPicker', () => ({ __esModule: true, default: () => null }));
+jest.mock('@/ui/GrowMotion', () => ({ useReducedMotion: () => true }));
+jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
+jest.mock('@/ui/useDiscardGuard', () => ({ useDiscardGuard: () => ({ dialog: null, finish: (action: () => void) => action(), requestClose: (action: () => void) => action() }) }));
+jest.mock('../components/CollectionUI', () => ({ ink: {}, CollectionButton: () => null }));
+it('blocks saving until device location finishes and previews followers separately', async () => {
+  const save = jest.fn(); let renderer: any;
+  const group = { id: 'space', name: 'Patio', environment: 'outdoor', plantIds: ['follow', 'custom'], location: { lat: 1, lng: 2 } } as any;
+  const plants = [{ id: 'follow', name: 'Following plant', locationMode: 'space', environment: 'outdoor' }, { id: 'custom', name: 'Own-pin plant', locationMode: 'custom', environment: 'outdoor' }] as any;
+  act(() => { renderer = create(React.createElement(EditGroupModal, { visible: true, group, allPlants: plants, onSave: save, onClose: jest.fn() })); });
+  act(() => renderer.root.findByType(LocationPicker).props.onBusyChange(true));
+  const blocked = renderer.root.findByProps({ label: 'Finding location…' });
+  expect(blocked.props.disabled).toBe(true);
+  await act(async () => blocked.props.onPress());
+  expect(save).not.toHaveBeenCalled();
+  act(() => { renderer.root.findByType(LocationPicker).props.onChange({ lat: 3, lng: 4 }, 'New place'); renderer.root.findByType(LocationPicker).props.onBusyChange(false); });
+  const texts = renderer.root.findAllByType(Text).map((node: any) => [node.props.children].flat().join(''));
+  expect(texts).toContain('These plants will move: Following plant.');
+  expect(texts.some((text: string) => text.startsWith('These plants keep their own pins: Own-pin plant.'))).toBe(true);
+  await act(async () => renderer.root.findByProps({ label: 'Save changes' }).props.onPress());
+  expect(save).toHaveBeenCalledTimes(1);
+  act(() => renderer.unmount());
+});

@@ -1,8 +1,12 @@
 import { buildSuggestionCardsFromInsight } from '@/lib/suggestions/suggestionCards';
 import type { WateringInsight } from '@/lib/suggestions/wateringSuggestions';
+jest.mock('@/lib/weather/parseWeatherData', () => ({ parseWeatherData: jest.fn() }));
+jest.mock('@/lib/logs/fetchLogsAndWeatherForRange', () => ({ fetchLogsAndWeatherForRange: jest.fn() }));
+jest.mock('@/lib/weather/updateFirestore', () => ({ updateWeatherCache: jest.fn() }));
 
 function makeInsight(overrides: Partial<WateringInsight> = {}): WateringInsight {
   return {
+    weatherFetchedAtMs: Date.now(),
     plantId: 'plant-1',
     plantName: 'Test Plant',
     needsWater: false,
@@ -112,7 +116,7 @@ describe('buildSuggestionCardsFromInsight', () => {
     expect(wateringCard?.severity).toBe('critical');
   });
 
-  it('escalates mildew severity when moisture-persistent signals stack', () => {
+  it('does not count weather signals twice when presenting an assessed mildew risk', () => {
     const cards = buildSuggestionCardsFromInsight(
       makeInsight({
         mildewRiskLevel: 'watch',
@@ -125,8 +129,8 @@ describe('buildSuggestionCardsFromInsight', () => {
       }),
     );
     const mildewCard = cards.find((card) => card.kind === 'powderyMildew');
-    expect(mildewCard?.severity).toBe('critical');
-    expect(mildewCard?.title).toContain('Very high');
+    expect(mildewCard?.severity).toBe('watch');
+    expect(mildewCard?.title).toContain('watch');
   });
 
   it('does not over-trigger root rot from low-confidence forecast rain alone', () => {
@@ -164,4 +168,11 @@ describe('buildSuggestionCardsFromInsight', () => {
     const rootRotCard = cards.find((card) => card.kind === 'rootRot');
     expect(rootRotCard).toBeUndefined();
   });
+});
+
+it('downgrades stale weather instead of presenting urgent advice with high confidence', () => {
+  const now = new Date();
+  const cards = buildSuggestionCardsFromInsight(makeInsight({ needsWater: true, score: 2, weatherFetchedAtMs: now.getTime() - 7 * 3600000 }), now);
+  const water = cards.find(card => card.kind === 'watering');
+  expect(water?.confidence).toBe('low'); expect(water?.severity).toBe('watch'); expect(water?.title).toBe('Check soil moisture');
 });

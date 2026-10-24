@@ -33,7 +33,7 @@ describe('group edits', () => {
     expect(() => groupEditValues(group('a', '  '))).toThrow('name');
   });
   it('trims names and deduplicates members', () => {
-    expect(groupEditValues({ ...groups[0], name: ' Beta ', plantIds: ['p1', 'p1'], weatherSourcePlantId: 'p1' })).toEqual({ name: 'Beta', plantIds: ['p1'], weatherSourcePlantId: 'p1' });
+    expect(groupEditValues({ ...groups[0], name: ' Beta ', plantIds: ['p1', 'p1'], weatherSourcePlantId: 'p1' })).toEqual({ name: 'Beta', location: null, locationLabel: '', plantIds: ['p1'], weatherSourcePlantId: 'p1' });
   });
   it('clears a removed source without undefined Firestore values', () => {
     expect(groupEditValues({ ...groups[0], plantIds: [], weatherSourcePlantId: 'p1' }).weatherSourcePlantId).toBe('');

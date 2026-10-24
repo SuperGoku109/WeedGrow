@@ -93,7 +93,7 @@ export default memo(function GroupList({ groups, groupPlantsMap, loading, error,
       <Text style={styles.emptyCopy}>{filtered ? 'Try a different name or explore all your spaces.' : 'Create a group for a room, a corner, or a collection that belongs together.'}</Text>
       <CollectionButton label={filtered ? 'Clear filters' : 'Create a group'} icon={filtered ? 'filter-remove-outline' : 'plus'} primary onPress={filtered ? clear : onAddGroup} />
     </CollectionReveal>}
-    ListFooterComponent={shown.length > 0 ? <View style={styles.footer}><MaterialCommunityIcons name="view-grid-outline" size={15} color={ink.muted} /><Text style={styles.footerText}>Your plants can belong to more than one group.</Text></View> : null}
+    ListFooterComponent={shown.length > 0 ? <View style={styles.footer}><MaterialCommunityIcons name="view-grid-outline" size={15} color={ink.muted} /><Text style={styles.footerText}>Each plant belongs to one growing space.</Text></View> : null}
   />;
 });
 

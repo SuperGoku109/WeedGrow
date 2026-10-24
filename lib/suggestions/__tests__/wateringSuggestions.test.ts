@@ -80,7 +80,7 @@ describe('evaluateWateringInsights (black-box)', () => {
     jest.clearAllMocks();
     fetchWeatherMock.mockResolvedValue({} as any);
     parseWeatherDataMock.mockReturnValue({});
-    updateWeatherCacheMock.mockResolvedValue(undefined);
+    updateWeatherCacheMock.mockImplementation(async (_id, parsed) => parsed);
   });
 
   afterEach(() => {
@@ -110,6 +110,7 @@ describe('evaluateWateringInsights (black-box)', () => {
       plant.id,
       toDateKey(addDays(TODAY_START, -6)),
       toDateKey(addDays(TODAY_START, 1)),
+      undefined,
     );
   });
 
@@ -123,6 +124,7 @@ describe('evaluateWateringInsights (black-box)', () => {
       plant.id,
       toDateKey(addDays(TODAY_START, -2)),
       toDateKey(addDays(TODAY_START, 1)),
+      undefined,
     );
   });
 
@@ -173,7 +175,7 @@ describe('evaluateWateringInsights (black-box)', () => {
 
     expect(result).toHaveLength(1);
     expect(fetchWeatherMock).toHaveBeenCalledWith(plant.location!.lat, plant.location!.lng);
-    expect(updateWeatherCacheMock).toHaveBeenCalledWith(plant.id, parsed);
+    expect(updateWeatherCacheMock).toHaveBeenCalledWith(plant.id, parsed, expect.objectContaining({ location: plant.location }));
   });
 
   it('8) does not refresh weather when coordinates are missing', async () => {
@@ -1039,4 +1041,10 @@ describe('evaluateWateringInsights (black-box)', () => {
     expect(insight.needsWater).toBe(true);
     expect(insight.reason).toContain('low-confidence');
   });
+});
+
+it('does not start any plant requests after its screen cancels the run', async () => {
+  const controller = new AbortController(); controller.abort();
+  expect(await evaluateWateringInsights([makePlantSummary({ id: 'cancelled' })], undefined, controller.signal)).toEqual([]);
+  expect(fetchRangeMock).not.toHaveBeenCalled();
 });

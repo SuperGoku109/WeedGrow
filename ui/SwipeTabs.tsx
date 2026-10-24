@@ -25,7 +25,7 @@ export default function SwipeTabs({ tabs, initialKey, index: controlledIndex, on
   const cellWidth = Math.max(0, (barWidth - 10) / Math.max(tabs.length, 1));
   return <TabView navigationState={{ index, routes }}
     renderScene={({ route }) => tabs.find(tab => tab.key === route.key)?.render() ?? null}
-    onIndexChange={setIndex} initialLayout={{ width: layout.width }} swipeEnabled animationEnabled={!reduced}
+    lazy lazyPreloadDistance={0} onIndexChange={setIndex} initialLayout={{ width: layout.width }} swipeEnabled animationEnabled={!reduced}
     renderTabBar={() => <View style={s.bar} onLayout={e => setBarWidth(e.nativeEvent.layout.width)}>
       <Animated.View pointerEvents="none" style={[s.indicator, { width: cellWidth, transform: [{ translateX: Animated.multiply(slide, cellWidth) }] }]} />
       {routes.map((route, i) => <Pressable key={route.key} accessibilityRole="tab" accessibilityState={{ selected: index === i }} onPress={() => setIndex(i)} style={s.tab}>

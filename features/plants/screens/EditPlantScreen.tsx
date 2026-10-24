@@ -1,7 +1,8 @@
+import LoadError from '@/ui/LoadError';
+import { useEditDraft, DraftRecovery } from '@/ui/useEditDraft';
 import React from 'react';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import * as Location from 'expo-location';
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -20,6 +21,10 @@ import NotFoundView from '../components/NotFoundView';
 import { plantThemes } from '../components/plantDetailTheme';
 import { usePlant } from '../hooks/usePlant';
 import ConfirmDeleteModal from '@/features/groups/components/ConfirmDeleteModal';
+import { useDiscardGuard } from '@/ui/useDiscardGuard';
+import PlantLocationEditor from '@/features/location/PlantLocationEditor';
+import { validCoordinates } from '@/features/location/locationService';
+import { validatePlantFields } from '@/lib/plants/plantValidation';
 
 type EditPlantFormState = {
   name: string;
@@ -30,6 +35,8 @@ type EditPlantFormState = {
   environment: string;
   sunlightExposure: string;
   locationNickname: string;
+  locationLabel: string;
+  locationMode: 'custom' | 'space';
   lat: string;
   lng: string;
 };
@@ -65,6 +72,8 @@ const emptyFormState: EditPlantFormState = {
   environment: '',
   sunlightExposure: '',
   locationNickname: '',
+  locationLabel: '',
+  locationMode: 'custom',
   lat: '',
   lng: '',
 };
@@ -79,6 +88,8 @@ function buildInitialFormState(plant: Plant): EditPlantFormState {
     environment: plant.environment ?? '',
     sunlightExposure: plant.sunlightExposure ?? '',
     locationNickname: plant.locationNickname ?? '',
+    locationLabel: plant.locationLabel ?? '',
+    locationMode: plant.locationMode || 'custom',
     lat: typeof plant.location?.lat === 'number' ? String(plant.location.lat) : '',
     lng: typeof plant.location?.lng === 'number' ? String(plant.location.lng) : '',
   };
@@ -86,6 +97,7 @@ function buildInitialFormState(plant: Plant): EditPlantFormState {
 
 function buildUpdates(form: EditPlantFormState, current: Plant) {
   const updates: Partial<Plant> = {};
+  if (form.locationMode !== (current.locationMode || 'custom')) updates.locationMode = form.locationMode;
 
   const trimmedName = form.name.trim();
   if (trimmedName && trimmedName !== current.name) updates.name = trimmedName;
@@ -113,6 +125,7 @@ function buildUpdates(form: EditPlantFormState, current: Plant) {
     updates.sunlightExposure = nextSunlight as any;
   }
 
+  if ((current.locationLabel || '') !== form.locationLabel.trim()) updates.locationLabel = form.locationLabel.trim();
   const nextLocationNickname = form.locationNickname.trim() || null;
   const currentLocationNickname = current.locationNickname?.trim() || null;
   if (currentLocationNickname !== nextLocationNickname) {
@@ -140,17 +153,7 @@ function buildUpdates(form: EditPlantFormState, current: Plant) {
 }
 
 function validateForm(form: EditPlantFormState) {
-  const nextErrors: EditPlantFormErrors = {};
-  if (!form.name.trim()) nextErrors.name = 'Name is required.';
-
-  if (form.height.trim()) {
-    const nextHeight = Number(form.height);
-    if (!Number.isFinite(nextHeight)) {
-      nextErrors.height = 'Height must be a number.';
-    } else if (nextHeight < 0) {
-      nextErrors.height = 'Height cannot be negative.';
-    }
-  }
+  const nextErrors: EditPlantFormErrors = validatePlantFields({ name: form.name, height: form.height.trim() ? Number(form.height) : null });
 
   const latFilled = form.lat.trim().length > 0;
   const lngFilled = form.lng.trim().length > 0;
@@ -183,9 +186,15 @@ function errorText(error?: string) {
 export default function EditPlantScreen() {
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { plant, loading } = usePlant(id);
+  const { plant, loading, error: plantError, refresh: retryPlant } = usePlant(id);
   const t = plantThemes.grove;
   const [form, setForm] = React.useState<EditPlantFormState>(emptyFormState);
+  const initial = React.useRef<string | null>(null);
+  const hydrated = React.useRef<string | null>(null);
+  const dirty = initial.current !== null && JSON.stringify(form) !== initial.current;
+  const draft = useEditDraft(`plant.${id}.full`, form, (plant || {}) as unknown as Record<string, unknown>, dirty, !!plant && hydrated.current === id);
+  const openedPlant = React.useRef<Plant | null>(null);
+  const guard = useDiscardGuard(dirty, () => draft.clear());
   const [errors, setErrors] = React.useState<EditPlantFormErrors>({});
   const [saving, setSaving] = React.useState(false);
   const [saveError, setSaveError] = React.useState('');
@@ -197,10 +206,12 @@ export default function EditPlantScreen() {
   const [locating, setLocating] = React.useState(false);
 
   React.useEffect(() => {
-    if (!plant) return;
-    setForm(buildInitialFormState(plant));
+    if (!plant || hydrated.current === id) return;
+    hydrated.current = id; openedPlant.current = plant;
+    const next = buildInitialFormState(plant); initial.current = JSON.stringify(next);
+    setForm(next);
     setErrors({});
-  }, [plant]);
+  }, [plant, id]);
 
   const strainOptions = React.useMemo(
     () => getAvailableStrains().map((option) => ({ label: option, value: option })),
@@ -240,65 +251,26 @@ export default function EditPlantScreen() {
     router.replace('/(tabs)?tabIndex=1');
   }, [id, router]);
 
-  const handleUseCurrentLocation = React.useCallback(async () => {
-    if (locating) return;
-    try {
-      setLocating(true);
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Permission denied', 'Location access is needed to auto-fill your position.');
-        return;
-      }
-
-      const lastKnown = await Location.getLastKnownPositionAsync();
-      const coords = lastKnown?.coords
-        ? lastKnown.coords
-        : (await Location.getCurrentPositionAsync({ accuracy: Location.Accuracy.Balanced })).coords;
-
-      setForm((previous) => ({
-        ...previous,
-        lat: coords.latitude.toFixed(6),
-        lng: coords.longitude.toFixed(6),
-      }));
-      setErrors((previous) => {
-        const next = { ...previous };
-        delete next.lat;
-        delete next.lng;
-        delete next.location;
-        return next;
-      });
-    } catch (error) {
-      logger.error('Error fetching current location for plant edit', error);
-      Alert.alert('Location unavailable', 'Could not get your current location.');
-    } finally {
-      setLocating(false);
-    }
-  }, [locating]);
-
-  const handleClearLocation = React.useCallback(() => {
-    setField('lat', '');
-    setField('lng', '');
-  }, [setField]);
-
   const handleSave = React.useCallback(async () => {
-    if (!plant || !id || saving || saveLock.current) return;
+    if (!plant || !id || saving || locating || saveLock.current || !draft.ready || draft.saved) return;
     setSaveError('');
 
     const nextErrors = validateForm(form);
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) return;
 
-    const updates = buildUpdates(form, plant);
+    const updates = buildUpdates(form, openedPlant.current || plant);
     if (Object.keys(updates).length === 0) {
-      handleClose();
+      await draft.clear().catch(() => {}); guard.finish(handleClose);
       return;
     }
 
     try {
       saveLock.current = true;
       setSaving(true);
-      await updatePlant(String(id), updates);
-      handleClose();
+      await updatePlant(String(id), updates, draft.baseline.current);
+      await draft.clear().catch(() => {});
+      guard.finish(handleClose);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Failed to save changes.';
       logger.error('Error saving plant edits', error);
@@ -307,7 +279,7 @@ export default function EditPlantScreen() {
       setSaving(false);
       saveLock.current = false;
     }
-  }, [form, handleClose, id, plant, saving]);
+  }, [form, handleClose, id, plant, saving, locating, guard, draft]);
 
   const handleDelete = React.useCallback(() => {
     if (saving || deleting) return;
@@ -332,10 +304,11 @@ export default function EditPlantScreen() {
     }
   };
 
-  if (loading) return <LoadingView />;
+  if (loading) return <LoadingView onBack={handleClose} />;
+  if (!plant && plantError) return <LoadError message={plantError} onRetry={retryPlant} onBack={handleClose} />;
   if (!plant || !id) return <NotFoundView />;
 
-  const disablePrimaryActions = saving || deleting;
+  const disablePrimaryActions = saving || deleting || locating || !draft.ready || !!draft.saved;
 
   return (
     <SafeAreaView style={[styles.screen, { backgroundColor: t.background }]} edges={['top', 'left', 'right', 'bottom']}>
@@ -343,7 +316,7 @@ export default function EditPlantScreen() {
         <Pressable
           accessibilityLabel="Close edit plant"
           accessibilityRole="button"
-          onPress={handleClose}
+          onPress={() => guard.requestClose(() => { void draft.clear().catch(() => {}); handleClose(); })}
           disabled={saving || deleting}
           style={[styles.headerButton, { backgroundColor: t.surface, borderColor: t.border }]}
         >
@@ -359,6 +332,7 @@ export default function EditPlantScreen() {
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
+        <DraftRecovery draft={draft} apply={value => { setForm(value); openedPlant.current = draft.baseline.current as unknown as Plant; }} />
         <View style={[styles.hero, { backgroundColor: t.hero }]}> 
           <View style={styles.heroCopy}>
             <ThemedText style={[styles.eyebrow, { color: t.heroText }]}>PLANT PASSPORT</ThemedText>
@@ -456,76 +430,11 @@ export default function EditPlantScreen() {
             <View><ThemedText style={[styles.sectionEyebrow, { color: t.muted }]}>WEATHER & PLACE</ThemedText><ThemedText style={[styles.sectionTitle, { color: t.text }]}>Where it grows</ThemedText></View>
           </View>
           <ThemedText style={[styles.sectionHint, { color: t.muted }]}>
-            Use current location or edit coordinates manually.
+            Search for a town or choose the exact spot on the map.
           </ThemedText>
 
-          <View style={styles.locationActionRow}>
-            <Pressable
-              accessibilityLabel="Use current location"
-              accessibilityRole="button"
-              disabled={locating}
-              onPress={handleUseCurrentLocation}
-              style={({ pressed }) => [
-                styles.locationActionButton,
-                pressed && styles.buttonPressed,
-              ]}
-            >
-              {locating ? (
-                <ActivityIndicator color="#d1fae5" size="small" style={styles.actionIcon} />
-              ) : (
-                <MaterialCommunityIcons
-                  color={t.accent}
-                  name="crosshairs-gps"
-                  size={16}
-                  style={styles.actionIcon}
-                />
-              )}
-              <ThemedText style={styles.locationActionText}>
-                {locating ? 'Locating...' : 'Use My Location'}
-              </ThemedText>
-            </Pressable>
-
-            <Pressable
-              accessibilityLabel="Clear location"
-              accessibilityRole="button"
-              onPress={handleClearLocation}
-              style={({ pressed }) => [styles.clearLocationButton, pressed && styles.buttonPressed]}
-            >
-              <Feather color="#cbd5e1" name="x-circle" size={14} style={styles.actionIcon} />
-              <ThemedText style={styles.clearLocationText}>Clear Coordinates</ThemedText>
-            </Pressable>
-          </View>
-
-          <EditorField
-            label="Location Name"
-            value={form.locationNickname}
-            onChangeText={(value) => setField('locationNickname', value)}
-            autoCapitalize="words"
-            autoCorrect={false}
-          />
-
-          <View style={styles.row}>
-            <View style={styles.fieldWide}>
-              <EditorField
-                label="Latitude"
-                value={form.lat}
-                onChangeText={(value) => setField('lat', value)}
-                keyboardType="numbers-and-punctuation"
-              />
-              {errorText(errors.lat)}
-            </View>
-
-            <View style={styles.fieldWide}>
-              <EditorField
-                label="Longitude"
-                value={form.lng}
-                onChangeText={(value) => setField('lng', value)}
-                keyboardType="numbers-and-punctuation"
-              />
-              {errorText(errors.lng)}
-            </View>
-          </View>
-
+          <EditorField label="Location nickname (optional)" value={form.locationNickname} onChangeText={value => setField('locationNickname', value)} />
+          <PlantLocationEditor groupId={plant.groupId} mode={form.locationMode} onModeChange={value => setField('locationMode', value)} location={form.lat.trim() && form.lng.trim() && validCoordinates({ lat: Number(form.lat), lng: Number(form.lng) }) ? { lat: Number(form.lat), lng: Number(form.lng) } : null} label={form.locationLabel} disabled={saving || deleting} onBusyChange={setLocating} onChange={(coords, name) => { setForm(previous => ({ ...previous, lat: coords ? String(coords.lat) : '', lng: coords ? String(coords.lng) : '', locationLabel: name })); setErrors(previous => ({ ...previous, lat: undefined, lng: undefined, location: undefined })); }} />
           {errorText(errors.location)}
         </View>
 
@@ -563,7 +472,7 @@ export default function EditPlantScreen() {
               accessibilityLabel="Cancel editing plant"
               accessibilityRole="button"
               disabled={disablePrimaryActions}
-              onPress={handleClose}
+              onPress={() => guard.requestClose(() => { void draft.clear().catch(() => {}); handleClose(); })}
               style={({ pressed }) => [
                 styles.secondaryButton,
                 { backgroundColor: t.surface, borderColor: t.border },
@@ -602,6 +511,7 @@ export default function EditPlantScreen() {
           </View>
         </View>
       </ScrollView>
+      {guard.dialog}
       <ConfirmDeleteModal visible={deleteVisible} title="Delete this plant?" subtitle="This permanently deletes the plant and its history. This cannot be undone."
         loading={deleting} error={deleteError} onCancel={() => setDeleteVisible(false)} onConfirm={confirmDelete} />
     </SafeAreaView>

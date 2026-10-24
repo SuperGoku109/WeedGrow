@@ -1,4 +1,5 @@
-import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
+import { plantDay, zonedTime, addDays } from '@/lib/dates/plantDay';
+import { collection, doc, getDoc, getDocs, query, Timestamp, where } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 
 export const DEFAULT_HISTORY_DAYS = 5;
@@ -16,11 +17,11 @@ export async function fetchWateringHistory(
   plantId: string,
   days = DEFAULT_HISTORY_DAYS,
 ): Promise<WateringHistoryEntry[]> {
-  const end = new Date();
-  end.setHours(23, 59, 59, 999);
-  const start = new Date(end);
-  start.setDate(end.getDate() - (days - 1));
-  start.setHours(0, 0, 0, 0);
+  const plant = await getDoc(doc(db, 'plants', plantId));
+  const zone = plant.data()?.locationTimeZone;
+  const today = plantDay(new Date(), zone);
+  const start = zonedTime(addDays(today, -(days + 1)), '00:00', zone);
+  const end = zonedTime(addDays(today, 3), '00:00', zone);
 
   const q = query(
     collection(db, 'plants', plantId, 'logs'),
@@ -31,14 +32,12 @@ export async function fetchWateringHistory(
 
   const snap = await getDocs(q);
   const wateredDates = new Set(
-    snap.docs.map((d) => d.data().timestamp.toDate().toISOString().split('T')[0])
+    snap.docs.map((d) => d.data().calendarDay || plantDay(d.data().timestamp.toDate(), d.data().timeZone || zone))
   );
 
   const history: WateringHistoryEntry[] = [];
   for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(end);
-    d.setDate(end.getDate() - i);
-    const iso = d.toISOString().split('T')[0];
+    const iso = addDays(today, -i);
     history.push({ date: iso, watered: wateredDates.has(iso) });
   }
   return history;

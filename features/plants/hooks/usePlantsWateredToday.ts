@@ -1,97 +1,19 @@
-import { useCallback, useEffect, useState } from 'react';
-import { collection, getDocs, query, Timestamp, where } from 'firebase/firestore';
-import { db } from '@/services/firebase';
-import logger from '@/lib/logger';
-
-type WateredMap = Record<string, boolean>;
-
-async function fetchWateredTodayMap(plantIds: string[]): Promise<WateredMap> {
-  if (!plantIds.length) return {};
-
-  const start = new Date();
-  start.setHours(0, 0, 0, 0);
-  const end = new Date();
-  end.setHours(23, 59, 59, 999);
-
-  const startTs = Timestamp.fromDate(start);
-  const endTs = Timestamp.fromDate(end);
-
-  const statuses = await Promise.all(
-    plantIds.map(async (plantId) => {
-      try {
-        const logsRef = collection(db, 'plants', plantId, 'logs');
-        const q = query(
-          logsRef,
-          where('type', '==', 'watering'),
-          where('timestamp', '>=', startTs),
-          where('timestamp', '<=', endTs),
-        );
-        const snap = await getDocs(q);
-        return { plantId, watered: !snap.empty };
-      } catch (error) {
-        logger.error('Failed to fetch watered status', { plantId, error });
-        return { plantId, watered: false };
-      }
-    }),
-  );
-
-  return statuses.reduce<WateredMap>((acc, { plantId, watered }) => {
-    acc[plantId] = watered;
-    return acc;
-  }, {});
-}
-
-export function usePlantsWateredToday(plantIds: string[]) {
-  const [wateredMap, setWateredMap] = useState<WateredMap>({});
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const refresh = useCallback(async () => {
-    if (!plantIds.length) {
-      setWateredMap({});
-      setLoading(false);
-      setError(null);
-      return;
+import { useMemo } from 'react';
+import type { Plant } from '@/firestoreModels';
+import { plantDay } from '@/lib/dates/plantDay';
+import { usePlantActivity } from '@/features/care/usePlantActivity';
+import { useMinuteClock } from '@/hooks/useMinuteClock';
+export function usePlantsWateredToday(plantIds: string[], plants: readonly (Pick<Plant, 'locationTimeZone'> & { id: string })[] = [], enabled = true) {
+  const activity = usePlantActivity(enabled ? plantIds : [], ['watering']); const now = useMinuteClock();
+  const idsKey = JSON.stringify([...new Set(plantIds)].sort());
+  const zonesKey = JSON.stringify(Object.fromEntries(plants.map(plant => [plant.id, plant.locationTimeZone || null])));
+  const wateredMap = useMemo(() => {
+    const zones = JSON.parse(zonesKey); const result: Record<string, boolean> = {};
+    for (const id of JSON.parse(idsKey)) {
+      const log = activity.logs[`${id}:watering`]?.[0]; const date = log?.timestamp?.toDate?.();
+      result[id] = !!date && (log.calendarDay || plantDay(date, log.timeZone || zones[id])) === plantDay(now, zones[id]);
     }
-    setLoading(true);
-    try {
-      const map = await fetchWateredTodayMap(plantIds);
-      setWateredMap(map);
-      setError(null);
-    } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to load watering status';
-      setError(message);
-    } finally {
-      setLoading(false);
-    }
-  }, [plantIds]);
-
-  useEffect(() => {
-    refresh();
-  }, [refresh]);
-
-  const markWatered = useCallback((plantId: string) => {
-    setWateredMap(prev => ({ ...prev, [plantId]: true }));
-  }, []);
-
-  const markManyWatered = useCallback((ids: string[]) => {
-    if (!ids.length) return;
-    setWateredMap(prev => {
-      const next = { ...prev };
-      ids.forEach(id => {
-        next[id] = true;
-      });
-      return next;
-    });
-  }, []);
-
-  return {
-    wateredMap,
-    loading,
-    error,
-    refresh,
-    markWatered,
-    markManyWatered,
-    setWateredMap,
-  };
+    return result;
+  }, [idsKey, zonesKey, activity.logs, now]);
+  return { wateredMap, loading: activity.loading, error: activity.error || null, refresh: activity.refresh };
 }

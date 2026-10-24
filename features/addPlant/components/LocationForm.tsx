@@ -3,13 +3,13 @@
 // It allows the user to set the plant's physical location using a map and nickname, and optionally use device geolocation.
 
 import React, { memo, useCallback } from 'react'
-import { Platform, ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import { Button } from 'react-native-paper'
 import { ThemedText } from '@/ui/ThemedText'
 import { WeedGrowCard } from '@/ui/WeedGrowCard'
 import { WeedGrowFormSection } from '@/ui/WeedGrowFormSection'
 import { WeedGrowButtonRow } from '@/ui/WeedGrowButtonRow'
-import { MapPicker } from '@/ui/MapPicker'
+import LocationPicker from '@/features/location/LocationPicker'
 import { AnimatedMakikoInput } from '@/components/ui/AnimatedMakikoInput'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { WeedGrowCardBackground } from '@/components/ui/WeedGrowCardBackground'
@@ -28,11 +28,7 @@ interface LocationFormProps {
 // Main form component for entering plant location
 export const LocationForm = memo(function LocationForm({ form, logic, next, back }: LocationFormProps) {
   const handleLocationNicknameChange = useCallback((val: string) => logic.setField('locationNickname', val), [logic])
-  const handleMapLocationChange = useCallback((coords: any) => logic.setField('location', coords), [logic])
-  const mapHint =
-    Platform.OS === 'web'
-      ? 'Use My Location or enter coordinates manually for the web preview'
-      : 'Use the map or coordinates to adjust your plant location'
+
 
   return (
     <WeedGrowCard style={styles.card}>
@@ -74,13 +70,7 @@ export const LocationForm = memo(function LocationForm({ form, logic, next, back
 
           {/* Section: Map picker for selecting location */}
           <WeedGrowFormSection label="Map">
-            <MapPicker
-              location={form.location ?? undefined}
-              onLocationChange={handleMapLocationChange}
-            />
-            <ThemedText style={styles.mapHint}>
-              {mapHint}
-            </ThemedText>
+            <LocationPicker location={form.location} label={form.locationLabel} onChange={(coords, name) => { logic.setField('location', coords); logic.setField('locationLabel', name); }} />
           </WeedGrowFormSection>
 
           {/* Navigation buttons: Back and Next */}

@@ -16,10 +16,11 @@ export interface PlantCardProps {
   onAddLog?: (type?: string) => void;
   wateredToday?: boolean;
   waterLoading?: boolean;
+  waterDisabled?: boolean;
   onPress?: () => void;
 }
 
-export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading = false, onPress }: PlantCardProps) {
+export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading = false, waterDisabled = false, onPress }: PlantCardProps) {
   const router = useRouter();
 
   const env = (plant as any).environment ?? 'indoor';
@@ -29,7 +30,7 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
 
   const handleWater = async (e: any) => {
     e.stopPropagation();
-    if (isWatered || waterLoading) return;
+    if (isWatered || waterLoading || waterDisabled) return;
     if (typeof onAddLog === 'function') {
       await onAddLog('watering');
     }
@@ -37,7 +38,7 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
 
   return (
     <TouchableOpacity
-      onPress={onPress ?? (() => router.push({ pathname: '/plant/[id]', params: { id: plant.id } }))}
+      onPress={onPress ?? (() => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } }))}
     >
       <GrowReveal delay={100}>
         <ThemedView style={[styles.card, { flexDirection: 'row', alignItems: 'stretch', minHeight: 90 }]}>
@@ -75,8 +76,8 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
               containerColor={isWatered ? 'rgba(148,163,184,0.25)' : '#3e6357'}
               style={styles.waterButtonCompact}
               onPress={handleWater}
-              accessibilityLabel="Log watering"
-              disabled={isWatered || waterLoading}
+              accessibilityLabel={waterDisabled ? "Checking watering history" : isWatered ? "Watering recorded today" : "Log watering"}
+              disabled={isWatered || waterLoading || waterDisabled}
             />
           </View>
         </ThemedView>

@@ -1,13 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
+import { useSession } from '@/services/session';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 export function AppHeader() {
+  const router = useRouter();
+  const { user } = useSession();
   return <View style={s.row}>
     <View style={s.logo}><MaterialCommunityIcons name="sprout" size={22} color="#c8e78b" /></View>
     <Text style={s.name}>weedgrow<Text style={{ color: '#c8e78b' }}>.</Text></Text>
     <View style={{ flex: 1 }} />
     <Text style={s.date}>{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).toUpperCase()}</Text>
-    <View style={s.badge}><MaterialCommunityIcons name="white-balance-sunny" size={17} color="#c8e78b" /></View>
+    <Pressable accessibilityRole="button" accessibilityLabel={user ? 'Manage garden account' : 'Sign in to your garden'} onPress={() => router.push('/account')} style={[s.badge, { width: 44, height: 44 }]}><MaterialCommunityIcons name={user ? 'account-check-outline' : 'account-outline'} size={22} color="#c8e78b" /></Pressable>
   </View>;
 }
 const s = StyleSheet.create({

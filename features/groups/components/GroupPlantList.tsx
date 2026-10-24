@@ -37,6 +37,7 @@ interface GroupPlantListProps {
   onMoveUp?: (plantId: string) => void;
   onMoveDown?: (plantId: string) => void;
   wateredMap?: Record<string, boolean>;
+  careUnavailable?: boolean;
   waterLoadingMap?: Record<string, boolean>;
 }
 
@@ -108,7 +109,7 @@ const GroupPlantList = memo(function GroupPlantList({
   onMoveUp,
   onMoveDown,
   wateredMap = {},
-  waterLoadingMap = {},
+  waterLoadingMap = {}, careUnavailable = false,
   groupId,
   searchActive,
   onClearSearch,
@@ -164,7 +165,7 @@ const GroupPlantList = memo(function GroupPlantList({
                 onQuickWater={onQuickWater ? () => onQuickWater(item.id) : undefined}
                 onQuickFeed={onQuickFeed ? () => onQuickFeed(item.id) : undefined}
                 onQuickNote={onQuickNote ? () => onQuickNote(item.id) : undefined}
-                waterDisabled={!!waterLoadingMap[item.id] || !!wateredMap[item.id]}
+                waterDisabled={careUnavailable || !!waterLoadingMap[item.id] || !!wateredMap[item.id]}
               />
             )}
             renderLeftActions={onMoveUp || onMoveDown ? () => (
@@ -181,7 +182,7 @@ const GroupPlantList = memo(function GroupPlantList({
               onPress={() => navigateToPlantDetail(item.id)}
               onAddLog={onQuickWater ? () => onQuickWater(item.id) : undefined}
               wateredToday={!!wateredMap[item.id]}
-              waterLoading={!!waterLoadingMap[item.id]}
+              waterLoading={!!waterLoadingMap[item.id]} waterDisabled={careUnavailable}
             />
           </Swipeable>
         ) : (
@@ -189,7 +190,7 @@ const GroupPlantList = memo(function GroupPlantList({
             plant={item}
             onPress={() => navigateToPlantDetail(item.id)}
             wateredToday={!!wateredMap[item.id]}
-            waterLoading={!!waterLoadingMap[item.id]}
+            waterLoading={!!waterLoadingMap[item.id]} waterDisabled={careUnavailable}
           />
         )
       )}

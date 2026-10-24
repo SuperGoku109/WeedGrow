@@ -4,6 +4,25 @@ import type { PlantForm } from '@/features/plants/form/PlantForm';
 const form: PlantForm = { name: 'Fern', strain: '', growthStage: 'seedling', ageDays: '', environment: 'outdoor', plantedIn: 'pot' };
 
 describe('plant creation validation', () => {
+  it('only follows a growing space when one is actually selected', () => {
+    expect(normalizePlantForm({ ...form, locationMode: 'space', groupId: '  ' }).locationMode).toBe('custom');
+    expect(normalizePlantForm({ ...form, locationMode: 'space', groupId: 'home' }).locationMode).toBe('space');
+    expect(normalizePlantForm({ ...form, locationMode: 'custom', groupId: 'home' }).locationMode).toBe('custom');
+  });
+  it('requires an explicit stage and supports unknown age', () => {
+    expect(validatePlantForm({ ...form, growthStage: '', ageMode: 'unknown' }).growthStage).toBeTruthy();
+    expect(normalizePlantForm({ ...form, ageMode: 'unknown', ageDays: '42', startedOn: '2026-09-01' })).toMatchObject({ ageDays: '', startedOn: '', ageEstimated: false });
+  });
+  it('keeps known dates and approximate ages distinct using calendar days', () => {
+    expect(normalizePlantForm({ ...form, ageMode: 'date', startedOn: '2026-10-01' }, '2026-10-17')).toMatchObject({ ageDays: '16', startedOn: '2026-10-01', ageEstimated: false });
+    expect(normalizePlantForm({ ...form, ageMode: 'estimate', ageDays: '16' }, '2026-10-17')).toMatchObject({ startedOn: '2026-10-01', ageEstimated: true });
+    expect(validatePlantForm({ ...form, ageMode: 'date', startedOn: '2026-02-30' }, '2026-10-17').startedOn).toBeTruthy();
+  });
+  it('rejects future care and care before a known start date', () => {
+    expect(validatePlantForm({ ...form, lastWateredOn: '2026-10-18' }, '2026-10-17').lastWateredOn).toBeTruthy();
+    expect(validatePlantForm({ ...form, ageMode: 'date', startedOn: '2026-10-01', lastFedOn: '2026-09-30' }, '2026-10-17').lastFedOn).toBeTruthy();
+    expect(validatePlantForm({ ...form, latitudeInput: 'abc', longitudeInput: '18' }).location).toBeTruthy();
+  });
   it('allows a minimal plant without age, photo, or location', () => {
     expect(validatePlantForm(form)).toEqual({});
   });

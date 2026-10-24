@@ -8,6 +8,19 @@ export interface Location {
 export interface PlantForm {
   name: string;
   strain: string;
+  strainType?: string;
+  ageMode?: 'unknown' | 'estimate' | 'date';
+  startedOn?: string;
+  ageEstimated?: boolean;
+  groupId?: string;
+  groupName?: string;
+  locationLabel?: string;
+  locationMode?: 'custom' | 'space';
+  latitudeInput?: string;
+  longitudeInput?: string;
+  lastWateredOn?: string;
+  lastFedOn?: string;
+  feedingFrequency?: string;
   growthStage: string;
   ageDays: string;
   environment: string;

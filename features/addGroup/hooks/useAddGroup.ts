@@ -1,10 +1,11 @@
+import { requireUserId } from '@/services/session';
 import { useRef, useState } from 'react';
 import { useRouter } from 'expo-router';
 import { usePlants } from '@/features/addGroup/hooks/usePlants';
 import { createGroup } from '@/features/groups/api/groupApi'; // <-- Use the correct API
 
 // Use the same user ID as the home screen
-const CURRENT_USER_ID = 'demoUser';
+
 
 export function useAddGroup() {
   const router = useRouter();
@@ -42,7 +43,7 @@ export function useAddGroup() {
         plantIds: selectedPlantIds,
         environment,
         location: null, // or use groupLocationPlantId if you have location logic
-        createdBy: CURRENT_USER_ID,
+        createdBy: requireUserId(),
       });
       router.replace({ pathname: '/group/[id]', params: { id } });
     } catch {

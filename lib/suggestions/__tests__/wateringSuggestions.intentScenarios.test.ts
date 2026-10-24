@@ -643,7 +643,7 @@ describe('watering suggestions - real-world intent scenario matrix', () => {
     jest.clearAllMocks();
     fetchWeatherMock.mockResolvedValue({} as any);
     parseWeatherDataMock.mockReturnValue({});
-    updateWeatherCacheMock.mockResolvedValue(undefined);
+    updateWeatherCacheMock.mockImplementation(async (_id, parsed) => parsed);
   });
 
   afterEach(() => {

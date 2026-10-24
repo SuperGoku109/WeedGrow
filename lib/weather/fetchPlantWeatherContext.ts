@@ -1,3 +1,5 @@
+import { plantDay, addDays } from '@/lib/dates/plantDay';
+import { weatherMatchesLocation } from '@/features/location/locationState';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import type { PlantAdviceContext } from './getPlantAdvice';
@@ -10,12 +12,12 @@ import type { WeatherCacheEntry } from '@/firestoreModels';
 export async function fetchPlantWeatherContext(
   plantId: string
 ): Promise<PlantAdviceContext> {
+  const plant = (await getDoc(doc(db, 'plants', plantId))).data();
+  const todayKey = plantDay(new Date(), plant?.locationTimeZone);
   const dates: string[] = [];
   // Build an array of date strings for yesterday, today and tomorrow
   for (let offset = -1; offset <= 1; offset++) {
-    const d = new Date();
-    d.setDate(d.getDate() + offset);
-    dates.push(d.toISOString().split('T')[0]);
+    dates.push(addDays(todayKey, offset));
   }
 
   // Fetch the three documents in parallel from the weatherCache subcollection
@@ -29,7 +31,7 @@ export async function fetchPlantWeatherContext(
 
   const [yesterday, today, tomorrow] = docs;
 
-  if (!today) throw new Error('No weather data found for today');
+  if (!today || !plant?.location || !weatherMatchesLocation(today, plant as never)) throw new Error('No weather data found for today');
   if (
     today.rainfall === undefined ||
     today.humidity === undefined ||

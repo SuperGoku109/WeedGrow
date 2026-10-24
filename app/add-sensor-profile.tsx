@@ -1,3 +1,4 @@
+import { requireUserId } from '@/services/session';
 import React, { useState } from 'react';
 import { StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -15,23 +16,27 @@ export default function AddSensorProfileScreen() {
   const [defaultTemp, setDefaultTemp] = useState('');
   const [defaultHumidity, setDefaultHumidity] = useState('');
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
   const theme = (useColorScheme() ?? 'dark') as keyof typeof Colors;
   const router = useRouter();
 
   const handleSave = async () => {
-    setSaving(true);
+    if (saving) return;
+    if (!name.trim()) { setError('Enter a profile name.'); return; }
+    setSaving(true); setError('');
     try {
       await addDoc(collection(db, 'sensorProfiles'), {
         name: name.trim(),
+        createdBy: requireUserId(),
         environmentType,
         isManual: entryType === 'manual',
-        defaultTemp: entryType === 'manual' && defaultTemp ? Number(defaultTemp) : undefined,
-        defaultHumidity: entryType === 'manual' && defaultHumidity ? Number(defaultHumidity) : undefined,
+        defaultTemp: entryType === 'manual' && defaultTemp ? Number(defaultTemp) : null,
+        defaultHumidity: entryType === 'manual' && defaultHumidity ? Number(defaultHumidity) : null,
         createdAt: new Date(),
       });
       router.replace('/manage-sensor-profiles');
-    } catch {
-      // handle error
+    } catch (error) {
+      setError(error instanceof Error ? error.message : 'The profile could not be saved.');
     } finally {
       setSaving(false);
     }
@@ -42,6 +47,7 @@ export default function AddSensorProfileScreen() {
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.heading}>Add Sensor Profile</Text>
+          {!!error && <Text accessibilityRole="alert" style={{ color: '#ffb8a8' }}>{error}</Text>}
           <TextInput
             label="Profile Name"
             value={name}

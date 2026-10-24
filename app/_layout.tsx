@@ -1,3 +1,5 @@
+import NotificationNavigation from '@/features/care/NotificationNavigation';
+import ReminderCoordinator from '@/features/care/ReminderCoordinator';
 import { Slot } from 'expo-router';
 import { PaperProvider, MD3DarkTheme } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -29,6 +31,8 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <PaperProvider theme={theme}>
+            <NotificationNavigation />
+            <ReminderCoordinator />
             <Slot />
             <StatusBar style="light" />
         </PaperProvider>

@@ -39,3 +39,11 @@ yarn-error.*
 
 app-example
 serviceAccountKey.json
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Local preview and QA artifacts
+.codex-qa-web*.log
+
+.codex-functional-*.jpg

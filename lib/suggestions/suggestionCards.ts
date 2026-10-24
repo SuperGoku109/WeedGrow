@@ -57,15 +57,19 @@ export function buildSuggestionCardsFromInsight(
   const cards = ALGORITHMS
     .map((algorithm) => algorithm(context))
     .filter((card) => card.active);
-
-  return sortCards(cards);
+  const fetched = insight.weatherFetchedAtMs;
+  const stale = typeof fetched !== 'number' || !Number.isFinite(fetched) || now.getTime() - fetched > 6 * 3600000 || fetched > now.getTime() + 60000;
+  return sortCards(stale ? cards.map(card => ({ ...card, confidence: 'low' as const, severity: 'watch' as const,
+    title: card.kind === 'watering' ? 'Check soil moisture' : card.title,
+    summary: 'Current weather could not be confirmed. Check conditions before acting. ' + card.summary })) : cards);
 }
 
 export async function evaluateSuggestionCardsForPlants(
   plants: PlantSummary[],
   options?: SuggestionEvalOptions,
+  signal?: AbortSignal,
 ): Promise<PlantSuggestionResult[]> {
-  const insights = await evaluateWateringInsights(plants, options);
+  const insights = await evaluateWateringInsights(plants, options, signal);
   return insights.map((insight) => ({
     plantId: insight.plantId,
     plantName: insight.plantName,
@@ -77,8 +81,9 @@ export async function evaluateSuggestionCardsForPlants(
 export async function evaluateSuggestionCardsForPlant(
   plant: PlantSummary,
   options?: SuggestionEvalOptions,
+  signal?: AbortSignal,
 ): Promise<PlantSuggestionResult | null> {
-  const [result] = await evaluateSuggestionCardsForPlants([plant], options);
+  const [result] = await evaluateSuggestionCardsForPlants([plant], options, signal);
   return result ?? null;
 }
 

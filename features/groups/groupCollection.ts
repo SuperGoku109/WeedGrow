@@ -31,6 +31,8 @@ export function groupEditValues(group: CollectionGroup) {
   const plantIds = [...new Set(group.plantIds)];
   return {
     name,
+    location: group.location || null,
+    locationLabel: group.locationLabel || '',
     plantIds,
     // Empty string clears a removed source without sending undefined to Firestore.
     weatherSourcePlantId: group.weatherSourcePlantId && plantIds.includes(group.weatherSourcePlantId) ? group.weatherSourcePlantId : '',

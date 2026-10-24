@@ -119,7 +119,7 @@ export default function AddGroupScreen() {
             onChangeText={setGroupName}
           />
         )}
-        <Text style={{ color: ink.muted, fontSize: 13, lineHeight: 21 }}>Choose the plants that belong together. Members share the same environment and can belong to more than one group.</Text>
+        <Text style={{ color: ink.muted, fontSize: 13, lineHeight: 21 }}>Choose the plants that belong together. Members share the same environment. Adding a plant moves it from its previous growing space.</Text>
         <Text style={{ color: ink.lime, fontSize: 13 }}>{selectedPlantIds.length} selected</Text>
         {!!(saveError || submitError) && <Text accessibilityRole="alert" style={{ color: '#f0b5a0', lineHeight: 20 }}>{saveError || submitError}</Text>}
 

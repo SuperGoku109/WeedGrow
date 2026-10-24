@@ -70,7 +70,7 @@ export function useLogHistoryCalendar(plantId?: string) {
     await addPlantLog(String(plantId), {
       type: logTypeMap[selectedLogType],
       description,
-      updatedBy: 'demoUser',
+      updatedBy: '',
     }, pendingLogDate);
 
     await fetchLogs();

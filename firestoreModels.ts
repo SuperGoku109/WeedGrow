@@ -6,6 +6,20 @@
 export interface Plant {
     name: string;
     strain: string;
+    strainType?: string;
+    startedOn?: string | null;
+    ageEstimated?: boolean;
+    ageRecordedAt?: FirebaseFirestore.Timestamp;
+    groupId?: string | null;
+    locationLabel?: string | null;
+    locationMode?: 'custom' | 'space';
+    locationRevision?: number;
+    locationChangedAt?: FirebaseFirestore.Timestamp;
+    currentWeather?: WeatherCacheEntry | null;
+    weatherHistoryBefore?: string;
+    locationTimeZone?: string | null;
+    careSnoozes?: { watering?: number; feeding?: number };
+    careSkips?: { watering?: string; feeding?: string };
     owners: string[];
     growthStage: 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone';
     ageDays?: number;
@@ -55,6 +69,16 @@ export interface Plant {
   // 📁 Subcollection: /plants/{plantId}/logs/{logId}
   // ================================
   export interface PlantLog {
+    calendarDay?: string;
+    timeZone?: string;
+    movement?: { from: { lat: number; lng: number } | null; to: { lat: number; lng: number } | null; fromLabel: string; toLabel: string; revision: number };
+    mutationId?: string;
+    editedAt?: FirebaseFirestore.Timestamp;
+    waterMl?: number;
+    nutrientMlPerL?: number;
+    ph?: number;
+    heightCm?: number;
+    soilMoisture?: number;
     category?: 'watering' | 'feeding' | 'pests' | 'training' | 'health' | 'notes';
     timestamp: FirebaseFirestore.Timestamp;
     type: 'watering' | 'fertilizing' | 'note' | 'photo' | 'training' | 'stage_change' | 'harvest';
@@ -69,13 +93,18 @@ export interface Plant {
   // 📁 Subcollection: /plants/{plantId}/weatherCache/{YYYY-MM-DD}
   // ================================
 export interface WeatherCacheEntry {
+    timeZone?: string;
+    sourceCoordinates?: { lat: number; lng: number };
+    locationRevision?: number;
+    locationLabel?: string;
+    previousLocations?: Omit<WeatherCacheEntry, 'previousLocations'>[];
     date: string; // 'YYYY-MM-DD'
     fetchedAt: FirebaseFirestore.Timestamp;
     forecasted: boolean;
     source: string;
     temperature: number;
     humidity: number;
-    windSpeed: number;
+    windSpeed: number; // Provider metres/second; convert only at presentation.
     rainfall: number;
     uvIndex: number;
     weatherSummary: string;
@@ -85,7 +114,7 @@ export interface WeatherCacheEntry {
     };
     dewPoint?: number;
     cloudCoverage?: number;
-    windGust?: number;
+    windGust?: number; // Provider metres/second.
     sunrise?: string;
     sunset?: string;
     pop?: number;
@@ -158,6 +187,7 @@ export interface Invite {
 // 📁 Top-level: /groups/{groupId}
 // ================================
 export interface Group {
+  locationLabel?: string;
   name: string;
   environment: 'outdoor' | 'indoor' | 'greenhouse';
   plantIds: string[];

@@ -7,6 +7,7 @@ import type { Plant, WeatherCacheEntry } from '@/firestoreModels';
 import type { SuggestionCard } from '@/lib/suggestions/suggestionCards';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 import type { PlantTheme } from './plantDetailTheme';
+import { plantAgeLabel } from '@/lib/plants/plantAge';
 
 export const detailStyles = StyleSheet.create({
   section: { marginTop: 22, marginBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
@@ -74,24 +75,25 @@ export function InsightPanel({ card, theme, onLog }: { card: SuggestionCard; the
 
 type DetailField = [string, string | number | null | undefined];
 function hasValue(value: DetailField[1]) { return value !== undefined && value !== null && String(value).trim() !== ''; }
-function DetailGroup({ title, fields, theme, initialOpen = false }: { title: string; fields: DetailField[]; theme: PlantTheme; initialOpen?: boolean }) {
+function DetailGroup({ title, fields, theme, initialOpen = false, onEdit }: { title: string; fields: DetailField[]; theme: PlantTheme; initialOpen?: boolean; onEdit?: () => void }) {
   const [expanded, setExpanded] = React.useState(initialOpen);
   const [showMissing, setShowMissing] = React.useState(false);
   const populated = fields.filter(([, value]) => hasValue(value));
   const missing = fields.filter(([, value]) => !hasValue(value));
   return <View style={[detailStyles.card, { backgroundColor: theme.surface, borderColor: theme.border, marginBottom: 12 }]}>
+    {onEdit && <GrowPress accessibilityRole="button" accessibilityLabel={`Edit ${title}`} onPress={onEdit} style={{ alignSelf: 'flex-end', minHeight: 44, paddingHorizontal: 12, justifyContent: 'center' }}><Text style={{ color: theme.accent }}>Edit</Text></GrowPress>}
     <GrowPress accessibilityRole="button" accessibilityLabel={title + ' details'} accessibilityState={{ expanded }} onPress={() => setExpanded(!expanded)} style={{ minHeight: 48, flexDirection: 'row', alignItems: 'center', gap: 12 }}><View style={{ flex: 1 }}><Text style={{ color: theme.text, fontSize: 16, fontWeight: '700' }}>{title}</Text>{!expanded && <Text numberOfLines={2} style={{ color: theme.muted, fontSize: 13, lineHeight: 20, marginTop: 4 }}>{populated.length ? populated.slice(0, 3).map(([key, value]) => key + ': ' + value).join(' · ') : 'No details added'}</Text>}</View><MaterialCommunityIcons name={expanded ? 'chevron-up' : 'chevron-down'} size={22} color={theme.muted} /></GrowPress>
     {expanded && <View style={{ marginTop: 8 }}>{populated.map(([key, value]) => <View key={key} style={{ paddingVertical: 12, borderTopWidth: 1, borderColor: theme.border, flexDirection: 'row', gap: 16 }}><Text style={{ color: theme.muted, fontSize: 14, width: '40%' }}>{key}</Text><Text selectable style={{ color: theme.text, fontSize: 14, flex: 1 }}>{value}</Text></View>)}
       {!!missing.length && <><GrowPress accessibilityRole="button" accessibilityState={{ expanded: showMissing }} onPress={() => setShowMissing(!showMissing)} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: theme.accent, fontSize: 14 }}>{showMissing ? 'Hide' : 'Show'} {missing.length} optional {missing.length === 1 ? 'field' : 'fields'}</Text></GrowPress>{showMissing && <Text style={{ color: theme.muted, fontSize: 14, lineHeight: 22 }}>{missing.map(([key]) => key).join(' · ')}. Use Edit to add these details.</Text>}</>}
     </View>}
   </View>;
 }
-export function PlantDetails({ plant, theme, onEdit }: { plant: Plant; theme: PlantTheme; onEdit: () => void }) {
-  const fields = [ ['Growth stage', plant.growthStage], ['Status', plant.status], ['Added', plant.createdAt?.toDate?.().toLocaleDateString('en-GB')], ['Last updated', plant.updatedAt?.toDate?.().toLocaleDateString('en-GB')], ['Strain', plant.strain], ['Age', plant.ageKnown === false ? 'Unknown' : plant.ageDays != null ? `${plant.ageDays} days` : undefined], ['Height', plant.height != null ? `${plant.height} cm` : undefined], ['Environment', plant.environment], ['Planted in', plant.plantedIn], ['Pot size', plant.potSize], ['Sunlight', plant.sunlightExposure], ['Soil type', ({ native: 'Native soil', raised: 'Raised bed soil', store: 'Potting soil', custom: 'Custom mix' } as Record<string, string>)[plant.soilType || ''] || plant.soilType], ['Soil pH', plant.soilPh], ['Protection', plant.permanentProtection?.replace(/_/g, ' ')], ['Companion plants', plant.companionPlants?.join(', ')], ['Setup notes', plant.environmentNotes], ['Watering schedule', plant.wateringFrequency], ['Fertilizer', plant.fertilizer], ['Location', plant.locationNickname], ['Coordinates', plant.location ? `${plant.location.lat.toFixed(4)}, ${plant.location.lng.toFixed(4)}` : undefined], ['Sensor profile', plant.sensorProfileId], ['Reminder', plant.reminderSchedule ? `${plant.reminderSchedule.type}${plant.reminderSchedule.intervalDays ? ` · every ${plant.reminderSchedule.intervalDays} days` : ''}${plant.reminderSchedule.customDays?.length ? ` · ${plant.reminderSchedule.customDays.join(', ')}` : ''}${plant.reminderSchedule.timeOfDay ? ` · ${plant.reminderSchedule.timeOfDay}` : ''}` : undefined] ];
+export function PlantDetails({ plant, theme, onEdit, onEditSection }: { plant: Plant; theme: PlantTheme; onEdit: () => void; onEditSection?: (section: string) => void }) {
+  const fields = [ ['Growth stage', plant.growthStage], ['Status', plant.status], ['Added', plant.createdAt?.toDate?.().toLocaleDateString('en-GB')], ['Last updated', plant.updatedAt?.toDate?.().toLocaleDateString('en-GB')], ['Strain', plant.strain], ['Age', plantAgeLabel(plant)], ['Started growing', plant.startedOn], ['Strain type', plant.strainType], ['Feeding routine', plant.feedingFrequency], ['Height', plant.height != null ? `${plant.height} cm` : undefined], ['Environment', plant.environment], ['Planted in', plant.plantedIn], ['Pot size', plant.potSize], ['Sunlight', plant.sunlightExposure], ['Soil type', ({ native: 'Native soil', raised: 'Raised bed soil', store: 'Potting soil', custom: 'Custom mix' } as Record<string, string>)[plant.soilType || ''] || plant.soilType], ['Soil pH', plant.soilPh], ['Protection', plant.permanentProtection?.replace(/_/g, ' ')], ['Companion plants', plant.companionPlants?.join(', ')], ['Setup notes', plant.environmentNotes], ['Watering schedule', plant.wateringFrequency], ['Fertilizer', plant.fertilizer], ['Location', plant.locationNickname], ['Coordinates', plant.location ? `${plant.location.lat.toFixed(4)}, ${plant.location.lng.toFixed(4)}` : undefined], ['Sensor profile', plant.sensorProfileId], ['Reminder', plant.reminderSchedule ? `${plant.reminderSchedule.type}${plant.reminderSchedule.intervalDays ? ` · every ${plant.reminderSchedule.intervalDays} days` : ''}${plant.reminderSchedule.customDays?.length ? ` · ${plant.reminderSchedule.customDays.join(', ')}` : ''}${plant.reminderSchedule.timeOfDay ? ` · ${plant.reminderSchedule.timeOfDay}` : ''}` : undefined] ];
   const groups = [
-    { title: 'Basics', keys: ['Growth stage', 'Status', 'Strain', 'Age', 'Height'] },
+    { title: 'Basics', keys: ['Growth stage', 'Status', 'Strain', 'Strain type', 'Age', 'Started growing', 'Height'] },
     { title: 'Growing setup', keys: ['Environment', 'Planted in', 'Pot size', 'Sunlight', 'Soil type', 'Soil pH', 'Protection', 'Companion plants'] },
-    { title: 'Care plan', keys: ['Watering schedule', 'Fertilizer', 'Reminder'] },
+    { title: 'Care plan', keys: ['Watering schedule', 'Feeding routine', 'Fertilizer', 'Reminder'] },
     { title: 'Location and weather', keys: ['Location', 'Coordinates', 'Sensor profile'] },
     { title: 'Notes and history', keys: ['Notes', 'Setup notes', 'Training', 'Pests', 'Added', 'Last updated'] },
   ];
@@ -99,6 +101,6 @@ export function PlantDetails({ plant, theme, onEdit }: { plant: Plant; theme: Pl
   const missing = allFields.filter(([, value]) => !hasValue(value)).length;
   return <GrowReveal><SectionTitle theme={theme} title="Plant details" /><Text style={[detailStyles.body, { color: theme.muted, marginBottom: 16 }]}>Your plant’s setup and lasting notes. Dated observations live in the journal.</Text>
     {!!missing && <GrowPress accessibilityRole="button" onPress={onEdit} style={{ minHeight: 48, justifyContent: 'center', marginBottom: 12 }}><Text style={{ color: theme.accent, fontSize: 14 }}>Complete {missing} optional details →</Text></GrowPress>}
-    {groups.map((group, index) => <DetailGroup key={group.title} title={group.title} fields={group.keys.map(key => allFields.find(([label]) => label === key)!).filter(Boolean)} theme={theme} initialOpen={index === 0} />)}
+    {groups.map((group, index) => <DetailGroup key={group.title} title={group.title} fields={group.keys.map(key => allFields.find(([label]) => label === key)!).filter(Boolean)} theme={theme} initialOpen={index === 0} onEdit={onEditSection ? () => onEditSection(group.title) : undefined} />)}
   </GrowReveal>;
 }

@@ -1,6 +1,7 @@
+import { requireUserId } from '@/services/session';
 // features/addPlant/api/environmentApi.ts
 
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 
 export const potSizeOptions = ['1L','5L','10L','20L','50L'];
@@ -14,6 +15,6 @@ export const sunlightOptions = [
 
 /** Fetches all sensor profiles from Firestore. */
 export async function fetchSensorProfiles(): Promise<{ id:string; name:string }[]> {
-  const snap = await getDocs(collection(db, 'sensorProfiles'));
+  const snap = await getDocs(query(collection(db, 'sensorProfiles'), where('createdBy', '==', requireUserId())));
   return snap.docs.map(d => ({ id: d.id, ...d.data() })) as any;
 }

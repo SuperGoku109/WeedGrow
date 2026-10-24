@@ -26,7 +26,7 @@ export async function preparePlantPhoto(uri: string) {
       throw new Error('This photo is too detailed. Choose a smaller photo.');
     };
     return {
-      image: await encode([960, 720, 480, 320], MAX_PHOTO_LENGTH),
+      image: uri.startsWith('data:image/jpeg;base64,') && uri.length <= MAX_PHOTO_LENGTH ? uri : await encode([960, 720, 480, 320], MAX_PHOTO_LENGTH),
       thumbnail: await encode([240, 160, 100], MAX_THUMBNAIL_LENGTH),
     };
   } finally { context.release(); }

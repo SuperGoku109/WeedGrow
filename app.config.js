@@ -30,6 +30,8 @@ export default {
     },
     plugins: [
       "expo-router",
+      "expo-notifications",
+      "expo-document-picker",
       [
         "expo-splash-screen",
         {
@@ -44,6 +46,9 @@ export default {
       typedRoutes: true
     },
     extra: {
+      USE_FIREBASE_EMULATORS: process.env.USE_FIREBASE_EMULATORS === 'true',
+      FIRESTORE_EMULATOR_HOST: process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080',
+      FIREBASE_AUTH_EMULATOR_HOST: process.env.FIREBASE_AUTH_EMULATOR_HOST || '127.0.0.1:9099',
       FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
       FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
       FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,

@@ -22,8 +22,17 @@ Primary app: repo root (Expo app using Expo Router for iOS/Android/Web).
 
 - The Expo app is the primary app in this repo. It reads/writes Firestore collections like `plants`, `groups`,
   and `sensorProfiles`.
-- Authentication is not wired up yet (no Firebase Auth usage in app code). Some writes currently use placeholder
-  IDs like `demoUser` (for example: plant `owners` and group `createdBy`).
+- Email/password authentication is wired up. New plants, growing spaces, profiles
+  and journal entries use the signed-in account UID; garden queries are scoped
+  to that account. Firebase Authentication must be initialized and its provider
+  enabled before live account saves work.
+- Deploy `firestore.rules` and `firestore.indexes.json` alongside the updated app.
+  Existing demo data requires an explicit administrator ownership migration;
+  it is never assigned automatically to a new account.
+- Add Plant supports local draft recovery (including prepared photos), separate
+  plant start/creation dates, reusable spaces and initial care/photo history.
+  See [flow and activation notes](docs/add-plant-completion.md) for setup,
+  migration and verification details.
 
 ## Prerequisites
 
@@ -98,6 +107,7 @@ Collections used by the mobile app code today:
   - `logs/{logId}`
   - `weatherCache/{YYYY-MM-DD}` (doc IDs are dates)
   - `progressPics/{picId}`
+  - `photoAssets/{assetId}` (separate full images and thumbnails)
 - `groups/{groupId}`
 - `sensorProfiles/{sensorProfileId}`
 

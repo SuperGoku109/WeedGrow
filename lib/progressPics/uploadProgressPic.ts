@@ -1,24 +1,30 @@
-import { collection, doc, serverTimestamp, writeBatch } from 'firebase/firestore';
+import { collection, doc, serverTimestamp, runTransaction } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import { preparePhotoRecord } from '@/lib/plants/photoRepository';
-
-/**
- * Saves a compact photo and its gallery metadata atomically on the Spark plan.
- * @param plantId Plant ID
- * @param fileUri Local file URI
- * @param caption Optional caption
- * @returns The Firestore document reference
- */
-export async function uploadProgressPic(plantId: string, fileUri: string, caption?: string) {
+import { requireUserId } from '@/services/session';
+export async function uploadProgressPic(plantId: string, fileUri: string, caption?: string, requestId?: string, onProgress?: (stage: 'preparing' | 'saving' | 'complete') => void) {
+  const uid = requireUserId();
+  if ((caption?.length || 0) > 1000) throw new Error('Keep captions under 1,000 characters.');
+  onProgress?.('preparing');
   const photo = await preparePhotoRecord(plantId, fileUri);
-  const docRef = doc(collection(db, 'plants', plantId, 'progressPics'));
-  const batch = writeBatch(db);
-  for (const write of photo.writes) batch.set(write.ref, write.data);
-  batch.set(docRef, {
-    imageUrl: photo.uri,
-    timestamp: serverTimestamp(),
-    caption: caption || '',
+  const ref = requestId ? doc(db, 'plants', plantId, 'progressPics', requestId) : doc(collection(db, 'plants', plantId, 'progressPics'));
+  onProgress?.('saving');
+  await runTransaction(db, async tx => {
+    const plantRef = doc(db, 'plants', plantId);
+    const plant = await tx.get(plantRef);
+    const existing = await tx.get(ref);
+    if (!plant.exists() || !plant.data().owners?.includes(uid) || plant.data().deleting) throw new Error('This plant is not available in your account.');
+    if (existing.exists()) {
+      // A previous attempt may have committed even when its response was lost.
+      // Caption changes update that same photo rather than creating another.
+      tx.update(ref, { caption: caption || '' });
+      tx.set(doc(db, 'plants', plantId, 'logs', `photo_${ref.id}`), { type: 'photo', photoUri: existing.data().imageUrl, timestamp: existing.data().timestamp || serverTimestamp(), updatedBy: uid, description: caption || 'Progress photo added.' }, { merge: true });
+      return;
+    }
+    for (const write of photo.writes) tx.set(write.ref, write.data);
+    tx.set(ref, { imageUrl: photo.uri, timestamp: serverTimestamp(), caption: caption || '' });
+    tx.set(doc(db, 'plants', plantId, 'logs', `photo_${ref.id}`), { type: 'photo', photoUri: photo.uri, description: caption || 'Progress photo added.', timestamp: serverTimestamp(), updatedBy: uid });
+    tx.update(plantRef, { updatedAt: serverTimestamp() });
   });
-  await batch.commit();
-  return docRef;
+  onProgress?.('complete'); return ref;
 }

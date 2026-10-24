@@ -1,3 +1,5 @@
+import { usePlantList } from '@/features/plants/hooks/usePlantList';
+import { MAX_ATOMIC_WATERING_PLANTS } from '../groupPolicy';
 /**
  * Screen component for viewing and managing a specific plant group
  */
@@ -9,12 +11,16 @@ import GroupPlantList from '@/features/groups/components/GroupPlantList';
 import GroupScreenLayout from '@/features/groups/components/GroupScreenLayout';
 import { useGroupDetail } from '@/features/groups/hooks/useGroupDetail';
 import { useGroupWeather } from '@/features/groups/hooks/useGroupWeather';
-import { View, StyleSheet, TouchableOpacity, Platform, ViewStyle } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Platform, ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/ui/ThemedText';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ConfirmDeleteModal from '@/features/groups/components/ConfirmDeleteModal';
+import ActionDialog from '@/ui/ActionDialog';
+import { GrowPress } from '@/ui/GrowMotion';
+import { waterGrowingSpace } from '@/lib/logs/groupWatering';
+import { deleteJournalEntry } from '@/lib/logs/journalRepository';
 import { updateGroup, type GroupWithId } from '@/features/groups/api/groupApi';
 import { Snackbar, Searchbar } from 'react-native-paper';
 import { addPlantLog } from '@/lib/logs/addPlantLog';
@@ -34,7 +40,7 @@ const HeaderSection = memo(function HeaderSection({
   weather,
   totalPlants,
   avgAgeDays,
-  needsWaterCount,
+  wateredTodayCount,
   onMoreOptions,
   query,
   onChangeQuery,
@@ -44,7 +50,7 @@ const HeaderSection = memo(function HeaderSection({
   weather?: { temperature: number; rain: number; humidity: number };
   totalPlants: number;
   avgAgeDays?: number;
-  needsWaterCount?: number;
+  wateredTodayCount?: number;
   onMoreOptions: (action: 'edit' | 'delete') => void;
   query: string;
   onChangeQuery: (q: string) => void;
@@ -58,7 +64,7 @@ const HeaderSection = memo(function HeaderSection({
         totalPlants={totalPlants}
         onMoreOptions={onMoreOptions}
         avgAgeDays={avgAgeDays}
-        needsWaterCount={needsWaterCount}
+        wateredTodayCount={wateredTodayCount}
       />
       <View style={styles.controlsRow}>
         <Searchbar
@@ -108,6 +114,7 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
     deleteError,
     plants,
     loading,
+    error,
     editVisible,
     setEditVisible,
     handleDeleteGroup,
@@ -116,7 +123,6 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
     cancelDeleteGroup,
     confirmDeleteGroup,
     avgAgeDays,
-    needsWaterCount,
   } = useGroupDetail(id);
 
   // Determine which location to use for weather: selected plant > group location
@@ -133,7 +139,12 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
   const { weather } = useGroupWeather(weatherLatLng?.lat, weatherLatLng?.lng);
 
   const plantIds = useMemo(() => plants.map(p => p.id), [plants]);
-  const { wateredMap, markWatered } = usePlantsWateredToday(plantIds);
+  const garden = usePlantList();
+  const [bulkConfirm, setBulkConfirm] = useState(false);
+  const [undo, setUndo] = useState<{ plantId: string; id: string; mutationId: string } | null>(null);
+  const { wateredMap, loading: careLoading, error: careError, refresh: refreshWatered } = usePlantsWateredToday(plantIds, plants);
+  const wateredTodayCount = careLoading || careError ? undefined : Object.values(wateredMap).filter(Boolean).length;
+  const waterLocks = React.useRef(new Set<string>());
   const [waterLoadingMap, setWaterLoadingMap] = useState<Record<string, boolean>>({});
 
   // Search state (filtering only)
@@ -146,16 +157,15 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
 
   // Handlers
   const handleEditClose = useCallback(() => setEditVisible(false), [setEditVisible]);
-  const handleEditSave = useCallback(async (updated: GroupWithId) => {
+  const handleEditSave = useCallback(async (updated: GroupWithId, baseline: GroupWithId) => {
     try {
-      await updateGroup(updated.id, groupEditValues(updated));
+      await updateGroup(updated.id, groupEditValues(updated), baseline as unknown as Record<string, unknown>);
       setEditVisible(false);
-      refreshGroup();
     } catch (e) {
       logger.error('Failed to update group', e);
-      throw new Error('Failed to save group changes. Please try again.');
+      throw e instanceof Error ? e : new Error('Failed to save group changes. Please try again.');
     }
-  }, [refreshGroup, setEditVisible]);
+  }, [setEditVisible]);
 
   const handleAddPlant = useCallback(() => {
     if (!id) return;
@@ -171,51 +181,44 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
       const next = (group.plantIds || []).filter((pid) => pid !== plantId);
       await updateGroup(group.id, { plantIds: next });
       showSnack('Removed from group');
-      refreshGroup();
     } catch (e) {
       logger.error('Failed to remove plant from group', e);
       showSnack('Failed to remove');
     }
-  }, [group, refreshGroup, showSnack]);
+  }, [group, showSnack]);
 
   const handleQuickWater = useCallback(async (plantId: string) => {
+    if (careLoading || careError) { showSnack(careError || 'Wait for watering history to load.'); return; }
     if (!plantId) return;
     if (wateredMap[plantId]) {
       showSnack('Already watered today');
       return;
     }
-    let skip = false;
-    setWaterLoadingMap(prev => {
-      if (prev[plantId]) {
-        skip = true;
-        return prev;
-      }
-      return { ...prev, [plantId]: true };
-    });
-    if (skip) return;
+    if (waterLocks.current.has(plantId)) return;
+    waterLocks.current.add(plantId);
+    setWaterLoadingMap(previous => ({ ...previous, [plantId]: true }));
     try {
-      await addPlantLog(plantId, { type: 'watering', updatedBy: 'system' });
-      markWatered(plantId);
-      showSnack('Watered');
+      const saved = await addPlantLog(plantId, { type: 'watering', updatedBy: 'system' });
+      setUndo({ plantId, ...saved }); showSnack('Watered');
     } catch (e: unknown) {
       const message =
         typeof e === 'object' && e && 'message' in e
           ? String((e as { message: unknown }).message)
           : 'Failed to log';
       if (message.toLowerCase().includes('already')) {
-        markWatered(plantId);
-        showSnack('Already watered today');
+          showSnack('Already watered today');
       } else {
         showSnack(message);
       }
     } finally {
+      waterLocks.current.delete(plantId);
       setWaterLoadingMap(prev => {
         const next = { ...prev };
         delete next[plantId];
         return next;
       });
     }
-  }, [markWatered, showSnack, wateredMap]);
+  }, [showSnack, wateredMap, careLoading, careError]);
 
   // Layout values
   const listBottomInset = useMemo(() => 72 + insets.bottom, [insets.bottom]);
@@ -232,16 +235,20 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
         if (action === 'delete') handleDeleteGroup();
       }}
       avgAgeDays={avgAgeDays ?? undefined}
-      needsWaterCount={needsWaterCount ?? undefined}
+      wateredTodayCount={wateredTodayCount ?? undefined}
       query={query}
       onChangeQuery={setQuery}
     />
-  ), [group?.name, group?.environment, weather, plants.length, setEditVisible, handleDeleteGroup, avgAgeDays, needsWaterCount, query]);
+  ), [group?.name, group?.environment, weather, plants.length, setEditVisible, handleDeleteGroup, avgAgeDays, wateredTodayCount, query]);
 
   return (
-    <GroupScreenLayout loading={loading} groupExists={!!group} scrollable={false}>
+    <GroupScreenLayout error={error} onRetry={refreshGroup} loading={loading} groupExists={!!group} scrollable={false}>
       {group && (
         <View style={{ flex: 1 }}>
+          {careLoading && <Text accessibilityLiveRegion="polite" style={{ paddingHorizontal: 16, paddingTop: 12, color: '#c8e78b' }}>Loading watering history…</Text>}
+          {!!careError && <GrowPress accessibilityRole="button" onPress={refreshWatered} style={{ padding: 16 }}><Text style={{ color: '#c8e78b' }}>Could not load watering history. Tap to retry.</Text></GrowPress>}
+          <GrowPress accessibilityRole="button" onPress={() => setBulkConfirm(true)} style={{ padding: 16 }}><Text style={{ color: '#c8e78b' }}>Record watering for this group</Text></GrowPress>
+          {bulkConfirm && <ActionDialog title="Record group watering?" description={`Confirm you watered the active plants in this group. Already-recorded plants are skipped. Groups of up to ${MAX_ATOMIC_WATERING_PLANTS} plants save together atomically.`} confirmLabel="Record group watering" onClose={() => setBulkConfirm(false)} onConfirm={async () => { const result = await waterGrowingSpace(String(id)); await refreshWatered(); setUndo(null); showSnack(`${result.written.length} recorded · ${result.skipped} skipped`); }} />}
           <GroupPlantList
             plants={filteredPlants}
             searchActive={!!query.trim()}
@@ -258,6 +265,7 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
             onQuickWater={handleQuickWater}
             wateredMap={wateredMap}
             waterLoadingMap={waterLoadingMap}
+            careUnavailable={careLoading || !!careError}
           />
 
           <FloatingAddPlantButton bottom={24 + insets.bottom} onPress={handleAddPlant} />
@@ -265,7 +273,7 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
           <EditGroupModal
             visible={editVisible}
             group={group}
-            allPlants={plants}
+            allPlants={garden.plants}
             onClose={handleEditClose}
             onSave={handleEditSave}
           />
@@ -283,7 +291,8 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
           <Snackbar
             visible={snack.visible}
             onDismiss={() => setSnack({ visible: false, message: '' })}
-            duration={2000}
+            duration={7000}
+            action={undo ? { label: 'Undo', onPress: async () => { try { await deleteJournalEntry(undo.plantId, undo.id, undo.mutationId); setUndo(null); await refreshWatered(); showSnack('Watering undone'); } catch (err) { setUndo(null); showSnack(err instanceof Error ? err.message : 'Could not undo watering'); } } } : undefined}
             style={{ marginBottom: 16 + insets.bottom }}
           >
             {snack.message}

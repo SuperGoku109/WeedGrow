@@ -1,38 +1,20 @@
-import React from 'react';
-import { collection, documentId, onSnapshot, query, Timestamp, where } from 'firebase/firestore';
-import { db } from '@/services/firebase';
-import type { PlantLog, WeatherCacheEntry } from '@/firestoreModels';
-import { localDateKey } from '@/lib/logs/plantJournal';
+import { useCallback, useSyncExternalStore } from 'react';
+import { useSession } from '@/services/session';
+import { journalDaysStore, journalWeatherStore } from '@/services/plantJournalData';
 
-export function usePlantJournalData(id: string, start: string, end: string) {
-  const [logs, setLogs] = React.useState<Record<string, (PlantLog & { id: string })[]>>({});
-  const [weather, setWeather] = React.useState<Record<string, WeatherCacheEntry>>({});
-  const [loading, setLoading] = React.useState(true);
-  const [weatherLoading, setWeatherLoading] = React.useState(true);
-  const [error, setError] = React.useState('');
-  const [weatherError, setWeatherError] = React.useState('');
-  React.useEffect(() => {
-    setLogs({}); setWeather({}); setError(''); setWeatherError(''); setLoading(true); setWeatherLoading(true);
-    if (!id) { setLoading(false); setWeatherLoading(false); return; }
-    const unsubscribeLogs = onSnapshot(query(collection(db, 'plants', id, 'logs'),
-      where('timestamp', '>=', Timestamp.fromDate(new Date(`${start}T00:00:00`))),
-      where('timestamp', '<=', Timestamp.fromDate(new Date(`${end}T23:59:59.999`)))), snapshot => {
-      const grouped: Record<string, (PlantLog & { id: string })[]> = {};
-      snapshot.docs.forEach(doc => {
-        const log = { ...doc.data(), id: doc.id } as PlantLog & { id: string };
-        const date = log.timestamp?.toDate?.();
-        if (!date) return;
-        const key = localDateKey(date);
-        (grouped[key] ??= []).push(log);
-      });
-      Object.values(grouped).forEach(items => items.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis()));
-      setLogs(grouped); setLoading(false);
-    }, () => { setError('Activity could not be loaded. Check your connection and try again.'); setLoading(false); });
-    const unsubscribeWeather = onSnapshot(query(collection(db, 'plants', id, 'weatherCache'),
-      where(documentId(), '>=', start), where(documentId(), '<=', end)), snapshot => {
-      setWeather(Object.fromEntries(snapshot.docs.map(doc => [doc.id, doc.data() as WeatherCacheEntry]))); setWeatherLoading(false);
-    }, () => { setWeatherError('Weather could not be loaded.'); setWeatherLoading(false); });
-    return () => { unsubscribeLogs(); unsubscribeWeather(); };
-  }, [id, start, end]);
-  return { logs, weather, loading, weatherLoading, error, weatherError };
+export function usePlantJournalData(id: string, start: string, end: string, timeZone?: string | null, enabled = true) {
+  const { user } = useSession();
+  const key = user && id && enabled ? JSON.stringify([user.uid, id, start, end, timeZone || null]) : '';
+  const subscribeLogs = useCallback((notify: () => void) => key ? journalDaysStore.subscribe(key, notify) : () => {}, [key]);
+  const subscribeWeather = useCallback((notify: () => void) => key ? journalWeatherStore.subscribe(key, notify) : () => {}, [key]);
+  const getLogs = useCallback(() => key ? journalDaysStore.get(key) : journalDaysStore.initial, [key]);
+  const getWeather = useCallback(() => key ? journalWeatherStore.get(key) : journalWeatherStore.initial, [key]);
+  const logs = useSyncExternalStore(subscribeLogs, getLogs, () => journalDaysStore.initial);
+  const weather = useSyncExternalStore(subscribeWeather, getWeather, () => journalWeatherStore.initial);
+  const retry = useCallback(() => {
+    if (!key) return;
+    if (journalDaysStore.get(key).error) journalDaysStore.refresh(key);
+    if (journalWeatherStore.get(key).error) journalWeatherStore.refresh(key);
+  }, [key]);
+  return { logs: logs.data, weather: weather.data, loading: !!key && logs.loading, weatherLoading: !!key && weather.loading, error: logs.error, weatherError: weather.error, retry };
 }

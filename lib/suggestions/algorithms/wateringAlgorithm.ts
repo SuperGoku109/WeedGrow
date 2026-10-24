@@ -62,7 +62,6 @@ function resolveConfidence(context: SuggestionAlgorithmContext): SuggestionConfi
     Number.isFinite(insight.daysSinceLastWater),
   ].filter(Boolean).length;
 
-  if (evidenceCount >= 4) return 'high';
   if (
     !insight.todayRainObserved
     && insight.todayRainfall >= 8
@@ -71,13 +70,14 @@ function resolveConfidence(context: SuggestionAlgorithmContext): SuggestionConfi
   ) {
     return 'medium';
   }
+  if (evidenceCount >= 4) return 'high';
   if (evidenceCount >= 2) return 'medium';
   return 'low';
 }
 
 function resolveTitle(context: SuggestionAlgorithmContext): string {
   const { insight } = context;
-  if (insight.needsWater) return 'Watering required';
+  if (insight.needsWater) return 'Check whether watering is needed';
   if (
     !insight.needsWater
     && typeof insight.tomorrowPrecipitationProbability === 'number'

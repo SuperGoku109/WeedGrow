@@ -1,10 +1,11 @@
+import { parseWeatherData } from '@/lib/weather/parseWeatherData';
 jest.mock('firebase/firestore', () => ({
   Timestamp: {
     now: () => ({ toDate: () => new Date('2026-02-10T00:00:00Z') }),
   },
 }));
 
-const { parseWeatherData } = require('@/lib/weather/parseWeatherData');
+
 
 function toUnix(iso: string): number {
   return Math.floor(new Date(iso).getTime() / 1000);

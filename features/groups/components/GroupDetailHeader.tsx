@@ -10,10 +10,10 @@ interface GroupHeaderProps {
   totalPlants: number;
   onMoreOptions?: (action: 'edit' | 'delete') => void;
   avgAgeDays?: number | null;
-  needsWaterCount?: number | null;
+  wateredTodayCount?: number | null;
 }
 
-export default function GroupDetailHeader({ name, environment, weather, totalPlants, onMoreOptions, avgAgeDays, needsWaterCount }: GroupHeaderProps) {
+export default function GroupDetailHeader({ name, environment, weather, totalPlants, onMoreOptions, avgAgeDays, wateredTodayCount }: GroupHeaderProps) {
   const router = useRouter();
   const space = environments[environment as keyof typeof environments] || environments.indoor;
   return <View style={styles.wrapper}>
@@ -29,7 +29,7 @@ export default function GroupDetailHeader({ name, environment, weather, totalPla
       </View>
       <View style={styles.stats}>
         {typeof avgAgeDays === 'number' && <Text style={styles.stat}>Avg age {Math.round(avgAgeDays)}d</Text>}
-        {typeof needsWaterCount === 'number' && <Text style={styles.stat}>{needsWaterCount} need water</Text>}
+        {typeof wateredTodayCount === 'number' && <Text style={styles.stat}>{wateredTodayCount} watered today</Text>}
         {weather && <Text style={styles.stat}>{weather.temperature}°C · {weather.humidity}% humidity · {weather.rain}% rain</Text>}
       </View>
       {onMoreOptions && <View style={styles.actions}>

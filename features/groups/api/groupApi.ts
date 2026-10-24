@@ -1,3 +1,6 @@
+import { saveGrowingSpace } from './membership';
+import { waterGrowingSpace } from '@/lib/logs/groupWatering';
+import { requireUserId } from '@/services/session';
 /**
  * Group API Module
  * Handles all Firestore operations related to plant groups
@@ -7,15 +10,11 @@ import {
   query,
   where,
   getDocs,
-  addDoc,
   doc,
-  updateDoc,
-  deleteDoc,
   getDoc,
-  serverTimestamp,
 } from 'firebase/firestore';
 import { db } from '@/services/firebase';
-import type { Group, PlantLog } from '@/firestoreModels';
+import type { Group } from '@/firestoreModels';
 import logger from '@/lib/logger';
 
 /**
@@ -47,6 +46,7 @@ export type UpdateGroupOptions = Partial<Omit<Group, 'createdAt' | 'createdBy'>>
  */
 export async function getUserGroups(userId: string): Promise<GroupWithId[]> {
   try {
+    if (userId !== requireUserId()) throw new Error('Sign in to your own garden.');
     const q = query(collection(db, 'groups'), where('createdBy', '==', userId));
     const snap = await getDocs(q);
     return snap.docs.map((d) => ({ id: d.id, ...(d.data() as Group) }));
@@ -62,34 +62,7 @@ export async function getUserGroups(userId: string): Promise<GroupWithId[]> {
  * @returns Promise with the new group ID
  */
 export async function createGroup(options: CreateGroupOptions): Promise<string> {
-  try {
-    const {
-      name,
-      plantIds,
-      environment,
-      location = null,
-      createdBy,
-      sensorProfileId,
-    } = options;
-
-    const groupDoc: Omit<Group, 'createdAt' | 'updatedAt'> & { createdAt: unknown; updatedAt: unknown } = {
-      name,
-      environment,
-      plantIds,
-      location,
-      createdBy,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    };
-    
-    if (sensorProfileId) (groupDoc as any).sensorProfileId = sensorProfileId;
-
-    const ref = await addDoc(collection(db, 'groups'), groupDoc as Group);
-    return ref.id;
-  } catch (error) {
-    logger.error('Error creating group:', error);
-    throw new Error('Failed to create group. Please try again.');
-  }
+  return saveGrowingSpace(undefined, { ...options, createdBy: requireUserId() });
 }
 
 /**
@@ -97,14 +70,8 @@ export async function createGroup(options: CreateGroupOptions): Promise<string> 
  * @param groupId - ID of the group to update
  * @param updates - Object with fields to update
  */
-export async function updateGroup(groupId: string, updates: UpdateGroupOptions): Promise<void> {
-  try {
-    const ref = doc(db, 'groups', groupId);
-    await updateDoc(ref, { ...updates, updatedAt: serverTimestamp() });
-  } catch (error) {
-    logger.error('Error updating group:', error);
-    throw new Error('Failed to update group. Please try again.');
-  }
+export async function updateGroup(groupId: string, updates: UpdateGroupOptions, baseline?: Record<string, unknown>): Promise<void> {
+  await saveGrowingSpace(groupId, updates, false, baseline);
 }
 
 /**
@@ -112,12 +79,7 @@ export async function updateGroup(groupId: string, updates: UpdateGroupOptions):
  * @param groupId - ID of the group to delete
  */
 export async function deleteGroup(groupId: string): Promise<void> {
-  try {
-    await deleteDoc(doc(db, 'groups', groupId));
-  } catch (error) {
-    logger.error('Error deleting group:', error);
-    throw new Error('Failed to delete group. Please try again.');
-  }
+  await saveGrowingSpace(groupId, {}, true);
 }
 
 /**
@@ -131,6 +93,7 @@ export async function getGroupById(groupId: string): Promise<GroupWithId | null>
     const snap = await getDoc(docRef);
     
     if (!snap.exists()) return null;
+    if (snap.data().createdBy !== requireUserId()) throw new Error('This growing space is not in your account.');
     
     return { id: snap.id, ...(snap.data() as Group) };
   } catch (error) {
@@ -147,28 +110,6 @@ export async function getGroupById(groupId: string): Promise<GroupWithId | null>
 export async function waterAllPlantsInGroup(
   groupId: string,
   userId: string,
-): Promise<void> {
-  try {
-    const groupSnapshot = await getDoc(doc(db, 'groups', groupId));
-    if (!groupSnapshot.exists()) {
-      throw new Error('Group not found');
-    }
-    
-    const group = groupSnapshot.data() as Group;
-    
-    // Create a watering log entry for each plant in the group
-    const wateringPromises = group.plantIds.map((plantId) => 
-      addDoc(collection(db, 'plants', plantId, 'logs'), {
-        type: 'watering',
-        timestamp: serverTimestamp(),
-        description: `Group watering: ${group.name}`,
-        updatedBy: userId,
-      } as PlantLog)
-    );
-    
-    await Promise.all(wateringPromises);
-  } catch (error) {
-    logger.error('Error watering group plants:', error);
-    throw new Error('Failed to water plants. Please try again.');
-  }
+) {
+  return waterGrowingSpace(groupId);
 }

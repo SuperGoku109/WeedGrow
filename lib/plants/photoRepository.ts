@@ -1,6 +1,8 @@
+import { registerPrivateCacheReset } from '@/lib/data/liveStore';
 import { collection, doc, getDoc } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import { preparePlantPhoto } from './preparePlantPhoto';
+import { requireUserId } from '@/services/session';
 
 const PREFIX = 'firestore-photo:';
 const PATH = /^plants\/[^/]+\/photoAssets\/[^/]+$/;
@@ -24,17 +26,19 @@ export async function preparePhotoRecord(plantId: string, uri: string) {
 
 // Deduplicate concurrent reads and bound memory. Failed reads remain retryable.
 const cache = new Map<string, Promise<string>>();
-export function loadPhoto(uri: string, fullSize = false): Promise<string> {
+registerPrivateCacheReset(() => cache.clear());
+export async function loadPhoto(uri: string, fullSize = false): Promise<string> {
   if (!isStoredPhoto(uri)) return Promise.resolve(uri);
   const path = uri.slice(PREFIX.length) + (fullSize ? '' : '_thumb');
-  const cached = cache.get(path);
-  if (cached) { cache.delete(path); cache.set(path, cached); return cached; }
+  const cacheKey = requireUserId() + ':' + path;
+  const cached = cache.get(cacheKey);
+  if (cached) { cache.delete(cacheKey); cache.set(cacheKey, cached); return cached; }
   const request = getDoc(doc(db, path)).then(snapshot => {
     const dataUri = snapshot.data()?.dataUri;
     if (typeof dataUri !== 'string' || !dataUri.startsWith('data:image/jpeg;base64,')) throw new Error('Photo unavailable.');
     return dataUri;
-  }).catch(error => { if (cache.get(path) === request) cache.delete(path); throw error; });
-  cache.set(path, request);
+  }).catch(error => { if (cache.get(cacheKey) === request) cache.delete(cacheKey); throw error; });
+  cache.set(cacheKey, request);
   if (cache.size > 40) cache.delete(cache.keys().next().value!);
   return request;
 }

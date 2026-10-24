@@ -1,6 +1,7 @@
 import { getDoc } from 'firebase/firestore';
 import { preparePlantPhoto } from '../preparePlantPhoto';
 import { isStoredPhoto, loadPhoto, preparePhotoRecord } from '../photoRepository';
+jest.mock('@/services/session', () => ({ requireUserId: jest.fn(() => 'user-a') }));
 jest.mock('@/services/firebase', () => ({ db: {} }));
 jest.mock('firebase/firestore', () => ({
   collection: jest.fn((_db, ...parts) => parts.join('/')),

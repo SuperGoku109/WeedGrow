@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Animated, Platform, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions, type TextInputProps, type ViewStyle } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Circle, Ellipse, Path } from 'react-native-svg';
@@ -6,18 +6,33 @@ import { useReducedMotion } from '@/ui/GrowMotion';
 
 export const palette = { bg: '#14231c', panel: '#1e3026', input: '#17271f', border: '#3c5040', ink: '#f0f2e6', muted: '#b1bfac', accent: '#d0e8a0', dark: '#283a25', soft: '#e8edd6', error: '#ffb8a8' };
 export type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
+export const ValidationContext = createContext<{ target?: string; revision: number; root?: React.RefObject<View | null>; reveal?: (y: number) => void }>({ revision: 0 });
+export function ValidationTarget({ name, children, focus }: { name?: string; children: React.ReactNode; focus?: () => void }) {
+  const context = useContext(ValidationContext);
+  const ref = useRef<View>(null);
+  useEffect(() => {
+    if (!name || context.target !== name || !context.root?.current) return;
+    const frame = requestAnimationFrame(() => {
+      ref.current?.measureLayout(context.root!.current!, (_x, y) => { context.reveal?.(Math.max(0, y - 20)); focus?.(); }, () => focus?.());
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [name, context, focus]);
+  return <View ref={ref} collapsable={false}>{children}</View>;
+}
 export const Icon = ({ name, size = 22, color = palette.accent }: { name: IconName; size?: number; color?: string }) => <MaterialCommunityIcons name={name} size={size} color={color} />;
 
-export function Press({ children, onPress, label, selected, disabled, style, containerStyle }: { children: React.ReactNode; onPress(): void; label: string; selected?: boolean; disabled?: boolean; style?: ViewStyle | ViewStyle[]; containerStyle?: ViewStyle }) {
+export function Press({ children, onPress, label, selected, expanded, disabled, style, containerStyle }: { children: React.ReactNode; onPress(): void; label: string; selected?: boolean; expanded?: boolean; disabled?: boolean; style?: ViewStyle | ViewStyle[]; containerStyle?: ViewStyle }) {
   const scale = useRef(new Animated.Value(1)).current;
   const reduced = useReducedMotion();
   const animate = (toValue: number) => { if (!reduced) Animated.spring(scale, { toValue, speed: 35, bounciness: 3, useNativeDriver: Platform.OS !== 'web' }).start(); };
-  return <Animated.View style={[{ transform: [{ scale }], flexShrink: 1 }, containerStyle]}><Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, disabled }} disabled={disabled} onPress={onPress} onPressIn={() => animate(0.975)} onPressOut={() => animate(1)} style={({ pressed, hovered }) => [style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
+  return <Animated.View style={[{ transform: [{ scale }], flexShrink: 1 }, containerStyle]}><Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, expanded, disabled }} disabled={disabled} onPress={onPress} onPressIn={() => animate(0.975)} onPressOut={() => animate(1)} style={({ pressed, hovered }) => [style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
 }
 
-export function Field({ label, hint, error, optional, ...props }: TextInputProps & { label: string; hint?: string; error?: string; optional?: boolean }) {
+export function Field({ label, hint, error, optional, fieldKey, ...props }: TextInputProps & { label: string; hint?: string; error?: string; optional?: boolean; fieldKey?: string }) {
   const [focused, setFocused] = useState(false);
-  return <View style={s.field}><View style={s.labelRow}><Text style={s.label}>{label}</Text>{optional && <Text style={s.optional}>Optional</Text>}</View><TextInput {...props} accessibilityLabel={label} placeholderTextColor="#849580" selectionColor={palette.accent} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} style={[s.input, props.multiline && { minHeight: 108, textAlignVertical: 'top' }, focused && { borderColor: palette.accent, backgroundColor: '#203329' }, error && { borderColor: palette.error }, props.style]} />{(hint || error) && <Text accessibilityLiveRegion="polite" style={[s.hint, error ? { color: palette.error } : undefined]}>{error || hint}</Text>}</View>;
+  const input = useRef<TextInput>(null);
+  const focus = React.useCallback(() => input.current?.focus(), []);
+  return <ValidationTarget name={fieldKey} focus={focus}><View style={s.field}><View style={s.labelRow}><Text style={s.label}>{label}</Text>{optional && <Text style={s.optional}>Optional</Text>}</View><TextInput {...props} ref={input} accessibilityLabel={label} accessibilityHint={error || hint} placeholderTextColor="#849580" selectionColor={palette.accent} onFocus={event => { setFocused(true); props.onFocus?.(event); }} onBlur={event => { setFocused(false); props.onBlur?.(event); }} style={[s.input, props.multiline && { minHeight: 108, textAlignVertical: 'top' }, focused && { borderColor: palette.accent, backgroundColor: '#203329' }, error && { borderColor: palette.error }, props.style]} />{(hint || error) && <Text accessibilityLiveRegion="polite" style={[s.hint, error ? { color: palette.error } : undefined]}>{error || hint}</Text>}</View></ValidationTarget>;
 }
 
 export function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
@@ -37,9 +52,11 @@ export function Choices({ options, value, onChange, multiple = false }: { option
   })}</View>;
 }
 
-export function Disclosure({ title, subtitle, children, initiallyOpen = false }: { title: string; subtitle?: string; children: React.ReactNode; initiallyOpen?: boolean }) {
+export function Disclosure({ title, subtitle, children, initiallyOpen = false, forceOpen = false }: { title: string; subtitle?: string; children: React.ReactNode; initiallyOpen?: boolean; forceOpen?: boolean }) {
   const [open, setOpen] = useState(initiallyOpen);
-  return <View style={s.disclosure}><Press label={title} onPress={() => setOpen(!open)} style={s.disclosureHeader}><View style={{ flex: 1, gap: 5 }}><Text style={s.label}>{title}</Text>{subtitle && <Text style={s.hint}>{subtitle}</Text>}</View><Icon name={open ? 'minus' : 'plus'} size={20} /></Press>{open && <View style={{ padding: 18, paddingTop: 0, gap: 22 }}>{children}</View>}</View>;
+  const { revision } = useContext(ValidationContext);
+  useEffect(() => { if (forceOpen) setOpen(true); }, [forceOpen, revision]);
+  return <View style={s.disclosure}><Press label={title} expanded={open} onPress={() => setOpen(!open)} style={s.disclosureHeader}><View style={{ flex: 1, gap: 5 }}><Text style={s.label}>{title}</Text>{subtitle && <Text style={s.hint}>{subtitle}</Text>}</View><Icon name={open ? 'minus' : 'plus'} size={20} /></Press>{open && <View style={{ padding: 18, paddingTop: 0, gap: 22 }}>{children}</View>}</View>;
 }
 
 export function PlantIllustration({ stage = 'seedling' }: { stage?: string }) {

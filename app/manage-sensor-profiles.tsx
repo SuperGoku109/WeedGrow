@@ -1,3 +1,4 @@
+import { useSession } from '@/services/session';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -51,6 +52,7 @@ function ProfileHeroArt({ compact }: { compact: boolean }) {
 
 export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMessage?: string } = {}) {
   const router = useRouter();
+  const { user } = useSession();
   const { width, height } = useWindowDimensions();
   const compact = width < 460;
   const [profiles, setProfiles] = useState<SensorProfile[]>([]);
@@ -78,7 +80,8 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
       setLoading(true);
       setLoadError('');
       try {
-        const snap = await getDocs(collection(db, 'sensorProfiles'));
+        if (!user) { if (isMounted) setProfiles([]); return; }
+        const snap = await getDocs(query(collection(db, 'sensorProfiles'), where('createdBy', '==', user.uid)));
         if (isMounted) setProfiles(snap.docs.map(item => ({ id: item.id, ...item.data() })) as SensorProfile[]);
       } catch {
         if (isMounted) setLoadError('Could not load your profiles. Please try again.');
@@ -88,7 +91,7 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
     };
     fetchProfiles();
     return () => { isMounted = false; };
-  }, [refreshVersion]);
+  }, [refreshVersion, user]);
 
   const manualCount = useMemo(() => profiles.filter(profile => profile.isManual !== false).length, [profiles]);
 
@@ -149,7 +152,7 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
     setLinkedLoading(true);
     setShowLinked(true);
     try {
-      const plantsQuery = query(collection(db, 'plants'), where('sensorProfileId', '==', profileId));
+      const plantsQuery = query(collection(db, 'plants'), where('owners', 'array-contains', user?.uid || '__signed_out__'), where('sensorProfileId', '==', profileId));
       const snap = await getDocs(plantsQuery);
       setLinkedPlants(snap.docs.map(item => item.data()));
     } catch {
