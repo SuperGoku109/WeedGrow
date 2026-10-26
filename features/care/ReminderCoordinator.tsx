@@ -1,8 +1,8 @@
 import React from 'react';
 import { Platform, Text, View } from 'react-native';
 import { useSession } from '@/services/session';
-import { usePreferences } from '@/services/preferences';
-import { useCareSnoozes } from '@/services/careSnooze';
+import { usePreferences } from '@/hooks/usePreferences';
+import { useCareSnoozes } from '@/hooks/useCareSnoozes';
 import { syncReminders } from '@/services/reminders';
 import { reminderDue } from '@/lib/care/careTasks';
 import { useCareTasks } from './useCareTasks';

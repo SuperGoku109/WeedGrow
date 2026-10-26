@@ -63,11 +63,11 @@ export function ReviewForm({ form, logic, back }: ReviewFormProps) {
 }
 
 // Helper component for displaying a label-value row
-function TextRow({ label, value }: { label: string; value: any }) {
+function TextRow({ label, value }: { label: string; value: unknown }) {
   return (
     <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
       <ThemedText style={{ fontWeight: '600' }}>{label}</ThemedText>
-      <ThemedText>{value || 'Not set'}</ThemedText>
+      <ThemedText>{value == null || value === '' ? 'Not set' : String(value)}</ThemedText>
     </View>
   )
 }

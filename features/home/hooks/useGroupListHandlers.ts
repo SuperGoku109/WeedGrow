@@ -32,10 +32,10 @@ export function useGroupListHandlers({
       if (success) {
         setSnackMessage('All plants watered successfully');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Extract error message if available
       const errorMessage = error && typeof error === 'object' && 'message' in error 
-        ? (error as any).message 
+        ? String(error.message)
         : 'Failed to water plants';
       
       setSnackMessage(errorMessage);

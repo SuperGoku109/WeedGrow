@@ -1,4 +1,4 @@
-import { requireUserId } from '@/services/session';
+import { createSensorProfileId, saveSensorProfile } from '@/services/sensorProfiles';
 import React, { useState } from 'react';
 import { StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,10 +6,10 @@ import { TextInput, Button, Text, SegmentedButtons } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { db } from '@/services/firebase';
-import { addDoc, collection } from 'firebase/firestore';
 
 export default function AddSensorProfileScreen() {
+  const profileId = React.useRef<string | null>(null);
+  const saveLock = React.useRef(false);
   const [name, setName] = useState('');
   const [environmentType, setEnvironmentType] = useState<'indoor' | 'greenhouse'>('indoor');
   const [entryType, setEntryType] = useState<'manual' | 'hardware'>('manual');
@@ -21,24 +21,23 @@ export default function AddSensorProfileScreen() {
   const router = useRouter();
 
   const handleSave = async () => {
-    if (saving) return;
+    if (saving || saveLock.current) return;
     if (!name.trim()) { setError('Enter a profile name.'); return; }
-    setSaving(true); setError('');
+    saveLock.current = true; setSaving(true); setError('');
     try {
-      await addDoc(collection(db, 'sensorProfiles'), {
+      profileId.current ||= createSensorProfileId();
+      await saveSensorProfile(profileId.current, {
         name: name.trim(),
-        createdBy: requireUserId(),
         environmentType,
         isManual: entryType === 'manual',
         defaultTemp: entryType === 'manual' && defaultTemp ? Number(defaultTemp) : null,
         defaultHumidity: entryType === 'manual' && defaultHumidity ? Number(defaultHumidity) : null,
-        createdAt: new Date(),
-      });
+      }, true);
       router.replace('/manage-sensor-profiles');
     } catch (error) {
       setError(error instanceof Error ? error.message : 'The profile could not be saved.');
     } finally {
-      setSaving(false);
+      saveLock.current = false; setSaving(false);
     }
   };
 

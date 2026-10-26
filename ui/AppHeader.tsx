@@ -15,10 +15,10 @@ export function AppHeader() {
   </View>;
 }
 const s = StyleSheet.create({
-  row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 22, paddingVertical: 17, gap: 9 },
+  row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 18, paddingVertical: 8, gap: 9 },
   logo: { width: 32, height: 32, borderRadius: 11, backgroundColor: '#273a2c', alignItems: 'center', justifyContent: 'center', transform: [{ rotate: '-8deg' }] },
   name: { fontSize: 23, fontWeight: '800', letterSpacing: -1, color: '#f0f1e5' },
-  date: { fontFamily: 'SpaceMono', fontSize: 9, color: '#a2b19a', letterSpacing: 1 },
+  date: { fontSize: 12, color: '#bac8b3', letterSpacing: 0.5 },
   badge: { width: 30, height: 30, borderRadius: 15, borderWidth: 1, borderColor: '#354332', justifyContent: 'center', alignItems: 'center' },
 });
 export default AppHeader;

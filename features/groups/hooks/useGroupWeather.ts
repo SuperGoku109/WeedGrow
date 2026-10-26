@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchWeather } from '@/lib/weather/fetchWeather';
+import type { WeatherSample } from '@/lib/weather/weatherResponse';
 
 export interface SimpleWeather {
   temperature: number;
@@ -24,18 +25,19 @@ export function useGroupWeather(lat?: number, lng?: number) {
     fetchWeather(lat, lng)
       .then((data) => {
         // OpenWeatherMap OneCall 3.0 API: current weather is in data.current; daily forecast in data.daily[0]
-        const current = data?.current ?? {};
+        const current: Partial<WeatherSample> = data?.current ?? {};
         const today = Array.isArray(data?.daily) && data.daily.length > 0 ? data.daily[0] : undefined;
         if (!active) return;
-        const temperature = current.temp ?? today?.temp?.day;
+        const dailyTemp = typeof today?.temp === 'object' ? today.temp : undefined;
+        const temperature = typeof current.temp === 'number' ? current.temp : dailyTemp?.day;
         const humidity = current.humidity ?? today?.humidity;
-        if (!Number.isFinite(temperature) || !Number.isFinite(humidity)) throw new Error('The provider did not return usable current conditions.');
+        if (typeof temperature !== 'number' || typeof humidity !== 'number' || !Number.isFinite(temperature) || !Number.isFinite(humidity)) throw new Error('The provider did not return usable current conditions.');
         setWeather({
           temperature: Math.round(temperature),
-          rain: current.rain?.['1h'] ? Math.round(current.rain['1h']) : 0,
+          rain: Math.round((typeof current.rain === 'number' ? current.rain : current.rain?.['1h']) || 0),
           humidity: Math.round(humidity),
-          dayMax: typeof today?.temp?.max === 'number' ? Math.round(today.temp.max) : undefined,
-          dayMin: typeof today?.temp?.min === 'number' ? Math.round(today.temp.min) : undefined,
+          dayMax: typeof dailyTemp?.max === 'number' ? Math.round(dailyTemp.max) : undefined,
+          dayMin: typeof dailyTemp?.min === 'number' ? Math.round(dailyTemp.min) : undefined,
           dailyRainMm: typeof today?.rain === 'number' ? Math.round(today.rain) : 0,
         });
       })

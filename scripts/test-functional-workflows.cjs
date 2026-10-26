@@ -35,13 +35,33 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
   const { localDateKey } = require('../lib/logs/plantJournal.ts');
   const { recordHarvest } = require('../features/plants/api/plantLifecycle.ts');
   const { updatePlant, deletePlantAndSubcollections } = require('../features/plants/api/plantService.ts');
-  const { exportGarden, restoreGarden, createRestorePlan, prepareRestore } = require('../lib/backup/gardenBackup.ts');
+  const { exportGarden, exportJournalCsv, restoreGarden, createRestorePlan, prepareRestore } = require('../lib/backup/gardenBackup.ts');
   const prefix = `functional-${Date.now()}`;
   const plant = { name: 'Integration plant', strain: '', owners: [user.uid], status: 'active', growthStage: 'seedling', environment: 'outdoor', plantedIn: 'pot', createdAt: f.serverTimestamp(), updatedAt: f.serverTimestamp() };
   try {
     const ids = Array.from({ length: 8 }, (_, i) => `${prefix}-${i}`);
     for (const id of ids) await f.setDoc(f.doc(db, 'plants', id), plant);
     const id = ids[0];
+    const { saveSensorProfile, getSensorProfile, deleteSensorProfile } = require('../services/sensorProfiles.ts');
+    const profileId = `${prefix}-profile`;
+    const profileInput = { name: 'Integration profile', environmentType: 'indoor', isManual: true, defaultTemp: 24, defaultHumidity: 55 };
+    await saveSensorProfile(profileId, profileInput, true);
+    await saveSensorProfile(profileId, { ...profileInput, name: 'Lost-response retry' }, true);
+    assert.equal((await getSensorProfile(profileId)).name, profileInput.name, 'A retried create never duplicates or overwrites a committed profile');
+    await assert.rejects(saveSensorProfile(profileId, { ...profileInput, defaultHumidity: 101 }), /humidity/);
+    await deleteSensorProfile(profileId);
+    assert.equal(await getSensorProfile(profileId), null);
+    await saveSensorProfile(profileId, profileInput, true);
+    await updatePlant(id, { environment: 'indoor', sensorProfileId: profileId });
+    await assert.rejects(deleteSensorProfile(profileId), /still linked/);
+    assert.equal((await getSensorProfile(profileId)).deleting, false, 'A referenced profile stays usable after deletion is refused');
+    await f.updateDoc(f.doc(db, 'sensorProfiles', profileId), { deleting: true });
+    await assert.rejects(updatePlant(ids[1], { environment: 'indoor', sensorProfileId: profileId }), /available/);
+    await f.updateDoc(f.doc(db, 'sensorProfiles', profileId), { deleting: false });
+    await updatePlant(id, { environment: 'outdoor' });
+    assert.equal((await f.getDoc(f.doc(db, 'plants', id))).data().sensorProfileId, null);
+    await deleteSensorProfile(profileId);
+    await assert.rejects(saveGrowingSpace(undefined, { name: 'Invalid space', environment: 'roof', plantIds: [] }), /environment/);
     await assert.rejects(updatePlant(id, { name: 'x'.repeat(101) }), /1–100/);
     await assert.rejects(updatePlant(id, { height: Infinity }), /Height/);
     assert.equal((await f.getDoc(f.doc(db, 'plants', id))).data().name, plant.name, 'Invalid edits are rejected without changing the record');
@@ -154,6 +174,9 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
     const restoredId = largePlan.paths[`plants/${id}`].split('/')[1];
     const restoredLogs = await f.getDocs(f.collection(db, 'plants', restoredId, 'logs'));
     assert.equal(restoredLogs.docs.filter(item => item.id.startsWith('restored-')).length, 420, 'Every history record is restored exactly once');
+    const pagedExport = await exportGarden();
+    assert.ok(pagedExport.records.filter(record => record.path.includes('/logs/restored-')).length >= 420, 'Paged export includes later history pages');
+    assert.ok((await exportJournalCsv()).includes('History 419'), 'CSV reaches later journal pages without exporting photos');
     assert.equal(JSON.stringify((await f.getDoc(pastRef)).data()), historicalBytes, 'Restore never overwrites original weather');
     // Simulate a successful upload with a lost final response, then edit caption.
     stub('lib/plants/photoRepository.ts', { preparePhotoRecord: async () => {
@@ -171,10 +194,16 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
     imageBatch.set(f.doc(db, 'plants', id, 'photoAssets', 'test-photo'), { dataUri: 'data:image/jpeg;base64,AAAA' });
     imageBatch.set(f.doc(db, 'plants', id, 'photoAssets', 'test-photo_thumb'), { dataUri: 'data:image/jpeg;base64,AAAA' });
     imageBatch.set(f.doc(db, 'plants', id, 'progressPics', 'test-photo'), { imageUrl: photoUri, caption: 'Before', timestamp: f.serverTimestamp() });
+    imageBatch.set(f.doc(db, 'plants', id, 'logs', 'photo_test-photo'), { type: 'photo', photoUri, description: 'Before', updatedBy: user.uid, timestamp: f.serverTimestamp() });
     await imageBatch.commit();
     const photo = { id: 'test-photo', imageUrl: photoUri, caption: 'Before' };
     await manageProgressPic(id, photo, 'cover');
     await manageProgressPic(id, photo, 'caption', 'After');
+    await manageProgressPic(id, photo, 'caption', 'After');
+    const captionLog = (await f.getDoc(f.doc(db, 'plants', id, 'logs', 'photo_test-photo'))).data();
+    assert.equal(captionLog.description, 'After', 'Photo captions and their journal text change atomically');
+    assert.ok(captionLog.mutationId, 'Caption changes invalidate stale journal editors');
+    await manageProgressPic(id, { ...photo, caption: 'After' }, 'delete');
     await manageProgressPic(id, { ...photo, caption: 'After' }, 'delete');
     assert.equal((await f.getDoc(f.doc(db, 'plants', id, 'photoAssets', 'test-photo'))).exists(), false, 'Deleted image bytes are reclaimed');
     assert.equal((await f.getDoc(f.doc(db, 'plants', id))).data().imageUri, null, 'Deleted covers are cleared');
@@ -201,6 +230,18 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
     assert.equal((await f.getDocs(f.collection(db, 'plants', cleanupId, 'logs'))).size, 0, 'Cleanup removes more than two pages without skipping records');
     await deletePlantAndSubcollections(cleanupId);
     assert.equal((await f.getDoc(f.doc(db, 'plants', cleanupId))).exists(), false, 'Resuming cleanup safely removes the parent after its child records');
+    await deletePlantAndSubcollections(cleanupId);
+    const raceId = `${prefix}-membership-race`; await f.setDoc(f.doc(db, 'plants', raceId), plant);
+    const raceGroup = await saveGrowingSpace(undefined, { name: 'Race check', environment: 'outdoor', plantIds: [] });
+    const race = await Promise.allSettled([saveGrowingSpace(raceGroup, { plantIds: [raceId] }), deletePlantAndSubcollections(raceId)]);
+    assert.equal(race[1].status, 'fulfilled', 'Deletion finishes despite concurrent membership changes');
+    assert.equal((await f.getDoc(f.doc(db, 'groups', raceGroup))).data().plantIds.includes(raceId), false, 'A deleted plant is never left in group membership');
+    const profileRace = `${prefix}-profile-race`; const indoorRace = `${prefix}-indoor-race`;
+    await saveSensorProfile(profileRace, profileInput, true); await f.setDoc(f.doc(db, 'plants', indoorRace), { ...plant, environment: 'indoor' });
+    await Promise.allSettled([updatePlant(indoorRace, { sensorProfileId: profileRace }), deleteSensorProfile(profileRace)]);
+    const afterRace = (await f.getDoc(f.doc(db, 'plants', indoorRace))).data();
+    assert.ok(afterRace.sensorProfileId !== profileRace || (await f.getDoc(f.doc(db, 'sensorProfiles', profileRace))).exists(), 'Concurrent profile deletion cannot leave a dangling link');
+    console.log('PASS: runtime-domain checks, paged export/CSV, profile deletion barriers and concurrent membership/profile integrity.');
     console.log('PASS: concurrent watering, date corrections, safe undo, 8-plant atomic watering/retry, space moves/deletion, backup restore/retry, photo caption/cover/deletion, harvest retry/repeat and pending-deletion guards, historical weather preservation, same-day move snapshots, inheritance/overrides skipped-care semantics, interrupted large restore/resume, conflicting edits, synced snoozes, photo lost-response reconciliation and westward repeated-date weather protection.');
   } finally { await f.terminate(db); await deleteApp(app); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

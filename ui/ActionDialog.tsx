@@ -9,9 +9,9 @@ export default function ActionDialog({ title, description, confirmLabel = 'Confi
     <Text accessibilityRole="header" style={{ color: '#edf0e3', fontWeight: '700', fontSize: 22 }}>{title}</Text><Text style={{ color: '#b4c4ad', lineHeight: 23 }}>{description}</Text>
     {typeof children === 'function' ? children(busy) : children}
     {!!error && <Text accessibilityRole="alert" style={{ color: '#ffb4ab' }}>{error}</Text>}
-    <View style={{ flexDirection: 'row', gap: 18, justifyContent: 'flex-end' }}>
-      <GrowPress accessibilityRole="button" disabled={busy} onPress={onClose} style={{ padding: 12 }}><Text style={{ color: '#edf0e3' }}>Cancel</Text></GrowPress>
-      <GrowPress accessibilityRole="button" disabled={busy} onPress={async () => { if (lock.current) return; lock.current = true; setBusy(true); setError(''); try { await onConfirm(); onClose(); } catch (err) { setError(err instanceof Error ? err.message : 'Could not complete this action. Try again.'); } finally { lock.current = false; setBusy(false); } }} style={{ padding: 12 }}><Text style={{ color: '#c8e78b', fontWeight: '700' }}>{busy ? 'Working…' : confirmLabel}</Text></GrowPress>
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12, justifyContent: 'flex-end' }}>
+      <GrowPress accessibilityRole="button" disabled={busy} onPress={onClose} style={{ minHeight: 48, padding: 14, borderWidth: 1, borderColor: '#7b8e72', borderRadius: 12, justifyContent: 'center' }}><Text style={{ color: '#edf0e3', fontSize: 16 }}>Cancel</Text></GrowPress>
+      <GrowPress accessibilityRole="button" accessibilityState={{ busy }} disabled={busy} onPress={async () => { if (lock.current) return; lock.current = true; setBusy(true); setError(''); try { await onConfirm(); onClose(); } catch (err) { setError(err instanceof Error ? err.message : 'Could not complete this action. Try again.'); } finally { lock.current = false; setBusy(false); } }} style={{ minHeight: 48, padding: 14, borderRadius: 12, backgroundColor: '#c8e78b', opacity: busy ? 0.6 : 1, justifyContent: 'center' }}><Text style={{ color: '#243420', fontSize: 16, fontWeight: '700' }}>{busy ? 'Working…' : confirmLabel}</Text></GrowPress>
     </View>
   </ScrollView></View></KeyboardAvoidingView></Modal>;
 }

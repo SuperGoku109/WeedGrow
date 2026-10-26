@@ -2,12 +2,13 @@ import React from 'react';
 import { Row, Text } from '@/design-system/components';
 import { ColorTokens, Spacing, BorderRadius } from '@/design-system/tokens';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import type { StyleProp, ViewStyle, TextStyle } from 'react-native';
 
 export interface WeedGrowEnvBadgeProps {
   environment: 'indoor' | 'outdoor' | 'greenhouse' | string;
   size?: number; // icon size
-  style?: any;
-  textStyle?: any;
+  style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
 }
 
 export const WeedGrowEnvBadge: React.FC<WeedGrowEnvBadgeProps> = ({ 
@@ -34,7 +35,7 @@ export const WeedGrowEnvBadge: React.FC<WeedGrowEnvBadgeProps> = ({
       align="center"
       gap="xs"
     >
-      <MaterialCommunityIcons name={envIcon as any} size={size} color="#fff" />
+      <MaterialCommunityIcons name={envIcon} size={size} color="#fff" />
       <Text 
         variant="caption" 
         style={[

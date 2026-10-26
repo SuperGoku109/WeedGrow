@@ -1,3 +1,4 @@
+import { decodeWeatherResponse, type WeatherSample } from './weatherResponse';
 import { Timestamp } from 'firebase/firestore';
 import type { WeatherCacheEntry } from '@/firestoreModels';
 
@@ -5,11 +6,12 @@ import type { WeatherCacheEntry } from '@/firestoreModels';
  * Convert the OpenWeatherMap One Call API response into a map of
  * `WeatherCacheEntry` objects keyed by date (YYYY-MM-DD).
  */
-export function parseWeatherData(apiResponse: any): Record<string, WeatherCacheEntry> {
-  if (!apiResponse) return {};
+export function parseWeatherData(input: unknown): Record<string, WeatherCacheEntry> {
+  if (!input) return {};
+  const apiResponse = decodeWeatherResponse(input);
 
   const entries: Record<string, WeatherCacheEntry> = {};
-  const fetchedAt = Number.isFinite(apiResponse._weedgrowFetchedAt) ? Timestamp.fromMillis(apiResponse._weedgrowFetchedAt) : Timestamp.now();
+  const fetchedAt = Number.isFinite(apiResponse._weedgrowFetchedAt) ? Timestamp.fromMillis(apiResponse._weedgrowFetchedAt!) : Timestamp.now();
   const tzOffset = apiResponse.timezone_offset ?? 0; // seconds
   const NIGHT_START_HOUR = 20;
   const NIGHT_END_HOUR = 7;
@@ -40,8 +42,8 @@ export function parseWeatherData(apiResponse: any): Record<string, WeatherCacheE
         nightHumidityTotal: 0,
         nightHumiditySamples: 0,
       };
-      if (hour.temp > existing.peakTemp) existing.peakTemp = hour.temp;
-      const rainAmount = hour.rain?.['1h'] ?? hour.snow?.['1h'] ?? 0;
+      if (typeof hour.temp === 'number' && hour.temp > existing.peakTemp) existing.peakTemp = hour.temp;
+      const rainAmount = (typeof hour.rain === 'number' ? hour.rain : hour.rain?.['1h']) ?? hour.snow?.['1h'] ?? 0;
       if (rainAmount > 0) existing.rainHours += 1;
       const hourOfDay = shifted.getUTCHours();
       if (typeof hour.humidity === 'number' && isNightHour(hourOfDay)) {
@@ -55,15 +57,17 @@ export function parseWeatherData(apiResponse: any): Record<string, WeatherCacheE
   const buildEntry = (
     dateStr: string,
     forecasted: boolean,
-    sourceData: any
+    sourceData: WeatherSample
   ): WeatherCacheEntry => {
+    const temperature = typeof sourceData.temp === 'number' ? sourceData.temp : sourceData.temp?.day;
+    if (typeof temperature !== 'number' || typeof sourceData.humidity !== 'number' || typeof sourceData.wind_speed !== 'number' || typeof sourceData.uvi !== 'number') throw new Error('Weather response was missing required conditions.');
     const base: WeatherCacheEntry = {
       ...(typeof apiResponse.timezone === 'string' ? { timeZone: apiResponse.timezone } : {}),
       date: dateStr,
       fetchedAt,
       forecasted,
       source: 'OpenWeatherMap',
-      temperature: sourceData.temp?.day ?? sourceData.temp,
+      temperature,
       humidity: sourceData.humidity,
       windSpeed: sourceData.wind_speed,
       rainfall: typeof sourceData.rain === 'number' ? sourceData.rain : sourceData.rain?.['1h'] ?? sourceData.rainfall ?? 0,
@@ -95,7 +99,7 @@ export function parseWeatherData(apiResponse: any): Record<string, WeatherCacheE
 
     // Merge in the hourly summaries we computed above if available
     const hourly = hourlyMap[dateStr];
-    if (hourly) {
+    if (hourly && Number.isFinite(hourly.peakTemp)) {
       base.hourlySummary = {
         peakTemp: hourly.peakTemp,
         rainHours: hourly.rainHours,
@@ -118,7 +122,7 @@ export function parseWeatherData(apiResponse: any): Record<string, WeatherCacheE
 
   // Daily forecasts (daily[0] is today)
   if (Array.isArray(apiResponse.daily)) {
-    apiResponse.daily.forEach((d: any, idx: number) => {
+    apiResponse.daily.forEach((d, idx) => {
       const dateStr = toDateStr(d.dt);
       // daily[0] overlaps with the `current` object, so only entries after
       // index 0 are considered "forecast" data

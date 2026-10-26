@@ -7,6 +7,7 @@ import { invalidatePlantCache } from '@/services/gardenData';
 import { assertSpaceCapacity } from '../groupPolicy';
 import type { Group, Plant } from '@/firestoreModels';
 import { sameLocation } from '@/features/location/locationState';
+import { assertValidPlantFields } from '@/lib/plants/plantValidation';
 
 // A plant has one growing space. Read every affected record before writing so
 // moving, removing and deleting membership remain atomic across devices.
@@ -20,11 +21,18 @@ export async function saveGrowingSpace(id: string | undefined, updates: Partial<
     if (before && before.createdBy !== uid) throw new Error('This space is not in your account.');
     if (before) assertUnchanged(before as unknown as EditBaseline, updates, baseline);
     const next = { ...before, ...updates };
+    if (!remove) assertValidPlantFields({ name: next.name, environment: next.environment, location: next.location });
+    if (!remove && next.environment === 'outdoor') next.sensorProfileId = null;
+    if (next.plantIds != null && (!Array.isArray(next.plantIds) || next.plantIds.some(value => typeof value !== 'string' || !value || value.includes('/')))) throw new Error('Choose valid plant records for this growing space.');
     const ids = remove ? [] : [...new Set(next.plantIds || [])];
     const allIds = [...new Set([...(before?.plantIds || []), ...ids])];
     assertSpaceCapacity(ids);
     assertSpaceCapacity(allIds);
     if (!remove && (!next.name?.trim() || next.name.trim().length > 100)) throw new Error('Use a space name of 1–100 characters.');
+    if (!remove && next.sensorProfileId) {
+      const profile = await tx.get(doc(db, 'sensorProfiles', next.sensorProfileId));
+      if (!profile.exists() || profile.data().createdBy !== uid || profile.data().deleting) throw new Error('Choose an available sensor profile from your account.');
+    }
     const plants = await Promise.all(allIds.map(pid => tx.get(doc(db, 'plants', pid))));
     const previousGroups = new Map<string, DocumentSnapshot>();
     for (const plant of plants) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { ThemedText } from './ThemedText';
+import type { PlantLog } from '@/firestoreModels';
 
 export interface ExpandedLogPanelProps {
   date: string;
@@ -11,7 +12,7 @@ export interface ExpandedLogPanelProps {
     humidity?: number | null;
     rain?: number | null;
   };
-  logs: { type: string; description?: string; updatedBy?: string; timestamp?: any }[];
+  logs: { type: string; description?: string; updatedBy?: string; timestamp?: PlantLog['timestamp'] | null }[];
   onAddLog: () => void;
   onAddPic: () => void;
 }

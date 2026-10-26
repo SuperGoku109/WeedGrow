@@ -42,3 +42,5 @@ export interface PlantForm {
   companionPlants?: string[];
   environmentNotes?: string;
 }
+
+export type PlantFieldSetter = <K extends keyof PlantForm>(key: K, value: PlantForm[K]) => void;

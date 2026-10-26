@@ -1,10 +1,11 @@
+import { gardenFlowPalette as palette } from '@/design-system/tokens/garden';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Animated, Platform, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions, type TextInputProps, type ViewStyle } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Circle, Ellipse, Path } from 'react-native-svg';
 import { useReducedMotion } from '@/ui/GrowMotion';
 
-export const palette = { bg: '#14231c', panel: '#1e3026', input: '#17271f', border: '#3c5040', ink: '#f0f2e6', muted: '#b1bfac', accent: '#d0e8a0', dark: '#283a25', soft: '#e8edd6', error: '#ffb8a8' };
+export { gardenFlowPalette as palette } from '@/design-system/tokens/garden';
 export type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 export const ValidationContext = createContext<{ target?: string; revision: number; root?: React.RefObject<View | null>; reveal?: (y: number) => void }>({ revision: 0 });
 export function ValidationTarget({ name, children, focus }: { name?: string; children: React.ReactNode; focus?: () => void }) {
@@ -25,14 +26,14 @@ export function Press({ children, onPress, label, selected, expanded, disabled, 
   const scale = useRef(new Animated.Value(1)).current;
   const reduced = useReducedMotion();
   const animate = (toValue: number) => { if (!reduced) Animated.spring(scale, { toValue, speed: 35, bounciness: 3, useNativeDriver: Platform.OS !== 'web' }).start(); };
-  return <Animated.View style={[{ transform: [{ scale }], flexShrink: 1 }, containerStyle]}><Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, expanded, disabled }} disabled={disabled} onPress={onPress} onPressIn={() => animate(0.975)} onPressOut={() => animate(1)} style={({ pressed, hovered }) => [style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
+  return <Animated.View style={[{ transform: [{ scale }], flexShrink: 1 }, containerStyle]}><Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, expanded, disabled }} disabled={disabled} onPress={onPress} onPressIn={() => animate(0.975)} onPressOut={() => animate(1)} style={({ pressed, hovered }) => [{ minWidth: 48, minHeight: 48 }, style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
 }
 
 export function Field({ label, hint, error, optional, fieldKey, ...props }: TextInputProps & { label: string; hint?: string; error?: string; optional?: boolean; fieldKey?: string }) {
   const [focused, setFocused] = useState(false);
   const input = useRef<TextInput>(null);
   const focus = React.useCallback(() => input.current?.focus(), []);
-  return <ValidationTarget name={fieldKey} focus={focus}><View style={s.field}><View style={s.labelRow}><Text style={s.label}>{label}</Text>{optional && <Text style={s.optional}>Optional</Text>}</View><TextInput {...props} ref={input} accessibilityLabel={label} accessibilityHint={error || hint} placeholderTextColor="#849580" selectionColor={palette.accent} onFocus={event => { setFocused(true); props.onFocus?.(event); }} onBlur={event => { setFocused(false); props.onBlur?.(event); }} style={[s.input, props.multiline && { minHeight: 108, textAlignVertical: 'top' }, focused && { borderColor: palette.accent, backgroundColor: '#203329' }, error && { borderColor: palette.error }, props.style]} />{(hint || error) && <Text accessibilityLiveRegion="polite" style={[s.hint, error ? { color: palette.error } : undefined]}>{error || hint}</Text>}</View></ValidationTarget>;
+  return <ValidationTarget name={fieldKey} focus={focus}><View style={s.field}><View style={s.labelRow}><Text style={s.label}>{label}</Text>{optional && <Text style={s.optional}>Optional</Text>}</View><TextInput {...props} ref={input} accessibilityLabel={label} accessibilityHint={error || hint} placeholderTextColor={palette.muted} selectionColor={palette.accent} onFocus={event => { setFocused(true); props.onFocus?.(event); }} onBlur={event => { setFocused(false); props.onBlur?.(event); }} style={[s.input, props.multiline && { minHeight: 108, textAlignVertical: 'top' }, focused && { borderColor: palette.accent, backgroundColor: '#203329' }, error && { borderColor: palette.error }, props.style]} />{(hint || error) && <Text accessibilityLiveRegion="polite" style={[s.hint, error ? { color: palette.error } : undefined]}>{error || hint}</Text>}</View></ValidationTarget>;
 }
 
 export function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
@@ -77,10 +78,10 @@ export function PlantIllustration({ stage = 'seedling' }: { stage?: string }) {
 }
 
 export const s = StyleSheet.create({
-  field: { gap: 8 }, labelRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 12 }, label: { color: palette.ink, fontSize: 14, fontWeight: '600' }, optional: { fontSize: 12, color: palette.muted },
+  field: { gap: 8 }, labelRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 12 }, label: { color: palette.ink, fontSize: 15, fontWeight: '600' }, optional: { fontSize: 13, color: palette.muted },
   input: { borderWidth: 1, borderColor: palette.border, borderRadius: 13, color: palette.ink, paddingHorizontal: 15, paddingVertical: 14, minHeight: 52, fontSize: 16, backgroundColor: palette.input },
-  hint: { color: palette.muted, fontSize: 13, lineHeight: 20 }, section: { gap: 16 }, sectionTitle: { color: palette.ink, fontSize: 18, fontWeight: '600', letterSpacing: -0.4 },
-  choices: { flexDirection: 'row', flexWrap: 'wrap', gap: 9 }, choice: { flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: palette.border, borderRadius: 12, paddingVertical: 13, paddingHorizontal: 15, minHeight: 46, backgroundColor: palette.input },
+  hint: { color: palette.muted, fontSize: 14, lineHeight: 21 }, section: { gap: 16 }, sectionTitle: { color: palette.ink, fontSize: 18, fontWeight: '600', letterSpacing: -0.4 },
+  choices: { flexDirection: 'row', flexWrap: 'wrap', gap: 9 }, choice: { flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: palette.border, borderRadius: 12, paddingVertical: 13, paddingHorizontal: 15, minHeight: 48, backgroundColor: palette.input },
   detailedChoice: { minWidth: 220, flexGrow: 1, padding: 15 }, choiceSelected: { backgroundColor: '#2c402b', borderColor: '#b6ce88' }, choiceLabel: { color: palette.ink, fontSize: 14, fontWeight: '500' }, choiceIcon: { width: 44, height: 44, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: '#2c4030' },
   disclosure: { borderWidth: 1, borderColor: palette.border, borderRadius: 16, overflow: 'hidden' }, disclosureHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 18 },
   button: { minHeight: 52, borderRadius: 14, backgroundColor: palette.accent, paddingHorizontal: 24, paddingVertical: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, borderWidth: 1, borderColor: palette.accent }, buttonText: { color: palette.dark, fontSize: 15, fontWeight: '700' },

@@ -148,7 +148,7 @@ const companionOptions = [
 ];
 
 // Advanced Setup Section
-const AdvancedSetupSection = memo(function AdvancedSetupSection({ form, logic, scrollRef }: { form: PlantForm; logic: Step2EnvironmentLogic; scrollRef?: any }) {
+const AdvancedSetupSection = memo(function AdvancedSetupSection({ form, logic, scrollRef }: { form: PlantForm; logic: Step2EnvironmentLogic; scrollRef?: React.RefObject<KeyboardAwareScrollView | null> }) {
   const [expanded, setExpanded] = useState(false);
   const companions = form.companionPlants || [];
 
@@ -219,7 +219,7 @@ const AdvancedSetupSection = memo(function AdvancedSetupSection({ form, logic, s
 
 // Main form component for entering environment details
 export const EnvironmentForm = memo(function EnvironmentForm({ form, logic, next, back }: EnvironmentFormProps) {
-  const scrollRef = useRef<any>(null);
+  const scrollRef = useRef<KeyboardAwareScrollView>(null);
   return (
     <WeedGrowCard style={styles.card} entering={FadeIn.duration(500)}>
       <WeedGrowCardBackground>

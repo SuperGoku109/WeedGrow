@@ -39,8 +39,18 @@ it('turns a synchronous connection failure into a retryable error', () => {
     next(['recovered']); return jest.fn();
   }, 'Could not load');
   const leave = store.subscribe('owner', jest.fn());
-  expect(store.get('owner')).toEqual({ data: [], loading: false, error: 'Could not load' });
+  expect(store.get('owner')).toEqual({ status: 'error', data: [], loading: false, error: 'Could not load' });
   store.retryFailed();
   expect(store.get('owner').data).toEqual(['recovered']);
+  leave(); store.clear();
+});
+it('distinguishes an initial load from refresh while keeping an empty successful result', () => {
+  const { store, subscriptions } = setup();
+  expect(store.idle.status).toBe('idle');
+  const leave = store.subscribe('owner', jest.fn());
+  expect(store.get('owner').status).toBe('loading');
+  subscriptions[0].next([]); expect(store.get('owner').status).toBe('ready');
+  store.refresh('owner'); expect(store.get('owner').status).toBe('refreshing');
+  subscriptions[1].fail(); expect(store.get('owner').status).toBe('error');
   leave(); store.clear();
 });

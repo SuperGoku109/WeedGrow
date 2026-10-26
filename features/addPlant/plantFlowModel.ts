@@ -1,6 +1,7 @@
 import type { PlantForm } from '@/features/plants/form/PlantForm';
 import { localDateKey, validateLogDate } from '@/lib/logs/plantJournal';
-import { validatePlantFields, MAX_PLANT_AGE_DAYS } from '@/lib/plants/plantValidation';
+import { validatePlantFields, MAX_PLANT_AGE_DAYS, PLANT_ENVIRONMENTS } from '@/lib/plants/plantValidation';
+import { normalizePlantSetup } from '@/lib/plants/plantRules';
 
 export const stages = [
   { value: 'germination', label: 'Germination', detail: 'Starting from a seed', icon: 'seed-outline' },
@@ -43,9 +44,10 @@ export function normalizePlantForm(form: PlantForm, today = localDateKey()): Pla
   }
   normalized.locationMode = normalized.locationMode === 'space' && normalized.groupId ? 'space' : 'custom';
   // Discard values from controls that no longer apply after changing the setup.
-  if (normalized.plantedIn === 'ground') normalized.potSize = '';
-  if (normalized.environment === 'indoor') normalized.sunlightExposure = '';
-  if (normalized.environment === 'outdoor') normalized.sensorProfileId = null;
+  const setup = normalizePlantSetup({ environment: PLANT_ENVIRONMENTS.find(value => value === normalized.environment), plantedIn: normalized.plantedIn === 'ground' ? 'ground' : normalized.plantedIn === 'pot' ? 'pot' : undefined, potSize: normalized.potSize, sunlightExposure: normalized.sunlightExposure, sensorProfileId: normalized.sensorProfileId });
+  normalized.potSize = setup.potSize || '';
+  normalized.sunlightExposure = setup.sunlightExposure || '';
+  normalized.sensorProfileId = setup.sensorProfileId || null;
   normalized.companionPlants = [...new Set((normalized.companionPlants || []).map(value => value.trim()).filter(Boolean))];
   const mode = normalized.ageMode || (normalized.ageDays ? 'estimate' : 'unknown');
   normalized.ageMode = mode;

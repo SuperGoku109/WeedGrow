@@ -7,7 +7,7 @@ import { Spacing, BorderRadius } from '@/design-system/tokens';
 import { RipplePulse } from './RipplePulse';
 
 interface WeedGrowDropdownInputProps {
-  icon?: string;
+  icon?: React.ComponentProps<typeof MaterialCommunityIcons>['name'];
   value: string;
   label: string;
   options: { label: string; value: string }[];
@@ -35,7 +35,8 @@ export function WeedGrowDropdownInput({
   }, [options]);
 
   // Show ripple when opening dropdown
-  const handleSetOpen = (val: boolean) => {
+  const handleSetOpen = (action: React.SetStateAction<boolean>) => {
+    const val = typeof action === 'function' ? action(open) : action;
     if (val && !open) {
       setShowRipple(true);
     }
@@ -44,14 +45,14 @@ export function WeedGrowDropdownInput({
 
   return (
     <View style={{ zIndex, marginBottom: Spacing.md, position: 'relative' }}>
-      {/* Ripple overlay for debug - always above everything */}
+      {/* Keep the decorative ripple clear of pointer interactions. */}
       <View style={{ position: 'absolute', left: 32, top: 54, zIndex: 9999, pointerEvents: 'none' }}>
         <RipplePulse show={showRipple} color="rgba(255,0,0,0.4)" size={200} onAnimationEnd={() => setShowRipple(false)} />
       </View>
       <Container direction="row" align="center" style={{ marginBottom: Spacing.xs }}>
         {icon && (
           <MaterialCommunityIcons
-            name={icon as any}
+            name={icon}
             size={18}
             color={theme.colors.text.primary}
             style={{ marginRight: Spacing.xs }}
@@ -59,12 +60,12 @@ export function WeedGrowDropdownInput({
         )}
         <Text variant="label" color="primary">{label}</Text>
       </Container>
-      <DropDownPicker
+      <DropDownPicker<string>
         open={open}
         value={value}
         items={items}
-        setOpen={handleSetOpen as any}
-        setValue={(callback) => onSelect(callback(value))}
+        setOpen={handleSetOpen}
+        setValue={(action) => { const next = typeof action === 'function' ? action(value) : action; if (next !== null) onSelect(next); }}
         setItems={setItems}
         placeholder={placeholder}
         style={[
@@ -88,13 +89,13 @@ export function WeedGrowDropdownInput({
         listItemLabelStyle={{
           color: theme.colors.text.primary,
         }}
-        ArrowDownIconComponent={({ style }: { style?: any }) => (
+        ArrowDownIconComponent={({ style }) => (
+          <View style={style}>
           <MaterialCommunityIcons 
             name="chevron-down" 
             size={20} 
             color={theme.colors.text.secondary} 
-            style={style} 
-          />
+          /></View>
         )}
         listMode="SCROLLVIEW"
       />

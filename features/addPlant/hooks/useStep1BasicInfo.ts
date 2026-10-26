@@ -4,7 +4,7 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { getAvailableStrains } from '../api/basicInfoApi';
-import type { PlantForm } from '@/features/plants/form/PlantForm';
+import type { PlantForm, PlantFieldSetter } from '@/features/plants/form/PlantForm';
 import { BaseStepLogic } from '../types/StepLogic';
 import { useStepBackground } from './useStepBackground';
 
@@ -17,13 +17,13 @@ export interface Step1BasicInfoLogic extends BaseStepLogic {
   setStrainSearch: (value: string) => void;
   filteredStrains: string[];
   isValid: boolean;
-  setField: (key: keyof PlantForm, value: any) => void;
+  setField: PlantFieldSetter;
 }
 
 // Hook for managing the Basic Info step logic
 export function useStep1BasicInfo(
   form: PlantForm,
-  setField: (key: keyof PlantForm, value: any) => void
+  setField: PlantFieldSetter
 ): Step1BasicInfoLogic {
   const backgroundColor = useStepBackground();
   const strains = useMemo(() => getAvailableStrains(), []);

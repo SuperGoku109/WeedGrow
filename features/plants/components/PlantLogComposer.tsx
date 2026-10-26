@@ -75,7 +75,7 @@ export default function PlantLogComposer({ timeZone, plantId, entry, theme: t, n
           <Text style={{ color: t.text, fontSize: 14, fontWeight: '600', marginTop: 19, marginBottom: 9 }}>Observations {['watering', 'feeding'].includes(category) ? '(optional)' : ''}</Text>
           <TextInput accessibilityLabel="Log observations" editable={!saving && ready} value={description} onChangeText={setDescription} multiline maxLength={4000} placeholder={selected?.hint} placeholderTextColor={t.muted} style={[s.input, { minHeight: 112, textAlignVertical: 'top', color: t.text, borderColor: t.border, backgroundColor: t.surface }]} />
           {(['waterMl', 'nutrientMlPerL', 'ph', 'heightCm', 'soilMoisture'] as const).filter(key => key === 'waterMl' ? category === 'watering' : key === 'nutrientMlPerL' ? category === 'feeding' : true).map(key => <View key={key}><Text style={{ color: t.text, marginTop: 12, marginBottom: 7 }}>{{ waterMl: 'Water amount (ml)', nutrientMlPerL: 'Nutrient dose (ml/L)', ph: 'pH (0–14)', heightCm: 'Height (cm)', soilMoisture: 'Soil moisture (%)' }[key]} · optional</Text><TextInput accessibilityLabel={key} keyboardType="decimal-pad" editable={!saving && ready} value={measurements[key] || ''} onChangeText={value => setMeasurements(previous => ({ ...previous, [key]: value }))} style={[s.input, { color: t.text, borderColor: t.border }]} /></View>)}
-          <Text style={{ color: t.muted, fontSize: 14, marginTop: 9, lineHeight: 16 }}>This records a completed activity. Past dates are welcome; future dates are for planning.</Text>
+          <Text style={{ color: t.muted, fontSize: 14, marginTop: 9, lineHeight: 21 }}>This records a completed activity. Past dates are welcome; future dates are for planning.</Text>
           {!!error && <Text accessibilityRole="alert" style={{ color: t.danger, marginTop: 13, fontSize: 14, lineHeight: 18 }}>{error}</Text>}
           </>}
         </ScrollView>
@@ -85,4 +85,4 @@ export default function PlantLogComposer({ timeZone, plantId, entry, theme: t, n
     </KeyboardAvoidingView>
   </Modal>;
 }
-const s = StyleSheet.create({ overlay: { flex: 1, backgroundColor: 'rgba(8,17,12,0.75)', justifyContent: 'flex-end', alignItems: 'center' }, sheet: { width: '100%', maxWidth: 620, maxHeight: '94%', borderTopLeftRadius: 29, borderTopRightRadius: 29, borderWidth: 1, padding: 20 }, close: { minWidth: 44, minHeight: 44, padding: 10 }, input: { borderWidth: 1, borderRadius: 15, padding: 14, fontSize: 14 } });
+const s = StyleSheet.create({ overlay: { flex: 1, backgroundColor: 'rgba(8,17,12,0.75)', justifyContent: 'flex-end', alignItems: 'center' }, sheet: { width: '100%', maxWidth: 620, maxHeight: '94%', borderTopLeftRadius: 29, borderTopRightRadius: 29, borderWidth: 1, padding: 20 }, close: { minWidth: 48, minHeight: 48, padding: 10 }, input: { borderWidth: 1, borderRadius: 15, padding: 14, fontSize: 16 } });

@@ -48,3 +48,61 @@ Web Bundled 275ms node_modules\expo-router\entry.js (1 module)
 λ Bundled 342ms node_modules\expo-router\node\render.js (1 module)
 Web Bundled 72ms node_modules\expo-router\entry.js (1 module)
  LOG  [web] Logs will appear in the browser console
+Unable to resolve "@/lib/plants/locationState" from "lib\suggestions\wateringSuggestions.ts"
+[0m [90m  5 |[39m [36mimport[39m { parseWeatherData } [36mfrom[39m [32m'@/lib/weather/parseWeatherData'[39m[33m;[39m
+ [90m  6 |[39m [36mimport[39m { updateWeatherCache } [36mfrom[39m [32m'@/lib/weather/updateFirestore'[39m[33m;[39m
+[31m[1m>[22m[39m[90m  7 |[39m [36mimport[39m { weatherMatchesLocation } [36mfrom[39m [32m'@/lib/plants/locationState'[39m[33m;[39m
+ [90m    |[39m                                         [31m[1m^[22m[39m
+ [90m  8 |[39m [36mimport[39m logger [36mfrom[39m [32m'@/lib/logger'[39m[33m;[39m
+ [90m  9 |[39m [36mimport[39m { calculatePlantWatering[33m,[39m getLocalDateString[33m,[39m [33mDEFAULT_LOOKBACK_DAYS[39m[33m,[39m [33mDEFAULT_RAIN_THRESHOLD_MM[39m[33m,[39m type [33mPlantSummary[39m[33m,[39m type [33mWateringInsight[39m[33m,[39m type [33mEvaluateOptions[39m[33m,[39m type [33mRangeEntry[39m } [36mfrom[39m [32m'./wateringEngine'[39m[33m;[39m
+ [90m 10 |[39m [36mexport[39m { getLocalDateString } [36mfrom[39m [32m'./wateringEngine'[39m[33m;[39m[0m
+
+Import stack:
+
+ lib\suggestions\wateringSuggestions.ts
+ | import "@/lib/plants/locationState"
+
+ lib\suggestions\suggestionCards.ts
+ | import "./wateringSuggestions"
+
+ features\plants\screens\PlantDetailScreen.tsx
+ | import "@/lib/suggestions/suggestionCards"
+
+ app\plant\[id].tsx
+ | import "@/features/plants/screens/PlantDetailScreen"
+
+ app (require.context)
+
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 2273ms node_modules\expo-router\entry.js (1 module)
+λ Bundled 2379ms node_modules\expo-router\node\render.js (1 module)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 82ms node_modules\expo-router\entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 2649ms node_modules\expo-router\node\render.js (1 module)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 3728ms node_modules\expo-router\entry.js (1 module)
+Web Bundled 75ms node_modules\expo-router\entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 39ms node_modules\expo-router\node\render.js (1 module)
+Web Bundled 727ms node_modules\expo-router\entry.js (1 module)
+Web Bundled 66ms node_modules\expo-router\entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\leaflet\dist\leaflet-src.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 25ms node_modules\leaflet\dist\leaflet-src.js (1 module)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 3659ms node_modules\expo-router\node\render.js (1 module)
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web Bundled 4947ms node_modules\expo-router\entry.js (1 module)
+Web Bundled 85ms node_modules\expo-router\entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ Bundled 378ms node_modules\expo-router\node\render.js (1 module)
+Web Bundled 1651ms node_modules\expo-router\entry.js (1 module)
+Web Bundled 74ms node_modules\expo-router\entry.js (1 module)
+ LOG  [web] Logs will appear in the browser console

@@ -1,10 +1,11 @@
+import { gardenCollectionInk as ink } from '@/design-system/tokens/garden';
 import React from 'react';
 import { Animated, Easing, Platform, Pressable, StyleSheet, Text, View, type ViewProps } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Path, Circle, Rect } from 'react-native-svg';
 import { useReducedMotion } from '@/ui/GrowMotion';
 
-export const ink = { background: '#15231c', surface: '#22332a', border: '#40523b', text: '#edf0e3', muted: '#acbba2', lime: '#c8e78b', dark: '#25351f' };
+export { gardenCollectionInk as ink } from '@/design-system/tokens/garden';
 export const environments = {
   indoor: { label: 'Indoor', color: '#c4c6ed', icon: 'home-outline' as const, backdrop: '#343748' },
   outdoor: { label: 'Outdoor', color: '#dce9a6', icon: 'white-balance-sunny' as const, backdrop: '#39462c' },
@@ -17,7 +18,7 @@ export function CollectionReveal({ children, style, delay = 0 }: ViewProps & { d
   React.useEffect(() => {
     if (reduced) { value.setValue(1); return; }
     value.setValue(0);
-    const animation = Animated.timing(value, { toValue: 1, duration: 360, delay, easing: Easing.out(Easing.cubic), useNativeDriver: Platform.OS !== 'web' });
+    const animation = Animated.timing(value, { toValue: 1, duration: 220, delay, easing: Easing.out(Easing.cubic), useNativeDriver: Platform.OS !== 'web' });
     animation.start();
     return () => animation.stop();
   }, [reduced, value, delay]);
@@ -56,7 +57,7 @@ export function SpaceArtwork({ environment }: { environment: string }) {
 }
 
 const styles = StyleSheet.create({
-  button: { minHeight: 44, paddingHorizontal: 14, borderRadius: 14, borderWidth: 1, borderColor: ink.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  button: { minHeight: 48, paddingHorizontal: 14, borderRadius: 14, borderWidth: 1, borderColor: ink.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
   primary: { backgroundColor: ink.lime, borderColor: ink.lime },
-  buttonText: { color: ink.text, fontSize: 13, fontWeight: '700' },
+  buttonText: { color: ink.text, fontSize: 14, fontWeight: '700' },
 });

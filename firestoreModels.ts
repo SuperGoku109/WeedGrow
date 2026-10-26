@@ -1,3 +1,5 @@
+import type { Timestamp } from 'firebase/firestore';
+export interface ProgressPic { id: string; imageUrl: string; timestamp?: Timestamp; caption?: string }
 // firestoreModels.ts
 
 // ================================
@@ -9,50 +11,52 @@ export interface Plant {
     strainType?: string;
     startedOn?: string | null;
     ageEstimated?: boolean;
-    ageRecordedAt?: FirebaseFirestore.Timestamp;
+    ageRecordedAt?: Timestamp;
     groupId?: string | null;
     locationLabel?: string | null;
     locationMode?: 'custom' | 'space';
     locationRevision?: number;
-    locationChangedAt?: FirebaseFirestore.Timestamp;
+    locationChangedAt?: Timestamp;
     currentWeather?: WeatherCacheEntry | null;
     weatherHistoryBefore?: string;
     locationTimeZone?: string | null;
     careSnoozes?: { watering?: number; feeding?: number };
     careSkips?: { watering?: string; feeding?: string };
+    deleting?: boolean;
+    harvest?: { date: string; weightGrams?: number; notes: string; recordId: string };
     owners: string[];
     growthStage: 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone';
-    ageDays?: number;
+    ageDays?: number | null;
     ageKnown?: boolean;
     status: 'active' | 'archived' | 'harvested' | 'dead';
     environment: 'outdoor' | 'greenhouse' | 'indoor';
     plantedIn: 'pot' | 'ground';
   
-    potSize?: string;
-    sunlightExposure?: string;
-    wateringFrequency?: string;
-    fertilizer?: string;
-    feedingFrequency?: string;
+    potSize?: string | null;
+    sunlightExposure?: string | null;
+    wateringFrequency?: string | null;
+    fertilizer?: string | null;
+    feedingFrequency?: string | null;
     pests?: string[];
     trainingTags?: string[];
-    notes?: string;
-    imageUri?: string;
+    notes?: string | null;
+    imageUri?: string | null;
     waterLevel?: number; // 0-1 representing current watering level
-    height?: number;
-    soilType?: string;
-    soilPh?: string;
-    permanentProtection?: string;
+    height?: number | null;
+    soilType?: string | null;
+    soilPh?: string | null;
+    permanentProtection?: string | null;
     companionPlants?: string[];
-    environmentNotes?: string;
+    environmentNotes?: string | null;
   
     location?: {
       lat: number;
       lng: number;
-    };
-    locationNickname?: string;
+    } | null;
+    locationNickname?: string | null;
 
     // Link to sensor profile (optional)
-    sensorProfileId?: string;
+    sensorProfileId?: string | null;
   
     reminderSchedule?: {
       type: 'interval' | 'custom' | 'none';
@@ -61,8 +65,8 @@ export interface Plant {
       timeOfDay?: string;
     };
   
-    createdAt: FirebaseFirestore.Timestamp;
-    updatedAt: FirebaseFirestore.Timestamp;
+    createdAt: Timestamp | null;
+    updatedAt: Timestamp | null;
   }
   
   // ================================
@@ -73,14 +77,14 @@ export interface Plant {
     timeZone?: string;
     movement?: { from: { lat: number; lng: number } | null; to: { lat: number; lng: number } | null; fromLabel: string; toLabel: string; revision: number };
     mutationId?: string;
-    editedAt?: FirebaseFirestore.Timestamp;
+    editedAt?: Timestamp;
     waterMl?: number;
     nutrientMlPerL?: number;
     ph?: number;
     heightCm?: number;
     soilMoisture?: number;
     category?: 'watering' | 'feeding' | 'pests' | 'training' | 'health' | 'notes';
-    timestamp: FirebaseFirestore.Timestamp;
+    timestamp: Timestamp;
     type: 'watering' | 'fertilizing' | 'note' | 'photo' | 'training' | 'stage_change' | 'harvest';
     description?: string;
     photoUri?: string;
@@ -99,7 +103,7 @@ export interface WeatherCacheEntry {
     locationLabel?: string;
     previousLocations?: Omit<WeatherCacheEntry, 'previousLocations'>[];
     date: string; // 'YYYY-MM-DD'
-    fetchedAt: FirebaseFirestore.Timestamp;
+    fetchedAt: Timestamp;
     forecasted: boolean;
     source: string;
     temperature: number;
@@ -150,7 +154,7 @@ export interface WeatherCacheEntry {
   export interface NotificationProfile {
     deviceTokens: string[];
     subscribedTopics: string[];
-    lastUpdated: FirebaseFirestore.Timestamp;
+    lastUpdated: Timestamp;
   }
   
   // ================================
@@ -180,7 +184,7 @@ export interface Invite {
     invitedUserEmail: string;
     plantId: string;
     status: 'pending' | 'accepted' | 'declined';
-    createdAt: FirebaseFirestore.Timestamp;
+    createdAt: Timestamp | null;
 }
 
 // ================================
@@ -193,10 +197,10 @@ export interface Group {
   plantIds: string[];
   location: { lat: number; lng: number } | null;
   createdBy: string;
-  createdAt: FirebaseFirestore.Timestamp;
-  updatedAt: FirebaseFirestore.Timestamp;
+  createdAt: Timestamp | null;
+  updatedAt: Timestamp | null;
   /** Optional: sensor profile for indoor/greenhouse groups */
-  sensorProfileId?: string;
+  sensorProfileId?: string | null;
   /** Optional: which plant's location/weather to use for this group */
-  weatherSourcePlantId?: string;
+  weatherSourcePlantId?: string | null;
 }

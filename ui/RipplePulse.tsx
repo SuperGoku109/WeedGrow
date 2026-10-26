@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSequence, withSpring, runOnJS } from 'react-native-reanimated';
 
 interface RipplePulseProps {
@@ -8,7 +8,7 @@ interface RipplePulseProps {
   color?: string;
   duration?: number;
   size?: number;
-  style?: any;
+  style?: StyleProp<ViewStyle>;
 }
 
 export const RipplePulse = ({ show, onAnimationEnd, color = '#4caf50', duration = 400, size = 120, style }: RipplePulseProps) => {

@@ -20,3 +20,14 @@ it('does no photo reads until Photos opens and retains recent pages when switchi
   await act(async () => gallery.refresh()); expect(getDocs).toHaveBeenCalledTimes(2);
   act(() => renderer.unmount());
 });
+it('paginates through the data service and deduplicates repeated photo IDs', async () => {
+  const first = Array.from({ length: 20 }, (_, index) => ({ id: `photo-${index}`, data: () => ({ imageUrl: `image-${index}` }) }));
+  jest.mocked(getDocs).mockResolvedValueOnce({ size: 20, docs: first } as never).mockResolvedValueOnce({ size: 2, docs: [first[19], { id: 'photo-20', data: () => ({ imageUrl: 'image-20' }) }] } as never);
+  let gallery!: ReturnType<typeof useProgressGallery>;
+  function Probe() { gallery = useProgressGallery('p'); return null; }
+  let renderer: any; await act(async () => { renderer = create(React.createElement(Probe)); });
+  expect(gallery.hasMore).toBe(true);
+  await act(async () => gallery.loadMore());
+  expect(gallery.pics).toHaveLength(21); expect(gallery.hasMore).toBe(false);
+  act(() => renderer.unmount());
+});

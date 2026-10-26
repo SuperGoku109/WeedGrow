@@ -18,6 +18,7 @@ export async function uploadProgressPic(plantId: string, fileUri: string, captio
       // A previous attempt may have committed even when its response was lost.
       // Caption changes update that same photo rather than creating another.
       tx.update(ref, { caption: caption || '' });
+      tx.update(plantRef, { updatedAt: serverTimestamp() });
       tx.set(doc(db, 'plants', plantId, 'logs', `photo_${ref.id}`), { type: 'photo', photoUri: existing.data().imageUrl, timestamp: existing.data().timestamp || serverTimestamp(), updatedBy: uid, description: caption || 'Progress photo added.' }, { merge: true });
       return;
     }

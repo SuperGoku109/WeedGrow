@@ -1,13 +1,15 @@
+import Feedback from '@/ui/Feedback';
+import { gardenThemes } from '@/design-system/tokens/garden';
+import { useAsyncResource } from '@/hooks/useAsyncResource';
 import { useSession } from '@/services/session';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ActivityIndicator, Button, Dialog, Portal, TextInput } from 'react-native-paper';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { collection, deleteDoc, deleteField, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 
-import { db } from '@/services/firebase';
+import { listSensorProfiles, saveSensorProfile, deleteSensorProfile, linkedProfilePlants, type SensorProfile } from '@/services/sensorProfiles';
 import HomeBackground from '@/features/home/components/HomeBackground';
 import { AppHeader } from '@/ui/AppHeader';
 import { CollectionReveal as GrowReveal } from '@/features/groups/components/CollectionUI';
@@ -17,20 +19,7 @@ function GrowPress({ style, ...props }: React.ComponentProps<typeof Pressable>) 
   return <Pressable {...props} style={state => [typeof style === 'function' ? style(state) : style, { opacity: props.disabled ? 0.5 : state.pressed ? 0.76 : 1 }]} />;
 }
 
-type SensorProfile = {
-  id: string;
-  name?: string;
-  environmentType?: 'indoor' | 'greenhouse';
-  isManual?: boolean;
-  defaultTemp?: number;
-  defaultHumidity?: number;
-};
-
-const palette = {
-  background: '#15231c', surface: '#23342a', elevated: '#2e4434', border: '#40523a',
-  text: '#edf0e3', muted: '#a9bba1', accent: '#c8e78b', onAccent: '#243420',
-  hero: '#eaf0d5', heroText: '#243420', warm: '#efb58d', danger: '#f0a999',
-};
+const palette = gardenThemes.grove;
 
 function ProfileHeroArt({ compact }: { compact: boolean }) {
   return (
@@ -50,14 +39,13 @@ function ProfileHeroArt({ compact }: { compact: boolean }) {
   );
 }
 
-export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMessage?: string } = {}) {
+function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string } = {}) {
   const router = useRouter();
   const { user } = useSession();
   const { width, height } = useWindowDimensions();
   const compact = width < 460;
-  const [profiles, setProfiles] = useState<SensorProfile[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState('');
+  const profileState = useAsyncResource<SensorProfile[]>(user?.uid || null, () => listSensorProfiles(), [], 'Could not load your profiles. Retry.');
+  const profiles = profileState.data; const loading = profileState.loading; const loadError = profileState.error;
   const [deleteTarget, setDeleteTarget] = useState<SensorProfile | null>(null);
   const [editing, setEditing] = useState<SensorProfile | null>(null);
   const [editName, setEditName] = useState('');
@@ -67,32 +55,11 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
   const [editHumidity, setEditHumidity] = useState('');
   const [saving, setSaving] = useState(false);
   const [editError, setEditError] = useState('');
-  const [linkedError, setLinkedError] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [linkedPlants, setLinkedPlants] = useState<{ name?: string }[]>([]);
-  const [linkedLoading, setLinkedLoading] = useState(false);
   const [showLinked, setShowLinked] = useState(false);
-  const [refreshVersion, setRefreshVersion] = useState(0);
-
-  useEffect(() => {
-    let isMounted = true;
-    const fetchProfiles = async () => {
-      setLoading(true);
-      setLoadError('');
-      try {
-        if (!user) { if (isMounted) setProfiles([]); return; }
-        const snap = await getDocs(query(collection(db, 'sensorProfiles'), where('createdBy', '==', user.uid)));
-        if (isMounted) setProfiles(snap.docs.map(item => ({ id: item.id, ...item.data() })) as SensorProfile[]);
-      } catch {
-        if (isMounted) setLoadError('Could not load your profiles. Please try again.');
-      } finally {
-        if (isMounted) setLoading(false);
-      }
-    };
-    fetchProfiles();
-    return () => { isMounted = false; };
-  }, [refreshVersion, user]);
-
+  const [linkedProfileId, setLinkedProfileId] = useState<string | null>(null);
+  const linkedState = useAsyncResource<{ name?: string }[]>(user && showLinked && linkedProfileId ? `${user.uid}:${linkedProfileId}` : null, () => linkedProfilePlants(linkedProfileId!), [], 'Could not load linked plants. Retry.');
+  const linkedPlants = linkedState.data; const linkedError = linkedState.error; const linkedLoading = linkedState.loading;
   const manualCount = useMemo(() => profiles.filter(profile => profile.isManual !== false).length, [profiles]);
 
   const handleEdit = (profile: SensorProfile) => {
@@ -101,8 +68,8 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
     setEditName(profile.name || '');
     setEditEnv(profile.environmentType || 'indoor');
     setEditManual(profile.isManual !== false);
-    setEditTemp(profile.defaultTemp === undefined ? '' : String(profile.defaultTemp));
-    setEditHumidity(profile.defaultHumidity === undefined ? '' : String(profile.defaultHumidity));
+    setEditTemp(profile.defaultTemp == null ? '' : String(profile.defaultTemp));
+    setEditHumidity(profile.defaultHumidity == null ? '' : String(profile.defaultHumidity));
   };
 
   const handleSaveEdit = async () => {
@@ -115,19 +82,11 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
     setSaving(true);
     setEditError('');
     try {
-      const update: Record<string, unknown> = { name: editName.trim(), environmentType: editEnv, isManual: editManual };
-      if (editManual) {
-        update.defaultTemp = editTemp ? Number(editTemp) : deleteField();
-        update.defaultHumidity = editHumidity ? Number(editHumidity) : deleteField();
-      } else {
-        update.defaultTemp = deleteField();
-        update.defaultHumidity = deleteField();
-      }
-      await updateDoc(doc(db, 'sensorProfiles', editing.id), update);
+      await saveSensorProfile(editing.id, { name: editName, environmentType: editEnv, isManual: editManual, defaultTemp: editTemp.trim() ? Number(editTemp) : null, defaultHumidity: editHumidity.trim() ? Number(editHumidity) : null });
       setEditing(null);
-      setRefreshVersion(version => version + 1);
-    } catch {
-      setEditError('The profile could not be updated. Please try again.');
+      profileState.refresh();
+    } catch (error) {
+      setEditError(error instanceof Error ? error.message : 'The profile could not be updated. Please try again.');
     } finally {
       setSaving(false);
     }
@@ -136,31 +95,17 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
   const handleDelete = async (id: string) => {
     setDeletingId(id);
     try {
-      await deleteDoc(doc(db, 'sensorProfiles', id));
+      await deleteSensorProfile(id);
       setDeleteTarget(null);
-      setRefreshVersion(version => version + 1);
-    } catch {
-      Alert.alert('Could not delete', 'The profile could not be removed. Please try again.');
+      profileState.refresh();
+    } catch (error) {
+      Alert.alert('Could not delete', error instanceof Error ? error.message : 'The profile could not be removed. Please try again.');
     } finally {
       setDeletingId(null);
     }
   };
 
-  const handleShowLinkedPlants = async (profileId: string) => {
-    setLinkedPlants([]);
-    setLinkedError('');
-    setLinkedLoading(true);
-    setShowLinked(true);
-    try {
-      const plantsQuery = query(collection(db, 'plants'), where('owners', 'array-contains', user?.uid || '__signed_out__'), where('sensorProfileId', '==', profileId));
-      const snap = await getDocs(plantsQuery);
-      setLinkedPlants(snap.docs.map(item => item.data()));
-    } catch {
-      setLinkedError('Could not load linked plants. Close this panel and try again.');
-    } finally {
-      setLinkedLoading(false);
-    }
-  };
+  const handleShowLinkedPlants = (id: string) => { setLinkedProfileId(id); setShowLinked(true); };
 
   return (
     <SafeAreaView edges={['top', 'left', 'right']} style={styles.safeArea}>
@@ -168,33 +113,33 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
       <View style={styles.page}>
         <AppHeader />
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
-          <GrowReveal style={styles.hero}>
+          <GrowReveal style={[styles.hero, compact && { minHeight: 0, marginBottom: 20 }]}>
             <View style={[styles.heroCopy, compact && styles.heroCopyCompact]}>
               <Text style={styles.eyebrow}>YOUR SAVED SETUPS</Text>
-              <Text accessibilityRole="header" style={[styles.heading, compact && styles.headingCompact]}>Every space.{`\n`}Its own profile.</Text>
-              <Text style={styles.topInfo}>Your saved settings, thoughtfully organised in one place.</Text>
+              <Text accessibilityRole="header" style={[styles.heading, compact && styles.headingCompact]}>{compact ? 'Growing profiles' : <>Every space.<Text>{'\n'}</Text>Its own profile.</>}</Text>
+              <Text style={styles.topInfo}>Saved indoor conditions for your plants.</Text>
               <GrowPress accessibilityRole="button" accessibilityLabel="Create a sensor profile" onPress={() => router.push('/add-sensor-profile')} style={styles.heroButton}>
-                <MaterialCommunityIcons name="plus" size={18} color={palette.onAccent} />
+                <MaterialCommunityIcons name="plus" size={18} color={palette.hero} />
                 <Text style={styles.heroButtonText}>New profile</Text>
               </GrowPress>
             </View>
-            <ProfileHeroArt compact={compact} />
+            {!compact && <ProfileHeroArt compact={compact} />}
             <View style={styles.heroStatus}>
-              <View style={styles.statusItem}><Text style={styles.statusValue}>{profiles.length}</Text><Text style={styles.statusLabel}>PROFILES</Text></View>
+              <View style={styles.statusItem}><Text style={styles.statusValue}>{loading && !profiles.length ? '—' : profiles.length}</Text><Text style={styles.statusLabel}>PROFILES</Text></View>
               <View style={styles.statusDivider} />
-              <View style={styles.statusItem}><Text style={styles.statusValue}>{manualCount}</Text><Text style={styles.statusLabel}>MANUAL</Text></View>
-              <Text style={styles.statusMessage}>Made for your spaces</Text>
+              <View style={styles.statusItem}><Text style={styles.statusValue}>{loading && !profiles.length ? '—' : manualCount}</Text><Text style={styles.statusLabel}>MANUAL</Text></View>
+              {!compact && <Text style={styles.statusMessage}>Made for your spaces</Text>}
             </View>
           </GrowReveal>
 
           <GrowReveal delay={80} style={styles.sectionHeading}>
             <View><Text style={styles.sectionEyebrow}>THE COLLECTION</Text><Text style={styles.sectionTitle}>Your profiles</Text></View>
-            <View style={styles.countBadge}><Text style={styles.countText}>{profiles.length}</Text></View>
+            <View style={styles.countBadge}><Text style={styles.countText}>{loading && !profiles.length ? '—' : profiles.length}</Text></View>
           </GrowReveal>
 
-          {loading && <View style={styles.loadingCard}><ActivityIndicator animating size="small" color={palette.accent} /><Text style={styles.loadingText}>Reading your grow spaces…</Text></View>}
+          {loading && <Feedback tone="loading" message={profiles.length ? 'Refreshing profiles…' : 'Loading your profiles…'} />}
 
-          {!!loadError && <View style={styles.loadingCard}><Text accessibilityRole="alert" style={styles.emptyText}>{loadError}</Text><Button textColor={palette.accent} onPress={() => setRefreshVersion(version => version + 1)}>Try again</Button></View>}
+          {!!loadError && <Feedback tone="error" message={loadError} onRetry={profileState.refresh} />}
           {!loading && !loadError && profiles.length === 0 && (
             <View style={styles.emptyCard}>
               <View style={styles.emptyIcon}><MaterialCommunityIcons name="access-point" size={27} color={palette.accent} /></View>
@@ -206,7 +151,7 @@ export default function ManageSensorProfilesScreen({ emptyMessage }: { emptyMess
             </View>
           )}
 
-          {!loading && profiles.map((profile, index) => {
+          {profiles.map((profile, index) => {
             const environment = profile.environmentType || 'indoor';
             const isManual = profile.isManual !== false;
             return (
@@ -283,13 +228,13 @@ const styles = StyleSheet.create({
   container: { paddingHorizontal: 18, paddingTop: 14, paddingBottom: 36 },
   hero: { minHeight: 246, borderRadius: 28, backgroundColor: palette.hero, overflow: 'hidden', marginBottom: 28 },
   heroCopy: { padding: 24, paddingBottom: 68, width: '72%', zIndex: 2 },
-  heroCopyCompact: { width: '82%', paddingRight: 8 },
-  eyebrow: { fontSize: 9, fontWeight: '700', letterSpacing: 2, color: '#586547', marginBottom: 14 },
+  heroCopyCompact: { width: '100%', padding: 20, paddingBottom: 66 },
+  eyebrow: { fontSize: 13, fontWeight: '700', letterSpacing: 2, color: '#586547', marginBottom: 14 },
   heading: { color: palette.heroText, fontSize: 34, lineHeight: 38, fontWeight: '600', letterSpacing: -1.2 },
   headingCompact: { fontSize: 28, lineHeight: 33 },
   topInfo: { color: '#5a674b', fontSize: 13, lineHeight: 20, marginTop: 12, maxWidth: 280 },
-  heroButton: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: palette.accent, borderRadius: 14, paddingHorizontal: 16, minHeight: 44, marginTop: 18 },
-  heroButtonText: { color: palette.onAccent, fontSize: 13, fontWeight: '700' },
+  heroButton: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: palette.heroText, borderRadius: 14, paddingHorizontal: 16, minHeight: 48, marginTop: 18 },
+  heroButtonText: { color: palette.hero, fontSize: 13, fontWeight: '700' },
   heroArt: { position: 'absolute', width: 120, height: 120, right: 22, top: 50, alignItems: 'center', justifyContent: 'center' },
   heroArtCompact: { right: -36, opacity: 0.25 },
   artHalo: { position: 'absolute', width: 106, height: 106, borderRadius: 53, backgroundColor: '#dce7bd', borderWidth: 1, borderColor: '#bacb91' },
@@ -300,53 +245,55 @@ const styles = StyleSheet.create({
   heroStatus: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 46, backgroundColor: '#dce5c4', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 24 },
   statusItem: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
   statusValue: { color: palette.heroText, fontSize: 15, fontWeight: '800' },
-  statusLabel: { color: '#617052', fontSize: 9, letterSpacing: 0.8 },
+  statusLabel: { color: '#4b5b3b', fontSize: 13, letterSpacing: 0.8 },
   statusDivider: { width: 1, height: 17, backgroundColor: '#b9c7a0', marginHorizontal: 12 },
-  statusMessage: { marginLeft: 'auto', color: '#5b684e', fontSize: 10, flexShrink: 1, paddingLeft: 12 },
+  statusMessage: { marginLeft: 'auto', color: '#5b684e', fontSize: 13, flexShrink: 1, paddingLeft: 12 },
   sectionHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18, paddingHorizontal: 2 },
-  sectionEyebrow: { color: palette.muted, fontSize: 9, fontWeight: '600', letterSpacing: 2, marginBottom: 7 },
+  sectionEyebrow: { color: palette.muted, fontSize: 13, fontWeight: '600', letterSpacing: 2, marginBottom: 7 },
   sectionTitle: { color: palette.text, fontSize: 26, fontWeight: '600', letterSpacing: -0.7 },
   countBadge: { minWidth: 30, height: 30, paddingHorizontal: 8, borderRadius: 15, borderWidth: 1, borderColor: palette.border, backgroundColor: palette.surface, alignItems: 'center', justifyContent: 'center' },
-  countText: { color: palette.accent, fontSize: 11, fontWeight: '700' },
+  countText: { color: palette.accent, fontSize: 13, fontWeight: '700' },
   loadingCard: { minHeight: 118, borderRadius: 22, borderWidth: 1, borderColor: palette.border, backgroundColor: palette.surface, alignItems: 'center', justifyContent: 'center', gap: 12 },
-  loadingText: { color: palette.muted, fontSize: 11 },
+  loadingText: { color: palette.muted, fontSize: 13 },
   emptyCard: { alignItems: 'center', borderRadius: 24, borderWidth: 1, borderColor: palette.border, backgroundColor: palette.surface, padding: 28 },
   emptyIcon: { width: 52, height: 52, borderRadius: 18, backgroundColor: palette.elevated, alignItems: 'center', justifyContent: 'center', marginBottom: 15 },
   emptyTitle: { color: palette.text, fontSize: 18, fontWeight: '700', marginBottom: 7 },
-  emptyText: { color: palette.muted, fontSize: 12, lineHeight: 19, textAlign: 'center', maxWidth: 340 },
+  emptyText: { color: palette.muted, fontSize: 13, lineHeight: 19, textAlign: 'center', maxWidth: 340 },
   emptyButton: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: palette.accent, borderRadius: 24, paddingHorizontal: 15, paddingVertical: 11, marginTop: 18 },
-  emptyButtonText: { color: palette.onAccent, fontSize: 11, fontWeight: '700' },
+  emptyButtonText: { color: palette.onAccent, fontSize: 13, fontWeight: '700' },
   profileCard: { backgroundColor: palette.surface, borderWidth: 1, borderColor: palette.border, borderRadius: 24, padding: 20, marginBottom: 16 },
   profileHeader: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', rowGap: 12 },
   profileIcon: { width: 42, height: 42, borderRadius: 14, backgroundColor: palette.elevated, alignItems: 'center', justifyContent: 'center', marginRight: 10 },
   profileIdentity: { flex: 1, minWidth: 110, paddingRight: 10 },
-  profileLabel: { color: palette.muted, fontSize: 9, letterSpacing: 1.5, marginBottom: 6 },
+  profileLabel: { color: palette.muted, fontSize: 13, letterSpacing: 1.5, marginBottom: 6 },
   profileName: { color: palette.text, fontSize: 23, lineHeight: 28, fontWeight: '600', letterSpacing: -0.5 },
   environmentBadge: { flexDirection: 'row', alignItems: 'center', borderRadius: 10, backgroundColor: palette.elevated, paddingHorizontal: 10, paddingVertical: 8 },
   liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: palette.accent },
-  environmentText: { color: palette.muted, fontSize: 11, textTransform: 'capitalize' },
+  environmentText: { color: palette.muted, fontSize: 13, textTransform: 'capitalize' },
   readingsRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: palette.background, borderRadius: 17, marginTop: 20, paddingVertical: 18, paddingHorizontal: 14 },
   reading: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
   readingDivider: { width: 1, height: 29, backgroundColor: '#34493a', marginHorizontal: 12 },
-  readingLabel: { color: palette.muted, fontSize: 8, letterSpacing: 0.7 },
+  readingLabel: { color: palette.muted, fontSize: 13, letterSpacing: 0 },
   readingValue: { color: palette.text, fontSize: 21, fontWeight: '500', marginTop: 7 },
   sourceRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 14, paddingHorizontal: 2 },
-  sourceText: { color: palette.muted, fontSize: 12 },
+  sourceText: { color: palette.muted, fontSize: 13 },
   actionRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginTop: 18, paddingTop: 18, borderTopWidth: 1, borderTopColor: palette.border },
-  primaryAction: { flex: 1, minWidth: 106, minHeight: 46, borderRadius: 14, backgroundColor: palette.accent, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 10 },
-  primaryActionText: { color: palette.onAccent, fontSize: 12, fontWeight: '700' },
-  secondaryAction: { flex: 1.2, minWidth: 116, minHeight: 46, borderRadius: 14, borderWidth: 1, borderColor: palette.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 10 },
-  secondaryActionText: { color: palette.text, fontSize: 12, fontWeight: '600' },
-  deleteAction: { width: 44, height: 46, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  primaryAction: { flex: 1, minWidth: 106, minHeight: 48, borderRadius: 14, backgroundColor: palette.accent, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 10 },
+  primaryActionText: { color: palette.onAccent, fontSize: 13, fontWeight: '700' },
+  secondaryAction: { flex: 1.2, minWidth: 116, minHeight: 48, borderRadius: 14, borderWidth: 1, borderColor: palette.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 10 },
+  secondaryActionText: { color: palette.text, fontSize: 13, fontWeight: '600' },
+  deleteAction: { width: 48, height: 48, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   dialog: { backgroundColor: palette.surface, borderWidth: 1, borderColor: palette.border, borderRadius: 26, width: '90%', maxWidth: 520, alignSelf: 'center', maxHeight: '85%' },
   dialogTitle: { color: palette.text, fontSize: 25, fontWeight: '600', letterSpacing: -0.6 },
-  dialogHint: { color: palette.muted, fontSize: 12, lineHeight: 18, marginBottom: 13 },
-  dialogLabel: { color: palette.muted, fontSize: 10, letterSpacing: 1.4, marginTop: 18, marginBottom: 10 },
+  dialogHint: { color: palette.muted, fontSize: 13, lineHeight: 18, marginBottom: 13 },
+  dialogLabel: { color: palette.muted, fontSize: 13, letterSpacing: 1.4, marginTop: 18, marginBottom: 10 },
   dialogRow: { flexDirection: 'row', gap: 9 },
   dialogChoice: { flex: 1, borderColor: palette.border },
-  input: { backgroundColor: '#1b2b22', fontSize: 13 },
+  input: { backgroundColor: '#1b2b22', fontSize: 16 },
   readingInputs: { flexDirection: 'row', gap: 9, marginTop: 15 },
   halfInput: { flex: 1 },
   linkedPlant: { flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: palette.border },
   linkedPlantText: { color: palette.text, fontSize: 13 },
 });
+
+export default function ManageSensorProfilesScreen(props: { emptyMessage?: string } = {}) { const { user } = useSession(); return <ManageSensorProfilesContent key={user?.uid || 'signed-out'} {...props} />; }

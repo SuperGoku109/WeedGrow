@@ -1,10 +1,12 @@
+import { validatePlantDatesAndReminders } from './plantRules';
 /** Field policies shared by forms and the write boundary. Only supplied fields
  * are checked, so an unrelated edit can still repair a legacy record. */
 export const PLANT_STAGES = ['germination', 'seedling', 'vegetative', 'flowering', 'clone'] as const;
 export const PLANT_ENVIRONMENTS = ['outdoor', 'indoor', 'greenhouse'] as const;
 export const MAX_PLANT_AGE_DAYS = 36500;
-export function validatePlantFields(fields: Record<string, unknown>): Record<string, string> {
-  const errors: Record<string, string> = {};
+
+export function validatePlantFields(fields: Record<string, unknown>, today?: string): Record<string, string> {
+  const errors: Record<string, string> = validatePlantDatesAndReminders(fields, today);
   if ('name' in fields && (typeof fields.name !== 'string' || !fields.name.trim() || fields.name.trim().length > 100)) errors.name = 'Use a plant name of 1–100 characters.';
   const choices: Record<string, readonly string[]> = { growthStage: PLANT_STAGES, environment: PLANT_ENVIRONMENTS, plantedIn: ['pot', 'ground'], status: ['active', 'archived', 'harvested', 'dead'], strainType: ['unknown', 'sativa', 'indica', 'hybrid'], locationMode: ['custom', 'space'] };
   for (const [field, values] of Object.entries(choices)) if (field in fields && !values.includes(fields[field] as string)) errors[field] = `Choose a valid ${field === 'growthStage' ? 'growth stage' : field === 'strainType' ? 'strain type' : field === 'locationMode' ? 'location mode' : field}.`;
@@ -25,7 +27,7 @@ export function validatePlantFields(fields: Record<string, unknown>): Record<str
 export class PlantValidationError extends Error {
   constructor(public readonly fields: Record<string, string>) { super(Object.values(fields)[0]); this.name = 'PlantValidationError'; }
 }
-export function assertValidPlantFields(fields: Record<string, unknown>) {
-  const errors = validatePlantFields(fields);
+export function assertValidPlantFields(fields: Record<string, unknown>, today?: string) {
+  const errors = validatePlantFields(fields, today);
   if (Object.keys(errors).length) throw new PlantValidationError(errors);
 }

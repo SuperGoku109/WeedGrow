@@ -9,6 +9,6 @@ export function useGroupList() {
   const [editGroup, setEditGroup] = useState<GroupWithId | null>(null);
   const reloadGroups = useCallback(async () => { refreshSpaces(); refreshGarden(); }, [refreshSpaces, refreshGarden]);
   const handleWaterAll = async (id: string) => { await waterAllPlantsInGroup(id, requireUserId()); return true; };
-  return { groups: spaces.groups, loading: spaces.loading || garden.loading, error: spaces.error || garden.error, editGroup, setEditGroup,
+  return { groups: spaces.groups, groupsReady: spaces.status === 'ready' || spaces.status === 'refreshing', plantsReady: garden.status === 'ready' || garden.status === 'refreshing', loading: spaces.loading || garden.loading, error: spaces.error || garden.error, editGroup, setEditGroup,
     reloadGroups, handleWaterAll, allPlants: garden.plants, fetchAllPlants: async () => garden.refresh() };
 }

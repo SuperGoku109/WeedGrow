@@ -1,3 +1,5 @@
+import { isRecord } from '@/lib/data/recordDecoders';
+import { MAX_BACKUP_BYTES, MAX_BACKUP_RECORDS, utf8Bytes } from './backupLimits';
 export interface BackupRecord { path: string; data: Record<string, unknown> }
 export interface GardenBackup { format: 'weedgrow'; version: 1; backupId: string; exportedAt: string; records: BackupRecord[]; warnings?: string[] }
 const ID = '[A-Za-z0-9_-]{1,100}';
@@ -11,11 +13,14 @@ const allowed: Record<string, string[]> = {
   sensorProfiles: ['name', 'createdBy', 'createdAt', 'updatedAt', 'temperature', 'humidity', 'soilMoisture', 'light', 'source', 'readings', 'environment', 'description', 'type', 'settings', 'environmentType', 'isManual', 'defaultTemp', 'defaultHumidity', 'restoreOperationId'],
 };
 export function validateBackup(raw: string): GardenBackup {
-  if (raw.length > 100 * 1024 * 1024) throw new Error('Choose a backup under 100 MB.');
-  let value;
-  try { value = JSON.parse(raw); } catch { throw new Error('This file is not valid JSON. Choose a WeedGrow backup.'); }
-  if (value?.format !== 'weedgrow' || value.version !== 1 || !/^[A-Za-z0-9_-]{1,40}$/.test(value.backupId) || !Array.isArray(value.records) || !value.records.length) throw new Error('This is not a supported WeedGrow backup.');
-  if (value.records.length > 50000) throw new Error('Choose a backup with at most 50,000 records.');
+  if (raw.length > MAX_BACKUP_BYTES || utf8Bytes(raw) > MAX_BACKUP_BYTES) throw new Error('Choose a backup under 30 MB.');
+  let parsed: unknown;
+  try { parsed = JSON.parse(raw); } catch { throw new Error('This file is not valid JSON. Choose a WeedGrow backup.'); }
+  if (!isRecord(parsed) || parsed.format !== 'weedgrow' || parsed.version !== 1 || typeof parsed.backupId !== 'string' || !/^[A-Za-z0-9_-]{1,40}$/.test(parsed.backupId) || !Array.isArray(parsed.records) || !parsed.records.length) throw new Error('This is not a supported WeedGrow backup.');
+  if (parsed.records.length > MAX_BACKUP_RECORDS) throw new Error('Choose a backup with at most 50,000 records.');
+  const records: BackupRecord[] = parsed.records.map((entry: unknown) => { if (!isRecord(entry) || typeof entry.path !== 'string' || !isRecord(entry.data)) throw new Error('The backup contains invalid records.'); return { path: entry.path, data: entry.data }; });
+  const value: GardenBackup = { format: 'weedgrow', version: 1, backupId: parsed.backupId, exportedAt: typeof parsed.exportedAt === 'string' ? parsed.exportedAt : '', records };
+  if (Array.isArray(parsed.warnings) && parsed.warnings.every((item: unknown) => typeof item === 'string')) value.warnings = parsed.warnings;
   const seen = new Set<string>();
   for (const record of value.records) {
     if (!PATH.test(record.path) || seen.has(record.path) || !record.data || typeof record.data !== 'object' || Array.isArray(record.data)) throw new Error('The backup contains duplicate or invalid records.');
@@ -28,15 +33,15 @@ export function validateBackup(raw: string): GardenBackup {
     if (kind === 'logs') for (const [key, max] of [['waterMl', 1000000], ['nutrientMlPerL', 1000], ['ph', 14], ['heightCm', 10000], ['soilMoisture', 100]] as const) {
       if (data[key] != null && (typeof data[key] !== 'number' || !Number.isFinite(data[key]) || (data[key] as number) < 0 || (data[key] as number) > max)) throw new Error(`The ${key} measurement is invalid.`);
     }
-    if (kind === 'plants' && (typeof data.name !== 'string' || !data.name.trim() || data.name.length > 100 || !['germination', 'seedling', 'vegetative', 'flowering', 'clone'].includes(data.growthStage) || !['outdoor', 'indoor', 'greenhouse'].includes(data.environment) || !['pot', 'ground'].includes(data.plantedIn) || !['active', 'archived', 'harvested', 'dead'].includes(data.status))) throw new Error('A plant has invalid required fields.');
-    if (kind === 'groups' && (typeof data.name !== 'string' || !data.name.trim() || !['outdoor', 'indoor', 'greenhouse'].includes(data.environment))) throw new Error('A space has invalid required fields.');
+    if (kind === 'plants' && (typeof data.name !== 'string' || !data.name.trim() || data.name.length > 100 || !['germination', 'seedling', 'vegetative', 'flowering', 'clone'].includes(String(data.growthStage)) || !['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)) || !['pot', 'ground'].includes(String(data.plantedIn)) || !['active', 'archived', 'harvested', 'dead'].includes(String(data.status)))) throw new Error('A plant has invalid required fields.');
+    if (kind === 'groups' && (typeof data.name !== 'string' || !data.name.trim() || !['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)))) throw new Error('A space has invalid required fields.');
     if (kind === 'photoAssets' && (typeof data.dataUri !== 'string' || !/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(data.dataUri) || data.dataUri.length > (parts[3].endsWith('_thumb') ? 20480 : 184320))) throw new Error('An image is invalid or too large.');
-    if (kind === 'logs' && (!['watering', 'fertilizing', 'note', 'photo', 'training', 'stage_change', 'harvest'].includes(data.type) || !isTimestamp(data.timestamp))) throw new Error('A journal entry has an invalid type or date.');
+    if (kind === 'logs' && (!['watering', 'fertilizing', 'note', 'photo', 'training', 'stage_change', 'harvest'].includes(String(data.type)) || !isTimestamp(data.timestamp))) throw new Error('A journal entry has an invalid type or date.');
     if (kind === 'progressPics' && (!isTimestamp(data.timestamp) || typeof (data.imageUrl || data.url) !== 'string')) throw new Error('A photo has invalid metadata.');
     if (JSON.stringify(data).length > (kind === 'weatherCache' ? 800000 : 200000)) throw new Error('A backup record is too large.');
     if (kind === 'weatherCache' && (!isTimestamp(data.fetchedAt) || typeof data.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(data.date))) throw new Error('A saved weather record has an invalid date.');
-    if (kind === 'plants' && data.locationMode != null && !['custom', 'space'].includes(data.locationMode)) throw new Error('A plant has an invalid location source.');
-    if (data.locationRevision != null && (!Number.isInteger(data.locationRevision) || data.locationRevision < 0)) throw new Error('A location revision is invalid.');
+    if (kind === 'plants' && data.locationMode != null && !['custom', 'space'].includes(String(data.locationMode))) throw new Error('A plant has an invalid location source.');
+    if (data.locationRevision != null && (typeof data.locationRevision !== 'number' || !Number.isInteger(data.locationRevision) || data.locationRevision < 0)) throw new Error('A location revision is invalid.');
     for (const key of ['timeZone', 'locationTimeZone']) if (data[key] != null) { try { if (typeof data[key] !== 'string') throw new Error(); new Intl.DateTimeFormat('en', { timeZone: data[key] as string }).format(new Date()); } catch { throw new Error('A record has an invalid timezone.'); } }
     validateTree(data);
   }
@@ -46,7 +51,7 @@ export function validateBackup(raw: string): GardenBackup {
     const data = record.data;
     if (parts[0] === 'plants' && parts.length === 2 && data.groupId && !seen.has(`groups/${data.groupId}`)) throw new Error('A plant references a missing growing space.');
     if (parts.length === 2 && data.sensorProfileId && !seen.has(`sensorProfiles/${data.sensorProfileId}`)) throw new Error('A sensor profile is missing from the backup.');
-    if (parts[0] === 'groups' && (!Array.isArray(data.plantIds) || data.plantIds.length > 80 || data.plantIds.some((id: string) => !seen.has(`plants/${id}`)))) throw new Error('A growing space references a missing plant.');
+    if (parts[0] === 'groups' && (!Array.isArray(data.plantIds) || data.plantIds.length > 80 || data.plantIds.some((id: unknown) => typeof id !== 'string' || !seen.has(`plants/${id}`)))) throw new Error('A growing space references a missing plant.');
     for (const key of ['imageUri', 'imageUrl', 'url', 'photoUri']) {
       const uri = data[key];
       if (typeof uri !== 'string' || !uri) continue;
@@ -54,12 +59,29 @@ export function validateBackup(raw: string): GardenBackup {
       else if (!/^https:\/\//i.test(uri)) throw new Error('Only backed-up photos and HTTPS image links can be restored.');
     }
   }
+  const membership = new Map<string, string>();
+  const recordsByPath = new Map(value.records.map(record => [record.path, record]));
+  for (const group of value.records.filter(record => /^groups\/[^/]+$/.test(record.path))) {
+    const id = group.path.split('/')[1]; const ids = group.data.plantIds as string[];
+    for (const plantId of ids) {
+      if (membership.has(plantId) && membership.get(plantId) !== id) throw new Error('A plant is assigned to more than one growing space.');
+      const plant = recordsByPath.get(`plants/${plantId}`)!;
+      if (plant.data.environment !== group.data.environment || plant.data.groupId && plant.data.groupId !== id) throw new Error('Plant and growing-space membership do not agree.');
+      membership.set(plantId, id);
+      // Earlier backups had only the group's membership array. Restore copies
+      // may infer a missing backlink when that membership is unambiguous.
+      if (!plant.data.groupId) plant.data.groupId = id;
+    }
+    if (group.data.weatherSourcePlantId && !ids.includes(String(group.data.weatherSourcePlantId))) throw new Error('A growing-space weather source is not one of its members.');
+  }
+  for (const plant of value.records.filter(record => /^plants\/[^/]+$/.test(record.path))) if (plant.data.groupId && membership.get(plant.path.split('/')[1]) !== plant.data.groupId) throw new Error('A plant is missing from its growing space.');
   return value;
 }
-function isTimestamp(value: unknown): value is { $timestamp: number } { return !!value && typeof value === 'object' && Number.isFinite((value as { $timestamp?: number }).$timestamp) && Math.abs((value as { $timestamp: number }).$timestamp) < 8640000000000000; }
+function isTimestamp(value: unknown): value is { $timestamp: number } { return isRecord(value) && typeof value.$timestamp === 'number' && Number.isFinite(value.$timestamp) && value.$timestamp >= -62135596800000 && value.$timestamp <= 253402300799999; }
 function validateTree(value: unknown, depth = 0) {
   if (depth > 12) throw new Error('Backup nesting is invalid.');
   if (typeof value === 'number' && !Number.isFinite(value)) throw new Error('Backup contains an invalid number.');
+  if (isRecord(value) && '$timestamp' in value && (!isTimestamp(value) || Object.keys(value).length !== 1)) throw new Error('Backup contains an invalid timestamp.');
   if (value && typeof value === 'object') for (const [key, child] of Object.entries(value)) {
     if (['__proto__', 'constructor', 'prototype'].includes(key)) throw new Error('Backup contains an unsafe field.');
     validateTree(child, depth + 1);

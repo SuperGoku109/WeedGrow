@@ -42,5 +42,6 @@ export function relevantCareGaps(plant: Plant) {
 export function presentCareCard(card: SuggestionCard, wateredToday: boolean, stale: boolean): SuggestionCard {
   if (card.kind === 'watering' && wateredToday) return { ...card, severity: 'info', title: 'Watering recorded today', summary: 'Recheck soil before watering again.', reasons: [], confidence: 'high', metrics: { ...card.metrics, needsWater: false } };
   if (stale) return { ...card, confidence: 'low', severity: 'watch', title: card.kind === 'watering' ? 'Check soil moisture' : card.title, summary: 'Weather is out of date or its update time is unknown. Check current conditions before acting on this suggestion. ' + card.summary };
+  if (card.kind === 'watering' && (card.confidence === 'low' || card.title.toLowerCase().includes('check whether'))) return { ...card, severity: 'watch', title: 'Check soil moisture', summary: 'Check the soil before deciding whether to water. ' + card.summary };
   return card;
 }

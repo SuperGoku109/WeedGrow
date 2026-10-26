@@ -5,9 +5,9 @@ import { plantDay } from '@/lib/dates/plantDay';
 import { sameLocation } from '@/features/location/locationState';
 import type { WeatherCacheEntry } from '@/firestoreModels';
 export interface WeatherLocation { location: { lat: number; lng: number }; locationRevision?: number; locationLabel?: string | null; locationTimeZone?: string | null; currentWeather?: WeatherCacheEntry | null }
-function defined(value: any): any {
+function defined(value: unknown): unknown {
   if (Array.isArray(value)) return value.map(defined);
-  if (value && typeof value === 'object' && !value.toDate) return Object.fromEntries(Object.entries(value).filter(([, child]) => child !== undefined).map(([key, child]) => [key, defined(child)]));
+  if (value && typeof value === 'object' && !('toDate' in value)) return Object.fromEntries(Object.entries(value).filter(([, child]) => child !== undefined).map(([key, child]) => [key, defined(child)]));
   return value;
 }
 // Only the current day and forecasts may be refreshed. A move never rewrites
@@ -35,7 +35,7 @@ export async function updateWeatherCache(plantId: string, parsedData: Record<str
       const history = [...(old?.previousLocations || [])];
       const moved = old && (!sameLocation(old.sourceCoordinates, current.location) || (old.locationRevision || 0) !== (current.locationRevision || 0));
       if (date === today && moved) { const { previousLocations: _history, ...prior } = old; history.push(prior); }
-      const entry = defined({ ...weather, sourceCoordinates: current.location || null, locationRevision: current.locationRevision || 0, locationLabel: current.locationLabel || current.locationNickname || '', ...(history.length ? { previousLocations: history } : {}) });
+      const entry = defined({ ...weather, sourceCoordinates: current.location || null, locationRevision: current.locationRevision || 0, locationLabel: current.locationLabel || current.locationNickname || '', ...(history.length ? { previousLocations: history } : {}) }) as WeatherCacheEntry;
       if (JSON.stringify(entry).length > 800000) throw new Error('This day contains too much saved weather history to refresh safely. Earlier records have been kept.');
       committed[date] = entry;
       tx.set(snapshots[index].ref, entry);

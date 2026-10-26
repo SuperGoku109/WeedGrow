@@ -124,7 +124,7 @@ export default function AddGroupScreen() {
         {!!(saveError || submitError) && <Text accessibilityRole="alert" style={{ color: '#f0b5a0', lineHeight: 20 }}>{saveError || submitError}</Text>}
 
         {(loading || groupLoading) && <Button loading>Loading Plants...</Button>}
-        {error && <Button>{error}</Button>}
+        {!!error && <Button>{error}</Button>}
 
         {/* Plant selection or empty-state message in add-to-group mode */}
         {isAddToGroupMode ? (

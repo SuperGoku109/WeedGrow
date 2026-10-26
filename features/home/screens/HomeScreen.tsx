@@ -1,7 +1,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { View, StyleSheet, Pressable, Text } from 'react-native';
+import { View, StyleSheet, Pressable, Text, TextInput } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSession } from '@/services/session';
-import { Snackbar, Searchbar } from 'react-native-paper';
+import { Snackbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import GardenOverview from '@/features/home/components/GardenOverview';
@@ -24,9 +25,9 @@ import SwipeTabs from '@/ui/SwipeTabs';
 const styles = StyleSheet.create({
   searchRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 10, marginTop: 0, paddingHorizontal: 18 },
   searchBar: {
-    marginRight: 8,
-    height: 46,
-    minHeight: 46,
+    flexDirection: 'row',
+    alignItems: 'center',
+    minHeight: 52,
     paddingVertical: 0,
     flex: 1,
     backgroundColor: '#23332a',
@@ -81,16 +82,11 @@ export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: 
   const renderPlantsTab = useCallback(() => (
     <View style={{ flex: 1 }}>
       <View style={styles.searchRow}>
-        <Searchbar
-          placeholder="Search plants"
-          value={plantSearchQuery}
-          onChangeText={setPlantSearchQuery}
-          style={styles.searchBar}
-          placeholderTextColor="#9aac97" iconColor="#aabd99" inputStyle={{ color: '#edf0e3', fontSize: 13, minHeight: 46 }}
-        />
+        <View style={styles.searchBar}><MaterialCommunityIcons name="magnify" size={24} color="#bac8b3" accessible={false} /><TextInput placeholder="Search plants" accessibilityLabel="Search plants by name or strain" value={plantSearchQuery} onChangeText={setPlantSearchQuery} placeholderTextColor="#bac8b3" returnKeyType="search" style={{ flex: 1, minWidth: 0, minHeight: 52, paddingHorizontal: 10, color: '#edf0e3', fontSize: 16 }} />{!!plantSearchQuery && <Pressable accessibilityRole="button" accessibilityLabel="Clear plant search" onPress={() => setPlantSearchQuery('')} style={{ width: 48, height: 48, justifyContent: 'center', alignItems: 'center' }}><MaterialCommunityIcons name="close" size={22} color="#bac8b3" /></Pressable>}</View>
       </View>
       <PlantListScreen enabled={activeTab === 1}
-        header={<><GrowHero plants={state.allPlants.length} groups={state.groups.length} attention={tlcCount} /><GardenOverview enabled={activeTab === 1} />{adviceLoading && <Text style={{ color: '#bdcbb7', marginHorizontal: 20 }}>Checking current care advice…</Text>}{!!adviceError && <Text style={{ color: '#ffce9b', marginHorizontal: 20 }}>{adviceError}</Text>}{adviceStale && <Text style={{ color: '#ffce9b', marginHorizontal: 20 }}>Current conditions could not be confirmed. Refresh advice or check your plants manually.</Text>}<Pressable accessibilityRole="button" disabled={adviceLoading} onPress={refreshAdvice} style={{ minHeight: 44, justifyContent: 'center', marginHorizontal: 20 }}><Text style={{ color: '#c8e78b' }}>Refresh care advice</Text></Pressable>{suggestionItems.length > 0 && <SuggestionCatalog suggestions={suggestionItems} />}</>}
+        header={<><GrowHero plants={state.plantsReady ? state.allPlants.length : null} groups={state.groupsReady ? state.groups.length : null} attention={tlcCount} /><Text accessibilityRole="header" style={{ color: '#edf0e3', fontSize: 18, fontWeight: '700', marginTop: 20, marginBottom: 14 }}>Your plants</Text></>}
+        footer={<><GardenOverview enabled={activeTab === 1} />{adviceLoading && <Text style={{ color: '#bdcbb7', marginHorizontal: 20 }}>Checking current care advice…</Text>}{!!adviceError && <Text style={{ color: '#ffce9b', marginHorizontal: 20 }}>{adviceError}</Text>}{adviceStale && <Text style={{ color: '#ffce9b', marginHorizontal: 20 }}>Current conditions could not be confirmed. Refresh advice or check your plants manually.</Text>}<Pressable accessibilityRole="button" disabled={adviceLoading} onPress={refreshAdvice} style={{ minHeight: 44, justifyContent: 'center', marginHorizontal: 20 }}><Text style={{ color: '#c8e78b' }}>Refresh care advice</Text></Pressable>{suggestionItems.length > 0 && <SuggestionCatalog suggestions={suggestionItems} />}</>}
         searchQuery={plantSearchQuery}
         statusFilter={statusFilter}
         envFilter={plantEnvFilter}
@@ -106,7 +102,7 @@ export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: 
         currentTabIndex={1}
       />
     </View>
-  ), [plantSearchQuery, statusFilter, plantEnvFilter, plantedFilter, trainingFilter, plantFiltersVisible, state.allPlants.length, state.groups.length, tlcCount, suggestionItems, activeTab, adviceLoading, adviceError, adviceStale, refreshAdvice]);
+  ), [plantSearchQuery, statusFilter, plantEnvFilter, plantedFilter, trainingFilter, plantFiltersVisible, state.allPlants.length, state.groups.length, state.plantsReady, state.groupsReady, tlcCount, suggestionItems, activeTab, adviceLoading, adviceError, adviceStale, refreshAdvice]);
 
   const tabs = useMemo(() => [
     { key: 'groups', title: 'Groups', render: renderGroupsTab },
@@ -120,7 +116,6 @@ export default function HomeScreen({ initialTabIndex = 0 }: { initialTabIndex?: 
       <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent', width: '100%', maxWidth: 760, alignSelf: 'center' }} edges={['top', 'left', 'right']}>
         {/* Modern App Header */}
         <AppHeader />
-        <Pressable accessibilityRole="button" onPress={() => router.push('/care')} style={{ marginHorizontal: 18, paddingVertical: 14 }}><Text style={{ color: '#c8e78b', fontWeight: '700' }}>Open daily care checklist →</Text></Pressable>
         {!user && !accountLoading && <View style={{ marginHorizontal: 18, marginBottom: 12, padding: 18, borderRadius: 16, backgroundColor: '#23342a', gap: 10 }}><Text style={{ color: '#edf0e3', fontSize: 17, fontWeight: '700' }}>Sign in to see your garden</Text><Text style={{ color: '#a9bba1', lineHeight: 21 }}>Your plants belong to your account. You can also start a new plant draft before signing in.</Text><Pressable accessibilityRole="button" onPress={() => router.push('/account')} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: '#c8e78b', fontWeight: '600' }}>Sign in or create an account</Text></Pressable></View>}
         {/* Swipe Tabs Implementation */}
         <View style={{ marginTop: 4, marginBottom: 4, flex: 1 }}>

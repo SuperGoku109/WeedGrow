@@ -55,9 +55,9 @@ export const useHomeScreenState = () => {
     try {
       await handleWaterAllApi(groupId);
       setSnackMessage('All plants watered successfully!');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error watering group plants:', error);
-      setSnackMessage(error?.message || 'Failed to water plants');
+      setSnackMessage(error instanceof Error ? error.message : 'Failed to water plants');
     } finally {
       setWaterLoadingMap((prev) => ({ ...prev, [groupId]: false }));
       setTimeout(() => {

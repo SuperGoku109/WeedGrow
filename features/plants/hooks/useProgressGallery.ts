@@ -1,15 +1,15 @@
 import { useSession } from '@/services/session';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { collection, getDocs, limit, orderBy, query, startAfter, type QueryDocumentSnapshot } from 'firebase/firestore';
-import { db } from '@/services/firebase';
-export interface ProgressPic { id: string; imageUrl: string; timestamp?: { toMillis?: () => number; toDate?: () => Date }; caption?: string }
+import { fetchProgressPage, type PhotoCursor } from '@/services/progressGallery';
+import type { ProgressPic } from '@/firestoreModels';
+export type { ProgressPic } from '@/firestoreModels';
 export function useProgressGallery(plantId?: string, enabled = true) {
   const { user } = useSession(); const uid = user?.uid;
   const loaded = useRef<{ key: string; at: number } | undefined>(undefined);
   const [pics, setPics] = useState<ProgressPic[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [cursor, setCursor] = useState<QueryDocumentSnapshot>();
+  const [cursor, setCursor] = useState<PhotoCursor>();
   const [hasMore, setHasMore] = useState(false);
   const generation = useRef(0);
   const lock = useRef(false);
@@ -22,11 +22,11 @@ export function useProgressGallery(plantId?: string, enabled = true) {
     if (loaded.current?.key === key && Date.now() - loaded.current.at < 60000) { setLoading(false); return; }
     setPics([]); setCursor(undefined); setLoading(!!plantId && !!uid); setError(''); setHasMore(false);
     if (!plantId || !uid) return;
-    getDocs(query(collection(db, 'plants', plantId, 'progressPics'), orderBy('timestamp', 'desc'), orderBy('__name__', 'desc'), limit(20))).then(snapshot => {
+    fetchProgressPage(plantId).then(snapshot => {
       if (!active) return;
       loaded.current = { key, at: Date.now() };
-      setPics(snapshot.docs.map(item => ({ ...item.data(), id: item.id, imageUrl: item.data().imageUrl || item.data().url } as ProgressPic)));
-      setCursor(snapshot.docs.at(-1)); setHasMore(snapshot.size === 20);
+      setPics(snapshot.pics);
+      setCursor(snapshot.cursor); setHasMore(snapshot.hasMore);
     }).catch(() => { if (active) setError('Photos could not be loaded. Please retry.'); }).finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, [plantId, uid, revision, enabled, key]);
@@ -35,10 +35,10 @@ export function useProgressGallery(plantId?: string, enabled = true) {
     lock.current = true; const request = generation.current;
     setLoading(true); setError('');
     try {
-      const snapshot = await getDocs(query(collection(db, 'plants', plantId, 'progressPics'), orderBy('timestamp', 'desc'), orderBy('__name__', 'desc'), startAfter(cursor), limit(20)));
+      const snapshot = await fetchProgressPage(plantId, cursor);
       if (request !== generation.current) return;
-      setPics(previous => [...new Map([...previous, ...snapshot.docs.map(item => ({ ...item.data(), id: item.id, imageUrl: item.data().imageUrl || item.data().url } as ProgressPic))].map(pic => [pic.id, pic])).values()]);
-      setCursor(snapshot.docs.at(-1)); setHasMore(snapshot.size === 20);
+      setPics(previous => [...new Map([...previous, ...snapshot.pics].map(pic => [pic.id, pic])).values()]);
+      setCursor(snapshot.cursor); setHasMore(snapshot.hasMore);
     } catch { if (request === generation.current) setError('Could not load more photos. Try again.'); }
     finally { if (request === generation.current) { lock.current = false; setLoading(false); } }
   }, [plantId, cursor, loading, hasMore, enabled, uid, key]);

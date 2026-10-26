@@ -1,3 +1,4 @@
+import { gardenLayout, gardenThemes } from '@/design-system/tokens/garden';
 import React from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
 /** A stable layout while the first snapshot arrives; no artificial load delay
@@ -12,16 +13,16 @@ export default function LoadingState({ label, onBack }: { label: string; onBack?
       <View style={[s.placeholder, { height: 140, marginTop: 12 }]} />
       <View style={[s.placeholder, { height: 90 }]} />
     </View>
-    <View style={s.status}><ActivityIndicator color="#c8e78b" /><Text accessibilityLiveRegion="polite" style={s.text}>{label}</Text></View>
+    <View style={s.status}><ActivityIndicator color={gardenThemes.grove.accent} /><Text accessibilityLiveRegion="polite" style={s.text}>{label}</Text></View>
     {slow && <Text accessibilityLiveRegion="polite" style={s.hint}>This is taking longer than usual. Check your connection, or go back and try again.</Text>}
     {onBack && <Pressable accessibilityRole="button" onPress={onBack} style={s.back}><Text style={s.text}>Back to garden</Text></Pressable>}
   </View>;
 }
 const s = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', width: '100%', maxWidth: 760, alignSelf: 'center', padding: 28, gap: 20 },
-  placeholder: { backgroundColor: '#23342a', borderRadius: 16 },
+  container: { flex: 1, justifyContent: 'center', width: '100%', maxWidth: gardenLayout.contentWidth, alignSelf: 'center', padding: 28, gap: 20 },
+  placeholder: { backgroundColor: gardenThemes.grove.surface, borderRadius: 16 },
   status: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  text: { color: '#d2e4a2', fontSize: 15, flexShrink: 1 },
-  hint: { color: '#bdcbb7', lineHeight: 22 },
-  back: { minHeight: 48, justifyContent: 'center', alignSelf: 'flex-start', paddingRight: 20 },
+  text: { color: gardenThemes.grove.accent, fontSize: 15, flexShrink: 1 },
+  hint: { color: gardenThemes.grove.muted, lineHeight: 22 },
+  back: { minHeight: gardenLayout.touchTarget, justifyContent: 'center', alignSelf: 'flex-start', paddingRight: 20 },
 });

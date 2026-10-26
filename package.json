@@ -10,6 +10,9 @@
     "web": "expo start --web --max-workers 2",
     "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
     "typecheck": "tsc --noEmit",
+    "check:architecture": "node scripts/test-architecture.cjs",
+    "verify": "node scripts/verify.cjs",
+    "setup:checks": "node scripts/setup-checks.cjs",
     "test": "jest"
   },
   "dependencies": {

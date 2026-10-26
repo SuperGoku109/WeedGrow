@@ -42,3 +42,17 @@ it('never paints the previous range or account data under a new key', () => {
   expect(current.logs).toEqual({});
   act(() => renderer.unmount());
 });
+it('isolates corrupt weather by day and publishes valid neighbours without mutating either record', () => {
+  let current!: ReturnType<typeof usePlantJournalData>;
+  function Probe() { current = usePlantJournalData('p', '2026-10-23', '2026-10-24'); return null; }
+  let renderer: any; act(() => { renderer = create(React.createElement(Probe)); });
+  const valid = { date: '2026-10-24', fetchedAt: { toDate: () => new Date(), toMillis: () => 1 }, temperature: 20, humidity: 60, windSpeed: 1, rainfall: 0, uvIndex: 2 };
+  const corrupt = { ...valid, date: '2026-10-23', rainfall: 'unknown' };
+  act(() => mockReaders[1].next({ docs: [{ id: valid.date, data: () => valid }, { id: corrupt.date, data: () => corrupt }] }));
+  expect(current.weather[valid.date].rainfall).toBe(0);
+  expect(current.weather[corrupt.date]).toBeUndefined(); expect(current.weatherDayErrors[corrupt.date]).toContain('kept unchanged');
+  expect(current.weatherError).toBe(''); expect(corrupt.rainfall).toBe('unknown');
+  act(() => mockReaders[1].next({ docs: [{ id: valid.date, data: () => valid }] }));
+  expect(current.weatherDayErrors).toEqual({});
+  act(() => renderer.unmount());
+});

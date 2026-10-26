@@ -1,4 +1,5 @@
 import NotificationNavigation from '@/features/care/NotificationNavigation';
+import '@/ui/accessibilityStyles';
 import ReminderCoordinator from '@/features/care/ReminderCoordinator';
 import { Slot } from 'expo-router';
 import { PaperProvider, MD3DarkTheme } from 'react-native-paper';

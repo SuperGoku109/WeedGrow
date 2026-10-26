@@ -1,0 +1,6 @@
+/* A two-tone focus ring remains visible on both garden themes and images. */
+:is([role="button"], [role="tab"], [role="radio"], a, input, textarea):focus-visible {
+  outline: 3px solid #c8e78b;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px #243420;
+}

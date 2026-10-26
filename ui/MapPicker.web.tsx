@@ -2,6 +2,7 @@ import React from 'react';
 import { ActivityIndicator, Text, View, Pressable } from 'react-native';
 import type * as Leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import './mapPicker.css';
 import { validCoordinates, type Coordinates } from '@/features/location/locationService';
 import { MAP_ATTRIBUTION, MAP_DEFAULT, MAP_TILES } from './mapConfig';
 
@@ -52,7 +53,7 @@ export function MapPicker({ location, onLocationChange, disabled = false, height
     if (!ready || !L || !instance) return;
     if (!validCoordinates(location)) { marker.current?.remove(); marker.current = null; return; }
     if (!marker.current) {
-      const icon = L.divIcon({ className: '', html: '<span style="display:block;width:26px;height:26px;background:#39854d;border:3px solid white;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 7px #0008"></span>', iconSize: [28, 36], iconAnchor: [14, 34] });
+      const icon = L.divIcon({ className: 'weedgrow-map-pin', html: '<span style="display:grid;place-items:center;width:48px;height:48px"><span style="display:block;width:26px;height:26px;background:#39854d;border:3px solid white;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 2px 7px #0008"></span></span>', iconSize: [48, 48], iconAnchor: [24, 46] });
       marker.current = L.marker([location.lat, location.lng], { draggable: !disabled, icon, title: 'Selected location. Drag to adjust.' }).on('dragend', () => { if (marker.current) select(marker.current.getLatLng()); }).addTo(instance);
     } else marker.current.setLatLng([location.lat, location.lng]);
     if (disabled) marker.current.dragging?.disable(); else marker.current.dragging?.enable();
@@ -65,10 +66,10 @@ export function MapPicker({ location, onLocationChange, disabled = false, height
   }, [centerRequest, ready, generation]);
   return <View style={{ gap: 8 }}>
     <View style={{ height, borderRadius: 16, overflow: 'hidden' }}>
-      <div ref={container} aria-label="Location map. Click to place a pin, drag the pin to adjust, or use the center button." style={{ height: '100%', width: '100%', isolation: 'isolate', pointerEvents: disabled ? 'none' : 'auto', background: '#dce5d7' }} />
-      {(!ready || tilesLoading) && !error && <View pointerEvents="none" accessibilityLiveRegion="polite" style={{ position: 'absolute', top: 12, right: 12, padding: 10, borderRadius: 10, backgroundColor: '#1c2c22', flexDirection: 'row', alignItems: 'center', gap: 8 }}><ActivityIndicator size="small" color="#d2e4a2" /><Text style={{ color: '#edf0e3', fontSize: 12 }}>{ready ? 'Loading map imagery…' : 'Opening map…'}</Text></View>}
+      <div ref={container} className="weedgrow-location-map" aria-label="Location map. Click to place a pin, drag the pin to adjust, or use the center button." style={{ height: '100%', width: '100%', isolation: 'isolate', pointerEvents: disabled ? 'none' : 'auto', background: '#dce5d7' }} />
+      {(!ready || tilesLoading) && !error && <View pointerEvents="none" accessibilityLiveRegion="polite" style={{ position: 'absolute', top: 12, right: 12, padding: 10, borderRadius: 10, backgroundColor: '#1c2c22', flexDirection: 'row', alignItems: 'center', gap: 8 }}><ActivityIndicator size="small" color="#d2e4a2" /><Text style={{ color: '#edf0e3', fontSize: 13 }}>{ready ? 'Loading map imagery…' : 'Opening map…'}</Text></View>}
     </View>
     {!!error && <><Text accessibilityRole="alert" style={{ color: '#f0bb8b' }}>{error}</Text><Pressable accessibilityRole="button" onPress={retry} disabled={disabled} style={{ padding: 10 }}><Text style={{ color: '#d2e4a2' }}>Retry map</Text></Pressable></>}
-    <Pressable accessibilityRole="button" disabled={!ready || disabled} onPress={() => { if (map.current) select(map.current.getCenter()); }} style={({ pressed }) => ({ minHeight: 44, paddingVertical: 10, opacity: pressed || !ready || disabled ? 0.5 : 1 })}><Text style={{ color: '#d2e4a2', fontSize: 13 }}>Place pin at map center</Text></Pressable>
+    <Pressable accessibilityRole="button" disabled={!ready || disabled} onPress={() => { if (map.current) select(map.current.getCenter()); }} style={({ pressed }) => ({ minHeight: 48, paddingVertical: 10, opacity: pressed || !ready || disabled ? 0.5 : 1 })}><Text style={{ color: '#d2e4a2', fontSize: 13 }}>Place pin at map center</Text></Pressable>
   </View>;
 }

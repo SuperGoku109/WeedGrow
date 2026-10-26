@@ -1,16 +1,10 @@
-import { useCallback, useMemo, useSyncExternalStore } from 'react';
-import { collection, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
-import { db } from '@/services/firebase';
-import { useSession } from '@/services/session';
-import { createLiveStore } from '@/lib/data/liveStore';
 import type { JournalEntry } from '@/lib/logs/journalRepository';
-export type ActivityKind = 'watering' | 'fertilizing' | 'recent';
-export const activityStore = createLiveStore<JournalEntry[]>([], key => (next, fail) => {
-  const [, id, kind] = JSON.parse(key) as string[];
-  const ref = collection(db, 'plants', id, 'logs');
-  const q = kind === 'recent' ? query(ref, orderBy('timestamp', 'desc'), limit(4)) : query(ref, where('type', '==', kind), orderBy('timestamp', 'desc'), limit(1));
-  return onSnapshot(q, snapshot => next(snapshot.docs.map(item => ({ ...item.data(), id: item.id } as JournalEntry))), fail);
-}, 'Some care history could not be loaded. Retry before recording care.');
+import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { useSession } from '@/services/session';
+import { activityStore, type ActivityKind } from '@/services/careActivity';
+export { activityStore } from '@/services/careActivity';
+export type { ActivityKind } from '@/services/careActivity';
+
 const empty = { logs: {} as Record<string, JournalEntry[]>, loading: false, error: '' };
 export function usePlantActivity(ids: readonly string[], kinds: readonly ActivityKind[]) {
   const { user } = useSession(); const uid = user?.uid;

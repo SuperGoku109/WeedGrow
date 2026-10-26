@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, type StyleProp, type ViewStyle } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function GradientOverlay({ style, color }: { style?: any; color: string }) {
+export default function GradientOverlay({ style, color }: { style?: StyleProp<ViewStyle>; color: string }) {
   // More visible white-to-transparent overlay for card highlight
   return (
     <LinearGradient

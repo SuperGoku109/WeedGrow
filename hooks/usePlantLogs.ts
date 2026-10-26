@@ -14,8 +14,8 @@ export function usePlantLogs(plantId: string, startDate: string, endDate: string
     try {
       const result = await fetchLogsAndWeatherForRange(plantId, startDate, endDate);
       setData(result);
-    } catch (e: any) {
-      setError(e.message || 'Failed to fetch logs');
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Could not load logs.');
     } finally {
       setLoading(false);
     }

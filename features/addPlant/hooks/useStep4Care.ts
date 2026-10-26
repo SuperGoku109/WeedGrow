@@ -5,7 +5,7 @@
 import { useState } from 'react';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import type { PlantForm } from '@/features/plants/form/PlantForm';
+import type { PlantForm, PlantFieldSetter } from '@/features/plants/form/PlantForm';
 import { BaseStepLogic } from '../types/StepLogic';
 import { useStepBackground } from './useStepBackground';
 
@@ -18,7 +18,7 @@ export interface Step4CareLogic extends BaseStepLogic {
   wateringOptions: string[];
   pestOptions: string[];
   trainingOptions: string[];
-  setField: (key: keyof PlantForm, value: any) => void;
+  setField: PlantFieldSetter;
   togglePest: (pest: string) => void;
   toggleTraining: (training: string) => void;
 }
@@ -26,7 +26,7 @@ export interface Step4CareLogic extends BaseStepLogic {
 // Hook for managing the Care step logic
 export function useStep4Care(
   form: PlantForm,
-  setField: (key: keyof PlantForm, value: any) => void
+  setField: PlantFieldSetter
 ): Step4CareLogic {
   // Get background color and theme tint
   const backgroundColor = useStepBackground();

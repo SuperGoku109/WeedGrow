@@ -5,7 +5,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import type { PlantForm } from '@/features/plants/form/PlantForm';
+import type { PlantForm, PlantFieldSetter } from '@/features/plants/form/PlantForm';
 import { BaseStepLogic } from '../types/StepLogic';
 import { useStepBackground } from './useStepBackground';
 import {
@@ -18,7 +18,7 @@ import {
 export interface Step2EnvironmentLogic extends BaseStepLogic {
   insetsTop: number;
   environment: PlantForm['environment'];
-  setField: (key: keyof PlantForm, v: any) => void;
+  setField: PlantFieldSetter;
   sensorOptions: { label: string; value: string }[];
   loadingProfiles: boolean;
   sensorMenuVisible: boolean;
@@ -38,7 +38,7 @@ export interface Step2EnvironmentLogic extends BaseStepLogic {
 // Hook for managing the Environment step logic
 export function useStep2Environment(
   form: PlantForm,
-  setField: (k: keyof PlantForm, v: any) => void
+  setField: PlantFieldSetter
 ): Step2EnvironmentLogic {
   // Theming & safe area insets
   const backgroundColor = useStepBackground();
@@ -70,8 +70,9 @@ export function useStep2Environment(
   // Handle deep-link to new sensor profile
   const params = useLocalSearchParams();
   useEffect(() => {
-    if (params.newSensorProfileId && params.newSensorProfileId !== form.sensorProfileId) {
-      setField('sensorProfileId', params.newSensorProfileId);
+    const profileId = Array.isArray(params.newSensorProfileId) ? params.newSensorProfileId[0] : params.newSensorProfileId;
+    if (profileId && profileId !== form.sensorProfileId) {
+      setField('sensorProfileId', profileId);
     }
   }, [params.newSensorProfileId, form.sensorProfileId, setField]);
 

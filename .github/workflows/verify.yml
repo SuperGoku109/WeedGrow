@@ -1,0 +1,27 @@
+name: Verify WeedGrow
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    # Hosted runners are intentionally never requested. Opt in only after a
+    # self-hosted runner is available; the local pre-push gate works immediately.
+    if: (github.event_name == 'workflow_dispatch' || vars.WEEDGROW_SELF_HOSTED_CHECKS == 'true') && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: self-hosted
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: npm ci
+      - run: npm install --global firebase-tools@15.5.1
+      - run: npm run verify

@@ -5,7 +5,7 @@
 import { useState } from 'react';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import type { PlantForm } from '@/features/plants/form/PlantForm';
+import type { PlantForm, PlantFieldSetter } from '@/features/plants/form/PlantForm';
 import * as ImagePicker from 'expo-image-picker';
 import { BaseStepLogic } from '../types/StepLogic';
 import { useStepBackground } from './useStepBackground';
@@ -16,13 +16,13 @@ export interface Step5MediaLogic extends BaseStepLogic {
   snackVisible: boolean;
   setSnackVisible(val: boolean): void;
   pickImage(fromCamera: boolean): Promise<void>;
-  setField(key: keyof PlantForm, value: any): void;
+  setField: PlantFieldSetter;
 }
 
 // Hook for managing the Media step logic
 export function useStep5Media(
   form: PlantForm,
-  setField: (key: keyof PlantForm, value: any) => void
+  setField: PlantFieldSetter
 ): Step5MediaLogic {
   // Get background color and theme tint
   const backgroundColor = useStepBackground();

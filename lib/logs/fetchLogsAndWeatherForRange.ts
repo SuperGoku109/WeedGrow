@@ -1,5 +1,6 @@
 import { plantDay, zonedTime, addDays, isCalendarDay } from '@/lib/dates/plantDay';
 import { collection, getDocs, query, where, Timestamp, documentId } from 'firebase/firestore';
+import { decodeLog, decodeWeather } from '@/lib/data/recordDecoders';
 import { db } from '@/services/firebase';
 import type { PlantLog, WeatherCacheEntry } from '@/firestoreModels';
 /** Two independent range queries instead of one network request per weather day. */
@@ -13,10 +14,10 @@ export async function fetchLogsAndWeatherForRange(plantId: string, startDate: st
   const [logs, weather] = await Promise.all([getDocs(logsQuery), getDocs(weatherQuery)]);
   const result = Object.fromEntries(dates.map(date => [date, { logs: [] as PlantLog[], weather: null as WeatherCacheEntry | null }]));
   logs.docs.forEach(item => {
-    const log = item.data() as PlantLog; const instant = log.timestamp?.toDate?.();
+    const log = decodeLog(item.data({ serverTimestamps: 'estimate' }), `plants/${plantId}/logs/${item.id}`); const instant = log.timestamp?.toDate?.();
     const day = log.calendarDay || (instant ? plantDay(instant, log.timeZone || timeZone) : undefined);
     if (day && result[day]) result[day].logs.push(log);
   });
-  weather.docs.forEach(item => { if (result[item.id]) result[item.id].weather = item.data() as WeatherCacheEntry; });
+  weather.docs.forEach(item => { if (result[item.id]) result[item.id].weather = decodeWeather(item.data({ serverTimestamps: 'estimate' }), `plants/${plantId}/weatherCache/${item.id}`); });
   return result;
 }

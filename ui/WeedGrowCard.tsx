@@ -7,10 +7,9 @@ import { ColorTokens } from '@/design-system/tokens';
 
 interface WeedGrowCardProps extends ViewProps {
   children: React.ReactNode;
-  style?: any;
 }
 
-export function WeedGrowCard({ children, style, entering, ...rest }: WeedGrowCardProps & { entering?: any }) {
+export function WeedGrowCard({ children, style, entering, ...rest }: WeedGrowCardProps & { entering?: React.ComponentProps<typeof Animated.View>['entering'] }) {
   const theme = (useColorScheme() ?? 'dark') as 'light' | 'dark';
   
   const backgroundColor = theme === 'dark' 

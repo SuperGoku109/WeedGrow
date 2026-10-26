@@ -5,7 +5,7 @@
 import { useState, useMemo, useCallback } from 'react';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import type { PlantForm } from '@/features/plants/form/PlantForm';
+import type { PlantForm, PlantFieldSetter } from '@/features/plants/form/PlantForm';
 import * as Location from 'expo-location';
 import { Alert } from 'react-native';
 import { BaseStepLogic } from '../types/StepLogic';
@@ -17,13 +17,13 @@ export interface Step3LocationLogic extends BaseStepLogic {
   loading: boolean;
   isValid: boolean;
   getLocation(): Promise<void>;
-  setField(key: keyof PlantForm, value: any): void;
+  setField: PlantFieldSetter;
 }
 
 // Hook for managing the Location step logic
 export function useStep3Location(
   form: PlantForm,
-  setField: (key: keyof PlantForm, value: any) => void
+  setField: PlantFieldSetter
 ): Step3LocationLogic {
   // Get background color and theme tint
   const backgroundColor = useStepBackground();

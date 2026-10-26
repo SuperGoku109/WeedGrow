@@ -10,7 +10,7 @@ export function reminderDue(task: CareTask, snoozedUntil = 0, now = new Date()) 
   }
   return due;
 }
-export function routineDays(value?: string): number | null {
+export function routineDays(value?: string | null): number | null {
   if (typeof value !== 'string') return null;
   if (value === 'Every day') return 1;
   if (value === 'Weekly') return 7;

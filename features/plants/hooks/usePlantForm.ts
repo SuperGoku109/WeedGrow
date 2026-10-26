@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { PlantForm } from '../form/PlantForm';
+import type { PlantForm, PlantFieldSetter } from '../form/PlantForm';
 
 export type GrowthStage = 'germination' | 'seedling' | 'vegetative' | 'flowering';
 export type Environment = 'outdoor' | 'greenhouse' | 'indoor';
@@ -16,7 +16,7 @@ const initialState: PlantForm = {
 };
 
 export const usePlantForm = create<PlantForm & {
-  setField: (key: keyof PlantForm, value: any) => void;
+  setField: PlantFieldSetter;
   reset: () => void;
 }>((set) => ({
   ...initialState,

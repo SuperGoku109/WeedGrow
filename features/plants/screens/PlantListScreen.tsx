@@ -19,6 +19,7 @@ import logger from '@/lib/logger';
 interface PlantListScreenProps {
   enabled?: boolean;
   header?: React.ReactElement;
+  footer?: React.ReactElement;
   searchQuery: string;
   setSearchQuery: (q: string) => void;
   filtersVisible: boolean;
@@ -35,7 +36,7 @@ interface PlantListScreenProps {
 }
 
 export default function PlantListScreen({
-  header, enabled = true,
+  header, footer, enabled = true,
   searchQuery,
   setSearchQuery,
   filtersVisible,
@@ -116,16 +117,17 @@ export default function PlantListScreen({
   // Prevent rendering of FlatList items until animation is ready
   return (
     <View style={[styles.safeArea, { backgroundColor: 'transparent', flex: 1 }]}> 
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8, paddingHorizontal: 16 }}>{['active', 'archived', 'harvested', 'dead', 'all'].map(status => <TouchableOpacity key={status} accessibilityRole="button" accessibilityState={{ selected: (statusFilter || 'all') === status }} onPress={() => setStatusFilter(status === 'all' ? null : status)} style={{ padding: 12 }}><ThemedText style={{ color: (statusFilter || 'all') === status ? '#c8e78b' : '#a9bba1' }}>{status}</ThemedText></TouchableOpacity>)}</View>
+      <View><ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 18, paddingBottom: 10 }}>{['active', 'archived', 'harvested', 'dead', 'all'].map(status => { const selected = (statusFilter || 'all') === status; return <TouchableOpacity key={status} accessibilityRole="button" accessibilityState={{ selected }} onPress={() => setStatusFilter(status === 'all' ? null : status)} style={{ minHeight: 48, paddingHorizontal: 16, borderRadius: 24, justifyContent: 'center', borderWidth: 1, borderColor: selected ? '#c8e78b' : '#7b8e72', backgroundColor: selected ? '#c8e78b' : '#23342a' }}><ThemedText style={{ fontSize: 14, color: selected ? '#243420' : '#bac8b3', textTransform: 'capitalize' }}>{selected ? '✓ ' : ''}{status}</ThemedText></TouchableOpacity>; })}</ScrollView></View>
       <View style={[styles.container, { paddingTop: 0, backgroundColor: 'transparent', flex: 1 }]}> 
         {careLoading && !loading && <ThemedText>Checking watering history…</ThemedText>}
         {!!careError && <TouchableOpacity accessibilityRole="button" onPress={refreshWatered}><ThemedText>{careError} · Retry</ThemedText></TouchableOpacity>}
-        {loading && !plants.length && <ActivityIndicator style={styles.loading} color={Colors[theme].tint} />}
+        {loading && !plants.length && <View accessibilityLiveRegion="polite" style={{ alignItems: 'center', padding: 24, gap: 12 }}><ActivityIndicator accessibilityLabel="Loading your plants" color="#c8e78b" /><ThemedText style={{ color: '#bac8b3', fontSize: 15 }}>Loading your plants…</ThemedText></View>}
         {!!error && <TouchableOpacity accessibilityRole="button" onPress={refresh}><ThemedText style={[styles.errorText, { color: Colors[theme].tint }]}>Error: {error} Tap to retry.</ThemedText></TouchableOpacity>}
         {(!loading || plants.length > 0) && (!error || plants.length > 0) && filteredPlants.length > 0 && (
           <FlatList
             testID="home-plants-list"
             ListHeaderComponent={header}
+            ListFooterComponent={footer}
             data={filteredPlants}
             refreshing={loading}
             onRefresh={refresh}
@@ -156,7 +158,8 @@ export default function PlantListScreen({
           />
         )}
         {(!loading || plants.length > 0) && (!error || plants.length > 0) && filteredPlants.length === 0 && (
-          <ScrollView>{header}<View style={{ alignItems: 'center', marginTop: 32 }}><ThemedText style={{ marginBottom: 28 }}>{plants.length ? 'No plants match these filters.' : 'Your garden is ready for its first plant.'}</ThemedText>
+          <ScrollView>{header}<View style={{ alignItems: 'center', marginTop: 24, padding: 16, gap: 12 }}><ThemedText style={{ color: '#edf0e3', fontSize: 16, textAlign: 'center' }}>{plants.length ? 'No plants match these filters.' : 'Your garden is ready for its first plant.'}</ThemedText>
+            {!!plants.length && <TouchableOpacity accessibilityRole="button" onPress={() => { setSearchQuery(''); setStatusFilter(null); setEnvFilter(null); setPlantedFilter(null); setTrainingFilter(null); }} style={{ minHeight: 48, justifyContent: 'center', paddingHorizontal: 18 }}><ThemedText style={{ color: '#c8e78b' }}>Clear search and filters</ThemedText></TouchableOpacity>}
             <TouchableOpacity
               accessibilityLabel="Add Plant"
               onPress={navigateToAddPlant}
@@ -165,7 +168,7 @@ export default function PlantListScreen({
               <MaterialCommunityIcons name="plus" size={24} color="#fff" style={{ marginRight: 4 }} />
               <ThemedText style={styles.addPlantText}>Add Plant</ThemedText>
             </TouchableOpacity>
-          </View></ScrollView>
+          </View>{footer}</ScrollView>
         )}
       </View>
       <Snackbar
@@ -183,7 +186,7 @@ export default function PlantListScreen({
 
 const styles = StyleSheet.create({
   safeArea: { flex: 1 },
-  container: { flex: 1, padding: 16, paddingTop: 0 },
+  container: { flex: 1, paddingHorizontal: 18, paddingBottom: 16, paddingTop: 0 },
   loading: { marginTop: 20 },
   errorText: { marginTop: 10 },
   addPlantButton: {
@@ -193,10 +196,10 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 32,
     borderRadius: 28,
-    marginTop: -20,
+    minHeight: 48,
     backgroundColor: 'rgba(255, 255, 255, 0.09)', // Glassy white
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.03)',
+    borderColor: '#7b8e72',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.13,

@@ -69,7 +69,7 @@ export async function savePlantToFirestore(input: PlantForm, plantId = createPla
       }
       if (form.sensorProfileId) {
         const profile = await transaction.get(doc(db, 'sensorProfiles', form.sensorProfileId));
-        if (!profile.exists() || profile.data().createdBy !== uid) throw new PlantSaveError('The sensor profile is no longer available. Choose another profile or continue without one.', 'groupId');
+        if (!profile.exists() || profile.data().createdBy !== uid || profile.data().deleting) throw new PlantSaveError('The sensor profile is no longer available. Choose another profile or continue without one.', 'groupId');
       }
       if (!existing.exists()) {
         for (const write of photo?.writes || []) transaction.set(write.ref, write.data);

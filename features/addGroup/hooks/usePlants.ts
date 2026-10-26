@@ -16,8 +16,8 @@ export const usePlants = () => {
       try {
         const items = await fetchPlants();
         if (active) setPlants(items);
-      } catch (e: any) {
-        if (active) setError(e.message || 'Failed to load plants');
+      } catch (e: unknown) {
+        if (active) setError(e instanceof Error ? e.message : 'Could not load plants.');
       } finally {
         if (active) setLoading(false);
       }

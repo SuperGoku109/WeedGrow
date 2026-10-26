@@ -3,7 +3,8 @@ import { fetchLogsAndWeatherForRange } from '../fetchLogsAndWeatherForRange';
 jest.mock('@/services/firebase', () => ({ db: {} }));
 jest.mock('firebase/firestore', () => ({ collection: (_db: unknown, ...parts: string[]) => parts.join('/'), query: (path: string, ...filters: unknown[]) => ({ path, filters }), where: (...args: unknown[]) => args, documentId: () => '__name__', Timestamp: { fromDate: (date: Date) => date }, getDocs: jest.fn() }));
 it('loads eight weather days and journal history with just two parallel queries', async () => {
-  jest.mocked(getDocs).mockImplementation(async (q: any) => ({ docs: q.path.endsWith('/logs') ? [{ data: () => ({ type: 'watering', calendarDay: '2026-10-20', timestamp: { toDate: () => new Date('2026-10-20T12:00:00Z') } }) }] : [{ id: '2026-10-20', data: () => ({ temperature: 20 }) }] }) as never);
+  const timestamp = { toDate: () => new Date('2026-10-20T12:00:00Z'), toMillis: () => Date.parse('2026-10-20T12:00:00Z') };
+  jest.mocked(getDocs).mockImplementation(async (q: any) => ({ docs: q.path.endsWith('/logs') ? [{ id: 'watering', data: () => ({ type: 'watering', calendarDay: '2026-10-20', timestamp }) }] : [{ id: '2026-10-20', data: () => ({ date: '2026-10-20', fetchedAt: timestamp, temperature: 20, humidity: 60, rainfall: 0, windSpeed: 1, uvIndex: 2 }) }] }) as never);
   const result = await fetchLogsAndWeatherForRange('p', '2026-10-18', '2026-10-25', 'Africa/Johannesburg');
   expect(getDocs).toHaveBeenCalledTimes(2); expect(Object.keys(result)).toHaveLength(8);
   expect(result['2026-10-20'].logs).toHaveLength(1); expect(result['2026-10-20'].weather?.temperature).toBe(20);

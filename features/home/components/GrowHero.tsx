@@ -4,10 +4,10 @@ import Svg, { Circle, Ellipse, Path, G } from 'react-native-svg';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { GrowPress, GrowReveal, useReducedMotion } from '@/ui/GrowMotion';
-export default function GrowHero({ plants, groups, attention }: { plants: number; groups: number; attention: number }) {
+export default function GrowHero({ plants, groups, attention }: { plants: number | null; groups: number | null; attention: number }) {
   const router = useRouter();
   const { width } = useWindowDimensions();
-  const compact = width < 360;
+  const compact = width < 600;
   const reduced = useReducedMotion();
   const drift = React.useRef(new Animated.Value(0)).current;
   React.useEffect(() => {
@@ -17,16 +17,16 @@ export default function GrowHero({ plants, groups, attention }: { plants: number
       Animated.timing(drift, { toValue: 0, duration: 3200, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
     ])); motion.start(); return () => motion.stop();
   }, [drift, reduced]);
-  return <GrowReveal style={s.hero}>
-    <View style={s.copy}>
-      <Text style={s.eyebrow}>YOUR PERSONAL GROW SPACE</Text>
-      <Text style={[s.headline, compact && { fontSize: 25, lineHeight: 29 }]}>A little care.{'\n'}<Text style={s.italic}>A lot of growth.</Text></Text>
+  return <GrowReveal style={[s.hero, compact && { minHeight: 0, marginHorizontal: 0, borderRadius: 20 }]}>
+    <View style={[s.copy, compact && { padding: 18, paddingBottom: 18 }]}>
+      {!compact && <Text style={s.eyebrow}>YOUR PERSONAL GROW SPACE</Text>}
+      <Text accessibilityRole="header" style={[s.headline, compact && { fontSize: 28, lineHeight: 34 }]}>{compact ? 'Your garden' : <>A little care.{'\n'}<Text style={s.italic}>A lot of growth.</Text></>}</Text>
       <View style={s.bottom}>
-        <Text style={s.sub}>{plants} plants · {groups} {groups === 1 ? 'space' : 'spaces'}</Text>
-        <GrowPress accessibilityRole="button" accessibilityLabel="Add a plant" onPress={() => router.push('/add-plant')} style={s.add}><MaterialCommunityIcons name="plus" size={18} color="#172118" /><Text style={s.addLabel}>New plant</Text></GrowPress>
+        <Text style={s.sub}>{plants ?? '—'} {plants === 1 ? 'plant' : 'plants'} · {groups ?? '—'} {groups === 1 ? 'space' : 'spaces'}</Text>
+        <GrowPress accessibilityRole="button" accessibilityLabel="Add a plant" onPress={() => router.push('/add-plant')} style={s.add}><MaterialCommunityIcons name="plus" size={18} color="#eaf0d5" /><Text style={s.addLabel}>New plant</Text></GrowPress>
       </View>
     </View>
-    <Animated.View pointerEvents="none" style={[s.art, compact && { right: -30, opacity: 0.65 }, { transform: [{ translateY: drift.interpolate({ inputRange: [0, 1], outputRange: [3, -5] }) }, { rotate: drift.interpolate({ inputRange: [0, 1], outputRange: ['-3deg', '3deg'] }) }] }]}>
+    {!compact && <Animated.View pointerEvents="none" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={[s.art, { transform: [{ translateY: drift.interpolate({ inputRange: [0, 1], outputRange: [3, -5] }) }, { rotate: drift.interpolate({ inputRange: [0, 1], outputRange: ['-3deg', '3deg'] }) }] }]}>
       <Svg width="150" height="178" viewBox="0 0 180 210">
         <Circle cx="95" cy="98" r="73" fill="#dfe9bc" />
         <Circle cx="95" cy="98" r="85" stroke="#90a16b" strokeWidth="0.7" strokeDasharray="3 6" fill="none" />
@@ -45,8 +45,8 @@ export default function GrowHero({ plants, groups, attention }: { plants: number
         <Path d="M150 132 L153 123 L156 132 L165 135 L156 138 L153 147 L150 138 L141 135 Z" fill="#a0b459" />
         <Circle cx="31" cy="132" r="4" fill="#cc714b" />
       </Svg>
-    </Animated.View>
-    <View style={s.status}><View style={[s.dot, { backgroundColor: attention ? '#cf805c' : '#aeca77' }]} /><Text style={s.statusText}>{attention ? `${attention} plants need a little love` : 'Make room for something good'}</Text></View>
+    </Animated.View>}
+    {!compact && <View style={s.status}><View style={[s.dot, { backgroundColor: attention ? '#cf805c' : '#aeca77' }]} /><Text style={s.statusText}>{attention ? `${attention} plants need a little love` : 'Make room for something good'}</Text></View>}
   </GrowReveal>;
 }
 const s = StyleSheet.create({
@@ -55,10 +55,10 @@ const s = StyleSheet.create({
   eyebrow: { fontFamily: 'SpaceMono', fontSize: 8, letterSpacing: 1.3, color: '#586547', marginBottom: 10 },
   headline: { color: '#243420', fontSize: 29, lineHeight: 32, fontWeight: '700', letterSpacing: -1.3 },
   italic: { fontStyle: 'italic', fontWeight: '400' },
-  sub: { color: '#5a674b', fontSize: 11 },
-  bottom: { alignItems: 'flex-start', gap: 10, marginTop: 12 },
-  add: { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#c6e780', borderRadius: 30, paddingHorizontal: 12, paddingVertical: 8 },
-  addLabel: { color: '#243420', fontSize: 11, fontWeight: '700' },
+  sub: { color: '#4b5b3b', fontSize: 14, flexShrink: 1 },
+  bottom: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: 12 },
+  add: { flexDirection: 'row', alignItems: 'center', gap: 5, backgroundColor: '#243420', borderRadius: 30, paddingHorizontal: 12, paddingVertical: 8 },
+  addLabel: { color: '#eaf0d5', fontSize: 14, fontWeight: '700' },
   art: { position: 'absolute', right: -8, top: 23 },
   status: { position: 'absolute', bottom: 0, left: 0, right: 0, paddingHorizontal: 20, height: 33, flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: '#dce5c4' },
   dot: { width: 6, height: 6, borderRadius: 3 },

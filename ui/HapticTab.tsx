@@ -1,17 +1,18 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { PlatformPressable } from '@react-navigation/elements';
+import type { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
 import * as Haptics from 'expo-haptics';
 
-export function HapticTab({ children, ...props }: any) {
+export function HapticTab({ children, ...props }: BottomTabBarButtonProps) {
   return (
-    <TouchableOpacity
+    <PlatformPressable
       {...props}
-      onPress={async (e) => {
+      onPress={(e) => {
         if (props.onPress) props.onPress(e);
-        await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => { /* Haptics are optional on unsupported devices. */ });
       }}
     >
       {children}
-    </TouchableOpacity>
+    </PlatformPressable>
   );
 }

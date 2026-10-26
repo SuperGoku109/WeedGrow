@@ -8,7 +8,7 @@ import { ThemedText } from '@/ui/ThemedText';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import HomeBackground from '@/features/home/components/HomeBackground';
 
-const PLANT_STAGES = [
+const PLANT_STAGES: { key: string; label: string; icon: React.ComponentProps<typeof MaterialCommunityIcons>['name'] }[] = [
   { key: 'germination', label: 'Germination', icon: 'seed' },
   { key: 'seedling', label: 'Seedling', icon: 'sprout' },
   { key: 'vegetative', label: 'Vegetative', icon: 'leaf' },
@@ -17,7 +17,7 @@ const PLANT_STAGES = [
 ];
 
 interface PlantStageCardProps {
-  stage: { key: string; label: string; icon: string };
+  stage: (typeof PLANT_STAGES)[number];
   isSelected: boolean;
   onSelect: (stageKey: string) => void;
 }
@@ -33,7 +33,7 @@ const PlantStageCard = memo(function PlantStageCard({ stage, isSelected, onSelec
       accessibilityState={{ selected: isSelected }}
       accessibilityLabel={`Select ${stage.label} stage`}
     >
-      <MaterialCommunityIcons name={stage.icon as any} size={36} color={isSelected ? '#fff' : '#8bc34a'} />
+      <MaterialCommunityIcons name={stage.icon} size={36} color={isSelected ? '#fff' : '#8bc34a'} />
       <ThemedText style={[styles.cardLabel, isSelected && styles.cardLabelSelected]}>
         {stage.label}
       </ThemedText>
