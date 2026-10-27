@@ -21,7 +21,7 @@ function BotanicalCover({ theme }: { theme: PlantTheme }) {
 
 /** The cover and identity scroll together; the connected section rail below
  * stays sticky. No text overlays user photos, so both themes stay readable. */
-export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant; theme: PlantTheme; onEdit(): void }) {
+export default function PlantBanner({ plant, theme: t, onEdit, onCover }: { plant: Plant; theme: PlantTheme; onEdit(): void; onCover(): void }) {
   const { width } = useWindowDimensions();
   // Long names get the full phone width instead of becoming a tall column
   // squeezed between the cover and the edge of the banner.
@@ -37,10 +37,10 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
   return <View style={[s.banner, { backgroundColor: t.surface, borderColor: t.border }]}>
     {fullWidthName && <Text accessibilityRole="header" style={[s.name, s.fullName, { color: t.text }]}>{plant.name}</Text>}
     <View style={s.identity}>
-      <View style={[s.cover, { backgroundColor: t.hero }]}>
+      <Pressable accessibilityRole="button" accessibilityLabel="Change plant cover photo" onPress={onCover} style={[s.cover, { backgroundColor: t.hero }]}>
         {photo.uri && !broken && !photo.failed ? <Image accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri }} resizeMode="cover" onError={() => setBroken(true)} style={s.coverImage} /> : <View accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
         {photo.stored && !photo.uri && !photo.failed && <View style={s.photoLoading}><ActivityIndicator size="small" color={t.heroText} accessibilityLabel="Loading plant cover" /></View>}
-      </View>
+      </Pressable>
       <View style={s.copy}>
         {!fullWidthName && <Text accessibilityRole="header" style={[s.name, { color: t.text }]}>{plant.name}</Text>}
         {!!plant.strain?.trim() && <Text style={[s.strain, { color: t.muted }]}>{plant.strain}</Text>}
@@ -59,11 +59,11 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
 const s = StyleSheet.create({
   banner: { borderWidth: 1, borderBottomWidth: 0, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 16, paddingBottom: 0 },
   identity: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  cover: { width: 80, height: 92, flexShrink: 0, borderRadius: 18, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
+  cover: { width: 64, height: 74, flexShrink: 0, borderRadius: 18, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   coverImage: { width: '100%', height: '100%' },
   photoLoading: { position: 'absolute', bottom: 7, right: 7 },
   copy: { flex: 1, minWidth: 0, gap: 7 },
-  name: { fontSize: 32, lineHeight: 38, fontWeight: '700', letterSpacing: -0.8 },
+  name: { fontSize: 28, lineHeight: 34, fontWeight: '700', letterSpacing: -0.8 },
   fullName: { fontSize: 26, lineHeight: 32, letterSpacing: -0.5, marginBottom: 14 },
   strain: { fontSize: 14, lineHeight: 20 },
   badges: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, marginTop: 3 },

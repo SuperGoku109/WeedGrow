@@ -1,5 +1,5 @@
 import type { Timestamp } from 'firebase/firestore';
-export interface ProgressPic { id: string; imageUrl: string; timestamp?: Timestamp; caption?: string }
+export interface ProgressPic { calendarDay?: string; timeZone?: string; id: string; imageUrl: string; timestamp?: Timestamp; caption?: string }
 // firestoreModels.ts
 
 // ================================
@@ -73,6 +73,8 @@ export interface Plant {
   // 📁 Subcollection: /plants/{plantId}/logs/{logId}
   // ================================
   export interface PlantLog {
+    occurrencePrecision?: 'date' | 'time';
+    recordedAt?: Timestamp;
     calendarDay?: string;
     timeZone?: string;
     movement?: { from: { lat: number; lng: number } | null; to: { lat: number; lng: number } | null; fromLabel: string; toLabel: string; revision: number };

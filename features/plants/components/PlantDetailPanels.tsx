@@ -41,8 +41,8 @@ export function WeatherPanel({ weather, theme, label, loading, error, compact = 
     </View>{weather.source && <Text style={{ color: theme.muted, fontSize: 13, marginTop: 14 }}>Source: {weather.source}</Text>}</GrowReveal>}
   </View>;
 }
-export function InsightPanel({ card, theme }: { card: SuggestionCard; theme: PlantTheme }) {
-  const [expanded, setExpanded] = React.useState(false);
+export function InsightPanel({ card, theme, initiallyExpanded = false, onRecord, preview = false }: { card: SuggestionCard; theme: PlantTheme; initiallyExpanded?: boolean; onRecord?(): void; preview?: boolean }) {
+  const [expanded, setExpanded] = React.useState(initiallyExpanded);
   const color = card.severity === 'critical' ? theme.danger : ['warn', 'watch'].includes(card.severity) ? theme.warm : theme.accent;
   const severity = { critical: 'Urgent', warn: 'Needs attention', watch: 'Watch', info: 'Care note' }[card.severity];
   return <View style={[detailStyles.card, { backgroundColor: theme.surface, borderColor: theme.border, borderLeftColor: color, borderLeftWidth: 3, marginBottom: 10 }]}>
@@ -51,7 +51,9 @@ export function InsightPanel({ card, theme }: { card: SuggestionCard; theme: Pla
       <View style={{ flex: 1 }}><Text style={{ color, fontSize: 13, fontWeight: '700', marginBottom: 4 }}>{severity}</Text><Text style={{ color: theme.text, fontSize: 15, fontWeight: '600', lineHeight: 22 }}>{card.title}</Text><Text style={{ color: theme.muted, fontSize: 13, marginTop: 4 }}>{expanded ? 'Hide explanation' : 'Review advice'}</Text></View>
       <MaterialCommunityIcons name={expanded ? 'chevron-up' : 'chevron-down'} size={22} color={theme.muted} />
     </GrowPress>
-    {expanded && <GrowReveal><Text style={[detailStyles.body, { color: theme.muted, marginTop: 12 }]}>{card.summary}</Text>{Array.from(new Set(card.reasons)).filter(reason => reason !== card.summary).map(reason => <Text key={reason} style={[detailStyles.body, { color: theme.muted, marginTop: 6 }]}>• {reason}</Text>)}<Text style={{ color: theme.muted, fontSize: 13, marginTop: 12, textTransform: 'capitalize' }}>{card.confidence} confidence · Weather-based suggestion</Text></GrowReveal>}
+    {preview && !expanded && <Text numberOfLines={2} style={[detailStyles.body, { color: theme.muted, marginTop: 8 }]}>{card.summary}</Text>}
+    {expanded && <GrowReveal><Text style={[detailStyles.body, { color: theme.muted, marginTop: 12 }]}>{card.summary}</Text>{Array.from(new Set(card.reasons)).filter(reason => !card.summary.toLowerCase().includes(reason.toLowerCase())).map(reason => <Text key={reason} style={[detailStyles.body, { color: theme.muted, marginTop: 6 }]}>• {reason}</Text>)}<Text style={{ color: theme.muted, fontSize: 13, marginTop: 12, textTransform: 'capitalize' }}>{card.confidence} confidence · Weather-based suggestion</Text></GrowReveal>}
+    {(preview || expanded) && onRecord && <GrowPress accessibilityRole="button" onPress={onRecord} style={{ minHeight: 48, justifyContent: 'center', marginTop: 8 }}><Text style={{ color: theme.accent }}>{card.kind === 'watering' ? 'Record soil check' : 'Log observation'}</Text></GrowPress>}
   </View>;
 }
 

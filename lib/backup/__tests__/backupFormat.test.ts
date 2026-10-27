@@ -13,3 +13,13 @@ it('accepts large gardens and histories for resumable restore', () => {
 });
 
 it('neutralizes spreadsheet formulas and escapes CSV text', () => { expect(escapeCsv('=IMPORTXML("x")')).toBe('"\'=IMPORTXML(""x"")"'); expect(escapeCsv('a,b')).toBe('"a,b"'); });
+
+it('preserves event precision and submission dates in log and photo backups', () => {
+  const metadata = { timestamp: { $timestamp: 1000 }, calendarDay: '2026-09-10', timeZone: 'Africa/Johannesburg', occurrencePrecision: 'date', recordedAt: { $timestamp: 2000 } };
+  const result = validateBackup(JSON.stringify({ ...backup, records: [...backup.records, { path: 'plants/p/logs/log', data: { type: 'note', ...metadata } }, { path: 'plants/p/progressPics/photo', data: { imageUrl: 'https://example.test/photo.jpg', ...metadata } }] }));
+  expect(result.records[1].data).toMatchObject(metadata); expect(result.records[2].data).toMatchObject(metadata);
+});
+it('rejects malformed precision and submission metadata', () => {
+  expect(() => validateBackup(JSON.stringify({ ...backup, records: [...backup.records, { path: 'plants/p/logs/log', data: { type: 'note', timestamp: { $timestamp: 0 }, occurrencePrecision: 'guessed' } }] }))).toThrow('precision');
+  expect(() => validateBackup(JSON.stringify({ ...backup, records: [...backup.records, { path: 'plants/p/logs/log', data: { type: 'note', timestamp: { $timestamp: 0 }, recordedAt: 'not a timestamp' } }] }))).toThrow('submission');
+});

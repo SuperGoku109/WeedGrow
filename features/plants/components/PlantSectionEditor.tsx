@@ -1,29 +1,34 @@
 import { useEditDraft, DraftRecovery } from '@/ui/useEditDraft';
 import React from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, Modal, Platform, ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import type { Plant } from '@/firestoreModels';
 import { updatePlant, type UpdatePlantFields } from '../api/plantService';
 import { EditorField, EditorSelect } from './PlantEditorFields';
 import { GrowPress } from '@/ui/GrowMotion';
-import { plantThemes } from './plantDetailTheme';
+import { plantThemes, type PlantTheme } from './plantDetailTheme';
 import { detailStyles as ds } from './PlantDetailPanels';
 import { fetchSensorProfiles } from '@/features/addPlant/api/environmentApi';
 import PlantLocationEditor from '@/features/location/PlantLocationEditor';
 import { useDiscardGuard } from '@/ui/useDiscardGuard';
 import { validCoordinates } from '@/features/location/locationService';
+import PlantEditorSheet from './PlantEditorSheet';
+import PlantDateField, { displayDay } from './PlantDateField';
+import { plantDay, addDays, isCalendarDay } from '@/lib/dates/plantDay';
 import { sections, buildSectionUpdates } from '../form/plantSectionForm';
 
-export default function PlantSectionEditor({ plantId, plant, section, onClose, onSaved }: { plantId: string; plant: Plant; section: string; onClose: () => void; onSaved: () => void }) {
-  const t = plantThemes.grove;
+export default function PlantSectionEditor({ plantId, plant, section, onClose, onSaved, theme }: { plantId: string; plant: Plant; section: string; onClose: () => void; onSaved: () => void; theme?: PlantTheme }) {
+  const t = theme || plantThemes.grove;
+  const title = ({ 'Care plan': 'Care routine', 'Location and weather': 'Location', 'Notes and history': 'Profile notes' } as Record<string, string>)[section] || section;
+  const [ageMode, setAgeMode] = React.useState(plant.startedOn && !plant.ageEstimated ? 'date' : 'estimate');
   const fields = sections[section] || sections.Basics;
   const [values, setValues] = React.useState<Record<string, string>>(() => {
     const source = { ...plant, strainType: plant.strainType || 'unknown', ageDays: plant.ageKnown === false ? '' : plant.ageDays, lat: plant.location?.lat, lng: plant.location?.lng, reminderType: plant.reminderSchedule?.type || 'none', intervalDays: plant.reminderSchedule?.intervalDays, customDays: plant.reminderSchedule?.customDays?.join(', '), timeOfDay: plant.reminderSchedule?.timeOfDay };
     return Object.fromEntries(fields.map(field => { const value = source[field.key as keyof typeof source]; return [field.key, Array.isArray(value) ? value.join(', ') : value == null ? '' : String(value)]; }));
   });
   const [locationMode, setLocationMode] = React.useState<'custom' | 'space'>(plant.locationMode || 'custom');
-  const initial = React.useRef(JSON.stringify({ values, locationMode }));
-  const dirty = JSON.stringify({ values, locationMode }) !== initial.current;
-  const draft = useEditDraft(`plant.${plantId}.section.${section}`, { values, locationMode }, plant as unknown as Record<string, unknown>, dirty);
+  const initial = React.useRef(JSON.stringify({ values, locationMode, ageMode }));
+  const dirty = JSON.stringify({ values, locationMode, ageMode }) !== initial.current;
+  const draft = useEditDraft(`plant.${plantId}.section.${section}`, { values, locationMode, ageMode }, plant as unknown as Record<string, unknown>, dirty);
   const close = () => { void draft.clear().catch(() => {}); onClose(); };
   const guard = useDiscardGuard(dirty, () => draft.clear());
   const [busy, setBusy] = React.useState(false);
@@ -41,24 +46,36 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
   const save = async () => {
     if (lock.current || locating || !draft.ready || draft.saved) return;
     let updates: Record<string, unknown>;
-    try { updates = buildSectionUpdates(section, values, locationMode, plant); }
+    try { updates = buildSectionUpdates(section, section === 'Care plan' && values.reminderType !== 'none' ? { ...values, timeOfDay: values.timeOfDay || '09:00' } : values, locationMode, plant, plantDay(new Date(), plant.locationTimeZone), ageMode as 'date' | 'estimate'); }
     catch (error) { setError(error instanceof Error ? error.message : 'Review the entered details.'); return; }
     lock.current = true; setBusy(true); setError('');
     try { await updatePlant(plantId, updates as UpdatePlantFields, draft.baseline.current); await draft.clear().catch(() => {}); guard.finish(onSaved); }
     catch (err) { setError(err instanceof Error ? err.message : 'Changes could not be saved.'); }
     finally { lock.current = false; setBusy(false); }
   };
-  return <Modal transparent visible animationType="slide" onRequestClose={() => { if (!busy) guard.requestClose(close); }}><KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1, backgroundColor: 'rgba(8,17,12,0.75)', justifyContent: 'center', alignItems: 'center', padding: 16 }}><View style={{ width: '100%', maxWidth: 620, maxHeight: '94%', padding: 20, borderRadius: 20, backgroundColor: t.background }}>
-    <View style={[ds.row, { justifyContent: 'space-between', marginBottom: 16 }]}><Text style={[ds.title, { color: t.text, flex: 1 }]}>{section}</Text><GrowPress accessibilityRole="button" accessibilityLabel="Close section editor" disabled={busy} onPress={() => guard.requestClose(close)} style={{ minWidth: 44, minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Cancel</Text></GrowPress></View>
-    <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ gap: 18, paddingBottom: 16 }}>
-      <DraftRecovery draft={draft} apply={value => { setValues(value.values); setLocationMode(value.locationMode); }} />
-      {!!profileError && <Text style={{ color: t.danger }}>{profileError}</Text>}
-      {section === 'Care plan' && <Text style={{ color: t.muted, fontSize: 13, lineHeight: 20 }}>Routines estimate when care is due. Enable device care reminders in Settings in the installed mobile app. The browser provides the care checklist.</Text>}
-      {section === 'Location and weather' && <PlantLocationEditor groupId={plant.groupId} mode={locationMode} onModeChange={setLocationMode} location={values.lat?.trim() && values.lng?.trim() && validCoordinates({ lat: Number(values.lat), lng: Number(values.lng) }) ? { lat: Number(values.lat), lng: Number(values.lng) } : null} label={values.locationLabel} disabled={busy} onBusyChange={setLocating} onChange={(coords, name) => setValues(previous => ({ ...previous, lat: coords ? String(coords.lat) : '', lng: coords ? String(coords.lng) : '', locationLabel: name }))} />}
-      {fields.filter(field => !(section === 'Location and weather' && ['lat', 'lng', 'locationLabel'].includes(field.key)) && !(field.key === 'potSize' && values.plantedIn === 'ground') && !(field.key === 'sensorProfileId' && values.environment === 'outdoor') && !(field.key === 'intervalDays' && values.reminderType !== 'interval') && !(field.key === 'customDays' && values.reminderType !== 'custom') && !(field.key === 'timeOfDay' && values.reminderType === 'none')).map(field => field.options ? <EditorSelect key={field.key} label={field.label} value={values[field.key]} options={field.key === 'sensorProfileId' ? [{ value: '', label: 'No sensor profile' }, ...profiles.map(profile => ({ value: profile.id, label: profile.name })), ...(!profiles.some(profile => profile.id === values.sensorProfileId) && values.sensorProfileId ? [{ value: values.sensorProfileId, label: 'Current profile' }] : [])] : field.options.map(value => ({ value, label: value || 'Not set' }))} onSelect={value => setValues(previous => ({ ...previous, [field.key]: value }))} /> : <EditorField key={field.key} label={field.label} value={values[field.key]} editable={!busy} multiline={field.multiline} keyboardType={field.number ? 'numbers-and-punctuation' : 'default'} onChangeText={value => setValues(previous => ({ ...previous, [field.key]: value }))} />)}
-    </ScrollView>
-    {!!error && <Text accessibilityRole="alert" style={{ color: t.danger, marginVertical: 12 }}>{error}</Text>}
-    <GrowPress accessibilityRole="button" accessibilityLabel="Save section changes" disabled={busy || locating || !draft.ready || !!draft.saved} onPress={save} style={[ds.button, { backgroundColor: t.accent, marginTop: 12 }]}>{busy && <ActivityIndicator color={t.onAccent} />}<Text style={{ color: t.onAccent, fontWeight: '700' }}>{busy ? 'Saving…' : 'Save changes'}</Text></GrowPress>
+  const friendly = (value: string) => ({ unknown: 'Unknown', none: 'No reminders', interval: 'Every few days', custom: 'Selected weekdays', native: 'Native soil', raised: 'Raised bed', store: 'Store-bought mix', customSoil: 'Custom mix' } as Record<string, string>)[value] || (value ? value.charAt(0).toUpperCase() + value.slice(1) : 'Not set');
+  const change = (key: string, value: string) => { setValues(previous => ({ ...previous, [key]: value })); setError(''); };
+  const today = plantDay(new Date(), plant.locationTimeZone);
+  const disabled = busy || locating || !draft.ready || !!draft.saved;
+  const selectedDays = values.customDays?.split(',').map(day => day.trim().slice(0, 3).toLowerCase()).filter(Boolean) || [];
+  const schedule = values.reminderType === 'interval' ? `Every ${values.intervalDays || '…'} days` : values.reminderType === 'custom' ? selectedDays.map(friendly).join(', ') || 'Choose reminder days' : 'No reminders';
+  return <PlantEditorSheet title={`Edit ${title.toLowerCase()}`} theme={t} busy={busy} onClose={() => guard.requestClose(close)} footer={<View style={{ gap: 12 }}>
+    {!!error && <Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text>}
+    <GrowPress accessibilityRole="button" accessibilityLabel="Save section changes" disabled={disabled} onPress={save} style={[ds.button, { backgroundColor: t.accent, opacity: disabled ? 0.5 : 1 }]}>{busy && <ActivityIndicator color={t.onAccent} />}<Text style={{ color: t.onAccent, fontWeight: '700' }}>{busy ? 'Saving…' : 'Save changes'}</Text></GrowPress>
+  </View>}>
+    <DraftRecovery theme={t} draft={draft} apply={value => { setValues(value.values); setLocationMode(value.locationMode); setAgeMode(value.ageMode || (value.values.startedOn ? 'date' : 'estimate')); }} />
+    {!!profileError && <Text style={{ color: t.danger }}>{profileError}</Text>}
+    {section === 'Basics' && <><EditorSelect label="Growing age" value={ageMode} disabled={disabled} options={[{ value: 'date', label: 'I know the start date' }, { value: 'estimate', label: 'Use an estimated age' }]} onSelect={setAgeMode} /><Text style={{ color: t.muted, lineHeight: 20 }}>{ageMode === 'date' ? 'Age is calculated from the start date.' : 'Leave age blank if unknown. An entered age sets an estimated start date.'} Change plant status in Manage plant.</Text></>}
+    {section === 'Location and weather' && <PlantLocationEditor displayName={values.locationNickname} theme={t} groupId={plant.groupId} mode={locationMode} onModeChange={setLocationMode} location={values.lat?.trim() && values.lng?.trim() && validCoordinates({ lat: Number(values.lat), lng: Number(values.lng) }) ? { lat: Number(values.lat), lng: Number(values.lng) } : null} label={values.locationLabel} disabled={busy || !draft.ready || !!draft.saved} onBusyChange={setLocating} onChange={(coords, name) => setValues(previous => ({ ...previous, lat: coords ? String(coords.lat) : '', lng: coords ? String(coords.lng) : '', locationLabel: name }))} />}
+    {fields.filter(field => !(section === 'Location and weather' && ['lat', 'lng', 'locationLabel'].includes(field.key)) && !(field.key === 'potSize' && values.plantedIn === 'ground') && !(field.key === 'sensorProfileId' && values.environment === 'outdoor') && !(field.key === 'sunlightExposure' && values.environment === 'indoor') && !(field.key === 'intervalDays' && values.reminderType !== 'interval') && !['customDays', 'timeOfDay'].includes(field.key) && !(field.key === 'startedOn' && ageMode !== 'date') && !(field.key === 'ageDays' && ageMode !== 'estimate')).map(field => field.key === 'startedOn' ? <PlantDateField key={field.key} label="Started growing on" value={values.startedOn || ''} onChange={value => change('startedOn', value)} today={today} optional disabled={disabled} /> : field.options ? <EditorSelect key={field.key} disabled={disabled} label={field.label} value={values[field.key]} options={field.key === 'sensorProfileId' ? [{ value: '', label: 'No sensor profile' }, ...profiles.map(profile => ({ value: profile.id, label: profile.name })), ...(!profiles.some(profile => profile.id === values.sensorProfileId) && values.sensorProfileId ? [{ value: values.sensorProfileId, label: 'Current profile' }] : [])] : field.options.map(value => ({ value, label: friendly(value) }))} onSelect={value => change(field.key, value)} /> : <EditorField key={field.key} label={field.label} value={values[field.key]} editable={!disabled} multiline={field.multiline} keyboardType={field.number ? 'numbers-and-punctuation' : 'default'} onChangeText={value => change(field.key, value)} />)}
+    {section === 'Basics' && ageMode === 'date' && isCalendarDay(values.startedOn || '') && <Text style={{ color: t.muted }}>Growing for {Math.max(0, Math.floor((Date.parse(today + 'T12:00:00Z') - Date.parse(values.startedOn + 'T12:00:00Z')) / 86400000))} days.</Text>}
+    {section === 'Basics' && ageMode === 'estimate' && values.ageDays?.trim() && Number.isInteger(Number(values.ageDays)) && Number(values.ageDays) >= 0 && Number(values.ageDays) <= 36500 && <Text style={{ color: t.muted }}>{!plant.startedOn && values.ageDays === String(plant.ageDays) ? `Recorded age: ${values.ageDays} days. Start date unknown.` : 'Estimated start: ' + displayDay(plant.ageEstimated && values.ageDays === String(plant.ageDays) && plant.startedOn ? plant.startedOn : addDays(today, -Number(values.ageDays)))}</Text>}
+    {section === 'Care plan' && <>
+      {values.reminderType === 'custom' && <View style={{ gap: 8 }}><Text style={{ color: t.muted }}>Reminder days</Text><View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>{['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(day => <GrowPress key={day} accessibilityRole="checkbox" accessibilityLabel={friendly(day)} accessibilityState={{ checked: selectedDays.includes(day) }} disabled={disabled} onPress={() => change('customDays', (selectedDays.includes(day) ? selectedDays.filter(item => item !== day) : [...selectedDays, day]).join(', '))} style={{ minHeight: 48, minWidth: 44, padding: 10, borderRadius: 10, backgroundColor: selectedDays.includes(day) ? t.accent : t.surface }}><Text style={{ color: selectedDays.includes(day) ? t.onAccent : t.text }}>{friendly(day)}</Text></GrowPress>)}</View></View>}
+      {values.reminderType !== 'none' && <><View style={{ flexDirection: 'row', gap: 12 }}><View style={{ flex: 1 }}><EditorSelect disabled={disabled} label="Hour" value={(values.timeOfDay || '09:00').split(':')[0]} options={Array.from({ length: 24 }, (_, i) => ({ value: String(i).padStart(2, '0'), label: String(i).padStart(2, '0') }))} onSelect={hour => change('timeOfDay', hour + ':' + (values.timeOfDay || '09:00').split(':')[1])} /></View><View style={{ flex: 1 }}><EditorSelect disabled={disabled} label="Minute" value={(values.timeOfDay || '09:00').split(':')[1]} options={Array.from({ length: 60 }, (_, i) => ({ value: String(i).padStart(2, '0'), label: String(i).padStart(2, '0') }))} onSelect={minute => change('timeOfDay', (values.timeOfDay || '09:00').split(':')[0] + ':' + minute)} /></View></View><Text style={{ color: t.muted, lineHeight: 21 }}>Care reminders prompt you to check this plant. Enable device care reminders in Settings in the installed app to receive notifications. Times use the device time zone.</Text></>}
+      <Text accessibilityLiveRegion="polite" style={{ color: t.text }}>{schedule}{values.reminderType !== 'none' ? ` at ${values.timeOfDay || '09:00'}` : ''}</Text>
+    </>}
+    {section === 'Notes and history' && <Text style={{ color: t.muted, lineHeight: 21 }}>Profile notes are lasting information. Record dated observations with Add activity in the Journal.</Text>}
     {guard.dialog}
-  </View></KeyboardAvoidingView></Modal>;
+  </PlantEditorSheet>;
 }

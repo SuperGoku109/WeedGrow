@@ -13,7 +13,7 @@ function button(label: string) { return renderer.root.findAll((node: any) => nod
 beforeEach(() => act(() => { renderer = create(React.createElement(PlantDetails, { plant, theme: plantThemes.grove, onEdit: jest.fn(), onEditSection: edit })); }));
 afterEach(() => act(() => renderer.unmount()));
 it('routes every visible edit action to its existing section editor', () => {
-  for (const [label, section] of [['Basics', 'Basics'], ['Growing setup', 'Growing setup'], ['Care routine', 'Care plan'], ['Location', 'Location and weather'], ['Notes', 'Notes and history']]) {
+  for (const [label, section] of [['Basics', 'Basics'], ['Growing setup', 'Growing setup'], ['Care routine', 'Care plan'], ['Location', 'Location and weather'], ['Profile notes', 'Notes and history']]) {
     act(() => button('Edit ' + label).props.onPress()); expect(edit).toHaveBeenLastCalledWith(section);
   }
 });

@@ -10,3 +10,7 @@ it('falls back safely for legacy dates/zones instead of crashing the journal', (
   expect(journalEntryDay({ ...log, calendarDay: '2026-02-31' }, 'America/Los_Angeles')).toBe('2026-10-25');
   expect(() => journalEntryTime({ ...log, timeZone: 'Invalid/Zone' })).not.toThrow();
 });
+
+it('does not present a date-only backfill as a known clock time', () => {
+  expect(journalEntryTime({ ...log, occurrencePrecision: 'date' } as any)).toBe('Time not recorded');
+});

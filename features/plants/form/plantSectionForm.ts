@@ -4,13 +4,13 @@ import { validateLogDate } from '@/lib/logs/plantJournal';
 import { validatePlantFields } from '@/lib/plants/plantValidation';
 export type Field = { key: string; label: string; options?: string[]; number?: boolean; multiline?: boolean; list?: boolean };
 export const sections: Record<string, Field[]> = {
-  'Basics': [{ key: 'name', label: 'Plant name' }, { key: 'strain', label: 'Strain name' }, { key: 'strainType', label: 'Strain type', options: ['unknown', 'sativa', 'indica', 'hybrid'] }, { key: 'startedOn', label: 'Started growing on (YYYY-MM-DD)' }, { key: 'growthStage', label: 'Growth stage', options: ['germination', 'seedling', 'vegetative', 'flowering', 'clone'] }, { key: 'status', label: 'Status', options: ['active', 'archived', 'harvested', 'dead'] }, { key: 'ageDays', label: 'Age in days (optional estimate)', number: true }, { key: 'height', label: 'Height (cm)', number: true }],
+  'Basics': [{ key: 'name', label: 'Plant name' }, { key: 'strain', label: 'Strain name' }, { key: 'strainType', label: 'Strain type', options: ['unknown', 'sativa', 'indica', 'hybrid'] }, { key: 'startedOn', label: 'Started growing on (YYYY-MM-DD)' }, { key: 'growthStage', label: 'Growth stage', options: ['germination', 'seedling', 'vegetative', 'flowering', 'clone'] }, { key: 'ageDays', label: 'Age in days (optional estimate)', number: true }, { key: 'height', label: 'Height (cm)', number: true }],
   'Growing setup': [{ key: 'environment', label: 'Environment', options: ['outdoor', 'greenhouse', 'indoor'] }, { key: 'plantedIn', label: 'Planted in', options: ['pot', 'ground'] }, { key: 'potSize', label: 'Pot size' }, { key: 'sensorProfileId', label: 'Sensor profile', options: [] }, { key: 'sunlightExposure', label: 'Sunlight', options: ['', 'Full Sun', 'Partial Sun', 'Mostly Shade', 'Not Sure'] }, { key: 'soilType', label: 'Soil type', options: ['', 'native', 'raised', 'store', 'custom'] }, { key: 'soilPh', label: 'Soil pH' }, { key: 'permanentProtection', label: 'Protection' }, { key: 'companionPlants', label: 'Companion plants (comma separated)', list: true }],
   'Care plan': [{ key: 'wateringFrequency', label: 'Watering routine', options: ['', 'Every day', 'Every 2 days', 'Every 3 days', 'Weekly'] }, { key: 'feedingFrequency', label: 'Feeding routine', options: ['', 'Every day', 'Every 2 days', 'Every 3 days', 'Weekly', 'Every 14 days', 'Monthly', 'As needed'] }, { key: 'fertilizer', label: 'Fertilizer' }, { key: 'reminderType', label: 'Reminder', options: ['none', 'interval', 'custom'] }, { key: 'intervalDays', label: 'Reminder interval (days)', number: true }, { key: 'customDays', label: 'Reminder days (Mon, Tue, Wed, Thu, Fri, Sat, Sun)' }, { key: 'timeOfDay', label: 'Reminder time (HH:MM)' }],
   'Location and weather': [{ key: 'locationNickname', label: 'Location nickname (optional)' }, { key: 'locationLabel', label: 'Town or area' }, { key: 'lat', label: 'Latitude', number: true }, { key: 'lng', label: 'Longitude', number: true }],
   'Notes and history': [{ key: 'notes', label: 'Lasting notes', multiline: true }, { key: 'environmentNotes', label: 'Setup notes', multiline: true }, { key: 'trainingTags', label: 'Training (comma separated)', list: true }, { key: 'pests', label: 'Pest history (comma separated)', list: true }],
 };
-export function buildSectionUpdates(section: string, values: Record<string, string>, locationMode: 'custom' | 'space', plant: Plant, today = plantDay(new Date(), plant.locationTimeZone)) {
+export function buildSectionUpdates(section: string, values: Record<string, string>, locationMode: 'custom' | 'space', plant: Plant, today = plantDay(new Date(), plant.locationTimeZone), ageMode?: 'date' | 'estimate') {
   const fields = sections[section] || sections.Basics;
     const fail = (message: string): never => { throw new Error(message); };
     if (section === 'Basics' && !values.name.trim()) return fail('Enter a plant name.');
@@ -37,12 +37,17 @@ export function buildSectionUpdates(section: string, values: Record<string, stri
         updates.strainType = values.strainType || 'unknown';
         if (values.startedOn && validateLogDate(values.startedOn, today)) return fail('Use a valid start date, today or earlier (YYYY-MM-DD).');
         const ageChanged = values.ageDays.trim() !== String(plant.ageKnown === false ? '' : plant.ageDays ?? '');
-        if (values.startedOn && (!ageChanged || values.startedOn !== (plant.startedOn || ''))) {
+        const useDate = ageMode ? ageMode === 'date' : !!values.startedOn && (!ageChanged || values.startedOn !== (plant.startedOn || ''));
+        if (useDate && values.startedOn) {
           updates.ageDays = Math.floor((Date.parse(today + 'T00:00:00Z') - Date.parse(values.startedOn + 'T00:00:00Z')) / 86400000);
-          updates.startedOn = values.startedOn; updates.ageKnown = true;
-          updates.ageEstimated = values.startedOn === plant.startedOn ? !!plant.ageEstimated : false;
-        } else if (values.ageDays.trim()) {
-          updates.startedOn = addDays(today, -Number(values.ageDays)); updates.ageEstimated = true; updates.ageKnown = true;
+          updates.startedOn = values.startedOn; updates.ageKnown = true; updates.ageEstimated = false;
+        } else if (!useDate && values.ageDays.trim()) {
+          if (!ageChanged && (plant.ageEstimated || !plant.startedOn)) {
+            updates.startedOn = plant.startedOn || null;
+            updates.ageEstimated = !!plant.ageEstimated;
+            delete updates.ageDays;
+          } else { updates.startedOn = addDays(today, -Number(values.ageDays)); updates.ageEstimated = true; }
+          updates.ageKnown = true;
         } else { updates.startedOn = null; updates.ageKnown = false; updates.ageEstimated = false; }
       }
       if (section === 'Growing setup') {

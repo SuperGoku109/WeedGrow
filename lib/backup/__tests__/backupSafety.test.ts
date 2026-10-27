@@ -27,3 +27,8 @@ it('repairs only unambiguous legacy membership backlinks and rejects contradicto
   expect(backup.records[0].data.groupId).toBe('g');
   expect(() => validateBackup(JSON.stringify({ ...file, records: [...file.records, group, { ...group, path: 'groups/other' }] }))).toThrow('more than one');
 });
+
+it('exports date-only occurrences without inventing a clock time and keeps the submission timestamp', () => {
+  const backup = validateBackup(JSON.stringify({ ...file, records: [...file.records, { path: 'plants/p/logs/date-only', data: { type: 'note', timestamp: { $timestamp: 0 }, calendarDay: '1970-01-01', occurrencePrecision: 'date', recordedAt: { $timestamp: 1000 } } }] }));
+  const csv = journalCsv(backup); expect(csv).toContain('Date precision'); expect(csv).toContain('"1970-01-01"'); expect(csv).toContain('"1970-01-01T00:00:01.000Z"'); expect(csv).not.toContain('"1970-01-01T00:00:00.000Z"');
+});

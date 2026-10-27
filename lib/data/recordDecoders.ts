@@ -14,7 +14,7 @@ function finite(value: unknown): value is number { return typeof value === 'numb
 function timestamp(value: unknown): value is Timestamp { return isRecord(value) && typeof value.toMillis === 'function' && typeof value.toDate === 'function' && Number.isFinite(value.toMillis()); }
 function optional(data: Record<string, unknown>, keys: string[], valid: (value: unknown) => boolean, path: string) { for (const key of keys) if (data[key] != null) check(valid(data[key]), path, key); }
 function point(value: unknown) { return isRecord(value) && finite(value.lat) && finite(value.lng) && Math.abs(value.lat) <= 90 && Math.abs(value.lng) <= 180; }
-function clocks(data: Record<string, unknown>, path: string) { optional(data, ['createdAt', 'updatedAt', 'ageRecordedAt', 'locationChangedAt', 'editedAt'], timestamp, path); }
+function clocks(data: Record<string, unknown>, path: string) { optional(data, ['createdAt', 'updatedAt', 'ageRecordedAt', 'locationChangedAt', 'editedAt', 'recordedAt'], timestamp, path); }
 export function decodePlant(value: unknown, path: string): Plant {
   const data = record(value, path);
   check(text(data.name) && !!data.name.trim(), path, 'name'); check(strings(data.owners) && data.owners.length, path, 'owners');
@@ -46,6 +46,7 @@ export function decodeLog(value: unknown, path: string): PlantLog {
   const data = record(value, path); check(['watering', 'fertilizing', 'note', 'photo', 'training', 'stage_change', 'harvest'].includes(String(data.type)), path, 'type'); check(timestamp(data.timestamp), path, 'timestamp');
   optional(data, ['description', 'updatedBy', 'photoUri', 'calendarDay', 'timeZone', 'mutationId'], text, path);
   optional(data, ['waterMl', 'nutrientMlPerL', 'ph', 'heightCm', 'soilMoisture'], finite, path); clocks(data, path);
+  if (data.occurrencePrecision != null) check(['date', 'time'].includes(String(data.occurrencePrecision)), path, 'occurrencePrecision');
   if (data.category != null) check(['watering', 'feeding', 'pests', 'training', 'health', 'notes'].includes(String(data.category)), path, 'category');
   if (data.movement != null) { const movement = record(data.movement, path); optional(movement, ['from', 'to'], point, path); optional(movement, ['fromLabel', 'toLabel'], text, path); check(finite(movement.revision), path, 'movement'); }
   return { ...data, updatedBy: data.updatedBy ?? '' } as unknown as PlantLog;

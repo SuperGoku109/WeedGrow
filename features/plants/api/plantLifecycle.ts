@@ -20,6 +20,6 @@ export async function recordHarvest(plantId: string, date: string, weightGrams: 
     if (current.data().status !== 'active' || current.data().deleting) throw new Error('This plant is no longer active. Refresh its details.');
     const harvest = { date, ...(weightGrams != null ? { weightGrams } : {}), notes: notes.trim(), recordId: requestId };
     tx.update(ref, { status: 'harvested', harvest, updatedAt: serverTimestamp() });
-    tx.set(doc(db, 'plants', plantId, 'logs', `harvest_${requestId}`), { type: 'harvest', harvest, calendarDay: date, ...(zone ? { timeZone: zone } : {}), description: `${weightGrams != null ? `${weightGrams} g harvested. ` : ''}${notes.trim()}`, timestamp: Timestamp.fromDate(zonedTime(date, '12:00', zone)), updatedBy: uid });
+    tx.set(doc(db, 'plants', plantId, 'logs', `harvest_${requestId}`), { type: 'harvest', harvest, occurrencePrecision: 'date', recordedAt: serverTimestamp(), calendarDay: date, ...(zone ? { timeZone: zone } : {}), description: `${weightGrams != null ? `${weightGrams} g harvested. ` : ''}${notes.trim()}`, timestamp: Timestamp.fromDate(zonedTime(date, '12:00', zone)), updatedBy: uid });
   });
 }

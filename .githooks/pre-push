@@ -1,2 +1,7 @@
 #!/bin/sh
+# npm's Unix launcher requires bash, which GitHub Desktop's bundled Git may
+# resolve to Windows' WSL launcher. Use npm's Windows launcher on Windows.
+if [ "$OS" = "Windows_NT" ]; then
+  MSYS2_ARG_CONV_EXCL='*' exec cmd.exe /d /s /c "npm.cmd run verify"
+fi
 exec npm run verify
