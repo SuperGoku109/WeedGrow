@@ -17,9 +17,9 @@ import type { Plant } from '@/firestoreModels';
 type ListedPlant = Plant & { id: string };
 const t = gardenThemes.grove;
 const pastOptions = [{ value: 'past', label: 'All past plants' }, { value: 'archived', label: 'Archived' }, { value: 'harvested', label: 'Harvested' }, { value: 'dead', label: 'Dead' }];
-export default function PlantListScreen({ garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, footer, onMovePlant, initialOffset = 0, onOffsetChange }: {
+export default function PlantListScreen({ garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, footer, initialOffset = 0, onOffsetChange }: {
   garden?: HomeGarden | null; searchQuery: string; setSearchQuery(value: string): void; statusFilter: string | null; setStatusFilter(value: string | null): void;
-  footer?: React.ReactElement; onMovePlant(plant: ListedPlant): void; initialOffset?: number; onOffsetChange(offset: number): void;
+  footer?: React.ReactElement; initialOffset?: number; onOffsetChange(offset: number): void;
 }) {
   const router = useRouter();
   const collection = usePlantList();
@@ -28,7 +28,6 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
   const ids = React.useMemo(() => activePlants.map(plant => plant.id), [activePlants]);
   const care = usePlantsWateredToday(ids, activePlants);
   const [pastOpen, setPastOpen] = React.useState(false);
-  const [menuPlant, setMenuPlant] = React.useState<ListedPlant | null>(null);
   const [waterPlant, setWaterPlant] = React.useState<ListedPlant | null>(null);
   const [message, setMessage] = React.useState('');
   const [undo, setUndo] = React.useState<{ plantId: string; id: string; mutationId: string } | null>(null);
@@ -58,13 +57,9 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
         {!!searchQuery && <Pressable accessibilityRole="button" onPress={() => setSearchQuery('')} style={s.action}><Text style={{ color: t.accent }}>Clear search</Text></Pressable>}
       </View> : null}
       ListFooterComponent={footer}
-      renderItem={({ item }) => <PlantCard plant={item} showEnvironment={!garden} onPress={() => openPlant(item)} onMore={() => setMenuPlant(item)} onAddLog={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} />}
+      renderItem={({ item }) => <PlantCard plant={item} showEnvironment={!garden} onPress={() => openPlant(item)} onAddLog={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} />}
     />
     {pastOpen && <PlantEditorSheet title="Past plants" subtitle="Keep every plant's story within reach." theme={t} onClose={() => setPastOpen(false)}>{pastOptions.map(option => <Pressable key={option.label} accessibilityRole="button" accessibilityState={{ selected: statusFilter === option.value }} onPress={() => { setStatus(option.value); setPastOpen(false); }} style={s.menuRow}><Text style={s.menuText}>{option.label}</Text>{statusFilter === option.value && <MaterialCommunityIcons name="check" color={t.accent} size={22} />}</Pressable>)}</PlantEditorSheet>}
-    {menuPlant && <PlantEditorSheet title={menuPlant.name} subtitle="Plant actions" theme={t} onClose={() => setMenuPlant(null)}>
-      <Pressable accessibilityRole="button" onPress={() => { openPlant(menuPlant); setMenuPlant(null); }} style={s.menuRow}><MaterialCommunityIcons name="sprout-outline" color={t.accent} size={22} /><Text style={s.menuText}>Open plant</Text><MaterialCommunityIcons name="chevron-right" color={t.muted} size={20} /></Pressable>
-      <Pressable accessibilityRole="button" onPress={() => { onMovePlant(menuPlant); setMenuPlant(null); }} style={s.menuRow}><MaterialCommunityIcons name="swap-horizontal" color={t.accent} size={22} /><Text style={s.menuText}>Move to garden</Text><MaterialCommunityIcons name="chevron-right" color={t.muted} size={20} /></Pressable>
-    </PlantEditorSheet>}
     {waterPlant && <QuickWateringDialog plant={waterPlant} onClose={() => setWaterPlant(null)} onSaved={result => { setUndo(result); setMessage(`Watering saved for ${waterPlant.name}.`); care.refresh(); }} />}
     <Snackbar visible={!!message} onDismiss={() => setMessage('')} duration={6000} action={undo ? { label: 'Undo', onPress: async () => { try { await deleteJournalEntry(undo.plantId, undo.id, undo.mutationId); setMessage('Watering undone.'); care.refresh(); } catch (error) { setMessage(error instanceof Error ? error.message : 'Could not undo watering.'); } finally { setUndo(null); } } } : undefined}>{message}</Snackbar>
   </View>;

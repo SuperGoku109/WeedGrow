@@ -1,3 +1,4 @@
+import { OverflowMenuButton, type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import CloseButton from '@/ui/CloseButton';
 import React from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
@@ -8,9 +9,9 @@ import type { GardenSelection, HomeGarden } from '../gardenSelection';
 
 const t = gardenThemes.grove;
 const icons = { outdoor: 'weather-sunny', indoor: 'home-outline', greenhouse: 'greenhouse' } as const;
-export default function GardenDropdown({ gardens, selection, counts, total, countsReady, onSelect, onCreate, onActions, disabled }: {
+export default function GardenDropdown({ gardens, selection, counts, total, countsReady, onSelect, onCreate, onActions, actionsOpen, disabled }: {
   gardens: HomeGarden[]; selection: GardenSelection; counts: Record<string, number>; total: number;
-  onSelect(value: GardenSelection): void; onCreate(): void; onActions?(): void; disabled?: boolean; countsReady: boolean;
+  onSelect(value: GardenSelection): void; onCreate(): void; onActions?(anchor: MenuAnchor): void; actionsOpen?: boolean; disabled?: boolean; countsReady: boolean;
 }) {
   const [open, setOpen] = React.useState(false);
   const [anchor, setAnchor] = React.useState({ x: 18, y: 150, width: 340 });
@@ -33,7 +34,7 @@ export default function GardenDropdown({ gardens, selection, counts, total, coun
         </View>
         <View style={s.chevron}><MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={24} color={t.heroText} /></View>
       </Pressable>
-      {onActions && <Pressable accessibilityRole="button" accessibilityLabel={garden ? `Garden actions for ${name}` : 'Plant collection options'} disabled={disabled} onPress={onActions} style={s.actionButton}><MaterialCommunityIcons name="dots-horizontal" size={23} color={t.heroText} /></Pressable>}
+      {onActions && <OverflowMenuButton label={garden ? `Garden actions for ${name}` : 'Plant collection options'} onOpen={onActions} expanded={actionsOpen} disabled={disabled} horizontal tone="hero" />}
     </View>
     <Modal visible={open} transparent animationType={reduced ? 'none' : 'fade'} onRequestClose={() => setOpen(false)}>
       <View style={{ flex: 1 }}>

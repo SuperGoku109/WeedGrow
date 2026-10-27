@@ -1,3 +1,4 @@
+import { OverflowMenuButton, type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
@@ -16,13 +17,14 @@ export interface PlantCardProps {
   waterLoading?: boolean;
   waterDisabled?: boolean;
   onPress?: () => void;
-  onMore?: () => void;
+  onMore?: (anchor: MenuAnchor) => void;
+  moreOpen?: boolean;
   showEnvironment?: boolean;
   moreLabel?: string;
 }
 const colors = gardenThemes.grove;
 /** Detail navigation and quick care are sibling targets, avoiding nested actions. */
-export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading = false, waterDisabled = false, onPress, onMore, showEnvironment = true, moreLabel }: PlantCardProps) {
+export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading = false, waterDisabled = false, onPress, onMore, showEnvironment = true, moreLabel, moreOpen }: PlantCardProps) {
   const router = useRouter();
   const uri = getRenderablePlantImageUri(plant.imageUri);
   const [imageFailed, setImageFailed] = React.useState(false);
@@ -37,7 +39,7 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
       {waterLoading ? <ActivityIndicator size={22} color={colors.water} /> : <MaterialCommunityIcons name={wateredToday ? 'check-circle-outline' : 'water-outline'} size={24} color={wateredToday ? colors.accent : colors.water} />}
       <Text style={s.waterLabel}>{status}</Text>
     </Pressable>}
-    {!!onMore && <Pressable accessibilityRole="button" accessibilityLabel={moreLabel || `More options for ${plant.name}`} onPress={onMore} style={s.more}><MaterialCommunityIcons name="dots-vertical" size={22} color={colors.muted} /></Pressable>}
+    {!!onMore && <OverflowMenuButton label={moreLabel || `More options for ${plant.name}`} onOpen={onMore} expanded={moreOpen} />}
   </View>;
 }
 const s = StyleSheet.create({
@@ -51,6 +53,5 @@ const s = StyleSheet.create({
   stage: { color: colors.accent, fontSize: 13, lineHeight: 19, textTransform: 'capitalize' },
   water: { minWidth: 64, minHeight: 64, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', gap: 4, borderRadius: 12, padding: 8, backgroundColor: colors.background },
   waterLabel: { color: colors.text, fontSize: 12, fontWeight: '600' },
-  more: { width: 44, minHeight: 48, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', borderRadius: 12 },
 });
 export default PlantCard;

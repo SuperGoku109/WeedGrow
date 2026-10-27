@@ -16,13 +16,11 @@ import HomeBackground from '../components/HomeBackground';
 import GardenDropdown from '../components/GardenDropdown';
 import CreateGardenSheet from '../components/CreateGardenSheet';
 import { decodeGardenSelection, plantsInGarden, resolveGardenSelection, type GardenSelection } from '../gardenSelection';
-import type { Plant } from '@/firestoreModels';
 import { useCareTasks } from '@/features/care/useCareTasks';
 import { readGardenListView, saveGardenListView, saveGardenScrollOffset } from '@/services/homeGardenView';
 import { matchesPlantStatus } from '@/features/plants/plantListPresentation';
-import PlantEditorSheet from '@/features/plants/components/PlantEditorSheet';
+import AnchoredActionMenu, { type MenuAnchor, type MenuAction } from '@/ui/AnchoredActionMenu';
 import EditGroupModal from '@/features/groups/components/EditGroupModal';
-import MovePlantDialog from '@/features/groups/components/MovePlantDialog';
 import { updateGroup, type GroupWithId } from '@/features/groups/api/groupApi';
 import { groupEditValues } from '@/features/groups/groupCollection';
 import { waterGrowingSpace } from '@/lib/logs/groupWatering';
@@ -46,10 +44,9 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
   const [status, setStatus] = React.useState<string | null>('active');
   const [creating, setCreating] = React.useState(false);
   const [message, setMessage] = React.useState('');
-  const [actionsOpen, setActionsOpen] = React.useState(false);
+  const [actionsAnchor, setActionsAnchor] = React.useState<MenuAnchor | null>(null);
   const [editing, setEditing] = React.useState<GroupWithId | null>(null);
   const [watering, setWatering] = React.useState<GroupWithId | null>(null);
-  const [moving, setMoving] = React.useState<(Plant & { id: string }) | null>(null);
   const offset = React.useRef(0);
   const lastScope = React.useRef('');
   const pendingGarden = React.useRef<string | null>(null);
@@ -110,7 +107,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
     <SafeAreaView edges={['top', 'left', 'right']} style={s.safeArea}>
       <AppHeader />
       <View style={s.top}>
-        <GardenDropdown gardens={gardens} selection={resolved} counts={counts} total={collection.plants.length} countsReady={!collection.loading && !collection.error} onSelect={choose} onCreate={openCreate} onActions={() => setActionsOpen(true)} disabled={!ready} />
+        <GardenDropdown gardens={gardens} selection={resolved} counts={counts} total={collection.plants.length} countsReady={!collection.loading && !collection.error} onSelect={choose} onCreate={openCreate} onActions={setActionsAnchor} actionsOpen={!!actionsAnchor} disabled={!ready} />
         {!uid && !accountLoading && <View style={s.notice}><Text style={s.hint}>Sign in to see your plants, or start a plant draft.</Text><Pressable accessibilityRole="button" onPress={() => router.push('/account')} style={s.textButton}><Text style={s.link}>Sign in or create an account →</Text></Pressable></View>}
         {!!spaces.error && <Pressable accessibilityRole="button" onPress={refresh} style={s.notice}><Text style={{ color: t.danger }}>{spaces.error} Tap to retry.</Text></Pressable>}
         {!!selected && !!weatherCollection.errors[selected.id] && <Pressable accessibilityRole="button" accessibilityLabel="Retry garden weather collection" onPress={() => void weatherCollection.retry(selected.id)} style={s.notice}><Text style={s.hint}>Weather collection needs attention. {weatherCollection.errors[selected.id]} <Text style={s.link}>Retry →</Text></Text></Pressable>}
@@ -123,20 +120,23 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
         <View style={s.search}><MaterialCommunityIcons name="magnify" color={t.muted} size={21} /><TextInput accessibilityLabel="Search plants by name or strain" placeholder={selected ? 'Search this garden…' : 'Search your plants…'} placeholderTextColor={t.muted} value={query} onChangeText={changeQuery} returnKeyType="search" style={s.input} />{!!query && <Pressable accessibilityRole="button" accessibilityLabel="Clear plant search" onPress={() => changeQuery('')} style={s.clear}><MaterialCommunityIcons name="close" size={20} color={t.muted} /></Pressable>}</View>
       </View>
       {!ready ? <View style={s.loading}><ActivityIndicator color={t.accent} /><Text style={s.hint}>Opening your garden…</Text></View> : <PlantListScreen key={listKey}
-        garden={selected} searchQuery={query} setSearchQuery={changeQuery} statusFilter={status} setStatusFilter={changeStatus} onMovePlant={setMoving}
+        garden={selected} searchQuery={query} setSearchQuery={changeQuery} statusFilter={status} setStatusFilter={changeStatus}
         initialOffset={readGardenListView(uid, listKey).offset} onOffsetChange={value => saveGardenScrollOffset(uid, listKey, value)}
         footer={<View style={s.footer}>
           {!gardens.length && <Pressable accessibilityRole="button" onPress={openCreate} style={s.tool}><MaterialCommunityIcons name="sprout-outline" size={22} color={t.accent} /><View style={{ flex: 1, gap: 4 }}><Text style={s.link}>Make a home for your plants</Text><Text style={s.hint}>Create a garden for your patio, tent or greenhouse.</Text></View><MaterialCommunityIcons name="plus" size={20} color={t.accent} /></Pressable>}
           {!!selected && unassigned > 0 && <Pressable accessibilityRole="button" onPress={() => choose({ kind: 'all' })} style={s.textButton}><Text style={s.hint}>{unassigned} {unassigned === 1 ? 'plant is' : 'plants are'} outside a garden. <Text style={s.link}>View all plants →</Text></Text></Pressable>}
         </View>}
       />}
-      {actionsOpen && <PlantEditorSheet title={selected?.name || 'Your plants'} subtitle={selected ? 'Garden actions' : 'Plant collection'} theme={t} onClose={() => setActionsOpen(false)}>
-        {selected && [{ label: 'Garden settings', icon: 'tune-variant', action: () => setEditing(selected) }, { label: 'Manage plants', icon: 'sprout-outline', action: () => router.push({ pathname: '/group/[id]', params: { id: selected.id } }) }, { label: 'Log garden watering', icon: 'water-outline', action: () => setWatering(selected) }].map(item => <Pressable key={item.label} accessibilityRole="button" onPress={() => { setActionsOpen(false); item.action(); }} style={s.menuRow}><MaterialCommunityIcons name={item.icon as 'tune-variant' | 'sprout-outline' | 'water-outline'} size={22} color={t.accent} /><Text style={s.menuText}>{item.label}</Text><MaterialCommunityIcons name="chevron-right" size={20} color={t.muted} /></Pressable>)}
-        <Pressable accessibilityRole="button" accessibilityLabel={status === 'active' ? 'View past plants' : 'View active plants'} onPress={() => { changeStatus(status === 'active' ? 'past' : 'active'); setActionsOpen(false); }} style={[s.menuRow, { marginTop: selected ? 12 : 0 }]}><MaterialCommunityIcons name={status === 'active' ? 'archive-outline' : 'sprout-outline'} size={21} color={t.muted} /><Text style={[s.menuText, { color: t.muted }]}>{status === 'active' ? 'Past plants' : 'Back to active plants'}</Text><MaterialCommunityIcons name="chevron-right" size={20} color={t.muted} /></Pressable>
-      </PlantEditorSheet>}
+      {actionsAnchor && <AnchoredActionMenu anchor={actionsAnchor} title={selected?.name || 'Your plants'} horizontal tone="hero" onClose={() => setActionsAnchor(null)} actions={[
+        ...(selected ? [
+          { label: 'Garden settings', icon: 'tune-variant', onPress: () => setEditing(selected) },
+          { label: 'Manage plants', icon: 'sprout-outline', onPress: () => router.push({ pathname: '/group/[id]', params: { id: selected.id } }) },
+          { label: 'Log garden watering', icon: 'water-outline', onPress: () => setWatering(selected) },
+        ] satisfies MenuAction[] : []),
+        { label: status === 'active' ? 'Past plants' : 'Back to active plants', accessibilityLabel: status === 'active' ? 'View past plants' : 'View active plants', icon: status === 'active' ? 'archive-outline' : 'sprout-outline', separate: !!selected, onPress: () => changeStatus(status === 'active' ? 'past' : 'active') },
+      ]} />}
       <EditGroupModal visible={!!editing} settingsOnly group={editing} allPlants={collection.plants} onClose={() => setEditing(null)} onSave={async (updated, baseline) => { await updateGroup(updated.id, groupEditValues(updated), baseline as unknown as Record<string, unknown>); setMessage('Garden settings saved.'); }} />
       {watering && <ActionDialog title="Log garden watering" description={`Record completed watering for active plants in ${watering.name}. Already-watered plants are skipped. This action supports gardens of up to ${MAX_ATOMIC_WATERING_PLANTS} plants; use individual watering forms for larger gardens.`} confirmLabel="Save garden watering" onClose={() => setWatering(null)} onConfirm={async () => { const result = await waterGrowingSpace(watering.id); setMessage(`${result.written.length} watering records saved · ${result.skipped} skipped.`); }} />}
-      {moving && <MovePlantDialog plant={moving} gardens={gardens} onClose={() => setMoving(null)} onMoved={destination => setMessage(`${moving.name} moved to ${destination}.`)} />}
       {creating && <CreateGardenSheet onClose={() => setCreating(false)} onCreated={id => {
         pendingGarden.current = id; setSelection({ kind: 'garden', id });
         preferenceWrites.current = preferenceWrites.current.catch(() => {}).then(() => AsyncStorage.setItem(storageKey, JSON.stringify({ kind: 'garden', id }))).catch(() => setMessage('Garden created. This device could not remember the selection.'));
@@ -165,6 +165,4 @@ const s = StyleSheet.create({
   footer: { gap: 8, paddingTop: 8, paddingBottom: 16 },
   tool: { padding: 16, borderRadius: 18, borderWidth: 1, borderColor: '#40523a', flexDirection: 'row', alignItems: 'center', gap: 12 },
   careSummary: { minHeight: 44, flexDirection: 'row', gap: 8, alignItems: 'center', marginVertical: -8 },
-  menuRow: { minHeight: 60, flexDirection: 'row', alignItems: 'center', gap: 12, borderBottomWidth: 1, borderColor: '#344735' },
-  menuText: { color: t.text, fontSize: 16, flex: 1 },
 });
