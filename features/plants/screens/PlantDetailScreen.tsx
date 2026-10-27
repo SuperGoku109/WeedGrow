@@ -183,7 +183,7 @@ export default function PlantDetailScreen() {
           <PlantWeather key={'conditions:' + selected} compact={isToday} theme={t} plantId={id} plant={plant} date={selected} weather={data.weather[selected]} savedError={data.weatherDayErrors?.[selected]} savedLoading={data.weatherLoading} />
         </View>}
         {section === 'Photos' && <PlantPhotoGallery plantId={id} hasMore={gallery.hasMore} onMore={() => void gallery.loadMore()} onRefresh={gallery.refresh} pics={gallery.pics} loading={gallery.loading} error={gallery.error} theme={t} onAdd={() => setPhotoOpen(true)} />}
-        {section === 'Details' && <><PlantDetails plant={plant} theme={t} onEdit={() => setEditingSection('Basics')} onEditSection={setEditingSection} /><PlantLifecycle plantId={id} plant={plant} theme={t} /><View style={{ paddingVertical: 20 }}><PlantMovementHistory plantId={id} theme={t} /></View></>}
+        <View key={'profile:' + id} style={{ display: section === 'Details' ? 'flex' : 'none' }}><PlantDetails plant={plant} theme={t} onEdit={() => setEditingSection('Basics')} onEditSection={setEditingSection} locationHistory={<PlantMovementHistory plantId={id} theme={t} active={section === 'Details'} />} /><PlantLifecycle plantId={id} plant={plant} theme={t} /></View>
       </View>
     </ScrollView>
     <View style={{ backgroundColor: t.background, borderTopWidth: 1, borderColor: t.border, paddingBottom: Math.max(12, insets.bottom), paddingTop: 11, paddingHorizontal: 18 }}><View style={{ width: '100%', maxWidth: 724, alignSelf: 'center', flexDirection: 'row', gap: 10 }}>

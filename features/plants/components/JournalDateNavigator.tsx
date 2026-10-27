@@ -1,6 +1,7 @@
 import React from 'react';
-import { Modal, ScrollView, Text, TextInput, View } from 'react-native';
+import { Modal, ScrollView, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PlantLog } from '@/firestoreModels';
 import { GrowPress, useReducedMotion } from '@/ui/GrowMotion';
@@ -15,15 +16,16 @@ export default function JournalDateNavigator({ today, selected, dates, logs, his
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const reduced = useReducedMotion();
   const [calendarMonth, setCalendarMonth] = React.useState(selected.slice(0, 7) + '-01');
-  const [year, setYear] = React.useState(selected.slice(0, 4));
-  const [yearError, setYearError] = React.useState('');
-  const minimumYear = minimum ? Number(minimum.slice(0, 4)) : 1;
-  const showCalendar = () => { setCalendarMonth(selected.slice(0, 7) + '-01'); setYear(selected.slice(0, 4)); setYearError(''); setCalendarOpen(true); };
+  const [yearsOpen, setYearsOpen] = React.useState(false);
+  const minimumYear = minimum ? Number(minimum.slice(0, 4)) : Math.max(1, Number(today.slice(0, 4)) - 100);
+  const maximumYear = Math.min(9998, Math.max(Number(today.slice(0, 4)) + 1, Number(calendarMonth.slice(0, 4)), Number(selected.slice(0, 4))));
+  const years = React.useMemo(() => Array.from({ length: Math.max(0, maximumYear - minimumYear + 1) }, (_, index) => ({ label: String(minimumYear + index), value: minimumYear + index })), [minimumYear, maximumYear]);
+  const showCalendar = () => { setCalendarMonth(selected.slice(0, 7) + '-01'); setYearsOpen(false); setCalendarOpen(true); };
   const chooseYear = (value: number) => {
-    if (!Number.isInteger(value) || value < minimumYear || value > 9998) { setYearError(value < minimumYear ? `This plant’s calendar starts in ${minimumYear}.` : 'Enter a valid four-digit year.'); return; }
+    if (!Number.isInteger(value) || value < minimumYear || value > 9998) return;
     const candidate = String(value).padStart(4, '0') + calendarMonth.slice(4);
     const month = minimum && candidate.slice(0, 7) < minimum.slice(0, 7) ? minimum.slice(0, 7) + '-01' : candidate;
-    setCalendarMonth(month); setYear(month.slice(0, 4)); setYearError('');
+    setCalendarMonth(month); setYearsOpen(false);
   };
   const [width, setWidth] = React.useState(354);
   const gridWidth = Math.max(332, width);
@@ -56,17 +58,14 @@ export default function JournalDateNavigator({ today, selected, dates, logs, his
       </ScrollView>
     </View>
     {selected !== today && <GrowPress accessibilityRole="button" accessibilityLabel="Back to today" onPress={onToday} style={{ minHeight: 48, justifyContent: 'center' }}><Text style={{ color: t.accent, fontSize: 14, fontWeight: '600' }}>↩ Back to today</Text></GrowPress>}
-    <Modal transparent visible={calendarOpen} animationType={reduced ? 'none' : 'fade'} onRequestClose={() => setCalendarOpen(false)}>
+    <Modal transparent visible={calendarOpen} animationType={reduced ? 'none' : 'fade'} onRequestClose={() => { setYearsOpen(false); setCalendarOpen(false); }}>
       <View style={{ flex: 1, backgroundColor: '#08110ccc', justifyContent: 'center', alignItems: 'center', padding: 18 }}><ScrollView style={{ width: '100%', maxWidth: 430, maxHeight: '94%', flexGrow: 0, backgroundColor: t.surface, borderRadius: 24 }} contentContainerStyle={{ padding: 16 }} keyboardShouldPersistTaps="handled"><View accessibilityViewIsModal>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}><Text accessibilityRole="header" style={{ color: t.text, fontSize: 20, fontWeight: '700' }}>Choose a day</Text><GrowPress accessibilityRole="button" accessibilityLabel="Close date picker" onPress={() => setCalendarOpen(false)} style={{ minHeight: 48, minWidth: 48, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name="close" size={22} color={t.text} /></GrowPress></View>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginVertical: 8 }}>
-          <GrowPress accessibilityRole="button" accessibilityLabel="Previous year" disabled={Number(calendarMonth.slice(0, 4)) <= minimumYear} onPress={() => chooseYear(Number(calendarMonth.slice(0, 4)) - 1)} style={{ width: 44, minHeight: 48, alignItems: 'center', justifyContent: 'center', opacity: Number(calendarMonth.slice(0, 4)) <= minimumYear ? 0.35 : 1 }}><MaterialCommunityIcons name="chevron-double-left" size={22} color={t.accent} /></GrowPress>
-          <View style={{ flex: 1 }}><Text style={{ color: t.muted, fontSize: 12, marginBottom: 4 }}>Year</Text><TextInput accessibilityLabel="Calendar year" value={year} onChangeText={setYear} keyboardType="number-pad" maxLength={4} onSubmitEditing={() => chooseYear(Number(year))} returnKeyType="go" style={{ color: t.text, backgroundColor: t.background, minHeight: 48, borderWidth: 1, borderColor: t.border, borderRadius: 10, paddingHorizontal: 12, fontSize: 16 }} /></View>
-          <GrowPress accessibilityRole="button" accessibilityLabel="Go to year" onPress={() => chooseYear(Number(year))} style={{ minHeight: 48, paddingHorizontal: 10, justifyContent: 'center' }}><Text style={{ color: t.accent, fontWeight: '600' }}>Go</Text></GrowPress>
-          <GrowPress accessibilityRole="button" accessibilityLabel="Next year" disabled={Number(calendarMonth.slice(0, 4)) >= 9998} onPress={() => chooseYear(Number(calendarMonth.slice(0, 4)) + 1)} style={{ width: 44, minHeight: 48, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name="chevron-double-right" size={22} color={t.accent} /></GrowPress>
+        <View style={{ marginVertical: 10, zIndex: 2000 }}>
+          <Text style={{ color: t.muted, fontSize: 13, marginBottom: 6 }}>Year</Text>
+          <DropDownPicker<number> open={yearsOpen} setOpen={setYearsOpen} value={Number(calendarMonth.slice(0, 4))} items={years} setValue={action => { const value = typeof action === 'function' ? action(Number(calendarMonth.slice(0, 4))) : action; if (typeof value === 'number') chooseYear(value); }} searchable={false} listMode="SCROLLVIEW" scrollViewProps={{ nestedScrollEnabled: true }} maxHeight={200} props={{ accessibilityLabel: 'Calendar year', accessibilityRole: 'combobox', accessibilityState: { expanded: yearsOpen } }} style={{ minHeight: 48, backgroundColor: t.background, borderColor: t.border, borderRadius: 12 }} dropDownContainerStyle={{ backgroundColor: t.surface, borderColor: t.border, borderRadius: 12 }} textStyle={{ color: t.text, fontSize: 16 }} listItemContainerStyle={{ minHeight: 48 }} selectedItemContainerStyle={{ backgroundColor: t.elevated }} selectedItemLabelStyle={{ color: t.accent, fontWeight: '700' }} ArrowDownIconComponent={() => <MaterialCommunityIcons name="chevron-down" size={22} color={t.accent} />} ArrowUpIconComponent={() => <MaterialCommunityIcons name="chevron-up" size={22} color={t.accent} />} TickIconComponent={() => <MaterialCommunityIcons name="check" size={20} color={t.accent} />} />
         </View>
-        {!!yearError && <Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 13 }}>{yearError}</Text>}
-        {calendarOpen && <Calendar key={calendarMonth + t.background} current={calendarMonth} minDate={minimum} disableAllTouchEventsForDisabledDays disableArrowLeft={!!minimum && calendarMonth.slice(0, 7) <= minimum.slice(0, 7)} onMonthChange={month => { const value = minimum && month.dateString.slice(0, 7) < minimum.slice(0, 7) ? minimum : month.dateString; setCalendarMonth(value.slice(0, 7) + '-01'); setYear(value.slice(0, 4)); setYearError(''); }} onDayPress={day => { if (minimum && day.dateString < minimum) return; onJump(day.dateString); setCalendarOpen(false); }} markedDates={{ ...Object.fromEntries(Object.entries(logs).map(([day, entries]) => [day, { marked: !!entries.length, dotColor: t.accent }])), [selected]: { selected: true, selectedColor: t.accent, selectedTextColor: t.onAccent, marked: !!logs[selected]?.length } }} theme={{ calendarBackground: t.surface, textSectionTitleColor: t.muted, dayTextColor: t.text, monthTextColor: t.text, todayTextColor: t.accent, arrowColor: t.accent, textDisabledColor: t.muted, textDayFontSize: 14, textMonthFontSize: 16 }} />}
+        {calendarOpen && <Calendar key={calendarMonth + t.background} current={calendarMonth} minDate={minimum} disableAllTouchEventsForDisabledDays disableArrowLeft={!!minimum && calendarMonth.slice(0, 7) <= minimum.slice(0, 7)} onMonthChange={month => { const value = minimum && month.dateString.slice(0, 7) < minimum.slice(0, 7) ? minimum : month.dateString; setCalendarMonth(value.slice(0, 7) + '-01'); setYearsOpen(false); }} onDayPress={day => { if (minimum && day.dateString < minimum) return; onJump(day.dateString); setCalendarOpen(false); }} markedDates={{ ...Object.fromEntries(Object.entries(logs).map(([day, entries]) => [day, { marked: !!entries.length, dotColor: t.accent }])), [selected]: { selected: true, selectedColor: t.accent, selectedTextColor: t.onAccent, marked: !!logs[selected]?.length } }} theme={{ calendarBackground: t.surface, textSectionTitleColor: t.muted, dayTextColor: t.text, monthTextColor: t.text, todayTextColor: t.accent, arrowColor: t.accent, textDisabledColor: t.muted, textDayFontSize: 14, textMonthFontSize: 16 }} />}
         <Text style={{ color: t.muted, fontSize: 13, lineHeight: 20, marginTop: 10 }}>{minimum ? `Available from ${new Date(minimum + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}, when this plant was added.` : 'Choose a day to see its activity and saved conditions.'} Dots mark activity in the loaded week.</Text>
       </View></ScrollView></View>
     </Modal>

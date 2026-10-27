@@ -1,6 +1,6 @@
 # Plant detail refinements — 27 October 2026
 
-Date-navigation update: the user subsequently chose a single seven-day row. The 7/14-day setting and its persistence hook were removed. The full-month picker now has direct year entry and year arrows. All date selection and search are bounded by the plant’s added day; earlier calendar dates and backward navigation at the boundary are disabled. Historical records are unchanged. Items 1–4 below record the preceding review implementation.
+Date-navigation update: the user subsequently chose a single seven-day row. The 7/14-day setting and its persistence hook were removed. The full-month picker now has a themed year dropdown, without text entry, a Go button or year arrows. Year options start at the added year and include next year for forecast browsing. All date selection and search are bounded by the plant’s added day; earlier calendar dates and backward navigation at the boundary are disabled. Historical records are unchanged. Items 1–4 below record the preceding review implementation.
 
 The review's fourteen items are implemented in the existing Grove/Daylight design system:
 
