@@ -6,8 +6,8 @@ import { useReducedMotion } from '@/ui/GrowMotion';
 import { EditorTheme } from './PlantEditorFields';
 import type { PlantTheme } from './plantDetailTheme';
 
-export default function PlantEditorSheet({ title, subtitle, theme: t, onClose, busy = false, footer, children, scrollRef }: {
-  title: string; subtitle?: string; theme: PlantTheme; onClose(): void; busy?: boolean; footer?: React.ReactNode; children: React.ReactNode; scrollRef?: React.Ref<ScrollView>;
+export default function PlantEditorSheet({ title, subtitle, theme: t, onClose, busy = false, footer, children, scrollRef, contentGap = 16 }: {
+  title: string; subtitle?: string; theme: PlantTheme; onClose(): void; busy?: boolean; footer?: React.ReactNode; children: React.ReactNode; scrollRef?: React.Ref<ScrollView>; contentGap?: number;
 }) {
   const reduced = useReducedMotion();
   const insets = useSafeAreaInsets();
@@ -16,7 +16,7 @@ export default function PlantEditorSheet({ title, subtitle, theme: t, onClose, b
       <View accessibilityViewIsModal style={{ width: '100%', maxWidth: 620, maxHeight: '100%', flexShrink: 1, backgroundColor: t.background, borderTopLeftRadius: 24, borderTopRightRadius: 24, paddingHorizontal: 20, paddingTop: 12, paddingBottom: Math.max(insets.bottom, 16) }}>
         <View style={{ width: 36, height: 4, backgroundColor: t.border, borderRadius: 4, alignSelf: 'center', marginBottom: 8 }} />
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 12 }}><View style={{ flex: 1 }}><Text accessibilityRole="header" style={{ color: t.text, fontSize: 22, fontWeight: '700' }}>{title}</Text>{!!subtitle && <Text style={{ color: t.muted, fontSize: 14, marginTop: 4 }}>{subtitle}</Text>}</View><CloseButton label={`Close ${title.toLowerCase()}`} disabled={busy} onPress={onClose} color={t.text} /></View>
-        <ScrollView ref={scrollRef} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" style={{ flexShrink: 1 }} contentContainerStyle={{ gap: 16, paddingBottom: 16 }}>{children}</ScrollView>
+        <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" keyboardDismissMode="on-drag" style={{ flexShrink: 1 }} contentContainerStyle={{ gap: contentGap, paddingBottom: 16 }}>{children}</ScrollView>
         {footer && <View style={{ paddingTop: 12, borderTopWidth: 1, borderColor: t.border }}>{footer}</View>}
       </View>
     </KeyboardAvoidingView></EditorTheme.Provider>

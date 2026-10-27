@@ -107,3 +107,25 @@ Browser review covered 320 px and 390 px widths in Daylight and Grove themes, in
 Journal care advice is one collapsible Care today card. It starts minimized with the total note count and the highest-priority note's severity and full title. Expanding shows severity-sorted rows separated by fine rules, rather than individual bordered cards. Each row has one disclosure; only one explanation can be open at a time. Explanations retain the original summary, distinct supporting reasons, confidence and recording action. Minimizing closes the explanation. Refresh is available inside the expanded card. The redundant Review advice text, always-visible preview/action and separate Show other care notes button are removed.
 
 Phone browser review checked 320 px and 390 px, both themes, minimizing and switching explanations. TypeScript, focused ESLint and 12 care-disclosure/journal-flow tests passed. Care algorithms and saved journal data remain unchanged.
+
+## Mobile plant editing
+
+The persistent top-bar Edit plant button opens one continuous form directly. Plant profile, Growing setup, Care routine, Location and Profile notes appear in that order, with visible fields and clear headings. The intermediate category menu is removed. Optional strain, height, soil and history fields are visible in this full editor. Dropdown options remain attached to their fields, and conditional pot/sensor/sunlight/reminder controls appear only when relevant. One pinned Save changes action validates every changed section before issuing a single update; untouched sections are omitted. The existing draft recovery, discard protection, conflict checks and saving locks remain. The banner and individual Details sections have no repeated profile-edit controls.
+
+Editor selectors now expand directly beneath their fields with bounded scrolling, search for long lists, explicit unspecified choices and Android Back dismissal. Existing custom routine/profile values remain selectable. Location editing uses an explicit garden-location summary and a direct different-location action instead of radio choices; custom location and optional place label remain available. Previously recorded weather remains unchanged.
+
+Browser review covered all five sections at 390 px, attached dropdowns and optional fields, plus notes at 320 px. No plant changes were saved during review. The existing validation, conflict detection, draft recovery, discard guards and save locks remain in place. TypeScript, full lint, the 78-suite/371-test existing suite and three additional editor-control tests passed.
+
+The single-page flow was reviewed at phone width, scrolling from profile through setup and down to notes. TypeScript, focused lint, architecture checks and 21 form/control/journal tests passed, including combined changes, unchanged-section preservation and validation before a combined update. No plant changes were saved in browser review.
+
+## One plant-edit entry point
+
+A single top-bar button pairs a pencil icon with the visible label Edit plant. It remains reachable on Journal, Photos and Details while scrolling, and opens the continuous editor directly. The banner pencil and five section pencils are removed. Profile cards are read-only summaries with their existing disclosures. Journal-entry editing stays scoped to the selected entry. The compact toolbar avoids a repeated pinned plant name below 400 px so Back, Edit plant and the theme control fit at 320 px.
+
+Browser review verified the Details layout at 320 px and 390 px and opened/closed the full editor without saving. TypeScript, focused ESLint and 12 profile/journal-flow tests passed.
+
+## Compact continuous editor
+
+The full editor uses 12 px between fields, compact 48 px minimum controls and paired short fields: stage/height, strain name/type, age basis/estimated days, environment/planting, pot/sunlight or sensor, watering/feeding, and soil type/pH. Notes and location retain full width. Repeated strain, height, soil and history subheadings are removed from the full form. Age uses Start date or Estimate with one sprouting/rooting explanation. Blank note areas start at 88 px. All fields remain on the same page; Save stays pinned. Paired fields wrap as needed and stack when device font scale exceeds 1.2.
+
+The 390 px review fits the complete profile and the beginning of setup in one screen; 320 px also fits the profile. Attached options were opened and closed without changing data. TypeScript, focused lint, architecture checks and 22 form/control/journal tests passed.

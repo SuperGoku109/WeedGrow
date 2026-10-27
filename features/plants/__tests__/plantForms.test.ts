@@ -1,5 +1,5 @@
 import { buildInitialFormState, buildUpdates, validateForm } from '../form/editPlantForm';
-import { buildSectionUpdates, sections } from '../form/plantSectionForm';
+import { buildSectionUpdates, buildAllSectionUpdates, sections } from '../form/plantSectionForm';
 import type { Plant } from '@/firestoreModels';
 const plant = { name: 'Plant', strain: '', status: 'active', environment: 'outdoor', plantedIn: 'pot', growthStage: 'seedling', ageKnown: false, location: { lat: 0, lng: 0 } } as Plant;
 it('keeps unchanged fields out of full-editor writes and preserves zero coordinates', () => {
@@ -35,4 +35,29 @@ it('does not invent a start date from an unchanged legacy recorded age', () => {
   const values = Object.fromEntries(sections.Basics.map(field => [field.key, String((legacy as unknown as Record<string, unknown>)[field.key] ?? '')]));
   const updates = buildSectionUpdates('Basics', { ...values, name: 'New name' }, 'custom', legacy, '2026-10-27', 'estimate');
   expect(updates.startedOn).toBeNull(); expect(updates).not.toHaveProperty('ageDays');
+});
+
+const allValues = () => {
+  const source = { ...plant, lat: 0, lng: 0, strainType: 'unknown', reminderType: 'none' };
+  return Object.fromEntries(Object.values(sections).flat().map(field => [field.key, String((source as unknown as Record<string, unknown>)[field.key] ?? '')]));
+};
+it('leaves every unchanged section out of the single-page editor update', () => {
+  const values = allValues();
+  expect(buildAllSectionUpdates(values, { values, ageMode: 'estimate', locationMode: 'custom' }, 'custom', plant, '2026-10-28', 'estimate')).toEqual({});
+});
+it('combines profile and routine changes without rewriting the untouched location', () => {
+  const values = allValues();
+  const updates = buildAllSectionUpdates({ ...values, name: 'Renamed', feedingFrequency: 'Weekly' }, { values, ageMode: 'estimate', locationMode: 'custom' }, 'custom', plant, '2026-10-28', 'estimate');
+  expect(updates).toMatchObject({ name: 'Renamed', feedingFrequency: 'Weekly' });
+  expect(updates).not.toHaveProperty('location'); expect(updates).not.toHaveProperty('soilType');
+});
+it('validates every changed section before returning a combined update', () => {
+  const values = allValues();
+  expect(() => buildAllSectionUpdates({ ...values, name: 'Renamed', reminderType: 'interval', intervalDays: '0' }, { values, ageMode: 'estimate', locationMode: 'custom' }, 'custom', plant, '2026-10-28', 'estimate')).toThrow('Care plan:');
+});
+it('includes location mode changes even when the pin is unchanged', () => {
+  const values = allValues();
+  const updates = buildAllSectionUpdates(values, { values, ageMode: 'estimate', locationMode: 'custom' }, 'space', plant, '2026-10-28', 'estimate');
+  expect(updates).toMatchObject({ locationMode: 'space', location: { lat: 0, lng: 0 } });
+  expect(updates).not.toHaveProperty('name');
 });

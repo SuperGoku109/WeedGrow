@@ -10,6 +10,19 @@ export const sections: Record<string, Field[]> = {
   'Location and weather': [{ key: 'locationNickname', label: 'Location nickname (optional)' }, { key: 'locationLabel', label: 'Town or area' }, { key: 'lat', label: 'Latitude', number: true }, { key: 'lng', label: 'Longitude', number: true }],
   'Notes and history': [{ key: 'notes', label: 'Lasting notes', multiline: true }, { key: 'environmentNotes', label: 'Setup notes', multiline: true }, { key: 'trainingTags', label: 'Training (comma separated)', list: true }, { key: 'pests', label: 'Pest history (comma separated)', list: true }],
 };
+/** Validate changed sections before issuing one atomic plant update. */
+export function buildAllSectionUpdates(values: Record<string, string>, initial: { values: Record<string, string>; ageMode: string; locationMode: 'custom' | 'space' }, locationMode: 'custom' | 'space', plant: Plant, today: string, ageMode: 'date' | 'estimate') {
+  const updates: Record<string, unknown> = {};
+  for (const [section, fields] of Object.entries(sections)) {
+    const changed = fields.some(field => values[field.key] !== initial.values[field.key]) || section === 'Basics' && ageMode !== initial.ageMode || section === 'Location and weather' && locationMode !== initial.locationMode;
+    if (!changed) continue;
+    const scoped = Object.fromEntries(fields.map(field => [field.key, values[field.key] || '']));
+    if (section === 'Care plan' && scoped.reminderType !== 'none') scoped.timeOfDay ||= '09:00';
+    try { Object.assign(updates, buildSectionUpdates(section, scoped, locationMode, plant, today, ageMode)); }
+    catch (error) { throw new Error(`${section}: ${error instanceof Error ? error.message : 'Review these fields.'}`); }
+  }
+  return updates;
+}
 export function buildSectionUpdates(section: string, values: Record<string, string>, locationMode: 'custom' | 'space', plant: Plant, today = plantDay(new Date(), plant.locationTimeZone), ageMode?: 'date' | 'estimate') {
   const fields = sections[section] || sections.Basics;
     const fail = (message: string): never => { throw new Error(message); };

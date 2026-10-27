@@ -6,16 +6,14 @@ import { plantThemes } from '../components/plantDetailTheme';
 import type { Plant } from '@/firestoreModels';
 jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
 jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable }));
-const edit = jest.fn();
 const plant = { name: 'Test', strain: '', growthStage: 'seedling', status: 'active', environment: 'outdoor', plantedIn: 'pot', ageKnown: false, owners: [], createdAt: null, updatedAt: null, location: { lat: 0, lng: 0 }, notes: 'A full saved note. '.repeat(30) } satisfies Plant;
 let renderer: any;
 function button(label: string) { return renderer.root.findAll((node: any) => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0]; }
-beforeEach(() => act(() => { renderer = create(React.createElement(PlantDetails, { plant, theme: plantThemes.grove, onEdit: jest.fn(), onEditSection: edit })); }));
+beforeEach(() => act(() => { renderer = create(React.createElement(PlantDetails, { plant, theme: plantThemes.grove })); }));
 afterEach(() => act(() => renderer.unmount()));
-it('routes every visible edit action to its existing section editor', () => {
-  for (const [label, section] of [['Basics', 'Basics'], ['Growing setup', 'Growing setup'], ['Care routine', 'Care plan'], ['Location', 'Location and weather'], ['Profile notes', 'Notes and history']]) {
-    act(() => button('Edit ' + label).props.onPress()); expect(edit).toHaveBeenLastCalledWith(section);
-  }
+it('keeps profile sections readable without repeated edit controls', () => {
+  expect(renderer.root.findAll((node: any) => typeof node.props.onPress === 'function' && node.props.accessibilityLabel?.startsWith('Edit '))).toHaveLength(0);
+  for (const heading of ['Basics', 'Growing setup', 'Care routine', 'Location', 'Profile notes']) expect(JSON.stringify(renderer.toJSON())).toContain(heading);
 });
 it('reveals technical details and full notes on demand without hiding ordinary saved facts', () => {
   expect(JSON.stringify(renderer.toJSON())).toContain('Seedling');

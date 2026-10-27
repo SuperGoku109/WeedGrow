@@ -6,6 +6,7 @@ import Composer from '../components/PlantLogComposer';
 import { JournalTimeline } from '../components/PlantJournal';
 import JournalDateNavigator from '../components/JournalDateNavigator';
 import DailyCareAdvice from '../components/DailyCareAdvice';
+import PlantSectionEditor from '../components/PlantSectionEditor';
 import PlantWeather from '../components/PlantWeather';
 import { saveJournalEntry } from '@/lib/logs/journalRepository';
 import type { PlantLog } from '@/firestoreModels';
@@ -99,4 +100,11 @@ it('makes future days forecast-only and allows returning to today without losing
 it('maps old Today links to the daily Journal and preserves a valid history deep link', async () => {
   mockParams = { id: 'plant', section: 'Today', journalDate: '2026-10-25' }; await mount();
   expect(selectedTab()).toBe('Journal'); expect(dates().props.selected).toBe('2026-10-25');
+});
+
+it('opens the complete editor from the persistent Edit plant action', async () => {
+  await mount();
+  expect(renderer.root.findAllByType(PlantSectionEditor)).toHaveLength(0);
+  act(() => button('Edit plant').props.onPress());
+  expect(renderer.root.findByType(PlantSectionEditor).props.section).toBe('All');
 });

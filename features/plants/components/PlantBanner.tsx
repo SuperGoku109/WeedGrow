@@ -3,7 +3,6 @@ import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View, useWindowD
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Circle, Ellipse, Path } from 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
-import { PlantIconButton } from './PlantActionButton';
 import type { Plant } from '@/firestoreModels';
 import { usePhotoUri } from '@/ui/PlantImage';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
@@ -22,7 +21,7 @@ function BotanicalCover({ theme }: { theme: PlantTheme }) {
 }
 
 /** Full-width cover and a single identity block share the section rail's card. */
-export default function PlantBanner({ plant, theme: t, onEdit, onCover }: { plant: Plant; theme: PlantTheme; onEdit(): void; onCover(): void }) {
+export default function PlantBanner({ plant, theme: t, onCover }: { plant: Plant; theme: PlantTheme; onCover(): void }) {
   const { width } = useWindowDimensions();
   const coverHeight = Math.min(240, Math.max(170, (width - 36) * 0.52));
   const uri = getRenderablePlantImageUri(plant.imageUri);
@@ -42,7 +41,7 @@ export default function PlantBanner({ plant, theme: t, onEdit, onCover }: { plan
       {photo.stored && !photo.uri && !photo.failed && <View style={s.photoLoading}><ActivityIndicator size="small" color={t.heroText} accessibilityLabel="Loading plant cover" /></View>}
     </Pressable>
     <View style={s.identity}>
-      <View style={s.titleRow}><View style={s.copy}><Text accessibilityRole="header" style={[s.name, { color: t.text }]}>{plant.name}</Text>{!!plant.strain?.trim() && <Text style={[s.strain, { color: t.muted }]}>{plant.strain}</Text>}</View><PlantIconButton label="Edit plant details" icon="pencil-outline" theme={t} onPress={onEdit} /></View>
+      <View style={s.titleRow}><View style={s.copy}><Text accessibilityRole="header" style={[s.name, { color: t.text }]}>{plant.name}</Text>{!!plant.strain?.trim() && <Text style={[s.strain, { color: t.muted }]}>{plant.strain}</Text>}</View></View>
       <View style={s.details}>
         <View accessibilityLabel={`Growth stage: ${stage}`} style={[s.stage, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={t.accent} aria-hidden={true} /><Text style={[s.badgeText, { color: t.accent }]}>{stage}</Text></View>
         <View accessibilityLabel={`Plant status: ${status}`} style={s.status}><View style={[s.statusDot, { backgroundColor: status === 'active' ? t.accent : t.muted }]} /><Text style={[s.badgeText, { color: t.muted }]}>{status}</Text></View>
