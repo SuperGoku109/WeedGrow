@@ -95,3 +95,15 @@ Weather refresh is an icon button inside the weather card header, including its 
 The Details section uses pencil icon buttons for editing. Photo, journal-entry, lifecycle and care-advice text actions retain descriptive labels with icons and visible button boundaries; disclosure rows keep chevrons and their expanded state. The pinned toolbar back button now sizes to its arrow-and-label content to avoid overlapping the plant name. Existing destructive confirmations and save guards stay intact.
 
 At 390 px, the actual weather icon was clicked and verified through disabled/loading feedback to Weather updated just now; no journal activity or plant details were changed. The Details pencil opened its corresponding editor. TypeScript, ESLint, architecture checks and 77 suites / 368 tests passed.
+
+## Plant cover banner
+
+The plant detail banner uses a full-width cover photograph that fades into the card surface. The name, optional strain, growth stage, status and environment sit together below the image. A pencil icon replaces the separate Edit plant row, and a camera affordance makes the existing cover-photo action discoverable. Both use the existing accessible controls and callbacks. Plants without a usable photo retain the botanical illustration. Cover height scales between 170 and 240 px, and stored photos use the full image rather than a list thumbnail.
+
+Browser review covered 320 px and 390 px widths in Daylight and Grove themes, including the cover action opening Photos. TypeScript and the banner's ESLint check passed. No plant details or photos were changed.
+
+## Compact daily care advice
+
+Journal care advice is one collapsible Care today card. It starts minimized with the total note count and the highest-priority note's severity and full title. Expanding shows severity-sorted rows separated by fine rules, rather than individual bordered cards. Each row has one disclosure; only one explanation can be open at a time. Explanations retain the original summary, distinct supporting reasons, confidence and recording action. Minimizing closes the explanation. Refresh is available inside the expanded card. The redundant Review advice text, always-visible preview/action and separate Show other care notes button are removed.
+
+Phone browser review checked 320 px and 390 px, both themes, minimizing and switching explanations. TypeScript, focused ESLint and 12 care-disclosure/journal-flow tests passed. Care algorithms and saved journal data remain unchanged.
