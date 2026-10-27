@@ -31,9 +31,9 @@ export default function GrowingSpacePicker({ form, setField, errors, onSignIn }:
     setField('locationLabel', space.locationLabel || space.name);
     setField('sensorProfileId', space.sensorProfileId || '');
   };
-  return <Section title="Growing space" subtitle="Optional · reuse a space’s environment, location and sensor profile.">
+  return <Section title="Garden" subtitle="Reuse your garden’s environment, location and sensor profile.">
     {!user ? <><Text style={s.hint}>Sign in to choose one of your existing spaces. You can also continue with a separate setup.</Text>{onSignIn && <Press label="Sign in to choose a growing space" onPress={onSignIn} style={[s.button, s.secondary]}><Text style={s.secondaryText}>Sign in</Text></Press>}</> : loading ? <ActivityIndicator color={palette.accent} /> : error ? <><Text style={s.error}>{error}</Text><Press label="Retry growing spaces" onPress={() => setAttempt(value => value + 1)} style={[s.button, s.secondary]}><Text style={s.secondaryText}>Retry</Text></Press></> : <Choices options={[{ value: '', label: 'Separate setup' }, ...spaces.map(space => ({ value: space.id, label: space.name }))]} value={form.groupId || ''} onChange={choose} />}
-    {!!form.groupId && <Text style={s.hint}>This plant will be added to {form.groupName || 'your selected space'}. You can adjust its individual details below.</Text>}
+    {!!form.groupId && <Text style={s.hint}>This plant will be added to {form.groupName || 'your selected garden'}. You can adjust its individual details below.</Text>}
     {!!errors.groupId && <Text accessibilityRole="alert" style={s.error}>{errors.groupId}</Text>}
     {user && !loading && !error && !spaces.length && <Text style={s.hint}>No growing spaces yet. Add this plant on its own, then organize it into a space from your garden.</Text>}
   </Section>;

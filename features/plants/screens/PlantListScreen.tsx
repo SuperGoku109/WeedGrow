@@ -15,8 +15,11 @@ import { usePlantsWateredToday } from '@/features/plants/hooks/usePlantsWateredT
 import { deleteJournalEntry } from '@/lib/logs/journalRepository';
 import { addPlantLog } from '@/lib/logs/addPlantLog';
 import logger from '@/lib/logger';
+import { plantsInGarden, type HomeGarden } from '@/features/home/gardenSelection';
 
 interface PlantListScreenProps {
+  garden?: HomeGarden | null;
+  onAddPlant?: () => void;
   enabled?: boolean;
   header?: React.ReactElement;
   footer?: React.ReactElement;
@@ -36,6 +39,7 @@ interface PlantListScreenProps {
 }
 
 export default function PlantListScreen({
+  garden, onAddPlant,
   header, footer, enabled = true,
   searchQuery,
   setSearchQuery,
@@ -54,9 +58,8 @@ export default function PlantListScreen({
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const theme = (useColorScheme() ?? 'dark') as keyof typeof Colors;
-  const {
-    plants, loading, error, refresh
-  } = usePlantList();
+  const { plants: allPlants, loading, error, refresh } = usePlantList();
+  const plants = React.useMemo(() => plantsInGarden(allPlants, garden || null), [allPlants, garden]);
   const plantIds = React.useMemo(() => plants.map(p => p.id), [plants]);
   const {
     wateredMap, loading: careLoading, error: careError,
@@ -98,6 +101,7 @@ export default function PlantListScreen({
 
   // Function to navigate to add plant with current tab index
   const navigateToAddPlant = () => {
+    if (onAddPlant) { onAddPlant(); return; }
     router.push({
       pathname: '/add-plant',
       params: { tabIndex: currentTabIndex || 1 }
@@ -126,6 +130,7 @@ export default function PlantListScreen({
         {(!loading || plants.length > 0) && (!error || plants.length > 0) && filteredPlants.length > 0 && (
           <FlatList
             testID="home-plants-list"
+            showsVerticalScrollIndicator={false}
             ListHeaderComponent={header}
             ListFooterComponent={footer}
             data={filteredPlants}
@@ -136,12 +141,12 @@ export default function PlantListScreen({
               <>
                 <PlantCard
                   plant={item}
-                  onAddLog={() => handleQuickWater(item.id)}
+                  onAddLog={item.status === 'active' ? () => handleQuickWater(item.id) : undefined}
                   wateredToday={!!wateredMap[item.id]}
                   waterLoading={!!waterLoadingMap[item.id]}
                   waterDisabled={careLoading || !!careError}
                 />
-                {index === filteredPlants.length - 1 && (
+                {!onAddPlant && index === filteredPlants.length - 1 && (
                   <View style={{ alignItems: 'center', marginTop: 16 }}>
                     <TouchableOpacity
                       accessibilityLabel="Add Plant"
@@ -158,16 +163,16 @@ export default function PlantListScreen({
           />
         )}
         {(!loading || plants.length > 0) && (!error || plants.length > 0) && filteredPlants.length === 0 && (
-          <ScrollView>{header}<View style={{ alignItems: 'center', marginTop: 24, padding: 16, gap: 12 }}><ThemedText style={{ color: '#edf0e3', fontSize: 16, textAlign: 'center' }}>{plants.length ? 'No plants match these filters.' : 'Your garden is ready for its first plant.'}</ThemedText>
+          <ScrollView showsVerticalScrollIndicator={false}>{header}<View style={{ alignItems: 'center', marginTop: 24, padding: 16, gap: 12 }}><ThemedText style={{ color: '#edf0e3', fontSize: 16, textAlign: 'center' }}>{plants.length ? 'No plants match these filters.' : 'Your garden is ready for its first plant.'}</ThemedText>
             {!!plants.length && <TouchableOpacity accessibilityRole="button" onPress={() => { setSearchQuery(''); setStatusFilter(null); setEnvFilter(null); setPlantedFilter(null); setTrainingFilter(null); }} style={{ minHeight: 48, justifyContent: 'center', paddingHorizontal: 18 }}><ThemedText style={{ color: '#c8e78b' }}>Clear search and filters</ThemedText></TouchableOpacity>}
-            <TouchableOpacity
+            {!onAddPlant && <TouchableOpacity
               accessibilityLabel="Add Plant"
               onPress={navigateToAddPlant}
               style={styles.addPlantButton}
             >
               <MaterialCommunityIcons name="plus" size={24} color="#fff" style={{ marginRight: 4 }} />
               <ThemedText style={styles.addPlantText}>Add Plant</ThemedText>
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>{footer}</ScrollView>
         )}
       </View>

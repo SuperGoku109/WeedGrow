@@ -4,9 +4,11 @@ import type { PlantForm } from '@/features/plants/form/PlantForm';
 import { readPreferences } from '@/services/preferences';
 import { useSession } from '@/services/session';
 import { createPlantId } from '../api/savePlant';
+import { getGroupById } from '@/features/groups/api/groupApi';
+import { withGardenDefaults } from '../gardenDefaults';
 import { draftKey, INITIAL_PLANT_FORM, readDraft, writeDraft, removeDraft, writeDraftOnExit, type PlantDraft } from '../draftStorage';
 
-export function useAddPlantForm() {
+export function useAddPlantForm(initialGardenId?: string) {
   const { user, loading: sessionLoading } = useSession();
   const [form, setForm] = useState<PlantForm>(INITIAL_PLANT_FORM);
   const [step, setStep] = useState(0);
@@ -46,13 +48,14 @@ export function useAddPlantForm() {
     if (signingIn && (latest.current.form.name || latest.current.step)) {
       setReady(true); void flushDraft().catch(() => {}); return;
     }
-    Promise.all([readDraft(key), readPreferences(user?.uid)]).then(([draft, preferences]) => {
+    Promise.all([readDraft(key), readPreferences(user?.uid), initialGardenId && user ? getGroupById(initialGardenId).catch(() => null) : Promise.resolve(null)]).then(([draft, preferences, garden]) => {
       if (!active) return;
-      setForm({ ...INITIAL_PLANT_FORM, environment: preferences.defaultEnvironment }); setStep(0); setPlantId(createPlantId()); setOffer(draft); cleared.current = false;
+      setForm(withGardenDefaults({ ...INITIAL_PLANT_FORM, environment: preferences.defaultEnvironment }, garden)); setStep(0); setPlantId(createPlantId()); setOffer(draft); cleared.current = false;
+      if (initialGardenId && user && !garden) setDraftError('The selected garden could not be loaded. Choose a garden in Setup before saving. Your saved draft is still available.');
     }).catch(() => { if (active) setDraftError('Saved drafts could not be read on this device.'); })
       .finally(() => { if (active) setReady(true); });
     return () => { active = false; };
-  }, [key, user, sessionLoading, flushDraft]);
+  }, [key, user, sessionLoading, flushDraft, initialGardenId]);
   useEffect(() => {
     if (!ready || offer || cleared.current) return;
     pending.current = setTimeout(() => { void flushDraft().catch(() => {}); }, 400);
@@ -81,8 +84,9 @@ export function useAddPlantForm() {
     setSavedAt(''); setOffer(null);
   }, [enqueue, user]);
   const resetForm = useCallback(async () => {
-    await clearDraft(); const preferences = await readPreferences(user?.uid); setForm({ ...INITIAL_PLANT_FORM, environment: preferences.defaultEnvironment }); setStep(0); setPlantId(createPlantId()); cleared.current = false;
-  }, [clearDraft, user?.uid]);
+    const [preferences, garden] = await Promise.all([readPreferences(user?.uid), initialGardenId && user ? getGroupById(initialGardenId).catch(() => null) : Promise.resolve(null)]);
+    await clearDraft(); setForm(withGardenDefaults({ ...INITIAL_PLANT_FORM, environment: preferences.defaultEnvironment }, garden)); setStep(0); setPlantId(createPlantId()); cleared.current = false;
+  }, [clearDraft, user, initialGardenId]);
   const resumeDraft = () => {
     if (!offer) return;
     setForm(offer.form); setStep(offer.step); setPlantId(offer.plantId); setSavedAt(offer.savedAt); setOffer(null); cleared.current = false;

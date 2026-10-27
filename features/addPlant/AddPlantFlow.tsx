@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Animated, BackHandler, Easing, Keyboard, KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { useReducedMotion } from '@/ui/GrowMotion';
 import { useAddPlantForm } from './hooks/useAddPlantForm';
@@ -26,7 +26,9 @@ export default function AddPlantFlow() {
   const { width } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const wide = width >= 900;
-  const { form, setField, resetForm, step, setStep, plantId, ready, offer, resumeDraft, clearDraft, flushDraft, draftError, savedAt } = useAddPlantForm();
+  const params = useLocalSearchParams<{ gardenId?: string }>();
+  const initialGardenId = typeof params.gardenId === 'string' && /^[A-Za-z0-9_-]+$/.test(params.gardenId) ? params.gardenId : undefined;
+  const { form, setField, resetForm, step, setStep, plantId, ready, offer, resumeDraft, clearDraft, flushDraft, draftError, savedAt } = useAddPlantForm(initialGardenId);
   const { user, loading: sessionLoading } = useSession();
   const [editing, setEditing] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -118,7 +120,7 @@ export default function AddPlantFlow() {
     <Text style={[s.hint, { textAlign: 'center' }]}>Next, open your plant to record an activity, follow its photo timeline or complete its care details.</Text>
     {!!saveError && <Text accessibilityRole="alert" style={s.error}>{saveError}</Text>}
     <Press label="View plant" onPress={() => router.replace({ pathname: '/plant/[id]', params: { id: plantId, welcome: '1' } })} style={s.button}><Text style={s.buttonText}>Open plant and next steps</Text><Icon name="arrow-right" color={palette.dark} size={19} /></Press>
-    <Press label="Back to my plants" onPress={leave} style={{ padding: 16 }}><Text style={{ color: palette.accent }}>Back to my plants</Text></Press>
+    <Press label="Back to garden" onPress={leave} style={{ padding: 16 }}><Text style={{ color: palette.accent }}>Back to garden</Text></Press>
     <Press label="Add another plant" onPress={() => { void resetForm().then(() => { setSuccess(false); setEditing(false); go(0); }).catch(() => setSaveError('Could not clear the local draft. Please try again.')); }} style={{ padding: 12 }}><Text style={s.hint}>Add another plant</Text></Press>
   </Animated.View></ScrollView> : <>
     <View style={styles.header}>
