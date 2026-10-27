@@ -23,7 +23,9 @@ import { waterGrowingSpace } from '@/lib/logs/groupWatering';
 import { deleteJournalEntry } from '@/lib/logs/journalRepository';
 import { updateGroup, type GroupWithId } from '@/features/groups/api/groupApi';
 import { Snackbar, Searchbar } from 'react-native-paper';
-import { addPlantLog } from '@/lib/logs/addPlantLog';
+import QuickWateringDialog from '@/features/plants/components/QuickWateringDialog';
+import MovePlantDialog from '../components/MovePlantDialog';
+import { useOwnedGroups } from '@/hooks/useGardenData';
 import logger from '@/lib/logger';
 import { usePlantsWateredToday } from '@/features/plants/hooks/usePlantsWateredToday';
 import { groupEditValues } from '../groupCollection';
@@ -144,8 +146,9 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
   const [undo, setUndo] = useState<{ plantId: string; id: string; mutationId: string } | null>(null);
   const { wateredMap, loading: careLoading, error: careError, refresh: refreshWatered } = usePlantsWateredToday(plantIds, plants);
   const wateredTodayCount = careLoading || careError ? undefined : Object.values(wateredMap).filter(Boolean).length;
-  const waterLocks = React.useRef(new Set<string>());
-  const [waterLoadingMap, setWaterLoadingMap] = useState<Record<string, boolean>>({});
+  const [waterPlant, setWaterPlant] = useState<(typeof plants)[number] | null>(null);
+  const [movingPlant, setMovingPlant] = useState<(typeof plants)[number] | null>(null);
+  const spaces = useOwnedGroups();
 
   // Search state (filtering only)
   const [query, setQuery] = useState('');
@@ -163,13 +166,13 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
       setEditVisible(false);
     } catch (e) {
       logger.error('Failed to update group', e);
-      throw e instanceof Error ? e : new Error('Failed to save group changes. Please try again.');
+      throw e instanceof Error ? e : new Error('Failed to save garden changes. Please try again.');
     }
   }, [setEditVisible]);
 
   const handleAddPlant = useCallback(() => {
     if (!id) return;
-    router.push({ pathname: '/add-group', params: { groupId: String(id) } });
+    router.push({ pathname: '/add-plant', params: { gardenId: String(id) } });
   }, [router, id]);
 
   const [snack, setSnack] = useState<{ visible: boolean; message: string }>({ visible: false, message: '' });
@@ -180,45 +183,19 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
     try {
       const next = (group.plantIds || []).filter((pid) => pid !== plantId);
       await updateGroup(group.id, { plantIds: next });
-      showSnack('Removed from group');
+      showSnack('Removed from garden');
     } catch (e) {
-      logger.error('Failed to remove plant from group', e);
+      logger.error('Failed to remove plant from garden', e);
       showSnack('Failed to remove');
     }
   }, [group, showSnack]);
 
-  const handleQuickWater = useCallback(async (plantId: string) => {
+  const handleQuickWater = useCallback((plantId: string) => {
     if (careLoading || careError) { showSnack(careError || 'Wait for watering history to load.'); return; }
-    if (!plantId) return;
-    if (wateredMap[plantId]) {
-      showSnack('Already watered today');
-      return;
-    }
-    if (waterLocks.current.has(plantId)) return;
-    waterLocks.current.add(plantId);
-    setWaterLoadingMap(previous => ({ ...previous, [plantId]: true }));
-    try {
-      const saved = await addPlantLog(plantId, { type: 'watering', updatedBy: 'system' });
-      setUndo({ plantId, ...saved }); showSnack('Watered');
-    } catch (e: unknown) {
-      const message =
-        typeof e === 'object' && e && 'message' in e
-          ? String((e as { message: unknown }).message)
-          : 'Failed to log';
-      if (message.toLowerCase().includes('already')) {
-          showSnack('Already watered today');
-      } else {
-        showSnack(message);
-      }
-    } finally {
-      waterLocks.current.delete(plantId);
-      setWaterLoadingMap(prev => {
-        const next = { ...prev };
-        delete next[plantId];
-        return next;
-      });
-    }
-  }, [showSnack, wateredMap, careLoading, careError]);
+    if (wateredMap[plantId]) { showSnack('Watering already recorded today.'); return; }
+    const plant = plants.find(item => item.id === plantId);
+    if (plant?.status === 'active') setWaterPlant(plant);
+  }, [careLoading, careError, wateredMap, plants, showSnack]);
 
   // Layout values
   const listBottomInset = useMemo(() => 72 + insets.bottom, [insets.bottom]);
@@ -247,8 +224,8 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
         <View style={{ flex: 1 }}>
           {careLoading && <Text accessibilityLiveRegion="polite" style={{ paddingHorizontal: 16, paddingTop: 12, color: '#c8e78b' }}>Loading watering history…</Text>}
           {!!careError && <GrowPress accessibilityRole="button" onPress={refreshWatered} style={{ padding: 16 }}><Text style={{ color: '#c8e78b' }}>Could not load watering history. Tap to retry.</Text></GrowPress>}
-          <GrowPress accessibilityRole="button" onPress={() => setBulkConfirm(true)} style={{ padding: 16 }}><Text style={{ color: '#c8e78b' }}>Record watering for this group</Text></GrowPress>
-          {bulkConfirm && <ActionDialog title="Record group watering?" description={`Confirm you watered the active plants in this group. Already-recorded plants are skipped. Groups of up to ${MAX_ATOMIC_WATERING_PLANTS} plants save together atomically.`} confirmLabel="Record group watering" onClose={() => setBulkConfirm(false)} onConfirm={async () => { const result = await waterGrowingSpace(String(id)); await refreshWatered(); setUndo(null); showSnack(`${result.written.length} recorded · ${result.skipped} skipped`); }} />}
+          <GrowPress accessibilityRole="button" onPress={() => setBulkConfirm(true)} style={{ padding: 16 }}><Text style={{ color: '#c8e78b' }}>Log garden watering</Text></GrowPress>
+          {bulkConfirm && <ActionDialog title="Log garden watering" description={`Confirm you watered the active plants in this garden. Already-recorded plants are skipped. Gardens of up to ${MAX_ATOMIC_WATERING_PLANTS} plants are supported. Use individual watering for larger gardens.`} confirmLabel="Save garden watering" onClose={() => setBulkConfirm(false)} onConfirm={async () => { const result = await waterGrowingSpace(String(id)); await refreshWatered(); setUndo(null); showSnack(`${result.written.length} recorded · ${result.skipped} skipped`); }} />}
           <GroupPlantList
             plants={filteredPlants}
             searchActive={!!query.trim()}
@@ -258,19 +235,25 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
             stickyHeader={false}
             showFooterAddButton={false}
             bottomInset={listBottomInset}
-            onAddPlant={handleAddPlant}
+            onAddPlant={() => router.push({ pathname: '/add-group', params: { groupId: String(id) } })}
+            onCreatePlant={handleAddPlant}
+            onMovePlant={plantId => setMovingPlant(plants.find(item => item.id === plantId) || null)}
             refreshing={loading}
             onRefresh={refreshGroup}
             onRemovePlant={handleRemovePlant}
             onQuickWater={handleQuickWater}
             wateredMap={wateredMap}
-            waterLoadingMap={waterLoadingMap}
+            waterLoadingMap={{}}
             careUnavailable={careLoading || !!careError}
           />
 
+          {waterPlant && <QuickWateringDialog plant={waterPlant} onClose={() => setWaterPlant(null)} onSaved={result => { setUndo(result); showSnack('Watering saved.'); void refreshWatered(); }} />}
+          {movingPlant && <MovePlantDialog plant={movingPlant} gardens={spaces.groups} onClose={() => setMovingPlant(null)} onMoved={name => showSnack(`${movingPlant.name} moved to ${name}.`)} />}
+          <GrowPress accessibilityRole="button" onPress={() => router.push({ pathname: '/add-group', params: { groupId: String(id) } })} style={{ paddingHorizontal: 18, minHeight: 48, justifyContent: 'center' }}><Text style={{ color: '#c8e78b' }}>Move existing plants here →</Text></GrowPress>
           <FloatingAddPlantButton bottom={24 + insets.bottom} onPress={handleAddPlant} />
 
           <EditGroupModal
+            settingsOnly
             visible={editVisible}
             group={group}
             allPlants={garden.plants}
@@ -284,8 +267,8 @@ const GroupDetailScreen = memo(function GroupDetailScreen() {
             visible={confirmDeleteVisible}
             onCancel={cancelDeleteGroup}
             onConfirm={confirmDeleteGroup}
-            title="Delete Group"
-            subtitle="This will remove the group but keep your plants safe."
+            title="Delete garden"
+            subtitle="This will remove the garden but keep your plants safe."
           />
 
           <Snackbar

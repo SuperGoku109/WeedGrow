@@ -1,3 +1,4 @@
+import PlantActionButton from './PlantActionButton';
 import React from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -12,7 +13,7 @@ type Entry = PlantLog & { id: string };
 export function JournalTimeline({ logs, theme: t, loading, error, onEdit, onDelete, emptyMessage = 'Nothing recorded for this day.', timeZone, highlightedId, highlightLabel = 'Selected activity', onEntryLayout, onRetry, onViewPhoto }: { onEdit?: (log: Entry) => void; onDelete?: (log: Entry) => void; logs: Entry[]; theme: PlantTheme; loading: boolean; error: string; compactEmpty?: boolean; emptyMessage?: string; timeZone?: string | null; highlightedId?: string; highlightLabel?: string; onEntryLayout?(id: string, y: number): void; onRetry?(): void; onViewPhoto?(log: Entry): void }) {
   const [menuId, setMenuId] = React.useState<string | null>(null);
   const [expanded, setExpanded] = React.useState<Record<string, boolean>>({});
-  const action = (label: string, handler: () => void, danger = false) => <GrowPress accessibilityRole="button" accessibilityLabel={label} onPress={handler} style={{ minHeight: 48, justifyContent: 'center', paddingHorizontal: 8 }}><Text style={{ color: danger ? t.danger : t.accent, fontSize: 14 }}>{label.startsWith('Edit ') ? 'Edit entry' : label.startsWith('Delete ') ? 'Delete entry' : label}</Text></GrowPress>;
+  const action = (label: string, handler: () => void, danger = false) => <PlantActionButton label={label.startsWith('Edit ') ? 'Edit entry' : label.startsWith('Delete ') ? 'Delete entry' : label} accessibilityLabel={label} icon={danger ? 'trash-can-outline' : label.startsWith('Edit ') ? 'pencil-outline' : label === 'Show less' ? 'chevron-up' : label.startsWith('Read ') ? 'chevron-down' : label === 'View in Photos' ? 'image-outline' : 'refresh'} theme={t} danger={danger} onPress={handler} />;
   return <View style={{ gap: 12 }}>
     {loading && <View accessibilityLiveRegion="polite" style={{ flexDirection: 'row', gap: 8, alignItems: 'center', paddingVertical: 10 }}><ActivityIndicator color={t.accent} size="small" /><Text style={{ color: t.muted }}>{logs.length ? 'Updating journal…' : 'Loading activities…'}</Text></View>}
     {!!error && <View style={{ gap: 6, padding: 14, borderRadius: 14, backgroundColor: t.surface }}><Text accessibilityRole="alert" style={{ color: t.danger }}>Activity could not be refreshed.</Text><Text style={{ color: t.muted, lineHeight: 21 }}>{logs.length ? 'The entries below may be out of date.' : 'Your saved activities are kept. Try loading this day again.'}</Text>{onRetry && action('Retry activities', onRetry)}</View>}

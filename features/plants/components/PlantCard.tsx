@@ -7,6 +7,7 @@ import { PlantImage } from '@/ui/PlantImage';
 import type { Plant } from '@/firestoreModels';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 import { gardenThemes } from '@/design-system/tokens/garden';
+import { plantCardMeta } from '../plantListPresentation';
 
 export interface PlantCardProps {
   plant: Plant & { id: string };
@@ -15,10 +16,13 @@ export interface PlantCardProps {
   waterLoading?: boolean;
   waterDisabled?: boolean;
   onPress?: () => void;
+  onMore?: () => void;
+  showEnvironment?: boolean;
+  moreLabel?: string;
 }
 const colors = gardenThemes.grove;
 /** Detail navigation and quick care are sibling targets, avoiding nested actions. */
-export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading = false, waterDisabled = false, onPress }: PlantCardProps) {
+export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading = false, waterDisabled = false, onPress, onMore, showEnvironment = true, moreLabel }: PlantCardProps) {
   const router = useRouter();
   const uri = getRenderablePlantImageUri(plant.imageUri);
   const [imageFailed, setImageFailed] = React.useState(false);
@@ -27,12 +31,13 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
   return <View style={s.card}>
     <Pressable accessibilityRole="button" accessibilityLabel={`Open ${plant.name}`} onPress={onPress ?? (() => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } }))} style={({ pressed }) => [s.details, pressed && { opacity: 0.78 }]}>
       {uri && !imageFailed ? <PlantImage source={{ uri }} onError={() => setImageFailed(true)} style={s.image} /> : <View style={[s.image, s.placeholder]}><MaterialCommunityIcons name="sprout" size={28} color={colors.accent} /></View>}
-      <View style={s.copy}><Text style={s.name} numberOfLines={2}>{plant.name}</Text><Text style={s.meta} numberOfLines={2}>{plant.environment || 'Indoor'}{plant.strain ? ` · ${plant.strain}` : ''}</Text><Text style={s.stage}>{plant.growthStage || plant.status || 'Growing'}</Text></View>
+      <View style={s.copy}><Text style={s.name} numberOfLines={2}>{plant.name}</Text><Text style={s.meta} numberOfLines={2}>{plantCardMeta(plant, showEnvironment)}</Text><Text style={s.stage}>{plant.status === 'active' ? plant.growthStage : plant.status}</Text></View>
     </Pressable>
     {!!onAddLog && <Pressable accessibilityRole="button" accessibilityLabel={`${plant.name}: ${waterDisabled ? 'Checking watering history' : wateredToday ? 'Watering recorded today' : waterLoading ? 'Saving watering' : 'Log watering'}`} accessibilityState={{ disabled: wateredToday || waterLoading || waterDisabled, busy: waterLoading }} disabled={wateredToday || waterLoading || waterDisabled} onPress={() => onAddLog('watering')} style={({ pressed }) => [s.water, wateredToday && { backgroundColor: colors.elevated }, pressed && { opacity: 0.75 }]}>
       {waterLoading ? <ActivityIndicator size={22} color={colors.water} /> : <MaterialCommunityIcons name={wateredToday ? 'check-circle-outline' : 'water-outline'} size={24} color={wateredToday ? colors.accent : colors.water} />}
       <Text style={s.waterLabel}>{status}</Text>
     </Pressable>}
+    {!!onMore && <Pressable accessibilityRole="button" accessibilityLabel={moreLabel || `More options for ${plant.name}`} onPress={onMore} style={s.more}><MaterialCommunityIcons name="dots-vertical" size={22} color={colors.muted} /></Pressable>}
   </View>;
 }
 const s = StyleSheet.create({
@@ -42,9 +47,10 @@ const s = StyleSheet.create({
   placeholder: { alignItems: 'center', justifyContent: 'center' },
   copy: { flex: 1, minWidth: 0, gap: 4 },
   name: { color: colors.text, fontSize: 17, lineHeight: 22, fontWeight: '700' },
-  meta: { color: colors.muted, fontSize: 13, lineHeight: 19, textTransform: 'capitalize' },
+  meta: { color: colors.muted, fontSize: 13, lineHeight: 19 },
   stage: { color: colors.accent, fontSize: 13, lineHeight: 19, textTransform: 'capitalize' },
   water: { minWidth: 64, minHeight: 64, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', gap: 4, borderRadius: 12, padding: 8, backgroundColor: colors.background },
   waterLabel: { color: colors.text, fontSize: 12, fontWeight: '600' },
+  more: { width: 44, minHeight: 48, alignSelf: 'center', alignItems: 'center', justifyContent: 'center', borderRadius: 12 },
 });
 export default PlantCard;

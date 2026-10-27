@@ -46,6 +46,10 @@ service cloud.firestore {
       }
     }
     match /groups/{groupId} {
+      match /weatherCache/{date} {
+        allow read, write: if signedIn()
+          && get(/databases/$(database)/documents/groups/$(groupId)).data.createdBy == request.auth.uid;
+      }
       allow get: if signedIn() && (!exists(/databases/$(database)/documents/groups/$(groupId)) || resource.data.createdBy == request.auth.uid);
       allow list, delete: if signedIn() && resource.data.createdBy == request.auth.uid;
       allow create: if signedIn() && request.resource.data.createdBy == request.auth.uid;

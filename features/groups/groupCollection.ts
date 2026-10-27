@@ -27,7 +27,7 @@ export function selectGroups(groups: CollectionGroup[], plants: Record<string, C
 
 export function groupEditValues(group: CollectionGroup) {
   const name = group.name.trim();
-  if (!name) throw new Error('Give your group a name before saving.');
+  if (!name) throw new Error('Give your garden a name before saving.');
   const plantIds = [...new Set(group.plantIds)];
   return {
     name,

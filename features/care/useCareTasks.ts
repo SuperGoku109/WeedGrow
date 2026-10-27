@@ -4,9 +4,10 @@ import { buildCareTasks } from '@/lib/care/careTasks';
 import { plantDay } from '@/lib/dates/plantDay';
 import { useMinuteClock } from '@/hooks/useMinuteClock';
 import { usePlantActivity } from './usePlantActivity';
-export function useCareTasks(enabled = true) {
+export function useCareTasks(enabled = true, scopeIds?: readonly string[]) {
   const garden = usePlantList(); const now = useMinuteClock();
-  const active = React.useMemo(() => garden.plants.filter(plant => plant.status === 'active'), [garden.plants]);
+  const scopeKey = scopeIds ? JSON.stringify([...scopeIds].sort()) : null;
+  const active = React.useMemo(() => { const scope = scopeKey ? new Set<string>(JSON.parse(scopeKey)) : null; return garden.plants.filter(plant => plant.status === 'active' && (!scope || scope.has(plant.id))); }, [garden.plants, scopeKey]);
   const activity = usePlantActivity((enabled ? active : []).map(plant => plant.id), ['watering', 'fertilizing']);
   const refreshActivity = activity.refresh; const refreshGarden = garden.refresh;
   const refresh = React.useCallback(() => { refreshActivity(); refreshGarden(); }, [refreshActivity, refreshGarden]);

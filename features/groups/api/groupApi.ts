@@ -16,6 +16,8 @@ import {
 import { db } from '@/services/firebase';
 import type { Group } from '@/firestoreModels';
 import logger from '@/lib/logger';
+import { validCoordinates } from '@/features/location/locationService';
+import { refreshGardenWeather } from '@/lib/weather/refreshGardenWeather';
 
 /**
  * Group type with ID field
@@ -30,6 +32,7 @@ export interface CreateGroupOptions {
   plantIds: string[];
   environment: 'outdoor' | 'indoor' | 'greenhouse';
   location?: { lat: number; lng: number } | null;
+  locationLabel?: string;
   createdBy: string;
   sensorProfileId?: string;
 }
@@ -52,7 +55,7 @@ export async function getUserGroups(userId: string): Promise<GroupWithId[]> {
     return snap.docs.map((d) => ({ id: d.id, ...(d.data() as Group) }));
   } catch (error) {
     logger.error('Error fetching user groups:', error);
-    throw new Error('Failed to load groups. Please try again later.');
+    throw new Error('Could not load your gardens. Please try again.');
   }
 }
 
@@ -62,7 +65,10 @@ export async function getUserGroups(userId: string): Promise<GroupWithId[]> {
  * @returns Promise with the new group ID
  */
 export async function createGroup(options: CreateGroupOptions): Promise<string> {
-  return saveGrowingSpace(undefined, { ...options, createdBy: requireUserId() });
+  if (!validCoordinates(options.location)) throw new Error('Choose a location for your garden to start collecting weather.');
+  const id = await saveGrowingSpace(undefined, { ...options, createdBy: requireUserId() });
+  void refreshGardenWeather(id).catch(error => logger.error('Garden created; weather collection will retry on Home.', error));
+  return id;
 }
 
 /**
@@ -98,7 +104,7 @@ export async function getGroupById(groupId: string): Promise<GroupWithId | null>
     return { id: snap.id, ...(snap.data() as Group) };
   } catch (error) {
     logger.error('Error fetching group details:', error);
-    throw new Error('Failed to load group details.');
+    throw new Error('Could not load this garden.');
   }
 }
 

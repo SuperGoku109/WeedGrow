@@ -46,7 +46,7 @@ export default React.memo(function GroupCard({ group, plants = [], onEdit }: Gro
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text numberOfLines={1} style={styles.memberNames}>{plants.length ? plants.slice(0, 3).map(p => p.name).join(', ') : 'Room for something new'}</Text>
-          <Text style={styles.hint}>{plants.length ? 'View collection' : 'Add plants to this group'}</Text>
+          <Text style={styles.hint}>{plants.length ? 'View garden' : 'Add plants to this garden'}</Text>
         </View>
         <MaterialCommunityIcons name="arrow-top-right" size={21} color={ink.lime} />
       </View>
@@ -54,7 +54,7 @@ export default React.memo(function GroupCard({ group, plants = [], onEdit }: Gro
     {onEdit && <Pressable accessibilityRole="button" accessibilityLabel={`Edit ${group.name}`} onPress={onEdit}
       style={({ pressed }) => [styles.edit, pressed && { backgroundColor: '#334734' }]}>
       <MaterialCommunityIcons name="tune-variant" size={16} color={ink.muted} />
-      <Text style={styles.editText}>Manage group</Text>
+      <Text style={styles.editText}>Manage garden</Text>
     </Pressable>}
   </View>;
 });

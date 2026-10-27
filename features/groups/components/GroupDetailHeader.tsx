@@ -17,11 +17,11 @@ export default function GroupDetailHeader({ name, environment, weather, totalPla
   const router = useRouter();
   const space = environments[environment as keyof typeof environments] || environments.indoor;
   return <View style={styles.wrapper}>
-    <View style={styles.nav}><CollectionButton label="All groups" icon="arrow-left" onPress={() => router.replace('/')} /></View>
+    <View style={styles.nav}><CollectionButton label="Back to garden" icon="arrow-left" onPress={() => router.replace('/')} /></View>
     <View style={[styles.card, { backgroundColor: space.backdrop }]}>
       <View style={styles.hero}>
         <View style={{ flex: 1 }}>
-          <Text style={[styles.eyebrow, { color: space.color }]}>{space.label.toUpperCase()} COLLECTION</Text>
+          <Text style={[styles.eyebrow, { color: space.color }]}>{space.label.toUpperCase()} GARDEN</Text>
           <Text accessibilityRole="header" style={styles.title}>{name}</Text>
           <Text style={styles.subtitle}>{totalPlants} {totalPlants === 1 ? 'plant' : 'plants'} in this space</Text>
         </View>
@@ -30,14 +30,14 @@ export default function GroupDetailHeader({ name, environment, weather, totalPla
       <View style={styles.stats}>
         {typeof avgAgeDays === 'number' && <Text style={styles.stat}>Avg age {Math.round(avgAgeDays)}d</Text>}
         {typeof wateredTodayCount === 'number' && <Text style={styles.stat}>{wateredTodayCount} watered today</Text>}
-        {weather && <Text style={styles.stat}>{weather.temperature}°C · {weather.humidity}% humidity · {weather.rain}% rain</Text>}
+        {weather && <Text style={styles.stat}>{weather.temperature}°C · {weather.humidity}% humidity · {weather.rain} mm rain</Text>}
       </View>
       {onMoreOptions && <View style={styles.actions}>
-        <CollectionButton label="Edit group" icon="tune-variant" onPress={() => onMoreOptions('edit')} />
-        <CollectionButton label="Delete group" icon="trash-can-outline" onPress={() => onMoreOptions('delete')} />
+        <CollectionButton label="Garden settings" icon="tune-variant" onPress={() => onMoreOptions('edit')} />
+        <CollectionButton label="Delete garden" icon="trash-can-outline" onPress={() => onMoreOptions('delete')} />
       </View>}
     </View>
-    <Text style={styles.section}>IN THIS COLLECTION</Text>
+    <Text style={styles.section}>PLANTS IN THIS GARDEN</Text>
   </View>;
 }
 

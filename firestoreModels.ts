@@ -193,6 +193,8 @@ export interface Invite {
 // 📁 Top-level: /groups/{groupId}
 // ================================
 export interface Group {
+  /** Outdoor conditions at the garden pin, independent of member plants. */
+  currentWeather?: WeatherCacheEntry | null;
   locationLabel?: string;
   name: string;
   environment: 'outdoor' | 'indoor' | 'greenhouse';

@@ -43,30 +43,30 @@ export default memo(function GroupList({ groups, groupPlantsMap, loading, error,
     ListHeaderComponent={<View style={styles.header}>
       <View style={styles.headingRow}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.eyebrow}>YOUR COLLECTIONS</Text>
+          <Text style={styles.eyebrow}>YOUR GARDENS</Text>
           <Text accessibilityRole="header" style={styles.title}>A place for{ '\n' }every plant.</Text>
         </View>
-        <CollectionButton label="New group" icon="plus" primary onPress={onAddGroup} />
+        <CollectionButton label="New garden" icon="plus" primary onPress={onAddGroup} />
       </View>
       <Text style={styles.description}>Bring your plants together. Keep every space beautifully organised.</Text>
       <View style={styles.overview}>
         <Text style={styles.overviewText}><Text style={styles.number}>{groups.length}</Text> {groups.length === 1 ? 'group' : 'groups'}</Text>
         <View style={styles.divider} />
         <Text style={styles.overviewText}><Text style={styles.number}>{uniquePlants}</Text> plants grouped</Text>
-        <Pressable accessibilityRole="button" accessibilityLabel="Refresh groups" disabled={loading} onPress={onRefresh} style={styles.refresh}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Refresh gardens" disabled={loading} onPress={onRefresh} style={styles.refresh}>
           {loading ? <ActivityIndicator size={16} color={ink.lime} /> : <MaterialCommunityIcons name="refresh" size={19} color={ink.muted} />}
         </Pressable>
       </View>
       <View style={styles.search}>
         <MaterialCommunityIcons name="magnify" size={21} color={ink.muted} />
-        <TextInput accessibilityLabel="Search groups or plants" placeholder="Find a group or plant…" placeholderTextColor={ink.muted} value={query} onChangeText={setQuery} style={styles.input} />
+        <TextInput accessibilityLabel="Search gardens or plants" placeholder="Find a garden or plant…" placeholderTextColor={ink.muted} value={query} onChangeText={setQuery} style={styles.input} />
         {!!query && <Pressable accessibilityRole="button" accessibilityLabel="Clear group search" onPress={() => setQuery('')} style={styles.clear}><MaterialCommunityIcons name="close" size={18} color={ink.text} /></Pressable>}
       </View>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filters}>
         {(['all', 'indoor', 'outdoor', 'greenhouse'] as const).map(value => {
           const selected = environment === value;
           const count = value === 'all' ? groups.length : groups.filter(g => g.environment === value).length;
-          return <Pressable key={value} accessibilityRole="button" accessibilityLabel={value === 'all' ? 'All groups' : environments[value].label + ' groups'} accessibilityState={{ selected }}
+          return <Pressable key={value} accessibilityRole="button" accessibilityLabel={value === 'all' ? 'All gardens' : environments[value].label + ' groups'} accessibilityState={{ selected }}
             onPress={() => setEnvironment(value)} style={[styles.chip, selected && styles.selectedChip]}>
             <Text style={[styles.chipText, selected && { color: ink.dark }]}>{value === 'all' ? 'All spaces' : environments[value].label} <Text style={{ opacity: 0.65 }}> {count}</Text></Text>
           </Pressable>;
@@ -74,7 +74,7 @@ export default memo(function GroupList({ groups, groupPlantsMap, loading, error,
       </ScrollView>
       <View style={styles.resultRow}>
         <Text accessibilityLiveRegion="polite" style={styles.result}>{shown.length} {shown.length === 1 ? 'collection' : 'collections'}{filtered ? ' found' : ''}</Text>
-        <Pressable accessibilityRole="button" accessibilityLabel="Sort groups" accessibilityState={{ expanded: sortOpen }} onPress={() => setSortOpen(v => !v)} style={styles.sort}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Sort gardens" accessibilityState={{ expanded: sortOpen }} onPress={() => setSortOpen(v => !v)} style={styles.sort}>
           <MaterialCommunityIcons name="sort" size={15} color={ink.muted} /><Text style={styles.result}>{sortLabels[sort]}</Text>
           <MaterialCommunityIcons name={sortOpen ? 'chevron-up' : 'chevron-down'} size={16} color={ink.muted} />
         </Pressable>
@@ -87,13 +87,13 @@ export default memo(function GroupList({ groups, groupPlantsMap, loading, error,
       </View>}
       {!!error && <View style={styles.error}><Text accessibilityRole="alert" style={{ color: '#f0b5a0' }}>{error}</Text><CollectionButton label="Try again" onPress={onRefresh} /></View>}
     </View>}
-    ListEmptyComponent={loading ? <View style={styles.empty}><ActivityIndicator color={ink.lime} /><Text style={styles.description}>Opening your collections…</Text></View> : error ? null : <CollectionReveal style={styles.empty}>
+    ListEmptyComponent={loading ? <View style={styles.empty}><ActivityIndicator color={ink.lime} /><Text style={styles.description}>Opening your gardens…</Text></View> : error ? null : <CollectionReveal style={styles.empty}>
       <View style={styles.emptyIcon}><MaterialCommunityIcons name={filtered ? 'magnify' : 'view-grid-outline'} size={32} color={ink.lime} /></View>
-      <Text style={styles.emptyTitle}>{filtered ? 'No matching spaces' : 'Your first collection starts here'}</Text>
-      <Text style={styles.emptyCopy}>{filtered ? 'Try a different name or explore all your spaces.' : 'Create a group for a room, a corner, or a collection that belongs together.'}</Text>
-      <CollectionButton label={filtered ? 'Clear filters' : 'Create a group'} icon={filtered ? 'filter-remove-outline' : 'plus'} primary onPress={filtered ? clear : onAddGroup} />
+      <Text style={styles.emptyTitle}>{filtered ? 'No matching spaces' : 'Your first garden starts here'}</Text>
+      <Text style={styles.emptyCopy}>{filtered ? 'Try a different name or explore all your spaces.' : 'Create a garden for a room, a corner, or a collection that belongs together.'}</Text>
+      <CollectionButton label={filtered ? 'Clear filters' : 'Create a garden'} icon={filtered ? 'filter-remove-outline' : 'plus'} primary onPress={filtered ? clear : onAddGroup} />
     </CollectionReveal>}
-    ListFooterComponent={shown.length > 0 ? <View style={styles.footer}><MaterialCommunityIcons name="view-grid-outline" size={15} color={ink.muted} /><Text style={styles.footerText}>Each plant belongs to one growing space.</Text></View> : null}
+    ListFooterComponent={shown.length > 0 ? <View style={styles.footer}><MaterialCommunityIcons name="view-grid-outline" size={15} color={ink.muted} /><Text style={styles.footerText}>Each plant belongs to one garden.</Text></View> : null}
   />;
 });
 

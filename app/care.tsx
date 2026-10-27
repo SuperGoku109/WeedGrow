@@ -1,6 +1,8 @@
 import React from 'react';
 import { ScrollView, Text, TextInput, View } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useOwnedGroups } from '@/hooks/useGardenData';
+import { plantsInGarden } from '@/features/home/gardenSelection';
 import { useCareTasks } from '@/features/care/useCareTasks';
 import { snoozeCare } from '@/services/careSnooze';
 import { useCareSnoozes } from '@/hooks/useCareSnoozes';
@@ -16,7 +18,16 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function CareScreen() {
   const router = useRouter();
   const { user, loading: accountLoading } = useSession();
-  const { tasks, plants, loading, error, refresh, now } = useCareTasks();
+  const { gardenId } = useLocalSearchParams<{ gardenId?: string }>();
+  const spaces = useOwnedGroups();
+  const selectedGarden = spaces.groups.find(garden => garden.id === gardenId);
+  const care = useCareTasks();
+  const { refresh, now } = care;
+  const plants = gardenId ? selectedGarden ? plantsInGarden(care.plants, selectedGarden) : [] : care.plants;
+  const scopedIds = new Set(plants.map(plant => plant.id));
+  const tasks = gardenId ? care.tasks.filter(task => scopedIds.has(task.plantId)) : care.tasks;
+  const loading = care.loading || (!!gardenId && spaces.loading);
+  const error = care.error || (gardenId ? spaces.error || (!spaces.loading && !selectedGarden ? 'This garden is unavailable. Return home to choose another garden.' : '') : '');
   const { snoozes, error: snoozeError, refresh: refreshSnoozes } = useCareSnoozes(user?.uid);
   const [action, setAction] = React.useState<(typeof tasks)[number] | null>(null);
   const [skip, setSkip] = React.useState<(typeof tasks)[number] | null>(null);
@@ -27,10 +38,11 @@ export default function CareScreen() {
   return <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={{ flex: 1, backgroundColor: palette.bg }}><ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 20, gap: 16, width: '100%', maxWidth: 760, alignSelf: 'center' }}>
     <GrowPress accessibilityRole="button" onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)?tabIndex=1')} style={{ minHeight: 48, justifyContent: 'center' }}><Text style={{ color: palette.accent, fontSize: 15 }}>← Garden</Text></GrowPress><Text accessibilityRole="header" style={{ color: palette.ink, fontSize: 28, lineHeight: 34, fontWeight: '700' }}>Care checklist</Text>
     <Text style={s.hint}>Your saved watering and feeding routines. Check the soil and plant before recording care.</Text>
+    <View style={{ padding: 14, borderRadius: 14, backgroundColor: palette.panel, flexDirection: 'row', alignItems: 'center', gap: 12 }}><Text style={{ color: palette.ink, fontSize: 15, flex: 1 }}>{gardenId ? selectedGarden?.name || 'Loading garden…' : 'All gardens'}</Text>{!!gardenId && <GrowPress accessibilityRole="button" onPress={() => router.setParams({ gardenId: undefined })} style={{ justifyContent: 'center', paddingHorizontal: 6 }}><Text style={{ color: palette.accent, fontSize: 13 }}>All gardens</Text></GrowPress>}</View>
     {!user && !accountLoading && <GrowPress accessibilityRole="button" onPress={() => router.push('/account')}><Text style={{ color: palette.accent }}>Sign in to load your tasks</Text></GrowPress>}
     {loading && <Text style={s.hint}>Loading care history…</Text>}{!!(error || snoozeError || message) && <Text accessibilityRole={error || snoozeError || feedbackError ? 'alert' : undefined} accessibilityLiveRegion="polite" style={error || snoozeError || feedbackError ? s.error : { color: palette.accent }}>{error || snoozeError || message}</Text>}
     <GrowPress accessibilityRole="button" onPress={() => { refresh(); refreshSnoozes(); }} style={{ padding: 12 }}><Text style={{ color: palette.accent }}>Refresh checklist</Text></GrowPress>
-    {!loading && !tasks.length && <View style={{ backgroundColor: palette.panel, borderRadius: 18, padding: 20, gap: 12 }}><Text style={{ color: palette.ink, fontSize: 18, fontWeight: '600' }}>No routines scheduled</Text><Text style={s.hint}>Open a plant’s Details → Care plan to choose its routine.</Text><GrowPress accessibilityRole="button" onPress={() => router.replace('/(tabs)?tabIndex=1')} style={s.button}><Text style={s.buttonText}>Choose a plant</Text></GrowPress></View>}
+    {!loading && !tasks.length && <View style={{ backgroundColor: palette.panel, borderRadius: 18, padding: 20, gap: 12 }}><Text style={{ color: palette.ink, fontSize: 18, fontWeight: '600' }}>No routines scheduled</Text><Text style={s.hint}>Open a plant’s Details → Care routine to choose its routine.</Text><GrowPress accessibilityRole="button" onPress={() => router.replace('/(tabs)?tabIndex=1')} style={s.button}><Text style={s.buttonText}>Choose a plant</Text></GrowPress></View>}
     {[...tasks].sort((a, b) => a.due.getTime() - b.due.getTime()).map(task => {
       const snoozed = (snoozes[task.id] || 0) > now.getTime();
       const due = reminderDue(task, snoozes[task.id] || 0, now);

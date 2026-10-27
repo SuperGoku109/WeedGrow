@@ -1,3 +1,4 @@
+import CloseButton from '@/ui/CloseButton';
 import Feedback from '@/ui/Feedback';
 import { gardenThemes } from '@/design-system/tokens/garden';
 import { useAsyncResource } from '@/hooks/useAsyncResource';
@@ -185,7 +186,7 @@ function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string }
 
       <Portal>
         <Dialog visible={!!editing} onDismiss={() => { if (!saving) setEditing(null); }} style={styles.dialog}>
-          <Dialog.Title style={styles.dialogTitle}>Edit sensor profile</Dialog.Title>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingLeft: 24, paddingRight: 16, paddingTop: 12, paddingBottom: 12 }}><Text accessibilityRole="header" style={[styles.dialogTitle, { flex: 1 }]}>Edit sensor profile</Text><CloseButton label="Close sensor profile editor" disabled={saving} onPress={() => setEditing(null)} color={palette.text} /></View>
           <ScrollView keyboardShouldPersistTaps="handled" style={{ maxHeight: height * 0.55 }}><Dialog.Content>
             <Text style={styles.dialogHint}>Tune the defaults for this grow space.</Text>
             <TextInput mode="outlined" label="Profile name" value={editName} onChangeText={setEditName} style={styles.input} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} autoFocus left={<TextInput.Icon icon="label-outline" color={palette.muted} />} maxLength={32} />
@@ -209,11 +210,11 @@ function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string }
         </Dialog>
 
         <Dialog visible={showLinked} onDismiss={() => setShowLinked(false)} style={styles.dialog}>
-          <Dialog.Title style={styles.dialogTitle}>Linked plants</Dialog.Title>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingLeft: 24, paddingRight: 16, paddingTop: 12, paddingBottom: 12 }}><Text accessibilityRole="header" style={[styles.dialogTitle, { flex: 1 }]}>Linked plants</Text><CloseButton label="Close linked plants" onPress={() => setShowLinked(false)} color={palette.text} /></View>
           <Dialog.Content>
             {linkedLoading ? <ActivityIndicator color={palette.accent} /> : linkedError ? <Text accessibilityRole="alert" style={styles.dialogHint}>{linkedError}</Text> : <ScrollView style={{ maxHeight: height * 0.5 }}>{linkedPlants.length === 0 ? <Text style={styles.dialogHint}>No plants use this profile yet.</Text> : linkedPlants.map((plant, index) => <View key={`${plant.name || 'plant'}-${index}`} style={styles.linkedPlant}><MaterialCommunityIcons name="sprout" size={18} color={palette.accent} /><Text style={styles.linkedPlantText}>{plant.name || 'Unnamed plant'}</Text></View>)}</ScrollView>}
           </Dialog.Content>
-          <Dialog.Actions><Button textColor={palette.accent} onPress={() => setShowLinked(false)}>Close</Button></Dialog.Actions>
+
         </Dialog>
       </Portal>
       <ConfirmDeleteModal visible={!!deleteTarget} title="Delete this profile?" subtitle="This removes the saved profile, not your plants. This cannot be undone."

@@ -1,3 +1,4 @@
+import CloseButton from '@/ui/CloseButton';
 import { sameLocation } from '@/features/location/locationState';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Modal, View, StyleSheet, TextInput, ScrollView, Pressable, Text, KeyboardAvoidingView, Platform } from 'react-native';
@@ -14,11 +15,12 @@ interface EditGroupModalProps {
   visible: boolean;
   group: GroupWithId | null;
   allPlants: PlantWithId[];
+  settingsOnly?: boolean;
   onClose: () => void;
   onSave?: (updatedGroup: GroupWithId, baseline: GroupWithId) => void | Promise<void>;
 }
 
-export default function EditGroupModal({ visible, group, allPlants, onClose, onSave }: EditGroupModalProps) {
+export default function EditGroupModal({ visible, group, allPlants, onClose, onSave, settingsOnly = false }: EditGroupModalProps) {
   const [name, setName] = useState('');
   const [plantIds, setPlantIds] = useState<string[]>([]);
   const [source, setSource] = useState('');
@@ -55,7 +57,7 @@ export default function EditGroupModal({ visible, group, allPlants, onClose, onS
 
   const save = async () => {
     if (!group || !onSave || lock.current || locating) return;
-    if (!name.trim()) { setError('Give your group a name before saving.'); return; }
+    if (!name.trim()) { setError('Give your garden a name before saving.'); return; }
     lock.current = true;
     setSaving(true);
     setError('');
@@ -77,16 +79,16 @@ export default function EditGroupModal({ visible, group, allPlants, onClose, onS
         <View style={styles.header}>
           <View style={{ flex: 1 }}>
             <Text style={styles.eyebrow}>MAKE IT YOURS</Text>
-            <Text accessibilityRole="header" style={styles.title}>Edit collection</Text>
+            <Text accessibilityRole="header" style={styles.title}>Garden settings</Text>
           </View>
-          <Pressable accessibilityRole="button" accessibilityLabel="Close group editor" disabled={saving} onPress={() => guard.requestClose(onClose)} style={styles.close}><MaterialCommunityIcons name="close" size={22} color={ink.text} /></Pressable>
+          <CloseButton label="Close garden settings" disabled={saving} onPress={() => guard.requestClose(onClose)} color={ink.text} />
         </View>
         <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.body}>
-          <Text style={styles.label}>Group name</Text>
-          <TextInput accessibilityLabel="Group name" value={name} onChangeText={setName} editable={!saving} maxLength={40} style={styles.input} placeholder="Give this space a name" placeholderTextColor={ink.muted} />
-          <View style={styles.sectionRow}><Text style={styles.label}>Plants in this collection</Text><Text style={styles.count}>{plantIds.length} selected</Text></View>
-          <Text style={styles.hint}>Adding a plant moves it from its previous growing space. Removing it keeps the plant and its history in your library.</Text>
-          <TextInput accessibilityLabel="Search group members" value={query} onChangeText={setQuery} style={styles.input} placeholder="Find a plant…" placeholderTextColor={ink.muted} />
+          <Text style={styles.label}>Garden name</Text>
+          <TextInput accessibilityLabel="Garden name" value={name} onChangeText={setName} editable={!saving} maxLength={40} style={styles.input} placeholder="Give this space a name" placeholderTextColor={ink.muted} />
+          {!settingsOnly && <><View style={styles.sectionRow}><Text style={styles.label}>Plants in this garden</Text><Text style={styles.count}>{plantIds.length} selected</Text></View>
+          <Text style={styles.hint}>Adding a plant moves it from its previous garden. Removing it keeps the plant and its history in your library.</Text>
+          <TextInput accessibilityLabel="Search garden members" value={query} onChangeText={setQuery} style={styles.input} placeholder="Find a plant…" placeholderTextColor={ink.muted} />
           {choices.map(plant => {
             const selected = plantIds.includes(plant.id);
             return <Pressable key={plant.id} disabled={saving} accessibilityRole="checkbox" accessibilityLabel={plant.name} accessibilityState={{ checked: selected }}
@@ -97,14 +99,14 @@ export default function EditGroupModal({ visible, group, allPlants, onClose, onS
               <MaterialCommunityIcons name={selected ? 'checkbox-marked-circle' : 'checkbox-blank-circle-outline'} size={22} color={selected ? ink.lime : ink.muted} />
             </Pressable>;
           })}
-          {!choices.length && <Text style={styles.hint}>{query ? 'No plants match that name.' : 'No matching plants are available. You can keep this collection empty.'}</Text>}
-          <Text style={[styles.label, { marginTop: 12 }]}>Saved growing-space location</Text>
-          <Text style={styles.hint}>This saved location can be reused by other plants. Plants set to follow this space move with it; their earlier weather records stay unchanged.</Text>
+          {!choices.length && <Text style={styles.hint}>{query ? 'No plants match that name.' : 'No matching plants are available. You can keep this garden empty.'}</Text>}</>}
+          <Text style={[styles.label, { marginTop: 12 }]}>Garden location</Text>
+          <Text style={styles.hint}>This saved location can be reused by other plants. Plants set to follow this garden move with it; their earlier weather records stay unchanged.</Text>
           <LocationPicker allowSaved={false} location={location} label={locationLabel} disabled={saving} onBusyChange={setLocating} onChange={(point, label) => { setLocation(point); setLocationLabel(label); }} />
           {!sameLocation(group.location, location) && <View style={{ gap: 8, padding: 12 }}><Text style={styles.label}>Location change preview</Text><Text style={styles.hint}>These plants will move: {memberPlants.filter(p => p.locationMode === 'space').map(p => p.name).join(', ') || 'None'}.</Text><Text style={styles.hint}>These plants keep their own pins: {memberPlants.filter(p => p.locationMode !== 'space').map(p => p.name).join(', ') || 'None'}. Previous days’ weather will stay unchanged.</Text></View>}
-          <Text style={styles.label}>Group weather display</Text><Text style={styles.hint}>Display weather for the saved space location, or use a member’s individual location.</Text>
-          {[{ id: '', name: 'Use group location' }, ...memberPlants.filter(p => p.location)].map(plant =>
-            <Pressable key={plant.id} disabled={saving} accessibilityRole="radio" accessibilityLabel={plant.name === 'Use group location' ? plant.name : 'Use ' + plant.name + ' for weather'} accessibilityState={{ checked: source === plant.id }}
+          <Text style={styles.label}>Garden weather display</Text><Text style={styles.hint}>Display weather for the garden location, or use a member’s individual location.</Text>
+          {[{ id: '', name: 'Use garden location' }, ...memberPlants.filter(p => p.location)].map(plant =>
+            <Pressable key={plant.id} disabled={saving} accessibilityRole="radio" accessibilityLabel={plant.name === 'Use garden location' ? plant.name : 'Use ' + plant.name + ' for weather'} accessibilityState={{ checked: source === plant.id }}
               onPress={() => setSource(plant.id)} style={styles.radio}>
               <MaterialCommunityIcons name={source === plant.id ? 'radiobox-marked' : 'radiobox-blank'} size={20} color={source === plant.id ? ink.lime : ink.muted} />
               <Text style={styles.plantName}>{plant.name}</Text>
@@ -128,7 +130,6 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', padding: 24, borderBottomWidth: 1, borderBottomColor: ink.border },
   eyebrow: { color: ink.lime, fontSize: 10, letterSpacing: 2, fontWeight: '700', marginBottom: 7 },
   title: { color: ink.text, fontSize: 27, letterSpacing: -0.8, fontWeight: '600' },
-  close: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
   body: { padding: 24, gap: 12 },
   label: { color: ink.text, fontSize: 13, fontWeight: '700' },
   input: { borderWidth: 1, borderColor: ink.border, backgroundColor: ink.background, color: ink.text, borderRadius: 14, minHeight: 50, paddingHorizontal: 14, fontSize: 15 },

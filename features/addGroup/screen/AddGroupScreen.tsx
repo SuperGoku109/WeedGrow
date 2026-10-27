@@ -11,6 +11,8 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAddGroup } from '../hooks/useAddGroup';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { getGroupById, updateGroup, type GroupWithId } from '@/features/groups/api/groupApi';
+import LocationPicker from '@/features/location/LocationPicker';
+import { validCoordinates } from '@/features/location/locationService';
 
 export default function AddGroupScreen() {
   const theme = (useColorScheme() ?? 'dark') as 'light' | 'dark';
@@ -25,6 +27,7 @@ export default function AddGroupScreen() {
     groupLocationPlantId,
     setGroupLocationPlantId,
     groupName,
+    location, setLocation, locationLabel, setLocationLabel, locationBusy, setLocationBusy,
     setGroupName,
     submitting,
     submitError,
@@ -48,9 +51,9 @@ export default function AddGroupScreen() {
         setGroupLoading(true);
         const g = await getGroupById(String(groupId));
         if (active) setExistingGroup(g);
-        if (active && !g) setSaveError('This group could not be found. Go back to your collections.');
+        if (active && !g) setSaveError('This garden could not be found. Go back to your gardens.');
       } catch {
-        if (active) setSaveError('Could not load this group. Go back and try again.');
+        if (active) setSaveError('Could not load this garden. Go back and try again.');
       } finally {
         if (active) setGroupLoading(false);
       }
@@ -94,14 +97,14 @@ export default function AddGroupScreen() {
     handleCreateGroup();
   }, [isAddToGroupMode, existingGroup, selectedPlantIds, router, handleCreateGroup]);
 
-  const primaryLabel = submitting || adding ? 'Saving…' : isAddToGroupMode ? 'Add to group' : 'Create group';
-  const title = isAddToGroupMode ? 'Add Plants to Group' : 'Create Group';
+  const primaryLabel = submitting || adding ? 'Saving…' : isAddToGroupMode ? 'Move to garden' : 'Create garden';
+  const title = isAddToGroupMode ? 'Move plants to garden' : 'Create garden';
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
       <HomeBackground />
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 22, width: '100%', maxWidth: 660, alignSelf: 'center', gap: 16, paddingBottom: 40 }}>
-        <View style={{ alignSelf: 'flex-start' }}><CollectionButton label="Back to groups" icon="arrow-left" onPress={() => router.back()} disabled={submitting || adding} /></View>
+        <View style={{ alignSelf: 'flex-start' }}><CollectionButton label="Back to garden" icon="arrow-left" onPress={() => router.back()} disabled={submitting || adding} /></View>
         <Text style={{ color: ink.lime, fontSize: 10, letterSpacing: 2, marginTop: 12 }}>BETTER TOGETHER</Text>
         <ThemedText type="title" style={{ color: ink.text, fontSize: 34, lineHeight: 40, letterSpacing: -1 }}>
           {title}
@@ -109,8 +112,8 @@ export default function AddGroupScreen() {
         {/* Show name input only when creating a group */}
         {!isAddToGroupMode && (
           <TextInput
-            accessibilityLabel="Group name"
-            placeholder="Give your collection a name"
+            accessibilityLabel="Garden name"
+            placeholder="Give your garden a name"
             placeholderTextColor={ink.muted}
             maxLength={40}
             editable={!submitting}
@@ -119,7 +122,8 @@ export default function AddGroupScreen() {
             onChangeText={setGroupName}
           />
         )}
-        <Text style={{ color: ink.muted, fontSize: 13, lineHeight: 21 }}>Choose the plants that belong together. Members share the same environment. Adding a plant moves it from its previous growing space.</Text>
+        {!isAddToGroupMode && <View style={{ gap: 8 }}><Text style={{ color: ink.text, fontWeight: '600' }}>Garden location · Required</Text><Text style={{ color: ink.muted, lineHeight: 21 }}>We’ll start saving local outdoor weather when you create this garden.</Text><LocationPicker compactFlow saveContext="garden" location={location} label={locationLabel} disabled={submitting} onBusyChange={setLocationBusy} onChange={(coords, label) => { setLocation(coords); setLocationLabel(label); }} /></View>}
+        <Text style={{ color: ink.muted, fontSize: 13, lineHeight: 21 }}>Choose the plants that belong together. Members share the same environment. Adding a plant moves it from its previous garden.</Text>
         <Text style={{ color: ink.lime, fontSize: 13 }}>{selectedPlantIds.length} selected</Text>
         {!!(saveError || submitError) && <Text accessibilityRole="alert" style={{ color: '#f0b5a0', lineHeight: 20 }}>{saveError || submitError}</Text>}
 
@@ -133,7 +137,7 @@ export default function AddGroupScreen() {
             availablePlants.length === 0 ? (
               <View style={{ alignItems: 'center', marginTop: 24 }}>
                 <ThemedText style={{ opacity: 0.8, textAlign: 'center' }}>
-                  No more available plants to add that match this group environment.
+                  No more available plants to add that match this garden environment.
                 </ThemedText>
               </View>
             ) : (
@@ -159,7 +163,7 @@ export default function AddGroupScreen() {
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 16 }}>
           <CollectionButton label={primaryLabel} primary icon="check" onPress={onPrimaryAction}
-            disabled={loading || submitting || adding || groupLoading || selectedPlantIds.length === 0 || (!isAddToGroupMode && !groupName.trim()) || (isAddToGroupMode && !existingGroup)} />
+            disabled={loading || submitting || adding || groupLoading || selectedPlantIds.length === 0 || (!isAddToGroupMode && (!groupName.trim() || !validCoordinates(location) || locationBusy)) || (isAddToGroupMode && !existingGroup)} />
         </View>
       </ScrollView>
     </SafeAreaView>

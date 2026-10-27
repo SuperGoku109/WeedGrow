@@ -1,3 +1,4 @@
+import CloseButton from '@/ui/CloseButton';
 import React from 'react';
 import { Animated, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 import { Feather } from '@expo/vector-icons';
@@ -50,7 +51,7 @@ export function EditorSelect({ label, value, options, onSelect, placeholder, dis
         <View accessibilityViewIsModal style={[s.sheet, { backgroundColor: t.surface, borderColor: t.border }]}>
           <View style={s.heading}>
             <View style={{ flex: 1 }}><Text style={[s.eyebrow, { color: t.accent }]}>PLANT DETAILS</Text><Text accessibilityRole="header" style={[s.title, { color: t.text }]}>{label}</Text></View>
-            <Pressable accessibilityLabel="Close selection" accessibilityRole="button" onPress={() => setOpen(false)} style={s.close}><Feather name="x" size={22} color={t.text} /></Pressable>
+            <CloseButton label="Close selection" onPress={() => setOpen(false)} color={t.text} />
           </View>
           {options.length > 6 && <TextInput accessibilityLabel={`Search ${label.toLowerCase()}`} value={search} onChangeText={setSearch} placeholder="Search options…" placeholderTextColor={t.muted} style={[s.search, { color: t.text, backgroundColor: t.background }]} />}
           <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={s.options}>
@@ -79,7 +80,6 @@ const s = StyleSheet.create({
   heading: { flexDirection: 'row', alignItems: 'center', padding: 22, gap: 12 },
   eyebrow: { color: t.accent, fontSize: 9, letterSpacing: 2, marginBottom: 8, fontWeight: '700' },
   title: { color: t.text, fontSize: 25, fontWeight: '600', letterSpacing: -0.6 },
-  close: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
   search: { marginHorizontal: 18, marginBottom: 8, borderRadius: 14, backgroundColor: t.background, color: t.text, padding: 14, fontSize: 15 },
   options: { padding: 14, paddingTop: 0, gap: 8 },
   option: { padding: 15, minHeight: 54, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: t.border, borderRadius: 15 },

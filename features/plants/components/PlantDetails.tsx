@@ -1,3 +1,4 @@
+import { PlantIconButton } from './PlantActionButton';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -12,14 +13,14 @@ function Facts({ fields, theme: t }: { fields: ProfileField[]; theme: PlantTheme
 }
 function ProfileCard({ title, icon, theme: t, onEdit, children, onLayout, highlighted }: { title: string; icon: Icon; theme: PlantTheme; onEdit(): void; children: React.ReactNode; onLayout?(y: number): void; highlighted?: boolean }) {
   return <View onLayout={event => onLayout?.(event.nativeEvent.layout.y)} style={[s.card, { backgroundColor: t.surface, borderColor: highlighted ? t.accent : t.border }]}>
-    <View style={s.header}><View style={[s.icon, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={icon} size={20} color={t.accent} aria-hidden /></View><Text accessibilityRole="header" style={[s.cardTitle, { color: t.text }]}>{title}</Text><GrowPress accessibilityRole="button" accessibilityLabel={`Edit ${title}`} onPress={onEdit} style={s.edit}><Text style={{ color: t.accent, fontSize: 14, fontWeight: '600' }}>Edit</Text></GrowPress></View>
+    <View style={s.header}><View style={[s.icon, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={icon} size={20} color={t.accent} aria-hidden /></View><Text accessibilityRole="header" style={[s.cardTitle, { color: t.text }]}>{title}</Text><PlantIconButton label={`Edit ${title}`} icon="pencil-outline" theme={t} onPress={onEdit} /></View>
     {children}
   </View>;
 }
 function LongNote({ field, theme: t }: { field: ProfileField; theme: PlantTheme }) {
   const [expanded, setExpanded] = React.useState(false);
   const collapsible = field.value.length > 100 || field.value.split('\n').length > 4;
-  return <View style={{ gap: 6 }}><Text style={[s.label, { color: t.muted }]}>{field.label}</Text><Text selectable numberOfLines={collapsible && !expanded ? 5 : undefined} style={[s.note, { color: t.text }]}>{field.value}</Text>{collapsible && <GrowPress accessibilityRole="button" accessibilityLabel={`${expanded ? 'Collapse' : 'Read full'} ${field.label.toLowerCase()}`} aria-expanded={expanded} onPress={() => setExpanded(value => !value)} style={{ minHeight: 48, justifyContent: 'center' }}><Text style={{ color: t.accent, fontSize: 14 }}>{expanded ? 'Show less' : 'Read full note'}</Text></GrowPress>}</View>;
+  return <View style={{ gap: 6 }}><Text style={[s.label, { color: t.muted }]}>{field.label}</Text><Text selectable numberOfLines={collapsible && !expanded ? 5 : undefined} style={[s.note, { color: t.text }]}>{field.value}</Text>{collapsible && <GrowPress accessibilityRole="button" accessibilityLabel={`${expanded ? 'Collapse' : 'Read full'} ${field.label.toLowerCase()}`} aria-expanded={expanded} onPress={() => setExpanded(value => !value)} style={{ minHeight: 48, paddingHorizontal: 12, borderWidth: 1, borderColor: t.border, borderRadius: 10, backgroundColor: t.elevated, flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text style={{ color: t.accent, fontSize: 14 }}>{expanded ? 'Show less' : 'Read full note'}</Text><MaterialCommunityIcons name={expanded ? 'chevron-up' : 'chevron-down'} size={20} color={t.accent} /></GrowPress>}</View>;
 }
 export default function PlantDetails({ plant, theme: t, onEdit, onEditSection, locationHistory, onSectionLayout, highlightedSection }: { plant: Plant; theme: PlantTheme; onEdit(): void; onEditSection?: (section: string) => void; locationHistory?: React.ReactNode; onSectionLayout?(key: string, y: number): void; highlightedSection?: string }) {
   const profile = plantProfile(plant);

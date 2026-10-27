@@ -1,3 +1,4 @@
+import PlantActionButton from './PlantActionButton';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { recordHarvest } from '../api/plantLifecycle';
@@ -51,7 +52,7 @@ export default function PlantLifecycle({ plantId, plant, theme: t, onDeleted, on
       setAction(null);
     } finally { setBusy(false); }
   };
-  const button = (label: string, handler: () => void, danger = false) => <GrowPress accessibilityRole="button" disabled={busy} onPress={handler} style={{ minHeight: 48, justifyContent: 'center', paddingHorizontal: 4 }}><Text style={{ color: danger ? t.danger : t.accent }}>{label}</Text></GrowPress>;
+  const button = (label: string, handler: () => void, danger = false) => <View style={{ marginTop: 8 }}><PlantActionButton label={label} theme={t} disabled={busy} danger={danger} icon={danger ? 'trash-can-outline' : /harvest/i.test(label) ? 'basket-outline' : /restore/i.test(label) ? 'restore' : /archive/i.test(label) ? 'archive-outline' : 'leaf-off'} onPress={handler} /></View>;
   return <View style={{ marginVertical: 12, gap: 12 }}>
     <GrowPress accessibilityRole="button" accessibilityLabel="Manage plant" accessibilityState={{ expanded }} onPress={() => { setExpanded(!expanded); onClose(); }} style={{ minHeight: 48, flexDirection: 'row', justifyContent: 'space-between' }}><Text style={{ color: t.text, fontSize: 16, fontWeight: '600' }}>Manage plant</Text><Text style={{ color: t.muted }}>{expanded ? '−' : '+'}</Text></GrowPress>
     {expanded && <><Text style={{ color: t.muted, lineHeight: 21 }}>Status: {plant.status}. Archiving or finishing a grow keeps its journal and photos.</Text>

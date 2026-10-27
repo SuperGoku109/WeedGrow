@@ -40,12 +40,12 @@ export function MapPicker({ location, onLocationChange, disabled = false, height
       instance.on('click', (event: Leaflet.LeafletMouseEvent) => select(event.latlng));
       resize = new ResizeObserver(() => instance.invalidateSize()); resize.observe(container.current);
       setReady(true); setGeneration(value => value + 1);
-    }).catch(() => { if (active) { setTilesLoading(false); setError('The map could not load. Retry or enter coordinates below.'); } });
+    }).catch(() => { if (active) { setTilesLoading(false); setError('The map could not load. Retry the map or search for a town above.'); } });
     return () => { active = false; resize?.disconnect(); map.current?.remove(); map.current = null; marker.current = null; };
   }, [attempt, select]);
   React.useEffect(() => {
     if (ready && !tilesLoading) return;
-    const deadline = setTimeout(() => { setTilesLoading(false); setError('Map imagery is taking too long. Retry the map or enter coordinates.'); }, 15000);
+    const deadline = setTimeout(() => { setTilesLoading(false); setError('Map imagery is taking too long. Retry the map or search for a town above.'); }, 15000);
     return () => clearTimeout(deadline);
   }, [ready, tilesLoading, attempt]);
   React.useEffect(() => {

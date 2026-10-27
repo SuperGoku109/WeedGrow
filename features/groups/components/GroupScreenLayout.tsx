@@ -28,18 +28,18 @@ const GroupScreenLayout = memo(function GroupScreenLayout({ error, onRetry, load
   if (loading && !groupExists) {
     return (
       <SafeAreaView edges={['top','bottom']} style={[styles.flex1, { backgroundColor: Colors[theme].background }]}> 
-        <LoadingState label="Loading your growing space…" />
+        <LoadingState label="Loading your garden…" />
       </SafeAreaView>
     );
   }
 
-  if (error && !groupExists) return <SafeAreaView style={styles.flex1}><View style={styles.center}><ThemedText>{error}</ThemedText><Pressable accessibilityRole="button" onPress={onRetry} style={{ padding: 16 }}><ThemedText>Retry loading group</ThemedText></Pressable></View></SafeAreaView>;
+  if (error && !groupExists) return <SafeAreaView style={styles.flex1}><View style={styles.center}><ThemedText>{error}</ThemedText><Pressable accessibilityRole="button" onPress={onRetry} style={{ padding: 16 }}><ThemedText>Retry loading garden</ThemedText></Pressable></View></SafeAreaView>;
 
   // Show message if group does not exist
   if (!groupExists) {
     return (
       <SafeAreaView edges={['top','bottom']} style={[styles.flex1, { backgroundColor: Colors[theme].background }]}> 
-        <View style={styles.center}><ThemedText>Group not found.</ThemedText></View>
+        <View style={styles.center}><ThemedText>Garden not found.</ThemedText></View>
       </SafeAreaView>
     );
   }

@@ -1,3 +1,4 @@
+import CloseButton from '@/ui/CloseButton';
 import React from 'react';
 import { Modal, View, StyleSheet, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -20,8 +21,8 @@ interface ConfirmDeleteModalProps {
 
 export default function ConfirmDeleteModal({
   visible,
-  title = 'Delete Group',
-  subtitle = "This will NOT delete your plants, only the group.",
+  title = 'Delete garden',
+  subtitle = "This will NOT delete your plants, only the garden.",
   confirmLabel = 'Delete',
   cancelLabel = 'Cancel',
   onConfirm,
@@ -48,9 +49,9 @@ export default function ConfirmDeleteModal({
             style={styles.accent}
           />
 
-          <View style={styles.iconWrap}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}><View style={styles.iconWrap}>
             <MaterialCommunityIcons name="delete-alert" size={28} color={ColorTokens.status.error} />
-          </View>
+          </View><CloseButton label="Close delete confirmation" disabled={loading} onPress={onCancel} /></View>
           <ThemedText type="title" style={styles.title}>{title}</ThemedText>
           <ThemedText style={styles.subtitle}>{subtitle}</ThemedText>
           {!!error && <ThemedText accessibilityRole="alert" style={{ color: '#f0b5a0', marginTop: 12 }}>{error}</ThemedText>}

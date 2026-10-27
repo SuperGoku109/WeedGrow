@@ -9,7 +9,7 @@ export const sunlightOptions = [
   { label: 'Partial Sun',   value: 'Partial Sun',   icon: 'weather-partly-cloudy' },
   { label: 'Mostly Shade',  value: 'Mostly Shade',  icon: 'weather-cloudy' },
   { label: 'Not Sure',      value: 'Not Sure',      icon: 'help-circle-outline' },
-];
+] as const;
 
 /** Fetches all sensor profiles from Firestore. */
 export async function fetchSensorProfiles(): Promise<{ id:string; name:string }[]> {

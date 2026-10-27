@@ -17,18 +17,18 @@ export async function saveGrowingSpace(id: string | undefined, updates: Partial<
   await runTransaction(db, async tx => {
     const snapshot = await tx.get(ref);
     const before = snapshot.exists() ? snapshot.data() as Group : null;
-    if (id && !before) throw new Error('This growing space no longer exists.');
-    if (before && before.createdBy !== uid) throw new Error('This space is not in your account.');
+    if (id && !before) throw new Error('This garden no longer exists.');
+    if (before && before.createdBy !== uid) throw new Error('This garden is not in your account.');
     if (before) assertUnchanged(before as unknown as EditBaseline, updates, baseline);
     const next = { ...before, ...updates };
     if (!remove) assertValidPlantFields({ name: next.name, environment: next.environment, location: next.location });
     if (!remove && next.environment === 'outdoor') next.sensorProfileId = null;
-    if (next.plantIds != null && (!Array.isArray(next.plantIds) || next.plantIds.some(value => typeof value !== 'string' || !value || value.includes('/')))) throw new Error('Choose valid plant records for this growing space.');
+    if (next.plantIds != null && (!Array.isArray(next.plantIds) || next.plantIds.some(value => typeof value !== 'string' || !value || value.includes('/')))) throw new Error('Choose valid plant records for this garden.');
     const ids = remove ? [] : [...new Set(next.plantIds || [])];
     const allIds = [...new Set([...(before?.plantIds || []), ...ids])];
     assertSpaceCapacity(ids);
     assertSpaceCapacity(allIds);
-    if (!remove && (!next.name?.trim() || next.name.trim().length > 100)) throw new Error('Use a space name of 1–100 characters.');
+    if (!remove && (!next.name?.trim() || next.name.trim().length > 100)) throw new Error('Use a garden name of 1–100 characters.');
     if (!remove && next.sensorProfileId) {
       const profile = await tx.get(doc(db, 'sensorProfiles', next.sensorProfileId));
       if (!profile.exists() || profile.data().createdBy !== uid || profile.data().deleting) throw new Error('Choose an available sensor profile from your account.');
@@ -37,11 +37,11 @@ export async function saveGrowingSpace(id: string | undefined, updates: Partial<
     const previousGroups = new Map<string, DocumentSnapshot>();
     for (const plant of plants) {
       const data = plant.data() as Plant | undefined;
-      if (ids.includes(plant.id) && (!data || !data.owners.includes(uid) || data.environment !== next.environment)) throw new Error('Choose plants you own with the same environment as this space.');
+      if (ids.includes(plant.id) && (!data || !data.owners.includes(uid) || data.environment !== next.environment)) throw new Error('Choose plants you own with the same environment as this garden.');
       if (ids.includes(plant.id) && plant.data()?.deleting) throw new Error('A selected plant is being deleted. Remove it from this selection.');
       if (data?.groupId && data.groupId !== ref.id && ids.includes(plant.id) && !previousGroups.has(data.groupId)) {
         const other = await tx.get(doc(db, 'groups', data.groupId));
-        if (other.exists() && other.data().createdBy !== uid) throw new Error('A previous space is not in your account.');
+        if (other.exists() && other.data().createdBy !== uid) throw new Error('A previous garden is not in your account.');
         previousGroups.set(data.groupId, other);
       }
     }

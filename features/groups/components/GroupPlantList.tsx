@@ -31,6 +31,7 @@ interface GroupPlantListProps {
   onRefresh?: () => void;
   // Actions
   onRemovePlant?: (plantId: string) => void;
+  onMovePlant?: (plantId: string) => void;
   onQuickWater?: (plantId: string) => Promise<void> | void;
   onQuickFeed?: (plantId: string) => void;
   onQuickNote?: (plantId: string) => void;
@@ -55,7 +56,7 @@ const RightActions = ({
   waterDisabled?: boolean;
 }) => (
   <View style={styles.rightActionsContainer}>
-    {onRemove && <TouchableOpacity style={[styles.actionBtn, styles.removeBtn]} onPress={onRemove} accessibilityLabel="Remove from group">
+    {onRemove && <TouchableOpacity style={[styles.actionBtn, styles.removeBtn]} onPress={onRemove} accessibilityLabel="Remove from garden">
       <MaterialCommunityIcons name="trash-can-outline" size={20} color="#fecaca" />
       <ThemedText style={styles.actionText}>Remove</ThemedText>
     </TouchableOpacity>}
@@ -103,6 +104,7 @@ const GroupPlantList = memo(function GroupPlantList({
   refreshing,
   onRefresh,
   onRemovePlant,
+  onMovePlant,
   onQuickWater,
   onQuickFeed,
   onQuickNote,
@@ -136,15 +138,15 @@ const GroupPlantList = memo(function GroupPlantList({
     return (
       <ScrollView contentContainerStyle={[styles.emptyContainer, { paddingBottom: 24 + bottomInset }]}> 
         {header}
-        <ThemedText style={styles.emptyText}>{searchActive ? 'No plants match your search.' : 'No plants in this group yet.'}</ThemedText>
+        <ThemedText style={styles.emptyText}>{searchActive ? 'No plants match your search.' : 'No plants in this garden yet.'}</ThemedText>
         {searchActive ? <TouchableOpacity accessibilityRole="button" accessibilityLabel="Clear plant search" onPress={onClearSearch} style={styles.addPlantButton}><ThemedText>Clear search</ThemedText></TouchableOpacity> : <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 10 }}>
-          <TouchableOpacity accessibilityLabel="Add existing plants" onPress={navigateToAddPlant} style={styles.addPlantButton}>
+          <TouchableOpacity accessibilityLabel="Move existing plants" onPress={navigateToAddPlant} style={styles.addPlantButton}>
             <MaterialCommunityIcons name="plus" size={24} color="#fff" style={{ marginRight: 4 }} />
-            <ThemedText style={styles.addPlantText}>Add Plants</ThemedText>
+            <ThemedText style={styles.addPlantText}>Move existing plants</ThemedText>
           </TouchableOpacity>
-          <TouchableOpacity accessibilityLabel="Create new plant" onPress={navigateToCreatePlant} style={[styles.addPlantButton, { backgroundColor: 'rgba(255,255,255,0.06)' }]}>
+          <TouchableOpacity accessibilityLabel="Add plant" onPress={navigateToCreatePlant} style={[styles.addPlantButton, { backgroundColor: 'rgba(255,255,255,0.06)' }]}>
             <MaterialCommunityIcons name="sprout" size={24} color="#fff" style={{ marginRight: 4 }} />
-            <ThemedText style={styles.addPlantText}>Create Plant</ThemedText>
+            <ThemedText style={styles.addPlantText}>Add plant</ThemedText>
           </TouchableOpacity>
         </View>}
       </ScrollView>
@@ -179,8 +181,11 @@ const GroupPlantList = memo(function GroupPlantList({
           >
             <PlantCard
               plant={item}
+              showEnvironment={false}
+              onMore={onMovePlant ? () => onMovePlant(item.id) : undefined}
+              moreLabel={`Move ${item.name} to garden`}
               onPress={() => navigateToPlantDetail(item.id)}
-              onAddLog={onQuickWater ? () => onQuickWater(item.id) : undefined}
+              onAddLog={onQuickWater && item.status === 'active' ? () => onQuickWater(item.id) : undefined}
               wateredToday={!!wateredMap[item.id]}
               waterLoading={!!waterLoadingMap[item.id]} waterDisabled={careUnavailable}
             />
