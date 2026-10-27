@@ -14,7 +14,7 @@ module.exports = defineConfig([
       '.expo/**',
       'android/**',
       'ios/**',
-      'dist/**',
+      '**/dist/**',
       'web-build/**',
     ],
   },

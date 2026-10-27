@@ -25,8 +25,9 @@ export const Icon = ({ name, size = 22, color = palette.accent }: { name: IconNa
 export function Press({ children, onPress, label, selected, expanded, disabled, style, containerStyle }: { children: React.ReactNode; onPress(): void; label: string; selected?: boolean; expanded?: boolean; disabled?: boolean; style?: ViewStyle | ViewStyle[]; containerStyle?: ViewStyle }) {
   const scale = useRef(new Animated.Value(1)).current;
   const reduced = useReducedMotion();
+  const [hovered, setHovered] = useState(false);
   const animate = (toValue: number) => { if (!reduced) Animated.spring(scale, { toValue, speed: 35, bounciness: 3, useNativeDriver: Platform.OS !== 'web' }).start(); };
-  return <Animated.View style={[{ transform: [{ scale }], flexShrink: 1 }, containerStyle]}><Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, expanded, disabled }} disabled={disabled} onPress={onPress} onPressIn={() => animate(0.975)} onPressOut={() => animate(1)} style={({ pressed, hovered }) => [{ minWidth: 48, minHeight: 48 }, style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
+  return <Animated.View style={[{ transform: [{ scale }], flexShrink: 1 }, containerStyle]}><Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, expanded, disabled }} disabled={disabled} onPress={onPress} onPressIn={() => animate(0.975)} onPressOut={() => animate(1)} onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} style={({ pressed }) => [{ minWidth: 48, minHeight: 48 }, style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
 }
 
 export function Field({ label, hint, error, optional, fieldKey, ...props }: TextInputProps & { label: string; hint?: string; error?: string; optional?: boolean; fieldKey?: string }) {
