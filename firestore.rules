@@ -15,12 +15,31 @@ service cloud.firestore {
         && request.resource.data.environment in ['outdoor', 'indoor', 'greenhouse']
         && request.resource.data.plantedIn in ['pot', 'ground'];
     }
+    // Sanitized diagnostics only: one capped record per account, no raw user content.
+    match /clientDiagnostics/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow delete: if false; // A client cannot reset its daily cap by deleting the record.
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['day', 'count', 'lastSeenAt', 'operation', 'code', 'platform', 'version', 'severity'])
+        && request.resource.data.day == int(request.time.toMillis() / 86400000)
+        && request.resource.data.lastSeenAt == request.time
+        && request.resource.data.count is int && request.resource.data.count >= 1 && request.resource.data.count <= 20
+        && ((!exists(/databases/$(database)/documents/clientDiagnostics/$(uid)) && request.resource.data.count == 1)
+          || (exists(/databases/$(database)/documents/clientDiagnostics/$(uid)) && ((request.resource.data.day == resource.data.day && request.resource.data.count == resource.data.count + 1) || (request.resource.data.day != resource.data.day && request.resource.data.count == 1))))
+        && request.resource.data.operation in ['handled', 'save', 'weather', 'render', 'unhandled']
+        && request.resource.data.code in ['unknown', 'unavailable', 'deadline-exceeded', 'permission-denied', 'unauthenticated', 'network-request-failed', 'resource-exhausted']
+        && request.resource.data.platform in ['web', 'android', 'ios']
+        && request.resource.data.version is string && request.resource.data.version.matches('[0-9]+[.][0-9]+[.][0-9]+') && request.resource.data.version.size() <= 20
+        && request.resource.data.severity in ['error', 'fatal'];
+    }
     match /plants/{plantId} {
       allow get: if signedIn() && (!exists(/databases/$(database)/documents/plants/$(plantId)) || request.auth.uid in resource.data.owners);
       allow list: if signedIn() && request.auth.uid in resource.data.owners;
       allow create: if signedIn() && request.resource.data.owners == [request.auth.uid] && validPlant()
+        && request.resource.data.get('careSummary', null) == null
         && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
       allow update: if signedIn() && request.auth.uid in resource.data.owners && validPlant()
+        && (request.resource.data.get('careSummary', null) == null || (request.resource.data.careSummary.version == 1 && request.resource.data.careSummary.revision == request.resource.data.get('careRevision', 0)))
         && request.resource.data.owners == resource.data.owners
         && request.resource.data.createdAt == resource.data.createdAt;
       allow delete: if ownsPlant(plantId);

@@ -1,3 +1,5 @@
+import { saveErrorMessage } from '@/lib/errors/saveFeedback';
+import { reportError } from '@/lib/diagnostics/reportError';
 import React from 'react';
 import { ActivityIndicator, ScrollView, Text, TextInput, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -143,7 +145,7 @@ export default function PlantLogComposer({ timeZone, plantId, entry, theme: t, i
       let cleanupPending = false;
       try { await clearJournalDraft(draftKey); } catch { cleanupPending = true; }
       onSaved(saved, category, date, edited, cleanupPending);
-    } catch (failure) { setError(failure instanceof Error ? failure.message : 'Could not save. Check your connection and try again.'); }
+    } catch (failure) { reportError(failure, 'save'); setError(saveErrorMessage(failure, 'Could not save. Check your connection and try again.')); }
     finally { savingRef.current = false; setSaving(false); }
   };
   const additionalKeys: MeasurementKey[] = context === 'soil-check' ? ['ph', 'heightCm'] : ['ph', 'heightCm', 'soilMoisture'];

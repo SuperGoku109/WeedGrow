@@ -13,6 +13,8 @@ export function useProgressGallery(plantId?: string, enabled = true, focusId?: s
   const [hasMore, setHasMore] = useState(false);
   const generation = useRef(0);
   const lock = useRef(false);
+  // Cached-tab resumes skip the fetch effect, so always cancel pagination on unmount.
+  useEffect(() => () => { generation.current++; }, []);
   const [revision, setRevision] = useState(0);
   const refresh = useCallback(() => setRevision(value => value + 1), []);
   const key = `${uid || ''}:${plantId || ''}:${revision}:${focusId || ''}`;

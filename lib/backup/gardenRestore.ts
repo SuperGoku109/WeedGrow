@@ -54,6 +54,11 @@ export async function restoreGarden(raw: string, inputPlan?: RestorePlan, onProg
       const existing = await Promise.all(chunk.map(write => tx.get(doc(db, write.path))));
       for (const parent of parentSnapshots) if (parent.exists() && (parent.data().restoreOperationId !== plan.operationId || parent.data().deleting)) throw new Error('A restore destination changed. No existing garden records were replaced.');
       chunk.forEach((write, index) => { if (!existing[index].exists()) tx.set(doc(db, write.path), write.data); });
+      for (const parent of parentSnapshots) {
+        if (!parent.exists()) continue;
+        const changedCare = chunk.some((write, index) => !existing[index].exists() && write.path.startsWith(parent.ref.path + '/logs/') && ['watering', 'fertilizing'].includes(String(write.data.type)));
+        if (changedCare) tx.update(parent.ref, { careSummary: null, careRevision: (parent.data().careRevision || 0) + 1 });
+      }
     });
     done += chunk.length; onProgress?.(done, ordered.length);
   }

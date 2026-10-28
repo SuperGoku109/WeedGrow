@@ -1,3 +1,7 @@
+import GardenWeatherProvider from '@/features/home/GardenWeatherProvider';
+import { useEffect } from 'react';
+import { installErrorReporting } from '@/services/errorReporting';
+import AppErrorBoundary from '@/ui/AppErrorBoundary';
 import NotificationNavigation from '@/features/care/NotificationNavigation';
 import '@/ui/accessibilityStyles';
 import ReminderCoordinator from '@/features/care/ReminderCoordinator';
@@ -11,6 +15,7 @@ import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function RootLayout() {
+  useEffect(installErrorReporting, []);
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
@@ -29,15 +34,15 @@ export default function RootLayout() {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <AppErrorBoundary><GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <PaperProvider theme={theme}>
-            <NotificationNavigation />
+            <GardenWeatherProvider><NotificationNavigation />
             <ReminderCoordinator />
             <Slot />
-            <StatusBar style="light" />
+            <StatusBar style="light" /></GardenWeatherProvider>
         </PaperProvider>
       </SafeAreaProvider>
-    </GestureHandlerRootView>
+    </GestureHandlerRootView></AppErrorBoundary>
   );
 }

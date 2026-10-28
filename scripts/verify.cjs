@@ -7,6 +7,8 @@ function run(label, args) {
   if (result.error) throw result.error;
   if (result.status !== 0) process.exit(result.status || 1);
 }
+run('Backend types', ['functions/node_modules/typescript/bin/tsc', '--noEmit', '--project', 'functions/tsconfig.json']);
+run('Backend build', ['scripts/build-backend.cjs']);
 run('Types', [path.join(root, 'node_modules/typescript/bin/tsc'), '--noEmit']);
 run('Lint and boundaries', [path.join(root, 'node_modules/eslint/bin/eslint.js'), '.', '--ext', '.ts,.tsx', '--max-warnings=0']);
 run('Architecture policy', ['scripts/test-architecture.cjs']);

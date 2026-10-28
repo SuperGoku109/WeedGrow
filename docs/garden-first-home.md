@@ -143,3 +143,15 @@ The garden's Manage plants destination focuses on membership. A fixed toolbar, c
 Add existing opens a matching searchable picker in place, limited to plants with the same environment and outside the current garden. Rows show their current garden, selected cards have clear checkbox feedback, and one pinned Add action shows the selection count. It preserves the existing atomic membership service and capacity checks, adds a membership baseline for conflict protection, and guards unsaved selections. Adding, moving, removal, settings and delete retain saving/error locks. New plant still passes the current garden ID.
 
 Browser review covered 390 px and 320 px, search/no-results/clear, existing-plant selection then deselection, move routing and removal cancellation. No membership or plant records were changed during browser review. TypeScript, full lint, architecture checks and all 81 suites / 387 tests passed, including the new management-flow checks.
+
+## Compact square-photo home plant cards
+
+Following visual feedback, the tall edge-to-edge photo treatment was replaced with inset square photos: 80 px on narrow cards and 88 px otherwise, with rounded corners. Cards start at 104–112 px high and grow when metadata or names wrap. Name, metadata and growth stage form one compact stack. Quick watering uses a separate 48 px icon button; the checkmark communicates watering already recorded. Existing accessibility labels, loading/disabled states, image fallback and navigation are retained. No plant overflow menu is reintroduced.
+
+Browser review covered 320 px and 390 px widths. TypeScript and targeted ESLint passed.
+
+## Delete from the plant editor
+
+The full Edit plant form has a separated Delete plant action below the final fields. Its destructive confirmation names the plant and explicitly includes journal, photos and saved conditions; dirty edits are also mentioned. Cancel preserves the form. Confirmation uses the existing owner-checked, resumable deletion service and returns to the originating list/garden after success. The discard guard allows the confirmed deletion navigation and restores protection after a failure; errors stay in the confirmation for retry. Save/delete locks prevent competing writes. Destructive ActionDialog styling is opt-in so other confirmations retain their appearance.
+
+Browser review opened and cancelled the confirmation without deleting real data. Tests cover cancellation, successful deletion/draft cleanup/navigation and failed deletion with draft retention. TypeScript, targeted ESLint, architecture checks and all 82 suites / 390 tests passed.

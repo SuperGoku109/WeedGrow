@@ -28,7 +28,7 @@ export function useWateringSuggestions(plants: PlantWithId[], enabled = true): W
   const clock = useMinuteClock(); const [revision, retry] = useReducer(value => value + 1, 0);
   const inputKey = JSON.stringify(plants.filter(plant => plant.status === 'active' && plant.location).map(adviceInput));
   const ids = useMemo(() => (JSON.parse(inputKey) as PlantSummary[]).map(plant => plant.id), [inputKey]);
-  const activity = usePlantActivity(enabled ? ids : [], ['watering']);
+  const activity = usePlantActivity(enabled ? ids : [], ['watering'], plants);
   const { error: activityError, refresh: refreshActivity } = activity;
   const refresh = useCallback(() => { if (activityError) refreshActivity(); retry(); }, [activityError, refreshActivity]);
   const activityKey = JSON.stringify(ids.map(id => activity.logs[`${id}:watering`]?.map(log => [log.id, log.mutationId, log.calendarDay, log.timestamp?.toMillis?.()])));

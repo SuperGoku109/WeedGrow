@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { initializeApp, deleteApp } from 'firebase/app';
 import { getAuth, connectAuthEmulator, createUserWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, connectFirestoreEmulator, doc, setDoc, getDoc, getDocs, collection, query, where, updateDoc, serverTimestamp, writeBatch, terminate, runTransaction, arrayUnion, setLogLevel } from 'firebase/firestore';
+import { getFirestore, connectFirestoreEmulator, doc, setDoc, deleteDoc, getDoc, getDocs, collection, query, where, updateDoc, serverTimestamp, writeBatch, terminate, runTransaction, arrayUnion, setLogLevel } from 'firebase/firestore';
 
 const projectId = 'demo-weedgrow';
 setLogLevel('silent');
@@ -21,6 +21,14 @@ try {
   const alice = await account('owner-a'); const bob = await account('owner-b');
   const plantId = `ownership-check-${Date.now()}`;
   const plant = { name: 'Rules verification', owners: [alice.uid], growthStage: 'seedling', environment: 'outdoor', plantedIn: 'pot', createdAt: serverTimestamp(), updatedAt: serverTimestamp() };
+  const diagnostic = { day: Math.floor(Date.now() / 86400000), count: 1, lastSeenAt: serverTimestamp(), operation: 'save', code: 'unavailable', severity: 'error', version: '1.0.0', platform: 'android' };
+  const diagnosticRef = doc(alice.db, 'clientDiagnostics', alice.uid);
+  await setDoc(diagnosticRef, diagnostic);
+  await denied(deleteDoc(diagnosticRef));
+  await denied(setDoc(diagnosticRef, { ...diagnostic, count: 2, message: 'raw content must never be accepted' }));
+  await denied(setDoc(diagnosticRef, { ...diagnostic, count: 21 }));
+  await denied(setDoc(doc(bob.db, 'clientDiagnostics', alice.uid), diagnostic));
+  await denied(getDoc(doc(bob.db, 'clientDiagnostics', alice.uid)));
   const batch = writeBatch(alice.db);
   batch.set(doc(alice.db, 'plants', plantId), plant);
   batch.set(doc(alice.db, 'plants', plantId, 'photoAssets', 'cover'), { dataUri: 'data:image/jpeg;base64,AAAA' });

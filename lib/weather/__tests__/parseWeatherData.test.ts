@@ -1,6 +1,6 @@
 import { parseWeatherData } from '@/lib/weather/parseWeatherData';
 jest.mock('firebase/firestore', () => ({
-  Timestamp: {
+  Timestamp: { fromMillis: (value: number) => ({ toMillis: () => value, toDate: () => new Date(value) }),
     now: () => ({ toDate: () => new Date('2026-02-10T00:00:00Z') }),
   },
 }));

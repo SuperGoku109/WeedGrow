@@ -5,7 +5,11 @@ export interface ProgressPic { calendarDay?: string; timeZone?: string; id: stri
 // ================================
 // 📁 Top-level: /plants/{plantId}
 // ================================
+export interface CareSummaryEntry { id: string; mutationId?: string; timestamp: Timestamp; calendarDay?: string; timeZone?: string }
+export interface CareSummary { version: 1; revision: number; watering: CareSummaryEntry | null; fertilizing: CareSummaryEntry | null }
 export interface Plant {
+    careRevision?: number;
+    careSummary?: CareSummary | null;
     name: string;
     strain: string;
     strainType?: string;

@@ -24,7 +24,7 @@ import EditGroupModal from '@/features/groups/components/EditGroupModal';
 import { updateGroup, type GroupWithId } from '@/features/groups/api/groupApi';
 import { groupEditValues } from '@/features/groups/groupCollection';
 import { waterGrowingSpace } from '@/lib/logs/groupWatering';
-import { useGardenWeatherCollection } from '../useGardenWeatherCollection';
+import { useGardenWeather } from '../GardenWeatherProvider';
 import { MAX_ATOMIC_WATERING_PLANTS } from '@/features/groups/groupPolicy';
 
 const t = gardenThemes.grove;
@@ -58,7 +58,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
     return () => { active = false; };
   }, [storageKey, uid]);
   const gardens = React.useMemo(() => [...spaces.groups].sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id)), [spaces.groups]);
-  const weatherCollection = useGardenWeatherCollection(gardens, uid);
+  const weatherCollection = useGardenWeather();
   React.useEffect(() => {
     if (!preferenceReady || (spaces.status !== 'ready' && spaces.status !== 'refreshing') || spaces.error) return;
     if (selection?.kind === 'garden' && pendingGarden.current === selection.id && !gardens.some(garden => garden.id === selection.id)) return;

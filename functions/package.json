@@ -1,0 +1,22 @@
+{
+  "name": "weedgrow-backend",
+  "private": true,
+  "main": "dist/index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "build": "esbuild src/index.ts src/operations.ts --bundle --platform=node --target=node22 --packages=external --outdir=dist --tsconfig=../tsconfig.json",
+    "test": "node ../scripts/test-backend.cjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^7.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "~5.9.2",
+    "@types/node": "^22.0.0"
+  }
+}

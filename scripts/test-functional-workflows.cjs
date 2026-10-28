@@ -42,6 +42,18 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
     const ids = Array.from({ length: 8 }, (_, i) => `${prefix}-${i}`);
     for (const id of ids) await f.setDoc(f.doc(db, 'plants', id), plant);
     const id = ids[0];
+    const { ensureCareSummary } = require('../services/careSummaries.ts');
+    const summaryPlant = ids[7];
+    const summaryWater = await journal.saveJournalEntry(summaryPlant, { type: 'watering', description: 'Disposable summary check', updatedBy: '' }, '2026-01-01', undefined, 'summary-check');
+    await ensureCareSummary(summaryPlant);
+    let summarized = (await f.getDoc(f.doc(db, 'plants', summaryPlant))).data();
+    assert.equal(summarized.careSummary.watering.id, summaryWater.id);
+    assert.equal(summarized.careSummary.revision, summarized.careRevision);
+    await journal.deleteJournalEntry(summaryPlant, summaryWater.id, summaryWater.mutationId);
+    assert.equal((await f.getDoc(f.doc(db, 'plants', summaryPlant))).data().careSummary, null);
+    await ensureCareSummary(summaryPlant);
+    assert.equal((await f.getDoc(f.doc(db, 'plants', summaryPlant))).data().careSummary.watering, null);
+
     const { saveSensorProfile, getSensorProfile, deleteSensorProfile } = require('../services/sensorProfiles.ts');
     const profileId = `${prefix}-profile`;
     const profileInput = { name: 'Integration profile', environmentType: 'indoor', isManual: true, defaultTemp: 24, defaultHumidity: 55 };

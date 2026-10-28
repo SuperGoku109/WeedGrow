@@ -3,8 +3,8 @@ import type { Plant } from '@/firestoreModels';
 import { plantDay } from '@/lib/dates/plantDay';
 import { usePlantActivity } from '@/features/care/usePlantActivity';
 import { useMinuteClock } from '@/hooks/useMinuteClock';
-export function usePlantsWateredToday(plantIds: string[], plants: readonly (Pick<Plant, 'locationTimeZone'> & { id: string })[] = [], enabled = true) {
-  const activity = usePlantActivity(enabled ? plantIds : [], ['watering']); const now = useMinuteClock();
+export function usePlantsWateredToday(plantIds: string[], plants: readonly (Pick<Plant, 'locationTimeZone' | 'careSummary' | 'careRevision'> & { id: string })[] = [], enabled = true) {
+  const activity = usePlantActivity(enabled ? plantIds : [], ['watering'], plants); const now = useMinuteClock();
   const idsKey = JSON.stringify([...new Set(plantIds)].sort());
   const zonesKey = JSON.stringify(Object.fromEntries(plants.map(plant => [plant.id, plant.locationTimeZone || null])));
   const wateredMap = useMemo(() => {

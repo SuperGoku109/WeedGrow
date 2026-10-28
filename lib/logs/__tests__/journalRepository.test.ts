@@ -11,7 +11,7 @@ beforeEach(() => {
   jest.mocked(getDoc).mockImplementation(async ref => get(ref));
   jest.mocked(getDocs).mockResolvedValue({ docs: [], empty: true } as never);
   get.mockImplementation(async ref => ref.path === 'plants/p' ? { exists: () => true, data: () => ({ owners: ['user-a'], status: 'active' }) } : { exists: () => false });
-  jest.mocked(runTransaction).mockImplementation(async (_db, callback) => callback({ get, set, delete: remove } as never));
+  jest.mocked(runTransaction).mockImplementation(async (_db, callback) => callback({ get, set, update: jest.fn(), delete: remove } as never));
 });
 it('uses the same watering document for competing devices on the same local date', async () => {
   await saveJournalEntry('p', { type: 'watering', updatedBy: '' }, '2026-09-10', undefined, 'request-a');

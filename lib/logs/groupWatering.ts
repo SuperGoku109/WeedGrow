@@ -35,6 +35,7 @@ export async function waterGrowingSpace(groupId: string) {
         const careSnoozes = { ...plant.data().careSnoozes }; delete careSnoozes.watering;
         tx.update(plant.ref, { careSnoozes });
       }
+      tx.update(plant.ref, { careSummary: null, careRevision: (plant.data().careRevision || 0) + 1 });
       written.push(plant.id);
     });
     return { written, skipped: ids.length - written.length };

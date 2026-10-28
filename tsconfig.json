@@ -8,11 +8,15 @@
       ]
     }
   },
-  "exclude": ["tools/weedgrow-mcp"],
+  "exclude": [
+    "tools/weedgrow-mcp",
+    "functions"
+  ],
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
-    "seedFirestore.js"  ]
+    "seedFirestore.js"
+  ]
 }

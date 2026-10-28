@@ -2,7 +2,10 @@ import { useEditDraft, DraftRecovery } from '@/ui/useEditDraft';
 import React from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
 import type { Plant } from '@/firestoreModels';
-import { updatePlant, type UpdatePlantFields } from '../api/plantService';
+import { type UpdatePlantFields } from '../api/plantService';
+import { usePlantEditorMutations } from '../hooks/usePlantEditorMutations';
+import ActionDialog from '@/ui/ActionDialog';
+import PlantActionButton from './PlantActionButton';
 import { EditorField, EditorSelect } from './PlantEditorFields';
 import { GrowPress } from '@/ui/GrowMotion';
 import { plantThemes, type PlantTheme } from './plantDetailTheme';
@@ -19,13 +22,14 @@ import EditorRow from './EditorRow';
 import EditorPotSize from './EditorPotSize';
 import { sections, buildSectionUpdates, buildAllSectionUpdates } from '../form/plantSectionForm';
 
-export default function PlantSectionEditor({ plantId, plant, section, onClose, onSaved, theme }: { plantId: string; plant: Plant; section: string; onClose: () => void; onSaved: () => void; theme?: PlantTheme }) {
+export default function PlantSectionEditor({ plantId, plant, section, onClose, onSaved, onDeleted, theme }: { plantId: string; plant: Plant; section: string; onClose: () => void; onSaved: () => void; onDeleted?: () => void; theme?: PlantTheme }) {
   const t = theme || plantThemes.grove;
   const title = ({ 'Basics': 'Plant profile', 'Care plan': 'Care routine', 'Location and weather': 'Location', 'Notes and history': 'Profile notes' } as Record<string, string>)[section] || section;
   const [ageMode, setAgeMode] = React.useState(plant.startedOn && !plant.ageEstimated ? 'date' : 'estimate');
   const all = section === 'All';
   const includes = (key: string) => all || section === key;
-  const fields = all ? Object.values(sections).flat() : sections[section] || sections.Basics;
+  const fields = React.useMemo(() => all ? Object.values(sections).flat() : sections[section] || sections.Basics, [all, section]);
+  const fieldsByKey = React.useMemo(() => new Map(fields.map(field => [field.key, field])), [fields]);
   const [values, setValues] = React.useState<Record<string, string>>(() => {
     const source = { ...plant, strainType: plant.strainType || 'unknown', ageDays: plant.ageKnown === false ? '' : plant.ageDays, lat: plant.location?.lat, lng: plant.location?.lng, reminderType: plant.reminderSchedule?.type || 'none', intervalDays: plant.reminderSchedule?.intervalDays, customDays: plant.reminderSchedule?.customDays?.join(', '), timeOfDay: plant.reminderSchedule?.timeOfDay };
     return Object.fromEntries(fields.map(field => { const value = source[field.key as keyof typeof source]; return [field.key, Array.isArray(value) ? value.join(', ') : value == null ? '' : String(value)]; }));
@@ -36,9 +40,8 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
   const draft = useEditDraft(`plant.${plantId}.section.${section}`, { values, locationMode, ageMode }, plant as unknown as Record<string, unknown>, dirty);
   const close = () => { void draft.clear().catch(() => {}); onClose(); };
   const guard = useDiscardGuard(dirty, () => draft.clear());
-  const [busy, setBusy] = React.useState(false);
+  const [deleteOpen, setDeleteOpen] = React.useState(false);
   const [locating, setLocating] = React.useState(false);
-  const [error, setError] = React.useState('');
   const [profiles, setProfiles] = React.useState<{ id: string; name: string }[]>([]);
   const [profileError, setProfileError] = React.useState('');
   React.useEffect(() => {
@@ -47,25 +50,20 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
     fetchSensorProfiles().then(items => { if (active) { setProfiles(items); setProfileError(''); } }).catch(() => { if (active) setProfileError('Sensor profiles could not be loaded. Keep the current selection and try again later.'); });
     return () => { active = false; };
   }, [section, values.environment]);
-  const lock = React.useRef(false);
-  const save = async () => {
-    if (lock.current || locating || !draft.ready || draft.saved) return;
-    let updates: Record<string, unknown>;
-    try { updates = all ? buildAllSectionUpdates(values, JSON.parse(initial.current), locationMode, plant, plantDay(new Date(), plant.locationTimeZone), ageMode as 'date' | 'estimate') : buildSectionUpdates(section, includes('Care plan') && values.reminderType !== 'none' ? { ...values, timeOfDay: values.timeOfDay || '09:00' } : values, locationMode, plant, plantDay(new Date(), plant.locationTimeZone), ageMode as 'date' | 'estimate'); }
-    catch (error) { setError(error instanceof Error ? error.message : 'Review the entered details.'); return; }
-    lock.current = true; setBusy(true); setError('');
-    try { await updatePlant(plantId, updates as UpdatePlantFields, draft.baseline.current); await draft.clear().catch(() => {}); guard.finish(onSaved); }
-    catch (err) { setError(err instanceof Error ? err.message : 'Changes could not be saved.'); }
-    finally { lock.current = false; setBusy(false); }
-  };
+  const { busy, error, setError, save, deletePlant } = usePlantEditorMutations({
+    plantId, draft, guard, blocked: locating, onSaved, onDeleted,
+    buildUpdates: () => (all
+      ? buildAllSectionUpdates(values, JSON.parse(initial.current), locationMode, plant, plantDay(new Date(), plant.locationTimeZone), ageMode as 'date' | 'estimate')
+      : buildSectionUpdates(section, includes('Care plan') && values.reminderType !== 'none' ? { ...values, timeOfDay: values.timeOfDay || '09:00' } : values, locationMode, plant, plantDay(new Date(), plant.locationTimeZone), ageMode as 'date' | 'estimate')) as UpdatePlantFields,
+  });
   const friendly = (value: string) => ({ unknown: 'Unknown', none: 'No reminders', interval: 'Every few days', custom: 'Custom mix', native: 'Native soil', raised: 'Raised bed', store: 'Store-bought mix', customSoil: 'Custom mix', pot: 'A pot', ground: 'The ground' } as Record<string, string>)[value] || (value ? value.charAt(0).toUpperCase() + value.slice(1) : 'Not set');
   const change = (key: string, value: string) => { setValues(previous => ({ ...previous, [key]: value })); setError(''); };
   const today = plantDay(new Date(), plant.locationTimeZone);
-  const disabled = busy || locating || !draft.ready || !!draft.saved;
+  const disabled = busy || deleteOpen || locating || !draft.ready || !!draft.saved;
   const selectedDays = values.customDays?.split(',').map(day => day.trim().slice(0, 3).toLowerCase()).filter(Boolean) || [];
   const schedule = values.reminderType === 'interval' ? `Every ${values.intervalDays || '…'} days` : values.reminderType === 'custom' ? selectedDays.map(friendly).join(', ') || 'Choose reminder days' : 'No reminders';
   const renderField = (key: string) => {
-    const field = fields.find(item => item.key === key);
+    const field = fieldsByKey.get(key);
     if (!field || key === 'potSize' && values.plantedIn === 'ground' || key === 'sensorProfileId' && values.environment === 'outdoor' || key === 'sunlightExposure' && values.environment === 'indoor') return null;
     if (key === 'potSize') return <EditorPotSize key={key} value={values.potSize} disabled={disabled} onChange={value => change(key, value)} />;
     const label = ({ ageDays: 'Estimated age', height: 'Height', environment: 'Growing environment', locationNickname: 'Place label', trainingTags: 'Training methods', pests: 'Pests recorded', companionPlants: 'Companion plants', soilPh: 'Soil pH' } as Record<string, string>)[key] || field.label;
@@ -74,9 +72,9 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
       if (values[key] && !options.some(option => option.value === values[key])) options.push({ value: values[key], label: values[key] });
       return <EditorSelect key={key} disabled={disabled} label={label} value={values[key]} options={options} onSelect={value => change(key, value)} />;
     }
-    return <EditorField key={key} label={label} value={values[key]} editable={!disabled} multiline={field.multiline} style={field.multiline ? { minHeight: 88, textAlignVertical: 'top' } : undefined} suffix={key === 'height' ? 'cm' : key === 'ageDays' ? 'days' : undefined} helper={field.list ? 'Separate items with commas.' : key === 'locationNickname' ? 'Optional · e.g. Balcony or Back patio.' : undefined} keyboardType={field.number || key === 'soilPh' ? 'decimal-pad' : 'default'} onChangeText={value => change(key, value)} />;
+    return <EditorField key={key} testID={`plant-editor-${key}`} label={label} value={values[key]} editable={!disabled} multiline={field.multiline} style={field.multiline ? { minHeight: 88, textAlignVertical: 'top' } : undefined} suffix={key === 'height' ? 'cm' : key === 'ageDays' ? 'days' : undefined} helper={field.list ? 'Separate items with commas.' : key === 'locationNickname' ? 'Optional · e.g. Balcony or Back patio.' : undefined} keyboardType={field.number || key === 'soilPh' ? 'decimal-pad' : 'default'} onChangeText={value => change(key, value)} />;
   };
-  return <PlantEditorSheet title={all ? 'Edit plant' : `Edit ${title.toLowerCase()}`} subtitle={plant.name} contentGap={12} theme={t} busy={busy} onClose={() => guard.requestClose(close)} footer={<View style={{ gap: 12 }}>
+  return <PlantEditorSheet title={all ? 'Edit plant' : `Edit ${title.toLowerCase()}`} subtitle={plant.name} contentGap={12} theme={t} busy={busy || deleteOpen} pending={busy} onClose={() => guard.requestClose(close)} footer={<View style={{ gap: 12 }}>
     {!!error && <Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text>}
     <GrowPress accessibilityRole="button" accessibilityLabel="Save section changes" disabled={disabled} onPress={save} style={[ds.button, { backgroundColor: t.accent, opacity: disabled ? 0.5 : 1 }]}>{busy && <ActivityIndicator color={t.onAccent} />}<Text style={{ color: t.onAccent, fontWeight: '700' }}>{busy ? 'Saving…' : 'Save changes'}</Text></GrowPress>
   </View>}>
@@ -121,6 +119,11 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
       {renderField('notes')}{renderField('environmentNotes')}
       <EditorGroup title="Training & pest history" flat={all} collapsible={!all}>{renderField('trainingTags')}{renderField('pests')}</EditorGroup>
     </>}
+    {all && onDeleted && <View style={{ borderTopWidth: 1, borderColor: t.border, marginTop: 12, paddingTop: 16, gap: 8 }}>
+      <PlantActionButton label="Delete plant" icon="trash-can-outline" theme={t} danger disabled={disabled} onPress={() => setDeleteOpen(true)} />
+      <Text style={{ color: t.muted, fontSize: 13, lineHeight: 20 }}>Permanently removes this plant and its history.</Text>
+    </View>}
+    {deleteOpen && <ActionDialog danger title="Delete this plant?" description={`Permanently delete ${plant.name}, including its journal, photos and saved conditions. This cannot be undone.${dirty ? ' Your unsaved edits will also be discarded.' : ''}`} confirmLabel="Delete permanently" onClose={() => setDeleteOpen(false)} onConfirm={deletePlant} />}
     {guard.dialog}
   </PlantEditorSheet>;
 }

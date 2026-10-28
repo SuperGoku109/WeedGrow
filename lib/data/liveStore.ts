@@ -31,7 +31,7 @@ export function createLiveStore<T>(empty: T, connect: (key: string) => Listener<
       entry.stop = connect(key)(data => {
         if (entry.generation === generation) { entry.received = true; publish(entry, { status: 'ready', data, loading: false, error: '' }); }
       }, fail);
-    } catch { fail(); }
+    } catch (reason) { fail(reason); }
   };
   const clear = () => {
     entries.forEach(entry => { if (entry.timer) clearTimeout(entry.timer); stop(entry); entry.received = false; publish(entry, initial); });

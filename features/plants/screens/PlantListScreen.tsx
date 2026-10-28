@@ -35,7 +35,8 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
   const restored = React.useRef(false);
   const initialPosition = React.useRef(initialOffset);
   React.useEffect(() => { if (restored.current) list.current?.scrollToOffset({ offset: 0, animated: false }); }, [searchQuery, statusFilter]);
-  const filtered = React.useMemo(() => plants.filter(plant => matchesPlantStatus(plant, statusFilter || 'past') && `${plant.name} ${plant.strain || ''}`.toLowerCase().includes(searchQuery.trim().toLowerCase())), [plants, statusFilter, searchQuery]);
+  const normalizedSearch = searchQuery.trim().toLowerCase();
+  const filtered = React.useMemo(() => plants.filter(plant => matchesPlantStatus(plant, statusFilter || 'past') && `${plant.name} ${plant.strain || ''}`.toLowerCase().includes(normalizedSearch)), [plants, statusFilter, normalizedSearch]);
   const openPlant = (plant: ListedPlant) => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } });
   const setStatus = (value: string | null) => { setStatusFilter(value); list.current?.scrollToOffset({ offset: 0, animated: false }); onOffsetChange(0); };
   const active = statusFilter === 'active';

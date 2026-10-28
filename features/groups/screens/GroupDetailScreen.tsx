@@ -38,7 +38,8 @@ export default function GroupDetailScreen() {
   const [menu, setMenu] = React.useState<MenuAnchor | null>(null);
   const [watering, setWatering] = React.useState(false);
   const [message, setMessage] = React.useState('');
-  const shown = plants.filter(plant => `${plant.name} ${plant.strain || ''}`.toLowerCase().includes(query.trim().toLowerCase()));
+  const normalizedQuery = query.trim().toLowerCase();
+  const shown = plants.filter(plant => `${plant.name} ${plant.strain || ''}`.toLowerCase().includes(normalizedQuery));
   const unavailable = loading || !!error;
   const newPlant = () => router.push({ pathname: '/add-plant', params: { gardenId: id } });
   return <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={s.safe}>

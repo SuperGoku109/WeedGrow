@@ -21,3 +21,28 @@ it('successful save exits without asking to discard saved changes', () => {
   act(() => guard.finish(leave)); expect(leave).toHaveBeenCalledTimes(1); expect(guard.dialog).toBeNull();
   act(() => renderer.unmount());
 });
+it('cancelling discard cannot resume that stale close during a later confirmed deletion', () => {
+  let guard!: ReturnType<typeof useDiscardGuard>; const leave = jest.fn();
+  function Probe() { guard = useDiscardGuard(true); return null; }
+  let renderer: any; act(() => { renderer = create(React.createElement(Probe)); });
+  act(() => guard.requestClose(leave)); act(() => guard.dialog!.props.onClose());
+  act(() => guard.setRemovalAllowed(true));
+  expect(leave).not.toHaveBeenCalled(); expect(guard.dialog).toBeNull();
+  act(() => renderer.unmount());
+});
+it('runs a second successful completion while removal is already allowed', () => {
+  let guard!: ReturnType<typeof useDiscardGuard>; const first = jest.fn(); const second = jest.fn();
+  function Probe() { guard = useDiscardGuard(true); return null; }
+  let renderer: any; act(() => { renderer = create(React.createElement(Probe)); });
+  act(() => guard.finish(first)); act(() => guard.finish(second));
+  expect(first).toHaveBeenCalledTimes(1); expect(second).toHaveBeenCalledTimes(1);
+  act(() => renderer.unmount());
+});
+it('restores unsaved-change protection after a confirmed operation fails', () => {
+  let guard!: ReturnType<typeof useDiscardGuard>; const leave = jest.fn();
+  function Probe() { guard = useDiscardGuard(true); return null; }
+  let renderer: any; act(() => { renderer = create(React.createElement(Probe)); });
+  act(() => guard.setRemovalAllowed(true)); act(() => guard.setRemovalAllowed(false)); act(() => guard.requestClose(leave));
+  expect(leave).not.toHaveBeenCalled(); expect(guard.dialog).not.toBeNull();
+  act(() => renderer.unmount());
+});

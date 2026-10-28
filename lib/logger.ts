@@ -1,3 +1,4 @@
+import { reportError } from './diagnostics/reportError';
 // Simple centralized logger with environment guard
 // Replaces scattered console.* calls and makes it easy to swap with Sentry later
 
@@ -12,6 +13,7 @@ const logger = {
   },
   error: (...args: unknown[]) => {
     if (isDev) console.error(...args);
+    else reportError(args.find(value => value instanceof Error));
   },
 };
 

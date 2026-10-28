@@ -1,0 +1,18 @@
+appId: ${APP_ID}
+name: Keyboard and Android back
+---
+- launchApp:
+    clearState: false
+- openLink: ${PLANT_LINK}
+- tapOn: Edit plant
+- tapOn:
+    id: plant-editor-name
+- inputText: " "
+- hideKeyboard
+- back
+- assertVisible: Discard unsaved changes?
+- tapOn: Cancel
+- tapOn: Close edit plant
+- tapOn: Discard changes
+- assertVisible: Edit plant
+- takeScreenshot: plant-android-back

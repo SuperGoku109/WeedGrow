@@ -1,0 +1,36 @@
+appId: ${APP_ID}
+name: Plant editor mobile smoke
+---
+- launchApp:
+    clearState: false
+- openLink: ${PLANT_LINK}
+- assertVisible: Edit plant
+- tapOn: Edit plant
+- assertVisible: Plant profile
+- tapOn:
+    id: plant-editor-name
+- eraseText
+- inputText: Unsaved device test
+- hideKeyboard
+- tapOn: Close edit plant
+- assertVisible: Discard unsaved changes?
+- tapOn: Cancel
+- assertVisible: Unsaved device test
+- tapOn: Close edit plant
+- tapOn: Discard changes
+- assertVisible: Edit plant
+- tapOn: Edit plant
+- scrollUntilVisible:
+    element: Delete plant
+    direction: DOWN
+- tapOn: Delete plant
+- assertVisible: Delete this plant?
+- tapOn: Cancel
+- assertVisible: Edit plant
+- tapOn: Close edit plant
+- tapOn: Photos
+- scrollUntilVisible:
+    element: Progress photos
+    direction: DOWN
+- assertVisible: Progress photos
+- takeScreenshot: plant-mobile-smoke

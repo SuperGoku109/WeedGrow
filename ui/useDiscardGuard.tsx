@@ -15,6 +15,9 @@ export function useDiscardGuard(dirty: boolean, onDiscard?: () => Promise<void> 
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
     window.addEventListener('beforeunload', warn); return () => window.removeEventListener('beforeunload', warn);
   }, [dirty, allowed]);
-  const finish = (action: () => void) => { pending.current = action; setAllowed(true); };
-  return { requestClose, finish, dialog: open ? <ActionDialog title="Discard unsaved changes?" description="Your changes have not been saved. Keep editing to finish, or discard them to leave." confirmLabel="Discard changes" onClose={() => setOpen(false)} onConfirm={async () => { await onDiscard?.(); setAllowed(true); }} /> : null };
+  const finish = (action: () => void) => { if (allowed) { action(); return; } pending.current = action; setAllowed(true); };
+  // Confirmed destructive operations must never resume a cancelled close.
+  const setRemovalAllowed = (value: boolean) => { pending.current = null; setAllowed(value); };
+  const cancel = () => { pending.current = null; setOpen(false); };
+  return { requestClose, finish, setRemovalAllowed, dialog: open ? <ActionDialog title="Discard unsaved changes?" description="Your changes have not been saved. Keep editing to finish, or discard them to leave." confirmLabel="Discard changes" onClose={cancel} onConfirm={async () => { await onDiscard?.(); setAllowed(true); }} /> : null };
 }

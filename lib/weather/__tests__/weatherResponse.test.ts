@@ -1,6 +1,6 @@
 import { decodeWeatherResponse } from '../weatherResponse';
 import { parseWeatherData } from '../parseWeatherData';
-jest.mock('firebase/firestore', () => ({ Timestamp: { now: () => ({ seconds: 1, nanoseconds: 0 }) } }));
+jest.mock('firebase/firestore', () => ({ Timestamp: { fromMillis: (value: number) => ({ toMillis: () => value, toDate: () => new Date(value) }), now: () => ({ seconds: 1, nanoseconds: 0 }) } }));
 
 it('rejects malformed measurements and dates before caching weather', () => {
   expect(() => decodeWeatherResponse({ current: { dt: 1, humidity: '55' } })).toThrow('measurement');

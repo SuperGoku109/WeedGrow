@@ -54,3 +54,10 @@ it('distinguishes an initial load from refresh while keeping an empty successful
   subscriptions[1].fail(); expect(store.get('owner').status).toBe('error');
   leave(); store.clear();
 });
+it('preserves actionable decoder errors thrown while connecting', () => {
+  const reason = new Error('Invalid plant record.'); reason.name = 'RecordDecodeError';
+  const store = createLiveStore<string[]>([], () => () => { throw reason; }, 'Could not load');
+  const leave = store.subscribe('owner', jest.fn());
+  expect(store.get('owner').error).toBe(reason.message);
+  leave(); store.clear();
+});

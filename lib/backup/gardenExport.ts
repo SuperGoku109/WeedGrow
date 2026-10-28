@@ -14,7 +14,7 @@ export async function exportGarden(options?: ExportOptions): Promise<GardenBacku
   let bytes = 2048; let unavailablePhotos = 0;
   const append = (path: string, raw: Record<string, unknown>) => {
     active(); if (raw.deleting) throw new Error('Finish pending deletions before making a complete backup.');
-    const data = encodeBackupRecord(raw); delete data.deleting;
+    const data = encodeBackupRecord(raw); delete data.deleting; delete data.careSummary; delete data.careRevision;
     for (const key of ['imageUri', 'imageUrl', 'url', 'photoUri']) if (typeof data[key] === 'string' && data[key] && !data[key].startsWith('firestore-photo:') && !/^https:\/\//i.test(data[key])) { data[key] = null; unavailablePhotos++; }
     if (path.includes('/progressPics/') && !data.imageUrl && !data.url) return;
     const record = { path, data }; bytes += utf8Bytes(JSON.stringify(record)) + 1;

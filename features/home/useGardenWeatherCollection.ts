@@ -9,10 +9,11 @@ export function useGardenWeatherCollection(gardens: HomeGarden[], uid?: string) 
   // Weather writes update garden snapshots; only membership/location changes restart this effect.
   const scope = JSON.stringify(gardens.filter(garden => validCoordinates(garden.location)).map(garden => [garden.id, garden.location]).sort((a, b) => String(a[0]).localeCompare(String(b[0]))));
   React.useEffect(() => {
+    setErrors({});
     if (!uid) return;
     let active = true;
     const ids = (JSON.parse(scope) as [string, unknown][]).map(([id]) => id);
-    const collect = () => { for (const id of ids) void refreshGardenWeather(id).then(() => { if (active) setErrors(previous => { const next = { ...previous }; delete next[id]; return next; }); }).catch(error => { if (active) setErrors(previous => ({ ...previous, [id]: error instanceof Error ? error.message : 'Weather could not be collected.' })); }); };
+    const collect = () => { if (AppState.currentState === 'background' || AppState.currentState === 'inactive') return; for (const id of ids) void refreshGardenWeather(id).then(() => { if (active) setErrors(previous => { const next = { ...previous }; delete next[id]; return next; }); }).catch(error => { if (active) setErrors(previous => ({ ...previous, [id]: error instanceof Error ? error.message : 'Weather could not be collected.' })); }); };
     collect();
     const timer = setInterval(collect, 15 * 60000);
     const subscription = AppState.addEventListener('change', state => { if (state === 'active') collect(); });

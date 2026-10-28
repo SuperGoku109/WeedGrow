@@ -1,0 +1,1 @@
+require('../functions/node_modules/esbuild').buildSync({ entryPoints: ['functions/src/index.ts', 'functions/src/operations.ts'], bundle: true, platform: 'node', target: 'node22', packages: 'external', outdir: 'functions/dist', tsconfig: 'tsconfig.json' });
