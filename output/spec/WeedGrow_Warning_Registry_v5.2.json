@@ -1,0 +1,2348 @@
+{
+  "contractVersion": "5.2",
+  "reviewDate": "2026-10-29",
+  "executableEligibilityReference": true,
+  "productionAppImplemented": false,
+  "numericCausalWeights": null,
+  "rankMeanings": {
+    "G": "Mandatory tissue/setup/model-domain gate; cannot be offset by points.",
+    "Q": "Source/quality/reconciliation requirement; failure leaves that branch unassessed.",
+    "P1": "Primary trigger route or required component of that route; components may be jointly necessary.",
+    "M2": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+    "C3": "Action/differential/scope context; not an independent event trigger.",
+    "X": "Excluded substitute for the stated trigger.",
+    "P1/C3": "Current positive symptom report is P1; previous negative inspection/history scope is C3."
+  },
+  "defaultDiseaseWeatherPolicies": {
+    "pmWeather": false,
+    "flowerWeather": false,
+    "leafWeather": false
+  },
+  "commonEligibility": {
+    "all": [
+      {
+        "ref": "access.allowed"
+      },
+      {
+        "ref": "plant.active"
+      },
+      {
+        "ref": "plant.notDeleting"
+      },
+      {
+        "ref": "plant.outdoor"
+      }
+    ]
+  },
+  "qualityOperator": "Quality support false/missing yields unknown for that numeric/model branch, not a confident negative.",
+  "inactiveOptionalReport": "No current report leaves that report route inactive; it is not a claim that no symptoms exist.",
+  "featureContract": "Already scoped/normalized features only. Preserve sourceNature, valid interval, location epoch, method and uncertainty outside these scalar reference fixtures.",
+  "featureBindings": [
+    {
+      "inputs": "access.*, plant.active/notDeleting/outdoor",
+      "producer": "Ownership/share permission, status/deleting and environment.",
+      "availability": "Existing records; enforce access before reading protected features."
+    },
+    {
+      "inputs": "plant.pot/foliage/flowers/vulnerableEstablishment",
+      "producer": "plantedIn, current stage and confirmed tissue/rooting facts.",
+      "availability": "Pot is direct; stage-to-tissue rules need explicit scope. Unknown rooting or flowers stays unknown."
+    },
+    {
+      "inputs": "official.*",
+      "producer": "Applicable mapped alert/severe product with hazard subtype and valid interval.",
+      "availability": "New adapter/storage required; unavailable feed is not no regional hazard."
+    },
+    {
+      "inputs": "valid.*, air.C, wind.*, rain.*",
+      "producer": "Scoped air, gust/mean m/s, rain mm/h or complete rolling-24h mm.",
+      "availability": "Legacy cache is insufficient for every route. Wrapper quality includes provenance, units, location and coverage."
+    },
+    {
+      "inputs": "model.*",
+      "producer": "Supported predictive decision, future crossing, excess and profile drain window.",
+      "availability": "New model outputs; preserve interval/domain/reconciliation. waterNow and notDue cannot both be true."
+    },
+    {
+      "inputs": "root.*",
+      "producer": "Qualified current dry/pooling/drainage evidence and conflict reconciliation.",
+      "availability": "Optional typed observations; absent report is inactive, not evidence of normal roots. No daily-check gate."
+    },
+    {
+      "inputs": "exposure.*",
+      "producer": "Matched normalized intervals -> PM/flower/leaf/dew episode.",
+      "availability": "Derived features; preserve occurred versus forecast, source and duration bounds. Weather disease policies stay off."
+    },
+    {
+      "inputs": "sensor.*",
+      "producer": "Instrument availability, scope, calibration and supported root-temperature screen.",
+      "availability": "Optional new capability. No sensor means inactive sensor branch; present invalid support remains unassessed."
+    },
+    {
+      "inputs": "setup.*",
+      "producer": "Explicit pot solar/hot-contact context, with effective time.",
+      "availability": "Optional proposed fields; plant Full Sun is not a pot-wall observation."
+    },
+    {
+      "inputs": "siteOrProduct.fog, site.flowerDamp*",
+      "producer": "Typed fog product/report; current flower wetting plus supported persistence rule and evidence.",
+      "availability": "Brief wetting is insufficient for W11; no universal persistence default. A symptom report is a separate route."
+    },
+    {
+      "inputs": "symptom.*",
+      "producer": "Current scoped positive/uncertain tissue problem reports.",
+      "availability": "New typed reports required; current inspectionResult stores only no_symptoms. Do not infer from photo URI."
+    },
+    {
+      "inputs": "context.heat, context.rootExcess",
+      "producer": "Derived W01 / W07 result, recomputed before dependants.",
+      "availability": "Internal only. Triggered -> true, supported nontrigger -> false, insufficient -> unknown."
+    }
+  ],
+  "sources": {
+    "R01": {
+      "title": "Colorado State University: Irrigation Scheduling - The Water Balance Approach (reviewed 2025)",
+      "url": "https://extension.colostate.edu/resource/irrigation-scheduling-the-water-balance-approach/",
+      "scope": "Weather accounting can guide irrigation; initial water, storage, crop loss and inputs must be characterized. Occasional reference checks help detect drift."
+    },
+    "R02": {
+      "title": "University of Minnesota: Evapotranspiration-based irrigation scheduling or water-balance method",
+      "url": "https://extension.umn.edu/natural-resources/conservation/agricultural-soil-and-water/irrigation/evapotranspiration-based-irrigation-scheduling-or-water-balance-method",
+      "scope": "Independent description of input/output accounting and initial soil-water requirements; no universal cannabis coefficient."
+    },
+    "R03": {
+      "title": "FAO-56 Chapter 8: ETc under soil water stress conditions",
+      "url": "https://www.fao.org/4/X0490E/x0490e0e.htm",
+      "scope": "Available water, stress and depletion accounting; root depth and initial depletion matter."
+    },
+    "R04": {
+      "title": "FAO-56 Chapter 2: FAO Penman-Monteith equation",
+      "url": "https://www.fao.org/4/x0490e/x0490e06.htm",
+      "scope": "Grass reference demand differs from actual crop/system loss."
+    },
+    "R05": {
+      "title": "Virginia Tech SPES-749P (2026): Identifying Water Stress in Container-Grown Plants",
+      "url": "https://ext.vt.edu/content/pubs_ext_vt_edu/en/SPES/spes-749.html",
+      "scope": "Root development, canopy, medium and container geometry influence stress. General nursery evidence, not a cannabis dose table."
+    },
+    "R06": {
+      "title": "Virginia Tech SPES-750P (2026): Measuring Nursery Plant Water Use in Containers",
+      "url": "https://www.pubs.ext.vt.edu/content/pubs_ext_vt_edu/en/SPES/spes-750.html",
+      "scope": "Controlled paired weights can measure whole-container loss and inform profile calibration."
+    },
+    "R07": {
+      "title": "UF/IFAS PP379: Field Guide to Hemp Diseases",
+      "url": "https://ask.ifas.ufl.edu/publication/PP379/pdf",
+      "scope": "Powdery mildew, gray mold and root/seedling disease mechanisms; confirmation requires observation/diagnostics."
+    },
+    "R08": {
+      "title": "Pacific Northwest Handbooks (March 2026): Hemp Gray Mold / Botrytis Bud Blight and Stem Canker",
+      "url": "https://pnwhandbooks.org/plantdisease/host-disease/hemp-cannabis-sativa-gray-mold-botrytis-bud-blight-stem-canker",
+      "scope": "Botrytis-favouring conditions and cultural prevention; no general weather-only infection probability."
+    },
+    "R09": {
+      "title": "Rutgers Cooperative Extension E374: Emerging Diseases of Hemp in New Jersey",
+      "url": "https://extension.rutgers.edu/e374",
+      "scope": "Field leaf-spot and other disease observations; regional findings are not universal diagnostic rules."
+    },
+    "R10": {
+      "title": "Cornell Hemp (2024): The role of weather in disease progression",
+      "url": "https://hemp.cals.cornell.edu/resources/reports-factsheets/2024-factsheets/the-role-of-weather-in-disease-progression/",
+      "scope": "Weather, waterlogging, airflow and disease exposure; wind can also spread pathogens."
+    },
+    "R11": {
+      "title": "UF/IFAS MG025: Cold Protection of Landscape Plants",
+      "url": "https://ask.ifas.ufl.edu/publication/MG025/pdf",
+      "scope": "Radiational cooling can produce surface frost distinct from reported air temperature; general landscape evidence."
+    },
+    "R12": {
+      "title": "University of Maryland Extension (2026): Growing Vegetables in Containers and Salad Tables",
+      "url": "https://extension.umd.edu/resource/growing-vegetables-containers-and-salad-tables",
+      "scope": "Container materials, wetting, drainage and hot surfaces; general container evidence."
+    },
+    "R13": {
+      "title": "OpenWeather One Call API 3.0 documentation",
+      "url": "https://openweathermap.org/api/one-call-3",
+      "scope": "Field semantics, forecast/current separation, UTC times, precipitation and official alerts."
+    },
+    "R14": {
+      "title": "Open-Meteo Weather Forecast API documentation",
+      "url": "https://open-meteo.com/en/docs",
+      "scope": "Candidate modelled reference ET/radiation and layer-labelled regional soil data; no on-site pot observation."
+    },
+    "R15": {
+      "title": "Duong et al. (2023): Variation in Hydric Response of Two Industrial Hemp Varieties",
+      "url": "https://www.mdpi.com/2311-7524/9/4/431",
+      "scope": "Cultivar/setup differences in controlled conditions limit transfer of universal coefficients."
+    },
+    "R16": {
+      "title": "Gill et al. (2025): Water conservation and assimilation is driven by stomatal behaviour in industrial hemp",
+      "url": "https://researchnow-admin.flinders.edu.au/ws/portalfiles/portal/153745716/Gill_Water_P2025.pdf",
+      "scope": "Water supply affects gas exchange; weather demand is not a linear actual transpiration meter."
+    },
+    "R17": {
+      "title": "FAO-56 Chapter 3: Meteorological data",
+      "url": "https://www.fao.org/4/x0490e/x0490e07.htm",
+      "scope": "VPD, radiation, wind-height and reduced-data ET methods and their limitations."
+    },
+    "R18": {
+      "title": "Punja et al. (2023): Yeast and mold levels in cannabis inflorescences",
+      "url": "https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2023.1192035/full",
+      "scope": "Greenhouse floral microclimate differs from ambient; not a fixed outdoor correction."
+    },
+    "R19": {
+      "title": "Penn State Extension: Powdery Mildew",
+      "url": "https://extension.psu.edu/powdery-mildew",
+      "scope": "Humidity, free-water and dispersal relationships vary among powdery mildews. General context; no cannabis-specific infection threshold."
+    },
+    "R20": {
+      "title": "UC IPM (2024): Damping-off Diseases in the Garden",
+      "url": "https://ipm.ucanr.edu/home-and-landscape/damping-off-diseases-in-the-garden/",
+      "scope": "Vulnerable emerging seedlings, root-zone conditions and differences between air and soil temperature. General host evidence."
+    },
+    "R21": {
+      "title": "National Weather Service: Dew and Frost Development",
+      "url": "https://www.weather.gov/source/zhu/ZHU_Training_Page/fog_stuff/Dew_Frost/Dew_Frost.htm",
+      "scope": "Dew-point depression, radiational cooling, cloud and wind context; ambient conditions do not measure a leaf surface."
+    },
+    "R22": {
+      "title": "University of Minnesota Extension (2026): Keep gardens thriving through the heat",
+      "url": "https://extension.umn.edu/about/our-stories/news/yard-and-garden-news/keep-gardens-thriving-through-the-heat",
+      "scope": "Heat-related wilt can occur despite adequate soil water. General garden evidence; no universal cannabis injury temperature."
+    },
+    "R23": {
+      "title": "National Weather Service: Understanding Wind Chill",
+      "url": "https://www.weather.gov/safety/cold-wind-chill-chart",
+      "scope": "Human wind-chill index definition and skin-oriented assumptions; not a plant temperature model."
+    },
+    "R24": {
+      "title": "NOAA JetStream: Thunderstorm Hazards - Hail",
+      "url": "https://www.noaa.gov/jetstream/hail",
+      "scope": "Hail is a storm process; do not infer it from surface RH, rain chance or surface freezing temperature."
+    },
+    "R25": {
+      "title": "Oregon State University Horticulture: Disease Triangle",
+      "url": "https://horticulture.oregonstate.edu/nursery/nursery/disease-triangle",
+      "scope": "Disease requires a susceptible host, suitable pathogen and environment. Unobserved pathogen presence limits weather-only disease claims."
+    },
+    "R26": {
+      "title": "UC IPM archived research model: Botrytis Bunch Rot of Grape",
+      "url": "https://ipm.ucanr.edu/disease/database/grapebotrytis.html",
+      "scope": "Example of fitted temperature/wetness interactions and crop/location validation. Archived grape models are not cannabis weights, thresholds or recommendations."
+    }
+  },
+  "attentionScreens": [
+    {
+      "key": "heatAttentionC",
+      "setting": "32 C actual air; current instant or supported future interval",
+      "scopeAndStatus": "Heat attention only. Duration is separately reported; not a cannabis injury threshold."
+    },
+    {
+      "key": "coldAttentionC / frostAttentionC",
+      "setting": "5 C / 2 C; air-freezing label at <=0 C",
+      "scopeAndStatus": "Cold/possible surface-frost context. Calm/clear/RH are not required for air freezing."
+    },
+    {
+      "key": "gustAttentionMps / sustainedAttentionMps",
+      "setting": "15 m/s / 10 m/s",
+      "scopeAndStatus": "Physical wind attention. Not an official global severe-wind definition or guaranteed damage speed."
+    },
+    {
+      "key": "rainRateAttentionMmH / rainDayAttentionMm",
+      "setting": "10 mm/h / 25 mm per complete rolling 24 h",
+      "scopeAndStatus": "Rain event attention. Not infiltration, saturation, flood or cultivar damage thresholds."
+    },
+    {
+      "key": "dewSpreadC / dewHours",
+      "setting": "0 to 2 C paired spread / 2 covered night hours",
+      "scopeAndStatus": "Possible saturation/dew context. Not observed leaf wetness or fog diagnosis."
+    },
+    {
+      "key": "needHorizonHours",
+      "setting": "6 hours, with separate current decision",
+      "scopeAndStatus": "Future model projection/action planning. No forecast input credited now."
+    },
+    {
+      "key": "PM candidate exposure",
+      "setting": "T 15-28 C and RH >=85%, 4 covered hours in 24 h",
+      "scopeAndStatus": "Disabled production disease screen until pilot review; an informational exposure rule, not infection probability."
+    },
+    {
+      "key": "Flower humid candidate exposure",
+      "setting": "T 10-28 C and RH >=90%, 4 covered hours in 24 h; flowers required",
+      "scopeAndStatus": "Same maturity restriction. Direct symptom/wetness observations are distinct branches."
+    },
+    {
+      "key": "Leaf-spot candidate exposure",
+      "setting": "T 15-30 C and RH >=85%, 4 covered hours in 24 h plus a supported wet-weather pathway",
+      "scopeAndStatus": "Same maturity restriction. No pathogen identification; canopy route uncertainty must be disclosed."
+    },
+    {
+      "key": "Persistent root excess",
+      "setting": "Profile-specific abnormal-excess bound and normal drainage window",
+      "scopeAndStatus": "CAL, no universal numeric default. Current abnormal pooling/failed drainage is an independent observation route."
+    },
+    {
+      "key": "Root-temperature sensor route",
+      "setting": "Only a supported setup/sensor-specific screen; no default supplied",
+      "scopeAndStatus": "CAL, disabled without a supported threshold and instrument scope. A measured temperature alone does not prove injury."
+    },
+    {
+      "key": "Operational source/coverage gates",
+      "setting": "2 h current, 3 h forecast age, 90 min interpolation gap, 80% duration coverage",
+      "scopeAndStatus": "ENG pilot service settings; test regional update cadence, gaps and user burden."
+    }
+  ],
+  "warnings": [
+    {
+      "id": "W01",
+      "title": "Heat exposure",
+      "family": "heat",
+      "route": "weather_screen_or_official",
+      "requirements": "Active outdoor plant and usable actual air temperature or applicable official heat alert. A forecast uses its own valid time; duration needs a supported series.",
+      "predicate": "C AND (officialHeat OR AIR(Tair >= 32 C))",
+      "factors": [
+        {
+          "factor": "Air temperature / duration",
+          "role": "trigger",
+          "effect": "Higher T and longer covered exposure strengthen the stated weather exposure; a single maximum cannot establish duration.",
+          "missing": "No numeric branch without T; an official alert can remain an attributed regional alert.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Radiation, sun exposure and acclimation",
+          "role": "modifier",
+          "effect": "Reported direct exposure or a recent verified move from shade can make a protection message more relevant; no fixed leaf-temperature correction.",
+          "missing": "Keep local solar/acclimation uncertainty; do not assume all outdoor plants are in full sun.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Stage / root establishment",
+          "role": "routing",
+          "effect": "Developing plants may merit earlier attention and suitable wording; this does not change the air measurement.",
+          "missing": "Generic heat message remains eligible; no inferred seedling status from unknown age.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Water reserve / root evidence",
+          "role": "action_conflict",
+          "effect": "Supported low reserve can separately justify watering. Adequate/wet reserve does not remove heat exposure.",
+          "missing": "Keep watering state separate; heat alone cannot fill the missing water model.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "RH / VPD / wind",
+          "role": "interaction",
+          "effect": "They alter atmospheric demand and cooling context; wind is not universally protective and human heat index is not tissue temperature.",
+          "missing": "No additive heat severity from duplicated T/RH/VPD votes.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Pot/ground, size and shelter",
+          "role": "routing",
+          "effect": "Change feasible protection and model uncertainty; pot litres or soil provenance do not supply a heat-injury threshold.",
+          "missing": "Generic event remains, with site uncertainty.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Inactive/non-outdoor plant",
+        "Wrong-location or stale numeric weather",
+        "Human feels-like value used as actual air/tissue temperature"
+      ],
+      "missingBehavior": "A missing modifier does not block a valid temperature/official event. If both trigger routes are unavailable, return insufficient_data.",
+      "output": "Hot conditions are forecast/current. Reduce avoidable exposure where practical; consult the independent watering estimate.",
+      "claimLimits": "Do not diagnose heat injury, infer root/leaf temperature, or prescribe water solely from wilt/heat. [R22] [R23]",
+      "references": [
+        "R22",
+        "R23",
+        "R17"
+      ],
+      "acceptanceCases": [
+        "Fresh T=33 C with wet roots: heat eligible, extra water not implied.",
+        "Only feels_like=38 C, actual T missing: numeric heat trigger unavailable.",
+        "No plant height or stage: a valid regional heat warning remains eligible."
+      ],
+      "canonicalTriggerInputs": [
+        "weather.airTempC",
+        "official.heatEvent"
+      ],
+      "canonicalContextInputs": [
+        "weather.shortwave",
+        "plant.sunlightExposure",
+        "plant.growthStage",
+        "setup.rootingStatus",
+        "setup.acclimation",
+        "model.reserve",
+        "root.observation",
+        "weather.RH",
+        "weather.airVPD",
+        "weather.wind",
+        "setup.windShelter",
+        "plant.plantedIn"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W01",
+        "relevance": true,
+        "branches": [
+          {
+            "id": "official_heat",
+            "when": {
+              "ref": "official.heat"
+            },
+            "meaning": "Attributed official heat context; preserve whether human-oriented.",
+            "policy": null
+          },
+          {
+            "id": "air_heat",
+            "when": {
+              "quality": "valid.air",
+              "when": {
+                "compare": [
+                  "air.C",
+                  ">=",
+                  32
+                ]
+              }
+            },
+            "meaning": "Air-temperature attention screen; label its actual/forecast window.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND (officialHeat OR AIR(Tair >= 32 C))",
+        "primary": "Applicable official event OR actual air-temperature screen; covered duration describes exposure.",
+        "secondary": "Verified direct solar exposure, acclimation and establishment affect preparation relevance.",
+        "context": "Pot/ground and reserve affect actions; neither is a substitute heat trigger.",
+        "interaction": "Heat can raise demand, but only a supported reserve model/observation establishes current watering need.",
+        "related": "W08 adds container context to this card; W06 remains a separate water-state decision."
+      }
+    },
+    {
+      "id": "W02",
+      "title": "Cold, frost and freeze exposure",
+      "family": "cold",
+      "route": "weather_screen_or_official",
+      "requirements": "Usable actual/forecast air temperature or an applicable official cold/frost/freeze product. Preserve hazard subtype.",
+      "predicate": "C AND (officialCold OR AIR(Tair <= 5 C))\nSubtype: <=0 air freezing; else <=2 possible frost; else cold.",
+      "factors": [
+        {
+          "factor": "Air minimum / hourly T and duration",
+          "role": "trigger",
+          "effect": "Lower actual T and longer known exposure affect the event description. Daily Tmin is a low point, not a duration.",
+          "missing": "Official alert route remains; numeric exposure subtype needs actual T.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Cloud, wind and nighttime",
+          "role": "interaction",
+          "effect": "Clear/calm nights can increase surface-cooling context; windy advective cold can also injure, so calm/clear is not a mandatory gate.",
+          "missing": "No automatic no-frost conclusion from missing sky/wind.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Dew point / surface wetness",
+          "role": "modifier",
+          "effect": "Supports frost/condensation context; it does not measure surface temperature, frost point or tissue ice.",
+          "missing": "Air freezing/cold branch does not require RH/dew point.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Stage / establishment / acclimation",
+          "role": "routing",
+          "effect": "Newly established or newly exposed plants can receive more cautious preparation copy; no universal cultivar cold tolerance.",
+          "missing": "Generic exposure notice; do not infer hardiness from age/strainType.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Pot versus ground / pot size / cover",
+          "role": "routing",
+          "effect": "Changes feasible protection and exposure uncertainty; pot dimensions alone do not compute a freezing time.",
+          "missing": "Do not assume a roof, windbreak or permanentProtection is frost-proof.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Wind chill / feels-like",
+          "role": "excluded",
+          "effect": "Human index is excluded from plant-temperature and air-freezing predicates.",
+          "missing": "A missing index is immaterial.",
+          "rank": "X",
+          "rankMeaning": "Excluded substitute for the stated trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Only wind chill below zero with actual T above screen and no official plant-relevant event",
+        "Tissue freezing asserted from ambient air alone"
+      ],
+      "missingBehavior": "If only a generic human cold advisory exists, attribute that advisory without relabelling it confirmed plant frost/freeze.",
+      "output": "Cold/possible frost/air freezing is forecast. Prepare appropriate protection before the event if practical.",
+      "claimLimits": "Surface frost can differ from reported air temperature; above-zero air is not proof of no frost. No fixed roof/cover protection credit. [R11] [R21] [R23]",
+      "references": [
+        "R11",
+        "R21",
+        "R23"
+      ],
+      "acceptanceCases": [
+        "Tair=4 C and wind chill=-2 C: cold context only; no inferred air freeze.",
+        "Tair=-1 C with strong wind: freeze branch is not suppressed by lack of calm air.",
+        "Frost alert, sky/wind absent: attributed frost warning still eligible."
+      ],
+      "canonicalTriggerInputs": [
+        "weather.airTempC",
+        "weather.dailyMinC",
+        "official.coldEvent"
+      ],
+      "canonicalContextInputs": [
+        "weather.cloud",
+        "weather.wind",
+        "weather.dewPointC",
+        "weather.nightWindow",
+        "plant.growthStage",
+        "setup.rootingStatus",
+        "setup.acclimation",
+        "plant.plantedIn",
+        "plant.potSize",
+        "setup.frostProtection"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W02",
+        "relevance": true,
+        "branches": [
+          {
+            "id": "official_cold",
+            "when": {
+              "ref": "official.cold"
+            },
+            "meaning": "Preserve authority's cold/frost/freeze subtype.",
+            "policy": null
+          },
+          {
+            "id": "air_freezing",
+            "when": {
+              "quality": "valid.air",
+              "when": {
+                "compare": [
+                  "air.C",
+                  "<=",
+                  0
+                ]
+              }
+            },
+            "meaning": "Air at or below zero; not measured tissue ice.",
+            "policy": null
+          },
+          {
+            "id": "possible_frost",
+            "when": {
+              "quality": "valid.air",
+              "when": {
+                "compare": [
+                  "air.C",
+                  "<=",
+                  2
+                ]
+              }
+            },
+            "meaning": "Possible surface-frost context; not confirmed frost.",
+            "policy": null
+          },
+          {
+            "id": "cold_attention",
+            "when": {
+              "quality": "valid.air",
+              "when": {
+                "compare": [
+                  "air.C",
+                  "<=",
+                  5
+                ]
+              }
+            },
+            "meaning": "Cold attention context.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND (officialCold OR AIR(Tair <= 5 C))\nSubtype: <=0 air freezing; else <=2 possible frost; else cold.",
+        "primary": "Applicable official event OR actual air minimum/temperature, with source and window.",
+        "secondary": "Cloud, local sky view, wind, acclimation and establishment change context, not the air-freezing predicate.",
+        "context": "Pot size/cover help choose protection; human wind chill contributes zero to this predicate.",
+        "interaction": "Clear/calm conditions may support radiational cooling; advective freezing does not require them.",
+        "related": "W09 dampness may share air/dew evidence. Neither warning proves frost on a surface."
+      }
+    },
+    {
+      "id": "W03",
+      "title": "Strong wind and gust exposure",
+      "family": "wind",
+      "route": "weather_screen_or_official",
+      "requirements": "Usable sustained wind/gust or an applicable wind/storm alert, with units and timestamp. A missing gust is not zero gust.",
+      "predicate": "C AND (officialWind OR GUST(gust >= 15 m/s)\n       OR WIND(meanWind >= 10 m/s))",
+      "factors": [
+        {
+          "factor": "Gust and sustained wind",
+          "role": "trigger",
+          "effect": "Compare separate configured screens; gust is a peak, sustained wind is a different statistic.",
+          "missing": "Use the available branch without inventing the missing one.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Wind height / coordinates / terrain",
+          "role": "support",
+          "effect": "Provider wind is regional/reference-height exposure; it is not measured at the pot.",
+          "missing": "Disclose local uncertainty; do not apply a guessed fence multiplier.",
+          "rank": "Q",
+          "rankMeaning": "Source/quality/reconciliation requirement; failure leaves that branch unassessed.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Wind shelter / direction",
+          "role": "modifier",
+          "effect": "Verified relevant shelter changes protection relevance; direction-specific shelter requires both direction and geometry.",
+          "missing": "Generic exposure remains; no exact speed reduction.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Height, canopy / flowers / supports",
+          "role": "routing",
+          "effect": "Reported tall/heavy/unsupported growth changes securing/support advice. Flowering does not prove a heavy dense canopy.",
+          "missing": "Do not suppress without dimensions or assign a damage percentage.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Pot geometry / stability / ground rooting",
+          "role": "routing",
+          "effect": "Reported unstable pots can receive a tipping precaution; ground plants still have branch/root exposure.",
+          "missing": "Pot volume or height alone cannot establish mechanical failure.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Humidity / rain / disease",
+          "role": "interaction",
+          "effect": "Can affect drying and dispersal context; never cancel disease warnings because wind is high.",
+          "missing": "Independent warning families remain independent.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Double conversion of already-km/h wind",
+        "Gust used as sustained wind in ET without method support"
+      ],
+      "missingBehavior": "No valid wind value and no mapped event -> insufficient_data. Missing local shelter -> regional warning with qualified exposure.",
+      "output": "Strong wind/gusts are reported or forecast, with the valid window stated. Secure movable containers/supports and reduce avoidable exposure where feasible.",
+      "claimLimits": "No exact branch-breakage/tipping prediction or claim that wind guarantees healthy airflow. [R10] [R17]",
+      "references": [
+        "R10",
+        "R17"
+      ],
+      "acceptanceCases": [
+        "15 m/s gust, no height: eligible.",
+        "Provider 5 m/s equals 18 km/h exactly once.",
+        "Known sheltered plant retains regional warning with qualified local effect."
+      ],
+      "canonicalTriggerInputs": [
+        "weather.windMps",
+        "weather.gustMps",
+        "official.windEvent"
+      ],
+      "canonicalContextInputs": [
+        "weather.windHeight",
+        "weather.windDirection",
+        "setup.windShelter",
+        "plant.height",
+        "setup.canopySize",
+        "setup.structuralSupport",
+        "setup.potGeometry",
+        "setup.potStability",
+        "plant.growthStage"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W03",
+        "relevance": true,
+        "branches": [
+          {
+            "id": "official_wind",
+            "when": {
+              "ref": "official.wind"
+            },
+            "meaning": "Source-attributed wind event.",
+            "policy": null
+          },
+          {
+            "id": "gust",
+            "when": {
+              "quality": "valid.gust",
+              "when": {
+                "compare": [
+                  "wind.gustMps",
+                  ">=",
+                  15
+                ]
+              }
+            },
+            "meaning": "Gust screen; not sustained wind.",
+            "policy": null
+          },
+          {
+            "id": "sustained",
+            "when": {
+              "quality": "valid.wind",
+              "when": {
+                "compare": [
+                  "wind.meanMps",
+                  ">=",
+                  10
+                ]
+              }
+            },
+            "meaning": "Sustained-wind screen.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND (officialWind OR GUST(gust >= 15 m/s)\n       OR WIND(meanWind >= 10 m/s))",
+        "primary": "Applicable wind event OR separate gust/sustained-wind screens.",
+        "secondary": "Verified local shelter, unsupported stature or instability change protection relevance.",
+        "context": "Pot volume/height alone cannot predict tipping; unknown supports do not block regional exposure.",
+        "interaction": "Wind can affect drying and dispersal; no universal disease-protection or ET multiplier.",
+        "related": "W05 may group the same storm; W10-W12 remain independent condition watches."
+      }
+    },
+    {
+      "id": "W04",
+      "title": "Heavy rain and possible runoff exposure",
+      "family": "rain",
+      "route": "weather_screen_or_official",
+      "requirements": "Valid rain rate/interval accumulation or an applicable heavy-rain/flood product. Occurrence source and units must be known.",
+      "predicate": "C AND (officialRain OR RATE(rate >= 10 mm/h)\n       OR COMPLETE24H(amount >= 25 mm))",
+      "factors": [
+        {
+          "factor": "Intensity, total and duration",
+          "role": "trigger",
+          "effect": "High rate and high total are separate event branches. Coverage determines which branch can be evaluated.",
+          "missing": "No rate warning from a daily total alone.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Probability / issue time",
+          "role": "support",
+          "effect": "Occurrence chance qualifies forecast wording; amount is not multiplied into retained water by default.",
+          "missing": "Missing probability is unknown; it is not 0 or 100%.",
+          "rank": "Q",
+          "rankMeaning": "Source/quality/reconciliation requirement; failure leaves that branch unassessed.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Soil rainReception",
+          "role": "reception",
+          "effect": "Changes plausible root input and drainage/erosion actions; sheltered roots can coexist with exposed foliage.",
+          "missing": "Keep root reception unknown; regional event notice can remain.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Canopy rain exposure",
+          "role": "reception",
+          "effect": "Separately changes foliage/flower wetting implications. A soil answer cannot establish this.",
+          "missing": "Conditional foliage wording only; no measured canopy wetness.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Drainage, slope/run-on, ground/container",
+          "role": "routing",
+          "effect": "Reported blocked drainage, slope/run-on or erosion susceptibility changes the precaution; these are not derived from soilType alone.",
+          "missing": "Warn about rain, not local flooding/saturation.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Stage / rooting / stature",
+          "role": "routing",
+          "effect": "Developing plants can receive soil-disturbance/support wording. No fixed rainfall damage threshold by age.",
+          "missing": "Generic practical preparation.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Rain already retained / water model",
+          "role": "independent_state",
+          "effect": "Actual occurred input may replenish a supported model. Future rain cannot update current storage.",
+          "missing": "No universal water-timer reset.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Adding overlapping hourly and daily amounts",
+        "Claiming root saturation/local flood from regional mm alone",
+        "Low rain chance interpreted as amount confidence"
+      ],
+      "missingBehavior": "Incomplete totals remain partial; missing local reception does not falsify the regional event. A definitely unexposed route removes that route-specific claim, not all weather context.",
+      "output": "Heavy rain is forecast/reported. Check relevant drainage/runoff exposure and protect vulnerable setups where practical.",
+      "claimLimits": "Attention bands are ENG event screens, not local flood criteria or cannabis saturation thresholds.",
+      "references": [
+        "R13",
+        "R03",
+        "R12"
+      ],
+      "acceptanceCases": [
+        "30 mm daily total, rate absent: amount watch only.",
+        "Roof shelters soil but flowers are exposed: root and canopy paths differ.",
+        "High forecast rain with dry roots now: current water estimate unchanged."
+      ],
+      "canonicalTriggerInputs": [
+        "weather.rainRateMmH",
+        "weather.rainAccumulationMm",
+        "official.rainEvent"
+      ],
+      "canonicalContextInputs": [
+        "weather.pop",
+        "setup.soilRainReception",
+        "setup.canopyRainExposure",
+        "setup.drainageClass",
+        "setup.runOnSlope",
+        "plant.plantedIn",
+        "plant.growthStage",
+        "model.reserve"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W04",
+        "relevance": true,
+        "branches": [
+          {
+            "id": "official_rain",
+            "when": {
+              "ref": "official.rain"
+            },
+            "meaning": "Source-attributed rain/flood context, retaining subtype.",
+            "policy": null
+          },
+          {
+            "id": "rain_rate",
+            "when": {
+              "quality": "valid.rainRate",
+              "when": {
+                "compare": [
+                  "rain.rateMmH",
+                  ">=",
+                  10
+                ]
+              }
+            },
+            "meaning": "Rate screen, not complete-day amount.",
+            "policy": null
+          },
+          {
+            "id": "rain_amount",
+            "when": {
+              "quality": "valid.rain24h",
+              "when": {
+                "compare": [
+                  "rain.rolling24hMm",
+                  ">=",
+                  25
+                ]
+              }
+            },
+            "meaning": "Complete rolling-day amount screen.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND (officialRain OR RATE(rate >= 10 mm/h)\n       OR COMPLETE24H(amount >= 25 mm))",
+        "primary": "Applicable event OR valid intensity OR complete rolling-day accumulation; these are alternatives.",
+        "secondary": "Received root input, drainage/run-on and canopy reception determine separate action paths.",
+        "context": "Rain chance qualifies a forecast; it is not retained volume or a cause-weight multiplier.",
+        "interaction": "Rain + soil reception can feed the water model; rain + canopy exposure can feed a wet-weather pathway. Neither follows from the other.",
+        "related": "W05 may group the storm. W06/W07 require state/root evidence; W11/W12 need tissue-specific paths."
+      }
+    },
+    {
+      "id": "W05",
+      "title": "Severe storm, including explicitly supported hail",
+      "family": "storm",
+      "route": "official_or_explicit_hazard_product",
+      "requirements": "An applicable authoritative severe-weather event or explicit documented severe/hail product. Preserve source subtype, location and validity.",
+      "predicate": "C AND (applicableExplicitHail OR applicableSevereProduct)\nHail wording ONLY IF applicableExplicitHail is true.",
+      "factors": [
+        {
+          "factor": "Hazard type / source",
+          "role": "trigger",
+          "effect": "Hail, damaging wind and flooding remain distinct subtypes even within one storm.",
+          "missing": "Unknown generic event may be shown verbatim with attribution, not guessed into hail.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Alert validity / geography / updates",
+          "role": "gate",
+          "effect": "Include only applicable, uncancelled current/upcoming events; revisions replace earlier versions.",
+          "missing": "Stale/unmatched events are not active plant warnings.",
+          "rank": "Q",
+          "rankMeaning": "Source/quality/reconciliation requirement; failure leaves that branch unassessed.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Regional lead time / stated severity",
+          "role": "routing",
+          "effect": "Controls prepare-now versus watch wording, preserving the authority scale without inventing plant damage probability.",
+          "missing": "Keep authority metadata unknown where unavailable.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Roof / cover / wind shelter",
+          "role": "modifier",
+          "effect": "May change protective actions; protection strength is unknown unless characterized. Mesh is not assumed hail-proof.",
+          "missing": "Do not suppress authoritative regional event on a vague cover label.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Flowering / size / pot-ground",
+          "role": "routing",
+          "effect": "Changes what can be secured or moved; not needed for storm eligibility.",
+          "missing": "Generic relevant protection remains.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Surface T / humidity / rain probability",
+          "role": "excluded",
+          "effect": "None is a substitute for a hail/severe-storm product.",
+          "missing": "No inference from these alone.",
+          "rank": "X",
+          "rankMeaning": "Excluded substitute for the stated trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Hail predicted from clouds or rain chance only",
+        "US severe-storm thresholds silently treated as global crop-damage limits",
+        "User asked to go outside during an active dangerous event"
+      ],
+      "missingBehavior": "Unavailable hail capability is unassessed, not no hail risk. The reviewed app does not currently retain alerts; adapter work is required.",
+      "output": "Source-attributed storm/hail warning. Prepare beforehand where feasible and follow local weather guidance.",
+      "claimLimits": "No guarantee of hail striking this plant or of a cover preventing damage. [R24] [R13]",
+      "references": [
+        "R24",
+        "R13"
+      ],
+      "acceptanceCases": [
+        "Thunderstorm code + 90% rain, no hail field: no hail-specific warning.",
+        "Explicit applicable hail alert qualifies without plant size.",
+        "Cancelled or wrong-location alert is not active."
+      ],
+      "canonicalTriggerInputs": [
+        "official.severeEvent",
+        "official.explicitHailEvidence"
+      ],
+      "canonicalContextInputs": [
+        "official.validInterval",
+        "official.geometry",
+        "official.sourceSeverity",
+        "setup.hailProtection",
+        "setup.windShelter",
+        "plant.growthStage",
+        "plant.plantedIn"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W05",
+        "relevance": true,
+        "branches": [
+          {
+            "id": "explicit_hail",
+            "when": {
+              "ref": "official.hail"
+            },
+            "meaning": "Hail-specific source-supported event.",
+            "policy": null
+          },
+          {
+            "id": "explicit_severe",
+            "when": {
+              "ref": "official.severe"
+            },
+            "meaning": "Only the severe hazards actually supported by the source.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND (applicableExplicitHail OR applicableSevereProduct)\nHail wording ONLY IF applicableExplicitHail is true.",
+        "primary": "Explicit applicable authoritative severe/hail product. Ordinary rain/RH are not substitutes.",
+        "secondary": "Verified protection and portability affect preparation; source onset/expiry controls timing.",
+        "context": "Stage, size and pot/ground route actions; they do not establish hail occurrence.",
+        "interaction": "Do not add wind + rain + clouds to manufacture a hail trigger.",
+        "related": "Group W03/W04 only when the source/event supports those subtypes; preserve each reason."
+      }
+    },
+    {
+      "id": "W06",
+      "title": "Low reserve / drying soon",
+      "family": "water_need",
+      "route": "supported_water_model_or_qualified_observation",
+      "requirements": "A supported, initialized water model or qualified root-relevant evidence. Daily user moisture logging is not required. Current and projected states are separate.",
+      "predicate": "C AND ((credibleDryNow AND RECONCILED(true))\n OR MODEL(waterNow OR (notDue AND crossingWithin6h)))",
+      "factors": [
+        {
+          "factor": "Reserve / action threshold / uncertainty",
+          "role": "trigger",
+          "effect": "Compatible reserve-threshold comparisons determine current need. Overlap requires a validated decision rule or uncertain.",
+          "missing": "No supported state -> no definite drought/need claim.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Watering time, amount or saved pattern",
+          "role": "state_input",
+          "effect": "Recent application can increase reserve according to its event model. A timestamp or small top-up is not guaranteed full refill.",
+          "missing": "Broad input uncertainty; no elapsed-days substitution.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Occurred rain and soil reception",
+          "role": "state_input",
+          "effect": "Characterized actual rain can replenish reserve. Unknown reception/capture widens state.",
+          "missing": "No automatic rain reset; future input remains separate.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "ET, weather and actual loss",
+          "role": "state_input",
+          "effect": "Compatible atmospheric demand drives an assessed system-loss model; stomatal limits and components are accounted once.",
+          "missing": "Use validated gap bounds or mark unsupported; no zero demand.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Pot/ground, medium/drainage, roots and canopy",
+          "role": "model_domain",
+          "effect": "Determine accessible storage and loss within a supported profile. Size effects interact; larger pot alone is not a longer safe interval.",
+          "missing": "Missing critical profile property limits the model, not every independent warning.",
+          "rank": "G",
+          "rankMeaning": "Mandatory tissue/setup/model-domain gate; cannot be offset by points.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Age/stage, transplant/pruning/movement",
+          "role": "model_context",
+          "effect": "Development changes supported parameter ranges; material setup changes trigger a new domain/state update.",
+          "missing": "No exact root volume or leaf area from age.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Current wet or dry observation / wilt",
+          "role": "action_conflict",
+          "effect": "Reconcile a credible observation before an incompatible model action. Wilt alone does not distinguish drought, heat or root stress.",
+          "missing": "Optional observations improve state; their absence is not a daily-check gate.",
+          "rank": "Q",
+          "rankMeaning": "Source/quality/reconciliation requirement; failure leaves that branch unassessed.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Hot/dry weather alone called proven dry soil",
+        "Same-day watering forces not_due despite failed wetting",
+        "Forecast rain cancels supported current need"
+      ],
+      "missingBehavior": "Return the explicit watering exception if the model is unidentifiable; do not generate a drought alert to fill the UI. Hazard modules with usable inputs continue.",
+      "output": "Estimated low reserves now, or an explicitly projected need window; explain the main event/weather cause.",
+      "claimLimits": "No exact soil percentage, dose or guaranteed safe-until time without the separately validated feature. [R01] [R03] [R05]",
+      "references": [
+        "R01",
+        "R03",
+        "R05",
+        "R16"
+      ],
+      "acceptanceCases": [
+        "Hot day but supported sufficient reserve: no current drought warning.",
+        "Unknown top-up cannot be treated as a full reset.",
+        "Dry now plus rain tomorrow: current need remains."
+      ],
+      "canonicalTriggerInputs": [
+        "model.currentDecision",
+        "model.currentMargins",
+        "model.futureThresholdCrossing",
+        "root.observation"
+      ],
+      "canonicalContextInputs": [
+        "event.watering",
+        "event.carrierWater",
+        "weather.historyET0",
+        "weather.actualRain",
+        "weather.forecastRain",
+        "setup.soilRainReception",
+        "setup.mediumProfile",
+        "setup.rootingStatus",
+        "setup.canopySize",
+        "plant.age",
+        "plant.growthStage",
+        "setup.changeEvents"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W06",
+        "relevance": true,
+        "branches": [
+          {
+            "id": "observed_dry",
+            "when": {
+              "all": [
+                {
+                  "ref": "root.dryRelevant"
+                },
+                {
+                  "quality": "root.reconciled",
+                  "when": true
+                }
+              ]
+            },
+            "meaning": "Qualified current dry evidence, reconciled with conflicts.",
+            "policy": null
+          },
+          {
+            "id": "model_water_now",
+            "when": {
+              "quality": "model.supported",
+              "when": {
+                "quality": "model.reconciled",
+                "when": {
+                  "ref": "model.waterNow"
+                }
+              }
+            },
+            "meaning": "Current supported water-state recommendation.",
+            "policy": null
+          },
+          {
+            "id": "model_drying_soon",
+            "when": {
+              "quality": "model.supported",
+              "when": {
+                "quality": "model.reconciled",
+                "when": {
+                  "all": [
+                    {
+                      "ref": "model.notDue"
+                    },
+                    {
+                      "ref": "model.crossesWithin6h"
+                    }
+                  ]
+                }
+              }
+            },
+            "meaning": "Conditional future need; not current drought.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND ((credibleDryNow AND RECONCILED(true))\n OR MODEL(waterNow OR (notDue AND crossingWithin6h)))",
+        "primary": "Qualified root evidence OR supported reserve/action-threshold comparison; future crossing is a different branch.",
+        "secondary": "Retained watering, occurred rain, accessible storage and actual loss are model terms, not warning points.",
+        "context": "Age/size/medium define the model domain; heat, last-watered age and forecast rain alone cannot replace state.",
+        "interaction": "Storage minus loss plus retained input is an accounting model. A dry input/initial state cannot be inferred merely from user watering behaviour.",
+        "related": "Main watering card absorbs this detector. W01/W11 can coexist; credible wet-root conflicts require reconciliation."
+      }
+    },
+    {
+      "id": "W07",
+      "title": "Persistent excess water / drainage concern",
+      "family": "root_environment",
+      "route": "supported_excess_model_or_qualified_site_evidence",
+      "requirements": "A model with an assessed excess/drainage state beyond its normal drain window, or credible current root-zone pooling/blocked-drainage/excess evidence. Wet air or regional rain alone is insufficient.",
+      "predicate": "C AND (abnormalRootPoolingOrFailedDrainage\n OR EXCESS(excessAboveBound AND pastNormalDrainWindow))",
+      "factors": [
+        {
+          "factor": "Excess state / normal drainage window",
+          "role": "trigger",
+          "effect": "Persistent abnormal excess raises the environmental concern; root-zone hydraulic meaning must be defined.",
+          "missing": "No calibrated drain state -> no model-based persistence assertion.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Current pooling / blocked drainage / active-root saturation",
+          "role": "trigger",
+          "effect": "Qualified abnormal site evidence can support an immediate drainage inspection. A reservoir designed for self-watering is not automatically abnormal.",
+          "missing": "A vague wet reading alone is weak context, not confirmed waterlogging.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Actual input / reception / runoff and reservoir",
+          "role": "state_input",
+          "effect": "Repeated received water or extra supply can sustain excess; each input needs its control-volume treatment.",
+          "missing": "Unknown event amounts/reception widen the assessment.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Medium, structure and pot/ground",
+          "role": "model_domain",
+          "effect": "Determine drainage/air-water context. store/native/raised/custom do not specify hydraulic properties.",
+          "missing": "No clay=saturated or shop mix=free-draining rule.",
+          "rank": "G",
+          "rankMeaning": "Mandatory tissue/setup/model-domain gate; cannot be offset by points.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Loss, root development and weather",
+          "role": "interaction",
+          "effect": "May alter dry-down within the model; high humidity/cool air is not proof of saturated roots.",
+          "missing": "Do not require an arbitrary cool-air temperature.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Time after watering / repeated observations",
+          "role": "support",
+          "effect": "Distinguishes transient normal wetness from a persistent issue. Source depth/scope and actual chronology matter.",
+          "missing": "No known persistence across missing periods.",
+          "rank": "Q",
+          "rankMeaning": "Source/quality/reconciliation requirement; failure leaves that branch unassessed.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Wilt, pH/EC, pests, root damage",
+          "role": "diagnostic_context",
+          "effect": "Can help frame alternatives when measured/reported, but do not establish oxygen concentration or pathogen identity.",
+          "missing": "No inferred deficiency, root rot or exact cause.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "A single normal moist check just after watering",
+        "High rainfall/low ET by itself diagnosed as root rot",
+        "Excess above a drained reference silently clipped out of the model"
+      ],
+      "missingBehavior": "Weather-only conditions may support a rain precaution, not this present root finding. Retain insufficient_data when root excess is unsupported.",
+      "output": "Possible persistent wet-root/drainage issue. Check current drainage or additional water supply before adding more water.",
+      "claimLimits": "This is a possible aeration/drainage environment, not measured low oxygen or a root-rot diagnosis. It shares one card with W14.",
+      "references": [
+        "R03",
+        "R12",
+        "R20"
+      ],
+      "acceptanceCases": [
+        "Moist immediately after watering: no persistent-excess warning.",
+        "Observed abnormal pooling at active roots can qualify without weather.",
+        "Self-watering reservoir full alone is not root waterlogging."
+      ],
+      "canonicalTriggerInputs": [
+        "model.excessState",
+        "model.normalDrainWindow",
+        "root.abnormalPooling",
+        "root.failedDrainage"
+      ],
+      "canonicalContextInputs": [
+        "event.watering",
+        "setup.soilRainReception",
+        "setup.mediumProfile",
+        "setup.drainageClass",
+        "setup.additionalSupply",
+        "root.observation",
+        "root.symptomReport",
+        "diagnostic.sample"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W07",
+        "relevance": true,
+        "branches": [
+          {
+            "id": "abnormal_site",
+            "when": {
+              "ref": "root.abnormalPoolingOrFailedDrainage"
+            },
+            "meaning": "Current qualified abnormal root-zone drainage evidence.",
+            "policy": null
+          },
+          {
+            "id": "persistent_model_excess",
+            "when": {
+              "quality": "model.excessSupported",
+              "when": {
+                "all": [
+                  {
+                    "ref": "model.excessAboveBound"
+                  },
+                  {
+                    "ref": "model.pastNormalDrainWindow"
+                  }
+                ]
+              }
+            },
+            "meaning": "Supported abnormal excess persisting beyond its profile drain window.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND (abnormalRootPoolingOrFailedDrainage\n OR EXCESS(excessAboveBound AND pastNormalDrainWindow))",
+        "primary": "Qualified abnormal site evidence OR the complete excess-plus-persistence model combination.",
+        "secondary": "Input, drainage, loss and root access alter that state within an assessed profile.",
+        "context": "Regional humidity/rain and normal moist medium do not supply the missing root finding.",
+        "interaction": "Excess AND persistence belong together; a normal wet period immediately after watering is not enough.",
+        "related": "W14 inherits this environmental route; W13 adds vulnerable establishment. One root-environment card."
+      }
+    },
+    {
+      "id": "W08",
+      "title": "Container/root-zone heat exposure precaution",
+      "family": "heat",
+      "route": "contextual_container_subwarning",
+      "requirements": "plantedIn=pot and a valid heat exposure trigger plus reported direct solar exposure of the pot/hot-contact context; alternatively a relevant sensor crossing a supported root-temperature screen. Plant Full Sun alone does not locate the pot wall in sun.",
+      "predicate": "C AND isPot AND (supportedRootTempScreen\n OR (W01_heat AND (potInSun OR hotContact)))",
+      "factors": [
+        {
+          "factor": "Pot versus ground",
+          "role": "gate",
+          "effect": "This container-specific card requires pot. Ground retains general heat/root-context advice if relevant.",
+          "missing": "Unknown planting branch -> no specific hot-pot assertion.",
+          "rank": "G",
+          "rankMeaning": "Mandatory tissue/setup/model-domain gate; cannot be offset by points.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Solar exposure of pot / hot surface",
+          "role": "trigger_context",
+          "effect": "Verified local exposure supports the precaution. Canopy shade can protect the pot wall even if the plant is in sun.",
+          "missing": "No pot-specific trigger from plant sunlight category alone.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Air heat / radiation / duration",
+          "role": "trigger_context",
+          "effect": "Supplies the regional heat setting, not a measured root temperature.",
+          "missing": "No numeric root-temperature extrapolation.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Material, wall colour and insulation",
+          "role": "modifier",
+          "effect": "Heat absorption/transfer context; porosity can also alter evaporative loss. Do not assign one universal material multiplier.",
+          "missing": "No assumed black plastic or measured thermal response.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Pot size / geometry / ground contact",
+          "role": "modifier",
+          "effect": "May change heat exchange/buffering in an assessed model; volume alone cannot determine root temperature.",
+          "missing": "Keep effect uncertain, not monotonic size points.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Root sensor / measured root zone",
+          "role": "optional_trigger",
+          "effect": "A compatible sensor supplies a local measurement, not proof of tissue injury; thresholds remain domain-specific.",
+          "missing": "Sensor absent does not invalidate a qualified exposure precaution.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Ground plant shown a container-only warning",
+        "Outdoor full sun + unknown container colour/exposure used as confirmed hot roots"
+      ],
+      "missingBehavior": "Unknown pot exposure -> generic W01 only, or qualified optional context in its details; no extra recurring setup prompt.",
+      "output": "Exposure branch: the exposed container/hot surface may add root-zone heat exposure. Sensor branch: state the measured root-zone temperature and supported screen separately. Reduce avoidable container heating where practical.",
+      "claimLimits": "Do not claim root temperature or injury from air/colour/volume. This is folded into the heat card rather than a duplicate push. [R12]",
+      "references": [
+        "R12",
+        "R22"
+      ],
+      "acceptanceCases": [
+        "Ground plant with heat: W01 possible, W08 not relevant.",
+        "Plant Full Sun but pot wall shaded: no inferred pot heating.",
+        "Unknown pot material does not become black plastic."
+      ],
+      "canonicalTriggerInputs": [
+        "plant.plantedIn",
+        "context.heatEvent",
+        "setup.potSolarExposure",
+        "setup.hotSurface",
+        "sensor.rootTempC"
+      ],
+      "canonicalContextInputs": [
+        "setup.containerMaterial",
+        "setup.containerColor",
+        "setup.potGeometry",
+        "setup.groundContact",
+        "plant.potSize",
+        "weather.shortwave"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W08",
+        "relevance": {
+          "ref": "plant.pot"
+        },
+        "branches": [
+          {
+            "id": "root_sensor_heat",
+            "when": {
+              "all": [
+                {
+                  "ref": "sensor.rootTempAvailable"
+                },
+                {
+                  "quality": "sensor.rootTempSupported",
+                  "when": {
+                    "ref": "sensor.rootTempScreenCrossed"
+                  }
+                }
+              ]
+            },
+            "meaning": "Scoped root-temperature measurement and supported screen.",
+            "policy": null
+          },
+          {
+            "id": "exposed_pot_heat",
+            "when": {
+              "all": [
+                {
+                  "ref": "context.heat"
+                },
+                {
+                  "any": [
+                    {
+                      "ref": "setup.potSolarExposed"
+                    },
+                    {
+                      "ref": "setup.hotContact"
+                    }
+                  ]
+                }
+              ]
+            },
+            "meaning": "Heat context plus explicit local container exposure.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND isPot AND (supportedRootTempScreen\n OR (W01_heat AND (potInSun OR hotContact)))",
+        "primary": "Pot is mandatory. Supported sensor route OR heat plus explicit pot/contact exposure.",
+        "secondary": "Material, colour, insulation and geometry modify relevance; none proves a root temperature.",
+        "context": "Plant Full Sun and nominal pot litres cannot stand in for pot-wall exposure.",
+        "interaction": "A hot air value plus an unknown/shaded pot wall cannot trigger the exposed-pot branch. A supported local sensor is an independent alternative.",
+        "related": "Fold into W01 heat family, with the sensor/exposure reason labelled."
+      }
+    },
+    {
+      "id": "W09",
+      "title": "Possible dew/fog dampness",
+      "family": "dampness",
+      "route": "weather_proxy_or_direct_fog_evidence",
+      "requirements": "Compatible paired Tair/Tdew/night window for the dew proxy, or an explicit local observation/documented fog product. Fog does not require the nighttime dew proxy.",
+      "predicate": "C AND (explicitFog OR coveredNightDewProxy)\nDew proxy: 0 <= Tair-Tdew <= 2 C for >=2 covered hours.",
+      "factors": [
+        {
+          "factor": "Paired air/dew point and time",
+          "role": "trigger",
+          "effect": "Smaller nonnegative spread indicates closer air saturation; source quality and concurrent pairing are mandatory.",
+          "missing": "No pairing -> no precise spread; daily minimum and unrelated dew point cannot be combined.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Night / sky view / cloud",
+          "role": "modifier",
+          "effect": "Clear sky can strengthen radiational-dew context; actual leaf surface and sky exposure are unknown.",
+          "missing": "No cloud gate for explicit fog; no invented clear-sky condition.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Wind / advection",
+          "role": "interaction",
+          "effect": "Light wind can favour radiational dew; fog can have other mechanisms and occur with wind/daylight.",
+          "missing": "Do not suppress explicit fog on a breezy or cloudy day.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Roof / cover / canopy position",
+          "role": "modifier",
+          "effect": "May alter radiational cooling and surface exposure; a soil rain shelter answer cannot describe all canopy surfaces.",
+          "missing": "No automatic dew immunity under a roof.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Temperature near/below freezing",
+          "role": "routing",
+          "effect": "Use W02 frost/freezing context where liquid dew is not supported. Do not infer actual frost merely from this proxy.",
+          "missing": "Keep liquid/ice nature uncertain.",
+          "rank": "Q",
+          "rankMeaning": "Source/quality/reconciliation requirement; failure leaves that branch unassessed.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Rain / irrigation / water balance",
+          "role": "excluded_input",
+          "effect": "No rain is needed for dew/fog context. Condensation is not credited as root irrigation without a separate measured model.",
+          "missing": "No water replenishment or disease diagnosis from this warning.",
+          "rank": "X",
+          "rankMeaning": "Excluded substitute for the stated trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "abs(Tair-Tdew) hides a physically inconsistent pair",
+        "Zero rain means no dampness",
+        "A rain-hours counter presented as leaf-wetness hours"
+      ],
+      "missingBehavior": "No proxy data does not prove dry leaves. Retain unassessed/insufficient_data and keep explicit fog branch independent.",
+      "output": "Conditions may favour dew, or fog is forecast/reported. Surfaces may remain damp; actual leaf wetness is unmeasured.",
+      "claimLimits": "Air saturation, surface dew, fog and frost are distinct. The proxy cannot pinpoint which leaves are wet. [R21]",
+      "references": [
+        "R21",
+        "R11"
+      ],
+      "acceptanceCases": [
+        "0 rain with T/Tdew close at night: dew proxy may qualify.",
+        "Tdew materially above Tair: quality failure, not abs shortcut.",
+        "Daytime explicit fog can qualify without a nighttime interval."
+      ],
+      "canonicalTriggerInputs": [
+        "weather.airTempC",
+        "weather.dewPointC",
+        "weather.nightWindow",
+        "weather.fogCode",
+        "site.fogObservation"
+      ],
+      "canonicalContextInputs": [
+        "weather.cloud",
+        "weather.wind",
+        "setup.skyExposure",
+        "setup.canopyRainExposure",
+        "setup.frostProtection"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W09",
+        "relevance": true,
+        "branches": [
+          {
+            "id": "explicit_fog",
+            "when": {
+              "ref": "siteOrProduct.fog"
+            },
+            "meaning": "Typed documented fog product or credible local report.",
+            "policy": null
+          },
+          {
+            "id": "dew_proxy",
+            "when": {
+              "ref": "exposure.dewEpisode"
+            },
+            "meaning": "Covered paired nighttime spread in [0,2 C] for two accumulated covered hours.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND (explicitFog OR coveredNightDewProxy)\nDew proxy: 0 <= Tair-Tdew <= 2 C for >=2 covered hours.",
+        "primary": "Explicit fog OR supported paired dew-proxy episode. These are different mechanisms/routes.",
+        "secondary": "Sky view, cloud and wind frame radiational context; they are not gates for explicit fog.",
+        "context": "No rain is needed; soil reception does not describe leaf surfaces or replenish roots.",
+        "interaction": "Pair T/dew concurrently; do not use abs() to hide an invalid pair. Freezing context changes wording, not proof of ice.",
+        "related": "W11/W12 may reuse an eligible overlapping dampness proxy; do not count it as another independent disease vote."
+      }
+    },
+    {
+      "id": "W10",
+      "title": "Powdery-mildew-conducive conditions",
+      "family": "leaf_disease",
+      "route": "informational_exposure_screen",
+      "requirements": "Foliage context plus a source/time-compatible exposure episode or a credible current powdery-growth report. History alone changes context, not a new active trigger. Unemerged germination with no foliage is not a leaf-inspection target.",
+      "predicate": "C AND hasFoliage AND (currentPowderyGrowthReport\n OR (PMpilotEnabled AND pairedPMepisode))",
+      "factors": [
+        {
+          "factor": "Foliage / stage",
+          "role": "gate",
+          "effect": "Leafed stages support a leaf scout. Flowering is not required; germination with explicitly no emerged tissue is not relevant.",
+          "missing": "Unknown foliage -> conditional tissue wording, not an assumed leaf inspection.",
+          "rank": "G",
+          "rankMeaning": "Mandatory tissue/setup/model-domain gate; cannot be offset by points.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Paired temperature and humidity / duration",
+          "role": "trigger",
+          "effect": "Covered favourable ambient episodes support an informational conditions watch; do not use Tmax plus night RH.",
+          "missing": "Insufficient matching coverage -> no exposure conclusion.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Shade / local airflow / crowding",
+          "role": "modifier",
+          "effect": "Reported shade, crowding and limited local airflow can increase practical scouting relevance. These are local facts, not inferred from a group weather pin.",
+          "missing": "No assumption of a dense/still canopy; regional wind is a weak local proxy.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Rain / free leaf water / overhead watering",
+          "role": "nonmonotonic",
+          "effect": "Free water is not required; rain is not a monotone mildew multiplier or proof of elimination. Root watering is not foliage wetting.",
+          "missing": "Do not infer leaf wetness from soil reception or a generic watering log.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Wind",
+          "role": "interaction",
+          "effect": "May affect drying and dispersal in different directions; high wind cannot be an automatic protective veto.",
+          "missing": "No numeric wind protection credit.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Cultivar/history / prior symptoms",
+          "role": "context",
+          "effect": "A recent credible history can prioritize inspection; strain marketing/type does not quantify resistance. Current symptoms are separately labelled reports.",
+          "missing": "Unknown inoculum/susceptibility remains unknown.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Negative inspection / age / pot and soil",
+          "role": "scope_only",
+          "effect": "A dated negative check affects current symptom history, not future exposure. Pot size, age and soil class do not independently trigger airborne leaf mildew.",
+          "missing": "No low-risk or immunity assertion from missing symptoms.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Rain required for mildew eligibility",
+        "RH below the pilot screen interpreted as no mildew possible",
+        "Fixed infection odds from weather",
+        "Root water withheld because mildew watch is active"
+      ],
+      "missingBehavior": "An informational exposure warning may run with explicitly qualified regional context. Disabled/insufficient policy cannot be mapped to low disease risk.",
+      "output": "Exposure branch: recent/forecast conditions may favour powdery mildew; inspect leaf surfaces if warranted. Symptom branch: powdery growth was reported; review the finding and keep its cause unconfirmed. Both may include feasible airflow advice.",
+      "claimLimits": "Hemp powdery mildew does not require free leaf water; broader powdery mildews differ in moisture/dispersal responses. No universal cannabis infection band is established here. [R07] [R19]",
+      "references": [
+        "R07",
+        "R19",
+        "R10"
+      ],
+      "acceptanceCases": [
+        "Vegetative leafed plant can qualify; flowering not required.",
+        "Zero rain does not block a compatible PM episode.",
+        "High wind cannot automatically cancel a PM watch."
+      ],
+      "canonicalTriggerInputs": [
+        "plant.foliageContext",
+        "weather.pairedTempRH",
+        "feature.pmExposure",
+        "symptom.powderyGrowth"
+      ],
+      "canonicalContextInputs": [
+        "plant.sunlightExposure",
+        "setup.canopyDensity",
+        "setup.localAirflow",
+        "weather.actualRain",
+        "weather.wind",
+        "setup.irrigationMethod",
+        "symptom.history",
+        "symptom.negativeInspection"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W10",
+        "relevance": {
+          "ref": "plant.foliage"
+        },
+        "branches": [
+          {
+            "id": "powdery_report",
+            "when": {
+              "ref": "symptom.powderyGrowth"
+            },
+            "meaning": "Reported powdery growth; cause unconfirmed.",
+            "policy": null
+          },
+          {
+            "id": "pm_weather",
+            "when": {
+              "ref": "exposure.pmEpisode"
+            },
+            "meaning": "Informational simultaneous T/RH exposure screen.",
+            "policy": "pmWeather"
+          }
+        ],
+        "formula": "C AND hasFoliage AND (currentPowderyGrowthReport\n OR (PMpilotEnabled AND pairedPMepisode))",
+        "primary": "Foliage is mandatory. A current report is a symptom route; weather needs its own enabled paired episode.",
+        "secondary": "Verified local crowding, shade/airflow and relevant history refine scouting relevance.",
+        "context": "Pot size, soil class and strain labels are not independent infection triggers.",
+        "interaction": "Temperature AND RH AND covered duration form one weather feature. Rain is not required; wind/rain effects are not monotonic disease weights.",
+        "related": "Shares leaf-scout delivery with W12 when useful. W09 does not add independent mildew points."
+      }
+    },
+    {
+      "id": "W11",
+      "title": "Bud-rot / Botrytis conditions watch",
+      "family": "flower_disease",
+      "route": "flower_tissue_and_informational_exposure",
+      "requirements": "Flowers must be recorded or confirmed. The environmental route needs an enabled covered humid episode or supported persistent flower wetness. A current flower-problem report has a separate cause-unknown route. Brief wetting alone is insufficient; no universal persistence default is supplied.",
+      "predicate": "C AND hasFlowers AND (currentFlowerProblemReport\n OR supportedPersistentFlowerDampness\n OR (flowerPilotEnabled AND pairedFlowerEpisode))",
+      "factors": [
+        {
+          "factor": "Flowers / stage",
+          "role": "gate",
+          "effect": "Recorded flowering or verified flowers enables a bud-focused watch. Dense/mature flowers are not inferred merely from that enum.",
+          "missing": "Unknown flowers -> no definite bud-specific eligibility; generic damp/leaf/root context may remain.",
+          "rank": "G",
+          "rankMeaning": "Mandatory tissue/setup/model-domain gate; cannot be offset by points.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Temperature, humidity and duration",
+          "role": "trigger",
+          "effect": "Compatible covered episodes support conducive-condition messaging; no greenhouse threshold is a validated outdoor infection model.",
+          "missing": "No matched interval -> insufficient exposure evidence.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Canopy rain, dew/fog and overhead irrigation",
+          "role": "trigger_context",
+          "effect": "Can produce a damp-tissue pathway if supported. Rain at soil and a root-watering log do not establish flower wetting.",
+          "missing": "If canopy reception is unknown, use conditional/regional dampness wording only.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Flower/canopy density, airflow and shelter",
+          "role": "modifier",
+          "effect": "Reported dense tissue or limited airflow can increase inspection relevance; local airflow is not regional wind.",
+          "missing": "No fixed ambient-to-flower RH offset or assumed heavy buds.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Wounds / recent handling / damage",
+          "role": "modifier",
+          "effect": "Current dated tissue damage can add context for a susceptible-tissue concern. Old training tags do not prove a fresh wound.",
+          "missing": "No assumed injury from undated training/pest labels.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Symptom history / negative inspection",
+          "role": "context",
+          "effect": "A report of deteriorating flowers routes to symptom review; previous absence does not prevent new exposure.",
+          "missing": "No confirmed infection without independent evidence.",
+          "rank": "P1/C3",
+          "rankMeaning": "Current positive symptom report is P1; previous negative inspection/history scope is C3.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Root moisture / irrigation need",
+          "role": "action_conflict",
+          "effect": "A root-dry plant can still need irrigation while flower wetting is minimized. Humid weather does not imply wet roots.",
+          "missing": "Keep main watering model and this scout independent.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Bud-rot title for a verified flowerless plant",
+        "A fixed RH offset simulates flower interior humidity",
+        "Rain shelter for soil suppresses all flower/humidity risk",
+        "Blanket do-not-water instruction from disease watch"
+      ],
+      "missingBehavior": "Missing flower tissue blocks this specific label; missing canopy microclimate limits support, not a claim of absence. A broader Botrytis symptom report needs tissue-aware review. The direct wetness route is unassessed without supported persistence evidence/rule.",
+      "output": "Exposure/wetness branch: damp/humid conditions warrant attention to flowering tissue; reduce avoidable prolonged flower wetting. Symptom-only branch: a flower-health problem was reported; review it without asserting recent humid conditions or Botrytis. Improve feasible airflow where appropriate.",
+      "claimLimits": "Botrytis-favouring tissue/environment relationships do not supply an infection probability or guarantee prevention. Flower microclimate can differ from ambient. [R08] [R18]",
+      "references": [
+        "R08",
+        "R18",
+        "R09"
+      ],
+      "acceptanceCases": [
+        "Vegetative and explicitly no flowers: no bud-rot watch.",
+        "Flowering plus humidity under a rain roof: humidity pathway can remain.",
+        "Dry-root need and flower watch coexist without contradictory water advice."
+      ],
+      "canonicalTriggerInputs": [
+        "plant.flowerContext",
+        "feature.flowerHumidExposure",
+        "symptom.flowerCondition"
+      ],
+      "canonicalContextInputs": [
+        "setup.canopyRainExposure",
+        "weather.actualRain",
+        "feature.possibleDewFog",
+        "setup.irrigationMethod",
+        "setup.canopyDensity",
+        "setup.localAirflow",
+        "event.tissueDamage",
+        "symptom.history",
+        "model.currentDecision"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W11",
+        "relevance": {
+          "ref": "plant.flowers"
+        },
+        "branches": [
+          {
+            "id": "flower_report",
+            "when": {
+              "ref": "symptom.flowerProblem"
+            },
+            "meaning": "Reported flower problem; do not identify Botrytis.",
+            "policy": null
+          },
+          {
+            "id": "flower_wetting",
+            "when": {
+              "all": [
+                {
+                  "ref": "site.flowerDamp"
+                },
+                {
+                  "quality": "site.flowerDampRuleSupported",
+                  "when": {
+                    "ref": "site.flowerDampPersistence"
+                  }
+                }
+              ]
+            },
+            "meaning": "Supported persistent flower dampness; a single wet instant is insufficient.",
+            "policy": null
+          },
+          {
+            "id": "flower_weather",
+            "when": {
+              "ref": "exposure.flowerEpisode"
+            },
+            "meaning": "Informational simultaneous T/RH exposure screen.",
+            "policy": "flowerWeather"
+          }
+        ],
+        "formula": "C AND hasFlowers AND (currentFlowerProblemReport\n OR supportedPersistentFlowerDampness\n OR (flowerPilotEnabled AND pairedFlowerEpisode))",
+        "primary": "Flowers are mandatory. Supported persistent dampness or paired humid exposure is the environmental driver; reported symptoms use separate copy.",
+        "secondary": "Verified density, slow local drying and fresh wounds strengthen inspection relevance.",
+        "context": "Pot volume, soil RH assumptions and age cannot bypass flower presence or supply infection odds.",
+        "interaction": "T and humidity must overlap in time. Brief wetting alone does not pass the direct dampness route; persistence needs an accepted rule, with no universal default here. Wounds/density alone do not trigger.",
+        "related": "Group shared W09/W12 evidence; keep W06 root irrigation independent of flower-wetting precautions."
+      }
+    },
+    {
+      "id": "W12",
+      "title": "Wet-weather leaf-spot conditions watch",
+      "family": "leaf_disease",
+      "route": "foliage_and_informational_wet_weather",
+      "requirements": "Foliage context and a documented wet-weather proxy/leaf-wetness observation or a credible new leaf-spot report. The output is a broad leaf-spot scout, not a Septoria identification.",
+      "predicate": "C AND hasFoliage AND (currentLeafSpotReport\n OR (leafPilotEnabled AND jointTempRHwetWeatherEpisode))",
+      "factors": [
+        {
+          "factor": "Foliage / stage",
+          "role": "gate",
+          "effect": "Leaf-bearing plants can qualify at multiple stages. Lower/inner foliage is an inspection target, not evidence that it is infected.",
+          "missing": "Unknown tissue -> conditional message or not relevant when no foliage is confirmed.",
+          "rank": "G",
+          "rankMeaning": "Mandatory tissue/setup/model-domain gate; cannot be offset by points.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Leaf wetness / canopy rain / dew",
+          "role": "trigger_context",
+          "effect": "Supported wetting and time in humid conditions add exposure context; leaf-wetness sensor hours differ from provider rainy hours.",
+          "missing": "Unknown canopy path -> qualified regional wet-weather message only.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Paired temperature and humidity / time",
+          "role": "trigger",
+          "effect": "An explicit exposure band counts only matched covered intervals. Exact favourable limits vary among leaf-spot pathogens.",
+          "missing": "Do not fill missing hours or interpret an out-of-band day as no disease.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Airflow, canopy position / shade",
+          "role": "modifier",
+          "effect": "Reported slow-drying/crowded context can prioritize a scout.",
+          "missing": "No inferred inner-canopy moisture from a daily mean.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Debris/splash/history / cultivar",
+          "role": "modifier",
+          "effect": "Reported current disease history or splash context can add relevance; soilType or strainType is not evidence of inoculum/resistance.",
+          "missing": "Absent history is unknown, not proof of a clean site.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Symptoms / previous negative check",
+          "role": "context",
+          "effect": "Dated new spots allow symptom review. Similar appearances have different causes; a prior negative is scoped in time.",
+          "missing": "No species/deficiency diagnosis or fake odds.",
+          "rank": "P1/C3",
+          "rankMeaning": "Current positive symptom report is P1; previous negative inspection/history scope is C3.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Automatic Septoria diagnosis from rain/RH",
+        "Soil rainReception treated as leaf wetness",
+        "Leaf spots inferred from generic notes without confirmation"
+      ],
+      "missingBehavior": "No exposure data -> unassessed, not low leaf-spot risk. Symptom reports can still be reviewed without weather.",
+      "output": "Exposure branch: recent/forecast wet-weather conditions warrant attention to foliage. Symptom-only branch: new leaf spots were reported; review their cause without asserting wet weather. Neither branch identifies a pathogen.",
+      "claimLimits": "Rutgers/UF describe multiple leaf-spot diseases with overlapping symptoms and wetness associations. A regional weather proxy cannot distinguish them. [R09] [R07]",
+      "references": [
+        "R09",
+        "R07"
+      ],
+      "acceptanceCases": [
+        "Root drip watering alone is not a leaf-wetting event.",
+        "Rain hours cannot be printed as leaf-wetness hours.",
+        "Leaf spots reported on a dry day still allow symptom review."
+      ],
+      "canonicalTriggerInputs": [
+        "plant.foliageContext",
+        "feature.wetWeatherExposure",
+        "symptom.leafSpots"
+      ],
+      "canonicalContextInputs": [
+        "sensor.leafWetness",
+        "setup.canopyRainExposure",
+        "weather.actualRain",
+        "feature.possibleDewFog",
+        "setup.irrigationMethod",
+        "setup.localAirflow",
+        "symptom.history",
+        "setup.debrisSplash"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W12",
+        "relevance": {
+          "ref": "plant.foliage"
+        },
+        "branches": [
+          {
+            "id": "leaf_spot_report",
+            "when": {
+              "ref": "symptom.leafSpots"
+            },
+            "meaning": "Reported spots; cause unconfirmed, including on a dry day.",
+            "policy": null
+          },
+          {
+            "id": "leaf_weather",
+            "when": {
+              "ref": "exposure.leafWetWeatherEpisode"
+            },
+            "meaning": "Paired T/RH plus temporally overlapping supported wet-weather route.",
+            "policy": "leafWeather"
+          }
+        ],
+        "formula": "C AND hasFoliage AND (currentLeafSpotReport\n OR (leafPilotEnabled AND jointTempRHwetWeatherEpisode))",
+        "primary": "Foliage plus current spots OR an enabled joint temperature/humidity/wetting-context episode.",
+        "secondary": "Reported splash/debris/history and slow local drying can refine an inspection.",
+        "context": "A roof/soil/strain label alone cannot establish inoculum, wetness or Septoria.",
+        "interaction": "Count the INTERSECTION of T, RH and supported wet-weather route, not three totals from separate times. Label proxy versus measured leaf wetness.",
+        "related": "Shares leaf/flower scout context with W10/W11; distinct pathogens and routes remain distinct."
+      }
+    },
+    {
+      "id": "W13",
+      "title": "Wet conditions during germination/establishment",
+      "family": "establishment",
+      "route": "vulnerable_stage_and_root_environment",
+      "requirements": "Recorded germination/seedling stage or explicitly confirmed susceptible rooting/establishment context, plus supported abnormal root-zone wet/drainage conditions or a current relevant symptom report. A mature transplant is not automatically a seedling.",
+      "predicate": "C AND vulnerableEstablishment\n AND (currentEstablishmentProblemReport OR W07_rootExcess)",
+      "factors": [
+        {
+          "factor": "Germination / seedlings / rooting context",
+          "role": "gate",
+          "effect": "Emerging tissue is the relevant scope; age alone does not define it. Explicit tissue/rooting facts override vague chronology.",
+          "missing": "Unknown clone establishment -> general root-context advice, no automatic damping-off eligibility.",
+          "rank": "G",
+          "rankMeaning": "Mandatory tissue/setup/model-domain gate; cannot be offset by points.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Active germination/root-zone excess and drainage",
+          "role": "trigger",
+          "effect": "Abnormal persistent wetness or supported drainage failure warrants a wet-establishment precaution. Normal moisture for germination is not pathological.",
+          "missing": "No exposure claim from outside RH/rain alone.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Root/soil temperature versus air",
+          "role": "modifier",
+          "effect": "Actual soil/root readings can frame establishment context. Ambient cold does not measure substrate temperature; pathogen responses differ.",
+          "missing": "No cool-air-only damping-off trigger.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Sanitation, reused medium / history",
+          "role": "context",
+          "effect": "A dated user report can support hygiene/contextual advice; native/store/custom does not identify pathogen content.",
+          "missing": "No inference of contamination from medium origin alone.",
+          "rank": "M2",
+          "rankMeaning": "Secondary local modifier/interaction; cannot create eligibility without a primary path.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Light, growth speed / salts",
+          "role": "context",
+          "effect": "Measured/reported constraints can frame alternative causes and slow establishment, without numerical disease points.",
+          "missing": "No low-light/EC assumption from weather UV or nutrient mL/L.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Collapse / failed emergence / negative checks",
+          "role": "symptom_review",
+          "effect": "Current reports warrant a differential inspection; mechanical damage, pests and other stresses can look similar.",
+          "missing": "No pathogen identity or assurance from missing reports.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Flowering established plant receives a damping-off card from rain alone",
+        "Normal moist seed medium called waterlogged",
+        "Root temperature copied from air"
+      ],
+      "missingBehavior": "If vulnerable stage or root excess is unknown, preserve that limitation. Independent heat/cold/rain preparation warnings remain available.",
+      "output": "Excess branch: the young/germinating root zone may be staying excessively wet; review drainage. Symptom-only branch: an establishment problem was reported; investigate without asserting excess moisture. Keep the cause unconfirmed.",
+      "claimLimits": "Damping-off affects seeds/young seedlings and involves several organisms; established plants are less susceptible to that syndrome. General sources do not prove a cannabis threshold. [R20]",
+      "references": [
+        "R20",
+        "R07"
+      ],
+      "acceptanceCases": [
+        "Established flowering plant with rain: no seedling-damping-off warning.",
+        "Seedling with normal moist medium: no abnormal-wetness trigger.",
+        "Unknown-rooted clone is not silently treated as a newly germinated seed."
+      ],
+      "canonicalTriggerInputs": [
+        "plant.establishmentContext",
+        "root.abnormalWetEnvironment",
+        "symptom.establishmentProblem"
+      ],
+      "canonicalContextInputs": [
+        "plant.growthStage",
+        "setup.rootingStatus",
+        "sensor.rootTempC",
+        "setup.sanitationHistory",
+        "diagnostic.EC",
+        "setup.localLight"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W13",
+        "relevance": {
+          "ref": "plant.vulnerableEstablishment"
+        },
+        "branches": [
+          {
+            "id": "establishment_report",
+            "when": {
+              "ref": "symptom.establishmentProblem"
+            },
+            "meaning": "Failed emergence/young-seedling problem reported; cause unknown.",
+            "policy": null
+          },
+          {
+            "id": "wet_establishment",
+            "when": {
+              "ref": "context.rootExcess"
+            },
+            "meaning": "W07 root-excess route in a vulnerable establishment context.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND vulnerableEstablishment\n AND (currentEstablishmentProblemReport OR W07_rootExcess)",
+        "primary": "Vulnerable establishment is mandatory. W07 abnormal excess or a relevant current report supplies the trigger.",
+        "secondary": "Actual substrate T, rooting facts and current sanitation history frame the review.",
+        "context": "Air T, broad soil origin and clone/age labels do not prove damping-off or rooting status.",
+        "interaction": "Young stage without abnormal wetness is not wet-establishment risk; abnormal wetness in a mature plant is W07, not a seedling diagnosis.",
+        "related": "Add establishment context to the W07/W14 root family, without another independent severity vote."
+      }
+    },
+    {
+      "id": "W14",
+      "title": "Root aeration / root-health context",
+      "family": "root_environment",
+      "route": "alias_or_symptom_context",
+      "requirements": "Use W07 evidence for the environmental route, or a credible current root/foliage symptom report for an explicitly uncertain symptom-review route. This is not a second independent weather risk score.",
+      "predicate": "C AND (currentRootOrWiltReport OR W07_rootExcess)\nEnvironmental route is W07, never a second weather score.",
+      "factors": [
+        {
+          "factor": "Persistent excess / drainage evidence",
+          "role": "inherited_trigger",
+          "effect": "Same root condition and evidence as W07; never count it twice to increase severity.",
+          "missing": "No weather-only root-rot fallback.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Current wilt / discoloured roots / root injury report",
+          "role": "symptom_review",
+          "effect": "Can justify investigation when credible, with source and tissue scope. It does not identify drought versus root damage, oxygen, salt or disease.",
+          "missing": "No silent NLP diagnosis from old notes/photo URI.",
+          "rank": "P1",
+          "rankMeaning": "Primary trigger route or required component of that route; components may be jointly necessary.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Root-zone T, EC/pH and physical injury",
+          "role": "diagnostic_context",
+          "effect": "Compatible actual measurements can support a differential; sample type/time matter. They are not all available today.",
+          "missing": "Do not derive EC or toxicity from fertilizer name/concentration.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Watering / rainfall / supported reserve",
+          "role": "action_conflict",
+          "effect": "A current credible wet/saturated root finding blocks a weather-only more-water instruction. Reconcile later dry evidence and intervening events chronologically.",
+          "missing": "An old wet observation is not a permanent veto.",
+          "rank": "Q",
+          "rankMeaning": "Source/quality/reconciliation requirement; failure leaves that branch unassessed.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Stage / root establishment / medium",
+          "role": "routing",
+          "effect": "Change relevant inspection scope and model domain. Poor drainage is not inferred from every soil label.",
+          "missing": "No age or strain disease coefficient.",
+          "rank": "C3",
+          "rankMeaning": "Action/differential/scope context; not an independent event trigger.",
+          "numericalCausalWeight": null
+        },
+        {
+          "factor": "Regional RH / cold weather / prior needsWater",
+          "role": "excluded",
+          "effect": "None establishes present root oxygen or a pathogen, and prior app output is not observational evidence.",
+          "missing": "These cannot supply the missing root trigger.",
+          "rank": "X",
+          "rankMeaning": "Excluded substitute for the stated trigger.",
+          "numericalCausalWeight": null
+        }
+      ],
+      "suppressions": [
+        "Root-rot score increases because needsWater=false",
+        "W07 and W14 count as two independent root hazards",
+        "Named Pythium/Fusarium diagnosis from weather"
+      ],
+      "missingBehavior": "No usable root evidence -> no present aeration/pathogen assertion. A symptom-only branch stays explicitly cause_unknown.",
+      "output": "Possible root-environment problem or reported symptoms: investigate drainage/current roots and keep the cause unconfirmed.",
+      "claimLimits": "Environmental conditions, symptoms and confirmed disease are different claims. Heat alone can cause wilt even with adequate water. [R22] Root-disease organisms do not share one universal weather threshold.",
+      "references": [
+        "R22",
+        "R03",
+        "R20"
+      ],
+      "acceptanceCases": [
+        "needsWater=false alone does not qualify.",
+        "W07 and W14 merge into one root card with preserved reasons.",
+        "Wilt without root evidence yields cause_unknown, not automatic drought or root rot."
+      ],
+      "canonicalTriggerInputs": [
+        "context.W07",
+        "root.symptomReport"
+      ],
+      "canonicalContextInputs": [
+        "diagnostic.rootTemp",
+        "diagnostic.EC",
+        "diagnostic.pH",
+        "event.rootInjury",
+        "root.observation",
+        "model.currentDecision",
+        "plant.growthStage",
+        "setup.rootingStatus"
+      ],
+      "triggerInputMeaning": "Alternative branches as stated in predicate; this flat list is not an all-fields-required gate.",
+      "sourceStatus": "canonical fields; consult existing/API/new-field crosswalk; not a claim all fields are currently stored",
+      "diseaseProbabilityAvailable": false,
+      "dailyMoistureCheckRequired": false,
+      "formalLogic": {
+        "id": "W14",
+        "relevance": true,
+        "branches": [
+          {
+            "id": "root_symptom_report",
+            "when": {
+              "ref": "symptom.rootOrWilt"
+            },
+            "meaning": "Reported symptoms; explicitly cause unknown.",
+            "policy": null
+          },
+          {
+            "id": "root_environment",
+            "when": {
+              "ref": "context.rootExcess"
+            },
+            "meaning": "Alias of W07 environmental evidence.",
+            "policy": null
+          }
+        ],
+        "formula": "C AND (currentRootOrWiltReport OR W07_rootExcess)\nEnvironmental route is W07, never a second weather score.",
+        "primary": "W07 evidence OR a current qualified symptom report, with different claims.",
+        "secondary": "Scoped root temperature/EC/pH and actual injury can support differential review.",
+        "context": "Prior needsWater=false, regional RH and weather cannot supply a root diagnosis.",
+        "interaction": "Wilt can have different causes. A symptom route does not establish excess water; a root-excess route does not identify a pathogen.",
+        "related": "One W07/W14 card with retained child reasons; W13 is tissue-specific context."
+      }
+    }
+  ],
+  "verification": {
+    "revision": "5.2",
+    "warnings": 14,
+    "rankedFactorMappings": 89,
+    "executedReferenceChecks": 110,
+    "allReferenceChecksPassed": true,
+    "previousWarningScenariosSpecified": 42,
+    "v5CoreScenariosSpecified": 48,
+    "appWarningTestsExecuted": false,
+    "numericalCausalWeightsEstimated": false,
+    "biologicalPredictionValidated": false
+  }
+}

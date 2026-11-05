@@ -1,0 +1,670 @@
+
+[PAGE 1]
+Full Terms & Conditions of access and use can be found at
+https://www.tandfonline.com/action/journalInformation?journalCode=wcim20
+Journal of Crop Improvement
+ISSN: (Print) (Online) Journal homepage: https://www.tandfonline.com/loi/wcim20
+Physiological screening for drought-tolerance
+traits among hemp (Cannabis sativa L.) cultivars in
+controlled environments and in field
+Kendall Sheldon, Avat Shekoofa, Eric Walker & Heather Kelly
+To cite this article: Kendall Sheldon, Avat Shekoofa, Eric Walker & Heather Kelly (2021)
+Physiological screening for drought-tolerance traits among hemp (Cannabis sativa L.) cultivars
+in controlled environments and in field, Journal of Crop Improvement, 35:6, 816-831, DOI:
+10.1080/15427528.2021.1883175
+To link to this article:  https://doi.org/10.1080/15427528.2021.1883175
+Published online: 08 Feb 2021.
+Submit your article to this journal 
+Article views: 586
+View related articles 
+View Crossmark data
+Citing articles: 8 View citing articles 
+
+
+[PAGE 2]
+Physiological screening for drought-tolerance traits 
+among hemp ( Cannabis sativa L.) cultivars in controlled 
+environments and in field
+Kendall Sheldon
+a
+, Avat Shekoofa
+a
+, Eric Walker
+b
+, and Heather Kelly
+c
+a
+Plant Sciences, University of Tennessee-Knoxville, Jackson, TN, USA; 
+b
+Genamera, Springfield, TN, USA; 
+c
+Entomology and Plant Pathology, University of Tennessee-Knoxville, Jackson, TN, USA
+ABSTRACT
+The identification of genetic traits that enable water conserva -
+tion could improve water availability for plant use when 
+drought may develop. Hemp (Cannabis sativa L.) production in 
+the USA has continued to increase dramatically after the federal 
+government legalized its cultivation in 2014, but because of 
+strict regulations in the past, necessary research for identifying 
+adapted cultivars with desirable traits is lacking. The objectives 
+of this study were to identify water-saving traits among hemp 
+cultivars and determine if they influence cannabidiol (CBD) 
+potency. Three approaches were taken: (i) hemp cultivars tran -
+spiration rate (TR) responses to soil drying were evaluated in a 
+greenhouse, (ii) Sensitivity of cultivars TR to high vapor pressure 
+deficit (VPD) was tested in a walk-in chamber, (iii) Field trial data 
+were examined to determine if expression of drought-tolerance 
+traits was associated with changes in CBD potency. Five out of 
+thirteen cultivars had the earliest stomatal closure at rates 
+higher than fraction of transpirable soil water (FTSW) threshold 
+of 0.55. Four out of twelve expressed the limited transpiration 
+rate (TRlim) trait, with their VPD thresholds ranging from 1.2 to 
+2.6 kPa. Cultivar Ha3ze showed a desired early decrease in TR 
+during soil drying, delayed wilting in the field when soil-water 
+deficit developed, and had greater CBD percentage than other 
+cultivars. This study provides useful information on variability 
+among hemp cultivars in TR response to soil drying and high 
+evaporative demand that can be applied in developing cultivars 
+that are better suited to a range of water-limited conditions.
+Abbreviations: CBD, Cannabidiol; Cherry NT, Cherry Not 
+Topped; Cherry T, Cherry Topped; DAT, Days after transplant; 
+FTSW, Fraction of transpirable soil water; RWC, Relative water 
+content; SLA, Specific leaf area; T1 NT, T1 Not Topped; TRlim, 
+Limited transpiration rate; TR, Transpiration Rate; T1 T, T1 
+Topped; VPD, Vapor pressure deficit; WS, Wilting score
+ARTICLE HISTORY
+Received 1 September 2020  
+Accepted 26 January 2021  
+KEYWORDS
+Hemp; drought; fraction of 
+transpirable soil water; CBD; 
+limited transpiration; vapor 
+pressure deficit
+1. Introduction
+Hemp ( Cannabis sativa L.) production in the USA has increased tremen -
+dously because of the passing of the law regarding its cultivation in 2014, and 
+CONTACT Avat Shekoofa 
+ ashekoof@utk.edu 
+ University of Tennessee, Plant Sciences Department, West TN 
+Research & Education Center, 605 Airways Blvd., Jackson, TN 38301-3201
+JOURNAL OF CROP IMPROVEMENT
+2021, VOL. 35, NO. 6, 816–831
+https://doi.org/10.1080/15427528.2021.1883175
+© 2021 Informa UK Limited, trading as Taylor & Francis Group
+
+[PAGE 3]
+the 2018 Farm Bill, which identified hemp as an agricultural commodity. In 
+2019, 206,965 hectares were licensed for growing hemp in the USA, which 
+was a 554% increase from 31,637 hectares in 2018 (Angell 2019 ).
+As a multipurpose crop with three harvestable parts: grain, fiber, and 
+flower, the versatility of this plant boosts its popularity, and the potential 
+of new markets is appealing to farmers. While traditionally a fiber and grain 
+crop, hemp has emerged as a source of non-hallucinogenic medicinal phy -
+tocannabinoids (e.g., CBD) (Schluttenhofer and Yuan 2017 ). Because oilseed 
+cultivars produce more flowers than fiber cultivars, and the inflorescences are 
+where most cannabinoids are produced, these cultivars are a logical source 
+for CBD. Moreover, the use of industrial hemp for the production of CBD 
+has not received much consideration, although there is commercial interest 
+in using field-grown plants for producing CBD (Cherney and Small 2016 ).
+The most important physiological process determining crop resource-use 
+efficiency is photosynthesis (Tang et al. 2017 ). However, transpiration is 
+a natural consequence of stomatal opening to allow CO
+2 
+to diffuse into the 
+interior of the leaf to be assimilated in photosynthesis. Hence, transpirational 
+water loss is necessary and quantitatively linked to plant growth and produc -
+tion (Tanner and Sinclair 1983 ).
+To overcome the negative impacts of drought stress in crops, many 
+strategies have been investigated and adopted, mainly including agronomic 
+management and genetic improvement (Kebede et al. 2014 ). The physiolo -
+gical traits that appear to be particularly desirable to improve performance of 
+crops under water-deficit conditions are generally associated with limited 
+water use early in the growing season so that water is conserved for use later 
+in season to sustain plant productivity during seed fill (Manandhar et al. 
+2017 ; Shekoofa and Sinclair 2018 ).
+Studies have shown that partial stomatal closure in response to both 
+progressive soil drying and high atmospheric vapor pressure deficit (VPD) 
+can confer water-saving properties on plants because of reduced plant tran -
+spiration rate (TR) (Shekoofa et al. 2013 ; Devi et al. 2014 ; Sinclair et al. 2018 ). 
+Therefore, plants expressing one or both stomatal closure traits can conserve 
+soil water and prolong crop physiological activity under dry conditions.
+The first response to a leaf water deficit is stomatal closure (Hura et al. 2007 ), 
+which occurs before any change in relative water content (RWC) occurs. 
+According to Wanjiku et al. ( 2019 ), RWC can be used to monitor water status 
+of the plant during growth and under drought stress. RWC is percent of water at 
+a given time as related to the water content at full turgor (Gonzalez and 
+Gonzalez-Vilar 2001 ).
+While substantial progress has been made in identifying varieties of peanut 
+( Arachis hypogaea ), maize ( Zea mays ), sorghum ( Sorghum bicolor ), cowpea 
+( Vigna unguiculata ), and soybean ( Glycine max ) that possess drought- 
+tolerance traits, little or no attention has been given to hemp cultivars. Since 
+JOURNAL OF CROP IMPROVEMENT
+ 817
+
+[PAGE 4]
+the production of hemp in the USA is rapidly increasing, transpiration rate (i.e., 
+water loss) under varying environments (i.e., water deficit conditions and high 
+evaporative demand), as a consequence of photosynthesis, should be assessed 
+among hemp cultivars.
+The first objective of this study was to identify the water-saving traits, 
+including fraction of transpirable soil water (FTSW) threshold and limited 
+transpiration (TR
+lim
+) among hemp cultivars in controlled environments. 
+The second objective was to confirm if the water-saving potential of those 
+cultivars that expressed one or both drought-tolerance traits can improve 
+CBD concentration compared to cultivars that did not express the drought- 
+tolerance traits in the field, under rainfed conditions.
+2. Materials and methods
+In two controlled-environment studies [transpiration rate (TR) response to 
+progressive soil-drying and TR response to varying evaporative demand (i.e., 
+vapor pressure deficit)], two different sets of hemp cultivars were tested. The first 
+set included eight hemp cultivars known to be grain and fiber cultivars. 
+The second set included six oilseed/CBD cultivars received as transplants from 
+the University of Tennessee’s Department of Plant Pathology. The same six 
+oilseed/CBD cultivars were tested in a field experiment during summer 2019.
+For the progressive soil-drying study, each set was tested simultaneously 
+across a period of eight weeks. For the TR under high evaporative demand 
+test (growth chamber study), space was limited; therefore, only two cultivars 
+were tested at a time during the course of 12 weeks.
+2.1 Progressive soil-drying study
+The progressive soil-drying tests were conducted in a greenhouse at the West 
+Tennessee AgResearch and Education Center (WTREC) in Jackson, 
+Tennessee, in two sets of experiments. Air temperature was set for 32 day/ 
+26 ⁰C night. During the course of the study, the temperature and relative 
+humidity were measured every five minutes using a universal serial bus 
+(USB) data logger (MicroDaq, Contoocook, NH).
+In set 1, the hemp seeds of eight cultivars, viz., “Finola,” “Kurd,” “Joey,” 
+“Felina,” ‘CFX-2 ʹ , “Delores,” “Canda,” and ‘CFX-1 ʹ (for grain and fiber), were 
+initially sown in commercially available planting cubes (Jiffy 50-Cell Tray, 
+Lowe’s, Jackson, TN) filled with potting mix (Miracle-Gro). Cultivar ‘CFX-1 ʹ 
+had very poor germination; therefore, it was dropped from the experiment. 
+Seeds were planted 1-cm deep, with five seeds cube
+−1 
+and six cubes per cultivar 
+(total of 30 seeds/cultivar) and kept moist. They were allowed to grow in a reach- 
+in Growth Chamber (PGR15, Conviron, Winnipeg, MB, Canada) for 7 days 
+before transplanting to 5.7-liter pots filled with soil containing 50% sand and 
+818
+ K. SHELDON ET AL.
+
+[PAGE 5]
+50% silt. In set 2, six additional oilseed/CBD cultivars, viz., “Ha3ze,” “Carolina,” 
+“T1 Topped (T1 T),” “T1 Not Topped (T1 NT),” “Cherry Topped (Cherry T),” 
+and “Cherry Not Topped (Cherry NT),” which were already in vegetative growth 
+stages, were transplanted into the same silt loam soil 27 days prior to the start 
+date of the experiment.
+For set 1, three seedlings per pot were transplanted into nine replications per 
+cultivar (a total of 117 pots). After two weeks, the plant-stand was thinned to one 
+plant per pot. The plants were grown for 22 days under well-watered conditions, 
+watered each day to return to pot capacity, and fertilized once a week using 
+Maxi-Gro (General Hydroponics) nutrient with 10-5-14 (N-P-K). Plants were 
+still in a vegetative stage at this point. If flowers appeared, they were excised and 
+set on the top of the pot to remain in the weight calculation, but prevent any 
+reproductive growth and extra transpiration.
+The day before initiation of the soil-drying experiment, all pots for both 
+set 1 and set 2 were watered until there was drainage from the bottom of each 
+pot. Eight plant replications were kept per cultivar. The following morning, 
+each pot was sealed into two double-bagged 15-liter plastic bags (Glad, 15- 
+liter white trash bag, Walmart, Jackson, TN) and secured at the base of the 
+plant with plastic twist ties. A plastic tube (13-mm-diam. × 126-mm-long) 
+was also inserted to facilitate watering. All pots were weighed immediately 
+after bagging, and these measurements constituted the initial weights. 
+Each day, the pots were weighed between 13:00 and 14:00 hours, Central 
+US Time. Daily transpiration was calculated as the difference in weight of 
+each pot on successive days (Shekoofa et al. 2013 ).
+After the second day of these measurements, the plants received water based 
+on their TR for that day. Three pots per cultivar were selected to be “well- 
+watered check,” and the other five received the soil-drying treatment 
+(“stressed”). The well-watered plants were watered daily to maintain a weight 
+of no less than 200 g of their initial weight, whereas each of the other five plants 
+was allowed to dry through transpiration. To achieve an extended drying period 
+and to prevent rapid dehydration, the drying pots were watered daily when 
+necessary to maintain daily net water loss to no more than 100 g (Sinclair et al. 
+2018 ). This process was continued across a two-week period.
+The TR data were subjected to two normalizations, as described by Shekoofa 
+et al. ( 2013 ). The first normalization was to minimize the influence of large 
+variations in daily TR across days. The daily transpiration ratio for each drying 
+pot was calculated between its water loss and the average water loss of the three 
+well-watered pots. The second normalization was done to account for variation 
+in transpiration ratio among individual plants. The daily transpiration ratio was 
+divided by the mean transpiration ratio of that same plant during the first three 
+days of the study, when the soil still had high water content. This ratio was 
+identified as the normalized transpiration ratio (NTR), and its value during the 
+JOURNAL OF CROP IMPROVEMENT
+ 819
+
+[PAGE 6]
+initial wet phase of the dry-down cycle for each plant, by definition, was centered 
+on a value of 1.0.
+Data collection for each pot continued until it dried to an NTR ≤0.1, which 
+was defined as the endpoint of transpirable soil water. The total transpirable soil 
+water available to the plant in each pot was calculated as the difference between 
+the initial weight and the final weight of the pot. To track soil drying, FTSW was 
+determined on each day for each pot. The FTSW of each pot was calculated as 
+the difference between daily and final weight, divided by the total transpirable 
+soil water. The use of transpirable soil water as the basis for comparing plant 
+response to soil drying under a range of conditions has been effectively done in 
+a few studies (Ray and Sinclair 1997 ; Serraj et al. 1999 ). Data for plants of 
+a cultivar were combined to regress NTR on FTSW.
+The data were analyzed using a two linear-segment regression analysis via 
+GraphPad Prism version 8 (GraphPad Software). This regression analysis 
+generated the FTSW threshold for the initiation in the decline in NTR. The 
+95% confidence interval of the threshold for each cultivar was used to assess 
+statistical differences among cultivars (Sinclair et al. 2018 ).
+2.2 Growth chamber study under varying evaporative demand
+Two sets of experiments were conducted in this study. First set, eight hemp 
+cultivars; “Finola,” “Kurd,” “Joey,” “Felina,” ‘CFX-2 ʹ , “Delores,” “Canda,” and 
+‘CFX-1 ʹ , were germinated from seeds and grown in a greenhouse at WTREC 
+Jackson, TN. For the second set, four additional oilseed/CBD cultivars; 
+“Carolina,” “T1 T,” “T1 NT,” and “Cherry T” were received as transplants 
+from the University of Tennessee’s Department of Plant Pathology.
+The plants were grown in pots constructed from polyvinyl chloride pipe (10- 
+cm diameter and 20-cm long). The bottom of each pot was fitted with a flat end 
+cap, in which a small hole was drilled to allow drainage of excess water. A toilet 
+flange was attached to the top of the pot to allow easy attachment of a VPD 
+chamber during measurements (Fletcher, Sinclair, and Allen 2007 ; Shekoofa 
+et al. 2015 ). The pots were filled with commercially available Miracle-Gro 
+potting mix. Five seeds per pot were sown. After one week, the plant-stand 
+was thinned to three plants per pot, and after 10 days, it was reduced to one plant 
+per pot. Maxi-Gro (General Hydroponics) with 10-5-14 (N-P-K) was applied 
+once a week. Plants were grown for 28 days under well-watered conditions, with 
+greenhouse temperatures regulated at 32 day/26 ⁰C night.
+Once plants reached the desired growth stage (considering shoot/root ratio), 
+they were moved to a walk-in growth chamber and overwatered until water 
+started dripping from the bottom of each pot. Aluminum foil was placed around 
+the base of each plant, covering the soil to seal in all moisture and prevent soil 
+evaporation. Then the pots were allowed to drain overnight (Shekoofa et al. 2015 ).
+820
+ K. SHELDON ET AL.
+
+[PAGE 7]
+To construct each VPD chamber, a 340-mm diameter food container lid 
+(Cambro Manufacturing, Huntington Beach, CA), with the center cut out, 
+was attached to the toilet flange at the top of the pot. The following morning, 
+the aerial parts of each plant were enclosed in a 21-L clear plastic food 
+container (Cambro Manufacturing, Huntington Beach, CA) by placing the 
+inverted container over the plant and attaching it to the previously installed 
+lid. Each VPD chamber was fitted with a 12-V, 76-mm-diameter computer 
+box fan (Northern Tool and Equipment, Burnsvillle, MN) to continuously 
+stir the air inside the chamber. In addition, a temperature/humidity data 
+logger (MicroDaq, Contoocook, NH) was mounted through the sidewall of 
+each container to measure the chamber environment.
+Three levels of VPD were achieved using air flowmeters and controlling 
+the source of the air (ambient or dehumidified). During each of these levels 
+of VPD, TRs were measured. The temperature was kept at a constant 32 ⁰C 
+comparable to the greenhouse environment. Each day was begun by attaining 
+low VPD (0.5–1.5 kPa), then escalating to medium VPD (1.5–2.5 kPa), and 
+finally reaching high VPD (2.5–3.5 kPa). After achieving the target VPD 
+level, the chamber was allowed to stabilize for 30 min, and then the entire pot 
+chamber system was weighed to the nearest 0.1 g to obtain the initial weight. 
+The plants were then exposed for one hour to each VPD level and then 
+reweighed to measure the final weight. TR at each VPD level was calculated 
+as the difference between the initial weight and the final weight.
+Eight plants were studied at a time, allowing two cultivars with four 
+replications. To increase the data points taken on each plant, measurements 
+were done on each plant across two consecutive days. After completing 
+measurements on the first day, the pots were watered and allowed to drain 
+overnight. After completing the second day of measurements, leaves were 
+harvested and total plant leaf area was measured using a leaf area meter (LI- 
+3100, Li-Cor, Lincoln, NE). Finally, the TR for each plant was expressed as 
+water-loss rate divided by plant leaf area.
+Data from the two measurement days for all plants of a cultivar in each 
+experiment were combined to perform a two-segment linear regression (Prism 
+8.0, GraphPad Software Inc., San Diego, CA) for TR vs. VPD. When significantly 
+different (p < 0.05) slopes for two segments were not obtained for a cultivar, 
+a simple linear regression was applied to all the data. For those cultivars expressing 
+the two-segment response, the regression analysis yielded the VPD breakpoint 
+between the two linear segments as well as the slope of each segment. The standard 
+error for the VPD breakpoint and the two slopes was an output of the regression 
+analysis. The term breakpoint is used to define the VPD (kPa) point at which the 
+plant begins to close stomata partially and conserve the water remaining in the soil.
+JOURNAL OF CROP IMPROVEMENT
+ 821
+
+[PAGE 8]
+2.3 Field study
+A field study was conducted at a West Tennessee field in Beech Bluff, TN, 
+during summer 2019. Sixteen CBD cultivars were transplanted into the field 
+in the third week of June 2019. All the cultivars were received as transplants 
+from Dr. Eric Walker, Genamera, Springfield, TN. Each cultivar was repli -
+cated three times, totaling 48 plots in the field. The trial was established using 
+a randomized complete block design with six replications. Each plot con -
+tained two rows of 10 plants spaced 1.2 m apart and rows were spaced 1.8 m 
+apart. Although, because of limited availability of hemp transplants, only six 
+cultivars, viz., “Carolina,” “Cherry T,” “Cherry NT,” “Ha3ze,” “T1 T,” and 
+“T1 NT,” from the controlled-environment studies were available to be 
+considered for the field observation.
+During the growing season, soil fertility was managed by applying a per hectare 
+total of 219.5 kg N, 165.5 kg P, and 125.5 kg K preplant. Weeds were managed by 
+cultivation throughout the season. The total rainfall was higher than 30-year 
+average in early June but lower than average in July and August, and much 
+lower than average in September. Temperatures were similar to 30-year average 
+during each month, except September, where temperature was 7–9% higher.
+Samples for RWC and specific leaf area (SLA) were taken 63 and 91 days 
+after transplant (DAT) between 11:00 am and 3:00 pm, when the ambient 
+VPD and temperature were up to 4.2 kPa and 37 ⁰C, respectively. Following 
+sampling methods described by Gonzalez and Gonzalez-Vilar, to measure the 
+RWC and SLA, the youngest but fully expanded leaf from the middle part of 
+the plant was removed and placed in a sealed plastic bag. The sampler would 
+blow into the bag and put samples on ice in the field to ensure that the 
+samples remained fresh and maintained turgidity. Then, each plant was 
+visually assessed for wilting and assigned a score based on severity of wilting, 
+0 = no wilting and 5 = the plant essentially senesced.
+Samples were taken back to the lab where their fresh weight was measured (g) 
+and then immediately after, leaf area was measured with a leaf area meter (LI- 
+3100, Li-Cor, Lincoln, NE). The following day, the leaflet samples were placed in 
+a tub of deionized water for 6–8 h and exposed to 4 ⁰C in a walk-in cooler before 
+weighing once again for a turgid weight. Leaflet dry weights were measured after 
+placing the leaflets in individual paper envelopes (coin envelopes, Uline.com) 
+and placed in an oven at 80 ⁰C for 12 h. After all measurements were taken, 
+RWC and SLA were calculated using the following equations:
+RW C ¼
+f resh weight   dry weight
+saturated weight   dry weight
+� 100
+822
+ K. SHELDON ET AL.
+
+[PAGE 9]
+S LA ¼
+leaf area
+dry weight
+Hemp plants were hand-harvested at maturity by cutting the plants at the 
+base, then immediately bucked to remove flower and leaf material from the 
+stem. Flower and leaf material were then dried on mesh screen shelves in 
+temperature- and humidity-controlled rooms. Drying times varied by variety; 
+weights were recorded after drying. All plants in each plot were harvested, 
+but the actual number of plants harvested per plot varied because of differ -
+ences in plant availability from suppliers and plant survival. Because of this, 
+plot weights were divided by the number of harvested plants and yields are 
+reported on a kg per plant basis. Dried material was sent to Altitude Lab 
+Solutions (Englewood, CO) for analyses of cannabinoid potency using high 
+performance liquid chromatography (HPLC).
+The value of max active CBD concentration was determined for each plot 
+and used to calculate CBD yield in kg per plant. Finally, values for hemp 
+physiological parameters were compared among cultivars using one-way 
+ANOVA. Statistical significance was set at p ≤ 0.05. The treatment means 
+were separated using Tukey’s HSD test (SAS Institute, Cary, NC).
+3. Results and discussion
+3.1 Progressive soil-drying study
+The two-segment linear regression successfully described the transpiration 
+response rate to soil drying of all hemp cultivars ( Table 1 ). There were 
+substantial differences among the cultivars. The FTSW threshold for cultivar 
+Delores was 0.81 ( Table 1 ). Cultivar Delores had the earliest stomatal closure 
+and highest water saving under soil-drying conditions, whereas Canda with 
+an FTSW threshold of 0.16 ( Table 1 ) had stomatal closure last and maximum 
+water loss early during growth ( Table 1 ). Among all cultivars, the correlation 
+coefficient for the two-segment regression ranged between 0.44 and 0.98 
+( Table 1 ). The diverse FTSW thresholds for the tested hemp cultivars support 
+the observations of Devi et al. ( 2009 ), in which there was large variation 
+among 17 peanut genotypes in a progressive soil-drying study. Sinclair et al. 
+( 2018 ) reported significant differences in the FTSW threshold in each of the 
+tested peanut populations. Among the 22 North Carolina State University 
+breeding lines tested, FTSW thresholds ranged from 0.38 to 0.69.
+Across six hemp cultivars (T1 NT, T1 T, Cherry T, Cherry NT, Carolina, 
+and Ha3ze) tested in the field, there was a negative but significant correlation 
+between low wilting scores (WS) observed in the field and high FTSW 
+thresholds (i.e., early stomatal closure) in the controlled environment 
+JOURNAL OF CROP IMPROVEMENT
+ 823
+
+[PAGE 10]
+( Figure 3 ). These results were indicative of a correspondence between the 
+FTSW threshold for TR decrease because of early stomatal closure and 
+expression of soil water conservation in the field. Furthermore, five cultivars, 
+viz., T1 NT, T1 T, Cherry NT, Carolina, and Ha3ze, had significantly higher 
+RWC ( Figure 2 ) in the field compared to cultivar Cherry T that had a FTSW 
+threshold of 0.28 ( Table 1 ). There were no significant differences among the 
+tested cultivars for SLA under field conditions (data not shown).
+3.2 Transpiration response to high evaporative demand
+Seven of the 12 hemp cultivars expressed the TR
+lim 
+trait, with their VPD break -
+points (BPs) ranging from 1.2 to 2.6 kPa when the TRs were measured under 
+varying VPD rates (0.5–3.5 kPa). The other four cultivars had a linear TR response 
+under dry air (high VPD, >2.5 kPa) ( Table 2 ). The R
+2 
+for the hybrids described by 
+the two-segment regression ranged from 0.43 to 0.87 ( Table 2 ). Cultivar Canda 
+that had the lowest FTSW threshold in the progressive soil-drying study also had 
+a high VPD PB of 2.5 kPa; whereas, cultivars Delores and Kurd, with high FTSW 
+thresholds, both had a VPD BP of 2.1 kPa ( Table 2 ). The seven cultivars that 
+expressed the TR
+lim 
+trait showed no correlation between their VPD breakpoints 
+(BPs) in the controlled environment and wilting score under the field condition. 
+Therefore, temperature differences used in the controlled environment (32⁰C) 
+during the experiment and experienced in the field (37⁰C) may be a particularly 
+Table 1. Days to reach endpoint of dry-down, fraction of transpirable soil water (FTSW) thresh -
+old, and confidence interval in the dry-down and their R
+2 
+for thirteen hemp cultivars transpira -
+tion response to progressive soil drying.
+Cultivars
+Days to endpoint  
+of dry down FTSW threshold Confidence interval ( p < 0.05) R
+2
+5.7-liter pots
+Finola 9 0.44 0.34 to 0.54 0.66
+Canda 9 0.16 0.10 to 0.21 0.44
+Felina 10 0.62 0.40 to 0.85 0.53
+Joey 9 0.36 0.24 to 0.48 0.57
+Delores 10 0.81 0.71 to 0.90 0.86
+CFX-2 10 0.68 0.58 to 0.78 0.81
+Kurd 9 0.65 0.56 to 0.73 0.86
+Carolina 8 0.32 0.27 to 0.37 0.87
+T1 T 11 0.46 0.40 to 0.50 0.92
+T1 NT 9 0.34 0.30 to 0.36 0.97
+Cherry T 8 0.28 0.25 to 0.29 0.98
+Ha3ze 12 0.55 0.38 to 0.68 0.78
+CFX-1 
+†
+- - - -
+15-liter pots
+‡
+Ha3ze 23 0.56 0.50 to 0.62 0.78
+Cherry NT 22 0.44 0.37 to 0.52 0.73
+†
+Dropped from experiment due to unsuccessful germination in greenhouse. 
+‡
+The measurements of TR for these two cultivars were done under the same experimental condition but in 
+15-liter pots. 
+824
+ K. SHELDON ET AL.
+
+[PAGE 11]
+Table 2. Results from two-segment linear regression for the hemp cultivars that were found to fit this model and linear regression for the remaining cultivars. 
+The table contains Slope 1 (± SE), breakpoint (BP ± SE), confidence limit of the BP, Slope 2 (± SE), and their R
+2.
+Cultivars n Slope 1± SE Slope 2± SE BP (X
+0
+) ±SE Confidence limit of X
+0
+R
+2
+Finola 22 60.97 ± 8.91 −78.95 ± 64.89 2.6 ± 0.26 2.03 to 3.16 0.74
+Canda 24 41.77 ± 14.07 −109.5 ± 44.84 2.5 ± 0.15 2.15 to 2.78 0.46
+Felina 28 67.97 ± 10.85 Linear - - 0.60
+Joey 24 80.46 ± 8.83 Linear - - 0.79
+Delores 24 59.96 ± 18.82 −85.17 ± 52.48 2.1 ± 0.21 1.94 to 2.85 0.43
+CFX-1 24 41.26 ± 14.66 18.17 ± 10.44 2.0 ± 0.85 0.22 to 3.77 0.79
+CFX-2 28 57.04 ± 7.34 Linear - - 0.70
+Kurd 22 94.21 ± 12.54 21.86 ± 26.57 2.1 ± 0.30 1.45 to 2.74 0.87
+Carolina 24 31.07 ± 4.01 Linear - - 0.73
+Cherry T 24 25.99 ± 3.43 Linear - - 0.72
+T1 T 24 52.66 ± 10.93 1.38 ± 6.02 1.6 ± 0.17 1.19 to 1.91 0.78
+T1 NT 24 105.4 ± 26.77 4.98 ± 3.91 1.2 ± 0.08 1.02 to 1.36 0.75
+JOURNAL OF CROP IMPROVEMENT
+ 825
+
+[PAGE 12]
+Figure 1. The graph of wilting score (WS) responses for six hemp cultivars under rainfed conditions in 
+the field trial.
+Figure 2. The relative water content (RWC) rates for six hemp cultivars under rainfed conditions 
+in the field trial.
+826
+ K. SHELDON ET AL.
+
+[PAGE 13]
+important point to consider. This result contrasts with the results from previous 
+comparisons of the TR
+lim 
+trait between controlled-chamber measurements and 
+field measurements in soybean (Gilbert et al. 2011 ) and sorghum (Shekoofa, 
+Balota, and Sinclair 2014 ).
+3.3 Field study
+The natural daily range of evaporative demand in the field allowed measure -
+ments to be made under ambient VPD up to 4.2 kPa and temperature up to 37⁰C 
+while plants experienced rainfed conditions the entire season. The increase in 
+midday temperature resulted in progressively higher evaporative demand 
+through the day. Therefore, all visual wilting scores were recorded between 
+11:00 a.m. and 1:00 p.m. Cultivars Ha3ze, Carolina, and T1 T had the lowest 
+wilting scores ( Figure 1 ). Furthermore, cultivars Ha3ze, Carolina, and T1 T had 
+significantly higher RWC rates compared to Cherry T ( Figure 2 ). Figure 3 
+depicts a negative correlation ( p = 0.05) between FTSW threshold in the con -
+trolled environment and wilting scores recoded in the field for the tested hemp 
+cultivars ( Figure 3 ).
+Figure 3. Correlation of fraction of transpirable soil water (FTSW) threshold in the controlled 
+environment with wilting score (WS) in the field for hemp cultivars. Error bars represent standard 
+error of the mean.
+JOURNAL OF CROP IMPROVEMENT
+ 827
+
+[PAGE 14]
+Selected hemp cultivars were evaluated in the field for their CBD as part of 
+ongoing Tennessee Hemp Variety trials. These tested hemp cultivars were 
+grown to maturity, harvested and dried for CBD processing. Cultivar Ha3ze 
+had the highest CBD content (2.68%) among cultivars ( Figure 4a ). The max 
+active CBD percentage was significantly higher for Ha3ze cultivar compared 
+Figure 4. Hemp cultivars cannabidiol (CBD) % (a) and max active CBD % (b) under the field 
+condition.
+828
+ K. SHELDON ET AL.
+
+[PAGE 15]
+to T1 NT, T1 T, and Cherry T cultivars ( Figure 4(b )). There was a positive 
+correlation ( p = 0.05) between FTSW threshold and CBD percentage for the 
+tested hemp cultivars ( Figure 5 ). Among all six tested cultivars, Ha3zE had 
+the highest FTSW threshold and earliest stomatal closure during progressive 
+soil drying ( Table 1 ), and it had the highest CBD percentage compared to 
+other cultivars ( Figure 5 ).
+There was a positive and significant correlation between FTSW thresholds 
+and percentage of CBD for six cultivars (Ha3ze, T1 NT, T1 T, Carolina, 
+Cherry T, and Cherry NT) tested in the field ( Figure 5 ). Those cultivars that 
+had higher FTSW threshold under water deficit stress (i.e., progressive soil 
+drying study) not only produced higher percentage of CBD but also pro -
+duced more max active CBD percentage than those hemp cultivars with low 
+FTSW threshold ( Table 1 ; Figure 5 ). Because hemp value is determined by 
+both biomass yield and the percentage of CBD, selecting cultivars based on 
+high CBD yield can help maximize farmers’ profit under rainfed conditions.
+Among the six cultivars evaluated in the field, Ha3ze that ranked the 
+highest for the FTSW threshold under progressive soil drying had the highest 
+percentage of CBD under ambient conditions. Cultivar Ha3ze produced 80% 
+higher CBD compared to T1 NT, T1 T, and Carolina.
+Figure 5. Correlation of fraction of transpirable soil water (FTSW) threshold in the controlled 
+environment with cannabidiol (CBD) % in the field for hemp cultivars. Error bars represent 
+standard error of the mean.
+JOURNAL OF CROP IMPROVEMENT
+ 829
+
+[PAGE 16]
+5. Conclusion
+Soil water conservation for hemp can be a very important factor; therefore, 
+identifying drought-tolerance traits (i.e., early stomatal closure under soil 
+drying and TR
+lim
+) is critical for improving hemp production. This research 
+demonstrates that variation among hemp cultivars for the drought-tolerance 
+traits should help in identifying superior cultivars for rainfed environments. 
+The expression of the drought-tolerance traits was generally characterized 
+similarly under both controlled environments and field conditions. 
+Consequently, the results of this study that showed stability in the expression 
+of the early stomatal closure in progressive soil-drying conditions should 
+accelerate future efforts toward comparing germplasm for the water-saving 
+trait under a range of conditions.
+Disclosure statement
+No potential conflict of interest was reported by the authors.
+ORCID
+Avat Shekoofa 
+ http://orcid.org/0000-0002-4309-9026
+Heather Kelly 
+ http://orcid.org/0000-0001-9936-5242
+References
+Angell, T. 2019 . “Hemp Farming Quadrupled in the U.S.” This Year, New Report Shows. 
+Forbes: Forbes Magazine. www.forbes.com/sites/tomangell/2019/09/05/hemp-farming- 
+quadrupled-in-the-u-s-this-year-new-report-shows/
+Cherney, J. H., and E. Small. 2016 . “Industrial Hemp in North America: Production, Politics 
+and Potential.” Agronomy 6 (4): 58. doi: 10.3390/agronomy6040058 .
+Devi, M. J., T. R. Sinclair, P. Chen, and T. E. Carter. 2014 . “Evaluation of Elite Southern 
+Maturity Soybean Breeding Lines for Drought Tolerant Traits.” Agronomy Journal 106: 
+1947–1954. doi: 10.2134/agronj14.0242 .
+Devi, M. J., T. R. Sinclair, V. Vadez, and L. Krishnamurthy. 2009 . “Peanut Genotypic 
+Variation in Transpiration Efficiency and Decreased Transpiration during Progressive 
+Soil Drying.” Field Crops Research 114: 280–285. doi: 10.1016/j.fcr.2009.08.012 .
+Fletcher, A. L., T. R. Sinclair, and L. H. Allen Jr. 2007 . “Transpiration Responses to Vapor 
+Pressure Deficit in Well-watered “Slow-wilting” and Commercial Soybean.” Environmental 
+& Experimental Botany 61: 145–151. doi: 10.1016/j.envexpbot.2007.05.004 .
+Gilbert, M. E., N. M. Holbrook, M. A. Zwieniecki, and T. R. Sinclair. 2011 . “Field 
+Confirmation of Genetic Variation in Soybean Transpiration Response to Vapor 
+Pressure Deficit and Photosynthetic Compensation.” Field Crops Research 124: 85–92. 
+doi: 10.1016/j.fcr.2011.06.011 .
+Gonzalez, L., and M. Gonzalez-Vilar. 2001 . “Determination of Relative Water Content.” In 
+Handbook of Plant Ecophysiology Techniques , edited by M. J. Reigosa Roger, 207–212. 
+Dordrecht: Springer Netherlands. doi: 10.1007/0-306-48057-3_14 .
+830
+ K. SHELDON ET AL.
+
+[PAGE 17]
+Hura, T., K. Hura, M. Grzesiak, and A. Rzepka. 2007 . “Effect of Long-term Drought Stress on 
+Leaf Gas Exchange and Fluorescence Parameters in C
+3 
+and C
+4 
+Plants.” Acta Physiologiae 
+29: 103–113. doi: 10.1007/s11738-006-0013-2 .
+Kebede, H., D. K. Fisher, R. Sui, and K. N. Reddy. 2014 . “Irrigation Methods and Scheduling 
+in the Delta Region of Mississippi: Current Status and Strategies to Improve Irrigation 
+Efficiency.” American Journal of Plant Sciences 5: 2917–2928. doi: 10.4236/ajps.2014.520307 .
+Manandhar, A., T. R. Sinclair, T. W. Rufty, and M. E. Ghanem. 2017 . “Leaf Expansion and 
+Transpiration Response to Soil Drying and Recovery among Cowpea Genotypes.” Crop 
+Science 57 (4): 2109–2116. doi: 10.2135/cropsci2016.09.0794 .
+Ray, J. D., and T. R. Sinclair. 1997 . “Stomatal closure of maize hybrids in response to drying 
+soil.” Crop Science 37:803–807. https://doi.org/10.2135/cropsci1997. 
+0011183X003700030018x
+Schluttenhofer, C., and L. Yuan. 2017 . “Challenges Towards Revitalizing Hemp: 
+A Multifaceted Crop.” Trends in Plant Science 22: 917–929. doi: 10.1016/j. 
+tplants.2017.08.004 .
+Serraj, R., L. H. Allen, and T. R. Sinclair. 1999 . “Soybean Leaf Growth and Gas Exchange 
+Response to Drought under Carbon Dioxide Enrichment.” Global Change Biology 5 (3): 
+283–291. doi: 10.1046/j.1365-2486.1999.00222.x
+Shekoofa, A., J. M. Devi, T. R. Sinclair, C. C. Holbrook, and T. G. Isleib. 2013 . “Divergence in 
+Drought-Resistance Traits among Parents of Recombinant Peanut Inbred Lines.” Crop 
+Science 53 (6): 2569–2575. doi: 10.2135/cropsci2013.03.0153 .
+Shekoofa, A., M. Balota, and T. R. Sinclair. 2014 . “Limited-transpiration Trait Evaluated in 
+Growth Chamber and Field for Sorghum Genotypes.” Journal of Environmental and 
+Experimental Botany 99: 175–179. doi: 10.1016/j.envexpbot.2013.11.018 .
+Shekoofa, A., P. Rosas-Anderson, T. R. Sinclair, M. Balota, and T. G. Isleib. 2015 . 
+“Measurement of Limited-Transpiration Trait under High Vapor Pressure Deficit for 
+Peanut in Chambers and in Field.” Agronomy Journal 107 (3): 1019–1024. doi: 10.2134/ 
+agronj14.0570 .
+Shekoofa, A., and T. R. Sinclair. 2018 . “Aquaporin Activity to Improve Crop Drought 
+Tolerance.” Cells 7 (9): 123. doi: 10.3390/cells7090123 .
+Sinclair, T. R., A. Shekoofa, T. G. Isleib, M. Balota, and H. Zhang. 2018 . “Identification of 
+Virginia-Type Peanut Genotypes for Water-Deficit Conditions Based on Early Decrease in 
+Transpiration Rate with Soil Drying.” Crop Science 58 (6): 2607–2612. doi: 10.2135/ 
+cropsci2018.05.0293 .
+Tang, K., P. C. Struik, S. Amaducci, T. Stomph, and X. Yin. 2017 . “Hemp ( Cannabis Sativa 
+L.) Leaf Photosynthesis in Relation to Nitrogen Content and Temperature: Implications for 
+Hemp as a Bio-economically Sustainable Crop.” GCB Bioenergy 9: 1573–1587. doi: 10.1111/ 
+gcbb.12451 .
+Tanner, C. B., and T. R. Sinclair. 1983 . “Efficient Water Use in Crop Production: Research or 
+Re-Search?” In Efficient Water Use in Crop Production , edited by Howard M. Taylor, 
+Wayne R. Jordan, Thomas R. Sinclair. 1–27. Madison, WI: American Society of Agronomy, 
+Crop Science Society of America, Soil Science Society of America. doi: 10.2134/1983. 
+limitationstoefficientwateruse .
+Wanjiku, J. G., O. Kamuhia, O. Rono, and M. Kavere. 2019 . Effectiveness of Relative Water 
+Content as A Simple Farmer’s Tool to Determine Plant Water Deficit. African Journal of 
+Horticultural Science . 16:21–28. http://hakenya.net/ajhs/index.php/ajhs/article/view/226
+JOURNAL OF CROP IMPROVEMENT
+ 831

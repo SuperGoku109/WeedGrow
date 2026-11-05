@@ -1,0 +1,66 @@
+{
+  "version": "7.3",
+  "files": [
+    {
+      "path": "pdf/WeedGrow_Algorithm_Blueprint_v7.3.pdf",
+      "bytes": 230003,
+      "sha256": "c79b365dfc562f91995caf26f65d165f752d26de6ea7f1022bd3d3511093c2ec"
+    },
+    {
+      "path": "spec/WeedGrow_Algorithm_Blueprint_v7.3.md",
+      "bytes": 43032,
+      "sha256": "9e2da5719b9a82bc9a596622eeb69caf6a2c1467d68461b2dd86012c5eb26b11"
+    },
+    {
+      "path": "spec/WeedGrow_Pseudocode_v7.3.txt",
+      "bytes": 4552,
+      "sha256": "1edebeab81a7aaf9fc78f59260fab5e96e117d1c39363d7b6e651d78edbeaae4"
+    },
+    {
+      "path": "spec/WeedGrow_Algorithm_Emulator_v7.3.py",
+      "bytes": 31735,
+      "sha256": "f0e0de31873cdce677622ee4381357f7c9457e1bdc764e0f97d27630e6ec13f6"
+    },
+    {
+      "path": "spec/WeedGrow_Algorithm_Scenarios_v7.3.py",
+      "bytes": 21240,
+      "sha256": "a0f6c0584b2ed1527ef1c73c6585b789edcd75d45a3ce904505791ab08f26c8e"
+    },
+    {
+      "path": "spec/WeedGrow_Factor_Flag_Registry_v7.3.json",
+      "bytes": 46314,
+      "sha256": "0bcb30cb528d6c54f2575280a5cb2b12d03889e011ea45429e8297569f930d09"
+    },
+    {
+      "path": "spec/WeedGrow_Algorithm_Verification_v7.3.json",
+      "bytes": 6930,
+      "sha256": "96ef3e643050b32b731a721ba7dfbbce2fdff1de035e70722cdb685563764bd8"
+    },
+    {
+      "path": "spec/WeedGrow_Synthetic_Input_v7.3.json",
+      "bytes": 32055,
+      "sha256": "93e13cbe608ef40a733e26414116df63d9d03905b9ca35bae32287210ecebbef"
+    },
+    {
+      "path": "spec/WeedGrow_Synthetic_Output_v7.3.json",
+      "bytes": 93826,
+      "sha256": "f523ad7cb3a58f31cc4308407cd3f91ac1d91239a097b92cd062f96d80f399fb"
+    },
+    {
+      "path": "spec/WeedGrow_Algorithm_v7.3_README.md",
+      "bytes": 3827,
+      "sha256": "9031042b0755ba5e8bf5bbbcb7791db12afed8badff88bbf115f823a4ea6867a"
+    },
+    {
+      "path": "spec/WeedGrow_SPEC_STATUS.json",
+      "bytes": 596,
+      "sha256": "b6cfc95f6701090b1f511f8822cc08ef42a90f01415604ffaff9499ffee86d1a"
+    },
+    {
+      "path": "spec/WeedGrow_v7.3_figures/synthetic_water_balance.png",
+      "bytes": 82501,
+      "sha256": "579f13e980620d4423019dd628a7321ef11dd9e5cfdb224ce73bb549eb1f3e59"
+    }
+  ],
+  "manifestDoesNotHashItself": true
+}

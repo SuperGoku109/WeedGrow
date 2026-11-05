@@ -1,0 +1,880 @@
+
+--- PAGE 1 ---
+Academic Editors: Alessandro Suardi,
+Antonio Scarfone and Hao Liu
+Received: 22 January 2026
+Revised: 13 March 2026
+Accepted: 16 March 2026
+Published: 19 March 2026
+Copyright: © 2026 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license.
+Article
+Integrating Hydraulic Properties into Irrigation Management of
+Industrial Hemp (Cannabis sativa L., ‘Felina 32’) Under
+Mediterranean Conditions
+Anastasia Angelaki *
+ , Athanasios Vogiatzis, Maria Eirini Kotsopoulou, Vasiliki Rousta, Evgenia Kriaridou,
+Nikolaos Kosmas and Kalliopi Chrysoula Nisioti
+Department of Agriculture, Crop Production & Rural Environment, University of Thessaly, 38446 Volos, Greece;
+atvogiatzis@uth.gr (A.V .); mkotsopoulou@uth.gr (M.E.K.); vrousta@uth.gr (V .R.); ekriaridou@uth.gr (E.K.);
+nkosmas@uth.gr (N.K.); knisioti@uth.gr (K.C.N.)
+* Correspondence: anaggel@uth.gr; Tel.: +30-24210-9-3061
+Abstract
+Industrial hemp ( Cannabis sativa L.) is versatile and rapidly developing, offering new
+prospects to producers as a multipurpose crop, yet limited water availability in the Mediter-
+ranean area due to climate change makes its sustainable management challenging. Al-
+though the plant’s water requirements have been studied, a significant gap remains regard-
+ing irrigation management based on the hydraulic properties that govern water movement.
+The present study elucidates the role of soil hydraulic parameters in water dynamics within
+the rhizosphere of industrial hemp ( Cannabis sativa L., ‘Felina 32’). For this purpose, a
+pot experiment of three irrigation treatments (100% FC, 80% FC, 60% FC; FC is the field
+capacity) was set up using two different soil types (clay loam CL and sandy clay loam
+SCL). SCL soil showed a higher Cmax of about 4 cm−1 compared to the Cmax of 0.11 cm−1
+of CL soil, but dropped drastically within a narrow frame of soil moisture. CL soil resulted
+in about 12-fold higher diffusivity (Dmax ≈ 0.23 cm2 min−1) within a wider range of soil
+moisture compared to the SCL soil (Dmax ≈ 0.02 cm2 min−1), which facilitated water re-
+distribution at CL, allowing the plant to maximize its water uptake, even at the lowest
+water input. As a result, the CL soil allowed more flexible scheduling and in contrast,
+SCL soil necessitated a high frequency irrigation protocol. The integration of hydraulic
+properties into irrigation planning revealed the potential of CL to apply water to plants
+efficiently across full and deficit irrigation, showing the peak performance of the irrigation
+water use efficiency (IWUE) (0.929 g/mm) under the 60% FC regime. The findings provide
+a framework for linking soil physics–agricultural hydraulics with irrigation strategies in
+controlled environments.
+Keywords: agricultural hydraulics; soil physics; soil–water interaction; precise irrigation;
+hydraulic capacity; hydraulic diffusivity; soil water characteristic curve (SWCC); irrigation
+water use efficiency (IWUE)
+1. Introduction
+Over the last few years, Mediterranean and semi-arid regions have often suffered
+from water scarcity due to climate change. The impact of climate change on crop selection
+is big, as farmers are increasingly turning to more drought-tolerant crops. Lately, more
+farmers have given their attention to industrial hemp ( Cannabis sativa L.), a crop that is
+widely known for its pharmaceutical characteristics, along with cloth production ability and
+Agronomy 2026, 16, 649 https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 2 ---
+Agronomy 2026, 16, 649 2 of 23
+biofuel [1]. One of the main advantages of hemp cultivation is the moderate to low input
+requirements, making it an important crop for sustainable agriculture [ 2–5]. Moreover,
+the Felina 32 variety has a low tetrahydrocannabidiol (THC) level and is usually used for
+fiber [6,7]. Thus, Felina 32 has attracted many researchers to investigate its response to
+various hydraulic conditions, along with the air and soil temperature, soil contamination
+and climate conditions for either fabric or bioenergy use [8–10].
+Water is the most vital water resource; however, its scarcity due to the climate crisis
+restricts crop productivity. In recent years, hazards have been increasing, as rainfall more
+often leads to floods, while on the other hand, droughts are expanding. In areas where water
+is scarce, such as the Mediterranean, sustainable water resource management combined
+with crop production is a critical challenge and a key solution for the future [11,12]. Crop
+productivity is connected with the texture and aggregation of the soil [ 13], while the
+soil’s hydraulic properties play a decisive role in irrigation planning and practices [14–19].
+Hydraulic properties such as hydraulic conductivity, diffusivity, capacity, infiltration rate,
+etc., are linked to irrigation planning and scheduling and play a vital role in influencing
+plant behavior under different irrigation regimes. In addition, hydraulic properties are
+crucial for the horizontal and vertical movement of the irrigation water, with a great impact
+on the irrigation dose and duration [ 20]. Among the crucial hydraulic properties, field
+capacity (FC) is the ideal value for soil moisture for crops [11] and due to its importance,
+the present research uses FC as the upper level of soil moisture, while irrigation treatments
+were designed as FC ratios. FC varies according to the soil texture, because the clay, silt
+and sand percentages of the soil directly affect the water retention and, therefore, the water
+availability, which in turn regulates the physiological characteristics, such as height and
+leaf development, which are linked to biomass accumulation [21].
+Lately, several researchers focused on water-consumption-related factors, such as crop
+coefficients (Kc) and crop evapotranspiration (ET c), along with the agronomic response
+of the crop to the water deficit and temperature [21–23], but there is still a significant lack
+of investigation into the effect of the hydrodynamics of the soil–water dipole, along with
+the hydraulic properties, on irrigation decisions and hemp’s behavior. The response of
+industrial hemp to controlled hydro-stress remains under investigation, particularly when
+the texture, structure and hydraulic properties are factors under consideration. Moreover,
+as deficit irrigation enhances the irrigation water use efficiency (IWUE) with simultaneous
+water resource conservation [ 2,4,22], controlled water stress may play a key role in the
+cultivation of industrial hemp in areas where droughts have become increasingly frequent
+and water scarcity is the harsh reality. To that direction, considering the hydraulic properties
+along with the soil’s physicochemical characteristics, we can achieve precise and efficient
+water application with a simultaneous undamaged yield.
+The objective and innovation of the present study is to elucidate the role of hydraulic
+properties in governing water dynamics in the root zone of industrial hemp. By integrating
+high-resolution hydraulic properties such as the hydraulic capacity (or specific water ca-
+pacity, specific moisture capacity, or differential water capacity) C(θ); hydraulic diffusivity
+D(θ); hydraulic conductivity K(θ), including van Genuchten’s model parameters; SWCC
+and infiltration into irrigation decisions, this research highlights how soil physics and agri-
+cultural hydraulics are connected to irrigation strategies. The study provides a mechanistic
+framework for understanding the role of soil water redistribution and hydraulic behavior in
+water management. Thus, this research intends to contribute to the current understanding
+of irrigation water management by presenting an additional perspective that promotes
+crop protection and the efficient use of water resources. A containerized cultivation system
+was intentionally selected to ensure a controlled hydraulic environment, which allowed for
+the monitoring of the water balance, avoiding deep percolation and runoff, minimizing the
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 3 ---
+Agronomy 2026, 16, 649 3 of 23
+spatial heterogeneity of soil, and avoiding external factors such as competition from weeds
+and soil obstacles, while the isolation of soil was achieved by comparing two different soil
+types under the same environmental conditions.
+2. Materials and Methods
+2.1. Experimental Design
+The experiment was implemented in Velestino, Greece, at the farm of the University
+of Thessaly (39 ◦23′44′′ N, 22◦45′26′′ E, alt. 70 m) during the Spring–Summer season of
+2022. Two soil types were used: one taken directly from the farm (soil A) and the other
+(soil B) was a mixture of sand and farm soil in a 1:10 ratio. Thirty pots were filled with
+both soil types (half filled with soil A and the remaining half filled with soil B). Industrial
+hemp (Cannabis Sativa L., ‘Felina 32’) seeds were planted in 20 L volume pots, each of
+which was filled with 10 L of soil. To prevent seeds from microbiological impact, before
+seeding, NaClO was used for ten minutes over the seeds [6]. Sowing followed the rule of
+10 seeds per pot and the plants were later thinned to three per pot. The experimental design
+consisted of 2 soil types (A, B) × 3 irrigation treatments (I1, I2, I3) × 5 replications = 30 pots.
+During the experimental period, one plant with the B-I1 treatment showed symptoms
+of disease, leading to its exclusion. To ensure a strictly balanced experimental design,
+we standardized the dataset to 4 replicates per treatment. Irrigation water was applied,
+consisting of 3 irrigation treatments, as follows: I1: 100% FC (0% residual) defined as the
+control, I2: 80% FC (20% residual), and I3: 60% FC (40% residual). Water was applied using
+the spaghetti tube irrigation system and the flow rate was 10 mm/h. The soil moisture
+was monitored daily by Delta-T SM 150. The plant’s quantitative characteristics (length
+(L), biomass (m) and dry biomass (dry m)) were measured, using a measuring scale and a
+digital weighing scale. At each pot, the average of the three plants was recorded (for the
+characteristics under research (L, m and dry m)), and the average of the replications of
+each treatment was also recorded. Figure 1 presents the experimental procedure during
+two representative stages of plant growth.
+(a) (b) 
+ 
+ 
+Figure 1. The experimental procedure at two representative stages of the experiment (a) early stage;
+(b) installation of the irrigation system.
+For each soil, the critical soil moisture ( θc) was determined and used as the lowest
+threshold of soil moisture, following Equation (1) [24,25]:
+θc = θFC − p(θFC − θPWP ) (1)
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 4 ---
+Agronomy 2026, 16, 649 4 of 23
+where θc is the critical soil moisture, θFC is the field capacity of the soil, θPWP is the
+permanent wilting point of the soil and p is the maximum allowable depletion (MAD),
+equal to 0.6, which was selected according to the hydraulic properties obtained.
+2.2. Soil Physicochemical Properties
+The soil samples were taken to the laboratory and dried in the oven at 105 ◦C, and the
+soil characteristics have been analyzed [13,26–28]. The samples were sieved using a 2 mm
+pore sieve and underwent chemical analyses to estimate the pH, the electrical conductivity
+(EC), the organic matter (OM), the CaCO3 and the soil particle distribution [6,28,29]. The
+soil pH and electrical conductivity (EC) were assessed in a soil:water (1:1) mixture; the
+organic matter content was measured using the Walkley Black method, using K 2CrO4
+as an oxidizing factor. The content of CaCO 3 was measured by a proper calcimeter and
+the particle size distribution of the soil was estimated by the Bouyoucos method. In the
+experimental procedure of the current study, the same original soil (A) and soil ratio (B)
+with [13] were used.
+2.3. Hydraulic Properties
+The soil samples were delivered to the laboratory to measure the following
+hydraulic properties:
+• Field capacity (FC).
+• Permanent wilting point (PWP).
+• Soil moisture at saturation (θs).
+• Bulk density (ρb).
+• Cumulative infiltration [I(t)] and infiltration rate [i(t)].
+• Soil water characteristic curves [SWCC h(θ)].
+The van Gencuhten equation [30] was used to simulate the SWCC:
+Θ = θ − θr
+θs − θr
+= 1
+1 + (αh)nm (2)
+where θs is soil water content at saturation and θr is the residual water content, while a, m,
+and n are parameters which have to do with the shape and the curvature of the SWCC. The
+Kostiakov [31] equation was used to determine the cumulative infiltration functions for
+both soils being researched.
+For the determination of FC, PWP , and SWCC, the experimental device used at the
+laboratory was a pressure plate apparatus (Soil Moisture Equipment Corp., Goleta, CA
+USA), while a digital weighing scale was used to calculate θs. The soil moisture thresholds
+(FC and PWP) were determined by applying 0.33 bar and 15 bar tensions to the saturated
+soil samples, correspondingly. For the determination of the SWCC, the tension range
+was 0.05 to 15 bars for soil A (CL) and 0.04 bar to 15 bars for soil B (SCL). Infiltration
+was measured by using transparent columns of 50 cm height and 6 cm inner diameter,
+measuring the incoming water at certain time intervals. RETC v. 6.02 software was used
+to simulate the SWCC and the hydraulic properties of hydraulic conductivity K( θ) and
+hydraulic capacity C(θ), which are equal to a derivative of soil moisture in terms of suction
+dθ/dh and hydraulic diffusivity D(θ), which are equal to K(θ)/C(θ).
+2.4. Meteorological Data
+Meteorological data were obtained from the meteorological station of the University
+of Thessaly experimental farm located in close proximity to the study site.
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 5 ---
+Agronomy 2026, 16, 649 5 of 23
+2.5. Statistical Analysis
+SPSS (IBM SPSS Statistics v29.0. Armonk, NY, USA: IBM Corp) was used for statistical
+analysis. General linear models were used for the analysis of variance (ANOVA) and Tukey
+post hoc tests were used for pairwise comparisons. The mean difference is significant at
+a = 0.05 level (p < 0.05).
+2.6. Python Code
+Python 3.10 code was used for certain data analysis. ChatGPT5.0 (OpenAI, San
+Francisco, CA, USA) was used as a coding assistant to help structure portions of
+Python 3.10 code. Python code was utilized exclusively for advanced data visualiza-
+tion and density analysis. All code, data handling, and figures were verified, validated,
+and edited by the authors, using original experimental data.
+3. Results
+The Mediterranean climate is well known for its very warm summers, along with
+mild winters. The average values of the air temperature during the growth period varied
+between 15.2 ◦C and 27.9 ◦C, while the values of percipitation during the same period
+varied between 1 mm and 57.6 mm (Figure 2).
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 2. Meteorological data [precipitation P (mm) and temperature T (◦C)].
+Table 1 presents the physicochemical characteristics of the soil samples under investiga-
+tion. Soil A was characterized as clay loam (CL) and soil B was characterized as sandy clay
+loam (SCL) [6,13]. The original farm soil (soil A) was classified as calcixerollic xerochrept [7],
+while the classification was the same for the mixed soil, B. Both soils were alkaline. The
+values of the critical soil moisture for each soil sample were found using Equation (1):
+θCL
+c = 0.20 cm3cm−3(= 20.0% v/v) and θSCL
+c = 0.164 cm3cm−3(= 16.4% v/v).
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 6 ---
+Agronomy 2026, 16, 649 6 of 23
+Table 1. Physicochemical parameters of soil types A and B [13].
+Physicochemical Characteristics Soil A (CL) Soil B (SCL)
+pH (1:1) 7.45 ± 0.7 7.31 ± 0.5
+EC (µS cm−1) 475.7 ± 6.5 357.0 ± 3.2
+OM (%) 2.1 ± 0.4 1.4 ± 0.3
+CaCO3 (%) 9.2 ± 0.9 7.8 ± 1.2
+Clay (%) 32.0 ± 1.2 28.2 ± 3.2
+Silt (%) 40.0 ± 2.2 21.3 ± 2.1
+Sand (%) 28.0 ± 2.2 50.5 ± 2.8
+ρb (g cm−3) 1.40 ± 0.02 1.60 ± 0.02
+FC (cm3 cm−3) 0.320 ± 0.005 0.260 ± 0.005
+PWP (cm3 cm−3) 0.120 ± 0.005 0.100 ± 0.005
+θs (cm3 cm−3) 0.42 ± 0.01 0.37 ± 0.01
+The two soils used for the present research were characterized as clay loam (soil A)
+and sandy clay loam (soil B). The particle size analysis indicated that soil B is a “light” soil,
+while soil A is cohesive, with a “heavier” texture. Thus, soil A has a stronger ability to
+retain water than soil B: a behavior that was reflected in the hydraulic properties under
+investigation (Table 1).
+Figure 3 shows (a) the cumulative infiltration curve, (b) the infiltration rate curve and
+(c) the logarithmic graph of I(t) for soil A. The estimated equations [31], using the graph
+method, are presented below:
+I = 13.5 t0.45 (mm, min ) (3)
+i = 6.075 t−0.55 (mm/min, min ) (4)
+(a) (b) 
+ 
+(c) 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 3. Infiltration curves for soil A: (a) Cumulative infiltration versus time; (b) infiltration rate
+versus time; and (c) cumulative infiltration versus time (log-log).
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 7 ---
+Agronomy 2026, 16, 649 7 of 23
+Equation (1) was used to estimate the start time of the irrigation, while the duration
+of the irrigation was determined by taking into consideration the difference between the
+field capacity and critical soil moisture, and Equations (3) and (4) were implemented as a
+protective buffer to prevent from overirrigation and runoff.
+Table 2 shows the van Genuchten parameters, Figure 4 shows (a) the hydraulic capacity
+with the soil moisture curve, (b) the hydraulic conductivity versus soil moisture, (c) the diffusivity
+versus soil moisture, (d) the pressure head (log) with soil moisture curve and (e) the soil water
+characteristic curve (SWCC) approximated with van Genuchten’s model, for soil A.
+Table 2. van Genuchten parameters for soil A.
+Parameter Soil A (CL)
+θr (cm3 cm−3) 0.03
+θs (cm3 cm−3) 0.42
+α (cm−1) 1.35000
+n 1.53000
+m 0.34600
+ 
+(a) (b) 
+  
+(c) (d) 
+ 
+(e) 
+ 
+ 
+Figure 4. Hydraulic properties for soil A: (a) hydraulic capacity versus soil moisture; (b) hydraulic con-
+ductivity versus soil moisture; (c) diffusivity versus soil moisture; (d) SWCC (log), where the experimental
+points are indicated with red dots; and (e) SWCC experimental curve and van Genuchten approximation.
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 8 ---
+Agronomy 2026, 16, 649 8 of 23
+Table 3 presents the van Genuchten parameters, and Figure 5 shows (a) the cumulative
+infiltration curve, (b) the infiltration rate curve and (c) the logarithmic graph of I(t) for soil
+B. The estimated equations are presented below:
+I = 22.5 t0.39 (mm, min ) (5)
+i = 8.775 t−0.61 (mm/min, min ) (6)
+Table 3. van Genuchten parameters for soil B.
+Parameter Soil B (SCL)
+θr (cm3 cm−3) 0.01
+θs (cm3 cm−3) 0.37684
+α (cm−1) 6.88475
+n 1.26257
+m 0.207965
+(a) (b) 
+ 
+(c) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 5. Infiltration curves for soil B: (a) Cumulative infiltration versus time; (b) infiltration rate
+versus time; and (c) cumulative infiltration versus time (log-log).
+The infiltration curves of both soils were crucial for the decision of the spaghetti
+irrigation system and the flow rate, within the limits of final infiltrability. Soil A had initial
+infiltrability of (i) about 2.5 mm/min equal to 150 mm/h, while the final stable value was
+0.5 mm/min or 30 mm/h. Soil B showed 3.29 mm/min or 197.4 mm/h initial infiltrability,
+while the final value was 0.6 mm/min or 36 mm/h. Thus, the decision to have a 10 mm/h
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 9 ---
+Agronomy 2026, 16, 649 9 of 23
+flow rate ensured the water absorption, avoiding ponding or losses due to overflow and
+runoff. The selection of the flow rate has been fixed according to the infiltration data of
+soil A in order to ensure hydraulic security for both soils. Figure 6 shows the estimated
+hydraulic parameters, along with the SWCC and van Genuchtens approximation for soil B.
+(a) (b) 
+ 
+(c) (d) 
+ 
+(e) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 6. Hydraulic properties for soil B: ( a) Hydraulic capacity versus soil moisture; ( b) Hy-
+draulic conductivity versus soil moisture; (c) Diffusivity versus soil moisture; (d) SWCC (log) where
+the experimental points are indicated with red dots; and ( e) SWCC experimental curve and van
+Genuchten approximation.
+In Figures 4 and 6, the differences in hydraulic properties such as hydraulic capacity,
+conductivity and diffusivity, along with the SWCC for both soils, are presented, where soil
+A (Figure 4) shows greater available soil moisture and lower maximum hydraulic capacity,
+but within a greater range of soil water content, than soil B, while the diffusivity values of
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 10 ---
+Agronomy 2026, 16, 649 10 of 23
+soil A were greater than those of soil B. The unsaturated hydraulic conductivity of soil B
+was significantly higher than soil A within a narrower soil moisture range, indicating the
+rapid drainage of the macropores in the sandy clay loam soil.
+Temporal soil moisture variations are presented for all treatments and for both
+soils in Figure 7, where the thresholds of FC, PWP and θc are also shown. Figure 8
+presents irrigation along with precipitation and temperature for all treatments for both
+soils. The divergent irrigation schedules indicate the different hydraulic behavior of each
+soil type, ensuring that water application was optimized according to their storage and
+transmission characteristics.
+ 
+(a) (d) 
+ 
+(b) (e) 
+  
+(c) (f) 
+ 
+ 
+Figure 7. Temporal variation in soil moisture. (a) A-I1 treatment, (b) A-I2 treatment, (c) A-I3 treatment,
+(d) B-I1 treatment, (e) B-I2 treatment, and (f) B-I3 treatment.
+In Figures 9–11, the effect of the irrigation treatments on the quantitative character-
+istics (length, biomass and dry biomass) of the plant are presented. The figures present a
+comparative evaluation between each treatment and soil type, along with the standard de-
+viation bars (a), the density of values and data distribution (b) and the statistical differences
+between the quantitative characteristics of the plant for each irrigation regime and soil type
+(c), correspondingly. Table 4 provides the details of the ANOVA statistical analysis.
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 11 ---
+Agronomy 2026, 16, 649 11 of 23
+ 
+(a) 
+ 
+(b) 
+ 
+(c) 
+Figure 8. Cont.
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 12 ---
+Agronomy 2026, 16, 649 12 of 23
+ 
+(d) 
+ 
+(e) 
+ 
+(f) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 8. Irrigation, precipitation and temperature. (a) A-I1 treatment, (b) A-I2 treatment, (c) A-I3
+treatment, (d) B-I1 treatment, (e) B-I2 treatment, and (f) B-I3 treatment.
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 13 ---
+Agronomy 2026, 16, 649 13 of 23
+ 
+ 
+(a) ( b) 
+(c) 
+ 
+ 
+ 
+Figure 9. Plant length for all irrigation treatments for both soils ( a), density of values and data
+distribution (b), and estimated marginal means of the plant length for the factors: irrigation and soil
+(c). Means followed by the same letter are not significantly different (p > 0.05).
+Table 4. Analysis of variance (length, biomass, dry biomass).
+Variable Source of Variation df Sum of Squares Mean Square F-Value p-Value
+Length (L) Irrigation (I) 2 1.583 0.792 1.390 0.275
+Soil (S) 1 0.375 0.375 0.659 0.428
+I × S 2 1.750 0.875 1.537 0.242
+Error 18 10.250 0.569
+Biomass (m) Irrigation (I) 2 2.358 1.179 8.922 0.002
+Soil (S) 1 0.242 0.242 1.832 0.193
+I × S 2 0.004 0.002 0.017 0.983
+Error 18 2.378 0.132
+Dry Biomass
+(dry m) Irrigation (I) 2 0.377 0.189 8.922 0.002
+Soil (S) 1 0.039 0.039 1.832 0.193
+I × S 2 0.001 0.000 0.017 0.983
+Error 18 0.381 0.021
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 14 ---
+Agronomy 2026, 16, 649 14 of 23
+ 
+ 
+(a) ( b) 
+ 
+(c) 
+ 
+ 
+ 
+Figure 10. Plant biomass for all irrigation treatments for both soils (a), density of values and data
+distribution (b), estimated marginal means of the plant biomass for the factors: irrigation and soil (c).
+Different letters indicate statistically significant differences (p < 0.05).
+To further demonstrate the effect of irrigation variance in fresh and dry biomass the
+eta squared (η2 = SSirrigation/SStotal) values are presented: 0.4733 for fresh biomass and
+0.4724 for dry biomass indicating large effect ( η2 > 0.14), where SS irrigation is the sum of
+squares for irrigation and SStotal is the total sum of squares.
+Figure 9 shows that the average values of length for each irrigation treatment and soil
+were as follows: A-I1: 140.00 cm, A-I2: 140.25 cm, A-I3: 139.25 cm, B-I1: 140.25 cm, B-I2:
+139.25, and B-I3: 138.50 cm. There were no significant differences between all treatments
+(p > 0.05). Violin diagrams (Figure 9b) show the density of length values, along with the
+data distribution, where minor variation is shown, as most of the values are close to average.
+Figures 10 and 11 present the fresh and dry biomass across treatments and soil types. There
+are similar trends between fresh and dry biomass, as there were no significant differences
+between the I2 and I3 treatments (p > 0.05) (Figures 10a,c and 11a,c), whereas the control
+showed significantly higher biomass (fresh and dry). Data distribution showed minimal
+variance around the mean for both cases (Figures 10b and 11b).
+In order to investigate the efficiency of water use, the irrigation water use efficiency
+(IWUE) was calculated as the ratio of the dry biomass to the total water applied for each
+irrigation level and the results are shown in Figure 12. Furthermore, in order to present
+the trend of the IWUE, taking into account the irrigation level along with the soil type,
+and because of the tendency of the IWUE to increase as the water input turns lower, the
+regression surface per soil and irrigation treatment was designed (Figure 13).
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 15 ---
+Agronomy 2026, 16, 649 15 of 23
+ 
+(a) ( b) 
+(c) 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 11. Plant dry biomass for all irrigation treatments for both soils (a), density of values and data
+distribution (b), and estimated marginal means of the plant dry biomass for the factors: irrigation
+and soil (c). Different letters indicate statistically significant differences (p < 0.05).
+Figure 12. IWUE per soil and irrigation level.
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 16 ---
+Agronomy 2026, 16, 649 16 of 23
+Figure 13. IWUE regression surface per soil and irrigation level.
+The model equation of Figure 1, along with the R2 value, is presented below:
+z = 1.950580 − 0.0109453x − 0.0070760y + 0.0000199027x2+
+0.0000454800(xy) − 0.0070760y2  
+R2 = 0.99823
+ (7)
+where
+x = irrigation (mm).
+y = soil type (A = 0, B = 1).
+z = IWUE.
+The model was developed to describe trends in the IWUE within the experimen-
+tal irrigation and soil combinations. The variations in IWUE under specific irrigation
+and soil conditions are highlighted, while remaining within the framework set by the
+experimental procedure.
+4. Discussion
+Based on their respective classifications, clay loam (soil A) and sandy clay loam (soil
+B) showed distinct physical behaviors: soil A’s finer texture allowed for greater water
+storage than soil B, which is a coarser texture soil. This behavior is reflected in the hydraulic
+properties of the two soils. Soil A showed greater soil moisture in saturation, residual
+moisture, FC and PWP , while bulk density and hydraulic conductivity were significantly
+lower. The difference between the soil textures was also captured at the cumulative
+infiltration curves and the infiltration rate curves (Figures 3 and 5), where at early times of
+infiltration, soil B showed a greater rate, as expected [18,32]. The infiltration rates of both
+soil samples were fundamental for the determination of the irrigation system used during
+the experiment. Soil A exhibited an initial infiltration rate of 2.5 mm/min (150 mm/h),
+reaching a steady state of 0.5 mm/min (30 mm/h). Soil B showed higher infiltrability,
+with initial and final values of 3.29 mm/min (197.4 mm/h) and 0.6 mm/min (36 mm/h),
+respectively. In order to avoid ponding, overflow and runoff, flow rate was set to 10 mm/h,
+considering the hydraulic behavior of soil A, providing a safety margin for both soil types.
+As infiltration is strongly influenced by both the soil texture and hydraulic parameters, it is
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 17 ---
+Agronomy 2026, 16, 649 17 of 23
+crucial to decode the water movement and define the hydraulic parameters of the soil at
+the soil–water system in order to achieve precise high-level irrigation management [33–36].
+For this purpose, a deeper investigation into the hydraulic parameters has been achieved.
+The SWCC has been designed for both soils and was approximated with van Genucthen’s
+equation. Using the experimental suction–moisture pairs, more hydraulic parameters
+have been obtained, which was affected by the soil moisture, capturing the hydrodynamic
+behavior of each soil. In particular, the hydraulic capacity, hydraulic diffusivity, hydraulic
+conductivity, and pressure head behavior with the soil moisture was captured, showing that
+differences in soil texture significantly affect the irrigation-related hydraulic properties [37].
+The above was considered to use water precisely in the irrigation system. Clay loam
+showed greater field capacity, while its SWCC showed greater availability of water for the
+plants (Figure 4). Thus, the selected MAD, equal to 0.6, guaranteed that irrigation was kept
+within the limits where soil moisture remained viable for the plant. The selected MAD
+ensured hydraulic security at soil B too (Figure 6), preventing sharp increases in suction
+that would bring enormous stress to the plant.
+Hydraulic capacity C(θ) revealed the buffering capacity of CL soil, as the curve was
+significantly “smoother” than the one of SCL soil (Figures 4 and 6). The smaller slope of
+C(θ) indicates that soil A was less sensitive to moisture changes, signifying smoother water
+supply to the plant. Hydraulic capacity is defined as dθ/dh, meaning that the sharp drop
+of C(θ) in soil B (Figure 6) indicates that as soon as the plant absorbs a small amount of
+water, the suction rises sharply, making the remaining water difficult to access [37,38]. More
+specifically, soil B shows a higher Cmax of about 4 cm−1 compared to the Cmax of 0.11 cm−1
+of soil A, but drops drastically within a narrow frame of soil moisture. Thus, the hydraulic
+capacity derived from van Genuchten’s model served as a proxy for the hydraulic buffering
+ability of each soil. Moreover, C(θ) curves indicated that soil A revealed a more stable state
+for the water content than soil B, which justifies the decision for less frequent irrigation
+intervals at soil A, as it had the ability to supply the plants with the required amounts of
+water with fewer changes in suction, preventing transient water stress (Figures 7 and 8).
+The hydraulic capacity analysis indicated that in the soil moisture range, the peak value,
+along with the shape of the curve, is a key point for irrigation management. The distinct
+slopes and the narrow or wide peaks of the curves provide a mechanistic explanation
+for the soil’s retention ability and water availability to plants. Soil A acted as a reliable
+hydraulic buffer, supporting plants even at 60% FC (I3) treatment. On the contrary, soil B
+with the sharp curve of hydraulic capacity could provide water within a narrow range of
+soil moisture, demanding more intensive and careful water management. Such hydraulic
+behaviors can explain the observed differences in IWUE and the peak of A-I3 treatment.
+Also, the sharp hydraulic capacity of soil B demonstrated likely induced transient water
+stress, resulting in lower IWUE compared to soil A across all irrigation levels.
+Figures 4 and 6 also provide the hydraulic diffusivity curves for both soils, indicating
+that as diffusivity is defined as D(θ) = K(θ)/C(θ), the impact of both hydraulic conductivity
+and capacity on the hydraulic diffusivity is significant [ 30]. As a result, soil A showed
+significantly higher diffusivity than soil B, indicating that the water profile was more
+uniform and steadier compared to soil B, where the lower values of D( θ) mean that the
+water movement was physically constrained, as a result of the soil’s texture, structure
+and hydraulic behavior [ 30,37]. Moreover, the significant difference in IWUE between
+the two soils is mathematically justified by the relationship between D(θ), K(θ) and C(θ),
+confirming the benefit of the soil physics–agricultural hydraulics perspective. Hence, soil
+A resulted in about 12-fold higher diffusivity (D max ≈ 0.23 cm2 min−1) within a wider
+range of soil moisture compared to soil B (Dmax ≈ 0.02 cm2 min−1), which facilitated the
+water redistribution of soil A within the pot, allowing the plant to maximize its water
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 18 ---
+Agronomy 2026, 16, 649 18 of 23
+uptake, even at the lowest water input (A-I3). Diffusivity analysis demonstrated that water
+redistribution of soil B was faster near saturation, but the selected supply (10 mm/h) was
+compatible with the need for mitigation of local saturation. The soil physics–agricultural
+hydraulics perspective of irrigation management, considering the analysis of the I(t), i(t),
+SWCC h(θ), C(θ), K(θ) and D(θ) curves, leads to precise irrigation scheduling and water
+application, as soil A allowed for more flexible scheduling due to its higher ability to retain
+and provide available water to plants. In contrast, soil B, due to its “flashy” hydraulic
+behavior, necessitated intensive and more careful irrigation management. The hydraulic
+performance of both soils was also captured at the θ(t) curves of Figure 7, where the quick
+draining of soil B is notable. Figure 8 shows the irrigation water applied, along with
+precipitation and temperature, where the differences in frequency and doses of water
+are indicated.
+Regarding the plant length (L), Table 4 indicates that irrigation (F2,18 = 1.390, p = 0.275)
+and soil type (F1,18 = 0.659, p = 0.428) have no significant impact on plants. Furthermore,
+no significant interaction between irrigation and soil type was observed (F 2,18 = 1.537,
+p = 0.242). Figure 9 shows that industrial hemp is a plant that is resistant to water
+stress [ 39–41], as the crop height was not significantly affected at both soil types.
+Figure 9a shows the comparative evaluation between each treatment and soil type, while in
+Figure 9b, the density of values, along with the data distribution, is presented with a minor
+variation, as most of the values are close to the average. The average values for the length
+of each irrigation treatment and soil were as follows: A-I1: 140.00 cm, A-I2: 140.25 cm,
+A-I3: 139.25 cm, B-I1: 140.25 cm, B-I2: 139.25, and B-I3: 138.50 cm. Figure 9c presents the
+statistical differences between the plant’s height (L) for each irrigation regime and soil type,
+for the significance level α = 0.05. The length of the plants with treatments I2 and I3 did
+not show significant differences between them (p > 0.05), while there were no significant
+differences for both treatments compared to the control (p > 0.05). Industrial hemp is usable
+for fiber; hence, the height (as stems contain fiber) is very important as the source of fiber,
+while the total biomass refers to, e.g., leaves, flowers, etc., that are irrelevant for the textile
+quality. However, the approach of linking the plant’s height with the fiber yield provides
+an indirect assessment and this limitation should be mentioned. Regarding biomass (m and
+dry m), Table 4 reveals the significant effect of irrigation (F2,18 = 8.922, p = 0.002), while the
+soil type (F1,18 = 1.832, p = 0.193) and interaction of the two variables have no significant
+impact on plants (F2,18 = 0.017, p = 0.983). The same pattern was followed by dry biomass
+(irrigation: F2,18 = 8.922, p = 0.002, soil type: F1,18 = 1.832, p = 0.193, irrigation and soil type:
+F2,18 = 0.017, p = 0.983). Although the two soil types under investigation showed distinct
+hydraulic properties, having no significant differences on biomass (fresh and dry) between
+them suggests that the irrigation protocol followed standardized plant performance across
+different soils. In Figures 10 and 11, the fresh and dry biomass are presented by using the
+same visualization as for the length of the plants. Figures 10a and 11a show the compar-
+ative evaluation between each treatment and soil type regarding fresh and dry biomass,
+correspondingly. The violin diagrams (Figures 10b and 11b) represent the density of the
+values of fresh and dry biomass, correspondingly, along with the data distribution, where
+minor variation is shown, as most of the values are close to the average for both cases. At
+Figures 10c and 11c, fresh and dry biomass follow the same law, as there are no significant
+differences between treatments I2 and I3 (p > 0.05), while the control shows higher fresh and
+dry biomass values, as expected [7]. However, when biomass production is interpreted in
+relation to the irrigation water applied, the irrigation water use efficiency (IWUE) becomes
+a more informative indicator of the plant performance under water-limited conditions.
+The ability of the clay loam (soil A) to retain water led to higher irrigation use efficiency
+(IWUE), especially at the 60% FC level, where reducing the irrigation dose rather improved
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 19 ---
+Agronomy 2026, 16, 649 19 of 23
+the biomass to water consumption ratio. Figures 12 and 13 capture the tendencies of the
+IWUE for each irrigation level and soil type, showing that clay loam had the ability to
+efficiently provide water to the plant, even with the I3 (60% FC) treatment. Both figures also
+show that the IWUE increases as irrigation decreases for both soils, meaning that in both
+soil cases, less water led to higher water efficiency. However, clay loam soil gave a higher
+IWUE than sandy clay loam across the irrigation levels and the control (I1: 0.563 g/mm I2:
+0.698 g/mm, I3: 0.929 g/mm). Moreover, the highest level of IWUE was observed when
+the irrigation level was low to moderate at the clay loam soil (surface peak of 0.929 g/mm
+at Figure 13), a finding that is linked to hydraulic capacity, as in the 60% FC range, soil A
+has a sufficient buffering capacity, using water more efficiently. For sandy clay loam (soil
+B), the efficiency was lower at all irrigation levels, so the trend shows that clay loam was
+more efficient overall, indicating that among the conditions of the containerized cultivation
+system, reduced irrigation can be applied to the point that the biomass does not drastically
+drop. The sandy clay loam soil was characterized by a higher hydraulic conductivity and
+infiltration rate, causing water to penetrate more rapidly while being retained less in the soil
+profile [18]. The hydraulic capacity C(θ) can explain the limited available soil moisture for
+plants and the fluctuations of the soil moisture. In addition, the diffusivity levels resulted in
+faster, but less stable, water movement in the rhizosphere, increasing the risk of unevenness
+and the need for more frequent irrigation events. Thus, irrigation management in the
+sandy clay loam soil required a more intensive schedule to avoid water stress beyond the
+required values, but also reduced the irrigation water use efficiency (I1: 0.452 g/mm, I2:
+0.560 g/mm, I3: 0.746 g/mm) due to quick infiltration, indicating that sandy clay loam
+requires more careful water management. The performance of the soils in terms of the
+IWUE is directly linked to their hydraulic characteristics. The maximization of the IUWE
+in soil A under the I3 regime highlights the optimal utilization of water resources when
+considering hydraulic properties. The steeper curve of C( θ), along with the narrow soil
+moisture range, the lower diffusivity and the higher infiltrability of soil B, is responsible for
+the intense scheduling of water application and the lower efficiency of the irrigation water,
+meaning that hydraulic properties directly affect irrigation planning, water management
+and IWUE [11,42,43]. As a result, the clay loam soil offered greater flexibility, allowing
+for fewer, but more efficient irrigation applications, while the sandy clay loam required
+stricter and more frequent planning to meet either the crop needs or the reduced crop needs
+as planned. Despite the different strategies, the results showed that the three irrigation
+regimes of full and deficit irrigation did not significantly affect the productivity of Felina
+32 in terms of height, yet the fresh and dry biomass were affected, as expected [ 7,9,39].
+However, the increased irrigation water use efficiency in clay loam at 60% FC demonstrates
+that the rational combination of hydraulic properties with adapted irrigation strategies can
+achieve both production maintenance and water resource conservation [43–46], notably for
+applications in textile/fabric production.
+The findings of the present study suggest that irrigation planning based on hydraulic
+properties reveals the potential of significant improvement of IWUE, highlighting the
+value of precision irrigation in environments with limited water resources, such as the
+Mediterranean. The findings are a proof-of-concept of how soil physics and agricultural
+hydraulics determine the sustainability of industrial hemp. The present study focuses on
+the research of inherent hydraulic properties in a controlled hydraulic environment, in
+order to monitor the water balance and simultaneously avoid deep percolation and runoff,
+and also minimize the spatial heterogeneity of the soil. It is important to mention the
+limitations of this research though, which refers to the certain variety of industrial hemp
+(Felina 32), the certain soil types, the containerized environment and the Mediterranean
+conditions of central Greece, while additional repetitions of the experiment in future work
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 20 ---
+Agronomy 2026, 16, 649 20 of 23
+would help to verify the observed trends. In any case, the hydraulic properties of the two
+soils under research played a decisive role in irrigation management and planning. As we
+move into times of increasing water scarcity due to climate change, especially in areas that
+face a water shortage even now, in the sensitive area of the Mediterranean [47], the precise
+irrigation water management practices will play an important role in the conservation of
+precious water resources.
+5. Conclusions
+The main scope of the present research was to integrate hydraulic properties into the
+irrigation practices of industrial hemp (Felina 32). For this purpose, two different soil types
+were used to investigate the impact of the different texture and hydraulic behavior of each
+soil on irrigation scheduling in full and deficit irrigation treatments, along with the effect
+on the irrigation water use efficiency. The main finding of the study is the mechanistic link
+between hydraulic properties and irrigation. Moreover, irrigation management based on
+hydraulic properties led to the following key findings:
+• Irrigation system, optimal flow rate and MAD selection: infiltration analysis led to a
+select flow rate at a safety level below the final infiltrability in order to avoid ponding
+and runoff. SWCC and diffusivity provided the basis for the MAD selection and the
+spaghetti irrigation system, respectively.
+• Hydraulic properties and irrigation decisions: Decoding the hydraulic behavior of
+each soil revealed their different ability for providing water to plants. The combined
+analysis of hydraulic capacity C(θ), hydraulic conductivity K(θ) and diffusivity D(θ)
+facilitated the separation of the irrigation strategy, as the soil moisture range of the
+curves and the peak value and the shape of the curves was a key point for irriga-
+tion management. As a result, the soil physics–agricultural hydraulics perspective
+of irrigation management allowed for more flexible scheduling for clay loam soil,
+due to its higher ability to retain and provide the available water to plants linked
+to the wider curve of C( θ), the higher D( θ) values, the lower K( θ) and the wider
+range of soil moisture. In contrast, sandy clay loam, due to its abrupt hydraulic
+behavior, necessitated an intensive and more careful irrigation management, as it
+showed a sharp C(θ) curve, lower D(θ) values and higher K(θ) in a narrower range of
+soil moisture.
+• Impact on irrigation water use efficiency: Irrigation based on hydraulic properties
+highlighted the ability of clay loam to efficiently apply water to Felina 32 across
+full and deficit irrigation. The rise in IWUE with the decrease in water applied is
+directly linked to the soil’s specific hydraulic properties, connecting soil physics and
+agricultural hydraulics with peak agronomic performance.
+While the present research was conducted in a controlled containerized environment,
+the integration of hydraulic properties into irrigation decisions provides a mechanistic
+framework for future field-scale applications.
+Author Contributions: Conceptualization, A.A.; methodology, A.A.; experimental treatment: A.A.,
+A.V ., M.E.K., V .R., E.K., N.K. and K.C.N.; software, A.A., A.V . and N.K.; validation, A.A., A.V .,
+M.E.K., V .R., E.K., N.K. and K.C.N.; formal analysis, A.A., A.V ., M.E.K., V .R., E.K., N.K. and K.C.N.;
+investigation, A.A., A.V ., M.E.K., V .R., E.K., N.K. and K.C.N.; resources, A.A., A.V ., M.E.K., V .R.,
+E.K., N.K. and K.C.N.; data curation, A.A., A.V ., M.E.K., V .R., E.K., N.K. and K.C.N.; writing—
+original draft preparation, A.A.; writing—review and editing, A.A., A.V ., M.E.K., V .R., E.K., N.K.
+and K.C.N.; visualization, A.A., A.V ., M.E.K., V .R., E.K., N.K. and K.C.N.; supervision, A.A.; project
+administration, A.A. All authors have read and agreed to the published version of the manuscript.
+Funding: This research received no external funding.
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 21 ---
+Agronomy 2026, 16, 649 21 of 23
+Data Availability Statement: The raw data supporting the conclusions of this article will be made
+available by the corresponding author upon request.
+Acknowledgments: The authors would like to thank E. Golia of Aristotle University of Thessaloniki
+for providing the experimental pots, accomplishing the soil treatments, and for her valuable rec-
+ommendations. Authors would also like to thank K. Giannoulis of the University of Thessaly for
+providing the seeds and all the reviewers for their valuable comments. The authors acknowledge
+ChatGPT5.0 (OpenAI, San Francisco, CA, USA), which was used as a coding assistant to help struc-
+ture portions of Python 3.10 code for data analysis. All code, data handling, and figures were verified,
+validated and edited by the authors, using original experimental data. No AI tools were used for text
+generation, data fabrication, or interpretation of the results.
+Conflicts of Interest: The authors declare no conflicts of interest.
+References
+1. Sebastian, J.S.V .; Dong, X.; Trostle, C.; Pham, H.; Joshi, M.; Jessup, R.; Burow, M.; Provin, T. Hemp Agronomy: Current Advances,
+Questions, Challenges, and Opportunities. Agronomy 2023, 13, 475. [CrossRef]
+2. Amaducci, S.; Scordia, D.; Liu, F.H.; Zhang, Q.; Guo, H.; Testa, G.; Cosentino, S.L. Key cultivation techniques for hemp in Europe
+and China. Ind. Crops Prod. 2015, 68, 2–16. [CrossRef]
+3. Andre, C.M.; Hausman, J.F.; Guerriero, G. Cannabis sativa: The plant of the thousand and one molecules. Front. Plant Sci. 2016,
+7, 19. [CrossRef] [PubMed]
+4. Gill, A.R.; Loveys, B.R.; Cowley, J.M.; Hall, T.; Cavagnaro, T.R.; Burton, R.A. Physiological and morphological responses of
+industrial hemp (Cannabis sativa L.) to water deficit. Ind. Crop. Prod. 2022, 187, 115331. [CrossRef]
+5. Yuksel, M.; Al-Agele, H.A.; Lloyd, N.; Chad, W. Hydraulic Conductivity of the Hemp Stems Under Water Stress.Fortune J. Health
+Sci. 2023, 6, 483–493. [CrossRef]
+6. Golia, E.; Bethanis, J.; Ntinopoulos, N.; Kaffe, G.; Komnou, A.; Vasilou, C. Investigating the potential of heavy metal accumulation
+from hemp. The use of industrial hemp (Cannabis sativa L.) for phytoremediation of heavily and moderated polluted soils. Sustain.
+Chem. Pharm. 2023, 31, 100961. [CrossRef]
+7. Giannoulis, K.; Bartzialis, D.; Gintsioudis, I.; Danalatos, N. Cultivation Practices Affect Biomass Yield and Quality of “Felina 32”,
+an Industrial Hemp Variety. Agronomy 2024, 14, 2743. [CrossRef]
+8. Zviceviˇ cius, E.; Ži¯ura, K.; Tilvikien˙e, V .; Bakšinskait˙e, A. Biomass Analysis of Industrial Hemp “Felina 32” and the Influence of
+Plant Height on its Quality. BioResources 2024, 19, 6380–6402. [CrossRef]
+9. Kołodziej, J.; Pudełko, K.; Ma ´ nkowski, J. Energy and Biomass Yield of Industrial Hemp (Cannabis sativa L.) as In-fluenced by
+Seeding Rate and Harvest Time in Polish Agro-Climatic Conditions. J. Nat. Fibers 2023, 20, 2159609. [CrossRef]
+10. Algirdas, J.; Streikus, D.; Vonžodas, T. Fibrous hemp (Felina; USO, Finola) and fibrous nettle processing and usage of pressed
+biofuel for energy purposes. Renew. Energy 2020, 149, 11–21. [CrossRef]
+11. Angelaki, A.; Golia, E. Impact of different irrigation & trace metals treatments on onion (Allium cepa L.) plant growth cultivated in
+rural and urban soils. Euro-Mediterr. J. Environ. Integr. 2025, 10, 1657–1670. [CrossRef]
+12. Mubarak, I. Improving water productivity and yield of onion crop by combining early planting and straw mulch under different
+irrigation levels in dry Mediterranean region. Adv. Hort. Sci. 2020, 34, 49–60. [CrossRef]
+13. Vasilou, C.; Tsiropoulos, N.; Golia, E. Phytoremediation & Valorization of Cu-contaminated Soils ThroughCannabis sativa (L.)
+Cultivation: A Smart Way to Produce Cannabidiol (CBD) in Mediterranean Soils. Waste Biomass Valorization 2024, 15, 1711–1724.
+[CrossRef]
+14. Kargas, G.; Mindrinos, L. A new method of estimating infiltration parameters for furrow irrigation. Irrig. Drain. 2025, 74, 658–672.
+[CrossRef]
+15. Kargas, G.; Koka, D.; Londra, P .; Mindrinos, L. Comparison of Methods Predicting Advance Time in Furrow Irrigation.Water
+2024, 16, 1105. [CrossRef]
+16. Batsilas, I.; Angelaki, A. Chalkidis Hydrodynamics of the Vadose Zone of a Layered Soil Column. Water 2023, 15, 221. [CrossRef]
+17. Angelaki, A.; Bota, V .; Chalkidis, I. Estimation of Hydraulic Parameters from the Soil Water Characteristic Curve.Sustainability
+2023, 15, 6714. [CrossRef]
+18. Angelaki, A.; Sihag, P .; Sakellariou-Makrantonaki, M. Tzimopoulos The effect of sorptivity on cumulative infiltration. Water
+Supply 2021, 21, 606–614. [CrossRef]
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 22 ---
+Agronomy 2026, 16, 649 22 of 23
+19. Kargas, G.; Londra, P .A. Effect of tillage practices on the hydraulic properties of a loamy soil. Desalination Water T reat. 2015,
+54, 2138–2146. [CrossRef]
+20. Baiamonte, G.; Alagna, V .; Autovino, D.; Iovino, M.; Palermo, S.; Vaccaro, G.; Bagarello, V . Influence of soil hydraulic parameters
+on bulb size for surface and buried emitters. Agric. Water Manag. 2024, 295, 108756. [CrossRef]
+21. Campiglia, E.; Radicetti, E.; Mancinelli, R. Plant density and nitrogen fertilization affect agronomic performance of industrial
+hemp (Cannabis sativa L.) in Mediterranean environment. Ind. Crops Prod. 2017, 100, 246–254. [CrossRef]
+22. Denton, G.; Clulow, A.; Hill, T.; Gokool, S.; Kunz, R. Water use and productivity of Cannabis sativa L., KwaZulu-Natal Midlands,
+South Africa. J. Cannabis Res. 2025, 7, 64. [CrossRef]
+23. Bajwa, P .; Singh, S.; Singh, M.; Kafle, A.; Parkash, V .; Saini, R. Assessing the production potential of industrial hemp in the
+semi-arid west Texas. T echnol. Agron.2023, 3, 17. [CrossRef]
+24. Allen, G.; Pereira, L.S.; Raes, D.; Smith, M. Crop evapotranspiration Guidelines for computing crop water requirements. In F AO
+Irrigation and Drainage Paper 56 ; FAO: Rome, Italy, 1998.
+25. Stevens Water Monitoring Systems. HydraProbe Soil Data Guide; Section 5, Eq. 5.1–5.3; Stevens Water Monitoring Systems, Inc.:
+Portland, ON, USA, 2018.
+26. Papadimou, S.; Kantzou, O.; Chartodiplomenou, M.; Golia, E. Urban soil pollution by heavy metals: Effect of the lockdown
+during the period of COVID-19 on pollutant levels over a five-year study. Soil. Syst. 2023, 7, 28. [CrossRef]
+27. Golia, E.; Angelaki, A.; Giannoulis, K.D.; Skoufogianni, E.; Bartzialis, D.; Cavalaris, C.; Vleioras, S. Evaluation of soil properties,
+irrigation and solid waste application levels on Cu and Zn uptake by industrial hemp. Agron. Res. 2021, 19, 92–99. [CrossRef]
+28. Dimirkou, A.; Ioannou, Z.; Golia, E.; Danalatos, N.; Mitsios, I. Sorption of cadmium and arsenic by goethite and clinoptilolite.
+Commun. Soil Sci. Plant Anal. 2009, 40, 259–272. [CrossRef]
+29. Golia, E. The impact of heavy metal contamination on soil quality and plant nutrition. Sustainable management of moderate
+contaminated agricultural and urban soils, using low cost materials and promoting circular economy. Sustain. Chem. Pharm. 2023,
+33, 101046. [CrossRef]
+30. van Genuchten, M. A Closed-form Equation for Predicting the Hydraulic Conductivity of Unsaturated Soils. Soil Sci. Soc. Am. J.
+1980, 44, 892–898. [CrossRef]
+31. Kostiakov, A.N. On the Dynamics of the Confinement of Water Percolation in Soils and on the Necessity of Studying it from a
+Dynamic Point of View for Purpose of Amelioration. Soc. Soil Sci. 1932, 14, 17–21.
+32. Alaoui, A. A Simple Method to Assess Key Soil Hydraulic Properties. Water 2023, 15, 467. [CrossRef]
+33. Zhang, Y.; Yang, Z.; Kong, L.; Yang, H.; Yu, Y.; Zhao, Y. Water Content Variations and Pepper Water-Use Efficiency of Yunnan
+Laterite Under Root-Zone Micro-Irrigation. Front. Plant Sci. 2022, 13, 918288. [CrossRef]
+34. Wang, C.; Bai, D.; Li, Y.; Wang, X.; Pei, Z.; Dong, Z. Infiltration Characteristics and Spatiotemporal Distribution of Soil Moisture in
+Layered Soil under Vertical Tube Irrigation.Water 2020, 12, 2725. [CrossRef]
+35. Singh, B.; Sihag, P .; Parsaie, A.; Angelaki, A. Comparative analysis of artificial intelligence techniques for the prediction of
+infiltration process. Geol. Ecol. Landsc. 2020, 5, 109–118. [CrossRef]
+36. Ali, A.; Biggs, A.; Marchuk, A.; Bennett, J. Effect of irrigation water pH on saturated hydraulic conductivity and electrokinetic
+properties of acidic, neutral, and alkaline soils. Soil Sci. Soc. Am. J. 2019, 83, 1672–1682. [CrossRef]
+37. Beck-Broichsitter, S.; Richard, S.; Anneka, M.; Heiner, F.; Rainer, H. Soil water diffusivity as function of the pore size distribution
+and precompression stress. Soil Tillage Res. 2023, 229, 105675. [CrossRef]
+38. Hartge, K.R. Essential Soil Physics: An Introduction to Soil Processes, Structure, and Mechanics ; Schweizerbart Science Publishers:
+Stuttgart, Germany, 2016.
+39. Cafaro, V .; Siracusa, L.; Pulvirenti, L.; Testa, G.; Iurato, A.; Cosentino, S.L.; Patanè, C. Morphological and physiological response
+of hemp to different levels of water availability and salinity. Ind. Crops Prod. 2025, 236, 121958. [CrossRef]
+40. Sullivan, T.; Yost, M.; Boren, D.; Barker, B.; Creech, E.; Bugbee, B. Impacts of irrigation system, irrigation rate, and cultivar on
+hemp production in the semiarid Intermountain West. Agrosyst. Geosci. Environ. 2025, 8, e70083. [CrossRef]
+41. Morgan, W.; Singh, J.; Kesheimer, K.; Davis, J.; Sanz-Saez, A. Identifying physiological traits related with drought tolerance and
+water—Use efficiency in floral hemp ( Cannabis sativa L.). Crop Sci. 2023, 64, 354–372. [CrossRef]
+42. Jia, M.L.; Wei, S.; Liu, F.; Zhang, Y.C.; Shen, Y.J. Influence of soil texture and drip emitter flow rate on soil water movement under
+subsurface drip irrigation. Chin. J. Eco-Agric. 2025, 33, 749−758. [CrossRef]
+43. Qi, W.; Zhanyu, Z.; Ce, W.; Mingyi, H. Prediction of infiltration behaviors and evaluation of irrigation efficiency in clay loam soil
+under Moistube® irrigation. Agric. Water Manag. 2021, 248, 106756. [CrossRef]
+44. Yue, Q.; Ningbo, C.; Fan, Z.; Shanshan, G.; Shouzheng, J.; Xiuyun, Y.; Bin, Z. Adaptation to seasonal drought in irrigation districts
+of south China: A copula-based fuzzy-flexible stochastic multi-objective approach for precise irrigation planning. J. Hydrol. 2023,
+625, 129986. [CrossRef]
+45. Miao, Q.; Shi, H.; Gonçalves, J.; Pereira, L. Basin Irrigation Design with Multi-Criteria Analysis Focusing on Water Saving and
+Economic Returns: Application to Wheat in Hetao, Yellow River Basin. Water 2018, 10, 67. [CrossRef]
+https://doi.org/10.3390/agronomy16060649
+
+--- PAGE 23 ---
+Agronomy 2026, 16, 649 23 of 23
+46. Fereres, E.; Auxiliadora, S.M. Deficit irrigation for reducing agricultural water use. J. Exp. Bot. 2007, 58, 147–159. [CrossRef]
+[PubMed]
+47. Khondoker, M.; Mandal, S.; Gurav, R.; Hwang, S. Freshwater Shortage, Salinity Increase, and Global Food Production: A Need
+for Sustainable Irrigation Water Desalination—A Scoping Review. Earth 2023, 4, 223–240. [CrossRef]
+Disclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual
+author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to
+people or property resulting from any ideas, methods, instructions or products referred to in the content.
+https://doi.org/10.3390/agronomy16060649

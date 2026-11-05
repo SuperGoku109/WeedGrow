@@ -1,0 +1,914 @@
+[PAGE 1]
+Vegetative and reproductive 
+stage lighting interactions on 
+flower yield, water use efficiency, 
+terpenes, and cannabinoids of 
+Cannabis sativa
+C. E. Collado & R. Hernández
+Cannabis is among the most water-demanding crops, facing ongoing expansion and water use 
+regulations. This study evaluated the effects of greenhouse sunlight plus increased LED supplemental 
+lighting on flower yield, water use (WU), and efficiency (WUE), as well as flower partitioning, 
+cannabinoids, terpenes, and leaf gas exchange in Cannabis sativa ‘Suver Haze’. The supplemental 
+lighting programs applied during the vegetative and flowering stages were: (1) Static LED levels (PPFD: 
+150, 300, 500, or 700 µmol m–2 s–1 for 72 days) and (2) Dynamic LED levels (PPFD: 150, 300, or 500 for 
+28 days, followed by 700 µmol m–2 s–1 for 44 days). Flower yield and crop WUE increased linearly with 
+the increase of Dynamic and Static lighting. For instance, a 4.7-fold Static lighting increase caused 
+a 4.1-fold increase in flower yield and reduced the evapotranspiration per gram of flower by 37%. 
+Furthermore, plants in Dynamic lighting produced up to 10.4% more flowers and 24.8% higher WUE 
+than plants in Static lighting at the same cumulative lighting. Higher leaf photosynthetic rate, WUE, 
+and lower stomatal conductance due to higher light intensity supported the crop results. Cannabinoid 
+and terpene changes were small and complex, with terpene concentration affected by the light 
+program and light level. In conclusion, supplemental lighting substantially enhanced production and 
+WUE, particularly when higher light was provided during flowering.
+Keywords Hemp, Sustainable production, Indoor production, Water savings, Secondary metabolites, 
+Supplemental lighting, Terpenoids, Water footprint
+The development of cannabis production has experienced persistent expansion due to ongoing legalization across 
+several states in the US1. However, recent data indicate that both field and greenhouse cannabis cultivations are 
+among the most water-demanding crops2. California, the primary production state in the US, already allocates 
+between 70 and 80% of surface freshwater and groundwater for agriculture2. Furthermore, the US applied 42% of 
+its freshwater for irrigation in 20153. With growing concerns about water infrastructure, demand, and shortages4, 
+it is critical to understand and reduce the water footprint of cannabis and other crops for feasibility, greenhouse 
+water infrastructure planning, and sustainability. Nevertheless, data on this topic remain scarce and variable5,6.
+Cannabis is a high-light-demanding crop 7. While greenhouse cultivation exploits solar light to reduce 
+production costs8, solar radiation in the greenhouse may be insufficient to achieve the desired flower quality and 
+yield. Several studies have evaluated the impact of electrical lighting (HPS or LED as sole source lighting) during 
+the flowering period only, providing insights into flower growth under those conditions 9–12. Still, greenhouse 
+lighting studies are limited 13 and have not been conducted during the vegetative or vegetative plus flowering 
+periods for flower production. Moreover, during the vegetative stage, the cumulative photosynthetic photon 
+flux density (∑PPFD), solar plus LED lighting, has been positively correlated with plant size, branching, and 
+the number of nodes 7; and since cannabis inflorescences originate from nodes 14, greater node development 
+could lead to increased flower production. Y et, maximum yield may still occur at smaller plant sizes or lower 
+node counts due to resource constraints15. Ultimately, the influence of environmental conditions and plant traits 
+during and at the end of the vegetative stage on final flower yield remains largely unknown.
+Department of Horticultural Science, North Carolina State University, Raleigh, NC, USA. email:  
+cecollad@ncsu.edu; rhernan4@ncsu.edu
+OPEN
+Scientific Reports |        (2025) 15:43641 1| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports
+
+[PAGE 2]
+Increased lighting also raises the crop water demand. Nonetheless, we previously reported how increasing 
+the daily light integral (DLI) from 18 to 52 mol m –2 d–1 increased water-use-efficiency in cannabis and saved 
+as much as 35% of the water usage during the vegetative stage 7. Likewise, lettuce ( Lactuca sativa L.) water 
+losses from transpiration were reduced by 46% with a DLI increase from 8 to 22 mol m –2 d –1 on the same 
+biomass basis16. Collado et al.7 reviewed the primary physiological mechanisms and their regulations associated 
+with plant growth and water regulation (i.e., leaf photosynthesis, transpiration, and stomatal conductance), 
+explaining water savings due to increased lighting. However, the literature lacks measured data on cannabis 
+flower production, specifically regarding water usage from planting to harvest, as well as the impact of lighting 
+and other factors on water use efficiency.
+Cannabis is recognized primarily for its high concentration of cannabinoids in female flowers, which are often 
+used for their effects on the human body. Terpenes, in addition to providing the cannabis aroma, have potential 
+medical uses and interaction effects with cannabinoids. Terpenes show cannabinoid tetrad activities, influence 
+cannabinoid receptors, and may enhance cannabinoid therapeutic effects 17–19. Both metabolites are produced 
+and stored in glandular trichomes; however, terpene and cannabinoid synthesis can vary independently20.
+Cannabinoid and terpene concentrations can decrease from the top to the lower flowers 11,21–23 and from 
+older to younger flowers, while the terpene composition also changes with flower and trichome maturity20,24,25. 
+Compared to the upper flowers on the plant’s main stem, those on lower branches seem more likely to grow 
+under limited photoassimilates and vary in trichome or flower maturity. Despite, or perhaps due to, the potential 
+decline in secondary metabolites in lower flowers, the effects of light have predominantly been evaluated on 
+apical or upper flowers 10,12,26,27, potentially overlooking metabolite concentration reduction or increments in 
+other flowers. For example, compared to top flowers, metabolite concentrations in middle and low flowers 
+dropped by ~ 5 and 11% in terpenes, ~ 23 and 82% in cannabinoids 23, and ~ 17 and 25% in total cannabidiol 
+(CBD)21 but not always 11. Conversely, literature reports indicate that top flowers exhibit stable terpene and 
+cannabinoid concentrations or increased terpene concentrations with additional lighting10,12,26,27. Therefore, to 
+fully understand flower production and quality under varying production conditions, it is crucial to characterize 
+the effects of lighting on flower biomass distribution along the plant and the production of cannabinoids and 
+terpenes, particularly in less-studied flowers.
+This research evaluated the impact of greenhouse solar plus LED light levels during the vegetative and 
+flowering stages (Objective 1) and before the flower growth period (Objective 2) on crop flower yield, quality, and 
+water use and efficiency. Plant parameters such as leaf photosynthesis, stomatal conductance, and transpiration, 
+as well as cannabinoid and terpene concentrations and compositions in lower-node flowers, were also assessed. 
+The minimum to maximum common greenhouse light levels were selected, spanning recommended values for 
+vegetable, fruit, and high-light crops, such as cannabis and greenhouse corn production for speed breeding7.
+We hypothesized that increasing cumulative lighting (∑PPFD) would improve leaf and crop growth and 
+resource efficiency parameters, i.e., leaf photosynthesis ( A), transpiration (E), WUE ( A/E), flower mass yield, 
+crop water use (WU) and efficiency (WUE: flowers per liter of water), and concentrations of cannabinoids and 
+terpenes. However, we also hypothesized that reducing supplemental light levels (PPFD) before the flowering 
+growth period would have a low impact on the final flower yield, increasing the light use efficiency (flowers per 
+mole of light) and the crop WUE.
+Results and discussion
+Light effects on flower yield and crop water usage
+Flower yield
+Light is critical for generating new plant structures such as flowers. The light intensity (PPFD, or photosynthetic 
+photons per square meter per second) and accumulated lighting (∑PPFD, or accumulated photons per square 
+meter over the production cycle) can affect crop responses 7. Therefore, this greenhouse study quantified the 
+impact of cumulative light, solar plus electrical (∑PPFD: 1065 ± 4 to 2978 ± 85 mol m–2), and two supplemental 
+light programs (LP: Static or Dynamic PPFDs), spanning the vegetative and reproductive cycles (Table 1). 
+Increased lighting improved flower growth linearly in both the Static and Dynamic LP at a rate of 0.215 g (95% 
+Lighting
+Program (LP)
+LED PPFD y
+µmol m− 2 s− 1
+N° of plots ∑PPFD z
+mol m− 2
+Avg. DLI z
+mol m− 2 d− 1
+Light 
+source z
+or subplots Sun LED
+Static 150 / 150 2 1065 ± 4 14.6 50% 50%
+Static 300 / 300 2 1598 ± 1 21.9 34% 66%
+Dynamic 150 / 700 3 2109 ± 53 28.9 26% 74%
+Static 500 / 500 2 2312 ± 8 31.7 24% 76%
+Dynamic 300 / 700 3 2385 ± 47 32.7 24% 76%
+Dynamic 500 / 700 3 2694 ± 40 36.9 21% 79%
+Static 700 / 700 3 2978 ± 85 40.8 17% 83%
+Table 1. Seven lighting treatments ranging from lower to higher cumulative photosynthetic photon flux 
+densities (∑PPFD).  y LED supplemental lighting treatments from day 1 to 29 and 29 to 73 after planting. z the 
+average total, daily, and proportion of LED and solar lighting from two and three replications (n° of plots or 
+subplots) in 73 days; ±: standard deviation between replications.
+ 
+Scientific Reports |        (2025) 15:43641 2| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 3]
+confidence interval: 0.160–270 g) per mole of light (p ∑PPFD < 0.01, F 24.4, df 14; p LP*∑PPFD 0.61, F 0.28, df 12; n 
+17) (Fig. 1a). Since the yield response to light was linear, lower light levels during the vegetative stage reduced 
+the final flower yield. In addition, plants in Dynamic LP yielded about 37 g more flowers per square meter than 
+plants in Static LP (p LP 0.05). This resulted in flower increments of 10.4%, 8.9%, and 7.7% for plants in the 
+three Dynamic light treatments 150/700 (2109 mol m–2), 300/700 (2385 mol m–2), and 500/700 (2694 mol m–2) 
+Fig. 1. ( a) Mass of flowers at 10.2 ± 0.5% moisture content, (b) crop water use or WU, and (c) flower water 
+use efficiency or WUE (Flowers/WU) based on greenhouse supplemental and solar cumulative photosynthetic 
+photon flux densities (∑ or ∑PPFD) and two lighting programs (LP). The two LP were (1) Static (dots and solid 
+lines): supplemental PPFD of 150, 300, 500, or 700 µmol m–2 s–1 for 72 days, and (2) Dynamic (squares and 
+dashed lines): supplemental PPFD of 150, 300, or 500 µmol m–2 s–1 for 28 days, followed by 700 µmol m–2 s–1 
+for the final 44 days. In each panel, the equation and p-values represent the regression model equation and its 
+p-values for the main factors (∑ and LP). In the equations, [value] represents the Dynamic LP’s effect compared 
+to the Static LP’s result if LP p ≤ 0.05; for average regression outputs, use [value/2]. Empty squares represent a 
+flower mass outlier not included in the analyses. Dots and squares represent the mean per repetition.
+ 
+Scientific Reports |        (2025) 15:43641 3| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 4]
+compared to plants in the Static treatments at equivalent ∑PPFD (Fig. 1a). Consequently, light enhanced yield as 
+hypothesized, but light removal before the flower growth period also reduced the final flower yield.
+The overall increase in flower production could be attributed to numerous factors, such as increased 
+photosynthesis, more light capture due to faster canopy closure and larger to optimal leaf area indexes (LAIs) 
+during production (Supplementary Material Fig. S1), higher remobilizable carbohydrate storage, increased 
+number of inflorescences per plant due to more branches and nodes 7, and a higher number of flowers per 
+inflorescence, as seen in other species 28–30. The plants likely benefited differently from the combination of the 
+mentioned factors, including light levels and the program (LP).
+Effects of light before flower growth on flower yield Similar to the present results, other research on cannabis 
+reported positive impacts on flowers when the lighting was increased during the flowering stage9,10,26. Still, this 
+study is the first to analyze and show positive carried-over effects on flower yield from increased lighting before 
+the growth of any flower. More specifically, increasing the lighting levels for 28 days before the flower growth pe-
+riod also increased the flower yield, as represented by the Dynamic-treatment regression line in Fig. 1a. Based on 
+our previous report7, enhanced flower yield may have been achieved by more production sites (nodes m–2), more 
+resources per node and inflorescence, or both. For instance, we reported a production ratio of 0.41 primary and 
+secondary branches per mole of light during the vegetative stage7, which should also correlate with more nodes. 
+In the same study, light increased leaf photosynthesis, plant biomass, and LAI, likely increasing light capture and 
+temporary storage of carbohydrates. Furthermore, studies on annual crops have shown that remobilizable carbo-
+hydrates (carbohydrates potentially available for flower development and growth) are between 10% and 50% of 
+the stem weight at flowering31; meanwhile, cannabis stem mass increased 3 times due to more lighting during the 
+vegetative stage7. Therefore, different light effects during the vegetative stage of the crop may have contributed to 
+the increased flower yields in this report.
+Effects of light during flower growth on flower yield  Besides the positive impact of lighting primarily during 
+the vegetative stage, supplementing with more light in the final 44 days (the flower growth period) also enhanced 
+flower mass (Fig. 1a). Specifically, flower yield increased with higher PPFD during the flowering period under 
+two scenarios: (1) Increased cumulative PPFD (∑PPFD): For example, flower mass increased by 261 g m–2 when 
+the treatment changed from 150/150 to 150/700 PPFD (vegetative/flowering), corresponding to an increase in 
+∑PPFD from 1065 ± 4 to 2109 ± 53 mol m–2. (2) Same cumulative PPFD (∑PPFD): As previously noted, flower 
+mass increased by 37 g m –2 under Dynamic lighting (e.g., 300/700) compared to Static lighting (e.g., 500/500), 
+despite similar ∑PPFD values of 2385 ± 47 and 2312 ± 8 mol m–2, respectively.
+In both cases, whether ∑PPFD increased or remained similar, applying higher PPFD during the flowering 
+phase relative to the vegetative phase resulted in greater flower yield.
+Yield increments observed in the low to high PPFD levels during flowering (i.e., 150/150 to 150/700) were 
+expected based on the relatively low greenhouse solar light levels during the winter experiment (solar DLI at 
+the treatments’ canopies: 7.5 ± 0.3 mol m–2 day–1). However, comparing the flower growth of plants in Dynamic 
+versus Static treatments under similar cumulative lighting levels is more challenging, as detailed below.
+Effects of dynamic vs. static lighting on flower yield  Compared to Static Light levels, Dynamic treatments 
+increased flower production under similar cumulative lighting (e.g., Dynamic 300/700 µmol m–2 s–1 at 2385 mol 
+m–2 vs. Static 500/500 µmol m–2 s–1 at 2312 mol m–2). The boosted flower yield in the Dynamic treatment plants 
+compared to the Static treatment plants was most likely due to increased photosynthesis. The increased growth 
+of the flowers occurred even under lower LAIs, fewer branches, and smaller plant biomass during the first 21–28 
+days7 (Supplementary Material Fig. S1). This conclusion assumes that LAI and other previously discussed factors 
+were less decisive than the photosynthetic benefits during flowering under the conditions of this study, such as 
+a minimum LAI of 2 (~ 80% light interception7 and its rapid expansion at the beginning of flowering (Fig. S1). 
+Moreover, enhanced lighting during the flowering stage promoted a substantial biomass and LAI production 
+(Supplementary Material Figs. S1–S3). Still, the Dynamic LP produced more flowers (Fig. 1a) with the same 
+shoot growth (Fig. S4) compared to the Static LP , implying that the flower production light use efficiency was 
+higher for the Dynamic treatment’s plants.
+In summary, flower production was likely determined by different light-dependent plant factors along the 
+vegetative and flowering stages. Still, additional light at any point was the primary determinant for crop growth 
+(Fig. 2 and Supplementary Material Fig. S4). These findings highlight the importance of increasing light during 
+the vegetative and flowering cycles while stressing the impact of maintaining or enhancing light levels during 
+flowering.
+Crop WU and flower production WUE
+Quantifying water use in crop production is crucial for assessing crop feasibility, sizing water infrastructure, 
+reducing the crop water footprint, and ensuring sustainability. However, data on this topic are scarce and 
+exhibit unexplained high variability in cannabis production5,6. Crop water use (WU) and efficiency (WUE) can 
+vary depending on the harvested product, production length, and additional environmental factors affecting 
+evapotranspiration beyond light (Supplementary Material Table S1). We previously reported on the effects of 
+light on vegetative growth WU and WUE for the first 21 days7. Here, we present data on flower production WU 
+and WUE of C. sativa ‘Suver Haze’ accumulated until day 73.
+In this study, light supplementation linearly increased crop evapotranspiration (WU) at a rate of 0.118 L 
+mol–1 (p∑PPFD < 0.01), with no differences by the light program (pLP 0.16, pLP*∑PPFD 0.77) (Fig. 1b). The estimated 
+WU (and 95% confidence intervals) at cumulative light levels of 1065 and 2978 mol m –2 were 153 (86–212) 
+and 379 (320–433) L m –2, respectively (Fig. 1b). On the other hand, water requirements per gram of flower (1/
+Scientific Reports |        (2025) 15:43641 4| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 5]
+flower WUE) decreased with additional lighting in both LP treatments, resulting in a linear increase in flower 
+WUE (p∑PPFD < 0.01, pLP*∑PPFD 0.21), from 1.02 to 1.53 g L–1 (Fig. 1c). More specifically, a 2.8-fold light increase 
+in the Static LP (1065 to 2978 mol m –2) led to a 4.1-fold growth in flower yield, a 59% flower WUE increase 
+(0.86 to 1.39 g L –1), and a 37% water footprint reduction (1.14 to 0.72 L g –1). Additionally, the Dynamic LP 
+increased WUE by 0.286 g more than Static LP for all the light treatments (p LP < 0.01, p LP*∑PPFD 0.21); this 
+resulted in 24.8%, 23.3%, and 20.6% increases in flower WUE when comparing Dynamic and Static treatment 
+model equations at 2109, 2385, and 2694 mol m–2, respectively (Fig. 1c). Consequently, the first hypothesis, that 
+increasing supplemental lighting would improve flower mass yield and water use efficiency, was supported by 
+treatments with increased lighting throughout the entire production cycle (Static treatments) and during the 
+vegetative stage (Dynamic treatments). In contrast, the second hypothesis—that reducing supplemental light 
+levels before the flowering period would have minimal impact on final flower yield and would increase water 
+use efficiency—was not supported, as reduced lighting negatively affected flower production, resulting in lower 
+yield and WUE.
+The flowering results followed the same patterns observed during the vegetative growth stage. The increase 
+of supplemental light linearly increased plant biomass and branch production on day 217 and flower production 
+and plant growth on day 73 (Figs. 1a and 2, and Supplementary Material Fig. S4) while improving WUEs. 
+Furthermore, the increments in flower production WUE with higher ∑PPFD (Fig. 1c) were likely due to relatively 
+higher water usage at lower light levels, as previously described7. In addition to increased WUE with the increase 
+of ∑PPFD, the Dynamic LP also improved WUE by enhancing flower biomass (Fig. 1a). Therefore, we conclude 
+that the increased flower production WUE (flower yield per plant or m –2 divided by the evapotranspirated 
+water per plant or m –2) was primarily caused by the enhanced flower yield from increased Dynamic or Static 
+cumulative light levels.
+  
+Fig. 2. Cannabis sativa ‘Suver Haze’ grown in a greenhouse under different supplemental LED lighting levels 
+and two lighting programs (LP). The two LP were (1) Static (top plants), PPFD: 150, 300, 500, or 700 µmol m–2 
+s–1 for 72 days, and (2) Dynamic (bottom plants), PPFD: 150, 300, or 500 µmol m–2 s–1 for 28 days, followed by 
+700 µmol m–2 s–1 for the final 44 days. Numbers between [] indicate cumulative solar plus supplemental PPFD 
+from planting to harvest (73 days) in moles per square meter. Arrows: 51 cm.
+ 
+Scientific Reports |        (2025) 15:43641 5| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 6]
+  
+Leaf net photosynthesis (A), transpiration (E), stomatal conductance (gsw), and water use 
+efficiency (WUE)
+The gas exchange information from top leaves, which captures most of the incoming light and can contribute 
+to other leaf and organ photoassimilates, provides critical information about crop biomass gain and water use. 
+For instance, we previously demonstrated strong positive effects of instantaneous radiation (PPFD) on leaf 
+photosynthesis, transpiration, stomatal conductance, and water use efficiency (leaf WUE = A/E), as well as 
+some effects of cumulative light at the end of the vegetative stage7. However, in addition to light, ontogeny and 
+other factors can modify leaf morphology and physiology, including photosynthesis 10,32–34. Therefore, leaf gas 
+exchange measurements were taken at the end of the flowering stage. The analysis included A, E, gsw, and WUE 
+of light-exposed leaves grown under four cumulative light levels (∑PPFD), ranging from 1065 to 2978 mol m –2 
+or 14.7 to 41.1 mol m–2 d–1 (Table 1). The leaf measurements were performed under seven PPFD levels, ranging 
+from 150 to 1600 µmol m–2 s–1 (Fig. 3a–c). The objective was to compare the responses of leaves developed under 
+different lighting environments.
+Photosynthesis
+Higher PPFD levels increased leaf net photosynthesis in every evaluated leaf across treatments (Fig. 3a). The 
+total cumulative lighting (the ∑PPFD treatments) also influenced A. For instance, the net photosynthetic 
+saturation (Amax) was estimated at 26.2 and 29.4 µmol of CO 2 m–2 s–1 for leaves grown under the lowest and 
+Fig. 3. Net photosynthesis (a), transpiration (b), stomatal conductance (c), and water use efficiency (d) of 
+top leaves under instantaneous PPFD levels from 150 to 1600 µmol m–2 s–1. Expanded and fully light-exposed 
+leaves were developed under greenhouse crop conditions of four cumulative light treatments (∑PPFD). For 
+clarity, equation lines are shown only for the lowest and highest ∑PPFD (1065 and 2978 mol m–2). In panel 
+(a), the asterisks represent the ∑PPFD effect at each PPFD level using one (*) and two (**) tailed t-tests from 
+linear regression analysis. The panels (b) to (d) were analyzed using a split-plot design and all PPFDs for E 
+and gsw or PPFDs ≥ 700 µmol m–2 s–1 for Leaf WUE; the mixed models assumed equal treatment slopes based 
+on the interaction significances (p∑PPFD*PPFD 0.99). [] represent maximum A and WUE in panels (a) and (d), 
+respectively.
+ 
+Scientific Reports |        (2025) 15:43641 6| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 7]
+highest ∑PPFDs, respectively. Compared to the lowest ∑PPFD treatment, the leaves grown under the greatest 
+∑PPFD had an enhanced A of 7% to 9% at PPFDs of 1300 to 1600 µmol m –2 s–1 but 5% to 17% lower A at 
+measured PPFDs of 500 to 150 µmol m –2 s –1 (p ∑PPFD ≤0.03; Fig. 3a). The PPFD and the supplemental light 
+treatment (∑PPFD) effects on A may be explained firstly by an increased photosynthetic capacity due to thicker 
+leaves31, more Rubisco35, and more chlorophyll36, and secondly, by enhanced respiration rates driven by higher 
+energy requirements under high-light acclimated leaves 35,37. Almost identical responses on A from increased 
+PPFD and ∑PPFD treatments were observed during the vegetative stage7. Furthermore, similar trends and Amax 
+values were reported during the flowering of a different cultivar and growing conditions10.
+Concerning the effect of ontogeny on photosynthesis, our previous and present studies point out a potential 
+but expected reduction in Amax
+38. For instance, from the vegetative to the flowering stages, Amax dropped from 
+33.7 to 39.5 to 26.2–29.4 µmol of CO2 m–2 s–1 in leaves grown at daily light integrals of 17.9–51.8 and 14.7–41.1 
+mol m–2 d–1, respectively. Deterioration of Amax from vegetative to flowering or during the flowering stage has 
+been reported in different cannabis cultivars and growing conditions 10,39. Despite the normal deterioration of 
+Amax, the values reported in ‘Suver Haze’ and other cannabis cultivars during flowering seem to be among the 
+highest Amax among C3 crops based on comparable ontogeny and CO2 levels40–44. The smaller reduction in Amax 
+in the present study compared to a previous report on cannabis 38 may be explained by maintaining the leaf 
+under optimal conditions for maximum photosynthesis, such as high irradiance, proper spectrum, and adequate 
+irrigation and nutrition, among others40,42,45, which may have enabled a higher production and maintenance of 
+chlorophyll, stomatal, and other leaf functions for an extended period.
+In conclusion, the increased photosynthetic rates in cannabis leaves and their acclimation to higher light levels 
+were positively associated with greater flower yield (Fig. 1a) and general crop growth (Fig. 2; Supplementary Fig. 
+S4). However, the enhanced growth resulted mainly from higher instantaneous light levels (LED plus solar), 
+rather than from morphological or physiological differences between leaves observed in this study.
+Transpiration and stomatal conductance
+As leaf photosynthesis increased at progressively lower rates with more PPFD (Fig. 3a), transpiration (Fig. 3b) 
+and stomatal conductance (Fig. 3c) exhibited a linear increase (p∑PPFD <0.01). Moreover, both ratios, gsw to PPFD 
+and the E to PPFD, decreased with light (PPFD). For instance, the gsw/PPFD ratios at 150 and 1600 (PPFD) were 
+respectively 3141 ± 476 and 355 ± 58 mol mol –1, an 8.9 fold difference, while E/PPFD ratios were 24.7 ± 3.7 
+and 3.2 ± 0.4 mol mol –1, respectively, a 7.7 fold difference. In other words, water and CO 2 conductance would 
+have been considerably high at night with no light or increased drastically with low PPFDs in the morning. 
+We previously reviewed consistent results during the vegetative stage of this crop and similar responses across 
+species, explaining the negative relationship between low light levels and water use efficiency7.
+While an increase in instantaneous PPFD enhanced leaf transpiration and stomatal conductance, leaves 
+grown under increased cumulative PPFDs (∑PPFD) exhibited reductions in transpiration and stomatal 
+conductance rates at the same PPFD (p∑PPFD <0.01, pPPFD*∑PPFD 0.99) (Fig. 3b and c). For instance, E was reduced 
+by 0.94 ± 0.22 mmol m–2 s–1 from low to high light-grown leaves when comparing at the same PPFD (Fig. 3b). 
+This E reduction resulted in water savings of up to 22.5% when measuring leaves under a low PPFD (150 µmol 
+m–2 s–1). Therefore, while increased instantaneous lighting (PPFD) promoted E and gsw, prolonged exposure to 
+more light (∑PPFD) reduced both E and gsw.
+Stomatal regulation
+Stomatal conductance is the main factor regulating transpiration and photosynthesis and depends on several 
+factors. The reduction of up to 22.5% in transpiration from low to high light-grown leaves could have resulted 
+from potential changes in stomatal density, size, and/or biochemical regulation affecting stomatal aperture, 
+and consequently, conductance (gsw). For instance, leaves developed under more lighting are likely to increase 
+stomatal density35,46–50, while the size of the stomata may be reduced. In other words, a negative correlation can 
+exist between stomatal density and size 51,52. Still, smaller stomata are associated with faster stomatal responses 
+and water savings51. Aperture restrictions on stomata could also be explained by changes related to abscisic acid 
+(ABA), the primary hormone regulating stomata. Robust ABA signaling has been correlated with increased crop 
+WUE and water-savings44. More specifically, applications of ABA increased the minimum temperature to open 
+stomata53 and reduced stomatal aperture under increased lighting 54,55. Moreover, positive correlations of ABA 
+with increased lighting, light stress-suppressing metabolites, and other stressors are reported56,57. Consequently, 
+we hypothesize that changes in ABA requirements58 or concentrations due to prolonged high-lighting exposure 
+or ∑PPFD could explain the transpiration reduction results in the present study.
+Regarding photosynthesis and stomatal aperture, potential reductions in photosynthesis could neither be 
+confirmed nor ruled out based on the observed declines in gsw in this study (Fig. 3a)59. This ambiguity likely 
+arises because photosynthetic limitation depends not only on stomatal aperture but also on ambient CO₂ 
+concentration and the combined resistances across all leaf components. In conclusion, understanding the effects 
+of light on stomata is crucial for maximizing photosynthesis and minimizing water loss through transpiration.
+Leaf WUE
+Leaf water use efficiency ( A/E) varied based on A and E responses to increasing PPFD (Figs. 3a and b). Leaf 
+WUE increased with more PPFD until reaching estimated maximum values of 0.0045 and 0.0058 mol CO2 mol 
+H2O–1 for crops grown under the lowest and highest cumulative light levels, respectively (Fig. 3d). Furthermore, 
+the WUEs at 700 µmol m–2 s–1 (PPFD) were already at 97% of the maximum WUE values, with non-statistical 
+differences in WUE from 700 to 1600 µmol m –2 s–1 of PPFD (Fig. 3d). Consequently, leaf WUE at and beyond 
+700 µmol m –2 s–1 increased solely with the long-term impact of growing under increased cumulative lighting 
+(p∑PPFD 0.01), with WUE of 0.0045 ± 0.0002 and 0.0057 ± 0.0003 mol CO2 mol H2O–1 at the lowest and highest 
+Scientific Reports |        (2025) 15:43641 7| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 8]
+∑PPFD treatments, respectively. The difference between the two means represented a 27% increase in net CO 2 
+fixation per mole of water and a 21% water saving per mole of CO2 when comparing top leaves of plants grown 
+under the highest light intensity treatment to those under the lowest ∑PPFD. However, leaf WUE decreased 
+below 700 µmol m –2 s–1 PPFD, reaching a minimum of 0.0016 ± 0.0003 mol mol –1 at 150 µmol m –2 s–1 PPFD 
+across all ∑PPFD treatments. Consequently, the increment in leaf WUE between 150 and 700 PPFD was 0.0029 
+± 0.0000 for the low ∑PPFD treatment and 0.0041 ± 0.0002 for the high ∑PPFD, respectively, with the two being 
+significantly different (p < 0.01). Consequently, PPFD increments were crucial for immediately reducing the 
+water footprint of physiological processes (mol H2O mol CO2
+–1), while the long-term light acclimation changes 
+allowed for some additional photosynthetic capability and considerably reduced water usage.
+Our general hypothesis that long light exposure enhancement (∑PPFD) would increase leaf efficiency was 
+correct for leaf water use ( E) under all PPFD conditions (150–1600 µmol m –2 s–1), but net carbon assimilation 
+(A) and WUE (A/E) depended on the instantaneous lighting levels or PPFD.
+In summary, increased ∑PPFD showed significant improvements (reductions) in E at all PPFD levels, while 
+increased PPFD dominated increments in carbon fixation at most PPFD levels (150–1000 µmol m ⁻² s⁻¹), being 
+also a key factor for water savings from 150 to 700 µmol m ⁻² s⁻¹. Additional benefits were achieved in flower 
+growth and water savings by increasing the PPFD during the flowering growth stage in the form of Dynamic 
+PPFD treatments. Specific values from the leaf responses are likely to be skewed toward higher PPFD levels for 
+a canopy. For instance, canopies, especially at higher LAIs, are expected to respond more linearly and require 
+higher light levels to achieve a plateau growth response compared to a single leaf or small LAI response to 
+light60,61, as seen in the present study’s crop growth linear responses and LAI conditions (Fig. 1a, Supplementary 
+Material Figs. S1 and S4). The leaf and crop responses in the present study highlight the strong positive correlation 
+between photosynthesis, flower production, and water savings and offer valuable insights for crop production 
+optimization.
+  
+Light effects on flower partitioning and quality
+Flower partitioning
+Research reports have shown that lighting augmentation increases cannabis crop flower production and sustains 
+or increases the cannabinoid and terpene concentrations in top flowers 10–12,26,27. However, the concentration, 
+particularly of terpenes, typically drops from apical to non-apical flowers and from upper to lower branches 
+or nodes 11,21–23. Therefore, determining where the increased flower yield occurs within the plant is crucial 
+for understanding yield and quality. Moreover, knowing where flowers are formed based on resources can be 
+essential for making decisions about plant trimming21, size, density, and inter-canopy lighting62. Consequently, 
+this study separated the flower biomass based on the main stem’s top, middle, and bottom nodes. The relative 
+flower yield distribution along the main stem was significantly altered (p Static ∑PPFD  <0.01) by an increase in 
+Static light levels from 1065 to 2978 mol m –2, spanning production DLI levels between ~ 15 and 41 mol m –2 
+d–1. Specifically, the flower yield decreased at the top nodes from 41.5% to 19.1% and at the middle nodes from 
+43.8 to 34.1%, while it increased substantially at the bottom nodes from 14.7 to 46.8% (Fig. 4a) when Static light 
+levels increased from 1065 to 2978 mol m –2, respectively. A similar pattern was observed in another species 28. 
+In comparison, the results from the Dynamic treatments showed high variability but exhibited a similar trend at 
+the top nodes (pDynamic ∑PPFD = 0.04; Fig. 4b). This variability, along with the observed results, can be attributed 
+to light interception and the light supplementation provided prior to flower development, rather than the light 
+supplementation during the flower growth period, which remained consistent across treatments (Table 1).
+The effects of increased lighting in the static treatments resulted in increased flower growth from the top to 
+the bottom nodes of the plants (Fig. 4a). Moreover, the distribution of flower yield indicates that resources for 
+flower and metabolite production were more limited at the lower branches compared to the upper nodes and 
+branches. Several factors may have contributed to the enhanced flower production on lower branches, including 
+increased photosynthesis due to increasing light levels from 1065 to 2978 mol m –2, enhanced translocation of 
+photoassimilates from upper to lower branches, and greater carbohydrate reserves in larger plants grown under 
+higher-light conditions. Conversely, under the lowest lighting conditions (∑PPFD of 1065 mol m ⁻²), the upper 
+14 nodes (approximately two-thirds of the main stem nodes from the first branch) produced 85% of the total 
+yield. Therefore, under lower light conditions (∑PPFD of 1065 mol m ⁻²), limiting the number of nodes to 14 
+from the first branch may be a more effective strategy to reduce the duration of the vegetative stage, shorten the 
+time to harvest, and avoid producing flowers with lower cannabinoid and terpene concentrations. This strategy 
+could be most efficiently implemented by reducing the vegetative period to less than 23 days and increasing plant 
+density to achieve similar LAIs as in Fig. S1 for low-light conditions (~ 15 mol m–2 d–1). Still, the final number 
+of branches and nodes may also vary with the cultivar63, target flower size (inverse to the number of branches at 
+the same DLI), and pinching or topping procedures64.
+In conclusion, lighting augmentation can significantly alter flower partitioning along the cannabis’s stem. 
+Higher Static light levels shifted flower production from the upper to the lower nodes, likely due to enhanced 
+photosynthesis and resource translocation, thereby improving overall yield. Although terpene concentrations 
+typically decline from apical to non-apical flowers, strategic adjustments in node management and trimming 
+could optimize both yield and quality. Future studies should also consider cultivar differences and the effects of 
+CO₂ enrichment.
+  
+Flower terpenes and cannabinoids
+For upper flowers, where the light is primarily intercepted and resources are likely prioritized 7,65, the literature 
+reports terpene and cannabinoid concentrations that remain stable or increase in terpenes in response to higher 
+Scientific Reports |        (2025) 15:43641 8| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 9]
+light levels10,12,26,27. The effect of lighting on secondary metabolites from flowers on lower branches has received 
+less attention11. However, the concentration of these metabolites frequently drops from the top to the bottom 
+of the plant21–23. This study evaluated the impact of the light on terpene and cannabinoid concentrations and 
+compositions in flowers from the fourth-most apical node to the bottom of the plant. The evaluated flowers 
+represented 92.5 ± 2.4% of the total, with limitations in photoassimilate availability expected to be significant 
+compared to upper flowers.
+Terpenes
+The terms terpenes and terpenoids are used interchangeably in the literature66 but also refer to non-oxygenated 
+and oxygenated terpenes, respectively67. In this study, terpenes refer to oxygenated and non-oxygenated terpenes 
+in the mono and sesquiterpene/terpenoid groups12,25.
+Figure 5a results indicate that the increase in light (∑PPFD) linearly decreased terpene concentration (p∑PPFD 
+= 0.01, pLP = 0.03; p∑PPFD*LP =0.08). However, this response was statistically significant only under the Dynamic 
+LP treatment, 31.4e–5% mol–1 m2 (p 0.03), while the Static LP treatment showed a non-significant slope, -6.1e–5% 
+mol–1 m2 (p 0.13). The results in the Dynamic LP treatments with the same light levels during the flower growth 
+period contradict previous research findings, which suggest that plants exposed to higher light conditions (during 
+flowering) should also exhibit stable to increased terpene levels10–12,26. Consistent with prior literature, this study 
+found that terpene concentration increased with higher light intensity during flowering and lower light during 
+the vegetative phase. Specifically, terpene levels were significantly higher under the 150/700 treatment (∑PPFD: 
+2109) compared to the 150/150 treatment (∑PPFD: 1065), with a one-sided t-test indicating significance (p 
+0.026). The reduction in terpene concentration under the Dynamic LP treatments occurred despite identical 
+light levels during flowering and increased light exposure before flowering. This finding contradicts the expected 
+physiological responses reported under similar growing conditions, such as enhanced stomatal development in 
+future leaves triggered by increased light on existing foliage 68. A more plausible explanation is that increased 
+shading and higher photoassimilate demand, resulting from a greater leaf area index and total plant biomass 
+due to elevated light levels during the vegetative stage (Fig. 2; Supplementary Figs. S1, S2, S4), limited terpene 
+accumulation in flowers on the lower branches. In contrast, applying more light during the flowering stage to 
+Fig. 4. Effects of the greenhouse lighting level and two lighting programs (LP) on the flower yield relative 
+contribution between the main stem’s top, middle, and bottom nodes. PPFD indicates the supplemental light 
+levels before and during flower growth. The two LP were a) Static, PPFD: 150, 300, 500, or 700 µmol m–2 s–1 
+for 72 days, and b) Dynamic, PPFD: 150, 300, or 500 µmol m–2 s–1 for 28 days, followed by 700 µmol m–2 s–1 
+for the final 44 days. Asterisks: regression analysis p-values ≤ 0.04 for ∑PPFD by flower’s origin and LP . Plot 
+symbols: the treatment average ± standard error (n 2 to 3).
+ 
+Scientific Reports |        (2025) 15:43641 9| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 10]
+smaller plants (e.g., treatment 150/700) may have improved overall resource availability, promoted resource 
+partitioning to the lower branches, and enhanced light penetration to the lower canopy area. As a result, the 
+availability of photoassimilates in flowers on the lower branches may have increased, supporting greater terpene 
+production.
+Based on the literature and the results of this study, resources were prioritized first for upper-node flowers 
+and later for lower-node flowers (Fig. 4). For these reasons, optimizing terpene concentration should focus on 
+a balanced leaves-to-flower ratio (source-to-sink ratio), crop architecture21, and lighting levels on and within a 
+canopy, including inter- and sub-canopy lighting11,62.
+In addition to genetic effects, other factors strongly affecting secondary metabolites are flower age and 
+trichome type and maturity, which will be discussed in the following sections. In conclusion, our hypothesis that 
+light enhancement would increase the flower quality (terpene concentration) may hold for apical flowers10,11,26 
+or under lower canopy biomass, i.e., 150/150 to 150/700 (more light, less biomass) compared to 150/150 to 
+700/700 (more light and biomass).
+Single terpenes
+In this study, 22 cannabis terpenes were analyzed. Still, some were not detected (camphene, α- and γ-terpinene, 
+∆ 3-carene, β-ocimene, p-cymene, terpinolene, and isopulegol), which could be due to genetic and tissue 
+differences69–71. On the other hand, the effects of ∑PPFD and LP on seven monoterpenes (β-myrcene, 
+eucalyptol, α-pinene, β-pinene, δ-limonene, geraniol, and linalool) and seven sesquiterpenes (trans-nerolidol, 
+β-caryophyllene, α-humulene, caryophyllene oxide, α-bisabolol, guaiol, and cis-nerolidol) are shown from the 
+highest to lowest individual contribution (Figs. 5b-o) to the sum of terpenes (Fig. 5a). β-Myrcene contributed 
+more than half to the sum of terpenes. Still, there was no evidence of treatment effects, p ∑PPFD, LP , ∑PPFD*LP ≥ 
+0.23 (Fig. 5b). Increased cumulative lighting on Dynamic treatments negatively affected the monoterpenes 
+eucalyptol and α-pinene (p Dynamic ∑PPFD  ≤0.03). On the other hand, the concentrations did not change on the 
+Static treatment plants (pStatic ∑PPFD 0.57); in other words, the ∑PPFD effect on those monoterpenes depended 
+on the light program (Figs. 5c and d). In contrast to monoterpenes, several sesquiterpenes (trans-nerolidol, 
+β-caryophyllene, α-humulene, caryophyllene oxide, and α-bisabolol) were positively influenced by cumulative 
+light exposure (p∑PPFD ≤ 0.01). However, this response varied depending on the lighting program (p ∑PPFD*LP ≤ 
+0.05) (Figs. 5e, f, i, j, and k). Similarly, higher lighting treatments were associated with an increased proportion 
+Fig. 5. Effects of the cumulative solar plus supplemental lighting (∑PPFD) and two lighting programs (LP) on 
+a) the concentration of 14 terpenes on flowerz mass (g g-1 * 100) and b) to o) the percentual mass contribution 
+of an individual terpene to the sum (g g–1 *100). The two LP were (1) Static (dots and solid lines), PPFD: 150, 
+300, 500, or 700 µmol m–2 s–1 for 72 days, and (2) Dynamic (squares and dashed lines), PPFD: 150, 300, or 
+500 µmol m–2 s–1 for 28 days, followed by 700 µmol m–2 s–1 for the final 44 days. ∑ (∑PPFD), LP , and ∑*LP are 
+the linear regression p-values from the main factors and their interaction. Because of the interaction factor, 
+the main factor significances represent differences or no differences at a centered ∑PPFD of ~ 2200 mol m–2. 
+Square and dot marks are the averages per replication. The Y-axes were stretched out to show minor changes. 
+zAll flowers below the third-most apical node along the main stem.
+ 
+Scientific Reports |        (2025) 15:43641 10| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 11]
+of sesquiterpenes relative to total terpenes or a reduction in monoterpene levels, with the specific outcome likely 
+modulated by the lighting program (Supplemental Material Fig. S5a, b, and c).
+In cannabis, relatively lower contents of monoterpenes than sesquiterpenes have been reported in younger 
+versus mature flowers24,25 and can be explained based on the trichome type and maturity 20. Additionally, the 
+concentration of some of the main monoterpenes and total terpene percentage in apical flowers decreased with 
+reduced top lighting10. Similarly, another study found that the main monoterpenes in the upper flowers were 
+reduced by restricted sub-canopy lighting (lighting from the floor up)11. Moreover, cannabis upper inflorescences 
+showed fewer terpenes and even some contrasting changes in specific terpene accumulation when clone plants 
+grew in low-altitude, with reduced solar radiation and increased temperature, compared to high-altitude 
+plants72. Thus, the literature evidence suggests that changes in flower/trichome maturity and available resources 
+could explain variations in the terpene concentration and composition shown in Fig. 5a–o.
+  
+Cannabinoids and single cannabinoids
+This study demonstrated that lower-node flowers can contribute considerably to the final yield, especially under 
+increased lighting. However, as discussed, secondary metabolite concentrations can be reduced in lower flowers. 
+This report investigated the effects of lighting augmentation on the main cannabinoids in flowers below the 
+main stem’s third node. Increasing light from 1065 to 2978 mol m–2 (∑PPFD) reduced the main cannabinoids’ 
+concentration (CBD + CBDA + THC + THCA + CBGA + CBG + CBC) by 13.0%, and the concentrations 
+of total CBD and total THC decreased by 13.4 and 8.9%, respectively (p ∑PPFD ≤ 0.01, p LP and p∑PPFD*LP ≥ 0.46) 
+(Fig. 6a–c). However, the relative contribution of specific cannabinoids to the sum of cannabinoids was not 
+affected statistically by any treatment or their combination (p∑PPFD, LP , LP*∑PPFD  ≥ 0.32), as well as the CBD/THC 
+and CBDA/THCA ratios (p ∑PPFD 0.78 and 0.35; p LP 0.07 and 0.17; p LP*∑PPFD 0.81 and 0.59, respectively). The 
+average cannabinoid relative composition and CBD/THC ratios are available in Supplementary Material Table 
+S3. In conclusion, the results did not support our hypothesis that light enhancement would increase cannabinoid 
+concentration. Ultimately, considering the relatively small changes in cannabinoid concentration per mass in 
+the evaluated flowers (92.5%) and assuming noncritical changes in the remaining flowers (7.5%), cannabinoid 
+production per area would be greatly increased by more lighting (p ∑PPFD < 0.01, p LP 0.13, pLP*∑PPFD 0.63) (Fig. 
+6d) due to increased flower mass yield (Fig. 1a).
+The reduced cannabinoid accumulation observed in Fig. 6a may be due to changes in the type, density, 
+size, and fullness of the average glandular trichome 20,73 based on more flowers at the lower branches (Figs. 
+1a and 4) and perhaps fewer photoassimilates per flower, as previously discussed. For instance, younger 
+flowers (associated with reduced density, size, fullness, and metabolite production trichomes) showed lower 
+cannabinoid concentrations across chemotypes (high CBD, high THC, and CBD ≈ THC chemotypes) 20,25. 
+Another potential factor influencing cannabinoid concentration is variability in the contributions of individual 
+cannabinoids25. However, reports have shown that for the two predominant cannabinoids, the CBDA/THCA 
+ratios in flowers remained consistent between weeks 3 (21.0 ± 1.4) and 11 (21.6 ± 1.6) across three high-CBD 
+cultivars. Additionally, trichome sampling has revealed minimal cannabinoid variation across different trichome 
+types20. These findings align with our observed cannabinoid profiles and a CBDA/THCA ratio of 20.6 ± 0.7 
+(Supplementary Material Table S3). Consequently, like terpenes, the evidence suggests that changes in flower 
+maturity and perhaps available resources could explain the reduction in cannabinoid concentration without 
+significant effects on composition. Nevertheless, there were some differences between terpenes and cannabinoid 
+synthesis, which are discussed below.
+Despite overall similarities in the responses of the evaluated terpenes and cannabinoids, there were 
+differences in concentration and the contribution of individual secondary metabolites to the total sum in 
+response to ∑PPFD and LP treatments (Fig. 5a–o and Fig. 6a–c, and Supplementary Material Table S3). This 
+is consistent with previous results on cannabis grown from low to very high light levels, 120 to 1800 µmol m –2 
+s–1 (PPFD), where light increased linearly specific monoterpenes (up by 52–95%; R2 0.32–0.46) and the terpene 
+concentration (up by 44%; R2 0.32) but did not affect cannabinoids in apical flowers10. However, in another study 
+with reduced differences in lighting (600 vs. 1000 µmol m –2 s–1 of PPFD), neither terpenes nor cannabinoids 
+varied in the top flowers 26. All this indicates that light affected terpene and cannabinoid syntheses differently, 
+as previously reported 20. Several factors could explain the effects observed in the present study. Firstly, the 
+cannabinoid mass constituted a significant part of the flower mass (cannabinoids 18.6 ± 1.6%), especially when 
+compared to terpenes (0.8 ± 0.1%). This likely required significant photoassimilate levels74. Therefore, the impact 
+of larger flower biomass in Dynamic treatments should also be considered. More specifically, resources available 
+in smaller plants under the Dynamic LP , such as treatment 150/700, might have been allocated to more flowers 
+and terpenes instead of additional cannabinoids. Secondly, even if the light was intercepted at lower branches, 
+some photoassimilates may still be translocated to upper flowers, as previously reported with apical vegetative 
+growth7. Thirdly, terpenes might be related to more critical and dynamic functions, such as solar or other stress 
+conditions, even at low terpene concentrations. For instance, compared to low-altitude-grown cannabis, clone 
+plants grown at high altitude with more lighting and reduced temperature produced more terpenes and specific 
+flavonoids -pigments associated with protection from more lighting and other stressors 75. On the other hand, 
+cannabinoids were less affected than terpenes by more extreme environmental conditions 72. Moreover, mild 
+water stress increased some terpenes threefold in a few days, while prolonged and severe stress normalized 
+the terpene values to those of non-stress thyme plants 76. Minor leaf water stress caused by lower soil moisture 
+and lower leaf water potentials caused by higher radiation 77 might trigger similar terpene responses. However, 
+more research is needed to investigate this hypothesis. In conclusion, multiple factors may have simultaneously 
+affected the synthesis of all and/or specific secondary metabolites in addition to light levels.
+Scientific Reports |        (2025) 15:43641 11| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 12]
+Fig. 6. Effects of the cumulative solar plus supplemental LED lighting (∑PPFD) on the concentration of 
+(a) seven cannabinoids, (b) total CBD, and (c) total THC on flower mass (kg kg-1 * 100), as well as the (d) 
+cannabinoid production per area from flowers. Two LED light programs (LP) were used: (1) Static (dots), 
+PPFD: 150, 300, 500, or 700 µmol m–2 s–1 for 72 days, and (2) Dynamic (squares), PPFD: 150, 300, or 500 µmol 
+m–2 s–1 for 28 days, followed by 700 µmol m–2 s–1 for the final 44 days. Lines, p-values, and equations from 
+linear regression analyses with significant linear terms for ∑PPFD (∑ p ≤ 0.01); the quadratic terms (∑ 2p ≥ 0.55) 
+strongly increased the adjusted R2 (*R2) and yielded homoscedasticity compared to linear term models. The 
+interaction factors (LP*∑PPFD) in the models were not significant (p ≥ 0.49). Squares and dots are the averages 
+per replication.
+ 
+Scientific Reports |        (2025) 15:43641 12| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 13]
+As mentioned, optimal plant function under more demanding growing conditions, such as increased lighting, 
+may depend on small changes in secondary metabolites. However, the effects of relatively small variations in 
+metabolites from cannabis products on humans can be challenging to predict. For instance, most cannabis 
+terpenes (α-humulene, geraniol, linalool, and β-pinene) evaluated in mice induced similar cannabinoid tetrad 
+activities, with differences in the size of the effects depending on the terpene type and quantity17. Consequently, 
+the quantity of terpenes rather than small changes in the relative contribution of those metabolites seemed 
+more crucial. In contrast, β-caryophyllene demonstrated more contrasting differences compared to the previous 
+terpenes. Moreover, for human medical treatments without cannabinoids, some terpene compositions are 
+preferred over other essential oils. Still, the primary terpenes in the oil may not be the active ingredient for 
+treatments18. Furthermore, terpene and cannabinoid interactions can enhance therapeutic effects 17. Therefore, 
+caution should be exercised when commercializing and using natural products, as variation in secondary 
+metabolites may occur.
+  
+Conclusions
+Solar plus electrical lighting (1065 to 2978 mol m–2 or 14.6 to 40.8 mol m–2 d–1) during a 73-day vegetative and 
+flowering cycle significantly and linearly increased flower production (0.215 g mol–1) from 131 to 543 g m –2 in 
+Cannabis sativa ‘Suver Haze’ . Additional flower growth (~ 37 g) was achieved by partitioning more light towards 
+the flower growth period and less to the vegetative phase. However, reducing lighting during the vegetative 
+phase had the same detrimental effect on flower production as decreasing lighting during the vegetative plus 
+flowering periods, -0.215 g per reduced mole. The enhanced flower production outweighed the significant 
+impact of increased water use from 170 to 395 L m –2. This was the primary cause of the improved water use 
+efficiency, reducing the water footprint by 37% from 1.14 to 0.72 m3 kg (evapotranspiration per mass of flower). 
+The present and previous results7 confirm that supplemental light can be used to increase cannabis production 
+and reduce its water footprint. The linear response observed here and the higher DLI levels reported in the 
+literature10 indicate that additional supplemental lighting, solar radiation, or both could achieve more significant 
+benefits and water savings. Nevertheless, other factors such as photon wavelengths, temperature, and humidity 
+can influence photosynthesis and evapotranspiration and should be further researched in cannabis.
+Furthermore, the present results reinforce our previous findings that supplemental lighting can reduce the 
+water footprint of most crops while increasing production7. Considering that Cannabis sativa cv Suver Haze is 
+an average-performing crop based on flower yield under different environments and among several cultivars78, 
+we expect that genetic variability in Cannabis spp may primarily affect the magnitude of responses compared to 
+other genotypes. In conclusion, this research offers valuable insights into crop physiology and management and 
+provides a foundation for future research aiming for higher light and water use efficiencies.
+Materials and methods
+Timeline and cultural production practices
+The cannabis study was conducted for 73 days (October 9 to December 21, 2020) in a climate-controlled glass 
+greenhouse in Raleigh, North Carolina, USA, using 24-day-old clone plants of Cannabis sativa cv Suver Haze (© 
+Oregon CBD, Corvallis, OR). Plants were previously asexually propagated by a commercial greenhouse nursery 
+under a misting system and a photoperiod of 18 h. On October 9, the 24-day-old plug plants were planted in the 
+research greenhouse with a photoperiod of 18 h and an LED PPFD of 90 µmol m–2 s–1 (day 0). Lighting treatments 
+started on day 1, with a vegetative harvest on day 21 7. On day 23, the LED photoperiod, including solar, was 
+adjusted from 18 to 12 h, or 5:00–23:00 to 6:00–18:00 h. On day 28, two plants per treatment were harvested for 
+biomass and LAI analyses and plant density adjustment. On day 29, the plants in each plot and light levels were 
+rearranged to accommodate the increase in lighting for Objective 2. On day 36, the main stem tip was cut off to 
+maintain a uniform canopy height and light levels. On day 73, flower and other final measurements were taken.
+Treatments
+Table 1 describes the values of the supplemental lighting treatments, which consisted of a combination of 
+supplemental LED and solar radiation. The cumulative solar + LED light level (∑PPFD: cumulative photosynthetic 
+photon flux density) was used to estimate crop responses in 73 days of production. In addition, the Daily Light 
+Integral (DLI = ∑PPFD / 73 days), a widely used indicator, was used to compare and discuss the literature. The 
+treatment differences were caused by a combination of supplemental PPFD levels and two lighting programs 
+(LP). For instance, a static LP maintained LED lighting levels of 150, 300, 500, or 700 µmol m –2 s–1 from day 1 
+to 73. In contrast, a dynamic LP maintained LED light levels of 150, 300, or 500 from days 1 to 29 while rising to 
+and maintaining 700 µmol m–2 s–1 until day 73 (Fig. 7). For light adjustments, spectrum, and equipment, refer 
+to Collado et al.7.
+  
+Greenhouse setup and experimental units
+The greenhouse was retrofitted with 12 independent production areas (plots). Each plot of about 1.2 m x 1.2 m 
+had fully automated lighting and irrigation control. From day 1 to 29, there were three plots for each supplemental 
+LED light level of 150, 300, 500, and 700 µmol m–2 s–1. From day 29 to 73, there were two plots (n = 2) for each 
+light level of 150, 300, and 500 µmol m–2 s–1 to fit the 150/150, 300/300, and 500/500 treatments, respectively. The 
+six remaining plots were used at 700 µmol m–2 s–1 to fit the treatments 150/700, 300/700, 500/700, and 700/700; 
+each 700 PPFD plot grew two treatments, e.g., 150/700 and 300/700; consequently, treatments in the 700 PPFD 
+plots were replicated three times (n = 3 = 6 plots * 2 treatments per plot / 4 treatments). There was no physical 
+Scientific Reports |        (2025) 15:43641 13| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 14]
+barrier between plants; however, because two treatments were grown in each 700-PPFD plot, those plots were 
+considered made of two subplots (Table 1).
+Environmental conditions, irrigation, nutrition, and growing media
+Temperature, relative humidity (RH), carbon dioxide, and solution and plant nutrition data are available in 
+Supplementary Material Tables S1 and S2. Plants were fertirrigated automatically in each plot when substrate 
+moisture levels were at 80% of container capacity (0.345 m 3 m–3). The commercial substrate mix was a peat-
+based substrate (Pro-Line C/P , Jolly Gardener) evaluated by Noah et al. 79. For details on sensors and control 
+capabilities, refer to7.
+Water use and WUE
+Evapotranspiration (ET), or water usage (WU) in this study, was assessed by the cumulative differences from 
+day 0 to 73 in the load-cell measurements 40 min after an irrigation event and 5 min before the next event. Each 
+irrigation lasted 25 min. ET was calculated from two load cells per plot or one load cell per subplot, with one 
+plant per load cell. The flower production water use efficiency, simplified as flower WUE, was assessed as the ratio 
+between the flower dry mass at 10.2% moisture and the liters of evapotranspiration in the 73-day greenhouse 
+period. Likewise, the Leaf WUE was evaluated as the ratio between photosynthesis and transpiration, A/E.
+Flower measurements and partitioning
+Flowers were manually trimmed, and their fresh mass was quantified from each main stem node. Flowers were 
+dried at ambient temperature (24.3 ± 0.2 °C) and low relative humidity (26.3 ± 0.2%) to determine commercial 
+dry mass, resulting in this study a 10.2 ± 0.5% moisture level across treatments. Representative samples continued 
+to dry at 70 °C to determine dry mass (0% moisture levels). All the plant inflorescences were used to calculate the 
+total flower yields at 0 and 10.2 ± 0.5% moisture levels. In addition, commercial flower dry mass was evaluated 
+based on the main stem’s top, middle, and bottom nodes; each section accounted for one-third of the nodes.
+Cannabinoids and terpenes
+All flowers below the third node on the main stem were used for terpene and cannabinoid analyses. An 
+independent laboratory (Delta 9 Analytical, Raleigh, NC) analyzed the inflorescences at 10.2% moisture. 
+Results are based on the lab procedures and equipment available in Supplementary Material. Terpenes refer 
+only to monoterpenes and sesquiterpenes and include terpenoids. Terpenes %, cannabinoids %, total CBD 
+(cannabidiol) %, and total THC (delta-9-tetrahydrocannabinol) % were expressed per mass of flower (% = g/g 
+of flowers*100). Moreover, total THC and CBD % were calculated as total THC % = THC % + 0.877*THCA 
+(delta-9-tetrahydrocannabinolic acid) % and total CBD % = CBD % + 0.877*CBDA (cannabidiolic acid) %. In 
+Fig. 7. Seven supplemental LED treatments. Top treatments: Static PPFD levels of 150, 300, 500, or 700 
+µmol m–2 s–1 for 72 days. Bottom treatments: Dynamic PPFD levels of 150, 300, or 500 µmol m–2 s–1 for 28 
+days, followed by 700 µmol m–2 s–1 for the final 44 days. Vegetative stage: photoperiod 18 h. Flowering stage: 
+photoperiod 12 h.
+ 
+Scientific Reports |        (2025) 15:43641 14| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 15]
+addition, the relative percentual contribution of a single terpene or cannabinoid to the total was calculated as % 
+= g/g of all terpenes or cannabinoids * 100.
+Leaf gas exchange
+Net photosynthesis (A), stomatal conductance ( gsw), and transpiration ( E) were measured following the same 
+protocol and conditions as on day 197. The maximum leaf WUE rate was measured and estimated using fitting 
+equations. On the other hand, the maximum photosynthetic rate (Amax) was estimated from the light response 
+curve fitting equations31,80.
+Statistics
+Following up the vegetative growth period in a randomized design 7, the second part of the experiment was 
+rearranged using an incomplete block design. All plants and plot light levels were rearranged to accommodate 
+the new lighting conditions on day 29 (Table 1). Light levels of six random plots were set at 700 µmol m –2 s–1, 
+while each plot was statistically considered to be made of two subplots. One subplot per plot accommodated 
+one of three replications of 150/700, 300/700, 500/700, or 700/700 ( n = 3). In contrast, the six remaining plots 
+accommodated the static 150/150, 300/300, and 500/500 treatments with two plots per treatment ( n = 2). 
+Contrary to the number of replications, the number of observational units (OU) 81 was one with n = 3 and two 
+with n = 2. Mixed models accounted for random effects, such as plots and subplots. In addition, one-sided t-tests 
+were used based on our hypotheses to test the impact of increasing light on the increase of yield, cannabinoids, 
+terpenes, and efficiency parameters at the crop and leaf levels; otherwise, a two-sided t-test was computed. For 
+leaf E and WUE, a split-plot design was used to analyze the effects of ∑PPFD at the whole plot level (greenhouse 
+plots) and short-term PPFD at the split-plot level (repeated measurements on the same leaf or plot). For E and 
+Leaf WUE, the time of the day was included in the models (p ≤ 0.07). An interaction factor significance threshold 
+of p > 0.20 was used, assuming equal treatment slopes and for a generalizable interpretation of the main factor 
+significance82. Data transformation was used when needed to fulfill statistical assumptions. Moreover, extreme 
+data points were not considered for analysis, such as a single value that was notably different from other data 
+points and caused dramatic changes in statistical significance (e.g., Fig. 1). All the analyses and graphs were done 
+using JMP Pro 17.0 and 17.2 from SAS (Cary, NC, USA).
+Data availability
+The datasets used and/or analyzed during the current study are available from the corresponding author on 
+reasonable request.
+Received: 5 June 2025; Accepted: 4 November 2025
+References
+ 1. Morrissey, K., McCann, M. & Tomares, N. The Global Cannabis Report Growth & Trends Through 2025 (New Frontier Data, 2021).
+ 2. Zheng, Z., Fiddes, K. & Y ang, L. A narrative review on environmental impacts of cannabis cultivation. J. Cannabis Res. 3, 35 (2021).
+ 3. Dieter, C. A. et al. Estimated Use of Water in the United States in 2015  76  (2018). https://pubs.usgs.gov/publication/cir1441.  h t t p s 
+: / / d o i . o r g / 1 0 . 3 1 3 3 / c i r 1 4 4 1     .   
+ 4. GAO. Freshwater: Supply Concerns Continue, and Uncertainties Complicate Planning  1–111 (2014).  h t t p s : / / w w w . g a o . g o v / a s s e t s / g a 
+o - 1 4 - 4 3 0 . p d f     .   
+ 5. Butsic, V . & Brenner, J. C. Cannabis (Cannabis sativa or C. indica) agriculture and the environment: a systematic, spatially-explicit 
+survey and potential impacts. Environ. Res. Lett. 11, 044023 (2016).
+ 6. Wilson, H. et al. First known survey of cannabis production practices in California. Calif. Agric. 73, 119–127 (2019).
+ 7. Collado, C. E., Hwang, S. J. & Hernández, R. Supplemental greenhouse lighting increased the water use efficiency, crop growth, and 
+cutting production in cannabis sativa. Front. Plant. Sci. 15, 1–15 (2024).
+ 8. Vezdos, T. & Martinez, R. 2021 State of the Cannabis Cultivation Industry Report  1–12 (2021).  h t t p s :  / / w w w .  c a n n a b  i s b u s i  n e s s t  i m e 
+s . c  o m / a r t  i c l e / s  p e c i a  l - r e p o  r t - 2 0 2  1 - s t a t  e - o f -  t h e - c a  n n a b i s  - c u l t i  v a t i o n - i n d u s t r y - r e p o r t /.
+ 9. Potter, D. J. & Duncombe, P . The effect of electrical lighting power and irradiance on Indoor-Grown cannabis potency and yield. J. 
+Forensic Sci. 57, 618–622 (2012).
+ 10. Rodriguez-Morrison, V ., Llewellyn, D. & Zheng, Y . Cannabis Yield, Potency, and leaf photosynthesis respond differently to 
+increasing light levels in an indoor environment. Front. Plant. Sci. 12, 646020 (2021).
+ 11. Hawley, D. The Influence of Spectral Quality of Light on Plant Secondary Metabolism and Photosynthetic Acclimation to Light Quality 
+(University of Guelph, 2018).
+ 12. Sae-Tang, W . et al. High light intensity improves yield of specialized metabolites in medicinal cannabis (Cannabis sativa L.), 
+resulting from both higher inflorescence mass and concentrations of metabolites. J. Appl. Res. Med. Aromatic Plants. 43, 100583 
+(2024).
+ 13. David Potter, J. P . The propagation, Characterisation and Optimisation of Cannabis Sativa L as a Phytopharmaceutical  (King’s 
+College London, 2009).
+ 14. Park, J., Collado, C. E., Lam, V . P . & Hernández, R. Flowering response of cannabis sativa L. ‘Suver haze’ under varying Daylength-
+Extension light intensities and durations. Horticulturae 9, 526 (2023).
+ 15. Beaugendre, A., Mingeot, D. & Visser, M. Complex plant interactions in heterogeneous material require the ecological rethinking 
+of sowing density recommendations for bread wheat. A review. Agron. Sustain. Dev. 42, 9 (2022).
+ 16. Both, A. Ten Years of Hydroponic Lettuce Research  14 (Wiley, 2002).
+ 17. LaVigne, J. E., Hecksel, R., Keresztes, A. & Streicher, J. M. Cannabis sativa terpenes are cannabimimetic and selectively enhance 
+cannabinoid activity. Sci. Rep. 11, 8232 (2021).
+ 18. Ferber, S. et al.  TThe “Entourage effect”: terpenes coupled with cannabinoids for the treatment of mood disorders and anxiety 
+disorders. CN 18, 87–96 (2020).
+ 19. Gertsch, J. et al. Beta-caryophyllene is a dietary cannabinoid. Proc. Natl. Acad. Sci. U S A. 105, 9099–9104 (2008).
+ 20. Livingston, S. J. et al. Cannabis glandular trichomes alter morphology and metabolite content during flower maturation. Plant J. 
+101, 37–56 (2020).
+Scientific Reports |        (2025) 15:43641 15| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 16]
+ 21. Crispim Massuela, D., Hartung, J., Munz, S., Erpenbach, F . & Graeff-Hönninger, S. Impact of harvest time and pruning technique 
+on total CBD concentration and yield of medicinal cannabis. Plants 11, 140 (2022).
+ 22. Reichel, P ., Munz, S., Hartung, J., Kotiranta, S. & Graeff-Hönninger, S. Impacts of different light spectra on CBD, CBDA and 
+terpene concentrations in relation to the flower positions of different cannabis sativa L. Strains. Plants 11, 2695 (2022).
+ 23. Namdar, D., Mazuz, M., Ion, A. & Koltai, H. Variation in the compositions of cannabinoid and terpenoids in cannabis sativa 
+derived from inflorescence position along the stem and extraction methods. Ind. Crops Prod. 113, 376–382 (2018).
+ 24. Booth, J. K., Page, J. E. & Bohlmann, J. Terpene synthases from cannabis sativa. PLoS ONE. 12, e0173911 (2017).
+ 25. Aizpurua-Olaizola, O. et al. Evolution of the cannabinoid and terpene content during the growth of Cannabis sativa plants from 
+different chemotypes. J. Nat. Prod. 79, 324–331 (2016).
+ 26. Llewellyn, D. et al. Indoor grown cannabis yield increased proportionally with light intensity, but ultraviolet radiation did not affect 
+yield or cannabinoid content. Front. Plant. Sci. 13, 974018 (2022).
+ 27. Konvalina, P . et al. Effect of light intensity and two different nutrient solutions on the yield of flowers and cannabinoids in cannabis 
+sativa L. Grown in controlled environment. Agronomy 14, 2960 (2024).
+ 28. Quinet, M. et al. Inflorescence structure and control of flowering time and duration by light in buckwheat (Fagopyrum esculentum 
+Moench). J. Exp. Bot. 55, 1509–1517 (2004).
+ 29. Early, E. B., McIlrath, W . O., Seif, R. D. & Hageman, R. H. Effects of shade applied at different stages of plant development on corn 
+(Zea Mays L.) production. Crop Sci. 7, 151–156 (1967).
+ 30. Qin, F . et al. Shade delayed flowering phenology and decreased reproductive growth of medicago sativa L. Front. Plant. Sci. 13, 
+835380 (2022).
+ 31. Simulation of Ecophysiological Processes of Growth in Several Annual Crops  (Centre for Agricultural Publishing and Documentation 
+(Pudoc),  1989).
+ 32. Chabot, B. F . & Chabot, J. F . Effects of light and temperature on leaf anatomy and photosynthesis in Fragaria Vesca. Oecologia 26, 
+363–377 (1977).
+ 33. Feng, L. et al. The influence of light intensity and leaf movement on photosynthesis characteristics and carbon balance of soybean. 
+Front. Plant. Sci. 9, 1952 (2019).
+ 34. Silva, J. R. D. J. et al. Morphological and physiological changes during leaf ontogeny in genotypes of Eucalyptus young plants. Trees 
+34, 759–769 (2020).
+ 35. Poorter, H. et al. A meta-analysis of plant responses to light intensity for 70 traits ranging from molecules to whole plant 
+performance. New Phytol. 223, 1073–1105 (2019).
+ 36. Emerson, R. The chlorophyll factor in photosynthesis. Am. Nat. 64, 252–260 (1930).
+ 37. Collalti, A. et al. Plant respiration: controlled by photosynthesis or biomass? Glob. Change Biol. 26, 1739–1753 (2020).
+ 38. Bauerle, W . L., McCullough, C., Iversen, M. & Hazlett, M. Leaf age and position effects on quantum yield and photosynthetic 
+capacity in hemp crowns. Plants 9, 271 (2020).
+ 39. Justice, A. & Hupp, J. Reading the leaves: adventures in the Leaf-Level physiology of cannabis. Cannabis Sci. Technol.  5, 31–34 
+(2022).
+ 40. Monti, A., Barbanti, L. & Venturi, G. Photosynthesis on individual leaves of sugar beet ( Beta vulgaris) during the ontogeny at 
+variable water regimes. Ann. Appl. Biol. 151, 155–165 (2007).
+ 41. Prasad, P . V . V ., Vu, J. C. V ., Boote, K. J. & Allen, L. H. Enhancement in leaf photosynthesis and upregulation of Rubisco in the C4 
+sorghum plant at elevated growth carbon dioxide and temperature occur at early stages of leaf ontogeny. Funct. Plant. Biol. 36, 761 
+(2009).
+ 42. Sun, J., Y e, M., Peng, S. & Li, Y . Nitrogen can improve the rapid response of photosynthesis to changing irradiance in rice (Oryza 
+sativa L.) plants. Sci. Rep. 6, 31305 (2016).
+ 43. Wang, X. Q., Zeng, Z. L., Shi, Z. M., Wang, J. H. & Huang, W . Variation in photosynthetic efficiency under fluctuating light between 
+rose cultivars and its potential for improving dynamic photosynthesis. Plants 12, 1186 (2023).
+ 44. Wang, Z., Kang, S., Jensen, C. R. & Liu, F . Alternate partial root-zone irrigation reduces bundle-sheath cell leakage to CO2 and 
+enhances photosynthetic capacity in maize leaves. J. Exp. Bot. 63, 1145–1153 (2012).
+ 45. Hogewoning, S. W . et al. Blue light dose-responses of leaf photosynthesis, morphology, and chemical composition of cucumis 
+sativus grown under different combinations of red and blue light. J. Exp. Bot. 61, 3107–3117 (2010).
+ 46. Lawson, T. & Blatt, M. R. Stomatal Size, Speed, and responsiveness impact on photosynthesis and water use efficiency. Plant 
+Physiol. 164, 1556–1570 (2014).
+ 47. Idris, A., Linatoc, A. C. & Bakar, M. F . B. A. Effect of light intensity on the photosynthesis and stomatal density of selected plant 
+species of Gunung Ledang, Johor. MAB 48, 133–140 (2019).
+ 48. Gay, A. P . & Hurd, R. G. The influence of light on stomatal density in the tomato. New. Phytol. 75, 37–46 (1975).
+ 49. Fan, X. X. et al. Effects of light intensity on the growth and leaf development of young tomato plants grown under a combination 
+of red and blue light. Sci. Hort. 153, 50–55 (2013).
+ 50. Wild, A. & Wolf, G. The effect of different light intensities on the frequency and size of Stomata, the size of cells, the Number, size 
+and chlorophyll content of chloroplasts in the mesophyll and the guard cells during the ontogeny of primary leaves of sinapis Alba. 
+Z. für Pflanzenphysiologie. 97, 325–342 (1980).
+ 51. Hetherington, A. M. & Woodward, F . I. The role of stomata in sensing and driving environmental change. Nature 424, 901–908 
+(2003).
+ 52. Franks, P . J. & Beerling, D. J. CO2-forced evolution of plant gas exchange capacity and water‐use efficiency over the phanerozoic. 
+Geobiology 7, 227–236 (2009).
+ 53. Feller, U. Stomatal opening at elevated temperature: an underestimated regulatory mechanism? Gen. Appl. Plant. Physiol. 32, 19–31 
+(2007).
+ 54. Aasamaa, K. & Sõber, A. Stomatal sensitivities to changes in leaf water potential, air humidity, CO2 concentration and light 
+intensity, and the effect of abscisic acid on the sensitivities in six temperate deciduous tree species. Environ. Exp. Bot. 71, 72–78 
+(2011).
+ 55. Sharkey, T. D. & Raschke, K. Separation and measurement of direct and indirect effects of light on stomata. Plant. Physiol. 68, 
+33–40 (1981).
+ 56. Gao, C. et al. High light intensity triggered abscisic acid biosynthesis mediates anthocyanin accumulation in young leaves of tea 
+plant (Camellia sinensis). Antioxidants 12, 392 (2023).
+ 57. Schmidt, K. et al. Accumulation of the hormone abscisic acid (ABA) at the infection site of the fungus Cercospora Beticola supports 
+the role of ABA as a repressor of plant defence in sugar beet. Mol. Plant Pathol. 9, 661–673 (2008).
+ 58. Tallman, G. Are diurnal patterns of stomatal movement the result of alternating metabolism of endogenous guard cell ABA and 
+accumulation of ABA delivered to the Apoplast around guard cells by transpiration? J. Exp. Bot. 55, 1963–1976 (2004).
+ 59. Lawson, T. & Vialet-Chabrand, S. Speedy stomata, photosynthesis and plant water use efficiency. New. Phytol. 221, 93–98 (2019).
+ 60. De Pury, D. G. G. & Farquhar, G. D. Simple scaling of photosynthesis from leaves to canopies without the errors of big-leaf models. 
+Plant. Cell. Environ. 20, 537–557 (1997).
+ 61. Yin, X. & Struik, P . C. Can increased leaf photosynthesis be converted into higher crop mass production? A simulation study for 
+rice using the crop model GECROS. J. Exp. Bot. 68, 2345–2360 (2017).
+ 62. Schouten, I. et al. Partially substituting top-light with intracanopy light increases yield more at higher LED light intensities. Horts 
+59, 421–428 (2024).
+Scientific Reports |        (2025) 15:43641 16| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 17]
+ 63. De Ronne, M., Lapierre, É. & Torkamaneh, D. Genetic insights into agronomic and morphological traits of drug-type cannabis 
+revealed by genome-wide association studies. Sci. Rep. 14, 9162 (2024).
+ 64. Alden, M. J. & Faust, J. E. Cultivation Strategies to modify biomass partitioning and improve yield in controlled-environment 
+production of high-cannabidiol cannabis (Cannabis sativa L.). Horts 59, 1511–1519 (2024).
+ 65. Lortie, C. J. & Aarssen, L. W . Apical dominance as an adaptation in Verbascum thapsus: effects of water and nutrients on branching. 
+Int. J. Plant Sci. 158, 461–464 (1997).
+ 66. Christianson, D. W . Structural and chemical biology of terpenoid cyclases. Chem. Rev. 117, 11570–11648 (2017).
+ 67. Hanuš, L. O. & Hod, Y . Terpenes/Terpenoids in Cannabis: are they important? Med. Cannabis Cannabinoids. 3, 25–60 (2020).
+ 68. Casson, S. A. & Hetherington, A. M. Environmental regulation of stomatal development. Curr. Opin. Plant. Biol. 13, 90–95 (2010).
+ 69. Jin, D., Dai, K., Xie, Z. & Chen, J. Secondary metabolites profiled in cannabis Inflorescences, Leaves, stem Barks, and roots for 
+medicinal purposes. Sci. Rep. 10, 3309 (2020).
+ 70. Chacon, F . T., Raup-Konsavage, W . M., Vrana, K. E. & Kellogg, J. J. Secondary terpenes in cannabis sativa L.: synthesis and synergy. 
+Biomedicines 10, 3142 (2022).
+ 71. Radwan, M. M., Chandra, S., Gul, S. & ElSohly, M. A.  Cannabinoids phenolics, terpenes and alkaloids of cannabis. Molecules 26, 
+2774 (2021).
+ 72. Giupponi, L., Leoni, V ., Pavlovic, R. & Giorgi, A. Influence of altitude on phytochemical composition of hemp inflorescence: A 
+metabolomic approach. Molecules 25, 1381 (2020).
+ 73. Turner, J. C., Hemphill, J. K. & Mahlberg, P . G. Gland distribution and cannabinoid content in clones of cannabis sativa L. Am. J. 
+Bot. 64, 687–669 (1977).
+ 74. De Vries, F . W . T. P ., Brunsting, A. H. M. & Van Laar, H. H. Products, requirements and efficiency of biosynthesis a quantitative 
+approach. J. Theor. Biol. 45, 339–377 (1974).
+ 75. Agati, G. & Tattini, M. Multiple functional roles of flavonoids in photoprotection. New Phytol. 186, 786–793 (2010).
+ 76. Mahdavi, A., Moradi, P . & Mastinu, A. Variation in terpene profiles of thymus vulgaris in water deficit stress response. Molecules 
+25, 1091 (2020).
+ 77. Sellin, A. & Kupper, P . Variation in leaf conductance of silver birch: effects of irradiance, vapour pressure deficit, leaf water status 
+and position within a crown. For. Ecol. Manag. 206, 153–166 (2005).
+ 78. Suchoff, D., Bloomquist, M., Davis, J., Henriquez Inoa, S. & Learn, K. 2021 NC State Floral Hemp Variety Trial  12 (2021).  h t t p s :   /  / 
+h e m  p . c e  s . n c  s u .  e  d u  / w  p - c o n t   e n t / u  p l  o a d  s /  2 0  2  1 / 1 1  /  2  0 2 1 - N  C  - S t a  t e -  V a r i e t  y - T r i a  l - R e  p o r  t . p d f ? f w d = n o.
+ 79. Noah, A. C., Kraus, H. T. & Herring, P . L. Swine lagoon compost: analysis as transplant substrate for ‘Traviata’ Eggplant, ‘Clemson 
+spineless’ Okra, and ‘Moneymaker’ tomato. Hortte 32, 67–73 (2022).
+ 80. Delgado, E. et al. Ribulose-1,5- Bis phosphate carboxylase and leaf characteristics of Nicotiana tabacum L. Genotypes selected by 
+survival at low CO 2 concentrations. J. Exp. Bot. 44, 1–7 (1993).
+ 81. Lazic, S. E., Clarke-Williams, C. J. & Munafò, M. R. What exactly is ‘N’ in cell culture and animal experiments? PLoS Biol. 16, 
+e2005282 (2018).
+ 82. Engqvist, L. The mistreatment of covariate interaction terms in linear model analyses of behavioural and evolutionary ecology 
+studies. Anim. Behav. 70, 967–971 (2005).
+Acknowledgements
+This research was funded by the Foundation for Food and Agricultural Research (FFAR) grant number [Nex -
+GenHemp0000000016]. The authors would like to thank the company CURRENT Horticultural Lighting 
+(Greenville, SC, US) for providing partial funding and LED fixtures. The Authors would like to thank Ryan 
+Patterson from Ryes Greenhouses LLC (Broadway, NC) for providing initial rooted-plug material. The authors 
+would like to thank Bartlett-Golden A., Huber B., Hwang S.J., McLamb S., Shi X., Stanek C., Thompson S.P ., and 
+Watson M. for their support during the study. ChatGPT 3.5 was used for language editing.
+Author contributions
+CC: Conceptualization, Data curation, Formal analysis, Investigation, Methodology, Resources, Validation, Vis-
+ualization, Writing – original draft, Writing – review & editing. RH: Conceptualization, Data curation, Funding 
+acquisition, Methodology, Project administration, Resources, Supervision, Validation, Visualization, Writing 
+– review & editing.
+Funding
+This research was funded by the Foundation for Food and Agricultural Research (FFAR) grant number [Nex -
+GenHemp0000000016] and by the USDA National Institute of Food and Agriculture (NIFA) Hatch project 
+02820.
+Competing interests
+The authors declare no competing interests.
+Ethics statement
+All experiments involving plant material were performed in accordance with relevant national and 
+international guidelines. Initial plant material was donated by a commercial nursery located in Broadway, 
+North Carolina.
+Additional information
+Supplementary Information The online version contains supplementary material available at  h t t p s : / / d o i . o r g / 1 
+0 . 1 0 3 8 / s 4 1 5 9 8 - 0 2 5 - 2 7 4 3 7 - 4     .  
+Correspondence and requests for materials should be addressed to C.E.C. or R.H.
+Reprints and permissions information is available at www.nature.com/reprints.
+Publisher’s note Springer Nature remains neutral with regard to jurisdictional claims in published maps and 
+institutional affiliations.
+Scientific Reports |        (2025) 15:43641 17| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/
+[PAGE 18]
+Open Access  This article is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 
+4.0 International License, which permits any non-commercial use, sharing, distribution and reproduction in 
+any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide 
+a link to the Creative Commons licence, and indicate if you modified the licensed material. Y ou do not have 
+permission under this licence to share adapted material derived from this article or parts of it. The images or 
+other third party material in this article are included in the article’s Creative Commons licence, unless indicated 
+otherwise in a credit line to the material. If material is not included in the article’s Creative Commons licence 
+and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to 
+obtain permission directly from the copyright holder. To view a copy of this licence, visit  h t t p : / / c r e a t i v e c o m m o 
+n s . o r g / l i c e n s e s / b y - n c - n d / 4 . 0 /     .  
+© The Author(s) 2025 
+Scientific Reports |        (2025) 15:43641 18| https://doi.org/10.1038/s41598-025-27437-4
+www.nature.com/scientificreports/

@@ -1,0 +1,6 @@
+{
+  "checksRun": 8,
+  "allPassed": true,
+  "parserReadyForAlgorithm": false,
+  "scope": "Frozen real payload contracts and explicit parser-defect reproductions; not live availability guarantees"
+}

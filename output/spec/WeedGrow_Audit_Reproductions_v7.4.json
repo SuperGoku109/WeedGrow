@@ -1,0 +1,28 @@
+[
+  {
+    "case": "missing_canopy_rain",
+    "before": "not_triggered",
+    "after": "unknown"
+  },
+  {
+    "case": "recent_flower_rain",
+    "before": "disabled",
+    "after": "context_only"
+  },
+  {
+    "case": "log_conflict_resolved",
+    "before": "log_ledger_requires_repair",
+    "after": "profile_not_released"
+  },
+  {
+    "case": "censored_forecast",
+    "before": [
+      284400,
+      288000
+    ],
+    "after": [
+      284400,
+      null
+    ]
+  }
+]

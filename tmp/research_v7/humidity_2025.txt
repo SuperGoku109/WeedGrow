@@ -1,0 +1,1329 @@
+
+[PAGE 1]
+Elevated relative humidity
+signiﬁcantly decreases
+cannabinoid concentrations while
+delaying ﬂowering development
+in Cannabis sativa L.
+Ingrid Carolina Corredor-Perilla1, Tae-Hyung Kwon2 and
+Sang-Hyuck Park1*
+1Institute of Cannabis Research, Colorado State University-Pueblo, Pueblo, CO, United States,
+2Institute of Biological Resources, Chuncheon Bioindustry Foundation, Chuncheon, Republic of Korea
+Introduction: Relative humidity (RH) is critical for regulating transpiration, plant
+morphology, and the biosynthesis of secondary metabolites in crops. However,
+its speci ﬁci m p a c t so nc a n n a b i s(Cannabis sativa L.) genotypes, especially
+concerning optimal growth and cannabinoid concentration, remain
+inadequately understood.This study aimed to investigate the effects of canopy-
+level RH on plant development and cannabinoid concentration in a CBD –
+dominant strain.
+Methods: Plants were cultivated under controlled conditions at two distinct RH
+ranges: low RH (37-58%) and high RH (78-98%). Growth metrics, including stem
+length, trunk diameter, number of nodes, apical internode spacing, and ﬂowering
+time, were recorded weekly. Upon ﬂoral maturation and harvest, biomass and
+cannabinoid concentrations were measured. A total of 14 cannabinoids were
+quanti ﬁed via high-performance liquid chromatography (HPLC) to assess
+compositional shifts under different RH conditions.
+Results: Cultivation under high RH resulted in a reduced vapor pressure de ﬁcit
+(VPD) ranging from 0.62 kPa to 0.25 kPa during ﬂowering, indicating values
+outside the optimal range for cannabis cultivation. This environment led to
+signiﬁcant reductions in total biomass (-75.3%), ﬂower biomass (-71.0%), trunk
+diameter (-0.4%), and node count (29.3%), compared to low RH conditions (n =
+10 per range, p < 0.001). Conversely, stem length increased by 9.7%, and apical
+internodal spacing expanded by 0.04% under high RH (n = 10, p < 0.0001).
+Flowering was delayed by three weeks with high RH, accompanied by notable
+reductions in both vegetative growth and in ﬂorescence production.
+Furthermore, high RH signi ﬁcantly suppressed canna binoid accumulation:
+cannabidiolic acid (CBD-A), cannabidiol (CBD), and cannabichromenic acid
+(CBC-A) levels decreased by approximately 4.9-fold, 3.2-fold, and 13-fold,
+respectively. Total cannabinoid concentrations of CBD and CBC were similarly
+diminished by 4.6-fold and 1.5-fold (n = 10, p < 0.0001).
+Frontiers in Plant Science frontiersin.org01
+OPEN ACCESS
+EDITED BY
+Gezahegn Girma,
+Donald Danforth Plant Science Center,
+United States
+REVIEWED BY
+Mexximiliaan M. S. F. Holweg,
+Dutch Lighting Innovations, Netherlands
+Maddalena Cappello Fusaro,
+University of Padua, Italy
+*CORRESPONDENCE
+Sang-Hyuck Park
+sanghyuck.park@csupueblo.edu
+RECEIVED 01 August 2025
+ACCEPTED 13 October 2025
+PUBLISHED 17 November 2025
+CITATION
+Corredor-Perilla IC, Kwon T-H and Park S-H
+(2025) Elevated relative humidity
+signiﬁcantly decreases cannabinoid
+concentrations while delaying ﬂowering
+development in Cannabis sativa L..
+Front. Plant Sci. 16:1678142.
+doi: 10.3389/fpls.2025.1678142
+COPYRIGHT
+© 2025 Corredor-Perilla, Kwon and Park. This
+is an open-access article distributed under the
+terms of the Creative Commons Attribution
+License (CC BY). The use, distribution or
+reproduction in other forums is permitted,
+provided the original author(s) and the
+copyright owner(s) are credited and that the
+original publication in this journal is cited, in
+accordance with accepted academic
+practice. No use, distribution or reproduction
+is permitted which does not comply with
+these terms.
+TYPE Original Research
+PUBLISHED 17 November 2025
+DOI 10.3389/fpls.2025.1678142
+
+[PAGE 2]
+Discussion: This study highlights that elevated canopy-level humidity, outside
+optimal VPD thresholds, can signi ﬁcantly delay ﬂowering, reduce biomass
+accumulation, and negatively impact cannabinoid concentrations in Cannabis
+sativa L. cv. Cherry Berry.
+KEYWORDS
+canopy-range relative humidity, cannabis, vapor pressure de ﬁcit (VPD), biomass,
+morphology, cannabinoids, cannabidiol (CBD), cannabidiolic acid (CBD-A)
+1 Introduction
+Cannabis sativa L. is an annual and dioecious ﬂowering plant
+traditionally cultivated for ﬁbers, seeds, oil production, and
+medicinal purposes ( Innes and Vergara, 2023 ). The plant ’s
+adaptive traits have been crucial in sustaining human societies for
+thousands of years. However, recent accelerated domestication,
+primarily targeting increased ﬁber and cannabinoids yields, has
+reduced genetic variability and divergence while enhancing yield
+potential ( Ren et al., 2021 ).
+The growth and development of Cannabis sativa are primarily
+inﬂuenced by genetic factors; however, environmental conditions
+and management practices also play a critical role. Numerous
+studies have provided valuable insights into the impact of
+environmental variabl es, including light intensity, wavelength,
+photoperiod, temperature, drought, rainfall, ﬂooding, and relative
+humidity, on cannabis growth and cannabinoid concentration
+(Alter et al., 2024 ; Carranza-Ramı́rez et al., 2025 ; Fleming et al.,
+2023; Holweg et al., 2025 ; Park et al., 2022 ; Rodriguez-Morrison
+et al., 2021 ; Preprint Shenhar et al., 2025 ). While light and
+photoperiod are discussed in detail below to provide necessary
+context, this study focuses on relative humidity, which remains a
+comparatively underexplored environmental factor in cannabis
+cultivation. Among these factors, relative humidity remains one
+of the least studied despite its signi ﬁcant effects on plant growth and
+cannabinoid biosynthesis.
+Light intensity affects cannabis genotypes differently, with
+distinct responses observed among chemotypes. For example, D
+9-
+tetrahydrocannabinol (THC)-dominant chemotype exhibits
+increased leaf-level of photosynthesis, and improved water-use
+efﬁciency, when Photosynthetic Photon Flux Density (PPFD)
+levels were increased between 1,600 –2,000 μmol m −2 s−1
+(Chandra et al., 2015 ). However, these measurements do not
+necessarily re ﬂect the ﬁnal yield and crop performance. Similarly,
+‘Critical CBD’, characterized by a THC/CBD (cannabidiol) ratio of
+0.5, exhibited abundances exceeding 41% for CBD, THC,
+cannabinol (CBN), cannabichromene (CBC), cannabigerol (CBG),
+and tetrahydrocannabivarin (THCV) under a PPFD of 1,000 μmol
+m-²s-¹ compared to 600 μmol m−2 s−1 (Sae-Tang et al., 2024). In the
+high-THC genotype ‘Meridian ’, the same PPFD increased
+cannabinoid yield in biomass 1.5 times, dry weight 1.6 times, and
+harvest index by 7% compared to 600 μmol m−2 s−1 (Llewellyn et al.,
+2022). Notably, THC-rich genotype ‘Gelato’ showed well-saturated
+leaf photosynthesis and linear increase in dry in ﬂorescence weight
+as PPFD increased from 120 to 1,800 μmol m −2 s−1. No adverse
+effects on cannabinoid potency were observed, with in ﬂorescence
+yields reaching 501 g m -2, total cannabinoid concentration of 83.5 g
+m-2,and a total equivalent cannabidiolic acid (CBD-A) content of
+214 mg g -1 of dry in ﬂorescence at the highest PPFD level
+(Rodriguez-Morrison et al., 2021 ).
+As light intensity in ﬂuences cannabinoid concentration, the
+light spectrum also plays a critical role in cannabis cultivation.
+Studies investigating blue:red light ratios (1:1 and 1:4) in
+comparison to full-spectrum LED lighting revealed higher
+inﬂorescence yield, alongside n otable alterations in plant
+morphology, physiology, biomass accumulation, and cannabinoid
+composition, including cannabigerolic acid (CBG-A), CBD, THC,
+and CBC ( Danziger and Bernstein, 2021 ). These effects varied by
+genotype, particularly among genotypes with differing TCH-A:
+CBD-A ratios, underscoring the importance of genetic
+background in plant responses ( Danziger and Bernstein, 2021 ).
+Studies investigating the red to far-red (R:FR) ratio (1:11) in CBD-
+rich cannabis genotypes signiﬁcantly increased the concentration of
+CBD (0.035%), CBG-A (0.017%), and THCV-A (0.033%) compared
+to a low R:FR ratio (1:1) ( Kotiranta et al., 2024 ). In contrast, UVA
+and UVB exposure have demonstrated no signi ﬁcant effects on
+biomass accumulation or cannabinoid concentration in indoor-
+grown THC-dominant genotypes ( Llewellyn et al., 2022 ).
+Additionally, LED lighting with a low blue-to-red ratio has been
+shown to in ﬂuence plant morphology, improved photosynthetic
+efﬁciency, and modulate both CBD and THC content in non-
+psychoactive hemp varieties ( Carranza-Ramı́rez et al., 2025 ).
+Beyond light intensity and spectral quality, photoperiod
+critically in ﬂuences cannabis growth, physiology, and cannabinoid
+biosynthesis ( Ahsan et al., 2024 ). As a facultative short-day
+genotype- species, cannabis requires day lengths between 9 and
+15 hours to initiate ﬂowering (Dowling et al., 2021, 2024). This latter
+process is governed by internal regulatory mechanisms such as
+gibberellic acid (GA) signaling, circadian rhythm, ﬂowering-related
+gene expression, and modulated by external cues including nutrient
+availability, plant architecture, and ambient temperature ( Ahsan
+et al., 2024 ; Alter et al., 2024 ; Spitzer-Rimon et al., 2019 , 2022).
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org02
+
+[PAGE 3]
+Recent studies on photoperiod in cannabis genotypes have shown
+that a minimum of three days of short photoperiod exposure,
+accompanied by reduced levels of GA 4 and auxin at the shoot
+apex, is required to initiate and sustain in ﬂorescence formation
+(Alter et al., 2024 ).
+Interestingly, the initiation of solitary ﬂowers and bract
+development can still occur un der long-day photoperiods,
+suggesting partial independence from photoperiodic cues ( Alter
+et al., 2024 ; Spitzer-Rimon et al., 2022 ).
+A recent study has shown that a 12-hour photoperiod effectively
+optimizes CBD production, increasing its concentration while
+simultaneously enhancing dry biomass yield ( Xu et al., 2024 ).
+Similarly, tropical hemp genotypes exhibited elevated levels of
+both CBD and THC under a 12.5-hour photoperiod, whereas
+temperate genotypes showed minimal sensitivity to changes in
+photoperiod ( De Prato et al., 2022 ).
+In ﬁber-type cannabis varieties, the combined effects of
+photoperiod and light spectrum were assessed using white LED
+light (380–750 nm) and purple LED light (200 –400 nm). A 16-hour
+photoperiod of white light followed by eight hours of darkness
+increased photosynthetic ef ﬁciency, while purple light improved
+photoprotective responses (Šrajer Gajdošik et al., 2022). In contrast,
+24-hour light exposure, regardless of the light type, caused thylakoid
+membrane damage, underscoring the need for further research on
+antioxidant responses and light-induced stress ( Šrajer Gajdos ̌ik
+et al., 2022 ). Synergistic effects of photoperiod and light regimes
+play signi ﬁcant roles in the physiology of cannabis varieties for
+industrial uses, altering plant development.
+Temperature greatly affects cannabis cultivation, with optimal
+growth at 25 –35 °C. In the low-THC hemp genotype ‘V4’,a
+moderate day/night temperature regime (day: 27 °C/night: 21 °C)
+resulted in the highest concentrations of cannabinoids in dry-
+weight in ﬂorescences. Under these conditions, the levels of CBD-
+A (40.3 mg g −1), CBC-A (2.60 mg g −1), and THC-A (2.12 mg g
+−1) increased by 28.75%, 43.6% and 41.3%, respectively, compared
+to the values of a constant 24 °C day/night schedule ( Bok et al.,
+2023). In contrast, for THC- and CBD-rich genotypes, increasing
+day/night temperatures from 25 °C/21 °C to 31 °C/27 °C under a
+short-day photoperiod reduced total cannabinoid yields from over
+400 and 200 g m -2 to less than 100 g m -2, at a PPFD of 1,200 μmol
+m−2 s−1 (Holweg et al., 2025 ). The study concluded that elevated
+temperatures also disrupted in ﬂorescence development, decreased
+biomass, and altered cannabinoid concentration ( Holweg
+et al., 2025 ).
+Heat stress is a common environmental challenge in cannabis
+cultivation, yet its effects on cannabinoid concentration and gene
+expression remain relatively underexplored. In a study of 75-day-
+old plant leaves of industrial genotypes, ‘Hot Blonde ’, ‘Cherry
+Blossom’, and ‘Queen Dream ’, exposure to heat stress of 45 °C-50
+°C for 48 hours resulted in increases in CBD levels by 38.4-fold,
+35.07-fold, and 22.92-fold, respectively, and in CBN by 5.08-, 13.40-
+, and 11.05-fold, respectively ( Hahm et al., 2025 ). These
+temperature ranges also increased the expression of MYB, AP2,
+OLS, OAC, PT, THCAS, CBDS ,a n d CBCAS in the terminal
+inﬂorescences ( Hahm et al., 2025 ). Similarly, Park et al. (2022)
+reported that CBD-rich genotypes exposed to sustained heat (45 –50
+°C) for seven days exhibited an 83% decrease in CBG-A and a 40%
+increase in CBG in immature hemp ﬂowers ( Park et al., 2022 ).
+Cold stress adversely affects secondary metabolism, physiology,
+and yield in cannabis. In hemp genotypes, exposure to 4 °C for 7 –14
+days led to cell membrane damage, as indicated by electrolyte
+leakage. In contrast, tolerant genotypes exhibited upregulation of
+cold-response ( COR) genes and activation of DNA methylation
+pathways ( Mayer et al., 2015 ). Likewise, in CBD-dominant
+genotypes exposed to different combinations of cold stresses.
+Some plants were acclimated to cooler temperatures of 10 °C,
+then all plants were exposed to freezing stress 0 to 3 times at
+-0.5% for three hours per event. Acclimated and non-acclimated
+plants reduced cannabinoid concentrations of CBD and THC, with
+limited frost tolerance ( Galic et al., 2022 ). In contrast, cold stress at
+4 °C for 0, 12, 24, and 48 hours did not produce signi ﬁcant changes
+in their cannabinoid concentration in industrial genotypes ( Hahm
+et al., 2025 ). In addition, moderately cool temperatures (8 –15 °C)
+improved anthocyanin accumulation, though CBD yield and
+biomass depended more on maturity ( Kim, 2024 ). Under 4 °C,
+lipidomic analysis revealed dry weight reductions (37% to 22%),
+increased osmoprotectants and stress enzymes, and membrane
+remodeling with galactolipids reaching 70% of total lipids ( Yan
+et al., 2025 ). Collectively, these ﬁndings illustrate the complex
+molecular and physiological responses and strategies of Cannabis
+sativa genotypes to low-temperature stress.
+In addition to thermal stress, water stress substantially alters
+cannabinoid accumulation and plant biomass in Cannabis sativa .
+Under moderate drought conditions, de ﬁned by a 50% reduction in
+transpiration compared to well-watered controls, CBD and CBG-A
+levels increased by approximately 25% and 10 –15%, respectively
+(Dimopoulos et al., 2024 ). In substrates with low water retention,
+the production of the PIP (Intrinsic plasma membrane proteins)
+subfamily was augmented, particularly the aquaporin isoforms
+PIP1.4, PIP2.3, and PIP2.1, thereby increasing water transport,
+resulting in greater in ﬂorescence development as well as a 2.8%
+rise in CBD content ( Ortiz Delvasto et al., 2023 ). In contrast, severe
+drought stress, marked by a 70-80% reduction in normal
+transpiration or the complete withholding of water irrigation,
+caused signi ﬁcant reductions in both cannabinoid concentration
+and plant biomass. THC-A and CBG-A levels were reduced by 40%
+and 48% ( Preprint Shenhar et al., 2025 ). Similarly, water stress
+applied during early ﬂowering led to a reduction of 70 –80% in both
+CBD and THC content ( Park et al., 2022 ). Despite these adverse
+effects, certain genotypes such as Ivory and Santhica 27
+demonstrated resilience by maintaining relatively high biomass
+yields under dry conditions ( Herppich et al., 2020 ).
+Although a wide range of environmental factors in ﬂuencing
+cannabis cultivation has been well documented, the role of relative
+humidity (RH) remains comparatively understudied. RH is de ﬁned
+as the ratio of atmospheric vapor pressure to saturation vapor
+pressure at a given temperature ( Campbell and Norman, 1998 ;
+Fairbridge, 1987 ). This parameter re ﬂects the degree of air
+saturation with water vapor, and has a direct effect on key
+physiological processes, including transpiration rates, stomatal
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org03
+
+[PAGE 4]
+behavior, and vapor pressure de ﬁcit (VPD) level, which collectively
+regulate plant water status and photosynthetic performance ( Taiz
+et al., 2015 ).
+Beyond its role in water relations, RH also plays a crucial role in
+determining plant morphology, biomass accumulation, nutrient
+uptake, pathogen developme nt, and secondary metabolite
+production ( Grossiord et al., 2020 ; Gui et al., 2021 ; Mortensen,
+1986 ). Optimal RH requirements for C. sativa vary by
+developmental stage, with recommended ranges of 65-75% during
+the clonal and seedling stages, 50-70% during vegetative growth,
+and 40-60% during the ﬂowering period ( Chandra et al., 2017 ;
+Fleming et al., 2023 ; Jin et al., 2019 ).
+While direct studies onC. sativaare limited, research in other plant
+species suggests that RH can signiﬁcantly inﬂuence physiological and
+biochemical traits. For example, high RH levels of approximately 80%
+have been shown to increase leaf biomass and modify nutrient content
+in tomato plants (Suzuki et al., 2015). Similarly, a study on the effects of
+climate change, involving night-warm temperatures and elevated
+atmospheric water saturation, negatively impacted the ﬂowering
+responses in 184 plant species from the Amazonian forest,
+decreasing ﬂowering biomass ( Vleminckx et al., 2024 ). Likewise,
+elevated humidity in silver birch ( Betula pendula ) has been
+associated with changes in hydraulic architecture, leaf morphology,
+and metabolite pro ﬁles, ultimately contributing to improved stress
+resilience (Lihavainen et al., 2016 ; Sellin et al., 2015 ). Interestingly,
+studies on high RH of 80% at a constant temperature in petunia
+showed longer vegetative stages and delayed ﬂowering development
+(Hoang and Kim, 2018 ). These ﬁndings suggest that C. sativa may
+exhibit comparable responses to RH variation, potentially affecting
+both biomass production and cannabinoid biosynthesis.
+In the context of ongoing climate change, increasing global
+temperatures and altered precipitation patterns are leading to
+elevated atmospheric humidity levels ( Lahlali et al., 2024 ). In
+regions such as Colorado, where Cannabis cultivation is widespread,
+these environmental changes highlight the importance of identifying
+and cultivating genotypes that can perform well under variable RH
+conditions ((EPA) United States Environmental Protection Agency,
+2016). Despite this need, the direct effects of RH on C. sativa
+genotypes adapted to temperate climates have not been
+thoroughly investigated.
+Therefore, this study aims to assess the impact of canopy-
+relative humidity on the morphometry, biomass production, and
+cannabinoid concentration of a type III CBD-dominant chemotype
+under controlled conditions. The ﬁndings will contribute to
+optimizing cultivation practices and enhancing quality and yield
+in commercial hemp production.
+2 Materials and methods
+2.1 Plant material and cultivation
+A type III CBD-dominant chemot ype that typically produces
+between 14 –18% CBD and contains 0.2 –0.3% THC was used.
+Uniform clones (10–12 cm in length) were taken from a six-month-
+old mother plant. Cuttings were treated by dipping the basal end in a
+0.3% indole-3-butyric acid (IBA) gel (Clonex®) (Growth Technology
+Ltd., Vista, CA), and subsequently inserted into (stone wool) rock
+wool cubes (Root Riot ®) (Hydrodynamics International, Medford,
+OR) within an aeroponic cloning system following the procedure and
+recommendations of Regas et al., 2021 )( Supplementary Table 1). A
+nutrient solution composed of a three-part formulation (General
+Hydroponics ®: FloralGro ®, FloralMicro ®, FloralBloom ®)w a s
+manually applied over a four-week rooting period following the
+commercial recommendation of dosage for every stage, from clones,
+vegetative, and ﬂowering stages (Supplementary Table 1).
+After the root system reached 25 –30 cm in length, the plantlets
+were transplanted into 3.78 l soil pots for two-week acclimation. A
+mixture of soils and substrates was used during the plant ’s growth
+(Supplementary Table 1 ); each plant received 900 ml of nutrient
+solution twice to three times a week during the plant ’s growth
+(Supplementary Table 1 ). Plants were grown without trimming or
+insecticide spray to prevent any unintended effects on growth and
+secondary metabolism.
+The study used a randomized complete block design with 20
+feminized type III CBD-domina nt clones, grown under two
+canopy-level relative humidity (RH) conditions: low RH (37 –
+58%) and high RH (78 –98%). Each treatment group included ten
+plants placed in growth chambers (SciBrite ®, Percival, LED36L1-
+120V; Percival, Iowa, U.S.) with an interior volume of 0.84 m³ and
+outside dimensions of 85.09 cm (width) × 85.34 cm (length) ×
+196.09 cm (height).
+Since these chambers lack integrated humidity control systems,
+RH levels were adjusted manually. To achieve low RH, the chamber
+door was left slightly open, and the lid was adjusted to create a small
+0.5 cm opening, allowing more air exchange with the outside and
+preventing moisture buildup inside. For high RH, the chamber was
+fully sealed, and an additional 900 ml container of water was placed
+near the soil pots to increase moisture around the plant canopy.
+The study followed a randomized complete block design using
+20 feminized type III CBD-dominant clones, grown under two
+canopy-level relative humidity (RH) treatments: low RH (37 –58%)
+and high RH (78 –98%). Each treatment group consisted of ten
+plants housed in growth chambers (SciBrite ®, Percival, LED36L2-
+120V; Percival, Iowa, U.S.) with an interior volume of 0.84 m³ and
+exterior dimensions of 85.09 cm (width) × 85.34 cm (length) ×
+196.09 cm (height).
+Because these chambers do no t have integrated humidity
+control systems, RH levels were manually manipulated. The low
+RH condition was achieved by leaving the chamber door slightly
+open and adjusting the lid to create a controlled 0.5 cm opening,
+which allowed for greater air exchange with the external
+environment and prevented moisture accumulation inside the
+chamber. Conversely, for the high RH condition, the chamber
+was fully sealed and additional 900 ml containers of water were
+placed near the soil pots to increase moisture around the
+plant canopy.
+The low-humidity range was selected as the control treatment,
+reﬂecting the typical growing conditions used by Colorado growers
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org04
+
+[PAGE 5]
+for this genotype. During the experiment, the growth chambers
+were set to control light, temperature, and photoperiod. Each
+chamber was equipped with a 30.48 cm AeroWave A6 fan
+(Vivosun, Ontario, California, U.S.), operating at 60 Hz to
+maintain consistent air circulation, with one fan in each chamber.
+Morphometric and biomass variables, including stem height,
+node count, trunk diameter, internodal spacing, were measured
+weekly and biomass weights (wet and dry) were measured at the end
+of the 14 (low RH) and 15 (high RH) weeks. The total above- and
+below-ground dry biomass and biomass by structure were recorded
+independently for each plant (e.g., in ﬂorescences, leaves, branches,
+roots, and stems). Cannabinoid concentrations of 14 cannabinoids,
+expressed as a percentage (% W/W) and mg g -1 of each
+cannabinoid based on dry weight in the harvested in ﬂorescences,
+were measured using High-Performance Liquid Chromatography
+( H P L C ) .T h ec a n n a b i n o i d s ,i n c luding acidic, decarboxylated,
+oxidized, and degraded forms of cannabigerol (CBG), cannabidiol
+(CBD), tetrahydrocannabinol (THC), cannabichromene (CBC),
+tetrahydrocannabivarin (THCV), cannabidivarin (CBDV), the
+oxidized form of D9-THC ( D8-THC), and degraded forms such as
+cannabinol (CBN) were studied. Analyses were performed using
+HPLC with three replicates per plant (n=90), totaling 180 analysis
+replicates ( Global Hemp Innovation Center, Oregon State
+University, 2022 ).
+During the 8-week vegetative stage, plants received General
+Hydroponics Floral Series
+® as a soil drench (900 ml per plant, three
+times weekly), with solution volumes adjusted for growth stages.
+During the 6-week ﬂowering stage, the same nutrient package was
+applied 2 –3 times weekly (900 ml per plant) until 40 –70% of the
+inﬂorescence developed an amber color for harvesting ( Punja et al.,
+2023; Tran et al., 2025 ).
+Harvesting and Post-Harvesting: Above-ground and below-
+ground biomass were collected in weeks 14 (low RH) and 15
+(high RH), and both wet and dry biomass were recorded. Plants
+were dried upside down in a dark room (T: 15 –21 °C, RH: 40 –55%)
+for 15 days, until brittle (~11%) ( Das et al., 2022 ). Storage moisture
+was maintained at approximately 80% ( Das et al., 2022 ; Lazarjani
+et al., 2021). Whole trimmed inﬂorescences per plant were wrapped
+in kraft paper and plastic bags and stored in the dark at room
+temperature (15-18 °C) until cannabinoid analysis. Plant root
+biomass maintained in trays was gathered using 3- and 12-mm
+sieves (Gilson, Lewis Center, OH) and rinsed thoroughly until soil
+and substrate residue were removed. Roots were exposed to sunlight
+and ambient temperature until they became brittle, a process that
+took 15–20 days.
+2.1.1 Photoperiod and light regimen
+PPFD was monitored throughout all growth stages using a PAR
+Meter (Photobio Quantum) (Phantom, Hydropharm, Shoemakerville,
+PA). During rooting in aeroponics, plants were exposed to a 24-hour
+light cycle with AgroBrite T5 lights at 200-225 mmol m-²s -1for four
+weeks. During the acclimation stage, a 24-hour photoperiod with a
+PPFD of 300 mmol m-²s-1was maintained for two weeks. For the early
+vegetative stage, a 15-hour light/9-hour dark cycle was applied for four
+weeks, with a PPFD of 400-600 mmol m-²s -1. In the late vegetative
+stage, the photoperiod was shifted to 13.5 hours light/10.5 hours dark
+for another four weeks, maintaining the same PPFD. During the early
+ﬂowering stage, a 12.5-hour light/11.5-hour dark cycle was
+implemented for three weeks with a PPFD of 400-600 mmol m-²s -1,
+corresponding to pistil formation. Finally, at the ﬂowering stage, a
+PPFD of 600–800 mmol m−2s −1 was applied for three weeks, ending
+when approximately 70% of the inﬂorescences had turned amber.
+2.2 Environmental parameters in controlled
+conditions
+Environmental parameters, including temperature (T), dew
+point (DP), humidity ranges, soil temperature, and conductivity,
+were continuously (hourly) monitored throughout the plant growth
+stages ( Supplementary Table 2 ). Hourly canopy-level data were
+collected using a data logger (EL-USB-2-LCD) (Lascar, Erie, PA).
+Soil conductivity and temperature were measured weekly with the
+Gro Line Soil Test ™ Direct Soil Conductivity Tester (HI98331)
+(Hanna Instruments, Woonsocket, RI). Two canopy relative
+humidity ranges were tracked hourly through the entire study
+(14–15 weeks), with ranges of low RH (37-58%) and high RH
+(78%-98%).
+The Vapor Pressure Deﬁcit (VPD) and Leaf Vapor Pressure Deﬁcit
+(LVPD) were initially e stimated by calculating the Saturated Vapor
+Pressure (SVP), which is the pressure exerted by water vapor in the air
+when it is saturated at 100% RH at a speciﬁcT( Equation 1). The VPD
+is determined based on temperatureand canopy relative humidity data,
+which identiﬁes the quantity of water vapor in the air at a given RH
+(Equation 2)( Grossiord et al., 2020 ). The LVPD is de ﬁned as the
+difference between the SVP inside the leaf and the actual vapor pressure
+of the surrounding air ( Equation 3). Psychrometric tables speciﬁct o
+cannabis, based on parameters de ﬁned by B r e i te ta l .( 2 0 1 9 ),w e r e
+referenced to determine optimal growth conditions. The VPD and
+LVPD were calculated using the formulas provided by B r e i te ta l .
+(2019) and Grossiord et al. (2020):
+SVP = 610:78 /C2 e 
+T
+(T+238:3)/C2 17:2694 (1)
+Where SVP represents the saturated vapor pressure, e= 2.71828
+is a Mathematical constant of Euler ’sN u m b e r( e ) ,Ti st h e
+temperature in °C, the SVP result should be given in pascals, then
+divided by 1000 to get kPa.
+VPD = 100 − RH
+100 /C2 SVP (2)
+Where VPD represents the vapor pressure de ﬁcit, RH is the
+relative humidity, and SVP represents saturated vapor pressure.
+LEAF VPD = LSVP − (ASVP /C2 RH)
+100 (3)
+Where Leaf VPD represents the leaf vapor pressure de ﬁcit,
+ASVP represents the adjusted saturated vapor pressure, and ASVP
+represents the assumption that leaf and ambient temperature
+difference is between 1-3°C.
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org05
+
+[PAGE 6]
+2.3 Cannabinoid analysis
+2.3.1 Sample preparation
+To determine the cannabinoid concentration of the selected
+genotype, in ﬂorescences from both high RH and low RH at the
+canopy level were analyzed using liquid chromatography on a
+Thermo Scienti ﬁc Dionex UltiMate 3000 HPLC system (Thermo
+Fisher Scienti ﬁc, Waltham, MA). For sample preparation, dried
+ﬂowers were ground with a mortar and pestle and then sieved
+through a wire mesh with a pore size of 1.18 mm to remove plant
+debris. The extraction process followed the methods outlined by the
+Standard Operating Procedures for Hemp – Cannabinoid Analyses
+(Global Hemp Innovation Center, Oregon State University, 2022 ).
+In each case, 500 mg of genotype samples from both canopy RH
+ranges were added to a 5 ml glass scintillation tube containing 5 ml
+of methanol: chloroform (9:1 v/v). Samples were vortexed for 10
+seconds, followed by 5-minute sonication in a bath at 40 kHz
+(Branson 3510) (Branson Ultrasonics Corp, Brook ﬁeld, CT) for 5,
+10, and 15 minutes. Subsequently, a ﬁnal centrifugation at 1900 × g
+for 15 minutes was conducted (Ultra-8V) (L-W Scienti ﬁc,
+Lawrenceville, GA) ( UNODC, United Nations of Drugs and
+Crime, 2009 ). The samples were left overnight for 18 hours in the
+darkness at room temperature. The supernatant was then collected
+and ﬁltered using HPLC natural hydrophilic × Nylon 66 membrane
+syringe ﬁlters with a diameter of 13 mm and a pore size of 0.45 mm
+for sterilization and removal of plant debris ( Global Hemp
+Innovation Center, Oregon State University, 2022 ).
+Three replicates were prepared per plant (n = 10 plants per
+canopy relative humidity condition, total = 90 samples). For the
+ﬁnal solution preparation, each replicate underwent two dilutions of
+1:10 (900 ml of methanol and 100 ml of the sample) and 1:100 (990
+ml of methanol and 10 ml of the sample) ( UNODC, United Nations
+of Drugs and Crime, 2009 ).
+2.3.2 High-performance liquid chromatography
+This HPLC system operated with a temperature-controlled
+autosampler, a column oven compartment, and a diode array
+detector (DAD) set to detect at 220 nm (DAD 3000 and multi-
+wavelength detector ‘MWD 3000 ’). It was controlled by
+Chromeleon 7.2 software, version 7.2 SR5 (Thermo Fisher
+Scientiﬁc, Waltham, MA). The decarboxylation process was not
+used, and the elution order of CBD, CBN, THC, and THC-A
+was followed.
+The HPLC system included a polar Encapped column with an
+I.D. of 100 mm x 2.1 mm and a particle size of 2.6 mm, maintained
+at 50 °C (Accucore AQ C18, Thermo Scienti ﬁc). A 20 ml sample was
+injected, and the ﬂow rate through an IntertSustain C18, 3 mm, 2.1 x
+100 mm column (GL Sciences, Inc., IntertSustain-ods-3-micron-
+100-x-2–1 mm) was 1.2 mg l -1. Two mobile phases were used:
+mobile phase A, consisting of 0.1% formic acid in 5.0 mM
+ammonium formate and ultra-pure water (18 M W), and mobile
+phase B, containing 0.1% formic acid in methanol. Equilibration
+was reached at 2.5 minutes at 60% B, followed by the gradient: 0 –2
+min, 70% B; 2 –8 min, 75% B; 8 –9 min, 100% B; 9 –10 min, 100% B;
+and 10 –15 min, 60% B, with a step at 10.5 –11 min at 60% B
+followed by 2.5 min of equilibration at 60% B between injections.
+The total analysis time was 13.5 minutes. The autosampler chamber
+and column were maintained at 8 °C and 50 °C, respectively. Under
+these conditions, CBD-A, CBG-A, CBG, CBD, D9-THC, and
+THCA-A eluted at 3.171 min (± 0.050 min), 3.401 min (± 0.050
+min), 3.611 min (± 0.050 min), 3.673 min (± 0.050 min), 5.234 min
+(± 0.050 min), and 5.860 min (± 0.050 min), respectively. Five-point
+calibration curves (1, 5, 10, 50, and 100 mg l -1) were generated for
+the cannabinoids at 228 nm using DAD, with peak integrations
+analyzed using software ( Global Hemp Innovation Center, Oregon
+State University, 2022 ).
+A set of 14 commercial cannabinoids standards solutions GBG-
+A (99.3%), CBG (99.2%), CBD-A(99.3%), CBD (99.2%), CBC-A
+(99.8%), CBC (98.8%), THC-A (99.1%), D9-THC (99.3%), CBDV-A
+(99.3%), CBDV (99.2%), THCV -A (97.9%), THCV (99.1%)
+(Cerilliant, San Antonio, TX) were prepared with a volume of 1.0
+mg l -1 in methanol solution (Cayman Chemical Company, Ann
+Arbor, MI)genotype. The sample concentration of each
+cannabinoid is determined from a calibrated linear response
+curve (R² > 0.99) in the total extraction volume and adjusted
+according to the sample weight ( Global Hemp Innovation Center,
+Oregon State University, 2022 ).
+Posterior calculations were employed to determine the mg l
+-1,
+the density, the dilution fact or, the mg/hemp, and the total
+cannabinoid percentage.
+Then, we determined the total cannabinoid percentage of CBG,
+THC, CBD, CBC, THCV, and CBDV in the assessed samples by
+using the following Equation 4 :
+TC(%) = % w
+w ½N   C/C138 +(% w
+w ½A   C/C138 x   w
+w M   R NC
+AC  
+/C18/C19/C20/C21
+) (4)
+Where TC represents total cannabinoid %, NC represents
+neutral cannabinoids such as CBG, THC, CBD, CBC, THCV, and
+CBDV, AC represents acidic cannabinoids such as CBG-A, THC-A,
+CBD-A, CBC-A, THCV-A, CBDV-A, M R = mass ratio, it is the
+ratio of the molecular weight of cannabinoids; Decarboxylation:
+acidic cannabinoids that lost a CO 2 molecule to form
+neutral structures.
+2.4 Statistical analysis
+Environmental parameters (temperature, humidity, and dew
+point) were monitored hourly and averaged for the vegetative stage
+(8 weeks) and total growth period (14 –15 weeks). Morphometry,
+biomass, and cannabinoid data were analyzed using unpaired t-tests
+to detect signi ﬁcant differences between RH at canopy levels. One-
+way ANOVA evaluated individual cannabinoid differences (% w/w)
+across humidity conditions. Data analysis and visualizations were
+conducted in GraphPad Prism 9 ® (GraphPad Software, Inc., La
+Jolla, Ca).
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org06
+
+[PAGE 7]
+3 Results
+3.1 Canopy humidity-induced variations in
+temperature, dew point, and vapor
+pressure de ﬁcit during cannabis growth
+In addition to maintaining canopy RH at high (78 –98%) and
+low (37 –58%) levels, other atmospheric variables, including dew
+point (DP) and air temperature (T), were monitored hourly
+during the 14th week of the genotype ’s growth under controlled
+conditions. Air temperature (T) averaged 20.30 ± 3.60 °C in the
+low RH range and 21.60 ± 1.40 °C in the high RH range,
+remaining stable across both humidity conditions (n = 105
+days, p > 0.005). The maximum and minimum values for T
+were 7 - 23 °C for the low RH range and 21-23 °C for the high RH
+(Figure 1 ). The DP averaged 8.20 ± 0.50 °C in the low canopy RH
+and 20 ± 0.40 °C in the high RH (n = 105 days, p < 0.0001). The
+maximum and minimum values for DP were 8 - 9 °C for the low
+RH range and 19-20 °C for the high RH ( Figure 1 ). No signiﬁ cant
+differences were observed in soil conductivity or soil temperature
+between the two RH ranges (n = 56, p > 0.0001)
+(Supplementary Table 2 ).
+High RH (78-98%) resulted in low VPD values of 0.05 kPa and
+0.25 kPa ( Equations 1, 2) during the later vegetative (8 weeks of
+duration) and ﬂowering stages (6 weeks of duration) of the
+genotype. Similarly, the leaf VPD (LVPD) was recorded at 0.13
+kPa and -0.04 kPa under high RH conditions ( Table 1 ). The dew
+points also increased, reaching 20.40°C and 20.10°C during the
+vegetative and ﬂowering stages ( Equation 3)( Table 1). The low RH
+(37-58%) yielded VPD values of 1.29 kPa and 0.92 kPa, with a
+minimum LVPD of 1.02 kPa and 0.60 kPa during the vegetative and
+ﬂowering stages of the genotype ( Table 1).
+3.2 High relative humidity impacts the
+genotype biomass and morphometric traits
+The dry biomass of the genotype, includingﬂoral, stem, and foliar
+tissues, was signiﬁcantly inﬂuenced by RH conditions. Under low RH
+(37-58%), the average dry weight ofﬂo w e r sp l u sl e a v e sw a s4 8g±6 . 7 0 ,
+and ﬂowers averaged 33.80 g ± 2.20. In contrast, plants grown under
+high RH (78-98%) produced signiﬁcantly lowerﬂower plus leaves, and
+ﬂower biomass, measuring 11.50 g ± 2.60, and 9.90 g ± 2.20,
+respectively (n = 10, p< 0.0001) (Figure 2A). This represents a 76%
+increase in ﬂoral plus leaves biomass and a 71% increase in ﬂower
+biomass under low RH compared to high RH. Overall, total dry
+biomass was 2.71 times greater under low RH conditions (n = 10, p
+< 0.0001) ( Figure 2A ). Root biomass did not signi ﬁcantly change
+between the low and high RH (n = 10, p> 0.0001) (Figure 2A).
+Morphological traits also varied substantially in response to
+humidity treatment. The genotype plants grown under low RH
+exhibited a greater stem diameter (1.40 cm ± 0.07) and a higher
+number of nodes (43 ± 2.10) than those under high RH, which
+averaged 1.00 cm ± 0.05 in stem diameter and 32 ± 2.70 nodes (n =
+10, p < 0.0001) ( Figures 2B , 3C, Supplementary Figure 1 ).
+Conversely, elongation of the apical region was more pronounced
+under high RH, with the upper three-fourths of the main stem
+averaging 117 cm ± 4.30, compared to 107 cm ± 4.00 in low RH (n =
+10, p < 0.0001) ( Figures 2B , 3A, B, Supplementary Figure 1).
+3.3 High relative humidity at the canopy
+level delayed the ﬂowering time
+Under controlled environmental conditions, the genotype
+exhibited distinct differences in observable ﬂoral development
+FIGURE 1
+Atmospheric variables measured at the canopy level during the 14th week of the development of the type III (CBD-dominant) cannabis chemotype
+under controlled conditions, including relative humidity, dew point, and temperature. Labels show the maximum and minimum values recorded in
+the study. CRH, canopy relative humidity; low RH, 37-58%; high RH, 78-98%; T (°C), temperature; DP (°C), dew point. Based on Corredor Perilla
+(2024), updated and modi ﬁed by the author.
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org07
+
+[PAGE 8]
+depending on RH. At a low RH, ﬂowering was observable in week
+10 with visible shoot apex differentiation. By week 11, bract
+emergence and pistil development were evident. In ﬂorescence
+expansion continued through weeks 12 and 13, during which
+approximately 40% glandular trichomes exhibited oxidation. By
+week 14, when plants reached condensed ﬂoral maturity and 60 –
+70% of the in ﬂorescence displayed amber coloration, they were
+harvested ( Figure 4 ).
+In contrast, plants grown under high RH showed delayed
+phenological progression. Flowering onset was not observed until
+week 13. followed by bract and pistil development in week 14. By
+week 15, only 20 –30% trichome oxidation has occurred. Harvest
+was delayed until week 15 to ensure suf ﬁcient ﬂoral biomass for
+cannabinoid quanti ﬁcation and to mitigate guttation-related tissue
+damage, which spread more aggressively under high humidity
+conditions ( Figure 4 ).
+Notably, in ﬂorescence formation per branch was signi ﬁcantly
+reduced under high RH compared to low RH. Quantitative analysis
+revealed decreases of 14.30% and 25.60% in weeks 13 and 14,
+respectively, indicating a marked suppression of ﬂoral development
+in elevated humidity environments (n = 10, p < 0.0001) ( Figure 4).
+3.4 Cannabinoid concentrations drastically
+decreased in high relative humidity
+To assess the impact of canopy-level RH on cannabinoid
+composition, a total of 14 phytocannabinoids were quanti ﬁed
+under low (37-58%) and high (78-98%) RH conditions during the
+ﬂowering stage. Cannabinoids predominantly remained in their
+acidic forms by weeks 14 and 15 across both humidity ranges
+(Equation 4)( Figures 5A , C).
+Exposure to high RH resulted in substantial reductions in key
+acidic and neutral cannabinoids. Compared to low RH content, the
+CBD-A decreased by 20.50%, from 27.80 mg g -1 to 5.70 mg g -1,
+CBD exhibited a 31.20% reduction, from 3.20 mg g -1 to 1.0 mg g -1,
+and CBC-A declined by 7.70%, from 3.90 mg g -1 to 0.30 mg g-1 (n =
+10, p < 0.0001) (Figure 5A). Following decarboxylation, total neutral
+cannabinoid concentration also showed a signi ﬁcant reduction
+under high RH. CBD content declined from 2.80% ± 0.20 to
+0.61% ± 0.03, and CBC decreased from 0.42% ± 0.13 to 0.04% ±
+0.003 (n = 10, p < 0.0001) ( Equation 4)( Figure 5B ).
+The ratio of acidic to neutral forms also varied markedly
+between the RH treatments. Under low and high RH, the ratios
+were elevated for CBD from 0.12 ± 0.04 to 0.19 ± 0.04, CBG from
+0.22 ± 0.01 to 0.95 ± 0.30, THCV from 0.07 ± 0.001 to 0.24 ± 0.05,
+respectively. In contrast, other cannabinoid ratios decreased, such
+as D9-THC from 0.41 ± 0.40 to 0.18 ± 0.01, and CBDV from 0.80 ±
+0.02 to 0.50 ± 0.03 (n = 10, p < 0.0001) ( Figure 5C). No signi ﬁcant
+changes were observed when c omparing CBC ratios across
+humidity conditions. Notably, the oxidative cannabinoid D8-THC
+was undetected under low RH conditions, and no degradation
+products such as CBN were observed under either humidity
+regime ( Figures 5A , C).
+4 Discussion
+Relative humidity is a key environmental factor that in ﬂuences
+the growth, productivity, and secondary metabolism of C. sativa ,
+including cannabinoid biosynthesis. While general cultivation
+guidelines recommend maintaining RH within the range of 55%
+to 60% during vegetative and ﬂowering stages ( Das et al., 2022 ; Jin
+et al., 2019 ), the effects of high canopy-level RH on genotype-
+speciﬁc morphology and cannabinoid concentration remain largely
+unexplored. Understanding these responses is essential for
+optimizing production under variable humidity conditions.
+One crucial factor inﬂuenced by RH is the vapor pressure deﬁcit
+(VPD), which governs the driving force for transpiration and plays
+a key role in plant water relations and metabolic ef ﬁciency. For C.
+sativa, optimal VPD ranges are generally reported as 0.50 –1 kPa
+during cloning and seedling stages, 0.70 -1.20 kPa during the
+vegetative stage, and 1.00 -1.50 kPa during ﬂowering ( Breit et al.,
+2019; Galindo et al., 2023 ; Vernon et al., 2023 ).
+In the present study, cannabis plants grown under high RH
+exhibited markedly reduced VPD values, remaining below optimal
+thresholds by 89% during the vegetative stage and 75% during
+ﬂowering. Sustained low VPD can limit transpiration, impair
+nutrient uptake, and reduce photosynthesis ef ﬁciency, while also
+increasing vulnerability to pests and diseases ( Ding et al., 2022 ;
+TABLE 1 Vapor pressure de ﬁcit, leaf vapor pressure de ﬁcit, and dew point in the type III (CBD-dominant) chemotype in low RH at the canopy (37-
+57%) and high RH (78-98%) at the canopy level after 14th weeks of plant growth in controlled conditions ( Equations 1 –3).
+Low RH 37-58% CRH (%) Temperature (°C) Dew point (°C) VPD kPa LVPD kPa
+Initial Vegetative Stage 37.3 24 8.8 1.87 1.04
+Later Vegetative Stage 45 20.2 8 1.29 1.02
+Flowering Stage 58 17 7.8 0.92 0.6
+High RH 78-98% CRH (%) Temperature (°C) Dew point (°C) VPD kPa LVPD kPa
+Initial Vegetative Stage 77.8 23 19.5 0.62 0.41
+Later Vegetative Stage 97.9 20 20.4 0.05 0.13
+Flowering Stage 90 21 20.1 0.25 -0.04
+CRH, canopy relative humidity, VPD, vapor pressure de ﬁcit, LVPD, leaf vapor pressure de ﬁcit, (°C), degrees Celsius, kPa, kilopascals. Based on Corredor Perilla (2024), updated and modiﬁed by
+the author.
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org08
+
+[PAGE 9]
+López et al., 2021 ). These ﬁndings underscore the importance of
+understanding how high-humidity environments alter VPD
+dynamics and their broader impact on cannabis physiology
+and productivity.
+The impact of high canopy RH on the ﬂowering stage of the
+genotype was particularly evident. Under low RH conditions,
+ﬂowering nutrition and photoperiod treatments began in week
+nine, with visible ﬂoral initiation, speci ﬁcally shoot apex
+differentiation, occurring by week 10. In contrast, high RH
+conditions delayed the onset of ﬂowering until week 13. This
+delay suggests that reduced transpiration associated with low
+VPD may impair the transport of essential nutrients, such as
+FIGURE 2
+Effect of canopy relative humidity ranges on the type III CBD-dominant chemotype structures after 14 and 15 weeks of plant growth in controlled
+conditions. (A) Fresh and dry biomass weight (g per plant) at low (37-58%) and high (78-98%) canopy relative humidity. This includes biomass of
+plant structures such as ﬂowers & leaves, ﬂowers, and roots. (B) Measurements of plant structures: stem length, trunk diameter, and apical internodal
+length (cm), as well as the number of nodes in both humidity ranges. **** p < 0.0001. Based on Corredor Perilla (2024) , updated and modiﬁ ed by
+the author.
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org09
+
+[PAGE 10]
+phosphorus and magnesium, which are critical for ﬂower
+development ( Chia and Lim, 2022 ; Ding et al., 2022 ).
+Additionally, increased stomatal aperture under high RH can
+disrupt internal water ﬂow and nutrient homeostasis, further
+inhibiting reproductive progre ssion. Similar effects have been
+observed in Chrysanthemum morifolium , where low VPD delayed
+ﬂowering by approximately four days ( Mortensen, 1986 , 2000).
+The effects of high RH extended beyond ﬂowering delays to
+changes in plant morphology. Compared to low RH, this genotype
+exhibited a signiﬁ cant increase in apical internode length (from 0
+mm to 0.42 mm) and stem length (from 107 cm to 117.4 cm).
+Similar responses have been reported in ornamental crops, such as
+chrysanthemum, kalanchoe, an d poinsettia, where increased
+humidity promotes stem elongation ( Mortensen, 2000 ). This is
+likely due to the search for radiation in high-humidity
+environments to increase photosynthesis and nutrient allocation,
+contributing to elongated apical and stem growth. The dynamic
+interplay between nutrient allocation and hydraulic functioning
+under elevated humidity conditions has also been documented in
+silver birch trees ( Sellin et al., 2015 ), suggesting a broader
+physiological relevance to these ﬁndings. At the canopy level, the
+presented results demonstrate that elevated RH ranging from78%
+to 98% promotes stem elongation and increased internodal spacing
+in the studied genotype. Neverth eless, optimal plant density
+remains a critical determinant f or achieving substantial foliar
+biomass accumulation.
+Furthermore, elevated RH signi ﬁcantly in ﬂuenced aerial shoot
+structures and perturbed the soil-water balance, resulting in anoxic
+conditions within the root zone. Such hypoxic stress is known to
+induce hormonal signaling cascades involving ethylene and
+gibberellins (GA), which facilitate physiological adaptations to
+low-oxygen environments ( Waadt et al., 2022 ). In ﬂood-adapted
+rice, GA promotes stem elongation by stimulating internodal
+growth, enabling the plant to maintain access to atmospheric
+oxygen during submergence ( Panda and Barik, 2021 ). It is
+plausible that analogous mechanisms are at play in this genotype,
+FIGURE 3
+Development of Type III CBD-dominant chemotype during the 14th and 15th weeks in low RH (37-58%) and high RH (78-98%) at the canopy, in
+controlled conditions. (A, B) The ﬂowering stage in both humidity conditions exhibits different in ﬂorescence development at low humidity (37-58%)
+and high RH (78-98%). (C) Plants showing differences in plant height between low RH (37-58%) and high RH (78-98%). RH: Relative humidity. Based
+on Corredor Perilla (2024) , updated and modiﬁ ed by the author.
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org10
+
+[PAGE 11]
+where atmospheric water saturation may activate ethylene signaling
+pathways and GA biosynthesis, thereby facilitating stem elongation
+and internode expansion under high humidity stress.
+Although elevated RH stimul ated stem elongation in this
+genotype, it had a detrimental effect on biomass accumulation.
+Both fresh and dry biomass were signiﬁ cantly reduced across all
+plant organs under high RH conditions (78-98%). Comparable
+reductions in biomass have been reported in CBG-dominant
+hemp varieties cultivated in Florida ’s high-humidity environment,
+underscoring the critical in ﬂuence of atmospheric moisture on
+overall plant productivity (Chiluwal et al., 2023 ). These
+observations are consistent with ﬁndings in other species, such as
+Begonia, where excessive RH similarly limited biomass
+accumulation ( Mortensen, 2000 ). However, not all stressors exert
+equivalent effects; for example, drought stress in C. sativa
+chemotype II did not alter the dry weight of inﬂ orescences
+(Caplan et al., 2019 ), highlighting the distinctive physiological
+consequences of high humidity stress on biomass production.
+High RH also in ﬂuenced key structural traits, including trunk
+diameter. In the studied genotype elevated RH conditions were
+associated with a reduction in trunk thickness ( Figure 2B ),
+paralleling ﬁndings in Betula pendula Roth, where stem diameter
+decreased due to reduced mechanical loading in high-humidity
+environments ( Sellin et al., 2015 ). This observation supports the
+hypothesis that during the vegetative stage, high RH may increase
+root hydraulic conductance in this cannabis genotype, contributing
+to altered stem development and reduced root growth.
+Another notable response to high RH was a reduction in the
+number of nodes and lateral branches in the studied genotype. This
+decline is likely attributable to guttation observed in lower canopy,
+which led to premature leaf senescence during the ﬂowering stage
+(weeks 10 to 14) ( Figure 4). The phenomenon aligns with ﬁndings
+in silver birch trees, where increased root hydraulic conductance
+under humid conditions was associated with a decrease in leaf area,
+promoting stem elongation and extended internodal length ( Sellin
+et al., 2015 ). Supporting this, studies on guttation in various crops
+under low VPDs and high RH have shown that the accumulation
+and breakdown of guttation exudates (e.g., minerals, hormones,
+enzymes, etc.) can discolor leaf tips from green to yellow, followed
+by necrosis and senescence, particularly in older foliage ( Singh,
+2014; Zheng et al., 2021 ).
+Beyond its adverse effects on biomass and morphology, high RH
+had a pronounced impact on cannabinoid concentration in this
+cannabis genotype. Elevated humidity delayed the onset of
+ﬂowering by approximately three weeks and signi ﬁcantly reduced
+the concentration of total CBD and CBC, as well as their acidic
+precursors, CBD-A, CBC-A ( Figures 5A , B). These ﬁndings are
+consistent with previous studies, which have shown that
+FIGURE 4
+Cannabis ﬂowering development under low RH (37-58%) and high RH (78-98%) showed signi ﬁcant differences in the number of branches with
+inﬂorescence development (Mann-Whitney Test, n = 10, **** p<0.0001) from the 10th to the 14th and 15th weeks. RH: Relative humidity.
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org11
+
+[PAGE 12]
+FIGURE 5
+Effect of canopy relative humidity ranges on total cannabinoid concentration, after decarboxylation, and cannabinoid ratios in the type III
+CBD-dominant strain following 14 (low RH) and 15 (high RH) weeks of plant growth under controlled conditions. Cannabinoids were assessed in
+low and high canopy RH ranges (n = 10, p<0.0001). (A) Comparisons of cannabinoid concentration before decarboxylation in mg g
+-1 per plant
+at the evaluated humidity ranges; (B) Comparison of total cannabinoid percentage after decarboxylation at the assessed humidity ranges ( Equation
+4). (C) Comparison of cannabinoid ratios at the evaluated humidity ranges. RH, Relative Humidity; Acidic and Neutral cannabinoids: Cannabidiol
+(CBD-A/CBD), Cannabichromene (CBC-A/CBC), Tetrahydrocannabinol (THC-A/ D9-THC), isomers of THC ( D8-THC), Cannabigerol (CBG-A/CBG),
+THCV, Tetrahydrocannabivarin, CBDV, Cannabidivarin, Oxidized and degraded molecules: Cannabichromene (CBN). **** p<0.0001, * p < 0.01.
+Based on Corredor Perilla (2024) , updated and modiﬁ ed by the author.
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org12
+
+[PAGE 13]
+environmental stressors reduce cannabinoid yield. For instance,
+under drought conditions, the early ﬂowering stage of the CBD
+genotype ‘Green-Thunder’ exhibited reduced THC and CBD levels
+(Park et al., 2022 ). Similarly, a six-year ﬁeld study involving eight
+industrial hemp varieties reported diminished CBD content
+following periods of precipi tation, although no signi ﬁcant
+cannabinoid changes were detected within a moderate RH range
+of 45 –65% ( Sikora et al., 2011 ). Likewise, broader climatic factors
+such as wind and ﬂood have been shown to reduce phytochemical
+diversity and shift cannabinoid concentration, primarily leading to
+reductions in CBD content ( Kay et al., 2025 ). Collectively, these
+ﬁndings suggest that abiotic stressors, including drought, excessive
+rainfall, wind, ﬂooding, and high relative humidity, can impair
+cannabinoid biosynthesis in a genotype-speci ﬁc manner, with
+outcomes strongly in ﬂuenced by environmental conditions,
+cultivation practices, and the timing of stress relative to anthesis.
+Elevated RH also in ﬂuenced cannabinoid composition,
+particularly the ratios between acidic and neutral forms (e.g.,
+CBD: CBD-A and CBG: CBG-A), as well as the CBD: THC ratio,
+all of which were higher under high RH conditions compared to low
+RH ( Figure 5C ). This increase may be attributed to a delayed
+ﬂowering onset —observed as a three-week shift post-anthesis —
+followed by the in ﬂorescence harvest. The extended ﬂowering
+duration likely allowed for additional decarboxylation,
+contributing to elevated ratios of neutral cannabinoids.
+In support of this, several ﬁeld-based studies conducted in high-
+h u m i d i t yr e g i o n so rs e a s o n sh ave reported that cannabinoid
+concentration during ﬂowering vary depending on both genotype
+genetics and environmental conditions. These studies documented
+shifts in the CBD: THC ratio in outdoor-grown plants, further
+highlighting the interaction between genotype response and
+environmental context ( Chiluwal et al., 2023 ; Stack et al., 2021 ;
+Trancoso et al., 2022 ; Yang et al., 2020 ). Such variability
+underscores the importance of standardizing cannabinoid
+pro ﬁling across developmental stages under de ﬁned
+environmental and cultivation parameters to optimize yields and
+accurately identify peak cannabinoid concentration windows.
+Notably, this study also revealed a substantial decline in CBC
+levels under high RH, with levels dropping from 0.42% in low RH to
+0.04% in high RH ( Figure 5B ). Existing predictive and real-time
+studies suggest that CBC accumulation is favored by an extended
+vegetative phase and an earlier harvest during ﬂowering (Naim-Feil
+et al., 2023 ).The impact of high RH signi ﬁcantly altered the VPD
+values, in ﬂuencing growth, morphology, and cannabinoid
+composition of this genotype. In this study, the vegetative stage
+lasted eight weeks, which is slightly longer than typical growth
+chamber conditions, and may have affected the cannabinoid
+composition. Further research is needed to determine optimal
+harvest timing and environmental conditions for maximizing
+speciﬁc cannabinoids under different humidity regimes.
+Because this study focused on a single genotype, future research
+should investigate the effects of elevated humidity across multiple
+CBD-rich hemp varieties. This work will help identify differences in
+growth, morphology, cannabinoid concentration, and physiology,
+providing critical insights for selecting climate-adaptive genotypes
+and developing region-speci ﬁc management strategies to improve
+cannabis production amid increasing climate variability.
+5 Conclusions
+This study is the ﬁrst to examine how two different canopy-level
+relative humidity (RH) ranges impact morphology, biomass, and
+cannabinoid concentration in CBD-rich hemp grown under
+controlled conditions. Elevated RH signi ﬁcantly altered plant
+structure, reduced biom ass, and hampered in ﬂorescence
+development, while low vapor pressure de ﬁcit (VPD) caused
+physiological stress symptoms such as guttation, tip burn, and
+leaf rot. These combined effects delayed ﬂowering and lowered
+overall cannabinoid concentration, particularly CBD and CBC.
+The low RH range used in this study re ﬂects typical humidity
+levels during cannabis cultivation seasons in Colorado and was
+chosen as the control condition. However, this range should not be
+seen as the ideal environment for cannabis growth. While it offers a
+realistic baseline for comparison, additional research is necessary to
+see if slightly higher or lower RH levels could improve plant health
+and maximize cannabinoid production across different genotypes.
+Relative humidity is a crucial factor affecting VPD and must be
+carefully managed throughout cannabis growth. If environmental
+conditions are not consistent at each stage, VPD imbalances
+can harm plant physiology, morphology, and cannabinoid
+concentration. Further research is needed to identify optimal
+RH ranges and temperatures that maximize cannabinoid
+concentrations across different genotypes.
+Since cannabis is cultivated in various production systems,
+understanding humidity thresho lds is essential for selecting
+climate-adapted genotypes and developing effective management
+strategies. Automated humidity control and strategic plant spacing
+can improve airﬂow, reduce disease risk, and boost yields, leading to
+more sustainable and resilient cannabis cultivation.
+Data availability statement
+The datasets presented in this study can be found in online
+repositories. The names of the repository/repositories and accession
+number(s) can be found below: This manuscript is an updated and
+revised version of the original submitted as a requirement for
+Corredor-Perilla, Ingrid Carolina’s doctorate in Agroecology. It will
+be fully published on October 18, 2026, in the digital library of the
+National University of Colombia repository at https://repositorio.
+unal.edu.co/handle/unal/87226 , under the Creative Commons
+(Attribution–Noncommercial–Non-Derivatives 4.0 International
+(CC BY-NC-ND 4.0) license ) ” license. The updated information
+can be found in the article and the Supplementary Material.F u r t h e r
+questions can be directed to the corresponding author.
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org13
+
+[PAGE 14]
+Author contributions
+IC: Formal analysis, Visualization, Writing – review & editing,
+Validation, Data curation, Software, Investigation, Methodology,
+Writing – original draft, Conceptualization. TK: Funding
+acquisition, Resources, Writing – review & editing, Validation.
+SP: Visualization, Writing – original draft, Resources, Funding
+acquisition, Project administration, Supervision, Methodology,
+Writing – review & editing, Validation, Conceptualization.
+Funding
+The author(s) declare ﬁnancial support was received for the
+research and/or publication of this article. The authors declare that
+they received ﬁnancial support for the research and/or publication
+of this article. This project was funded by the Chuncheon
+Bioindustry Foundation, Korea, supported by the Ministry of
+Science and ICT (RS-2021-IN211379) of the Republic of Korea.
+The execution of the investigation was carried out at the Institute of
+Cannabis Research at Colorado State University-Pueblo.
+Acknowledgments
+The authors sincerely thank the Chuncheon Bioindustry
+Foundation, Republic of Korea, and the Institute of Cannabis
+Research at Colorado State University-Pueblo, USA, for their
+valuable support. The ﬁndings presented in this manuscript are
+an updated and modi ﬁed version based on Corredor Perilla, Ingrid
+Carolina’s doctoral thesis titled: “Evaluation of factors that shape
+the development of Cannabis sativa L., and the production of its
+cannabinoids in the context of agroecological sustainability, ” whose
+abstract is available and will be fully released on October 18, 2026,
+in the repository of the National University of Colombia, digital
+library, at https://repositorio.unal.edu.co/handle/unal/87226 under
+t h eC r e a t i v eC o m m o n s( A t t r ibution- Non Commercial-Non
+Derivatives 4.0).
+Conﬂict of interest
+The authors declare that the research was conducted in the
+absence of any commercial or ﬁnancial relationships that could be
+construed as a potential con ﬂict of interest.
+Generative AI statement
+T h ea u t h o r ( s )d e c l a r et h a tn oG e n e r a t i v eA Iw a su s e di n
+thecreation of this manuscript.
+Any alternative text (alt text) provided alongside ﬁgures in this
+article has been generated by Frontiers with the support of arti ﬁcial
+intelligence and reasonable e fforts have been made to ensure
+accuracy, including review by the authors wherever possible. If
+you identify any issues, please contact us.
+Publisher’s note
+All claims expressed in this article are solely those of the authors
+and do not necessarily represent those of their afﬁliated organizations,
+or those of the publisher, the editors and the reviewers. Any product
+that may be evaluated in this article, or claim that may be made by its
+manufacturer, is not guaranteed or endorsed by the publisher.
+Supplementary material
+The Supplementary Material for this article can be found online
+at: https://www.frontiersin.org/articles/10.3389/fpls.2025.1678142/
+full#supplementary-material
+References
+Ahsan, S. M., Injamum-Ul-Hoque, M., Shaf ﬁque, S., Ayoobi, A., Rahman, M. A.,
+Rahman, M. M., et al. (2024). Illuminating Cannabis sativa L.: The power of light in
+enhancing C. sativa growth and secondary metabolite production. Plants 13, 2774.
+doi: 10.3390/plants13192774
+Alter, H., Sade, Y., Sood, A., Carmeli-Weissberg, M., Shaya, F., Kamenetsky-
+Goldstein, R., et al. (2024). In ﬂorescence development in female cannabis plants is
+mediated by photoperiod and gibberellin. Hortic. Res. 11, 11. doi: 10.1093/hr/uhae245
+Bok, G., Hahm, S., Shin, J., and Park, J. (2023). Optimizing indoor hemp cultivation
+efﬁciency through differential day –night temperature treatment. Agronomy 13, 2636.
+doi: 10.3390/agronomy13102636
+Breit, L., Leavitt, M., and Boyd, A. (2019). Understanding VPD and transpiration
+rates for cannabis cultivation operations. Canna. Sci. Tech 2, 52 –61.
+Campbell, G. S., and Norman, J. M. (1998). “Water vapor and other gases, ” in An
+introduction to environmental biophysics (Springer New York, New York, NY), 37 –51.
+doi: 10.1007/978-1-4612-1626-1_3
+Caplan, D., Dixon, M., and Zheng, Y. (2019). Increasing inﬂorescence dry weight and
+cannabinoid concentration in medical cannabis using controlled drought stress.
+HortScience 54, 964–969. doi: 10.21273/HORTSCI13510-18
+Carranza-Ramı́rez, J. E., Borda, A. M., and Moreno-Fonseca, L. P. (2025). LED light
+modiﬁes plant architecture, physiological parameters and cannabinoid concentration
+in three varieties of Cannabis sativa L. S. Afr. J. Bot. 176, 231 –240. doi: 10.1016/
+j.sajb.2024.11.023
+Chandra, S., Lata, H., and ElSohly, M. A. (2017). “Cannabis sativa L.- botany and
+biotechnology,” in Cannabis sativa L. -botany and bioctechnology . Eds. S. Chandra, H.
+Lata and M. ElSohly (Springer, Cham). doi: 10.1007/978-3-319-54564-6_3
+Chandra, S., Lata, H., Mehmedic, Z., Khan, I. A., and ElSohly, M. A. (2015). Light
+dependence of photosynthesis and water vapor exchange characteristics in different
+high D
+9-THC yielding varieties of Cannabis sativa L. J. App. Res. Med. Aromt Plants 2,
+39–47. doi: 10.1016/j.jarmap.2015.03.002
+Chia, S., and Lim, M. (2022). A critical review on the in ﬂuence of humidity for plant
+growth forecasting. IOP Conf. Series: Mater. Sci. Eng. 1257, 12001. doi: 10.1088/1757-
+899X/1257/1/012001
+Chiluwal, A., Sandhu, S. S., Sandhu, H., Irey, M., Johns, F., and Sanchez, R. (2023).
+Cannabidiol industrial hemp growth, biomass, and temporal cannabinoids
+accumulation under different planting dates in southern Florida. Agrosyst. Geosci.
+Environ. 6, e20347. doi: 10.1002/agg2.20347
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org14
+
+[PAGE 15]
+Corredor Perilla, I. (2024). Evaluation of factors that shape the development of
+Cannabis sativa L., and the production of its cannabinoids in the context of
+agroecological sustainability (Bogotá, Colombia: Universidad Nacional de Colombia).
+Available online at: https://repositorio.u nal.edu.co/handle/ unal/87226 (Accessed
+January 10, 2024).
+Danziger, N., and Bernstein, N. (2021). Light matters: Effect of light spectra on
+cannabinoid pro ﬁle and plant development of medical cannabis ( Cannabis sativa L.).
+Ind. Crops Prod 164, 113351. doi: 10.1016/j.indcrop.2021.113351
+Das, P. C., Vista, A. R., Tabil, L. G., and Baik, O. D. (2022). Postharvest operations of
+cannabis and their effect on cannabinoid concentration: a review. Bioeng (Basel) 9, 8.
+doi: 10.3390/bioengineering9080364
+De Prato, L., Ansari, O., Hardy, G. E. S. J., Howieson, J., O ’Hara, G., and Ruthrof, K.
+X. (2022). The cannabinoid pro ﬁle and growth of hemp ( Cannabis sativa L.) is
+inﬂuenced by tropical daylengths and temperatures, genotype and nitrogen nutrition.
+Ind. Crops Prod 178, 114605. doi: 10.1016/j.indcrop.2022.114605
+Dimopoulos, N., Guo, Q., Purdy, S. J., Nolan, M., Halimi, R. A., Mieog, J. C., et al.
+(2024). From dawn ‘til dusk: daytime progression regulates primary and secondary
+metabolism in cannabis glandular trichomes. J. Exp. Bot. 76, 134–151. doi: 10.1093/jxb/
+erae148
+Ding, J., Jiao, X., Bai, P., Hu, Y., Zhang, J., and Li, J. (2022). Effect of vapor pressure
+deﬁcit on the photosynthesis, growth, and nutrient absorption of tomato seedlings. Sci.
+Hortic. 293, 110736. doi: 10.1016/j.scienta.2021.110736
+Dowling, C. A., Melzer, R., and Schilling, S. (2021). Timing is everything: the genetics
+of ﬂowering time in Cannabis sativa. Biochem. J. 43, 34–38. doi: 10.1042/bio_2021_138
+Dowling, C. A., Shi, J., Toth, J. A., Quade, M. A., Smart, L. B., McCabe, P. F., et al.
+(2024). A ﬂowering locus T ortholog is associated with photoperiod-insensitive
+ﬂowering in hemp ( Cannabis sativa L.). Plant J. 119, 383 –403. doi: 10.1111/tpj.16769
+(EPA) United States Environmental Protection Agency (2016). What climate change
+means for colorado . Available online at: https://19january2017snapshot.epa.gov/sites/
+production/ﬁles/2016-09/documents/climate-change-co.pdf (Accessed February 20,
+2025).
+Fairbridge, R. W. (1987). “Relative humidity,” in Climatology (Springer US, Boston,
+MA), 721 –722.
+Fleming, H., Chamberlain, Z., Zager, J. J., and Lange, B. M. (2023). Controlled
+environments for cannabis cultivation to support “omics” research studies and
+production. Methods Enzymol. 680, 353 –380. doi: 10.1016/bs.mie.2022.07.028
+Galic, A., Grab, H., Kaczmar, N., Maser, K., Miller, W. B., and Smart, L. B. (2022).
+Effects of cold temperature and acclimation on cold tolerance and cannabinoid
+concentration of Cannabis sativa L. (Hemp). Horticulturae 8, 531. doi: 10.3390/
+horticulturae8060531
+Galindo, J., Uribe, P., and González, L. (2023). Analysis of environmental monitoring
+in greenhouse for the cultivation of mother plants of Cannabis sativa in the Colombian
+Andes. Acta Hortic. 1360, 259 –266. doi: 10.17660/ActaHortic.2023.1360.33. XXXI
+International Horticultural Congress (IHC2022): III International Symposium on
+Mechanization, Precision Horticulture.
+Global Hemp Innovation Center, Oregon State University (2022). Standard
+operating procedures for hemp: cannabinoid analysis . Available online at: https://
+agsci.oregonstate.edu/sites/agscid7/ ﬁles/hemp/ghic_op-2_sops_for_hemp_-_sample_
+grinding.pdf (Accessed March 25, 2024). Ocassional Paper Series OP-3. NPL-SOP-
+ATM-001.03.
+Grossiord, C., Buckley, T. N., Cernusak, L. A., Novick, K. A., Poulter, B., Siegwolf, R.
+T., et al. (2020). Plant responses to rising vapor pressure de ﬁcit. New Phytol. 226, 1550–
+1566. doi: 10.1111/nph.16485
+Gui, Z., Li, L., Qin, S., and Zhang, Y. (2021). Foliar water uptake of four shrub species
+in a semi-arid desert. J. Arid Environ. 195, 104629. doi: 10.1016/j.jaridenv.2021.104629
+Hahm, S., Lee, J. Y., Im, H. M., Lee, H. J., and Park, J. (2025). In ﬂuence of
+temperature stress on the major cannabinoid concentrations and biosynthesis gene
+expression levels in industrial hemp ( Cannabis sativa L.). Hortic. Sci. Technol. 43, 221–
+233. doi: 10.7235/HORT.20250024
+Herppich, W. B., Gusovius, H.-J., Flemming, I., and Drastig, K. (2020). Effects of
+drought and heat on photosynthetic performance, water use and yield of two selected
+ﬁber hemp genotypes at a poor-soil site in Brandenburg (Germany). Agronomy 10,
+1361. doi: 10.3390/agronomy10091361
+Hoang, L. H. N., and Kim, W. S. (2018). Air temperature and humidity affect petunia
+ornamental value. Hortic. Sci. Tech 36, 10–19. doi: 10.12972/kjhst.20180002
+Holweg, M. M. S. F., Curren, T., Cravino, A., Kaiser, E., Kappers, I. F., Heuvelink, E.,
+et al. (2025). High air temperature reduces plant specialized metabolite yield in medical
+cannabis, and has genotype-speci ﬁc effects on in ﬂorescence dry matter production.
+Environ. Exp. Bot. 230, 106085. doi: 10.1016/j.envexpbot.2025.106085
+Innes, P. A., and Vergara, D. (2023). Genomic description of critical cannabinoid
+biosynthesis genes. Botany 101, 270 –283. doi: 10.1139/cjb-2022-0140
+Jin, D., Jin, S., and Chen, J. (2019). Cannabis indoor growing conditions,
+management practices, and post-harvest treatment: A review. Am. J. Plant Sci. 10,
+925–946. doi: 10.4236/ajps.2019.106067
+Kay, E. R., Philbin, C. S., Richards, L. A., Forister, M. L., Jeffrey, C., and Dyer, L. A.
+(2025). Effects of water and wind stress on phytochemical diversity, cannabinoid
+composition, and arthr opod diversity in hemp. Plants 14, 474. doi: 10.3390/
+plants14030474
+Kim, S. (2024). Genetic and environmental factors shaping cannabis phenotypes a
+study on temperature effects and genetic regulation of anthocyanin accumulation in
+Cannabis sativa L (Madison (W: University of Wisconsin-Madison). Available online
+at: http://digital.library.wisc.edu/1793/85243 (Accessed January 5, 2025).
+Kotiranta, S., Pihlava, J.-M., Kotilainen, T., and Palonen, P. (2024). The morphology,
+inﬂorescence yield, and secondary metabolite accumulation in hemp type Cannabis
+sativa L. can be in ﬂuenced by the R:FR ratio or the amount of short wavelength
+r a d i a t i o ni nas p e c t r u m . Ind. Crops Prod 208, 117772. doi: 10.1016/
+j.indcrop.2023.117772
+Lahlali, R., Taoussi, M., Laasli, S.-E., Gachara, G., Ezzouggari, R., Belabess, Z., et al.
+(2024). Effects of climate change on plant pathogens and host-pathogen interactions.
+Crop Environ. 3, 159 –170. doi: 10.1016/j.crope.2024.05.003
+Lazarjani, M. P., Young, O., Kebede, L., and Seyfoddin, A. (2021). Processing and
+extraction methods of medicinal cannabis: A narrative review. J. Cannabis Res. 3, 1–15.
+doi: 10.1186/s42238-021-00087-9
+Lihavainen, J., Keinänen, M., Keski-Saari, S., Kontunen-Soppela, S., Sõber, A., and
+Oksanen, E. (2016). Arti ﬁcially decreased vapour pressure de ﬁcit in ﬁeld conditions
+modiﬁes foliar metabolite pro ﬁles in birch and aspen. J. Exp. Bot. 67, 4367 –4378.
+doi: 10.1093/jxb/erw219
+Llewellyn, D., Golem, S., Foley, E., Dinka, S., Jones, A. M. P., and Zheng, Y. (2022).
+Indoor grown cannabis yield increased p roportionally with light intensity, but
+ultraviolet radiation did not affect yield or cannabinoid concentration. Front. Plant
+Sci. 13. doi: 10.3389/fpls.2022.974018
+López, J., Way, D. A., and Sadok, W. (2021). Systemic effects of rising atmospheric
+vapor pressure deﬁcit on plant physiology and productivity. Glob Chang Biol. 27, 1704–
+1720. doi: 10.1111/gcb.15548
+Mayer, B. F., Ali-Benali, M. A., Demone, J., Bertrand, A., and Charron, J. B. (2015).
+Cold acclimation induces distinctive changes in the chromatin state and transcript
+levels of COR genes in Cannabis sativa varieties with contrasting cold acclimation
+capacities. Physiol. Plant 155, 281 –295. doi: 10.1111/ppl.12318
+Mortensen, L. M. (1986). Effect of relative humidity on growth and ﬂowering of some
+greenhouse plants. Sci. Hortic. 29, 301 –307. doi: 10.1016/0304-4238(86)90013-0
+Mortensen, L. M. (2000). Effects of air humidity on growth, ﬂowering, keeping
+quality and water relations of four short-day greenhouse species. Sci. Hortic. 86, 299 –
+310. doi: 10.1016/S0304-4238(00)00155-2
+Naim-Feil, E., Elkins, A. C., Malmberg, M. M., Ram, D., Tran, J., Spangenberg, G. C.,
+et al. (2023). The Cannabis Plant as a Complex System: Interrelationships between
+cannabinoid compositions, morphological, physio-logical and phenological traits.
+Plants 12, 493. doi: 10.3390/plants12030493
+Ortiz Delvasto, N., Garcia Gomez, P., Carvajal, M., and Ba ́rzana, G. (2023).
+Aquaporins-mediated water availability in substrates for cannabis cultivation in
+relation to CBD yield. Plant Soil 495, 1 –17. doi: 10.1007/s11104-023-06341-8
+Panda, D., and Barik, J. (2021). Flooding tolerance in rice: focus on mechanisms and
+approaches. Rice Sci.
+28, 43 –57. doi: 10.1016/j.rsci.2020.11.006
+Park, S.-H., Pauli, C. S., Gostin, E. L., Staples, S. K., Seifried, D., Kinney, C., et al.
+(2022). Effects of short-term environmental stresses on the onset of cannabinoid
+concentration in young immature ﬂowers of industrial hemp ( Cannabis sativa L.). J.
+Cannabis Res. 4, 1 –13. doi: 10.1186/s42238-021-00111-y
+Preprint Shenhar, I., Ifrach, I., Barkan, O., Guberman, O., Kerem, Z., Taler, D., et al.
+(2025). Effects of drought on in ﬂorescence yield, and secondary metabolites in
+Cannabis sativa L.. bioRxiv, [Preprint Repository]. doi: 10.1101/2025.02.16.638548
+Punja, Z. K., Sutton, D. B., and Kim, T. (2023). Glandular trichome development,
+morphology, and maturation are in ﬂuenced by plant age and genotype in high THC-
+containing cannabis (Cannabis sativa L.) in ﬂorescences. J. Cannabis Res. 5, 12.
+doi: 10.1186/s42238-023-00178-9
+Regas, T., Han, J. H., Pauli, C. S., and Park, S. H. (2021). Employing aeroponic systems
+for the clonal propagation of cannabis. J. Vis. Exp. 178), e63117. doi: 10.3791/63117
+Ren, G., Zhang, X., Li, Y., Ridout, K., Serrano-Serrano, M. L., Yang, Y., et al. (2021).
+Large-scale whole-genome resequencin g unravels the domestication history of
+Cannabis sativa L. Sci. Adv. 7, eabg2286. doi: 10.1126/sciadv.abg2286
+Rodriguez-Morrison, V., Llewellyn, D., and Zheng, Y. (2021). Cannabis yield,
+potency, and leaf photosynthesis pespond differently to increasing light levels in an
+indoor environment. Front. Plant Sci. 12. doi: 10.3389/fpls.2021.646020
+Sae-Tang, W., Heuvelink, E., Nicole, C. C. S., Kaiser, E., Sneeuw, K., Holweg, M. M. S.
+F., et al. (2024). High light intensity improves yield of specialized metabolites in
+medicinal cannabis (Cannabis sativa L.), resulting from both higher in ﬂorescence mass
+and concentrations of metabolites. J. Appl. Res. Med. AromatPlants 43, 100583.
+doi: 10.1016/j.jarmap.2024.100583
+Sellin, A., Rosenvald, K., Õunapuu-Pikas, E., Tullus, A., Ostonen, I., and Lõhmus, K.
+(2015). Elevated air humidity affects hydraulic traits and tree size but not biomass
+allocation in young silver birches (Betula pendula). Front. Plant Sci. 6. doi: 10.3389/
+fpls.2015.00860
+Sikora, V., Berenji, J., and Latkovic ́, D. (2011). In ﬂuence of agroclimatic conditions
+on content of main cannabinoids in industrial hemp ( Cannabis sativa L.). Genetika-
+Belgrade 43, 449 –456. doi: 10.2298/GENSR1103449S
+Singh, S. (2014). “Guttation: new insights into agricultural implications,” in Advances
+in agronomy, vol. 128 . Ed. D. L. Sparks (Elservier Inc, Newark, DW). doi: 10.1016/
+B978-0-12-802139-2.00003-2
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org15
+
+[PAGE 16]
+Spitzer-Rimon, B., Duchin, S., Berns tein, N., and Kamenetsky, R. (2019).
+Architecture and ﬂorogenesis in female cannabis sativa plants. Front. Plant Sci. 10.
+doi: 10.3389/fpls.2019.00350
+Spitzer-Rimon, B., Shafran-Tomer, H., Gottlieb, G. H., Doron-Faigenboim, A.,
+Zemach, H., Kamenetsky-Goldstein, R., et al. (2022). Non-photoperiodic transition
+of female cannabis seedlings from juvenile to adult reproductive stage. Plant Reprod. 35,
+265–277. doi: 10.1007/s00497-022-00449-0
+Šrajer Gajdos ̌ik, M., Vicic ́, A., Gvozdic ́, V., Galic ́, V., Begovic ́, L., and Mlinaric ́,S .
+(2022). Effect of prolonged photoperiod on light-dependent photosynthetic reactions in
+cannabis. Int. J. Mol. Sci. 23, 9702. doi: 10.3390/ijms23179702
+Stack, G. M., Toth, J. A., Carlson, C. H., Cala, A. R., Marrero-González, M. I., Wilk, R.
+L., et al. (2021). Season-long characterization of high-cannabinoid hemp ( Cannabis
+sativa L.) reveals variation in cannabinoid accumulation, ﬂowering time, and disease
+resistance. GCB Bioenergy 13, 546 –561. doi: 10.1111/gcbb.12793
+Suzuki, M., Umeda, H., Matsuo, S., Kawasaki, Y., Ahn, D., Hamamoto, H., et al. (2015).
+Effects of relative humidity and nutrient supply on growth and nutrient uptake in greenhouse
+tomato production.Sci. Hortic.187, 44–49. doi: 10.1016/j.scienta.2015.02.035
+Taiz, L., Zeiger, E., Møller, I. M., and Murphy, A. S. (2015). Plant physiology and
+development. 6th Edition (Sinauer Associates, Suderland, CT: Sinauer Associates,
+Incorporated, Publishers), ISBN: .
+Tran, J., Dimech, A. M., Vassiliadis, S., Elkins, A. C., Cogan, N. O. I., Naim-Feil, E.,
+et al. (2025). Determination of Optimal Harvest Time in Cannabis sativa L. Based upon
+Stigma Color Transition. Plants 14, 1532. doi: 10.3390/plants14101532
+T r a n c o s o ,I . ,d eS o u z a ,G .A .R . ,d o sS a n t o s ,P .R . ,d o sS a n t o s ,K .D . ,d eM i r a n d a ,R . ,d aS i l v a ,
+A. L. P. M., et al. (2022).Cannabis sativaL.: Crop management and abiotic factors that affect
+phytocannabinoid concentration.Agronomy12, 1492. doi: 10.3390/agronomy12071492
+UNODC, United Nations of Drugs and Crime (2009). Recommended methods for the
+identiﬁcation and analysis of cannabis and cannabis products: manual for use by
+National Drug Testing Laboratories (New York: United Nat ions Publications).
+Available online at: https://www.unodc.org/documents/scienti ﬁc/ST-NAR-40-Ebook_
+1.pdf (Accessed October 30, 2024).
+Vernon, M., Kouzani, A. Z., Webb, L. D., and Adams, S. D. (2023). A survey of
+modern greenhouse technologies and practices for commercial cannabis cultivation.
+IEEE Access 11, 62077 –62090. doi: 10.1109/ACCESS.2023.3285242
+Vleminckx, J., Hogan, J. A., Metz, M. R., Comita, L. S., Queenborough, S. A., Wright,
+S. J., et al. (2024). Flower production decreases with warmer and more humid
+atmospheric conditions in a western Amazonian forest. New Phytol. 241, 1035 –1046.
+doi: 10.1111/nph.19388
+Waadt, R., Seller, C. A., Hsu, P. K., Takahashi, Y., Munemasa, S., and Schroeder, J. I.
+(2022). Plant hormone regulation of abiotic stress responses.
+Nat. Rev. Mol. Cell Biol.
+23, 680–694. doi: 10.1038/s41580-022-00479-6
+X u ,Y . ,Z h a n g ,J . ,T a n g ,Q . ,D a i ,Z . ,D e n g ,C . ,C h e n ,Y . ,e ta l .( 2 0 2 4 ) .
+Integrated metabolomic and transcripto mic analysis revealed the regulation
+of yields, cannabinoid, and terpene biosynthesis in Cannabis sativa L. under
+different photoperiods. S. Afr. J. Bot. 174, 735 – 746. doi: 10.1016/
+j.sajb.2024.09.046
+Yan, B., Chang, C., Gu, Y., Sui, Y., Zheng, N., Fang, Y., et al. (2025). Lipidomic
+remodeling in Cannabis sativa L. under cold tolerance. Ind. Crops Prod 224, 120346.
+doi: 10.1016/j.indcrop.2024.120346
+Yang, R., Berthold, E. C., McCurdy, C. R., da Silva Benevenute, S., Brym, Z. T., and
+Freeman, J. H. (2020). Development of cannabinoids in ﬂowers of industrial hemp
+(Cannabis sativa L.): A iilot study. J. Agric. Food Chem. 68, 6058 –6064. doi: 10.1021/
+acs.jafc.0c01211
+Z h e n g ,H . ,C a i ,M . ,B a i ,Y . ,X u ,J . ,X i e ,Y . ,S o n g ,H . ,e ta l .( 2 0 2 1 ) .T h eE f f e c to f
+guttation on the growth of bamboo shoots. Forests 13, 31. doi: 10.3390/
+f13010031
+Corredor-Perilla et al. 10.3389/fpls.2025.1678142
+Frontiers in Plant Science frontiersin.org16

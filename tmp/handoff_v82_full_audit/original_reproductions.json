@@ -1,0 +1,42 @@
+[
+  {
+    "id": "A01_bad_rh_aborts_other_variables",
+    "originalActual": "ValueError:invalid_rh_range",
+    "required": "retain valid wind/ET0; RH null with issue"
+  },
+  {
+    "id": "A02_negative_component_hidden_by_sum",
+    "originalActual": 1,
+    "required": "null rain; reject negative component before sum"
+  },
+  {
+    "id": "A03_explicit_null_rain_becomes_zero",
+    "originalActual": 0,
+    "required": "null with issue; only absent key may use omission contract"
+  },
+  {
+    "id": "A04_wrong_context_state_bypasses_care_gate",
+    "originalActual": "weather_preparation_context",
+    "required": "no card; invalid flag/state combination"
+  },
+  {
+    "id": "A05_missing_flower_evidence_becomes_disabled",
+    "originalActual": "disabled",
+    "required": "unknown when flowering and required context missing"
+  },
+  {
+    "id": "A06_malformed_dataset_crashes",
+    "originalActual": "AttributeError:'NoneType' object has no attribute 'get'",
+    "required": "invalid_evaluation, structured errors"
+  },
+  {
+    "id": "A07_unknown_split_silently_empty",
+    "originalActual": "not_evaluated",
+    "required": "invalid_evaluation"
+  },
+  {
+    "id": "A08_missing_documented_test",
+    "originalActual": false,
+    "required": "ship runnable script and resolve fixture paths"
+  }
+]

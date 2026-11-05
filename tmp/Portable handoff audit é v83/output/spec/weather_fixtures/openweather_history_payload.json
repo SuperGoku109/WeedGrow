@@ -1,0 +1,30 @@
+{
+  "lat": -26.2041,
+  "lon": 28.0473,
+  "timezone": "Africa/Johannesburg",
+  "timezone_offset": 7200,
+  "data": [
+    {
+      "dt": 1792497600,
+      "sunrise": 1792466893,
+      "sunset": 1792513005,
+      "temp": 26.62,
+      "feels_like": 26.62,
+      "pressure": 1014,
+      "humidity": 28,
+      "dew_point": 6.63,
+      "clouds": 0,
+      "wind_speed": 0.45,
+      "wind_deg": 43,
+      "wind_gust": 2.68,
+      "weather": [
+        {
+          "id": 800,
+          "main": "Clear",
+          "description": "clear sky",
+          "icon": "01d"
+        }
+      ]
+    }
+  ]
+}

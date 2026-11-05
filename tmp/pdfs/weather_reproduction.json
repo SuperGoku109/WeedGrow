@@ -1,0 +1,38 @@
+{
+  "scope": "Synthetic local-code reproduction; no network, secrets or production records accessed",
+  "checkedAt": "2026-10-29",
+  "findings": [
+    {
+      "id": "CODE-01",
+      "observation": "One-hour rain is stored under a daily key",
+      "actual": 3,
+      "actualUnit": "provider mm/h",
+      "asserted": true
+    },
+    {
+      "id": "CODE-02",
+      "observation": "Forecast night humidity is attached to today marked non-forecast",
+      "actual": {
+        "forecasted": false,
+        "nightHumidity": 93
+      },
+      "asserted": true
+    },
+    {
+      "id": "CODE-03",
+      "observation": "Sunrise instant is shifted by offset and serialized with Z",
+      "actual": "2026-10-29T05:00:00.000Z",
+      "expectedUtc": "2026-10-29T03:00:00.000Z",
+      "asserted": true
+    },
+    {
+      "id": "CODE-04",
+      "observation": "daily[0] alone is marked observed",
+      "actual": {
+        "forecasted": false,
+        "rainfall": 38
+      },
+      "asserted": true
+    }
+  ]
+}

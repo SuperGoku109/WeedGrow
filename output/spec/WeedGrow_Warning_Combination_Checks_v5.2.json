@@ -1,0 +1,566 @@
+{
+  "scope": {
+    "revision": "5.2",
+    "warnings": 14,
+    "rankedFactorMappings": 89,
+    "executedReferenceChecks": 110,
+    "allReferenceChecksPassed": true,
+    "previousWarningScenariosSpecified": 42,
+    "v5CoreScenariosSpecified": 48,
+    "appWarningTestsExecuted": false,
+    "numericalCausalWeightsEstimated": false,
+    "biologicalPredictionValidated": false
+  },
+  "checks": [
+    {
+      "id": "COMBO-001",
+      "description": "W01 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-002",
+      "description": "W01 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-003",
+      "description": "W01 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-004",
+      "description": "W02 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-005",
+      "description": "W02 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-006",
+      "description": "W02 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-007",
+      "description": "W03 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-008",
+      "description": "W03 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-009",
+      "description": "W03 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-010",
+      "description": "W04 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-011",
+      "description": "W04 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-012",
+      "description": "W04 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-013",
+      "description": "W05 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-014",
+      "description": "W05 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-015",
+      "description": "W05 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-016",
+      "description": "W06 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-017",
+      "description": "W06 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-018",
+      "description": "W06 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-019",
+      "description": "W07 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-020",
+      "description": "W07 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-021",
+      "description": "W07 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-022",
+      "description": "W08 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-023",
+      "description": "W08 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-024",
+      "description": "W08 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-025",
+      "description": "W09 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-026",
+      "description": "W09 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-027",
+      "description": "W09 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-028",
+      "description": "W10 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-029",
+      "description": "W10 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-030",
+      "description": "W10 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-031",
+      "description": "W11 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-032",
+      "description": "W11 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-033",
+      "description": "W11 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-034",
+      "description": "W12 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-035",
+      "description": "W12 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-036",
+      "description": "W12 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-037",
+      "description": "W13 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-038",
+      "description": "W13 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-039",
+      "description": "W13 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-040",
+      "description": "W14 primary positive path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-041",
+      "description": "W14 complete negative evidence",
+      "passed": true
+    },
+    {
+      "id": "COMBO-042",
+      "description": "W14 inactive gate cannot be offset",
+      "passed": true
+    },
+    {
+      "id": "COMBO-043",
+      "description": "AND false plus unknown",
+      "passed": true
+    },
+    {
+      "id": "COMBO-044",
+      "description": "AND true plus unknown",
+      "passed": true
+    },
+    {
+      "id": "COMBO-045",
+      "description": "OR true plus unknown",
+      "passed": true
+    },
+    {
+      "id": "COMBO-046",
+      "description": "OR false plus unknown",
+      "passed": true
+    },
+    {
+      "id": "COMBO-047",
+      "description": "W08 required tissue/setup gate False",
+      "passed": true
+    },
+    {
+      "id": "COMBO-048",
+      "description": "W08 required tissue/setup gate None",
+      "passed": true
+    },
+    {
+      "id": "COMBO-049",
+      "description": "W10 required tissue/setup gate False",
+      "passed": true
+    },
+    {
+      "id": "COMBO-050",
+      "description": "W10 required tissue/setup gate None",
+      "passed": true
+    },
+    {
+      "id": "COMBO-051",
+      "description": "W11 required tissue/setup gate False",
+      "passed": true
+    },
+    {
+      "id": "COMBO-052",
+      "description": "W11 required tissue/setup gate None",
+      "passed": true
+    },
+    {
+      "id": "COMBO-053",
+      "description": "W12 required tissue/setup gate False",
+      "passed": true
+    },
+    {
+      "id": "COMBO-054",
+      "description": "W12 required tissue/setup gate None",
+      "passed": true
+    },
+    {
+      "id": "COMBO-055",
+      "description": "W13 required tissue/setup gate False",
+      "passed": true
+    },
+    {
+      "id": "COMBO-056",
+      "description": "W13 required tissue/setup gate None",
+      "passed": true
+    },
+    {
+      "id": "COMBO-057",
+      "description": "heat lacks actual T; feels-like cannot rescue",
+      "passed": true
+    },
+    {
+      "id": "COMBO-058",
+      "description": "wind chill does not create air freezing",
+      "passed": true
+    },
+    {
+      "id": "COMBO-059",
+      "description": "sustained route survives unknown gust",
+      "passed": true
+    },
+    {
+      "id": "COMBO-060",
+      "description": "amount route survives absent rate",
+      "passed": true
+    },
+    {
+      "id": "COMBO-061",
+      "description": "rain/wind modifiers do not manufacture hail",
+      "passed": true
+    },
+    {
+      "id": "COMBO-062",
+      "description": "future need requires current notDue",
+      "passed": true
+    },
+    {
+      "id": "COMBO-063",
+      "description": "unreconciled model cannot force current need",
+      "passed": true
+    },
+    {
+      "id": "COMBO-064",
+      "description": "excess without persistence does not pass model path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-065",
+      "description": "persistence without excess does not pass",
+      "passed": true
+    },
+    {
+      "id": "COMBO-066",
+      "description": "full-sun plant is not exposed pot",
+      "passed": true
+    },
+    {
+      "id": "COMBO-067",
+      "description": "supported sensor is independent of air heat",
+      "passed": true
+    },
+    {
+      "id": "COMBO-068",
+      "description": "explicit daytime fog does not require dew episode",
+      "passed": true
+    },
+    {
+      "id": "COMBO-069",
+      "description": "density and wounds alone do not trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-070",
+      "description": "spot report does not require wet weather",
+      "passed": true
+    },
+    {
+      "id": "COMBO-071",
+      "description": "young stage alone does not trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-072",
+      "description": "notDue alone does not prove root trouble",
+      "passed": true
+    },
+    {
+      "id": "COMBO-073",
+      "description": "Invalid air quality is unknown, not a confident negative",
+      "passed": true
+    },
+    {
+      "id": "COMBO-074",
+      "description": "Unsupported water model needs recovery, not a daily-check rule",
+      "passed": true
+    },
+    {
+      "id": "COMBO-075",
+      "description": "Contradictory model state flags are rejected",
+      "passed": true
+    },
+    {
+      "id": "COMBO-076",
+      "description": "Brief flower wetness does not independently trigger bud scout",
+      "passed": true
+    },
+    {
+      "id": "COMBO-077",
+      "description": "Supported persistent flower dampness is an independent path",
+      "passed": true
+    },
+    {
+      "id": "COMBO-078",
+      "description": "W10 disabled weather is unassessed",
+      "passed": true
+    },
+    {
+      "id": "COMBO-079",
+      "description": "W10 symptom survives disabled weather",
+      "passed": true
+    },
+    {
+      "id": "COMBO-080",
+      "description": "W11 disabled weather is unassessed",
+      "passed": true
+    },
+    {
+      "id": "COMBO-081",
+      "description": "W11 symptom survives disabled weather",
+      "passed": true
+    },
+    {
+      "id": "COMBO-082",
+      "description": "W12 disabled weather is unassessed",
+      "passed": true
+    },
+    {
+      "id": "COMBO-083",
+      "description": "W12 symptom survives disabled weather",
+      "passed": true
+    },
+    {
+      "id": "COMBO-084",
+      "description": "PM exact lower T/RH/duration boundary",
+      "passed": true
+    },
+    {
+      "id": "COMBO-085",
+      "description": "PM just below four hours",
+      "passed": true
+    },
+    {
+      "id": "COMBO-086",
+      "description": "Separate warm and humid periods do not combine",
+      "passed": true
+    },
+    {
+      "id": "COMBO-087",
+      "description": "Known qualifying duration and adequate coverage",
+      "passed": true
+    },
+    {
+      "id": "COMBO-088",
+      "description": "80-percent coverage gate cannot be bypassed",
+      "passed": true
+    },
+    {
+      "id": "COMBO-089",
+      "description": "Missing hours could complete threshold: unknown",
+      "passed": true
+    },
+    {
+      "id": "COMBO-090",
+      "description": "Nonconsecutive qualifying intervals explicitly accumulate",
+      "passed": true
+    },
+    {
+      "id": "COMBO-091",
+      "description": "Leaf T/RH and wet-route totals must overlap",
+      "passed": true
+    },
+    {
+      "id": "COMBO-092",
+      "description": "Humidity and wet-route episode together qualifies pilot",
+      "passed": true
+    },
+    {
+      "id": "COMBO-093",
+      "description": "Overlapping weather intervals rejected",
+      "passed": true
+    },
+    {
+      "id": "COMBO-094",
+      "description": "Forecast cannot complete occurred exposure",
+      "passed": true
+    },
+    {
+      "id": "COMBO-095",
+      "description": "Dependency replay derives W08 heat context",
+      "passed": true
+    },
+    {
+      "id": "COMBO-096",
+      "description": "Dependency replay derives W13 and W14 from W07",
+      "passed": true
+    },
+    {
+      "id": "COMBO-097",
+      "description": "W01 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-098",
+      "description": "W02 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-099",
+      "description": "W03 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-100",
+      "description": "W04 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-101",
+      "description": "W05 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-102",
+      "description": "W06 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-103",
+      "description": "W07 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-104",
+      "description": "W08 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-105",
+      "description": "W09 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-106",
+      "description": "W10 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-107",
+      "description": "W11 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-108",
+      "description": "W12 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-109",
+      "description": "W13 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    },
+    {
+      "id": "COMBO-110",
+      "description": "W14 unrelated modifiers cannot replace or amplify trigger",
+      "passed": true
+    }
+  ]
+}

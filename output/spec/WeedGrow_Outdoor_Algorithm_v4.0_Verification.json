@@ -1,0 +1,399 @@
+{
+  "specification": "WeedGrow Outdoor Algorithm v4.0",
+  "reviewDate": "2026-10-29",
+  "scope": "Document research, selected local-code audit and synthetic checks; not deployed or field-validated",
+  "numerical": {
+    "description": "Independent specification math checks; not crop-model accuracy or app acceptance tests",
+    "checks": [
+      {
+        "id": "NUM-01",
+        "actual": 2.545839035255408,
+        "expected": 2.545839,
+        "tolerance": 1e-05,
+        "passed": true
+      },
+      {
+        "id": "NUM-02",
+        "actual": 0.6609827980526439,
+        "expected": 0.66098,
+        "tolerance": 0.0001,
+        "passed": true
+      },
+      {
+        "id": "NUM-03",
+        "actual": 0.0,
+        "expected": 0,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-04",
+        "actual": 2.6439311922105757,
+        "expected": 2.6439311922105757,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-05",
+        "actual": 43.335488424959834,
+        "expected": 43.34,
+        "tolerance": 0.01,
+        "passed": true
+      },
+      {
+        "id": "NUM-06",
+        "actual": 5.888417567081318,
+        "expected": 5.89,
+        "tolerance": 0.01,
+        "passed": true
+      },
+      {
+        "id": "NUM-07",
+        "actual": 7.2,
+        "expected": 7.2,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-08",
+        "actual": 18.0,
+        "expected": 18,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-09",
+        "actual": 1.8,
+        "expected": 1.8,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-10",
+        "actual": 101.3,
+        "expected": 101.3,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-11",
+        "actual": 82.75438254773033,
+        "expected": 82.75,
+        "tolerance": 0.2,
+        "passed": true
+      },
+      {
+        "id": "NUM-12",
+        "actual": 3.7397553758397204,
+        "expected": 3.7398,
+        "tolerance": 0.001,
+        "passed": true
+      },
+      {
+        "id": "NUM-13",
+        "actual": 60.0,
+        "expected": 60,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-14",
+        "actual": 29.999999999999996,
+        "expected": 30,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-15",
+        "actual": 314.1592653589793,
+        "expected": 314.159265,
+        "tolerance": 1e-06,
+        "passed": true
+      },
+      {
+        "id": "NUM-16",
+        "actual": 350,
+        "expected": 350,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-17",
+        "actual": 620,
+        "expected": 620,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-18",
+        "actual": 17,
+        "expected": 17,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-19",
+        "actual": 8,
+        "expected": 8,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-20",
+        "actual": 24.0,
+        "expected": 24,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-21",
+        "actual": 0.0,
+        "expected": 0,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-22",
+        "actual": 5.713380333629949,
+        "expected": 5.72,
+        "tolerance": 0.02,
+        "passed": true
+      },
+      {
+        "id": "NUM-23",
+        "actual": 10.2,
+        "expected": 10.2,
+        "tolerance": 1e-09,
+        "passed": true
+      },
+      {
+        "id": "NUM-24",
+        "actual": 31.0,
+        "expected": 31,
+        "tolerance": 1e-09,
+        "passed": true
+      }
+    ]
+  },
+  "parserReproductions": {
+    "scope": "Synthetic local-code reproduction; no network, secrets or production records accessed",
+    "checkedAt": "2026-10-29",
+    "findings": [
+      {
+        "id": "CODE-01",
+        "observation": "One-hour rain is stored under a daily key",
+        "actual": 3,
+        "actualUnit": "provider mm/h",
+        "asserted": true
+      },
+      {
+        "id": "CODE-02",
+        "observation": "Forecast night humidity is attached to today marked non-forecast",
+        "actual": {
+          "forecasted": false,
+          "nightHumidity": 93
+        },
+        "asserted": true
+      },
+      {
+        "id": "CODE-03",
+        "observation": "Sunrise instant is shifted by offset and serialized with Z",
+        "actual": "2026-10-29T05:00:00.000Z",
+        "expectedUtc": "2026-10-29T03:00:00.000Z",
+        "asserted": true
+      },
+      {
+        "id": "CODE-04",
+        "observation": "daily[0] alone is marked observed",
+        "actual": {
+          "forecasted": false,
+          "rainfall": 38
+        },
+        "asserted": true
+      }
+    ]
+  },
+  "layout": {
+    "issues": [],
+    "pages": [
+      {
+        "page": 1,
+        "chars": 2086,
+        "bodyBottom": 635.3150877200001
+      },
+      {
+        "page": 2,
+        "chars": 1490,
+        "bodyBottom": 674.4519529600001
+      },
+      {
+        "page": 3,
+        "chars": 2929,
+        "bodyBottom": 597.3150877200001
+      },
+      {
+        "page": 4,
+        "chars": 3490,
+        "bodyBottom": 661.21508772
+      },
+      {
+        "page": 5,
+        "chars": 3356,
+        "bodyBottom": 748.51512772
+      },
+      {
+        "page": 6,
+        "chars": 2911,
+        "bodyBottom": 638.9150877200001
+      },
+      {
+        "page": 7,
+        "chars": 3074,
+        "bodyBottom": 624.5150877200001
+      },
+      {
+        "page": 8,
+        "chars": 3178,
+        "bodyBottom": 695.0150877200001
+      },
+      {
+        "page": 9,
+        "chars": 2915,
+        "bodyBottom": 610.5150877200001
+      },
+      {
+        "page": 10,
+        "chars": 2943,
+        "bodyBottom": 686.5150877200001
+      },
+      {
+        "page": 11,
+        "chars": 3071,
+        "bodyBottom": 564.01508772
+      },
+      {
+        "page": 12,
+        "chars": 3451,
+        "bodyBottom": 730.21508772
+      },
+      {
+        "page": 13,
+        "chars": 2411,
+        "bodyBottom": 609.0150877200001
+      },
+      {
+        "page": 14,
+        "chars": 2990,
+        "bodyBottom": 650.3150877200001
+      },
+      {
+        "page": 15,
+        "chars": 3274,
+        "bodyBottom": 673.21508772
+      },
+      {
+        "page": 16,
+        "chars": 3004,
+        "bodyBottom": 597.4150877200001
+      },
+      {
+        "page": 17,
+        "chars": 3434,
+        "bodyBottom": 709.9150877200001
+      },
+      {
+        "page": 18,
+        "chars": 3093,
+        "bodyBottom": 701.61508772
+      },
+      {
+        "page": 19,
+        "chars": 3323,
+        "bodyBottom": 640.71508772
+      },
+      {
+        "page": 20,
+        "chars": 2885,
+        "bodyBottom": 665.3150877200001
+      },
+      {
+        "page": 21,
+        "chars": 3425,
+        "bodyBottom": 655.0150877200001
+      },
+      {
+        "page": 22,
+        "chars": 2974,
+        "bodyBottom": 636.0150877200001
+      },
+      {
+        "page": 23,
+        "chars": 3056,
+        "bodyBottom": 597.3150877200001
+      },
+      {
+        "page": 24,
+        "chars": 3030,
+        "bodyBottom": 646.21508772
+      },
+      {
+        "page": 25,
+        "chars": 3082,
+        "bodyBottom": 587.61508772
+      },
+      {
+        "page": 26,
+        "chars": 2753,
+        "bodyBottom": 697.11508772
+      },
+      {
+        "page": 27,
+        "chars": 2129,
+        "bodyBottom": 549.91508772
+      },
+      {
+        "page": 28,
+        "chars": 2135,
+        "bodyBottom": 539.3150877200001
+      },
+      {
+        "page": 29,
+        "chars": 2260,
+        "bodyBottom": 571.11508772
+      },
+      {
+        "page": 30,
+        "chars": 2314,
+        "bodyBottom": 602.9150877200001
+      },
+      {
+        "page": 31,
+        "chars": 3177,
+        "bodyBottom": 627.4150877200001
+      },
+      {
+        "page": 32,
+        "chars": 2882,
+        "bodyBottom": 693.0992674
+      },
+      {
+        "page": 33,
+        "chars": 1506,
+        "bodyBottom": 539.03090804
+      },
+      {
+        "page": 34,
+        "chars": 1894,
+        "bodyBottom": 619.63090804
+      },
+      {
+        "page": 35,
+        "chars": 2228,
+        "bodyBottom": 635.21508772
+      }
+    ]
+  },
+  "primarySources": 21,
+  "specifiedV4AcceptanceCases": 64,
+  "appAcceptanceTestsExecuted": false
+}

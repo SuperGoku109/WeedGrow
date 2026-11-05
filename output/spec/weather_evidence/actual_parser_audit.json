@@ -1,0 +1,21 @@
+{
+  "realPayloadChecks": {
+    "currentDecoded": true,
+    "hourlyKeptInRawCache": 48,
+    "dailyNormalizedCount": 8,
+    "historicalRawRows": 1,
+    "historicalParsedDates": [],
+    "sunriseRawUtc": "2026-10-30T03:19:56.000Z",
+    "sunriseNormalized": "2026-10-30T05:19:56.000Z",
+    "sunriseShiftSeconds": 7200,
+    "currentEntryForecasted": false,
+    "futureNightHumidityAttachedToCurrent": 33
+  },
+  "controlledSchemaChecks": {
+    "alertsSurviveDecoder": false,
+    "rainRateStoredAsDailyGenericRainfall": 2,
+    "fixtureDailyAmount": 25,
+    "fixtureCurrentRate": 2
+  },
+  "scope": "Captured live payloads plus explicitly identified perturbed/schema fixtures. No production records written."
+}

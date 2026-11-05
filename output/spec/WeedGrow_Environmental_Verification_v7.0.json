@@ -1,0 +1,1182 @@
+{
+  "version": "7.0",
+  "executedAt": "2026-10-29T19:44:46.293266+00:00",
+  "environmentChecksPassed": 55,
+  "warningCoreChecksPassed": 146,
+  "totalChecksPassed": 201,
+  "checks": [
+    {
+      "id": "ENV7-001",
+      "name": "FAO saturation pressure at zero C",
+      "passed": true
+    },
+    {
+      "id": "ENV7-002",
+      "name": "Saturated air has zero air VPD",
+      "passed": true
+    },
+    {
+      "id": "ENV7-003",
+      "name": "RH zero retains full saturation deficit",
+      "passed": true
+    },
+    {
+      "id": "ENV7-004",
+      "name": "Invalid RH is unavailable",
+      "passed": true
+    },
+    {
+      "id": "ENV7-005",
+      "name": "Boolean and NaN are not measurements",
+      "passed": true
+    },
+    {
+      "id": "ENV7-006",
+      "name": "No implicit air-to-leaf temperature offset",
+      "passed": true
+    },
+    {
+      "id": "ENV7-007",
+      "name": "Supported cool-leaf gradient stays signed",
+      "passed": true
+    },
+    {
+      "id": "ENV7-008",
+      "name": "Warm-leaf gradient is larger at same air humidity",
+      "passed": true
+    },
+    {
+      "id": "ENV7-009",
+      "name": "Reversed leaf bounds rejected",
+      "passed": true
+    },
+    {
+      "id": "ENV7-010",
+      "name": "Thermodynamic gradient is not observed condensation",
+      "passed": true
+    },
+    {
+      "id": "ENV7-011",
+      "name": "Exact DLI units and integration",
+      "passed": true
+    },
+    {
+      "id": "ENV7-012",
+      "name": "Complete paired data preserve mean VPD",
+      "passed": true
+    },
+    {
+      "id": "ENV7-013",
+      "name": "Missing hour prevents a full-day DLI",
+      "passed": true
+    },
+    {
+      "id": "ENV7-014",
+      "name": "Missing hour prevents complete mean VPD",
+      "passed": true
+    },
+    {
+      "id": "ENV7-015",
+      "name": "Humidity error does not discard valid light",
+      "passed": true
+    },
+    {
+      "id": "ENV7-016",
+      "name": "Unqualified PPFD does not contaminate VPD",
+      "passed": true
+    },
+    {
+      "id": "ENV7-017",
+      "name": "Radiant-energy conversion W to MJ",
+      "passed": true
+    },
+    {
+      "id": "ENV7-018",
+      "name": "ET0 interval amounts summed once",
+      "passed": true
+    },
+    {
+      "id": "ENV7-019",
+      "name": "ET0 is not a pot dose",
+      "passed": true
+    },
+    {
+      "id": "ENV7-020",
+      "name": "Broadband radiation not silently converted to PPFD",
+      "passed": true
+    },
+    {
+      "id": "ENV7-021",
+      "name": "Overlapping hours rejected",
+      "passed": true
+    },
+    {
+      "id": "ENV7-022",
+      "name": "Occurred intervals cannot become forecast or vice versa",
+      "passed": true
+    },
+    {
+      "id": "ENV7-023",
+      "name": "Unsorted intervals not silently reassigned",
+      "passed": true
+    },
+    {
+      "id": "ENV7-024",
+      "name": "23-hour local-day coverage supported",
+      "passed": true
+    },
+    {
+      "id": "ENV7-025",
+      "name": "25-hour local-day coverage supported",
+      "passed": true
+    },
+    {
+      "id": "ENV7-026",
+      "name": "Identical VPD need not mean identical heat",
+      "passed": true
+    },
+    {
+      "id": "ENV7-027",
+      "name": "Identical DLI can conceal different heat-light overlap",
+      "passed": true
+    },
+    {
+      "id": "ENV7-028",
+      "name": "288 factorial input scenarios generated",
+      "passed": true
+    },
+    {
+      "id": "ENV7-029",
+      "name": "Supplied root states change care without climate pretending to measure roots",
+      "passed": true
+    },
+    {
+      "id": "ENV7-030",
+      "name": "Simulated inputs never become measured outcome labels",
+      "passed": true
+    },
+    {
+      "id": "ENV7-031",
+      "name": "All factorial outputs finite",
+      "passed": true
+    },
+    {
+      "id": "ENV7-032",
+      "name": "Published table has seven segmented and five linear profiles",
+      "passed": true
+    },
+    {
+      "id": "ENV7-033",
+      "name": "Cultivar-specific low breakpoint retained",
+      "passed": true
+    },
+    {
+      "id": "ENV7-034",
+      "name": "Linear profile not forced into closure threshold",
+      "passed": true
+    },
+    {
+      "id": "ENV7-035",
+      "name": "Negative post-break marginal response not clipped into fake total water use",
+      "passed": true
+    },
+    {
+      "id": "ENV7-036",
+      "name": "Cultivar labels are not fuzzy matched",
+      "passed": true
+    },
+    {
+      "id": "ENV7-037",
+      "name": "No extrapolation above VPD trial range",
+      "passed": true
+    },
+    {
+      "id": "ENV7-038",
+      "name": "Transpiration slope is not a dose",
+      "passed": true
+    },
+    {
+      "id": "ENV7-039",
+      "name": "FTSW source point span reproduced",
+      "passed": true
+    },
+    {
+      "id": "ENV7-040",
+      "name": "VWC cannot masquerade as experimental FTSW",
+      "passed": true
+    },
+    {
+      "id": "ENV7-041",
+      "name": "Native stomatal soil breakpoint not a watering trigger",
+      "passed": true
+    },
+    {
+      "id": "ENV7-042",
+      "name": "All six native biochemical capacity profiles preserved",
+      "passed": true
+    },
+    {
+      "id": "ENV7-043",
+      "name": "Zero photons give zero light-dependent pre-respiration limitation",
+      "passed": true
+    },
+    {
+      "id": "ENV7-044",
+      "name": "No generic temperature correction extrapolation",
+      "passed": true
+    },
+    {
+      "id": "ENV7-045",
+      "name": "No automatic Ci from outdoor CO2",
+      "passed": true
+    },
+    {
+      "id": "ENV7-046",
+      "name": "Net photosynthesis not invented without respiration etc",
+      "passed": true
+    },
+    {
+      "id": "ENV7-047",
+      "name": "Reported stage capacities affect the partial model",
+      "passed": true
+    },
+    {
+      "id": "ENV7-048",
+      "name": "Electron transport bounded by incident excitation and capacity",
+      "passed": true
+    },
+    {
+      "id": "ENV7-049",
+      "name": "Environment layer preserves supported water state not_due",
+      "passed": true
+    },
+    {
+      "id": "ENV7-050",
+      "name": "Environment layer preserves supported water state water_now",
+      "passed": true
+    },
+    {
+      "id": "ENV7-051",
+      "name": "Environment layer preserves supported water state uncertain",
+      "passed": true
+    },
+    {
+      "id": "ENV7-052",
+      "name": "Missing physiology cannot suppress supported destructive weather",
+      "passed": true
+    },
+    {
+      "id": "ENV7-053",
+      "name": "Unauthorized derived environment features withheld",
+      "passed": true
+    },
+    {
+      "id": "ENV7-054",
+      "name": "Independent qualified environment stream survives numeric API support gap",
+      "passed": true
+    },
+    {
+      "id": "ENV7-055",
+      "name": "All exported scenarios use finite JSON",
+      "passed": true
+    }
+  ],
+  "warningCoreChecks": [
+    {
+      "id": "V6-001",
+      "name": "Broome exact published-coefficient arithmetic",
+      "passed": true
+    },
+    {
+      "id": "V6-002",
+      "name": "Broome preserves T by W interaction",
+      "passed": true
+    },
+    {
+      "id": "V6-003",
+      "name": "Broome tested domain enforced",
+      "passed": true
+    },
+    {
+      "id": "V6-004",
+      "name": "Broome is not extrapolated at invalid numbers",
+      "passed": true
+    },
+    {
+      "id": "V6-005",
+      "name": "Transferred model responds non-monotonically to temperature",
+      "passed": true
+    },
+    {
+      "id": "V6-006",
+      "name": "Published grape-flower optimum arithmetic",
+      "passed": true
+    },
+    {
+      "id": "V6-007",
+      "name": "Grape-flower native tested domain enforced",
+      "passed": true
+    },
+    {
+      "id": "V6-008",
+      "name": "Grape-flower curve retains time response",
+      "passed": true
+    },
+    {
+      "id": "V6-009",
+      "name": "Structural transfer disagreement widens wet-event index",
+      "passed": true
+    },
+    {
+      "id": "V6-010",
+      "name": "Portfolio does not borrow flower-only domain as a validated berry response",
+      "passed": true
+    },
+    {
+      "id": "V6-011",
+      "name": "Published ground Kc initial",
+      "passed": true
+    },
+    {
+      "id": "V6-012",
+      "name": "Published ground Kc development",
+      "passed": true
+    },
+    {
+      "id": "V6-013",
+      "name": "Published ground Kc midSeason",
+      "passed": true
+    },
+    {
+      "id": "V6-014",
+      "name": "Published ground Kc mature",
+      "passed": true
+    },
+    {
+      "id": "V6-015",
+      "name": "Cannabis PM 80-percent initiation / 70-percent maintenance compatibility",
+      "passed": true
+    },
+    {
+      "id": "V6-016",
+      "name": "PM root watering/rain not required",
+      "passed": true
+    },
+    {
+      "id": "V6-017",
+      "name": "Humidity response continuous and nonzero at supported lower RH",
+      "passed": true
+    },
+    {
+      "id": "V6-018",
+      "name": "Botrytis humidity kernel does not require rain",
+      "passed": true
+    },
+    {
+      "id": "V6-019",
+      "name": "Missing hours widen score without renormalizing",
+      "passed": true
+    },
+    {
+      "id": "V6-020",
+      "name": "Coverage exact for 0 hours",
+      "passed": true
+    },
+    {
+      "id": "V6-021",
+      "name": "Coverage exact for 1 hours",
+      "passed": true
+    },
+    {
+      "id": "V6-022",
+      "name": "Coverage exact for 12 hours",
+      "passed": true
+    },
+    {
+      "id": "V6-023",
+      "name": "Coverage exact for 24 hours",
+      "passed": true
+    },
+    {
+      "id": "V6-024",
+      "name": "Coverage exact for 48 hours",
+      "passed": true
+    },
+    {
+      "id": "V6-025",
+      "name": "Coverage exact for 60 hours",
+      "passed": true
+    },
+    {
+      "id": "V6-026",
+      "name": "Coverage exact for 72 hours",
+      "passed": true
+    },
+    {
+      "id": "V6-027",
+      "name": "Overlapping intervals rejected",
+      "passed": true
+    },
+    {
+      "id": "V6-028",
+      "name": "Forecast cannot age into occurred weather",
+      "passed": true
+    },
+    {
+      "id": "V6-029",
+      "name": "All 14 warning IDs returned",
+      "passed": true
+    },
+    {
+      "id": "V6-030",
+      "name": "W01 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-031",
+      "name": "W02 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-032",
+      "name": "W03 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-033",
+      "name": "W04 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-034",
+      "name": "W05 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-035",
+      "name": "W06 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-036",
+      "name": "W07 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-037",
+      "name": "W08 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-038",
+      "name": "W09 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-039",
+      "name": "W10 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-040",
+      "name": "W11 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-041",
+      "name": "W12 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-042",
+      "name": "W13 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-043",
+      "name": "W14 common inactive gate",
+      "passed": true
+    },
+    {
+      "id": "V6-044",
+      "name": "W08 required false scope",
+      "passed": true
+    },
+    {
+      "id": "V6-045",
+      "name": "W08 unknown scope",
+      "passed": true
+    },
+    {
+      "id": "V6-046",
+      "name": "W10 required false scope",
+      "passed": true
+    },
+    {
+      "id": "V6-047",
+      "name": "W10 unknown scope",
+      "passed": true
+    },
+    {
+      "id": "V6-048",
+      "name": "W11 required false scope",
+      "passed": true
+    },
+    {
+      "id": "V6-049",
+      "name": "W11 unknown scope",
+      "passed": true
+    },
+    {
+      "id": "V6-050",
+      "name": "W12 required false scope",
+      "passed": true
+    },
+    {
+      "id": "V6-051",
+      "name": "W12 unknown scope",
+      "passed": true
+    },
+    {
+      "id": "V6-052",
+      "name": "W13 required false scope",
+      "passed": true
+    },
+    {
+      "id": "V6-053",
+      "name": "W13 unknown scope",
+      "passed": true
+    },
+    {
+      "id": "V6-054",
+      "name": "W10 symptom route independent of weather",
+      "passed": true
+    },
+    {
+      "id": "V6-055",
+      "name": "W11 symptom route independent of weather",
+      "passed": true
+    },
+    {
+      "id": "V6-056",
+      "name": "W12 symptom route independent of weather",
+      "passed": true
+    },
+    {
+      "id": "V6-057",
+      "name": "Context cannot replace primary exposure",
+      "passed": true
+    },
+    {
+      "id": "V6-058",
+      "name": "Missing primary coverage not low risk",
+      "passed": true
+    },
+    {
+      "id": "V6-059",
+      "name": "Unknown context not silently protective",
+      "passed": true
+    },
+    {
+      "id": "V6-060",
+      "name": "Known no-context narrower than unknown",
+      "passed": true
+    },
+    {
+      "id": "V6-061",
+      "name": "Unknown optional context does not block strong primary route",
+      "passed": true
+    },
+    {
+      "id": "V6-062",
+      "name": "Wind route survives missing gust",
+      "passed": true
+    },
+    {
+      "id": "V6-063",
+      "name": "Incomplete rain amount cannot trigger",
+      "passed": true
+    },
+    {
+      "id": "V6-064",
+      "name": "Heat does not imply watering",
+      "passed": true
+    },
+    {
+      "id": "V6-065",
+      "name": "Joint water margins [-1, -0.2]",
+      "passed": true
+    },
+    {
+      "id": "V6-066",
+      "name": "Joint water margins [0.1, 0.5]",
+      "passed": true
+    },
+    {
+      "id": "V6-067",
+      "name": "Joint water margins [-0.1, 0.2]",
+      "passed": true
+    },
+    {
+      "id": "V6-068",
+      "name": "Joint water margins [0, 0.2]",
+      "passed": true
+    },
+    {
+      "id": "V6-069",
+      "name": "Unsupported water state does not become no watering",
+      "passed": true
+    },
+    {
+      "id": "V6-070",
+      "name": "Normal post-water moisture not excess",
+      "passed": true
+    },
+    {
+      "id": "V6-071",
+      "name": "Unknown root excess does not become normal",
+      "passed": true
+    },
+    {
+      "id": "V6-072",
+      "name": "Root model needs excess AND persistence",
+      "passed": true
+    },
+    {
+      "id": "V6-073",
+      "name": "Abnormal pooling prompts attention before lab day 3",
+      "passed": true
+    },
+    {
+      "id": "V6-074",
+      "name": "Lab curve unavailable outside cultivar/protocol scope",
+      "passed": true
+    },
+    {
+      "id": "V6-075",
+      "name": "Lab curve never defines a safe waiting period",
+      "passed": true
+    },
+    {
+      "id": "V6-076",
+      "name": "Lab duration response positive in supported range",
+      "passed": true
+    },
+    {
+      "id": "V6-077",
+      "name": "Lab stage main effect retained",
+      "passed": true
+    },
+    {
+      "id": "V6-078",
+      "name": "TOMCAST monotonic wet-hours at 13",
+      "passed": true
+    },
+    {
+      "id": "V6-079",
+      "name": "TOMCAST monotonic wet-hours at 17",
+      "passed": true
+    },
+    {
+      "id": "V6-080",
+      "name": "TOMCAST monotonic wet-hours at 18",
+      "passed": true
+    },
+    {
+      "id": "V6-081",
+      "name": "TOMCAST monotonic wet-hours at 20",
+      "passed": true
+    },
+    {
+      "id": "V6-082",
+      "name": "TOMCAST monotonic wet-hours at 21",
+      "passed": true
+    },
+    {
+      "id": "V6-083",
+      "name": "TOMCAST monotonic wet-hours at 25",
+      "passed": true
+    },
+    {
+      "id": "V6-084",
+      "name": "TOMCAST monotonic wet-hours at 26",
+      "passed": true
+    },
+    {
+      "id": "V6-085",
+      "name": "TOMCAST monotonic wet-hours at 29",
+      "passed": true
+    },
+    {
+      "id": "V6-086",
+      "name": "TOMCAST outside crop-model domain is not zero",
+      "passed": true
+    },
+    {
+      "id": "V6-087",
+      "name": "Proxy wet-hours uncertainty crossing domain widens",
+      "passed": true
+    },
+    {
+      "id": "V6-088",
+      "name": "Root alias deduplicates",
+      "passed": true
+    },
+    {
+      "id": "V6-089",
+      "name": "Derived native-lab fit arithmetic",
+      "passed": true
+    },
+    {
+      "id": "V6-090",
+      "name": "Derived native-lab coefficient reproducible",
+      "passed": true
+    },
+    {
+      "id": "V6-091",
+      "name": "Derived native-lab coefficient reproducible",
+      "passed": true
+    },
+    {
+      "id": "V6-092",
+      "name": "Derived native-lab coefficient reproducible",
+      "passed": true
+    },
+    {
+      "id": "V6-093",
+      "name": "Grouped-mean held-out error reported separately",
+      "passed": true
+    },
+    {
+      "id": "V6-094",
+      "name": "Current qualified pooling conflicts with model waterNow",
+      "passed": true
+    },
+    {
+      "id": "V6-095",
+      "name": "Forecast lane does not change present watering state",
+      "passed": true
+    },
+    {
+      "id": "V6-096",
+      "name": "Out-of-domain wet event cannot fake full humidity coverage",
+      "passed": true
+    },
+    {
+      "id": "V6-097",
+      "name": "Missing rain not silently zero in wetness comparator",
+      "passed": true
+    },
+    {
+      "id": "V6-098",
+      "name": "Complete assessed dry comparator returns zero DSV only for comparator",
+      "passed": true
+    },
+    {
+      "id": "V6-099",
+      "name": "Rain reaching foliage can supply alternate wet route",
+      "passed": true
+    },
+    {
+      "id": "V6-100",
+      "name": "Sheltered foliage excludes direct rain route only",
+      "passed": true
+    },
+    {
+      "id": "V6-101",
+      "name": "Directly sheltered rain does not veto high-RH comparator",
+      "passed": true
+    },
+    {
+      "id": "V6-102",
+      "name": "W10 bounded modifiers cannot bypass core at 0.7",
+      "passed": true
+    },
+    {
+      "id": "V6-103",
+      "name": "W10 bounded modifiers cannot bypass core at 0.8",
+      "passed": true
+    },
+    {
+      "id": "V6-104",
+      "name": "W10 bounded modifiers cannot bypass core at 0.9",
+      "passed": true
+    },
+    {
+      "id": "V6-105",
+      "name": "W11 bounded modifiers cannot bypass core at 0.7",
+      "passed": true
+    },
+    {
+      "id": "V6-106",
+      "name": "W11 bounded modifiers cannot bypass core at 0.8",
+      "passed": true
+    },
+    {
+      "id": "V6-107",
+      "name": "W11 bounded modifiers cannot bypass core at 0.9",
+      "passed": true
+    },
+    {
+      "id": "V6-108",
+      "name": "W12 bounded modifiers cannot bypass core at 0.7",
+      "passed": true
+    },
+    {
+      "id": "V6-109",
+      "name": "W12 bounded modifiers cannot bypass core at 0.8",
+      "passed": true
+    },
+    {
+      "id": "V6-110",
+      "name": "W12 bounded modifiers cannot bypass core at 0.9",
+      "passed": true
+    },
+    {
+      "id": "V6-111",
+      "name": "Supported free-water suppression explored without mildew immunity",
+      "passed": true
+    },
+    {
+      "id": "V6-112",
+      "name": "Rain probability cannot supply a protective mildew multiplier",
+      "passed": true
+    },
+    {
+      "id": "V6-113",
+      "name": "Identical disease episode cannot send repeated push",
+      "passed": true
+    },
+    {
+      "id": "V6-114",
+      "name": "Research mode never sends production pushes",
+      "passed": true
+    },
+    {
+      "id": "V6-115",
+      "name": "First historical load does not create disease push",
+      "passed": true
+    },
+    {
+      "id": "V6-116",
+      "name": "Dry day does not erase past flower exposure record",
+      "passed": true
+    },
+    {
+      "id": "V6-117",
+      "name": "Forecast exposure not recorded as occurred infection history",
+      "passed": true
+    },
+    {
+      "id": "V6-118",
+      "name": "Unknown assessment does not assert current healthy clearance",
+      "passed": true
+    },
+    {
+      "id": "V6-119",
+      "name": "Finite bounded exposure grid T=5 RH=30",
+      "passed": true
+    },
+    {
+      "id": "V6-120",
+      "name": "Finite bounded exposure grid T=5 RH=65",
+      "passed": true
+    },
+    {
+      "id": "V6-121",
+      "name": "Finite bounded exposure grid T=5 RH=80",
+      "passed": true
+    },
+    {
+      "id": "V6-122",
+      "name": "Finite bounded exposure grid T=5 RH=95",
+      "passed": true
+    },
+    {
+      "id": "V6-123",
+      "name": "Finite bounded exposure grid T=15 RH=30",
+      "passed": true
+    },
+    {
+      "id": "V6-124",
+      "name": "Finite bounded exposure grid T=15 RH=65",
+      "passed": true
+    },
+    {
+      "id": "V6-125",
+      "name": "Finite bounded exposure grid T=15 RH=80",
+      "passed": true
+    },
+    {
+      "id": "V6-126",
+      "name": "Finite bounded exposure grid T=15 RH=95",
+      "passed": true
+    },
+    {
+      "id": "V6-127",
+      "name": "Finite bounded exposure grid T=23 RH=30",
+      "passed": true
+    },
+    {
+      "id": "V6-128",
+      "name": "Finite bounded exposure grid T=23 RH=65",
+      "passed": true
+    },
+    {
+      "id": "V6-129",
+      "name": "Finite bounded exposure grid T=23 RH=80",
+      "passed": true
+    },
+    {
+      "id": "V6-130",
+      "name": "Finite bounded exposure grid T=23 RH=95",
+      "passed": true
+    },
+    {
+      "id": "V6-131",
+      "name": "Finite bounded exposure grid T=30 RH=30",
+      "passed": true
+    },
+    {
+      "id": "V6-132",
+      "name": "Finite bounded exposure grid T=30 RH=65",
+      "passed": true
+    },
+    {
+      "id": "V6-133",
+      "name": "Finite bounded exposure grid T=30 RH=80",
+      "passed": true
+    },
+    {
+      "id": "V6-134",
+      "name": "Finite bounded exposure grid T=30 RH=95",
+      "passed": true
+    },
+    {
+      "id": "V6-135",
+      "name": "Finite bounded exposure grid T=40 RH=30",
+      "passed": true
+    },
+    {
+      "id": "V6-136",
+      "name": "Finite bounded exposure grid T=40 RH=65",
+      "passed": true
+    },
+    {
+      "id": "V6-137",
+      "name": "Finite bounded exposure grid T=40 RH=80",
+      "passed": true
+    },
+    {
+      "id": "V6-138",
+      "name": "Finite bounded exposure grid T=40 RH=95",
+      "passed": true
+    },
+    {
+      "id": "V6-139",
+      "name": "Unknown pot exposure is not a protective false",
+      "passed": true
+    },
+    {
+      "id": "V6-140",
+      "name": "Exposed hot pot adds parent heat context",
+      "passed": true
+    },
+    {
+      "id": "V6-141",
+      "name": "Explicit hail independent of plant dimensions",
+      "passed": true
+    },
+    {
+      "id": "V6-142",
+      "name": "Rain plus gust cannot create hail",
+      "passed": true
+    },
+    {
+      "id": "V6-143",
+      "name": "Independent source heat survives missing numeric weather",
+      "passed": true
+    },
+    {
+      "id": "V6-144",
+      "name": "Independent explicit hail survives missing numeric weather",
+      "passed": true
+    },
+    {
+      "id": "V6-145",
+      "name": "Unsupported hazard feed is not assessed absence",
+      "passed": true
+    },
+    {
+      "id": "V6-146",
+      "name": "Output state and configuration use valid finite JSON",
+      "passed": true
+    }
+  ],
+  "factorialInputScenarios": 288,
+  "biologicalOutcomesSimulated": false,
+  "fieldAccuracyValidated": false,
+  "appChanged": false,
+  "productionEnabled": false,
+  "nativeTablesVisuallyChecked": [
+    "S19 Tables1/2",
+    "S28 Table1"
+  ],
+  "pdfQA": {
+    "pages": 35,
+    "renderedPages": 35,
+    "issues": [],
+    "sourceURIs": 33,
+    "bookmarks": 33,
+    "visualReviewComplete": true,
+    "pageTextSizes": [
+      {
+        "page": 1,
+        "chars": 1901
+      },
+      {
+        "page": 2,
+        "chars": 1618
+      },
+      {
+        "page": 3,
+        "chars": 1728
+      },
+      {
+        "page": 4,
+        "chars": 1909
+      },
+      {
+        "page": 5,
+        "chars": 1638
+      },
+      {
+        "page": 6,
+        "chars": 1643
+      },
+      {
+        "page": 7,
+        "chars": 1730
+      },
+      {
+        "page": 8,
+        "chars": 1804
+      },
+      {
+        "page": 9,
+        "chars": 2562
+      },
+      {
+        "page": 10,
+        "chars": 1011
+      },
+      {
+        "page": 11,
+        "chars": 1435
+      },
+      {
+        "page": 12,
+        "chars": 1804
+      },
+      {
+        "page": 13,
+        "chars": 2039
+      },
+      {
+        "page": 14,
+        "chars": 1836
+      },
+      {
+        "page": 15,
+        "chars": 1904
+      },
+      {
+        "page": 16,
+        "chars": 1706
+      },
+      {
+        "page": 17,
+        "chars": 1605
+      },
+      {
+        "page": 18,
+        "chars": 1640
+      },
+      {
+        "page": 19,
+        "chars": 1581
+      },
+      {
+        "page": 20,
+        "chars": 1981
+      },
+      {
+        "page": 21,
+        "chars": 1739
+      },
+      {
+        "page": 22,
+        "chars": 1797
+      },
+      {
+        "page": 23,
+        "chars": 1790
+      },
+      {
+        "page": 24,
+        "chars": 1612
+      },
+      {
+        "page": 25,
+        "chars": 1827
+      },
+      {
+        "page": 26,
+        "chars": 1928
+      },
+      {
+        "page": 27,
+        "chars": 1906
+      },
+      {
+        "page": 28,
+        "chars": 1837
+      },
+      {
+        "page": 29,
+        "chars": 1997
+      },
+      {
+        "page": 30,
+        "chars": 2210
+      },
+      {
+        "page": 31,
+        "chars": 1775
+      },
+      {
+        "page": 32,
+        "chars": 2697
+      },
+      {
+        "page": 33,
+        "chars": 2659
+      },
+      {
+        "page": 34,
+        "chars": 2886
+      },
+      {
+        "page": 35,
+        "chars": 1683
+      }
+    ],
+    "visualReviewNotes": "All35 final rendered pages inspected in six contact sheets; native source tables also checked separately. No clipping, overlap, sparse spill pages or missing references detected."
+  },
+  "artifactSha256": {
+    "WeedGrow_Environmental_Response_Warnings_v7.0.pdf": "ea5458093f8dc160cddb096e1ce5be0c3497afbad775c6b300b7ac65ea67e836",
+    "WeedGrow_Environmental_Model_v7.0.py": "859eed4786b79d51d0a1e543e341a962c82a6073e345e8dd3572fbcb4e2e8283",
+    "WeedGrow_Warning_Core_v7.0.py": "0123af50fb5ee404dc1525cd46eaec0d98e54f0fa362b639fa1c25327c90f351",
+    "WeedGrow_Environmental_Evidence_v7.0.json": "e8c6e6e566feb23a8d391ffc6a5a8332c373b05b1bbdfe015a6366a8c7cf5e07"
+  }
+}

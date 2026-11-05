@@ -1,0 +1,173 @@
+{
+  "description": "Independent specification math checks; not crop-model accuracy or app acceptance tests",
+  "checks": [
+    {
+      "id": "NUM-01",
+      "actual": 2.545839035255408,
+      "expected": 2.545839,
+      "tolerance": 1e-05,
+      "passed": true
+    },
+    {
+      "id": "NUM-02",
+      "actual": 0.6609827980526439,
+      "expected": 0.66098,
+      "tolerance": 0.0001,
+      "passed": true
+    },
+    {
+      "id": "NUM-03",
+      "actual": 0.0,
+      "expected": 0,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-04",
+      "actual": 2.6439311922105757,
+      "expected": 2.6439311922105757,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-05",
+      "actual": 43.335488424959834,
+      "expected": 43.34,
+      "tolerance": 0.01,
+      "passed": true
+    },
+    {
+      "id": "NUM-06",
+      "actual": 5.888417567081318,
+      "expected": 5.89,
+      "tolerance": 0.01,
+      "passed": true
+    },
+    {
+      "id": "NUM-07",
+      "actual": 7.2,
+      "expected": 7.2,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-08",
+      "actual": 18.0,
+      "expected": 18,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-09",
+      "actual": 1.8,
+      "expected": 1.8,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-10",
+      "actual": 101.3,
+      "expected": 101.3,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-11",
+      "actual": 82.75438254773033,
+      "expected": 82.75,
+      "tolerance": 0.2,
+      "passed": true
+    },
+    {
+      "id": "NUM-12",
+      "actual": 3.7397553758397204,
+      "expected": 3.7398,
+      "tolerance": 0.001,
+      "passed": true
+    },
+    {
+      "id": "NUM-13",
+      "actual": 60.0,
+      "expected": 60,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-14",
+      "actual": 29.999999999999996,
+      "expected": 30,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-15",
+      "actual": 314.1592653589793,
+      "expected": 314.159265,
+      "tolerance": 1e-06,
+      "passed": true
+    },
+    {
+      "id": "NUM-16",
+      "actual": 350,
+      "expected": 350,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-17",
+      "actual": 620,
+      "expected": 620,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-18",
+      "actual": 17,
+      "expected": 17,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-19",
+      "actual": 8,
+      "expected": 8,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-20",
+      "actual": 24.0,
+      "expected": 24,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-21",
+      "actual": 0.0,
+      "expected": 0,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-22",
+      "actual": 5.713380333629949,
+      "expected": 5.72,
+      "tolerance": 0.02,
+      "passed": true
+    },
+    {
+      "id": "NUM-23",
+      "actual": 10.2,
+      "expected": 10.2,
+      "tolerance": 1e-09,
+      "passed": true
+    },
+    {
+      "id": "NUM-24",
+      "actual": 31.0,
+      "expected": 31,
+      "tolerance": 1e-09,
+      "passed": true
+    }
+  ]
+}

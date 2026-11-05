@@ -1,0 +1,13 @@
+{
+  "version": "8.2",
+  "functionalChecks": 34,
+  "existingModelChecks": 115,
+  "evaluatorChecks": 14,
+  "airHelperChecks": 15,
+  "totalTestMethods": 178,
+  "allSuitesPassed": true,
+  "appChanged": false,
+  "newRoutineUserInputs": 0,
+  "realPlantOutcomes": 0,
+  "productionProfilesAdded": 0
+}

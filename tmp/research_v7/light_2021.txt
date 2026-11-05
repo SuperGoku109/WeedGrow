@@ -1,0 +1,1326 @@
+
+[PAGE 1]
+ORIGINAL RESEARCH
+published: 11 May 2021
+doi: 10.3389/fpls.2021.646020
+Frontiers in Plant Science | www.frontiersin.org 1 May 2021 | Volume 12 | Article 646020
+Edited by:
+Donald Lawrence Smith,
+McGill University, Canada
+Reviewed by:
+Mark Lefsrud,
+McGill University, Canada
+Youngseok Lim,
+Kangwon National University,
+South Korea
+Dhiraj Vyas,
+Indian Institute of Integrative Medicine
+(CSIR), India
+*Correspondence:
+Youbin Zheng
+yzheng@uoguelph.ca
+†These authors have contributed
+equally to this work
+Specialty section:
+This article was submitted to
+Crop and Product Physiology,
+a section of the journal
+Frontiers in Plant Science
+Received: 24 December 2020
+Accepted: 01 March 2021
+Published: 11 May 2021
+Citation:
+Rodriguez-Morrison V , Llewellyn D and
+Zheng Y (2021) Cannabis Yield,
+Potency, and Leaf Photosynthesis
+Respond Differently to Increasing
+Light Levels in an Indoor Environment.
+Front. Plant Sci. 12:646020.
+doi: 10.3389/fpls.2021.646020
+Cannabis Yield, Potency, and Leaf
+Photosynthesis Respond Differently
+to Increasing Light Levels in an
+Indoor Environment
+Victoria Rodriguez-Morrison †, David Llewellyn † and Youbin Zheng *
+School of Environmental Sciences, University of Guelph, Gu elph, ON, Canada
+Since the recent legalization of medical and recreational use of cannabis (Cannabis sativa)
+in many regions worldwide, there has been high demand for res earch to improve yield
+and quality. With the paucity of scientiﬁc literature on the topic, this study investigated
+the relationships between light intensity (LI) and photosy nthesis, inﬂorescence yield,
+and inﬂorescence quality of cannabis grown in an indoor envi ronment. After growing
+vegetatively for 2 weeks under a canopy-level photosynthet ic photon ﬂux density (PPFD)
+of ≈ 425 µmol·m− 2·s− 1 and an 18-h light/6-h dark photoperiod, plants were grown
+for 12 weeks in a 12-h light/12-h dark “ﬂowering” photoperio d under canopy-level
+PPFDs ranging from 120 to 1,800 µmol·m− 2·s− 1 provided by light emitting diodes. Leaf
+light response curves varied both with localized (i.e., lea f-level) PPFD and temporally,
+throughout the ﬂowering cycle. Therefore, it was concluded that the leaf light response
+is not a reliable predictor of whole-plant responses to LI, p articularly crop yield. This may
+be especially evident given that dry inﬂorescence yield inc reased linearly with increasing
+canopy-level PPFD up to 1,800 µmol·m− 2·s− 1, while leaf-level photosynthesis saturated
+well-below 1,800 µmol·m− 2·s− 1. The density of the apical inﬂorescence and harvest
+index also increased linearly with increasing LI, resultin g in higher-quality marketable
+tissues and less superﬂuous tissue to dispose of. There were no LI treatment effects
+on cannabinoid potency, while there were minor LI treatment effects on terpene potency.
+Commercial cannabis growers can use these light response mo dels to determine the
+optimum LI for their production environment to achieve the b est economic return;
+balancing input costs with the commercial value of their can nabis products.
+Keywords: cannabis sativa, light intensity, light respons e curve, cannabinoid, terpene, PPFD, sole source
+INTRODUCTION
+Drug-type Cannabis sativa (i.e., genotypes grown for their high cannabinoid content; h ereafter,
+cannabis) is often produced indoors to allow complete control o f environmental conditions, which
+is important for producing consistent medicinal plants and prod ucts (
+United Nations Oﬃce on
+Drugs Crime, 2019; Zheng, 2020 ). Total reliance on electrical lighting for plant production gives
+growers the capability to manipulate crop morphology, yield, a nd quality using light. However,
+lighting-related costs comprise ≈ 60% of total energy used for indoor cannabis production ( Mills,
+2012; Evergreen Economics, 2016 ); making crop lighting one of the most substantial input costs
+
+[PAGE 2]
+Rodriguez-Morrison et al. PPFD in Cannabis
+for growing cannabis indoors. With recent nationwide
+legalization in Canada (among many other regions worldwide) ,
+energy demand for indoor cannabis production is expected to
+increase rapidly as the industry intensiﬁes production to add ress
+rising demand (
+Sen and Wyonch, 2018).
+There are many factors that govern the cost of producing
+photosynthetically active radiation (PAR) for indoor cannab is
+production. These factors include: the capital and maintenan ce
+costs of lighting ﬁxtures and related infrastructure, eﬃci ency
+of converting electricity into PAR (usually referred to as P AR
+eﬃcacy; in units of µmol(PAR)·J− 1), management of excess heat
+and humidity, and uniformity of PAR distribution within the
+plant canopy. The most common lighting technologies used
+for indoor cannabis production are high intensity discharge
+(e.g., high pressure sodium) and light emitting diodes (LED)
+(
+Mills, 2012; Evergreen Economics, 2016 ). These technologies
+have widely varying spectrum, distribution, PAR eﬃcacy, and
+capital costs. However, regardless of the lighting technology used,
+the dominant factor that regulates the cost of crop lighting is the
+target canopy-level light intensity (LI).
+One common precept in controlled-environment agriculture
+production is that crop yield responds proportionally to
+increasing LI; i.e., the so-called “1% rule” whereby 1% more PAR
+equals 1% greater yield (
+Marcelis et al., 2006 ). On a per-leaf
+basis, this principle is clearly limited to lower light intens ities,
+since light use eﬃciency [i.e., maximum quantum yield; QY ,
+µmol(CO2)·µmol− 1
+(PAR)] of all photosynthetic tissues begins to
+decline at LI well below their light saturation points (LSP;
+i.e., the LI at peak photosynthetic rate) (
+Posada et al., 2012 ).
+However, in indoor-grown cannabis, it is conceivable that whole-
+plant photosynthesis will be maximized when LI at the upper
+canopy leaves are near their LSP. This is partly attributable to
+the inter-canopy attenuation of PAR from self-shading; allo wing
+lower-canopy foliage to function within the range of LIs wher e
+their respective light use eﬃciencies are optimized (
+Terashima
+and Hikosaka, 1995 ). This may be especially relevant to indoor
+production, where relatively small changes in distance from
+the light source can impart substantial diﬀerences in foliar L I
+(
+Niinemets and Keenan, 2012). Further, distinguished from many
+other indoor-grown crops, cannabis foliage appears to tolerate
+very high LI, even when exposed to photosynthetic photon ﬂux
+densities (PPFD) that are much higher than what they have bee n
+acclimated to
+Chandra et al. (2015).
+There is a paucity of peer-reviewed studies that have related
+LI to cannabis potency and yield (e.g., mass of dry, mature
+Abbreviations: NCER, Net CO2 exchange rate; PPFD, photosynthetic photon ﬂux;
+Asat, light-saturated NCER; LSP , light saturation point; QY , maximum qu antum
+yield; CCI, chlorophyll content index; SLW, speciﬁc leaf weight; LE D, light
+emitting diode; DLI, daily light integral; PAR, photosynthetically active radiation;
+DW, dry weight; SD, standard deviation; SE, standard error; RH, relative humidity;
+/Delta19-THC, /Delta1-9-tetrahydrocannabinol; /Delta19-THCA, /Delta1-9-tetrahydrocannabinolic
+acid; T /Delta19-THC, total equivalent /Delta19-tetrahydrocannabinol; CBD, cannabidiol;
+TCBD, total equivalent cannabidiol; CBG, cannabigerol; CBGA, c annabigerolic
+acid; TCBG, total equivalent cannabigerol.
+Non-Standard Abbreviations: LPPFD, localized PPFD at the measured leaf;
+APPFD, average PPFD at the plant apex integrated over time; LNCER, N CER at
+LPPFD; LI, light intensity; TLI, total light integral; LRC, light response curve; CB,
+deep-water culture basin; UDL, under detection limit.
+inﬂorescence per unit area and time). Perhaps the most
+referenced studies reported aspects of single-leaf photosynth esis
+of several cultivars and under various PPFD, CO 2 concentration,
+and temperature regimes (
+Lydon et al., 1987; Chandra et al.,
+2011, 2015 ). These works have demonstrated that cannabis
+leaves have very high photosynthetic capacity. However, they
+have limited use in modeling whole canopy photosynthesis
+or predicting yield because single-leaf photosynthesis is hig hly
+variable; depending on many factors during plant growth
+such as: leaf age, their localized growing environments (e. g.,
+temperature, CO 2, and lighting history), and ontogenetic stage
+(
+Murchie et al., 2002; Zheng et al., 2006; Carvalho et al., 2015 ;
+Bauerle et al., 2020 ). While lighting vendors have long relied on
+cannabis leaf photosynthesis studies to sell more light ﬁxtu res
+to cannabis growers, their models are only tangentially rel ated
+to whole-canopy photosynthesis, growth, and (ultimately) yie ld
+(Kirschbaum, 2011).
+Some forensic studies have utilized various methods to
+develop models to estimate crop yield from illicit indoor cannabis
+production ( Toonen et al., 2006; V anhove et al., 2011; Potter
+and Duncombe, 2012; Backer et al., 2019 ). These models used
+an array of input parameters (e.g., planting density, growing
+area, crop nutrition factors, etc.) but, they relied on “ins talled
+wattage” (i.e., W ·m− 2) as a proxy for LI. It is notable that
+reporting yield as g ·W− 1 (i.e., g ·m− 2/W·m− 2) overlooks the
+instantaneous time factor inherent in power units (i.e., W =
+J·s− 1). A more appropriate yield metric would also account for
+the length of the total lighting time throughout the producti on
+period (i.e., h·d− 1 × d), thus factoring out the time units resulting
+in yield per unit energy input (e.g., g ·kWh− 1). Further, area-
+integrated power does not directly correlate to the canopy-le vel
+light environment due to myriad unknowns, such as hang height,
+light distribution, and ﬁxture eﬃcacy. It is therefore impossible to
+accurately ascertain canopy-level LI in these models.
+Eaves et al.
+(2020) reported linear relationships between canopy-level LI (up
+to 1,500 µmol·m− 2·s− 1) and yield; however, they had only one
+LI treatment above 1,000 µmol·m− 2·s− 1. Further, they reported
+substantial inter-repetition variability in their yield mo dels,
+which indicates that factors other than LI may have limited
+crop productivity in some circumstances. While methodologic al
+deﬁciencies in these studies may limit the conﬁdent quantit ative
+extrapolation of their results to production environments, it is
+striking that none of these studies reported evidence of saturation
+of inﬂorescence yield at very high LI.
+These studies all demonstrate the exceptionally high capacit y
+that cannabis has for converting PAR into biomass. However,
+there are also clear knowledge gaps in cannabis’ photosynthesi s
+and yield responses to increasing LI. Further, cannabis produ cts
+are very high-value commodities relative to other crops grow n
+in indoor environments. This means that producers may be
+willing to accept substantially higher lighting-related inpu t
+costs in order to promote higher yields in limited growing
+areas. However, maximizing yield regardless of cost is not a
+feasible business model for most cannabis producers; rather
+there is a trade-oﬀ between input costs and crop productivity
+by selecting the optimum canopy-level LI (among other inputs)
+that will maximize net proﬁts. Further complicating matters,
+Frontiers in Plant Science | www.frontiersin.org 2 May 2021 | Volume 12 | Article 646020
+
+[PAGE 3]
+Rodriguez-Morrison et al. PPFD in Cannabis
+FIGURE 1 | Relative spectral photon ﬂux distribution of Pro-650 (Lumig row) light-emitting diode (LED) ﬁxtures.
+producers must balance ﬁxed costs which do not vary with
+crop productivity (such as property tax, lease rates, building
+security, and maintenance, etc.) and variable costs (such a s the
+aforementioned lighting-related costs among other crop in puts)
+which can have dramatic impacts on crop productivity and yield
+(
+V anhove et al., 2014). Since indoor crop lighting is a compromise
+between input costs and crop productivity, it is critical for
+growers to select the optimum light intensity for their respec tive
+production environment and business models.
+The objectives of this study were to establish the relations hips
+between canopy-level LI, leaf-level photosynthesis, and yie ld and
+quality of drug-type cannabis. We investigated how plant grow th
+stage and localized foliar PPFD (LPPFD; i.e., instantaneou s
+PPFD at leaf-level) aﬀected photosynthetic parameters and lea f
+morphology, and how growing cannabis at average canopy-level
+PPFDs (APPFD; i.e., lighting history) ranging from 120 to 1, 800
+µmol·m− 2·s− 1 aﬀected plant morphology, yield, and quality of
+mature marketable inﬂorescence. The results of this study w ill
+assist the indoor cannabis industry to determine how much PA R
+cannabis growers should be providing to the crop canopy in order
+to maximize proﬁts while minimizing energy use within their
+speciﬁc production scenarios.
+MATERIALS AND METHODS
+The trial area consisted of 2 adjacent deep-water culture bas ins
+(CB) located in an indoor cannabis production facility in
+Southern Ontario, Canada. Each CB (14.6 × 2.4 m) consisted of
+24 parallel polystyrene rafts (0.6 × 2.4 m), each containing holes
+for 16 plant pots, oriented in 2 rows with 30-cm spacing both
+within- and between-rows. This spacing provided for 384 plants
+to be evenly spaced within each CB, at a density of 0.09 m 2/plant.
+Above each CB were 3 racks of LED ﬁxtures (Pro-650;
+Lumigrow, Emeryville, CA, USA), with each rack consisting 2
+rows of 4 ﬁxtures each; arranged such that all 24 ﬁxtures were
+uniformly-spaced (1.2 m apart, on-center) relative to each oth er
+and centered over the footprint of the CB. Each rack of ﬁxtures
+was height-adjustable via a system of pulleys and cables, such that
+the hang-height of the 8 ﬁxtures in each rack could be adjusted
+in unison. Each ﬁxture contained dimmable spectrum channels
+for blue (B, peak 455 nm), white (broad-spectrum 5,000K) and
+red (R, peak 660 nm) which could be individually controlled,
+wirelessly, through Lumigrow’s SmartPAR software. The phot on
+ﬂux ratio of B (400–500 nm), green (G, 500–600 nm), and R
+(600–700 nm) was B18:G5:R77. Relative spectral photon ﬂux
+distribution ( Figure 1) was measured using a radiometrically
+calibrated spectrometer (UV-VIS Flame-S-XR; Ocean Optics,
+Dunedin, FL, USA) coupled to a CC3 cosine-corrector attached
+to a 1.9 m × 400 µm UV-Vis optical ﬁber.
+Experimental Design
+The experiment was conducted using a gradient design, whereby
+plants grown in a common environment were exposed to
+a broad range of canopy-level PPFDs with a high level of
+spatial variability across the CB. Individual plants were ass igned
+APPFD levels based on rigorous spatial and temporal evaluations
+Frontiers in Plant Science | www.frontiersin.org 3 May 2021 | Volume 12 | Article 646020
+
+[PAGE 4]
+Rodriguez-Morrison et al. PPFD in Cannabis
+FIGURE 2 | Schematic of a single light rack (8 LED ﬁxtures, in magenta) ab ove one third of a deep-water culture basin (CB). The entire g rowing area consists of 6 of
+these light racks. Within each light rack, each of the 8 targe t PPFD levels (i.e., the “treatments”) are randomly assigne d to one ﬁxture (i.e., plot). This results in a RCBD-
+type of experimental layout, comprised of 8 treatments × 6 replications. However, each treatment plant (in blue) was assigned an average photosynthetic photon ﬂux
+density (APPFD), reﬂecting the average canopy-level light i ntensity measured throughout the trial. The APPFD levels we re used as the independent variable in
+subsequent analyses of plant growth, physiology and harves t metrics. Each plot was surrounded by non-treatment plants (diagonal lines) to ensure uniform growing
+environment and normal planting density.
+of LI (explained below). Gradient designs can outperform
+traditional “treatment × replication” experimental designs when
+evaluating plants’ responses to a continuous variable such as
+LI (
+Kreyling et al., 2018 ). While they are arduous to setup
+and monitor, gradient designs have been successfully used
+to establish LI eﬀects within other controlled-environment
+production scenarios (
+Bredmose, 1993, 1994; Jones-Baumgardt
+et al., 2019).
+At its outset, the experiment was arranged as a randomized
+complete block design (RCBD) with 6 blocks of 8 PPFD
+target levels: 200, 400, 600, 800, 1,000, 1,200, 1,400, and 1 ,600
+µmol·m− 2·s− 1, to facilitate setup. Each block consisted of a
+single rack of LED ﬁxtures, with the PPFD target levels randoml y
+assigned to individual ﬁxtures (i.e., plots) within each rack .
+The two plants located most directly below each ﬁxture were
+assessed experimentally ( Figure 2). PPFD was measured at the
+Frontiers in Plant Science | www.frontiersin.org 4 May 2021 | Volume 12 | Article 646020
+
+[PAGE 5]
+Rodriguez-Morrison et al. PPFD in Cannabis
+apex of each plant using a portable spectroradiometer (LI-
+180; LI-COR Biosciences, Lincoln, NE, USA). The initial hang
+height of each rack was determined by the maximum height
+whereby ≈ 1,600 µmol·m− 2·s− 1 could be achieved at the apical
+meristem of the tallest plant in the highest LI plot. The other
+treatment levels were subsequently achieved through dimmi ng;
+targeting the prescribed PPFD at the apical meristem of the
+tallest plant in each plot while maintaining a uniform photon
+ﬂux ratio of B18:G5:R77 in the entire CB. Plant height and
+apical meristematic PPFD were measured twice weekly until
+vegetative growth ceased (5 weeks after the start of the 12-h
+photoperiod), and weekly thereafter until harvest. The prescribed
+intensity levels in each block were reset each time plant heig ht
+was measured, ﬁrst by raising the rack of ﬁxtures to achieve
+the target PPFD at the apical meristem of the tallest plant in
+the 1,600 µmol·m− 2·s− 1 plot and then adjusting the intensity
+settings of the remaining plots accordingly. The trial ran from the
+beginning of the ﬂowering stage (i.e., when the 12-h ﬂowerin g
+photoperiod was initiated) until harvest, for a total of 81 day s
+(nearly 12 weeks).
+While the underlying experimental arrangement was based on
+a RCBD organization, all analyses were performed as regressi ons
+with LI as the continuous, independent variable.
+PPFD Levels
+While the prescribed target PPFD levels were maintained at th e
+apical meristem at the tallest plant within each plot on regular
+intervals, these values were not accurate proxies for the act ual
+PPFD intensity dynamics experienced by each plant throughout
+the trial due to variability in individual plant height (on intra- and
+inter-plot bases), growth rates, and the lengths of the time periods
+between PPFD measurements. To account for these temporal
+dynamics in apical meristematic PPFD, total light integrals
+(TLIs, mol ·m− 2) were calculated for each plant over the total
+production time and then back-calculated to APPFD or daily
+light integral (DLI, mol ·m− 2·d− 1). The TLIs were based on the
+product of the average PPFD level measured at the start and end
+of each measurement interval and the length of time the light s
+were on during each measurement interval. These interim lig ht
+integrals were then aggregated to form a TLI for each plant and
+divided by the total production time in seconds (i.e., the prod uct
+of the daily photoperiod and the number of days). The resulting
+APPFD levels were then used as the independent variable (i.e. ,
+X-axis) in regressions of LI vs. various growth, yield, and q uality
+parameters. TLI can also be used in yield evaluations whereby
+the relationship between yield and TLI becomes a direct meas ure
+of production eﬃcacy on a quantum basis (e.g., g ·mol− 1). This
+relationship can be converted to an energy-basis (g ·kWh− 1), if
+the ﬁxture eﬃcacy ( µmol·J− 1) and spatial distribution eﬃciency
+(i.e., proportion of photon output from ﬁxtures that reach the
+target growing area) are known.
+Plant Culture
+Cuttings were taken from mother plants of the ‘Stillwater’ cu ltivar
+on 1 Aug. and 15 Aug. 2019 and rooted in stone wool cubes
+under 100 µmol·m− 2·s− 1 of ﬂuorescent light for 14 d and then
+transplanted into a peat-based medium in 1-gallon plastic pots
+and grown under ≈ 425 µmol·m− 2·s− 1 of LED light, comprised
+of a mixture of Pro-325 (Lumigrow) and generic phosphor-
+converted white LEDs (unbranded) for an additional 14 d. The
+apical meristems were removed (i.e., “topped”) from the ﬁrst
+batch of clones, 10 d after transplant, and the second batch we re
+not topped. Propagation and vegetative growth phases both had
+18-h photoperiods. The ﬁrst CB (CB1) was populated from the
+ﬁrst batch of clones on 29 Aug. 2019 and the second CB (CB2)
+was populated from the second batch of clones on 12 Sept. 2019.
+In each case, 48 uniform and representative plants were select ed
+from the larger populations of clones and placed in the plots
+to be evaluated experimentally. In CB1, the experimental plant s
+initially had either 9 or 10 nodes and ranged in height (from
+growing medium surface to shoot apex) from 34 to 48 cm. In CB2
+the experimental plants initially had either 12 or 13 nodes and
+ranged in height from 41 to 65 cm. Once the plants were moved
+to the CBs, the daily photoperiod switched to 12 h, from 06:30 HR
+to 18:30 HR.
+Plant husbandry followed the cultivator’s standard operatin g
+procedures except for the diﬀerences in canopy-level PPFD.
+Canopy-level air temperature, relative humidity (RH), and
+carbon dioxide (CO 2) concentration were monitored on 600-s
+intervals throughout the trial with a logger (Green Eye mode l
+7788; AZ Instrument Corporation, Taiwan). The air temperature,
+RH, and CO 2 concentrations were (mean ± SD) 25.3 ± 0.4◦C,
+60.5 ± 4.8%, and 437 ± 39 ppm during the day (i.e., lights on) and
+25.2 ± 0.3◦C, 53.1 ± 3.3%, and 479 ± 42 ppm during the night.
+A common nutrient solution is circulated through both CBs. The
+nutrient concentrations in the aquaponic solution were sampl ed
+weekly and analyzed at an independent laboratory (A&L Canada;
+London, ON, Canada). The nutrient element concentrations
+(mg·L− 1) in the aquaponic system were (mean ± SD, n = 11):
+170 ± 22 Ca, 86 ± 8.2 S, 75 ± 15 N, 57 ± 5 Mg, 32 ± 4 P , 23 ±
+8 K, 250 ± 32 Cl, 0.27 ± 0.1 Fe, 0.18 ± 0.07 Zn, 0.050 ± 0.02
+Mn, 0.031 ± 0.006 B, and 0.028 ± 0.004 Cu. Mo was reported as
+below detection limit (i.e., <0.02 mg ·L− 1) throughout the trial.
+The concentrations (mg ·L− 1) of non-essential nutrient elements
+were 170 ± 18 Na and 6.7 ± 0.7 Si. The aquaponic solution was
+aerated with an oxygen concentrator and the pH and EC were
+6.75 ± 0.2 and 1.77 ± 0.15 mS·cm− 1, respectively.
+Leaf Photosynthesis
+Quantiﬁcations of leaf-level gas exchange of leaﬂets on the
+youngest, fully-expanded fan leaves were performed on 64 plants
+(32 plants per CB) each, in weeks 1, 5, and 9 after the initiation
+of the 12-h photoperiod using a portable photosynthesis
+machine (LI-6400XT; LI-COR Biosciences, Lincoln, NE, USA),
+equipped with the B and R LED light source (6400-02B; LI-
+COR Biosciences). The Light Curve Auto-Response subroutine
+was used to measure net carbon exchange rate [NCER;
+µmol(CO2)·m− 2·s− 1] at PPFD levels of: 2,000, 1,600, 1,400,
+1,200, 1,000, 800, 600, 400, 200, 150, 100, 75, 50, 25, and 0
+µmol·m− 2·s− 1. Leaﬂets were exposed to 2,000 µmol·m− 2·s− 1
+for 180 s prior to starting each light response curve (LRC) and
+then progressed sequentially from highest to lowest PPFD to
+ensure stomatal opening was not a limitation of photosynthesis
+(
+Singsaas et al., 2001 ). The leaf chamber setpoints were
+Frontiers in Plant Science | www.frontiersin.org 5 May 2021 | Volume 12 | Article 646020
+
+[PAGE 6]
+Rodriguez-Morrison et al. PPFD in Cannabis
+26.7◦C (block temperature), 400 ppm CO 2, and 500 µmol·s− 1
+airﬂow. The localized PPFD (LPPFD) at each leaﬂet was
+measured immediately prior to the LRC measurement using
+the LI-180. The light-saturated net CO 2 exchange rate [A sat;
+µmol(CO2)·m− 2·s− 1], localized NCER (LNCER; i.e., the NCER at
+LPPFD), maximum quantum yield [QY; µmol(CO2)·µmol− 1
+(PAR)],
+and light saturation point [LSP; µmol(PAR)·m− 2·s− 1] were
+determined for each measured leaﬂet using Prism (Version 6. 01;
+GraphPad Software, San Diego, CA, USA) with the asymptotic
+LRC model: y = a + b·e(c·x) (
+Delgado et al., 1993 ) where y,
+x, a, and e represent NCER, PPFD, A sat, and Euler’s number,
+respectively. The LNCER of each leaﬂet was calculated by
+substituting the measured LPPFD into its respective LRC mode l.
+The QY was calculated as the slope of the linear portion
+of the LRC (i.e., at PPFD ≤ 200 µmol·m− 2·s− 1). The LSP
+is deﬁned as the PPFD level where increasing LI no longer
+invokes a signiﬁcant increase in NCER. The LSP for each
+LRC was determined using the methods described by
+Lobo
+et al. (2013) by evaluating the change in NCER ( /Delta1NCER)
+over 50 µmol(PAR)·m− 2·s− 1 increments, continuously along
+the LRC, until the /Delta1NCER reached a threshold value, which
+was determined from the prescribed measurement conditions
+and performance speciﬁcations of the LI-6400XT. Brieﬂy, the
+minimum signiﬁcant diﬀerence in CO 2 concentration between
+sample and reference measurements is 0.4 ppm (
+LI-COR
+Biosciences, 2012). Therefore, given the setup parameters of the
+leaf chamber, a /Delta1NCER of ≤ 0.33 µmol(CO2)·m− 2·s− 1 over a 50
+µmol(PAR)·m− 2·s− 1 increment indicated the LSP.
+The ratio of variable to maximum ﬂuorescence (F v/Fm)
+emitted from photosystem II (PSII) in dark-acclimated
+leaves exposed to a light-saturating pulse is an indicator of
+maximum quantum yield of PSII photochemistry (
+Murchie
+and Lawson, 2013 ). Immediately after each LRC, the
+leaﬂet was dark acclimated for ≈ 900 s and then F v/Fm was
+measured with a ﬂuorometer (FluorPen FP 100; Drasov,
+Czech Republic). Chlorophyll content index (CCI) was
+measured on three fan leaﬂets from leaves at the bottom and
+top of each plant in weeks 1, 5, and 9 using a chlorophyll
+meter (CCM-200; Opti-Sciences, Hudson, NH, USA).
+The CCI measurements from upper and lower tissues,
+respectively, were averaged on a per-plant basis for each
+measurement period.
+Leaf Morphology
+On day 35, one leaf from each plant was removed from node 13
+(counting upwards from the lowest node) in CB1 and node 15
+from CB2, ensuring that the excised leaves developed under th eir
+respective LPPFD. A digital image of each leaf was taken using
+a scanner (CanoScan LiDE 25; Canon Canada Inc., Brampton,
+ON, Canada) at 600 dpi resolution and then the leaves were
+oven-dried (Isotemp Oven Model 655G; Fisher Scientiﬁc, East
+Lyme, CT , USA), singly, to constant weight at 65 ◦C. The images
+were processed using ImageJ 1.42 software (National Institu te
+of Health; https://imagej.nih.gov/ij/download.html) to determine
+leaf area (LA). The dry weights (DW) of scanned leaves were
+measured using an analytical balance (MS304TS/A00; Mettler-
+Toledo, Columbus, OH, USA). Speciﬁc leaf weight (SLW; g·m− 2)
+was determined using the following formula: DW/LA.
+Yield and Quality
+After 81 d, the stems of each plant was cut at substrate level
+and the aboveground biomass of each plant was separated into
+three parts: apical inﬂorescence, remaining inﬂorescence, a nd
+stems and leaves (i.e., non-marketable biomass), and weigh ed
+using a digital scale (Scout SPX2201; OHAUS Corporation,
+Parsippany, NJ, USA). Since the plants from CB2 had the
+apical meristem removed, the inﬂorescence from the tallest
+side branch was considered the apical inﬂorescence. The leng th
+(L) and circumference (C; measured at the midpoint) of each
+apical inﬂorescence were also measured. Assuming a cylindric al
+shape, the density of the apical inﬂorescence (g ·cm− 3) was
+calculated using the formula: apical inﬂorescence density =
+fresh weight/{π·[C/(2·π)2]·L}. The apical inﬂorescences from 22
+representative plants from CB1 were air dried at 15 ◦C and 40%
+RH for 10 d until they reached marketable weight (i.e., averag e
+moisture content of ≈ 11%), determined using a moisture content
+analyzer (HC-103 Halogen Moisture Analyzer; Mettler-Toledo,
+Columbus, OH, USA). This ensured that the apical inﬂorescence
+tissues selected for analysis of secondary metabolites follo wed
+the cultivator’s typical post-harvest treatment. The apical
+inﬂorescences from CB1 were homogenized on a per-plant
+basis and ≈ 2-g sub-samples from each plant was processed
+by an independent laboratory (RPC Science & Engineering;
+Fredericton, NB, Canada) for potency [mg ·g− 1
+(DW)] using
+solvent extraction followed by ultra-high-performance liqu id
+chromatography with variable wavelength detection (HPLC-
+VWD) for cannabinoids and gas chromatography with mass
+spectrometry detection (GC-MSD) for terpenes. Total equivalent
+/Delta1-9-tetrahydrocannabinol ( /Delta19-THC), cannabidiol (CBD), and
+cannabigerol potencies were determined by assuming complete
+carboxylation of the acid-forms of the respective cannabinoi ds,
+whose concentrations were adjusted by factoring out the acid -
+moiety from the molecular weight of each compound [e.g., tota l
+/Delta19-THC = (/Delta19-THCA × 0.877) + /Delta19-THC]. The separated
+aboveground tissues from 16 representative plants in each CB
+were oven-dried (Isotemp Oven Model 655G) to constant weight
+at 65 ◦C to determine LI treatment eﬀects on moisture content,
+which were then used to determine DW of all harvested materials.
+The harvest index was calculated as the ratio of total inﬂorescence
+DW (hereafter, yield) to the total aboveground DW, on a per-
+plant basis.
+Data Processing and Analysis
+On per-CB and per-week bases, each model from the leaf
+photosynthesis measurements (i.e., A sat, LSP , LNCER, and
+QY) were subjected to non-linear regression using the PROC
+NLMIXED procedure (SAS Studio Release 3.8; SAS Institute
+Inc., Cary, NC), with the LPPFD of each measured leaf as
+the independent variable, to determine the best-ﬁt models
+after outliers were removed. In each case, best-ﬁt models we re
+selected based on the lowest value for the Akaike informatio n
+criterion (AICc). If there were no LI treatment eﬀects on a
+Frontiers in Plant Science | www.frontiersin.org 6 May 2021 | Volume 12 | Article 646020
+
+[PAGE 7]
+Rodriguez-Morrison et al. PPFD in Cannabis
+given parameter, then means ( ± SD) were calculated. Best-ﬁt
+models for F v/Fm and CCI were similarly determined, using
+LPPFD and APPFD (from the start of the trial up to the time
+of measurement), respectively, as the independent variable. On
+a per-week basis, A sat, LSP , LNCER, QY , Fv/Fm, and CCI data
+from CB1 and CB2 were pooled if the 95% CI of each element
+of the respective best-ﬁt models for the two CBs overlapped,
+and best-ﬁt models for pooled datasets were then recalculate d.
+The PROC GLIMMIX Tukey-Kramer test was used ( P ≤ 0.05)
+on the resulting models (including means) to determine if th ere
+were diﬀerences between the measurement periods (i.e., weeks ).
+If there were any measurement period eﬀects on any element in
+the models, then weekly models for the respective parameters
+were reported.
+Computed parameters from single-time measurements (SLW,
+apical inﬂorescence density, yield, and harvest index) were
+grouped per CB, using the APPFD (at the time of measurement)
+to deﬁne each datapoint within each CB and PROC NLMIXED
+was used to evaluate the best ﬁt model for each parameter
+using the AICc. Parameter means were computed (on per-CB
+bases) when there were no LI treatment eﬀects. If there were
+LI treatment eﬀects on a given parameter, datasets from CB1
+and CB2 were pooled if the 95% conﬁdence intervals (95% CI)
+of each element of the respective best-ﬁt models for the two
+CBs overlapped and best-ﬁt models for pooled datasets were
+then recalculated. For parameters with no LI treatment eﬀects ,
+diﬀerences between CBs were evaluated using the 95% CI’s of
+their respective means. For a given parameter, if the 95% CIs th e
+parameter means for the 2 CBs overlapped, then the data was
+pooled and new parameter means were calculated and presented.
+Cannabinoids and terpenes from CB1 were modeled, with
+APPFD as the independent variable, using PROC NLMIXED to
+evaluate the best-ﬁt model for each parameter using the AICc.
+Best-ﬁt models or parameter means were reported.
+RESUL TS
+No CB eﬀects were found in any leaf photosynthesis, leaf
+morphology, and post-harvest parameters; therefore, CB1 and
+CB2 data were pooled for the development of all models except
+secondary metabolites, which were only measured in CB1. In
+contrast, many of the parameters that were repeated over time
+(i.e., in weeks 1, 5, and 9) showed diﬀerences between weeks;
+whereby the diﬀerent weeks were modeled separately. Note
+also that the week-over-week ranges of LPPFD varied as the
+plants progressed through their ontogeny, since self-shadin g
+from upper tissues resulted in decreases in maximum LPPFD of
+FIGURE 3 | T ypical light response curves [net CO2 exchange rate (NCER) response to light intensity] of the you ngest fully-expanded fan leaves of Cannabis sativa
+‘Stillwater’ grown under either low or high localized photo synthetic photon ﬂux densities (LPPFD). The low and high LPPF D were 91 and 1,238 µmol·m− 2·s− 1,
+respectively. Measurements were made during week 5 after th e initiation of the 12-h photoperiod.
+Frontiers in Plant Science | www.frontiersin.org 7 May 2021 | Volume 12 | Article 646020
+
+[PAGE 8]
+Rodriguez-Morrison et al. PPFD in Cannabis
+leaves selected for photosynthesis measurements. Neverthe less, a
+consistent range of APPFDs range was maintained throughout
+the trial.
+Leaf Photosynthesis
+Leaf light response curves constructed under diﬀerent LI and a t
+diﬀerent growth stages (week 1, 5, and 9) generally demonstrat ed
+the trends that the A sat and LSP were higher for plants grown
+under high vs. low LPPFD ( Figures 3, 4A,B), especially after the
+plants had acclimated to their new lighting environments (i. e.,
+weeks 5 and 9). There were no LPPFD eﬀects on A sat in week 1,
+with a mean ( ± SE, n = 52) of 23.9 ± 0.90 µmol(CO2)·m− 2·s− 1
+(Figure 4A). The A sat in weeks 5 and 9 ( Figure 4A) and LSP in
+weeks 1, 5, and 9 ( Figure 4B) increased linearly with increasing
+LPPFD. At low LPPFD, the highest LSP was in week 1. The
+slopes of the A sat and LSP models were similar in weeks 5 and
+9, but the Y-intercepts for both parameters were approximately
+twice as high in week 5 vs. week 9. LNCER increased linearly
+with increasing LPPFD in weeks 1, 5, and 9 ( Figure 4C) with
+the steepest and shallowest slopes coming in weeks 5 and 1,
+respectively. The LNCER model in week 9 had a substantially
+lower Y-intercept than the other 2 weeks. As evidenced by the
+projected intersection of the A sat and LNCER models in week 5
+(i.e., at LPPFD of 1,532 µmol·m− 2·s− 1), the maximum LPPFD
+in week 5 (i.e., 1,370 µmol·m− 2·s− 1) was nearly suﬃcient to
+saturate the photosynthetic apparatus at the top of the canopy.
+There were no LPPFD eﬀects on QY , but the mean QY in weeks 1
+and 5 were higher than week 9. The mean ( ± SE) QY were 0.066
+± 0.0013 (n = 54), 0.068 ± 0.0005 (n = 60), and 0.058 ± 0.0008
+(n = 63) µmol(CO2)·µmol− 1
+(PAR) in weeks 1, 5, and 9 respectively.
+The Fv/Fm decreased linearly with increasing LPPFD in all three
+measurement periods (Figure 4D).
+Chlorophyll Content Index and Plant
+Morphology
+There were no LI treatment eﬀects on CCI either at the top or
+bottom of the canopy, however within in each week, the upper
+canopy CCI were higher than the lower canopy. Additionally,
+the CCI in the upper and lower canopy was higher in week 1
+vs. weeks 5 and 9. The CCI (means ± SE, n = 91) were 67.1
+± 0.80, 55.8 ± 2.2, and 52.0 ± 2.1 in the upper canopy and
+46.3 ± 1.1, 31.1 ± 0.86, and 31.5 ± 1.1 in the lower canopy, in
+weeks 1, 5, and 9, respectively. The SLW increased linearly fr om
+35.4 to 58.1 g ·m− 2 as APPFD (calculated based on the respective
+FIGURE 4 | The light-saturated net CO 2 exchange rate (A sat) (A), the light saturation point (LSP) (B), the localized net CO 2 exchange rate (LNCER) (C), and the F v/Fm
+(D) of the youngest fully-expanded fan leaves of Cannabis sativa ‘Stillwater’ at the localized photosynthetic photon ﬂux den sities (LPPFD) that the respective leaves
+were growing under when the measurements were made, during w eeks 1, 5, and 9 after initiation of the 12-h photoperiod. Eac h datum is a single plant. Regression
+lines are presented when P ≤ 0.05.
+Frontiers in Plant Science | www.frontiersin.org 8 May 2021 | Volume 12 | Article 646020
+
+[PAGE 9]
+Rodriguez-Morrison et al. PPFD in Cannabis
+FIGURE 5 | The speciﬁc leaf weight (SLW; on a dry weight basis) of young, f ully-expanded Cannabis sativa ‘Stillwater’ leaves in response to the average
+photosynthetic photon ﬂux density (APPFD), measured on day 3 5 after initiation of the 12-h photoperiod. Each datum repre sents one fan leaf from a single plant.
+plants’ accumulated PAR exposures up to day 35 of the ﬂowering
+stage) increased from 130 to 1,990 µmol·m− 2·s− 1 (Figure 5).
+Plants grown under low vs. high APPFD were generally shorter
+and wider, with thinner stems, larger leaves, and fewer, sma ller
+inﬂorescences (Figure 6).
+Yield and Quality
+Cannabis yield increased linearly from 116 to 519 g ·m− 2
+(i.e., 4.5 times higher) as APPFD increased from 120 to
+1,800 µmol·m− 2·s− 1 (Figure 7A). Note that yields in the
+present study are true oven-DWs. Since cannabis inﬂorescenc es
+are typically dried to 10–15% moisture content to achieve
+optimum marketable quality (
+Leggett, 2006), dividing DW by the
+proportion of marketable biomass that the DW comprises (e.g.,
+for 15% moisture, divide DW by 0.85) will estimate marketable
+yield. The harvest index increased linearly from 0.560 to 0. 733
+and (i.e., 1.3 times higher) as APPFD increased from 120 to 1,800
+µmol·m− 2·s− 1 (Figure 7B). The apical inﬂorescence density
+increased linearly from 0.0893 to 0.115 g ·cm− 3 (i.e., 1.3 times
+higher) as APPFD increased from 120 to 1,800 µmol·m− 2·s− 1
+(Figure 7C).
+Cannabidiolic acid (CBDA) was the dominant cannabinoid
+in the dried inﬂorescences; however, there were no APPFD
+treatment eﬀects on the potency of any of the measured
+cannabinoids (Table 1). Due to linear increases in inﬂorescence
+yield with increasing LI, cannabinoid yield (g ·m− 2) increased by
+4.5 times as APPFD increased from 120 to 1,800 µmol·m− 2·s− 1
+.
+Myrcene, limonene, and caryophyllene were the dominant
+terpenes in the harvested inﬂorescences ( Table 2). The potency
+of total terpenes, myrcene, and limonene increased linearly from
+8.85 to 12.7, 2.51 to 4.90, and 1.05 to 1.60 mg ·g− 1 inﬂorescence
+DW (i.e., 1.4, 2.0, and 1.5 times higher), respectively, as AP PFD
+increased from 120 to 1,800 µmol·m− 2·s− 1. There were no
+APPFD eﬀects on the potency of the other individual terpenes.
+DISCUSSION
+Cannabis Inﬂorescence Yield Is
+Proportional to Light Intensity
+It was predicted that cannabis yield would exhibit a saturatin g
+response to increasing LI, thereby signifying an optimum LI
+range for indoor cannabis production. However, the yield
+results of this trial demonstrated cannabis’ immense plasti city
+for exploiting the incident lighting environment by eﬃcient ly
+increasing marketable biomass up to extremely high—for ind oor
+production—LIs ( Figure 7A). Even under ambient CO 2, the
+linear increases in yield indicated that the availability o f PAR
+photons was still limiting whole-canopy photosynthesis at
+APPFD levels as high as ≈ 1,800 µmol·m− 2·s− 1 (i.e., DLI ≈ 78
+mol·m− 2·d− 1). These results were generally consistent with the
+Frontiers in Plant Science | www.frontiersin.org 9 May 2021 | Volume 12 | Article 646020
+
+[PAGE 10]
+Rodriguez-Morrison et al. PPFD in Cannabis
+FIGURE 6 | Sketches of Cannabis sativa ‘Stillwater’ plants grown under low (A) and high (B) photosynthetic photon ﬂux density (APPFD), 9 weeks after ini tiation of
+12-h photoperiod (illustrated by Victoria Rodriguez Morri son).
+trends of other studies reporting linear cannabis yield respo nses
+to LI ( V anhove et al., 2011; Potter and Duncombe, 2012; Eaves
+et al., 2020 ), although there is considerable variability in both
+relative and absolute yield responses to LI in these prior work s.
+The present study covered a broader range of LI, and with much
+higher granularity, compared with other similar studies.
+The lack of a saturating yield response at such high LI is an
+important distinction between cannabis and other crops grown
+in controlled environments (
+Faust, 2003; Beaman et al., 2009;
+Oh et al., 2009; Fernandes et al., 2013 ). This also means that the
+selection of an “optimum” LI for indoor cannabis production can
+be made somewhat independently from its yield response to LI.
+Eﬀectively, within the range of practical indoor PPFD levels—
+the more light that is provided, the proportionally higher the
+increase in yield will be. Therefore, the question of the opti mum
+LI may be reduced to more practical functions of economics and
+infrastructure limitations: basically, how much lighting capacity
+can a grower aﬀord to install and run? This becomes a trade-oﬀ
+between ﬁxed costs which are relatively unaﬀected by yield an d
+proﬁt (e.g., building lease/ownership costs including proper ty
+tax, licensing, and administration) and variable costs suc h as
+crop inputs (e.g., fertilizer, electricity for lighting) an d labor.
+V ariable costs will obviously increase with higher LI but the ﬁxed
+costs, on a per unit DW basis, should decrease concomitantly
+with increasing yield (
+V anhove et al., 2014 ). Every production
+facility will have a unique optimum balance between facility costs
+and yield; but the yield results in the present study can help
+cannabis cultivators ascertain the most suitable LI target for their
+individual circumstances. Readers should be mindful that th is
+study reports yield parameters as true dry weights; marketable
+yield can be easily determined by factoring back in the desir able
+moisture content of the inﬂorescence. For example, for a 400
+g·m− 2 of dry yield, the corresponding marketable yield would be
+440 g·m− 2 at 10% moisture content (i.e., 400 × 1.10).
+It is also important to appreciate that PPFD, which represents
+an instantaneous LI level, does not provide a complete
+accounting of the total photon ﬂux incident on the crop canopy
+throughout the entire production cycle. While this LI metric is
+ubiquitous in the horticulture industry and may be most broa dly
+relatable to prior works, there is value in relating yield to the total
+photon ﬂux received by the crop. Historically, this has been do ne
+by relating yield to installed wattage on per area bases, resu lting
+in g ·W− 1 metric (
+Potter and Duncombe, 2012 ), which can be
+more ﬁttingly converted to yield per unit electrical energy i nput
+(g·kWh− 1) by factoring in the photoperiod and length of the
+production cycle ( European Monitoring Centre for Drugs Drug
+Frontiers in Plant Science | www.frontiersin.org 10 May 2021 | Volume 12 | Article 646020
+
+[PAGE 11]
+Rodriguez-Morrison et al. PPFD in Cannabis
+FIGURE 7 | The relationship between average apical photosynthetic ph oton ﬂux density (APPFD) applied during the ﬂowering stage (81 days) and inﬂorescence dry
+weight (A), harvest index (total inﬂorescence dry weight / total aboveg round dry weight) (B), and apical inﬂorescence density (based on fresh weight) (C) of Cannabis
+sativa ‘Stillwater’. Each datum is a single plant.
+Frontiers in Plant Science | www.frontiersin.org 11 May 2021 | Volume 12 | Article 646020
+
+[PAGE 12]
+Rodriguez-Morrison et al. PPFD in Cannabis
+TABLE 1 | Cannabinoid potency in apical inﬂorescences of Cannabis sativa
+‘Stillwater’.
+Cannabinoid Potency (mg·g−1 of
+inﬂorescence dry weight)
+/Delta1-9-tetrahydrocannabinol (/Delta19-THC) UDL z
+/Delta1-9-tetrahydrocannabinolic Acid ( /Delta19-THCA) 12.9 y ± 0.03
+T otal equivalent/Delta19-tetrahydrocannabinol (T/Delta19-THC) 11.3 ± 0.02
+Cannabidiol (CBD) 5.53 ± 0.01
+Cannabidiolic acid (CBDA) 214 ± 0.4
+T otal equivalent cannabidiol (TCBD) 193 ± 0.4
+Cannabigerol (CBG) UDL
+Cannabigerolic acid (CBGA) 4.76 ± 0.01
+T otal equivalent cannabigerol (TCBG) 4.45 ± 0.009
+Cannabinol (CBN) UDL
+zUnder detection limit of 0.5 mg ·g− 1 of inﬂorescence dry weight.
+yData are means ± SE (n = 22).
+Addiction, 2013). However, since photosynthesis is considered a
+quantum phenomenon, crop yield may be more appropriately
+related to incident (easily measured) or absorbed photons an d
+integrated over the entire production cycle (i.e., TLI, mol ·m− 2),
+in a yield metric that is analogous to QY: g ·mol− 1. Versus using
+installed wattage, this metric has the advantage of negatin g the
+eﬀects of diﬀerent ﬁxture eﬃcacy ( µmol·J− 1), which continues
+its upward trajectory, especially with LEDs (
+Nelson and Bugbee,
+2014; Kusuma et al., 2020 ). The present study did not directly
+measure lighting-related energy consumption; however, installed
+energy ﬂux (kWh ·m− 2) can be estimated from TLI using the
+Lumigrow ﬁxture’s eﬃcacy rating: 1.29 and 1.80 µmol·J− 1, from
+Nelson and Bugbee (2014) and Radetsky (2018) , respectively.
+Using the average of these values (1.55 µmol·J− 1), the conversion
+from TLI to energy ﬂux becomes: mol ·m− 2 × 5.6 = kWh·m− 2.
+At an APPFD of 900 µmol·m− 2·s− 1 (i.e., TLI of 3,149 mol·m− 2),
+the model in Figure 7A predicts a yield of 303 g ·m− 2 which
+corresponds to an energy use eﬃcacy of 0.54 g ·kWh− 1. For
+comparison, doubling the LI to the highest APPFD used in this
+trial increases the yield by 70% but results in a ≈ 15% reduction
+in energy use eﬃcacy. It is up to each grower to determine the
+optimum balance between variable (e.g., lighting infrastru cture
+and energy costs) and ﬁxed (e.g., production space) costs in
+selecting a canopy level LI that will maximize proﬁts.
+Increasing Light Intensity Enhances
+Inﬂorescence Quality
+Beyond simple yield, increasing LI also raised the harvest qu ality
+through higher apical inﬂorescence (also called “cola” in th e
+cannabis industry) density—an important parameter for the
+whole-bud market—and increased ratios of inﬂorescence to t otal
+aboveground biomass ( Figures 7B,C). The linear increases in
+harvest index and apical inﬂorescence density with increasi ng
+LI both indicate shifts in biomass partitioning more in favor
+of generative tissues; a common response in herbaceous plants
+(
+Poorter et al., 2019 ) including cannabis ( Potter and Duncombe,
+2012; Hawley et al., 2018 ). The increases in these attributes
+under high LI may also indirectly facilitate harvesting, as there
+TABLE 2 | The relationships between average photosynthetic photon ﬂu x density
+(APPFD) applied during the ﬂowering stage (81 days) and terpe ne potency in
+apical inﬂorescences of myrcene, limonene and total terpene s, and the mean
+potency for terpenes with no APPFD treatment effects, of Cannabis sativa
+‘Stillwater’.
+T erpene T erpene potency
+(mg·g−1 of inﬂorescence dry weight)
+Meanz Regression equationy R2
+T otal terpenes Y = 0.00230 X + 8.57 0.320
+Myrcene Y = 0.00142 X + 2.34 0.464
+Limonene Y = 0.000326 X + 1.01 0.246
+Alpha pinene 0.16 z ± 0.01
+Beta pinene 0.22 ± 0.01
+T erpinolene UDL x
+Linalool 0.53 ± 0.01
+T erpineol 0.32 ± 0.02
+Caryophyllene 2.9 ± 0.2
+Humulene 0.65 ± 0.04
+3-carene UDL
+Cis-ocimene UDL
+Eucalyptol UDL
+Trans-ocimene UDL
+Fenchol 0.22 ± 0.01
+Borneol 0.03 ± 0.01
+Valencene UDL
+Cis-nerolidol UDL
+Trans-nerolidol UDL
+Guaiol UDL
+Alpha-bisabolol 0.38 ± 0.03
+Sabinene UDL
+zWhen there were no APPFD treatment effects on terpene potency, the means ± SE (n
+= 22) are presented.
+yLinear regression models for the APPFD treatment effects on terpene potency w hen
+P ≤ 0.05.
+xUnder detection limit of 0.5 mg ·g− 1 of inﬂorescence dry weight.
+is correspondingly less unmarketable biomass to be processed
+and discarded, which is an especially labor-intensive aspect of
+cannabis harvesting.
+The terpene potency—comprised mainly of myrcene,
+limonene, and caryophyllene—increased by ≈ 25%, as APPFD
+increased from 130 to 1,800 µmol·m− 2·s− 1 (Table 2), which
+could lead to enhanced aromas and higher quality extracts
+(
+McPartland and Russo, 2001; Nuutinen, 2018 ). Conversely,
+total cannabinoid yield increased in proportion with increas ing
+inﬂorescence yield since there were no LI treatment eﬀects on
+cannabinoid potency (Table 1). Similarly,
+Potter and Duncombe
+(2012) and V anhove et al. (2011) found no LI treatment eﬀects
+on cannabinoid potency (primarily THC in those studies) and
+attributed increasing cannabinoid yield to enhanced bioma ss
+apportioning toward generative tissues at higher LI. Other
+studies had contradictory results on the eﬀects of LI on potenc y.
+Hawley et al. (2018) did not ﬁnd canopy position eﬀects on
+THC or CBD potency in a subcanopy lighting (SCL) trial, but
+they did ﬁnd slightly higher cannabigerol (CBG) potency in th e
+Frontiers in Plant Science | www.frontiersin.org 12 May 2021 | Volume 12 | Article 646020
+
+[PAGE 13]
+Rodriguez-Morrison et al. PPFD in Cannabis
+upper canopy in the control (high pressure sodium top-lighting
+only) and the Red-Green-Blue SCL treatment, but not in the
+Red-Blue SCL treatment. While it is not possible to unlink
+spectrum from LI in their results, the magnitude of the reporte d
+potency diﬀerences, both between canopy positions and between
+lighting treatments, were relatively minor. Conversely,
+Namdar
+et al. (2018) reported what appeared to be a vertical stratiﬁcation
+on cannabis secondary metabolites, with highest potencies
+generally found in the most distal inﬂorescences (i.e., clo sest to
+the light source, PPFD ≈ 600 µmol·m− 2·s− 1). They attributed
+this stratiﬁcation to the localized LI at diﬀerent branch posi tions,
+which were reportedly reduced by ≥ 60% at lower branches vs.
+at the plant apex. However, given the lack of LI treatment eﬀects
+(over a much broader range of PPFDs) on cannabinoid potency
+in the present study, it is likely that other factors were acti ng
+on higher-order inﬂorescences, such as delayed maturation a nd
+reduced biomass allocation, that reduced potency in these ti ssues
+(
+Hemphill et al., 1980; Diggle, 1995 ).
+Plasticity of Cannabis Leaf Morphology
+and Physiology Responses to LI and Over
+Time
+The objectives of the photosynthesis and leaf morphology
+investigations in this study were 2-fold: (1) to address the
+knowledge gap in the relationships between localized cannab is
+leaf photosynthesis and yield and (2) observe and report
+changes in physiology as the plant progresses through the
+ﬂowering ontogeny.
+General morphological, physiological, and yield responses of
+plants are well-documented across LI gradients ranging from
+below the compensation point to DLIs beyond 60 mol ·m− 2·d− 1.
+Recently, the LI responses of myriad plant attributes were
+compiled across a tremendous range species, ecotypes and
+growing environments, and concisely reported them in the
+excellent review paper by
+Poorter et al. (2019) . The trends in
+their LI models align well with primary attributes measured
+in the present study, including morphological parameters such
+as plant height and internode length (data not shown), SLW
+(discussed below), and physiological parameters such as F v/Fm,
+LNCER (i.e., photosynthesis at growth light; Phot/A GL), and Asat
+(i.e., photosynthesis at saturating light; Phot/A SL). In general,
+cannabis photosynthesis, and yield responses to localized LI were
+linear across the APPFD range of 120–1,800 µmol·m− 2·s− 1.
+While these results are in agreement with the contemporary
+literature on cannabis (
+Chandra et al., 2008, 2015; Potter and
+Duncombe, 2012; Bauerle et al., 2020; Eaves et al., 2020 ),
+we also showed substantial chronological dependencies on le af
+photosynthetic indices.
+By surveying the photosynthetic parameters of the upper
+cannabis canopy across a broad range of LPPFDs and over
+multiple timepoints during the generative phase, we saw
+evidence of both acclimation and early senescence as the cro p
+progressed through its ontogeny. At the beginning of the
+trial, the plants were abruptly transitioned from a uniform
+PPFD (425 µmol·m− 2·s− 1) and 18-h photoperiod (i.e., 27.5
+mol·m− 2·d− 1) and subjected to a much shorter photoperiod (12-
+h) and an enormous range of LI (120–1,800 µmol·m− 2·s− 1),
+resulting in DLIs ranging from 5.2 to 78 mol ·m− 2·d− 1. Further,
+on a DLI-basis, ≈ 1/3 of the plants were exposed to lower
+LIs in the ﬂowering vs. vegetative phase (i.e., APPFD <640
+µmol·m− 2·s− 1). These sudden transitions in both LI and
+photoperiod resulted in substantive changes in the plants’
+lighting environment at the start of the trial, stimulating various
+morphological and physiological adaptations with diﬀering
+degrees of plasticity. The leaves measured in week 1 developed
+and expanded during the prior vegetative phase under a diﬀerent
+lighting regimen (LI and photoperiod). The leaves measured
+in week 5 were developed under their respective LPPFDs
+during a period characterized by slowing vegetative growth
+and transitioning to ﬂower development. The leaves measured
+in week 9 would have also developed under their respective
+LPPFDs, but since cannabis vegetative growth greatly dimin ishes
+after the ﬁrst 5 weeks in 12-h days (
+Potter, 2014 ), these tissues
+were physiologically much older than the leaves measured in
+week 5, with concomitant reductions in photosynthetic capacit y
+(
+Bielczynski et al., 2017; Bauerle et al., 2020 ).
+These diﬀerences in leaf physiological age, plant ontogeny,
+and localized lighting environments during leaf expansion vs .
+measurement resulted in notable temporal variability in leaf-level
+LI responses ( Figure 4). In week 1, there were no LI treatment
+eﬀects on A sat and the slopes of the LSP , LNCER, and F v/Fm
+were shallower than in weeks 5 and 9. The comparatively lower
+LI responses in week 1 were likely due to the reduced adaptive
+plasticity that mature foliar tissues have vs. leaves that de veloped
+under a new lighting regime (
+Sims and Pearcy, 1992 ). Further,
+Y-intercepts for the A sat, LSP , and LNCER models were higher
+in week 1 than weeks 5 and 9, which may be partly due to the
+higher LI (ampliﬁed by the longer photoperiod) that the leaves
+developed under, during the latter part of the vegetative phase .
+Moreover, the A sat, LSP , and LNCER models in weeks 5 and 9
+have comparable slopes, but there is a vertical translation in the
+respective models, resulting week 9 models having substantia lly
+lower Y-intercepts (i.e., approximately half) for these parameters.
+The interplay of physiological age of foliage and plant ontogen y
+(i.e., onset of senescence) on the diminished photosynthetic
+capacity of the leaves in week 9 is unknown, but the dynamic
+temporal nature of cannabis photosynthesis (during ﬂowering)
+is manifest in these models.
+Given these impacts of physiological age and light history,
+we posit that cannabis leaf photosynthesis cannot be used as
+a stand-alone gauge for predicting yield.
+Chandra et al. (2008)
+and Chandra et al. (2015) provided insight into the substantial
+capacity for drug-type strains of indoor grown cannabis leave s
+to respond to LI; and the results of these trials are much
+lauded in the industry as evidence that maximum photosynthesis
+and yields will be reached under canopy-level PPFDs of
+≈ 1,500 µmol·m− 2·s− 1. However, their 400–500 µmol·m− 2·s− 1
+increments in LPPFD does not provide suﬃcient granularity
+(particularly at low LI) to reliably model the LRCs, thus no
+models were provided. Further, the LRCs were made on leaves of
+varying and unreported physiological ages, from plants exposed
+to a vegetative photoperiod (18-h), and acclimated to unspeciﬁed
+Frontiers in Plant Science | www.frontiersin.org 13 May 2021 | Volume 12 | Article 646020
+
+[PAGE 14]
+Rodriguez-Morrison et al. PPFD in Cannabis
+localized LI (a canopy-level PPFD of 700 µmol·m− 2·s− 1 was
+indicated in Chandra et al., 2015 ). The strong associations
+between a tissue’s light history and its photosynthesis respo nses
+to LI, demonstrated in this trial and by others ( Björkman, 1981),
+represent a major shortcoming of using leaf LI response models
+to infer crop growth and yield. To illustrate, Figure 3 shows
+LRCs of leaves from a single cultivar, at similar physiologic al
+ages (week 5 after transition to 12-h photoperiod) but acclima ted
+to disparate LPPFDs: 91 and 1,238 µmol·m− 2·s− 1. The relative
+diﬀerence in LNCER at higher LIs ( ≈ 50%) between these two
+curves is representative of the potential uncertainty due to j ust
+one of the uncontrolled parameters (LNCER) in these prior
+works. Diﬀering physiological ages of tissues at the time of
+measurement may have conferred an even larger degree of
+uncertainty in the magnitude of leaf responses to LI (
+Bauerle
+et al., 2020 ) than leaf light history. Consideration must also be
+given to the diﬀerent life stages of a photoperiodic crop (i.e.,
+vegetative vs. generative) and the inherent impact that day length
+imbues on the total daily PAR exposure (i.e., DLI) which can
+correlate better to crop yield than PPFD. Further, for a given DLI,
+yields are higher under longer photoperiod (
+Vlahos et al., 1991;
+Zhang et al., 2018 ), ostensibly due to their relative proximity to
+their maximum QY ( Ohyama et al., 2005 ). A ﬁnal distinction
+between leaf photosynthesis and whole plant yield responses
+to LI is the saturating LI: the LSP for leaf photosynthesis
+were substantially lower than the LSP for yield, which remai ns
+undeﬁned due to the linearity of the light response model.
+Newly-expanded leaves, especially in herbaceous species, are
+able to vary their leaf size, thickness and chlorophyll conte nt in
+response to LPPFD in order to balance myriad factors such as
+internal and leaf surface gas exchange (CO 2 and H 2O), internal
+architecture of the light-harvesting complexes, and resista nce
+to photoinhibition (
+Björkman, 1981 ). In the present study, the
+eﬀects of LI on leaf morphology was only evaluated in week
+5, when the crop was still actively growing vegetative bioma ss.
+Reductions in SLW (i.e., increases in speciﬁc leaf area, SLA) i n
+response to increasing LI are abundant in the literature (
+Sims
+and Pearcy, 1992; Fernandes et al., 2013; Gratani, 2014 ). In
+particular, Poorter et al. (2019) reported a saturating response
+of SLW [also known as leaf mass (per) area; LMA] to LI across
+520 species (36% of which were herbaceous plants), however
+much of their data was at DLIs lower than the minimum DLI
+in the present study (5.2 mol ·m− 2·d− 1), which aﬀected the shape
+of their SLW response model to LI. Across similar DLI ranges,
+the average increase in SLW across 520 species was 1.7 × in
+Poorter et al. (2019) vs. 1.6 × in the present study, indicating that
+cannabis SLW responses to LI are consistent with normal trend s
+for this parameter.
+The lack of LI treatment eﬀects on CCI are also consistent
+with other studies that have shown that area-based chlorophy ll
+content is fairly stable across a broad range of LIs ( Björkman,
+1981; Poorter et al., 2019 ), despite substantial variability in
+photosynthetic eﬃciency. However, since there were LI treatment
+eﬀects on SLW, chlorophyll content on leaf volume or mass
+bases would likely have reduced under higher LI. The position al
+eﬀects on CCI (i.e., higher in upper vs. lower canopy) were
+probably due to the interplay between self-shading and advancing
+physiological age of the lower leaves (
+Bauerle et al., 2020 ).
+The temporal eﬀects on CCI, which was higher in week 1 vs.
+weeks 5 and 9, in both upper and lower leaves, may have
+been due to changes in QY over the life-cycle of the crop.
+Bugbee and Monje (1992) presented a similar trend; high QY
+during the active growth phase of a 60-d crop cycle of wheat,
+followed by a reduction in QY at the onset of senescence
+(i.e., shortly before harvest). The decline in chlorophyll
+content in the latter phase of the production cycle probably
+contributed to the reductions in the photosynthetic parameter s
+(e.g., A sat, LSP , LNCER) of the tissues measured in week
+9 vs. week 5.
+Overall, the impact that increasing LI had on cannabis
+morphology and yield were captured holistically in the plant
+sketches in Figure 6, which shows plants grown under higher
+LIs had shorter internodes, smaller leaves, and much larger
+and denser inﬂorescences (resulting in higher harvest inde x),
+especially at the plant apex. Like many other plant species,
+we have found that cannabis has immense plasticity to rapidly
+acclimate its morphology and physiology, both at leaf- and whole
+plant-levels, to changes in the growing lighting environment .
+Therefore, in order reliably predict cannabis growth and
+yield to LI, it is necessary to grow plants under a broad
+range of LIs through their full ontological development, as
+was done in this study. Without knowing the respective
+tissues’ age and light history, instantaneous light respons e
+curves at leaf-, branch-, or even canopy-levels cannot relia bly
+predict yield.
+CONCLUSIONS
+We have shown an immense plasticity for cannabis to respond
+to increasing LI; in terms of morphology, physiology (over time ),
+and yield. The temporal dynamics in cannabis leaf acclimation s
+to LI have also been explored, addressing some knowledge-
+gaps in relating cannabis photosynthesis to yield. The results
+also indicate that the relationship between LI and cannabis
+yield does not saturate within the practical limits of LI used
+in indoor production. Increasing LI also increased harvest
+index and the size and density of the apical inﬂorescence;
+both markers for increasing quality. However, there were no
+and minor LI treatment eﬀects on potency of cannabinoids
+and terpenes, respectively. This means that growers may be
+able to vastly increase yields by increasing LI but maintain
+a relatively consistent secondary metabolite proﬁle in their
+marketable products. Ultimately, the selection of the economi c
+optimum canopy-level LI for a given commercial production
+system depends on many interrelated factors.
+Future research should expand to multiple cultivars of both
+indica- and sativa-dominant biotypes. Further, since plant y ield
+responses to elevated CO 2 can mirror the responses to elevated
+LI, the combined eﬀects of CO 2 and LI should be investigated
+on cannabis yield with an in-depth cost-beneﬁt analysis of the
+optimum combination of these two input parameters.
+Frontiers in Plant Science | www.frontiersin.org 14 May 2021 | Volume 12 | Article 646020
+
+[PAGE 15]
+Rodriguez-Morrison et al. PPFD in Cannabis
+DATA AVAILABILITY STATEMENT
+The raw data supporting the conclusions of this article will be
+made available by the authors, without undue reservation.
+AUTHOR CONTRIBUTIONS
+All authors contributed to the experimental design. VR-M and
+DL performed the experiment, collected and analyzed the data.
+DL, VR-M, and YZ wrote and revised the manuscript. All authors
+contributed to the article approved the submitted version.
+FUNDING
+This work was funded by Natural Sciences and Engineering
+Research Council of Canada (Grant# CRDPJ533527-18).
+Green Relief provided the research facility, cannabis plants,
+experimental materials, and logistical support.
+ACKNOWLEDGMENTS
+We thank Dr. Nigel Gale for contributing to the experimental
+design. We thank Derek Bravo, Tim Moﬀat, and Dane Cronin
+for technical support throughout the experiment. This article was
+ﬁrst published as a preprint (
+Rodriguez-Morrison et al., 2021).
+REFERENCES
+Backer, R., Schwinghamer, T., Rosenbaum, P., McCarty, V., Eich horn Bilodeau,
+S., Lyu, D., et al. (2019). Closing the yield gap for cannabis: a me ta-
+analysis of factors determining cannabis yield. Front. Plant Sci . 10:495.
+doi: 10.3389/fpls.2019.00495
+Bauerle, W. L., McCullough, C., Iversen, M., and Hazlett, M. (2020 ). Leaf age and
+position eﬀects on quantum yield and photosynthetic capacity in hemp crowns.
+Plants 9:271. doi: 10.3390/plants9020271
+Beaman, A. R., Gladon, R. J., and Schrader, J. A. (2009). Sweet ba sil requires an
+irradiance of 500 µmol·m− 2·s− 1 for greatest edible biomass production. Hort
+Sci. 44, 64–67. doi: 10.21273/HORTSCI.44.1.64
+Bielczynski, L. W., Łaçki, M. K., Hoefnagels, I., Gambin, A., and Croce, R. (2017).
+Leaf and plant age aﬀects photosynthetic performance and photoprotec tive
+capacity. Plant Physiol. 175, 1634–1648. doi: 10.1104/pp.17.00904
+Björkman, O. (1981). “Responses to diﬀerent quantum ﬂux densiti es, ” in
+Encyclopedia of Plant Physiology: New Series: Vol. 12A, Physiolog ical Plant
+Ecology 1, eds L. Lange, P.S. Nobel, C.B. Osmond, and H. Ziegler (Heidelberg,
+Berlin: Springer-Verlag), 57–107. doi: 10.1007/978-3-642-68090-8_4
+Bredmose, N. (1993). Eﬀects of year-round supplementary lighting on s hoot
+development, ﬂowering and quality of two glasshouse rose cultivars. Sci. Hortic.
+54, 69–85. doi: 10.1016/0304-4238(93)90084-4
+Bredmose, N. (1994). Biological eﬃciency of supplementary lighting o n cut roses
+the year round. Sci. Hortic. 59:75–82. doi: 10.1016/0304-4238(94)90094-9
+Bugbee, B., and Monje, O. (1992). The limits of crop productivity. Bioscience 42,
+494–502. doi: 10.2307/1311879
+Carvalho, F. E. L., Ware, M. A., and Ruban, A. V. (2015). Quantifying the dynamics
+of light tolerance in Arabidopsis plants during ontogenesis. Plant Cell Environ .
+38, 2603–2617. doi: 10.1111/pce.12574
+Chandra, S., Lata, H., Khan, I. A., and Elsohly, M. A. (2008). Phot osynthetic
+response of Cannabis sativa L. to variations in photosynthetic photon ﬂux
+densities, temperature and CO 2 conditions. Physiol. Mol. Biol. Plants 14,
+299–306. doi: 10.1007/s12298-008-0027-x
+Chandra, S., Lata, H., Khan, I. A., and ElSohly, M. A. (2011). Phot osynthetic
+response of Cannabis sativa L., an important medicinal plant, to elevated levels
+of CO2. Physiol. Mol. Biol. Plants 17, 291–295. doi: 10.1007/s12298-011-0066-6
+Chandra, S., Lata, H., Mehmedic, Z., Khan, I. A., and ElSohly, M. A. (2015).
+Light dependence of photosynthesis and water vapor exchange ch aracteristics
+in diﬀerent high /Delta19-THC yielding varieties of Cannabis sativa L. J. Appl. Res.
+Med. Aromat. Plants 2, 39–47. doi: 10.1016/j.jarmap.2015.03.002
+Delgado, E., Parry, M. A. J., Lawlor, D. W., Keys, A. J., and Medrano ,
+H. (1993). Photosynthesis, ribulose-1,5-bisphosphate carboxy lase and leaf
+characteristics of Nicotiana tabacum L. genotypes selected by survival at low
+CO2 concentrations. J. Exp. Bot. 44, 1–7. doi: 10.1093/jxb/44.1.1
+Diggle, P. K. (1995). Architectural eﬀects and the interpretatio n of patterns
+of fruit and seed development. Annu. Rev. Ecol. Syst . 26, 531–552.
+doi: 10.1146/annurev.es.26.110195.002531
+Eaves, J., Eaves, S., Morphy, C., and Murray, C. (2020). The relatio nship between
+light intensity, cannabis yields, and proﬁtability. Agron. J . 112, 1466–1470.
+doi: 10.1002/agj2.20008
+European Monitoring Centre for Drugs and Drug Addiction (2013). Cannabis
+Production and Markets In Europe. Lisbon: EMCDDA Insights, No. 12.
+Evergreen Economics (2016). Cannabis Agriculture Energy Demand Study Final
+Report. San Diego, CA: San Diego Gas and Electric Company.
+Faust, J. E. (2003). “Light, ” in Ball Redbook , ed D. Hamrick (Batabia, IL: Ball
+Publishing), 71–84.
+Fernandes, V. F., de Almeida, L. B., da Feijó, E. V. R. S., da Silva, D. C., de
+Oliveira, R. A., Mielke, M. S., et al. (2013). Light intensity on g rowth, leaf
+micromorphology and essential oil production of Ocimum gratissimum. Braz.
+J. Pharmacogn. 23, 419–424. doi: 10.1590/S0102-695X2013005000041
+Gratani, L. (2014). Plant phenotypic plasticity in response to enviro nmental
+factors. Adv. Bot. 2014, 1–17. doi: 10.1155/2014/208747
+Hawley, D., Graham, T., Stasiak, M., and Dixon, M. (2018). Improvin g cannabis
+bud quality and yield with subcanopy lighting. HortScience 53, 1593–1599.
+doi: 10.21273/HORTSCI13173-18
+Hemphill, J. K., Turner, J. C., and Mahlberg, P. G. (1980). Cannabino id content of
+individual plant organs from diﬀerent geographical strains of Cannabis sativa
+L. J. Nat. Prod. 43, 112–122. doi: 10.1021/np50007a009
+Jones-Baumgardt, C., Llewellyn, D., Ying, Q., and Zheng, Y. (2019 ).
+Intensity of sole-source light-emitting diodes aﬀects growth, yield,
+and quality of Brassicaceae microgreens. HortScience 54, 1168–1174.
+doi: 10.21273/HORTSCI13788-18
+Kirschbaum, M. U. F. (2011). Does enhanced photosynthesis enha nce growth?
+Lessons learned from CO 2 enrichment studies. Plant Physiol . 155, 117–124.
+doi: 10.1104/pp.110.166819
+Kreyling, J., Schweiger, A. H., Bahn, M., Ineson, P., Migliavacca, M., Morel-Journel,
+T., et al. (2018). To replicate, or not to replicate - that is the quest ion: how to
+tackle nonlinear responses in ecological experiments. Ecol. Lett. 21, 1629–1638.
+doi: 10.1111/ele.13134
+Kusuma, P., Pattison, P. M., and Bugbee, B. (2020). From physics to
+ﬁxtures to food: Current and potential LED eﬃcacy. Hortic. Res . 7:56.
+doi: 10.1038/s41438-020-0283-7
+Leggett, T. (2006). A review of the world cannabis situation. Bull. Narc. 58: 1–155.
+LI-COR Biosciences. (2012). Using the LI-6400 / LI-6400XT Portable Photosynthesis
+System Version 6. Lincoln, NB: LI-COR Inc.
+Lobo, F. A., de Barros, M. P., Dalmagro, H. J., Dalmolin, Â. C., Pereira, W. E., de
+Souza, É. C., et al. (2013). Fitting net photosynthetic light-re sponse curves with
+Microsoft Excel - a critical look at the models. Photosynthetica 51, 445–456.
+doi: 10.1007/s11099-013-0045-y
+Lydon, J., Teramura, A. H., and Coﬀman, C. B. (1987). UV-B radiation
+eﬀects on photosynthesis, growth and cannabinoid production of
+two Cannabis sativa chemotypes. Photochem. Photobiol . 46, 201–206.
+doi: 10.1111/j.1751-1097.1987.tb04757.x
+Marcelis, L. F. M., Broekhuijsen, A. G. M., Meinen, E., Nijs, E. M. F. M.,
+and Raaphorst, M. G. M. (2006). Quantiﬁcation of the growth respo nse
+to light quantity of greenhouse grown crops. Acta Hortic . 711, 97–103.
+doi: 10.17660/ActaHortic.2006.711.9
+McPartland, J. M., and Russo, E. B. (2001). Cannabis and cannab is
+extracts: greater than the sum of their parts? Cannabis Ther . 1, 103–132.
+doi: 10.1300/J175v01n03_08
+Frontiers in Plant Science | www.frontiersin.org 15 May 2021 | Volume 12 | Article 646020
+
+[PAGE 16]
+Rodriguez-Morrison et al. PPFD in Cannabis
+Mills, E. (2012). The carbon footprint of indoor Cannabis producti on. Energy
+Policy 46, 58–67. doi: 10.1016/j.enpol.2012.03.023
+Murchie, E., Hubbart, S., Chen, Y., Peng, S., and Horton, P. (2002 ). Acclimation
+of rice photosynthesis to irradiance under ﬁeld conditions. Plant Physiol. 130,
+1999–2010. doi: 10.1104/pp.011098
+Murchie, E., and Lawson, T. (2013). Chlorophyll ﬂuorescence analy sis: a guide
+to good practice and understanding some new applications. J. Exp. Bot . 64,
+3983–3998. doi: 10.1093/jxb/ert208
+Namdar, D., Mazuz, M., Ion, A., and Koltai, H. (2018). V ariation i n the
+compositions of cannabinoid and terpenoids in Cannabis sativa derived from
+inﬂorescence position along the stem and extraction methods. Ind. Crops Prod.
+113, 376–382. doi: 10.1016/j.indcrop.2018.01.060
+Nelson, J. A., and Bugbee, B. (2014). Economic analysis of greenh ouse lighting:
+light emitting diodes vs. high intensity discharge ﬁxtures. PLoS ONE. 9:e99010.
+doi: 10.1371/journal.pone.0099010
+Niinemets, Ü., and Keenan, T. F. (2012). Measures of light in stud ies on light-
+driven plant plasticity in artiﬁcial environments. Front. Plant Sci . 3:156.
+doi: 10.3389/fpls.2012.00156
+Nuutinen, T. (2018). Medicinal properties of terpenes found in Cannabis
+sativa and Humulus lupulus . Eur. J. Med. Chem . 157, 198–228.
+doi: 10.1016/j.ejmech.2018.07.076
+Oh, W., Cheon, H., Kim, K. S., and Runkle, E. S. (2009). Photosynt hetic daily
+light integral inﬂuences ﬂowering time and crop characteristics of Cyclamen
+persicum. Hort Sci. 44, 341–344. doi: 10.21273/HORTSCI.44.2.341
+Ohyama, K., Manabe, K., Omura, Y., Kozai, T., and Kubota, C. (200 5).
+Potential use of a 24-hour photoperiod (continuous light) with a lternating
+air temperature for production of tomato plug transplants in a closed syste m.
+HortScience 40, 374–377. doi: 10.21273/HORTSCI.40.2.374
+Poorter, H., Niinemets, Ü., Ntagkas, N., Siebenkäs, A., Mäenp,ää , M., Matsubara,
+S., et al. (2019). A meta-analysis of plant responses to light intensity for 70 traits
+ranging from molecules to whole plant performance.N. Phytol. 223, 1073–1105.
+doi: 10.1111/nph.15754
+Posada, J. M., Sievänen, R., Messier, C., Perttunen, J., Nikinmaa, E., and Lechowicz,
+M. J. (2012). Contributions of leaf photosynthetic capacity, lea f angle and
+self-shading to the maximization of net photosynthesis in Acer saccharum : a
+modelling assessment. Ann. Bot. 110, 731–741. doi: 10.1093/aob/mcs106
+Potter, D. J. (2014). A review of the cultivation and processing o f cannabis
+(Cannabis sativa L.) for production of prescription medicines in the UK. Drug
+Test. Anal. 6, 31–38. doi: 10.1002/dta.1531
+Potter, D. J., and Duncombe, P. (2012). The eﬀect of electrical li ghting power and
+irradiance on indoor-grown cannabis potency and yield. J. Forensic Sci . 57,
+618–622. doi: 10.1111/j.1556-4029.2011.02024.x
+Radetsky, L. C. (2018). LED and HID Horticultural Luminaire Testing Report
+Prepared For Lighting Energy Alliance Members and Natural Resources Canada.
+Troy, NY: Rensselaer Polytechnic Institute.
+Rodriguez-Morrison, V., Llewellyn, D., and Zheng, Y. (2021). Cann abis
+yield, potency, and leaf photosynthesis respond diﬀerently to increa sing
+light levels in an indoor environment. Preprints 2021:2021010163.
+doi: 10.20944/preprints202101.0163.v1
+Sen, A., and Wyonch, R. (2018). Cannabis Countdown: Estimating the Size of Illegal
+Markets and Lost T ax Revenue Post-Legalization . Toronto, ON: C.D. Howe
+Institute. doi: 10.2139/ssrn.3269989
+Sims, D. A., and Pearcy, R. W. (1992). Response of leaf anatomy
+and photosynthetic capacity in Alocasia macrorrhiza (Araceae)
+to a transfer from low to high light. Am. J. Bot . 79, 449–455.
+doi: 10.1002/j.1537-2197.1992.tb14573.x
+Singsaas, E. L., Ort, D. R., and DeLucia, E. H. (2001). V ariation in measured values
+of photosynthetic quantum yield in ecophysiological studies. Oecologia 128,
+15–23. doi: 10.1007/s004420000624
+Terashima, I., and Hikosaka, K. (1995). Comparative ecophysiology o f
+leaf and canopy photosynthesis. Plant. Cell Environ . 18, 1111–1128.
+doi: 10.1111/j.1365-3040.1995.tb00623.x
+Toonen, M., Ribot, S., and Thissen, J. (2006). Yield of illicit i ndoor
+cannabis cultivation in the Netherlands. J. Forensic Sci . 51, 1050–1054.
+doi: 10.1111/j.1556-4029.2006.00228.x
+United Nations Oﬃce on Drugs and Crime (2019). World Drug Report 2019 . New
+York, NY: United Nations. doi: 10.18356/a4dd519a-en
+V anhove, W., Surmont, T., V an Damme, P., and De Ruyver, B. (2014).
+Filling in the blanks. An estimation of illicit cannabis growers’ proﬁ ts
+in Belgium. Int. J. Drug Policy 25, 436–443. doi: 10.1016/j.drugpo.2014.
+01.020
+V anhove, W., V an Damme, P., and Meert, N. (2011). Factors determining yield and
+quality of illicit indoor cannabis ( Cannabis spp.) production. Forensic Sci. Int .
+212, 158–163. doi: 10.1016/j.forsciint.2011.06.006
+Vlahos, J. C., Heuvelink, E., and Martakis, G. F. P. (1991). A growt h analysis study
+of three Achimenes cultivars grown under three light regimes. Sci. Hortic . 46,
+275–282. doi: 10.1016/0304-4238(91)90050-9
+Zhang, X., He, D., Niu, G., Y an, Z., and Song, J. (2018). Eﬀects o f
+environment lighting on the growth, photosynthesis, and quality o f
+hydroponic lettuce in a plant factory. Int. J. Agric. Biol. Eng . 11, 33–40.
+doi: 10.25165/j.ijabe.20181102.3240
+Zheng, Y. (2020). Soilless Production of Drug-Type Cannabis sativa . Acta Hortic
+(In press.).
+Zheng, Y., Blom, T., and Dixon, M. (2006). Moving lamps increase leaf
+photosynthetic capacity but not the growth of potted gerbera. Sci. Hortic. 107,
+380–385. doi: 10.1016/j.scienta.2005.09.004
+Conﬂict of Interest: The authors declare that the research was conducted in the
+absence of any commercial or ﬁnancial relationships that could be c onstrued as a
+potential conﬂict of interest.
+Copyright © 2021 Rodriguez-Morrison, Llewellyn and Zheng. This is an open-access
+article distributed under the terms of the Creative Commons Attribution License (CC
+BY). The use, distribution or reproduction in other forums is permitted, provided
+the original author(s) and the copyright owner(s) are credit ed and that the original
+publication in this journal is cited, in accordance with acc epted academic practice.
+No use, distribution or reproduction is permitted which doe s not comply with these
+terms.
+Frontiers in Plant Science | www.frontiersin.org 16 May 2021 | Volume 12 | Article 646020

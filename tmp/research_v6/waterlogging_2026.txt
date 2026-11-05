@@ -1,0 +1,817 @@
+Received: 24 July 2026
+Revised: 4 September 2026
+Accepted: 22 September 2026
+Published: 25 September 2026
+Copyright:© 2026 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license.
+Article
+Industrial Hemp Response to Waterlogging Stress: Influence of
+Duration and Growth Stage on Physiological Performance
+and Yield
+Induni Vijaya Kumar, Shaun Lisson, Marcus Hardie and Tina Botwright Acuña *,†
+Tasmanian Institute of Agriculture, University of Tasmania, P .O. Box 805, Hobart, TAS 7006, Australia;
+induni4@gmail.com (I.V .K.); lissonsn@gmail.com (S.L.); marcus.hardie@utas.edu.au (M.H.)
+*Correspondence: tina.acuna@utas.edu.au
+† Current addresses: Academic Division, University of Tasmania, P .O. Box 841, Hobart, TAS 7001, Australia.
+Abstract
+Industrial hemp is often considered sensitive to waterlogging; however, empirical ev-
+idence remains scarce. This study evaluated the effects of waterlogging duration and
+timing on the physiology, growth, and development of hemp under controlled conditions.
+Two glasshouse experiments were conducted using industrial hemp (Cannabis sativaL.)
+cv. Ferimon 12. The first examined five waterlogging durations: 0 (control), 3, 6, 12, and
+24 days, imposed at the eight true leaf pair stage. The second examined 3- and 6-day
+waterlogging events imposed at the six true leaf pair and flower initiation stages. In Ex-
+periment 1, waterlogging beyond 6 days caused severe damage, and plants died after
+12 days of continuous waterlogging. Plants subjected to 3–6 days of waterlogging survived,
+but photosynthetic activity declined by 40–80%, biomass by 18–55%, and seed yield by
+16–48% relative to the control, with the greatest reductions occurring after 6 days of wa-
+terlogging. Experiment 2 showed that plant sensitivity varied with developmental stage,
+with plants exhibiting greater susceptibility at the six true leaf pair stage compared to the
+flower initiation stage. The dual-purpose hemp cultivar Ferimon 12 was highly sensitive to
+waterlogging, particularly during early vegetative growth, with even short-term saturation
+impairing photosynthesis, stomatal conductance, growth and yield. These findings charac-
+terise the physiological limits of this cultivar under controlled conditions and demonstrate
+that developmental stage influences the severity of waterlogging impacts.
+Keywords:industrial hemp; waterlogging duration; growth stage; physiological response;
+growth response; yield
+1. Introduction
+Industrial hemp (Cannabis sativaL.) is one of the world’s oldest cultivated crops and
+has been widely adopted due to its versatility. It is used in textiles, bioplastics, construction
+materials, nutritional products, and medicinal purposes, with cannabidiol rich varieties
+valued for their therapeutic properties. The growing demand for hemp-derived products,
+together with the crop’s broad adaptability and the easing of cultivation restrictions in
+many regions, has renewed interest in understanding how environmental conditions and
+agronomic management practices influence hemp growth and productivity.
+Hemp requires adequate moisture during establishment, particularly within the first
+six weeks [1]. However, excessive water can reduce growth, depress yield, and even cause
+crop failure. Waterlogging induces prolonged rootzone saturation and oxygen deficiency,
+Crops2026,6, 90 https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 2 of 18
+impairing root respiration, nutrient uptake, and plant development [ 2]. Consequently,
+well-drained soils and the avoidance of prolonged saturation are essential for optimal
+hemp growth. Under anaerobic conditions, plant roots shift from aerobic respiration to
+less efficient fermentation pathways, resulting in lower energy production [ 3] and the
+accumulation of toxic metabolites that damage root cells [3]. Root hypoxia or anoxia further
+triggers physiological responses such as increased abscisic acid (ABA) levels, leading
+to stomatal closure, reduced water and nutrient uptake, decreased photosynthetic rates,
+and ultimately suppressed growth and wilting [ 4,5]. Waterlogging further decreases
+chlorophyll content and chlorophyll fluorescence, indicating impaired photosynthetic
+performance [6,7].
+Numerous studies have investigated the effects of water stress (drought) on the physi-
+ology, growth, and yield of industrial hemp [8–15]. In contrast, research on waterlogging in
+hemp remains limited [16], with much of the available evidence being anecdotal and lack-
+ing systematic evaluation. Although waterlogging effects have been extensively studied
+in other crops such as cotton, wheat, and barley [17–21], comparatively few studies have
+addressed how hemp responds to waterlogging conditions [16].
+The impact of waterlogging on crop performance varies with crop sensitivity, the
+duration of waterlogging and the growth stage at which it occurs [ 22]. Kumar et al.
+reported that a short duration of waterlogging at the vegetative stage of industrial hemp in
+a field trial reduced photosynthetic traits; however, these traits recovered by the end of the
+growth stage [16]. In contrast, waterlogging during critical reproductive phases has been
+shown in other crops, such as cotton, to significantly reduce plant height, leaf area, stem
+diameter, and yield [17,21,23,24]. Wang et al. found that waterlogging effects increase with
+duration and are highly stage-dependent in cotton, with the flowering stage being the most
+sensitive, where even 2 days of waterlogging can cause irreversible damage, while plants
+at early growth stages can recover from short-term stress [21]. The flowering stage is highly
+sensitive to waterlogging because reproductive development requires substantial energy
+and nutrient supply, which is compromised by oxygen deficiency, reduced root function,
+decreased photosynthesis, and hormonal imbalances under stress, ultimately leading to
+flower abortion and irreversible yield loss [25].
+While short term exposure may allow some degree of recovery, prolonged waterlog-
+ging generally results in substantial reductions in biomass accumulation and final yield
+in other crops [17,21,24,26,27]. Beegum et al. reported that waterlogging beyond 4–6 days
+initiates significant growth reduction, with severe physiological and biomass losses occur-
+ring after 8–10 days, and maximum damage observed at 12–14 days in cotton [17]. Milroy
+and Bange also observed that photosynthesis in cotton declined significantly after 72 h
+of waterlogging but recovered once soil oxygen levels improved [ 23]. They also found
+that plants showed some acclimation, with photosynthesis becoming less sensitive to low
+oxygen at later growth stages [23].
+In a previous study, Kumar et al. showed that excess water causing waterlogging
+during the vegetative and flower initiation stages reduced photosynthesis by 20–30% and
+limited hemp growth in field conditions [ 16]. This field study established the impact
+of contrasting water regimes on crop performance. However, a precise evaluation of
+waterlogging effects requires controlled conditions; therefore, the present experiment was
+conducted in a pot-based controlled system. Containerized cultivation is widely used
+in both research and commercial production of cannabis, including medicinal cannabis
+systems [28–30]. Cannabis and hemp are taxonomically the same species,Cannabis sativa
+L., differing mainly in cannabinoid profile and end use applications. Owing to their
+similar growth physiology and cultivation practices, including containerised production
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 3 of 18
+systems, the present study has direct relevance to both medicinal cannabis and industrial
+hemp industries.
+Accordingly, this study aims to address the existing knowledge gap by systematically
+evaluating the effects of waterlogging imposed at different growth stages and durations
+on hemp grown under controlled glasshouse conditions, with a focus on plant survival,
+photosynthesis, growth, phenology, and yield.
+2. Materials and Methods
+Two glasshouse experiments were conducted to evaluate the effects of waterlogging
+on hemp growth and physiological responses. The first experiment assessed plant tolerance
+to different durations of waterlogging, while the second experiment was further refined
+based on initial findings to examine plant responses to moderate waterlogging imposed at
+different growth stages.
+Both experiments used a single genotype grown in a uniform substrate to ensure
+consistency and minimise genetic and edaphic variability. The use of a substrate also
+allowed precise control of waterlogging duration and timing by reducing physical and
+chemical heterogeneity typical of field soils. Using a uniform substrate minimised vari-
+ability associated with soil physical and chemical properties, allowing plant responses to
+be compared across waterlogging treatments under controlled conditions. This controlled
+approach aligns with the study’s objective of establishing a foundational understanding of
+the physiological and morphological responses of hemp to waterlogging.
+2.1. Experimental Location and Growth Conditions
+The experiments were conducted in a glasshouse at the Horticulture Research Centre
+at the University of Tasmania, Hobart, Australia. The first experiment was conducted from
+February to June 2019 and the second experiment from August to December 2019.
+Daylength was maintained at 13 h 40 min to delay flowering [31], using natural day-
+light supplemented, when required, with two 400 W mercury vapour lamps providing
+approximately 40–80 µmol m−2 s−1 photosynthetically active radiation (PAR). Supplemen-
+tal lighting duration was adjusted seasonally to maintain the target photoperiod.
+Glasshouse temperatures were monitored using a Tiny Tag data logger. Temperatures
+were generally maintained through ventilation at an average maximum of ~25 ◦C and
+minimum of ~15 ◦C, which are within the optimal range for hemp growth. However, a few
+higher temperature events (up to ~31 ◦C) were recorded due to occasional environmental
+fluctuations; these instances were infrequent.
+The monoecious hemp cultivar Ferimon 12 was selected for this study due to its
+uniform growth habit and widespread use in industrial hemp production, which improves
+the relevance of the findings. The use of a single variety further minimised genotypic
+variability and enabled a clearer interpretation of treatment effects, ensuring that observed
+differences in growth, physiology, and yield were primarily attributable to waterlogging
+duration and timing rather than genetic differences.
+Seeds were sown in 15 L polypropylene bags (24 cm height) filled with a substrate
+consisting of a 1:1:1 mix of peat moss, perlite, and vermiculite. The peat–perlite–vermiculite
+substrate was selected because of its uniform physical properties and rapid drainage under
+non-waterlogged conditions, allowing the onset and removal of rootzone saturation to be
+precisely controlled during treatment application. A substrate bulk density of 0.13 g cm−3
+was calculated as the average of the reported bulk densities of peat moss (0.12 g cm −3),
+perlite (0.08 g cm−3), and vermiculite (0.19 g cm−3) in the 1:1:1 (v/v/v) mixture and was
+used for unit conversions. This estimate falls within the reported dry bulk density range of
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 4 of 18
+0.08–0.14 g cm−3 for peat–perlite substrates [32]. The substrate pH was adjusted to 6.0–6.5
+by incorporating dolomite at 36.2 g kg−1, providing Ca and Mg while buffering acidity.
+Basal nutrients were applied prior to sowing by adding a controlled-release fertiliser
+(Osmocote, 7.7 g kg −1, N:P:K ratio 15:4:9 plus micronutrients) in combination with a
+micronutrient blend (Micromax, 8.5 g kg−1, Fe 6%w/w, Mn 2.5%w/w, Zn 1%w/w, Cu 0.5%
+w/w, B 0.1%w/w, Mo 0.05%w/w), applied according to manufacturer recommendations
+to meet nutritional requirements.
+Four seeds were sown per pot at ~3 cm depth and thinned to one plant per pot
+after emergence.
+2.2. T reatments
+2.2.1. Experiment 1
+Waterlogging treatments began at 43 Days After Sowing (DAS) (eight true leaf pair veg-
+etative stage). Before treatment, all plants received overhead sprinkler irrigation (19 L h−1)
+for 8 min per day, applied in three intervals. Following treatment initiation, control plants
+continued under the same irrigation regime, while waterlogged plants were maintained
+under continuous inundation for the duration of their respective waterlogging treatments.
+A randomised complete block design was used with six replicates and five waterlog-
+ging durations: 0 (control), 3, 6, 12, and 24 days. Waterlogging was imposed by placing
+individual 15 L pots into 50 L containers and maintaining the water level approximately
+2.5 cm above the substrate surface throughout the treatment period. This ensured com-
+plete saturation of the potting media and restricted gas exchange between the root zone
+and atmosphere, creating conditions conducive to rootzone hypoxia. Water levels were
+checked daily and adjusted as required to maintain consistent inundation. Following each
+waterlogging period, pots were drained for 24 h without irrigation, after which normal
+irrigation resumed.
+2.2.2. Experiment 2
+Similar to Experiment 1, before treatment, all plants received overhead sprinkler irriga-
+tion (19 L h−1) for 8 min per day, applied in three intervals. Following treatment initiation,
+control plants continued under the same irrigation regime, while waterlogged plants were
+maintained under continuous inundation for the duration of their respective waterlogging
+treatments. Waterlogging was imposed using the same protocol as Experiment 1, with pots
+placed in 50 L containers and water maintained approximately 2.5 cm above the substrate
+surface for the duration of each treatment.
+A randomised complete block design was used with five replicates and three waterlog-
+ging durations: 0 (control), 3, and 6 days. Waterlogging was applied at two growth stages:
+six true leaf pair vegetative stage (35 DAS, GS 1012) and flower initiation stage (49 DAS, GS
+2301). Following each waterlogging period, pots were drained for 24 h without irrigation,
+after which normal irrigation resumed.
+The treatments therefore included: 0-day waterlogging (control), 3-day waterlogging
+at the six true leaf pair stage (3 VE), 6-day waterlogging at six true leaf pair vegetative
+stage (6 VE), 3-day waterlogging at flower initiation stage (3 FI), and 6-day waterlogging at
+flower initiation stage (6 FI).
+2.3. Measurements
+Volumetric water content of the substrate was recorded weekly at depths of 4.2, 12.5,
+and 20.8 cm using an Acclima TDR-315 sensor (Acclima, Meridian, US). Values were
+summed to provide an integrated measure of substrate water content. Additional measure-
+ments were taken during waterlogging periods as required to monitor and maintain the
+target waterlogging conditions.
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 5 of 18
+From 4 DAS (after seedling emergence), plant development was monitored to calculate
+thermal time to flower initiation (first visible pistils), end of flowering (95% male flowers
+withered), and seed maturity (90% hard seeds). Thermal time was calculated using daily
+maximum and minimum temperatures and a base temperature (Tb) of 5.7 ◦C, adopted
+from the base temperature reported for leaf appearance in fibre hemp under controlled-
+environment conditions [33]. Growth stages followed Mediavilla et al. [34].
+Chlorophyll content was measured at 11:00 am on the two youngest fully expanded
+leaves using a SPAD meter (Apogee Instruments, Logan, UT, USA). Chlorophyll fluo-
+rescence (Fv/Fm) was measured after 30 min dark adaptation using a phase amplitude
+modulated (PAM) fluorometer (OS-30 chlorophyll fluorometer, Opti Sciences, Hudson, NH,
+USA) on the two youngest fully expanded leaves to assess PSII efficiency.
+Net CO 2 assimilation rate (Pn), transpiration rate (Tr), and stomatal conductance
+(Gs) were measured weekly using a Li-Cor 6400XT infrared gas analyser (IRGA; Li-Cor
+Biosciences, Lincoln, US). Before measurement, plants were exposed to full sunlight for 1 h
+near midday. Measurements were taken on the two youngest fully expanded leaves. The
+IRGA chamber maintained leaf temperature at 20◦C, CO2 concentration at 400µmol mol −1,
+CO2 flow rate at 400 µmol s−1 and PAR at 1500 µmol m−2 s−1. Photosynthetic water use
+efficiency (PWUE) was calculated as Pn/Tr [35].
+Plant height and stem diameter were measured weekly (for Experiment 1) and at
+harvest (for Experiment 1 and Experiment 2). Plant height was measured from the substrate
+level to the growing tip of the plant using a tape measure. Stem diameter was measured
+using a Vernier calliper at the mid-point between the first node and the cotyledonary node.
+Plants were harvested at the end of the seed maturity; dead and senesced leaves
+were excluded. In Experiment 1, control and 3-day treatments were harvested at 142 DAS,
+and the 6-day treatment at 138 DAS. In Experiment 2, control and 3 VE treatments were
+harvested at 146 DAS. Waterlogged plants matured earlier: 6 VE plants were harvested at
+139 DAS (with two plants dying before maturity), and 6 FI plants at 133 DAS.
+At each harvest, fresh weight and leaf area were recorded. Bark proportion was
+determined from stem sections. Stem, leaf, and reproductive tissues were separated and
+oven dried at 60 ◦C for 48 h to determine dry yield. Seeds were separated, cleaned and
+weighed, and total seed yield (g plant−1) and thousand seed weight (TSW) were calculated
+for each treatment.
+3. Data Analysis
+Repeatedly measured variables, including chlorophyll content, chlorophyll fluores-
+cence (Fv/Fm), net CO2 assimilation rate (Pn), transpiration rate (Tr), stomatal conductance
+(Gs), plant height and stem diameter were analysed using the PROC MIXED procedure in
+SAS version 9.4. The model included treatment, sampling time, and the treatment × time
+interaction as fixed effects. Individual plants were considered the experimental units and
+specified as subjects in the repeated-measures analysis to account for correlations among
+observations collected from the same plant over time. Type III F-tests were used to evaluate
+fixed effects. When significant treatment × time interactions were detected (p ≤ 0.05),
+treatment means were compared within sampling dates using Tukey-adjusted multiple
+comparisons. Plants that died during the experiment contributed data up to the time of
+mortality, after which observations were treated as missing. PROC MIXED accommodated
+missing repeated observations without requiring data imputation. Individual plants (n= 6
+per treatment in Experiment 1;n= 5 per treatment in Experiment 2) were considered the
+experimental units and specified as subjects in the repeated-measures analysis.
+Data from destructive measurements were analysed using analysis of variance
+(ANOVA) to evaluate the effects of waterlogging on plant responses. The sample size
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 6 of 18
+(n= 5–6 replicates per treatment) was selected based on common practice in controlled-
+environment and glasshouse studies, as well as logistical constraints associated with the
+experimental setup. While a formal a priori power analysis was not performed, the study
+detected significant treatment effects across several key response variables.
+In Experiment 1, which included only waterlogging duration treatments (0-control, 3,
+6, 12, and 24 days), treatment effects were assessed using one way ANOVA.
+In Experiment 2, treatment means for all five treatments (0 days (control), 3 VE,
+6 VE, 3 FI, and 6 FI) were first compared using one-way ANOVA to evaluate overall
+treatment differences relative to the 0 days (control). To specifically examine the effects
+of waterlogging duration and growth stage, a separate two-way ANOVA was conducted
+using only waterlogging treatments (3 VE, 6 VE, 3 FI, and 6 FI). Waterlogging duration
+(3 and 6 days) and growth stage (vegetative and flower initiation) were included as fixed
+factors. The 0 days (control) was excluded from the factorial analysis because it could not
+be assigned to either a waterlogging duration or a growth-stage treatment level.
+Statistical significance was determined using Type III F tests atp ≤ 0.05. When
+interactions were significant, treatment means were separated using Tukey’s HSD test.
+For variables with non-significant interactions, main effects were interpreted and means
+compared using Tukey’s HSD test.
+4. Results
+4.1. Experiment 1
+4.1.1. Volumetric Water Content of the Substrate
+Total volumetric water content in the control treatment remained stable throughout the
+experiment. Waterlogging increased substrate water content by approximately 0.0417 L L−1
+in the 3-day treatment, 0.0625 L L −1 in the 6- and 12-day treatments, and 0.083 L L −1 in
+the 24-day treatment. Plants subjected to 12- and 24 days of waterlogging died by 66 DAS
+(23 days after waterlogging). After waterlogging ceased, water content declined across all
+treatments. Differences in substrate water content among treatments were minimal both
+before and after the waterlogging events. (Figure S1).
+4.1.2. Leaf Chlorophyll, CO2 Exchange, Stomatal Conductance and PWUE
+Relative chlorophyll content, Pn, Tr, Gs and PWUE exhibited significant treat-
+ment × time interactions (p< 0.05), indicating that responses to waterlogging differed
+among treatments over time, particularly following treatment imposition and during the
+recovery phase. Relative chlorophyll content, Pn, Tr, Gs and PWUE showed contrasting
+temporal patterns among waterlogging treatments (Figure 1; Figure S2a,b). Treatment
+differences were small prior to waterlogging but became apparent shortly after treatment
+imposition (approximately 53 DAS) and increased during the subsequent recovery pe-
+riod. Control plants maintained the highest values throughout the experiment, whereas
+plants subjected to 3 and 6 days of waterlogging showed varying rates of recovery follow-
+ing drainage.
+Plants exposed to 3 days of waterlogging showed an initial decline in measured
+variables but recovered rapidly after drainage, subsequently following a pattern broadly
+similar to the control. In contrast, plants exposed to 6 days of waterlogging exhibited a
+more prolonged reduction in relative chlorophyll content, Pn, Tr and Gs, with recovery
+becoming evident only from approximately 74 DAS onwards. These variables gradually
+increased thereafter and, by the end of the crop cycle, approached values observed in the
+control and 3-day treatments. However, PWUE remained lower than the control and 3-day
+treatments for most of the remainder of the crop cycle (Figure 1c).
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 7 of 18
+ 
+Figure 1.Relative chlorophyll content (SPAD index, (a)), Net CO 2 assimilation rate (A sat, (b)),
+and photosynthetic water use efficiency (PWUE, (c)) of hemp leaves in Experiment 1. Each value
+represents the mean ± S.E. (n= 6). Solid blue lines represent the 0-day waterlogging or control
+treatment; orange long-dash lines represent 3-day waterlogging; grey dash-dot lines represent 6-day
+waterlogging; yellow dash lines represent 12-day waterlogging; and light blue dotted lines represent
+24-day waterlogging.
+Plants exposed to 12 and 24 days of waterlogging exhibited rapid declines in rela-
+tive chlorophyll content, Pn, Tr, Gs and PWUE following treatment imposition. These
+plants failed to recover after drainage, and mortality occurred approximately 23 days after
+waterlogging commenced (Figure 1; Figure S2a,b).
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 8 of 18
+4.1.3. Crop Phenology
+Waterlogging duration did not affect the calendar and thermal time required for flower
+initiation. The average thermal time for flower initiation was 662.2 ◦Cd. However, the
+duration from flower initiation to the end of flowering was significantly shorter (p< 0.05)
+in the 6-day waterlogging treatment (343 ◦Cd) compared with the control and 3-day
+treatments. All plants in the 12- and 24-day treatments died shortly after flowering, whereas
+plants in the other treatments continued to grow. The thermal time from the end of
+flowering to seed maturity was consistent across the control, 3-day, and 6-day treatments,
+with no significant differences (Table S1).
+4.1.4. Plant Height and Stem Diameter
+In the control, plant height and stem diameter increased steadily until flowering
+(~66 DAS) and then plateaued. The 3-day waterlogging treatment caused a temporary
+slowdown of growth, with full recovery by ~94 DAS. In contrast, plants waterlogged for
+6 days experienced a prolonged growth setback and only partial recovery, resulting in
+reduced final height and diameter compared with both the control and 3-day treatments.
+Plants subjected to 12- and 24-day waterlogging showed irreversible growth suppression
+and died by 66 DAS (Figure 2).
+Figure 2.Plant height (a) and stem diameter (b) in Experiment 1. Each value represents the
+mean ± S.E. (n= 6). Solid blue lines represent the 0-day waterlogging or control treatment; orange
+long-dash lines represent 3-day waterlogging; grey dash-dot lines represent 6-day waterlogging;
+yellow dash lines represent 12-day waterlogging; and light blue dotted lines represent 24-day
+waterlogging.
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 9 of 18
+4.1.5. Specific Leaf Area (SLA), Dry Biomass, Stalk Yield and Seed Yield
+Complete mortality occurred in the 12-day and 24-day waterlogging treatments fol-
+lowing treatment imposition, with no plants surviving to final harvest. The control, 3-day,
+and 6-day waterlogging treatments survived to seed maturity and were included in har-
+vest assessments.
+At harvest, SLA declined significantly as waterlogging duration increased from 0
+to 6 days (p< 0.05). Similarly, leaf, stem, and total aboveground dry weights (TADW)
+decreased with longer waterlogging, with the 6-day treatment producing significantly
+lower values than both the control and 3-day treatments (p< 0.05) (Table 1).
+Table 1.Mean SLA, dry biomass production, stalk yield and seed yield at harvest in Experiment 1.
+Waterlogging
+Duration (Days)
+SLA
+(m2 kg−1)
+DW Leaves
+(g Plant−1)
+DW Stems
+(g Plant−1)
+TADW
+(g Plant−1)
+Stalk Yield
+(g Plant−1)
+Seed Yield
+(g Plant−1)
+0 (control) 15.0 a 21.1 a 40.1 a 77.0 a 15.0 a 8.2 a
+3 13.7 b 16.3 a 34.4 a 62.4 a 11.0 a 6.9 a
+6 8.6 c 10.0 b 16.8 b 34.7 b 5.0 b 4.3 b
+Mean value of data. Within a column, data means followed by the different letters are significantly
+different at thep< 0.05 level. SLA, specific leaf area; DW, dry weight; TADW, total above ground
+dry weight.
+Waterlogging had no significant effect on bark proportion at seed maturity. However,
+both bark and seed yield declined with waterlogging duration, with the lowest yields
+recorded in the 6-day treatment (p< 0.05) (Table 1). These results indicate that plants
+exposed to 3 days of waterlogging were able to largely recover from the imposed stress,
+with final growth and yield comparable to the control. In contrast, although plants exposed
+to 6 days of waterlogging showed partial recovery of physiological function following
+drainage, reductions in plant size, biomass accumulation, and yield persisted until harvest.
+4.2. Experiment 2
+4.2.1. Volumetric Water Content of the Substrate
+Water content in the control treatment (0-day) remained relatively consistent through-
+out the experiment. In the waterlogging treatments, substrate water content increased by
+~0.083 L L−1 following waterlogging and then declined after the waterlogging conditions
+were removed. Similar to Experiment 1, differences in water content among treatments
+were minimal both before and after the waterlogging events (Figure S3).
+4.2.2. Leaf Chlorophyll, CO2 Exchange, Stomatal Conductance and PWUE
+Relative chlorophyll content, F v/Fm, net CO 2 assimilation rate (Pn), transpiration
+rate (Tr), stomatal conductance (Gs), and PWUE were all significantly influenced by the
+treatment × time interaction (p< 0.05), indicating that the temporal response differed
+among waterlogging treatments. Following the initial decline during waterlogging, plants
+subjected to 3-day waterlogging (3 VE and 3 FI) recovered rapidly and subsequently
+followed trajectories similar to the control for relative chlorophyll content, Fv/Fm, Pn, Tr
+and Gs (Figure 3a–c; Figure S4a,b). In contrast, plants exposed to 6 days of waterlogging
+(6 VE and 6 FI) exhibited more pronounced reductions and slower recovery, resulting in
+significant differences from the control during the early post-waterlogging period before
+converging later in the season (Figure 3a–c; Figure S4a,b).
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 10 of 18
+Figure 3.Relative chlorophyll content (SPAD index, (a)), chlorophyll fluorescence (b), PAR-saturated
+net CO2 assimilation rate (Asat, (c)) and photosynthetic water use efficiency (PWUE, (d)) of hemp
+leaves in Experiment 2. Each value is the mean ± S.E. (n= 5). The dashed lines at 35 DAS and 49 DAS
+indicate the initiation of waterlogging (WL) events at the six true leaf pair vegetative stage and flower
+initiation stage, respectively, for the 3-day and 6-day treatments. Solid blue lines represent the 0-day
+waterlogging or control treatment; orange long-dash lines represent 3-day waterlogging at six true
+leaf pair vegetative stage (3 VE); grey dash-dot lines represent 6-day waterlogging at six true leaf
+pair vegetative stage (6 VE); yellow dash lines represent 3-day waterlogging at flower initiation stage
+(3 FI); and light blue dotted lines represent 6-day waterlogging at flower initiation stage (6 FI).
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 11 of 18
+PWUE in plants waterlogged at flower initiation (3 FI and 6 FI) was comparable to the
+control throughout the experiment. The 3 VE plants showed slightly lower PWUE until
+105 DAS, while 6 VE plants exhibited a marked reduction immediately after waterlogging,
+followed by gradual recovery after 40 DAS and convergence with the control by 105 DAS
+(Figure 3d).
+4.2.3. Crop Phenology
+Flower initiation occurred 7 days earlier (p< 0.05) in 6 VE plants, which required
+517 ◦Cd of thermal time compared with the other treatments. The 6 FI plants progressed
+more rapidly (p< 0.05) through both subsequent developmental phases, requiring ~335 ◦Cd
+from flower initiation to the end of flowering and ~847 ◦Cd from the end of flowering to
+seed maturity (Table S2).
+4.2.4. Specific Leaf Area (SLA), Dry Biomass, Plant Height, Stem Diameter, Stalk Yield and
+Seed Yield
+Compared with the 0 days (control), all waterlogging treatments reduced one or
+more growth and yield parameters at final harvest (Table 2). The greatest reductions
+occurred in the 6 VE treatment, where SLA, total above-ground dry weight, stalk yield,
+and seed yield were reduced by approximately 36%, 68%, 83%, and 63%, respectively,
+relative to the control. Plant height and stem diameter were also reduced by 58% and
+53%, respectively. In contrast, plants exposed to waterlogging at flower initiation generally
+exhibited smaller reductions than those waterlogged during the six true leaf pair vegetative
+stage. For example, total above-ground dry weight and seed yield in the 3 FI treatment
+were reduced by only 32% and 13%, respectively, and seed yield did not differ significantly
+from the control.
+Table 2.Growth, dry biomass, stalk yield, and seed yield responses to waterlogging treatments at
+final harvest in Experiment 2.
+Treatments SLA
+(m2 kg−1)
+Dry Weight
+of Leaves
+(g Plant−1)
+Dry Weight
+of Stems
+(g Plant−1)
+Total Above
+Ground Dry
+Weight (g Plant−1)
+Plant
+Height
+(cm)
+Stem
+Diameter
+(mm)
+Stalk Yield
+(g Plant−1)
+Seed Yield
+(g Plant−1)
+0 Days
+(Control) 14 a 25 a 46 a 91 a 151 a 15 a 18 a 8 a
+3 VE 14 a 20 ab 23 b 58 b 116 b 12 b 11 b 6 b
+6 VE 9 c 7 d 7 d 29 d 64 c 7 d 3 d 3 d
+3 FI 13 ab 18 b 28 b 62 b 129 b 14 ab 12 b 7 ab
+6 FI 13 b 15 c 18 c 42 c 118 b 11 c 6 c 5 c
+Values are means (n= 5). Means followed by different lowercase letters within a column are signifi-
+cantly different atp< 0.05 based on one-way ANOVA across all treatments followed by Tukey’s HSD
+multiple comparison test.
+An overview of the statistical analysis indicated that waterlogging duration and
+growth stage significantly influenced most measured traits. Interaction effects between
+duration and growth stage were limited, with significance detected only for SLA (Table 3).
+Detailed responses of individual traits are described in the following sections.
+SLA declined most strongly in the 6 VE treatment, whereas SLA at flower initiation
+remained relatively stable even after prolonged waterlogging (Table 4).
+For all other variables, only main effects were significant (Table 5). Increasing wa-
+terlogging duration from 3 to 6 days reduced leaf dry weight, stem dry weight, TADW,
+plant height, stem diameter, stalk yield, and seed yield, while plants waterlogged at flower
+initiation consistently showed higher stem DW, TADW, plant height, stem diameter and
+seed yield than those waterlogged during the six true leaf pair vegetative stage (Table 5).
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 12 of 18
+Table 3.Two-way ANOVA interaction-test for the measured traits in Experiment 2.
+Waterlogging Duration (D) Growth Stage (S) D×S
+SLA *** *** ***
+DW leaves ** ns ns
+DW stems ** * ns
+TADW *** * ns
+Height *** ** ns
+Diameter ** * ns
+Stalk yield *** ns ns
+Seed yield ** * ns
+ns = not significant; *p< 0.05; **p< 0.01; ***p< 0.001. SLA, specific leaf area; DW, dry weight; TADW,
+total above ground dry weight.
+Table 4.Interaction of waterlogging duration and growth stage on SLA in Experiment 2.
+Treatment SLA (m2 kg−1)
+3 VE 14.00 a
+6 VE 8.70 c
+3 FI 13.15 ab
+6 FI 13.08 b
+Means followed by different lowercase letters indicate significant differences among waterlogging
+duration × growth stage combinations atp ≤ 0.05 (two-way ANOVA; interaction effect significant,
+followed by post hoc multiple comparison test). SLA, specific leaf area; 3 VE, 3-day waterlogging at
+six true leaf pair; 6 VE, 6-day waterlogging at six true leaf pair; 3 FI, 3-day waterlogging at flower
+initiation, 6 FI, 6-day waterlogging at flower initiation.
+Table 5.Main effect of waterlogging duration and growth stage on measured traits in Experiment 2.
+Waterlogging Duration
+3 Days 6 Days
+DW leaves (g) 19.52 a 11.22 b
+DW stems (g) 27.39 a 13.01 b
+TADW (g) 61.86 a 38.76 b
+Height (cm) 125.60 a 100.40 b
+Diameter (mm) 12.74 a 10.01 b
+Stalk yield (g) 11.57 a 5.10 b
+Seed yield (g) 6.46 a 4.02 b
+Growth stage
+VE FI
+DW stems (g) 12.41 b 28.00 a
+TADW (g) 44.23 b 56.39 a
+Height (cm) 102.40 b 123.60 a
+Diameter (mm) 9.43 b 12.92 a
+Seed yield (g) 4.40 b 6.08 a
+Values are means. Within each row, means followed by different lowercase letters differ significantly
+atp ≤ 0.05 based on ANOVA and Tukey’s HSD test. SLA, specific leaf area; DW, dry weight; TADW,
+total above ground dry weight. VE, six true leaf pair at the vegetative stage; FI, flower initiation stage.
+5. Discussion
+In these experiments, hemp, like many other crops, showed poor tolerance to pro-
+longed waterlogging, particularly when saturation occurred early in development. Plant
+growth and development declined progressively as waterlogging duration increased, re-
+gardless of growth stage at which it was imposed. Plants subjected to more than 12 days of
+waterlogging at the eight true leaf pair stage did not survive, confirming severe sensitivity
+to extended rootzone saturation. In contrast, plants exposed to shorter periods of waterlog-
+ging (3–6 days) during the vegetative phase recovered, although recovery was slower after
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 13 of 18
+6 days. Despite this recovery, long-term reductions in photosynthesis, growth, dry matter
+production, and yield were observed compared with the control.
+The physiological impairment underlying these responses is consistent with well-
+established effects of hypoxia on root function. Waterlogging restricts oxygen diffusion
+and creates hypoxic or anoxic conditions that inhibit root respiration, reduce energy pro-
+duction, and impair nutrient uptake. Prolonged oxygen deprivation also causes oxidative
+damage to root tissues [3]. Although redox potential (Eh) was not measured in the present
+study, complete inundation of the peat-based substrate would have progressively lowered
+substrate Eh, creating increasingly reducing conditions. In peat systems, Eh values under
+inundated conditions have been reported to be approximately 150–200 mV and may decline
+to below 50 mV under strongly reducing conditions [36]. Such low Eh values are associated
+with restricted root respiration, altered nutrient dynamics, and reduced plant growth,
+providing a quantitative indication of the oxygen-deprived conditions likely experienced
+by hemp in this study. These below ground stresses disrupt canopy development and
+reduce photosynthesis and yield, as reported in other crops exposed to waterlogging [4–7].
+Given the limited comprehensive research on waterlogging tolerance in hemp, com-
+parisons with other crops provide useful context. Tolerance thresholds differ widely among
+species; wheat and barley can survive and recover from 14 to 16 days of waterlogging
+without complete plant loss [37,38], whereas durum wheat shows yield reductions only
+beyond 20 days of saturation [ 20]. Cotton, by comparison, exhibits far lower tolerance;
+Zhang et al. reported complete mortality in some genotypes after more than 10 days of
+waterlogging [39]. In the present study, hemp yield declined by more than 50% after only
+6 days of waterlogging, indicating a level of sensitivity comparable to or exceeding that of
+cotton and considerably lower than that of most cereals.
+Physiologically, waterlogging in hemp caused marked reductions in chlorophyll con-
+tent, Pn, Tr, Gs, and F v/Fm, consistent with responses reported for cotton, barley, and
+wheat [18,19,21,27,39–41]. Ren et al. have shown that 6 days of waterlogging at the 3-leaf
+stage in maize reduced leaf area index, chlorophyll content and photosynthesis, with re-
+sponses similar to those observed in hemp after 6 days [42]. Mahmood et al. reported that
+7 days of waterlogging in maize reduced chlorophyll content to a degree comparable to the
+reduction observed here in hemp after 6 days [43].
+Reductions in Tr and Gs were also notable. In hemp, a 15–25% decline occurred
+after only 3 days of waterlogging during the most sensitive developmental stage (six true
+leaf pair). Comparable responses have been reported in other crops; Kubota et al. (2024)
+observed reduced Tr and Gs in soybean after more than 3 days of waterlogging [ 44].
+Consistent responses were observed by Ploschuk et al. (2018), who observed declines in
+photosynthetic parameters in barley and rapeseed following 14 days of waterlogging at
+late growth stages, and in field pea at both early and late developmental stages [40].
+Reductions in photosynthetic performance translated directly into losses in biomass
+accumulation, TADW, and yield. Although yield declines in hemp were greater than those
+commonly observed in cereals, the overall pattern aligns with findings across species: as
+waterlogging duration increases, growth and productivity decline proportionally. For
+example, Pampana et al. (2016) showed a 19–30% reduction in yield in durum wheat after
+40–60 days of waterlogging, whereas hemp in this study exhibited >50% yield loss after
+only 6 days of waterlogging, further highlighting its sensitivity [20].
+SLA in hemp declined progressively with increasing waterlogging duration. The
+greatest reduction (~40%) occurred after 6 days of waterlogging at the eight true leaf pair
+vegetative stage in Experiment 1, similar to reductions reported in wheat, barley, and maize
+under comparable stress [20,45].
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 14 of 18
+In hemp, the greater sensitivity to waterlogging at the six true leaf pair vegetative
+stage compared with the flower initiation stage can be attributed to the importance of early
+vegetative growth for plant establishment. During this stage, rapid canopy expansion and
+root development create a high demand for oxygen and nutrient uptake. Consequently,
+prolonged rootzone saturation may reduce oxygen availability, impair root function, restrict
+photosynthesis, and ultimately limit plant growth. Although rootzone oxygen status was
+not measured directly in the present study, the observed responses are consistent with those
+reported for plants exposed to hypoxic conditions [39,46–48]. In contrast, plants at flower
+initiation generally have a more established root system and have already accumulated a
+substantial proportion of their vegetative biomass, allowing greater resilience to short-term
+stress [39,48]. This pattern differs from crops such as cotton, where waterlogging during
+flowering causes the greatest yield loss due to its direct impact on reproductive processes
+and boll development [ 21,24]. The contrasting responses reflect crop specific growth
+strategies, as hemp yield particularly in fibre types is largely determined by vegetative
+biomass accumulation, making early-stage stress more critical than stress imposed during
+later reproductive development.
+Waterlogging also accelerated hemp phenology, with earlier flower initiation and faster
+progression through reproductive stages in severely stressed plants. These findings are
+consistent with Zhang et al. (2025) [39], who reported that late stage waterlogging hastened
+maturity in rapeseed but differs from other studies showing delayed development in wheat
+and cotton. For example, Wang et al. (2017) found that 6 days of waterlogging at the
+seedling stage did not affect cotton phenology [21], while Celedonio et al. (2016) reported
+that waterlogging delayed flowering and reduced tiller appearance in wheat cultivars [18].
+Such variation underscores species-specific and stage-specific responses to waterlogging
+and suggests that hemp may shift phenology as a stress-avoidance mechanism under
+conditions of prolonged rootzone saturation.
+Overall, this study highlights the pronounced susceptibility of hemp to waterlogging
+stress and demonstrates that both the duration and developmental timing of saturation
+strongly influence physiological function, growth, and yield.
+Although these findings are not intended to directly represent field behaviour, they
+provide a physiological and stage-specific understanding of hemp responses to transient
+rootzone saturation. This information is relevant to controlled environment and nursery
+production systems commonly used for hemp and closely related crops, such as medicinal
+cannabis, where irrigation management is critical and preventing substrate saturation can
+help minimise growth and yield penalties.
+6. Future Research Directions
+The findings of this study provide a foundation for further investigation into hemp
+responses to waterlogging. Future research could incorporate measurements of dissolved
+oxygen and substrate redox potential, alongside physiological and growth assessments,
+to improve characterisation of the rootzone environment and enhance understanding of
+tolerance and recovery mechanisms under waterlogging conditions.
+The results reported here are based on a single hemp cultivar (Ferimon 12) and there-
+fore may not fully represent the diversity of responses withinCannabis sativa. The high
+sensitivity observed in this cultivar may reflect a cultivar-specific response rather than the
+full spectrum of waterlogging tolerance available within the species. Future research should
+evaluate waterlogging tolerance across a broader range of fibre, grain, dual-purpose, and
+dioecious cultivars, as well as southern-adapted landraces, to characterise genotypic varia-
+tion in physiological responses, recovery potential, and overall resilience to waterlogging
+stress. Such investigations would contribute to the identification of waterlogging-tolerant
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 15 of 18
+germplasm and support cultivar selection and breeding for environments prone to transient
+flooding events.
+The present study focused on the physiological responses of hemp to waterlogging
+stress and did not include anatomical assessments. Future studies should investigate
+anatomical adaptations associated with waterlogging tolerance, including the formation of
+hypertrophied lenticels, aerenchyma, and adventitious roots, as these traits may contribute
+to recovery following short term waterlogging. Integrating anatomical and physiological
+assessments would provide a more comprehensive understanding of the mechanisms
+underlying waterlogging tolerance and adaptation in hemp.
+Future research is also needed to assess fibre quality characteristics, including tensile
+strength, fibre composition, and cellulose content. Such analyses would provide a more
+comprehensive understanding of the impacts of waterlogging on hemp fibre production
+and quality.
+7. Conclusions
+This study demonstrates that the dual-purpose hemp cultivar Ferimon 12 is highly
+susceptible to waterlogging, with both the duration of saturation and the developmental
+stage at which it occurs exerting strong effects on physiological function, growth, and
+yield. Even short periods of waterlogging during the early vegetative stage (six true
+leaf pair) caused lasting reductions in photosynthesis, biomass accumulation, and seed
+yield, while prolonged waterlogging resulted in complete plant mortality. Compared with
+many cereals, hemp displayed markedly lower tolerance to waterlogging, with 6 days of
+waterlogging reducing total aboveground biomass by more than 50% and seed yield by
+approximately 48%.
+To optimise fibre and seed yield, prolonged waterlogging and the associated rootzone
+saturation should be minimised, particularly during early vegetative growth. Successful
+hemp cultivation requires well-aerated, free-draining soils or growing media and careful
+water management to minimise prolonged soil saturation and the associated risk of reduced
+oxygen availability in the rootzone. Although this study was conducted using a single
+substrate under controlled glasshouse conditions, the results clearly demonstrate the
+importance of waterlogging duration and timing in determining hemp performance.
+This work provides a physiological, stage-specific understanding of hemp responses
+to waterlogging stress and offers a foundation for improving management strategies in
+both field and controlled-environment production. It also highlights the need for future
+breeding and agronomic research aimed at enhancing waterlogging tolerance in hemp.
+Supplementary Materials:The following supporting information can be downloaded at: https://
+www.mdpi.com/article/10.3390/crops6050090/s1, Figure S1: Total volumetric soil moisture content
+(L L−1) from 0 cm to 24 cm depth during crop growth in Experiment 1; Figure S2: Transpiration rate
+(a) and stomatal conductance (b) of hemp leaves in Experiment 1; Table S1: Calendar (days) and
+thermal time durations for key crop growth developmental phases for the different treatments in
+Experiment 1; Figure S3: Total volumetric soil moisture content (L L−1) from 0 cm to 24 cm depth
+during crop growth in Experiment 2; Figure S4: Transpiration rate (a) and stomatal conductance (b)
+of hemp leaves in Experiment 2; Table S2: Calendar (days) and thermal time durations for key crop
+growth developmental phases for the different treatments in Experiment 2.
+Author Contributions:Conceptualization, I.V .K., S.L. and M.H.; methodology, I.V .K., S.L. and M.H.;
+formal analysis, I.V .K., S.L. and M.H.; writing—original draft preparation, I.V .K.; writing—review
+and editing, I.V .K., S.L., M.H. and T.B.A.; visualisation, I.V .K.; supervision, S.L., M.H. and T.B.A.;
+funding acquisition, I.V .K. and T.B.A. All authors have read and agreed to the published version of
+the manuscript.
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 16 of 18
+Funding:This research was funded by Martha Jane Medical Ltd., NSW and the University of
+Tasmania, Australia.
+Data Availability Statement:The raw data supporting the conclusions of this article will be made
+available by the authors on request.
+Acknowledgments:We sincerely thank Midlands Seed, Cambridge, Tasmania, for supplying hemp
+seeds. We also extend our appreciation to the UTAS technical staff for their valuable support during
+the experimental work.
+Conflicts of Interest:The authors declare no conflicts of interest. Martha Jane Medical Ltd. provided
+funding support only and had no role in the study design, conduct of the research, analysis or
+interpretation of the data.
+Abbreviations
+The following abbreviations are used in this manuscript:
+ANOVA Analysis of variance
+DAS Days after sowing
+DW Dry weight
+FI Flower Initiation
+Fv/Fm Chlorophyll fluorescence
+Gs Stomatal conductance
+IRGA Infrared gas analyser
+PAM Phase amplitude modulated
+PAR Photosynthetically active radiation
+Pn Net CO 2 assimilation rate
+PWUE Photosynthetic water use efficiency
+SE Standard error
+SLA Specific leaf area
+TADW Total above ground dry weight
+Tr Transpiration rate
+TSW Thousand seed weight
+VE Vegetative stage
+References
+1. Adesina, I.; Bhowmik, A.; Sharma, H.; Shahbazi, A. A review on the current state of knowledge of growing conditions, agronomic
+soil health practices and utilities of hemp in the United States.Agriculture2020,10, 129. [CrossRef]
+2. Mehmood, M.; Khan, Z.A.; Mehmood, A.; Zaynab, M.; Al Sadoon, M.K.; Harshini, M.; Wong, L.S. Impact of drought, salinity, and
+waterlogging on wheat: Physiological, biochemical responses, and yield implications.Phyton2025,94, 1047–1062. [CrossRef]
+3. Zhang, Y.; Chen, X.; Geng, S.; Zhang, X. A review of soil waterlogging impacts, mechanisms, and adaptive strategies.Front. Plant
+Sci.2025,16, 1545912. [CrossRef]
+4. Manghwar, H.; Hussain, A.; Alam, I.; Khoso, M.A.; Ali, Q.; Liu, F. Waterlogging stress in plants: Unravelling the mechanisms and
+impacts on growth, development, and productivity.Environ. Exp. Bot.2024,215, 105824. [CrossRef]
+5. Umathe, T.; Matikhaye, S.; John, S.A.; Misra, P .; Ramteke, P .W.; Shukla, P .K. Molecular mechanism of plants’ responses to
+hypoxia/anoxia caused by flooding. InPlant Flooding: Sensitivity and T olerance Mechanisms; Springer Nature: Cham, Switzerland,
+2025; pp. 113–147. [CrossRef]
+6. Aslam, A.; Mahmood, A.; Ur Rehman, H.; Li, C.; Liang, X.; Shao, J.; Negm, S.; Moustafa, M.; Aamer, M.; Hassan, M.U. Plant
+adaptation to flooding stress under changing climate conditions: Ongoing breakthroughs and future challenges.Plants2023,
+12, 3824. [CrossRef]
+7. Yang, L.; Li, N.; Liu, Y.; Miao, P .; Liu, J.; Wang, Z. Updates and prospects: Morphological, physiological, and molecular regulation
+in crop response to waterlogging stress.Agronomy2023,13, 2599. [CrossRef]
+8. Asadi, S.; Moghaddam, H.; Naghdi Badi, H.; Naghavi, M.R.; Salami, S.A. Agronomic, phytochemical and drought tolerance
+evaluation of IranianCannabis sativaecotypes under different soil moisture levels.Crop Pasture Sci.2023,74, 1238–1257. [CrossRef]
+9. Drastig, K.; Flemming, I.; Gusovius, H.J.; Herppich, W.B. Study of water productivity of industrial hemp under hot and dry
+conditions in Brandenburg (Germany) in 2018.Water2020,12, 2982. [CrossRef]
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 17 of 18
+10. Duong, H.; Pearson, B.; Anderson, S.; Berthold, E.; Kjelgren, R. Variation in hydric response of industrial hemp varieties to
+induced water stress.Horticulturae2023,9, 431. [CrossRef]
+11. Gill, A.R.; Loveys, B.R.; Cowley, J.M.; Hall, T.; Cavagnaro, T.R.; Burton, R.A. Physiological and morphological responses of
+industrial hemp to water deficit.Ind. Crops Prod.2022,187, 115331. [CrossRef]
+12. Herppich, W.B.; Gusovius, H.J.; Flemming, I.; Drastig, K. Effects of drought and heat on photosynthetic performance, water use
+and yield of fibre hemp cultivars.Agronomy2020,10, 1361. [CrossRef]
+13. Park, S.H.; Pauli, C.S.; Gostin, E.L.; Staples, S.K.; Seifried, D.; Kinney, C.; Vanden Heuvel, B.D. Effects of short-term environmental
+stresses on cannabinoid production in immature hemp flowers.J. Cannabis Res.2022,4, 1. [CrossRef]
+14. Sheldon, K.; Shekoofa, A.; Walker, E.; Kelly, H. Physiological screening for drought tolerance traits among hemp (Cannabis sativa
+L.) cultivars in controlled and field environments.J. Crop Improv.2021,35, 816–831. [CrossRef]
+15. Žydelis, R.; Herbst, M.; Weihermüller, L.; Ruzgas, R.; Volungeviˇ cius, J.; Barˇ causkait˙e, K.; Tilvikien˙e, V . Yield potential and factors
+influencing yield gap in industrial hemp cultivation under nemoral climate conditions.Eur. J. Agron.2022,139, 126576. [CrossRef]
+16. Kumar, I.V .; Lisson, S.; Hardie, M.; Acuña, T.B. Effect of different water regimes on physiology, growth and yield of industrial
+hemp in field conditions.Crop Pasture Sci.2025,76, 25137. [CrossRef]
+17. Beegum, S.; Truong, V .; Bheemanahalli, R.; Brand, D.; Reddy, V .; Reddy, K.R. Developing functional relationships between
+waterlogging and cotton growth and physiology towards waterlogging modeling.Front. Plant Sci.2023,14, 1174682. [CrossRef]
+18. Celedonio, R.P .D.; Abeledo, L.G.; Brihet, J.M.; Miralles, D.J. Waterlogging affects leaf and tillering dynamics in wheat and barley.
+J. Agron. Crop Sci.2016,202, 409–420. [CrossRef]
+19. Masoni, A.; Pampana, S.; Arduini, I. Barley response to waterlogging duration at tillering.Crop Sci.2016,56, 2722–2730. [CrossRef]
+20. Pampana, S.; Masoni, A.; Arduini, I. Grain yield of durum wheat as affected by waterlogging at tillering.Cereal Res. Commun.
+2016,44, 706–716. [CrossRef]
+21. Wang, X.; Deng, Z.; Zhang, W.; Meng, Z.; Chang, X.; Lv, M. Effect of waterlogging duration at different growth stages on the
+growth, yield and quality of cotton.PLoS ONE2017,12, e0169029. [CrossRef]
+22. Githui, F.; Beverly, C.; Aiad, M.; McCaskill, M.; Liu, K.; Harrison, T.M. Modelling waterlogging impacts on crop growth: A review
+of aeration stress definition in crop models and sensitivity analysis of APSIM.Int. J. Plant Biol.2022,13, 180–200. [CrossRef]
+23. Milroy, S.P .; Bange, M.P . Reduction in radiation use efficiency of cotton under repeated transient waterlogging.Field Crops Res.
+2013,140, 51–58. [CrossRef]
+24. Najeeb, U.; Bange, M.P .; Tan, D.K.; Atwell, B.J. Consequences of waterlogging in cotton and opportunities for mitigation of yield
+losses.AoB Plants2015,7, plv080. [CrossRef]
+25. Pan, J.; Sharif, R.; Xu, X.; Chen, X. Mechanisms of waterlogging tolerance in plants: Research progress and prospects.Front. Plant
+Sci.2021,11, 627331. [CrossRef]
+26. Ashraf, M.A. Waterlogging stress in plants: A review.Afr. J. Agric. Res.2012,7, 1976–1981. [CrossRef]
+27. Ghobadi, M.E.; Ghobadi, M. Effect of anoxia on root growth and grain yield of wheat cultivars.World Acad. Sci. Eng. T echnol.
+2010,70, 85–88.
+28. Burgel, L.; Hartung, J.; Graeff-Hönninger, S. Impact of different growing substrates on growth, yield and cannabinoid content of
+twoCannabis sativaL. genotypes in a pot culture.Horticulturae2020,6, 62. [CrossRef]
+29. Collado, C.E.; Hwang, S.J.; Hernández, R. Supplemental greenhouse lighting increased water use efficiency, crop growth, and
+cutting production inCannabis sativa.Front. Plant Sci.2024,15, 1371702. [CrossRef]
+30. Jin, D.; Jin, S.; Chen, J. Cannabis indoor growing conditions, management practices, and post-harvest treatment: A review.Am. J.
+Plant Sci.2019,10, 925–946. [CrossRef]
+31. Lisson, S.N.; Mendham, N.J.; Carberry, P .S. Development of a hemp (Cannabis sativaL.) simulation model. 2. The flowering
+response of two hemp cultivars to photoperiod.Aust. J. Exp. Agric.2000,40, 413–417. [CrossRef]
+32. Matkin, O.A.Perlite Plant Guide: Perlite Gradation and Peat/Perlite Mixtures; Soil and Plant Laboratory: Santa Ana, CA, USA, n.d.
+33. Van der Werf, H.M.G.; Brouwer, K.; Wijlhuizen, M.; Withagen, J.C.M. The effect of temperature on leaf appearance and canopy
+establishment in fibre hemp (Cannabis sativaL.).Ann. Appl. Biol.1995,126, 551–561. [CrossRef]
+34. Mediavilla, V .; Jonquera, M.; Schmid-Slembrouck, I.; Soldati, A. Decimal code for growth stages of hemp (Cannabis sativaL.).J.
+Int. Hemp Assoc.1998,5, 68–74.
+35. Medrano, H.; Gulías, J.; Chaves, M.M.; Galmés, J.; Flexas, J. Photosynthetic Water-Use Efficiency. InT errestrial Photosynthesis in
+a Changing Environment: A Molecular, Physiological, and Ecological Approach; Flexas, J., Loreto, F., Medrano, H., Eds.; Cambridge
+University Press: Cambridge, UK, 2012; pp. 523–536.
+36. Haraguchi, A. Effects of Water-Table Oscillation on Redox Property of Peat in a Floating Mat.J. Ecol.1991,79, 1113–1121.
+[CrossRef]
+37. Pais, I.P .; Moreira, R.; Semedo, J.N.; Reboredo, F.H.; Lidon, F.C.; Maçãs, B.; Scotti-Campos, P . Effects of waterlogging on growth
+and development of bread wheat genotypes.Biol. Life Sci. Forum2021,11, 38. [CrossRef]
+https://doi.org/10.3390/crops6050090
+Crops2026,6, 90 18 of 18
+38. Pang, J.; Mendham, D.; Setter, T. Improving Waterlogging Tolerance of Barley Varieties. GRDC Update Papers
+2022. Available online: https://grdc.com.au/resources-and-publications/grdc-update-papers/tab-content/grdc-update-
+papers/2022/02/improving-waterlogging-tolerance-of-barley-varieties (accessed on 6 July 2026).
+39. Zhang, Y.; Qiu, S.; Liang, T.; Xu, S.; Li, Z.; Cui, Z.; Zhan, L.; Zhang, D.; Nie, J.; Sun, L.; et al. Mitigating waterlogging-induced
+yield loss in cotton through removal of early fruits: Agronomic and physiological mechanisms.Field Crops Res.2025,331, 109996.
+[CrossRef]
+40. Ploschuk, R.A.; Miralles, D.J.; Colmer, T.D.; Ploschuk, E.L.; Striker, G.G. Waterlogging of winter crops at early and late stages:
+Impacts on leaf physiology, growth and yield.Front. Plant Sci.2018,9, 1863. [CrossRef]
+41. Jiang, M.; Xuan, S.; Muneer, M.A.; Sun, B.; Shi, C.; Liu, F.; Wu, R. Response of dry matter partition and yield components to
+waterlogging and sunlight shortage in different growth stages of wheat.Nat. Hazards2022,110, 1133–1152. [CrossRef]
+42. Ren, B.; Zhang, J.; Dong, S.; Liu, P .; Zhao, B. Effects of waterlogging on leaf mesophyll cell ultrastructure and photosynthetic
+characteristics of summer maize.PLoS ONE2016,11, e0161424. [CrossRef]
+43. Mahmood, U.; Hussain, S.; Hussain, S.; Ali, B.; Ashraf, U.; Zamir, S.; Al Robai, S.A.; Alzahrani, F.O.; Hano, C.; El Esawi, M.A.
+Morpho-physio-biochemical and molecular responses of maize hybrids to salinity and waterlogging during stress and recovery
+phase.Plants2021,10, 1345. [CrossRef]
+44. Kubota, S.; Nishida, K.; Yoshida, S. Decrease in plant hydraulic conductance due to soil waterlogging suppresses the transpiration
+rate of Glycine max even during post-waterlogging reoxygenation.Plant Soil2024,511, 1049–1063. [CrossRef]
+45. Tian, G.; Qi, D.; Zhu, J.; Xu, Y. Effects of nitrogen fertilizer rates and waterlogging on leaf physiological characteristics and grain
+yield of maize.Arch. Agron. Soil Sci.2021,67, 863–875. [CrossRef]
+46. Daniel, K.; Hartman, S. How plant roots respond to waterlogging.J. Exp. Bot.2024,75, 511–525. [CrossRef]
+47. Walne, C.H.; Reddy, K.R. Developing functional relationships between soil waterlogging and corn growth and development.
+Plants2021,10, 2095. [CrossRef]
+48. Yamauchi, T.; Colmer, T.D.; Pedersen, O.; Nakazono, M. Regulation of root traits for internal aeration and tolerance to soil
+waterlogging stress.Plant Physiol.2018,176, 1118–1130. [CrossRef]
+Disclaimer/Publisher’s Note:The statements, opinions and data contained in all publications are solely those of the individual
+author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to
+people or property resulting from any ideas, methods, instructions or products referred to in the content.
+https://doi.org/10.3390/crops6050090

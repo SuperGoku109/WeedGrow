@@ -1,0 +1,76 @@
+{
+  "version": "8.0",
+  "appSourceChanged": false,
+  "realPlantCases": 0,
+  "productionActivationReady": false,
+  "files": [
+    {
+      "path": "WeedGrow_Implementation_Master_v8.0.md",
+      "sha256": "ef8aaf9d6eb75ebf528b848263e6b1b8c5837b7678a842c7def041ee319109c3"
+    },
+    {
+      "path": "WeedGrow_Implementation_Contract_v8.0.json",
+      "sha256": "4f00568a4272e783ce5276522e172b903aa552884c8f734a2b621ccb40832a08"
+    },
+    {
+      "path": "WeedGrow_Release_Policy_v8.0.json",
+      "sha256": "31804c5a47f89aa9b2d5e8a2456ba72db1e170c67f7e51d0380e6e54fdabf66c"
+    },
+    {
+      "path": "WeedGrow_Implementation_v8.0_README.md",
+      "sha256": "70986b963429f0e6f4a6756890dfc11ec95c62811e67a466289d4fbe3cf78b4e"
+    },
+    {
+      "path": "WeedGrow_Field_Evaluator_v8.0.py",
+      "sha256": "3ff420b7c8180440f01e0ed411ae2922519fc8ee1a86574cf0ade5855d4791be"
+    },
+    {
+      "path": "WeedGrow_Field_Evaluator_Tests_v8.0.py",
+      "sha256": "08f57dad76295b597156cb8cb75b8fd50222357bc49aba1cbfd9be3bc3fa4135"
+    },
+    {
+      "path": "WeedGrow_Field_Evaluator_Verification_v8.0.json",
+      "sha256": "5564c760fd63f4106cab2c587b8661043372be9277ad18a6c6a003e7ad5de05a"
+    },
+    {
+      "path": "WeedGrow_Field_Dataset_v8.0.json",
+      "sha256": "4b94d6e072b0c590fc7f8bab3a53dbc5f645627f4a584d55430d4598245526c5"
+    },
+    {
+      "path": "WeedGrow_Algorithm_Emulator_v7.4.py",
+      "sha256": "8427dbc7be67f0e5a2cf3585e5c2e915eddd1bc8bc5d20189dd835b35efdae4a"
+    },
+    {
+      "path": "WeedGrow_Algorithm_Scenarios_v7.4.py",
+      "sha256": "d37783b12f7b04824aaa23be4aa0cf54b75bb956482a92afb421997113ab1eaa"
+    },
+    {
+      "path": "WeedGrow_Independent_Tests_v7.5.py",
+      "sha256": "2edffb5aadcd682ab78a574e9f0d439db2a51dee95b84b97fd777bd81cddc0a0"
+    },
+    {
+      "path": "WeedGrow_Independent_Test_Cases_v7.5.json",
+      "sha256": "0eb61a4f1e7ce3877181657c0cc21402552169bb8514e458c7e79ab112da3411"
+    },
+    {
+      "path": "WeedGrow_Independent_Test_Report_v7.5.json",
+      "sha256": "b0c351f80e2be7a81d8c9b4c0b0e9ae6ee5a83d35231701001bd4236cb50cc0a"
+    },
+    {
+      "path": "WeedGrow_Known_Answers_v7.5.md",
+      "sha256": "5a84085da61b6b2e2faddf393d7782cafc9b3ad90114503fe62be12c46cdd7c5"
+    },
+    {
+      "path": "WeedGrow_Independent_Tests_v7.5_README.md",
+      "sha256": "72e0f8d2ca8a9db2705a571cf97f7537a1dbc45b2344ed4ddd40031fdf4ed282"
+    },
+    {
+      "path": "WeedGrow_Field_Validation_Template_v7.5.json",
+      "sha256": "b1c2c06766321b297788cdbcfcfccc23dc2aa1d294e7105259f4705451acf32b"
+    },
+    {
+      "path": "WeedGrow_SPEC_STATUS.json",
+      "sha256": "635f34899c66f1d5437706669b4bb4c0b617f6722d9623e2e04d30afc8499379"
+    }
+  ]
+}

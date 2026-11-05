@@ -1,0 +1,87 @@
+{
+  "scope": "15 synthetic arithmetic and policy fixtures; not the implemented engine or field accuracy",
+  "checks": [
+    {
+      "id": "V5M-01",
+      "passed": true,
+      "detail": "All supported reserves below action threshold."
+    },
+    {
+      "id": "V5M-02",
+      "passed": true,
+      "detail": "All supported reserves above action threshold."
+    },
+    {
+      "id": "V5M-03",
+      "passed": true,
+      "detail": "Overlapping actions remain uncertain without a calibrated overlap policy."
+    },
+    {
+      "id": "V5M-04",
+      "passed": true,
+      "detail": "Exactly at action boundary is due."
+    },
+    {
+      "id": "V5M-05",
+      "passed": true,
+      "detail": "No valid state scenarios cannot become not_due."
+    },
+    {
+      "id": "V5M-06",
+      "passed": true,
+      "detail": "Nonfinite state is rejected."
+    },
+    {
+      "id": "V5M-07",
+      "passed": true,
+      "detail": "Consistent retained input/loss units."
+    },
+    {
+      "id": "V5M-08",
+      "passed": true,
+      "detail": "Freely draining excess is separately accounted."
+    },
+    {
+      "id": "V5M-09",
+      "passed": true,
+      "detail": "Unmet potential demand is separate from negative reserve."
+    },
+    {
+      "id": "V5M-10",
+      "passed": true,
+      "detail": "No occurred rain in current state; future forecast is not passed as input."
+    },
+    {
+      "id": "V5M-11",
+      "passed": true,
+      "detail": "Actual characterized rain can replenish reserve."
+    },
+    {
+      "id": "V5M-12",
+      "passed": true,
+      "detail": "Same Watered timestamp with unknown top-up/full input cannot uniquely determine the action."
+    },
+    {
+      "id": "V5M-13",
+      "passed": true,
+      "detail": "Rain geometry: 10 mm over a 20 cm diameter opening is 0.314 L incident, before losses."
+    },
+    {
+      "id": "V5M-14",
+      "passed": true,
+      "detail": "Illustrative ground depletion in consistent mm."
+    },
+    {
+      "id": "V5M-15",
+      "passed": true,
+      "detail": "Compatible two-step replay preserves water accounting."
+    }
+  ],
+  "pdfQA": {
+    "pages": 27,
+    "issues": [],
+    "sources": 18,
+    "bookmarks": 25,
+    "renderedPages": 27
+  }
+}

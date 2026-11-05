@@ -1,0 +1,3198 @@
+{
+  "version": "7.3",
+  "mode": "offline_design_emulator",
+  "water": {
+    "candidate": "water",
+    "decision": "uncertain",
+    "branches": [
+      {
+        "id": "synthetic/earliest/inputs_first",
+        "scenario_id": "synthetic",
+        "action_l": 0.8,
+        "capacity_l": 2,
+        "initial_l": 1.2,
+        "reserve_l": 0.4799999999999993,
+        "delivered_l": 0.0,
+        "extracted_l": 0.7200000000000004,
+        "excess_l": 0,
+        "unmet_potential_l": 0.0,
+        "trace": [
+          {
+            "end": 176400,
+            "reserve_l": 1.17,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 180000,
+            "reserve_l": 1.14,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 183600,
+            "reserve_l": 1.1099999999999999,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 187200,
+            "reserve_l": 1.0799999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 190800,
+            "reserve_l": 1.0499999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 194400,
+            "reserve_l": 1.0199999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 198000,
+            "reserve_l": 0.9899999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 201600,
+            "reserve_l": 0.9599999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 205200,
+            "reserve_l": 0.9299999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 208800,
+            "reserve_l": 0.8999999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 212400,
+            "reserve_l": 0.8699999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 216000,
+            "reserve_l": 0.8399999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 219600,
+            "reserve_l": 0.8099999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 223200,
+            "reserve_l": 0.7799999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 226800,
+            "reserve_l": 0.7499999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 230400,
+            "reserve_l": 0.7199999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 234000,
+            "reserve_l": 0.6899999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 237600,
+            "reserve_l": 0.6599999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 241200,
+            "reserve_l": 0.6299999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 244800,
+            "reserve_l": 0.5999999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 248400,
+            "reserve_l": 0.5699999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 252000,
+            "reserve_l": 0.5399999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 255600,
+            "reserve_l": 0.5099999999999993,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 259200,
+            "reserve_l": 0.4799999999999993,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          }
+        ]
+      },
+      {
+        "id": "synthetic/earliest/loss_first",
+        "scenario_id": "synthetic",
+        "action_l": 0.8,
+        "capacity_l": 2,
+        "initial_l": 1.2,
+        "reserve_l": 0.4799999999999993,
+        "delivered_l": 0.0,
+        "extracted_l": 0.7200000000000004,
+        "excess_l": 0,
+        "unmet_potential_l": 0.0,
+        "trace": [
+          {
+            "end": 176400,
+            "reserve_l": 1.17,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 180000,
+            "reserve_l": 1.14,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 183600,
+            "reserve_l": 1.1099999999999999,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 187200,
+            "reserve_l": 1.0799999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 190800,
+            "reserve_l": 1.0499999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 194400,
+            "reserve_l": 1.0199999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 198000,
+            "reserve_l": 0.9899999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 201600,
+            "reserve_l": 0.9599999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 205200,
+            "reserve_l": 0.9299999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 208800,
+            "reserve_l": 0.8999999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 212400,
+            "reserve_l": 0.8699999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 216000,
+            "reserve_l": 0.8399999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 219600,
+            "reserve_l": 0.8099999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 223200,
+            "reserve_l": 0.7799999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 226800,
+            "reserve_l": 0.7499999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 230400,
+            "reserve_l": 0.7199999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 234000,
+            "reserve_l": 0.6899999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 237600,
+            "reserve_l": 0.6599999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 241200,
+            "reserve_l": 0.6299999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 244800,
+            "reserve_l": 0.5999999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 248400,
+            "reserve_l": 0.5699999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 252000,
+            "reserve_l": 0.5399999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 255600,
+            "reserve_l": 0.5099999999999993,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 259200,
+            "reserve_l": 0.4799999999999993,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          }
+        ]
+      },
+      {
+        "id": "synthetic/latest/inputs_first",
+        "scenario_id": "synthetic",
+        "action_l": 0.8,
+        "capacity_l": 2,
+        "initial_l": 1.2,
+        "reserve_l": 0.4799999999999993,
+        "delivered_l": 0.0,
+        "extracted_l": 0.7200000000000004,
+        "excess_l": 0,
+        "unmet_potential_l": 0.0,
+        "trace": [
+          {
+            "end": 176400,
+            "reserve_l": 1.17,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 180000,
+            "reserve_l": 1.14,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 183600,
+            "reserve_l": 1.1099999999999999,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 187200,
+            "reserve_l": 1.0799999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 190800,
+            "reserve_l": 1.0499999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 194400,
+            "reserve_l": 1.0199999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 198000,
+            "reserve_l": 0.9899999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 201600,
+            "reserve_l": 0.9599999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 205200,
+            "reserve_l": 0.9299999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 208800,
+            "reserve_l": 0.8999999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 212400,
+            "reserve_l": 0.8699999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 216000,
+            "reserve_l": 0.8399999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 219600,
+            "reserve_l": 0.8099999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 223200,
+            "reserve_l": 0.7799999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 226800,
+            "reserve_l": 0.7499999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 230400,
+            "reserve_l": 0.7199999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 234000,
+            "reserve_l": 0.6899999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 237600,
+            "reserve_l": 0.6599999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 241200,
+            "reserve_l": 0.6299999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 244800,
+            "reserve_l": 0.5999999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 248400,
+            "reserve_l": 0.5699999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 252000,
+            "reserve_l": 0.5399999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 255600,
+            "reserve_l": 0.5099999999999993,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 259200,
+            "reserve_l": 0.4799999999999993,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          }
+        ]
+      },
+      {
+        "id": "synthetic/latest/loss_first",
+        "scenario_id": "synthetic",
+        "action_l": 0.8,
+        "capacity_l": 2,
+        "initial_l": 1.2,
+        "reserve_l": 0.4799999999999993,
+        "delivered_l": 0.0,
+        "extracted_l": 0.7200000000000004,
+        "excess_l": 0,
+        "unmet_potential_l": 0.0,
+        "trace": [
+          {
+            "end": 176400,
+            "reserve_l": 1.17,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 180000,
+            "reserve_l": 1.14,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 183600,
+            "reserve_l": 1.1099999999999999,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 187200,
+            "reserve_l": 1.0799999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 190800,
+            "reserve_l": 1.0499999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 194400,
+            "reserve_l": 1.0199999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 198000,
+            "reserve_l": 0.9899999999999998,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 201600,
+            "reserve_l": 0.9599999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 205200,
+            "reserve_l": 0.9299999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 208800,
+            "reserve_l": 0.8999999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 212400,
+            "reserve_l": 0.8699999999999997,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 216000,
+            "reserve_l": 0.8399999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 219600,
+            "reserve_l": 0.8099999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 223200,
+            "reserve_l": 0.7799999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 226800,
+            "reserve_l": 0.7499999999999996,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 230400,
+            "reserve_l": 0.7199999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 234000,
+            "reserve_l": 0.6899999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 237600,
+            "reserve_l": 0.6599999999999995,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 241200,
+            "reserve_l": 0.6299999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 244800,
+            "reserve_l": 0.5999999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 248400,
+            "reserve_l": 0.5699999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 252000,
+            "reserve_l": 0.5399999999999994,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 255600,
+            "reserve_l": 0.5099999999999993,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          },
+          {
+            "end": 259200,
+            "reserve_l": 0.4799999999999993,
+            "rain_delivered_l": 0.0,
+            "irrigation_delivered_l": 0,
+            "potential_loss_l": 0.03
+          }
+        ]
+      }
+    ],
+    "reason": "profile_not_released",
+    "probability": null,
+    "measured_moisture": null,
+    "profile_id": "SYNTHETIC_DO_NOT_DEPLOY",
+    "selection": {
+      "optional_features_used": {},
+      "fallback_reasons": []
+    }
+  },
+  "needs_water": null,
+  "debug_threshold_projection": {
+    "state": "synthetic_candidate_only",
+    "first_crossing_interval_utc": [
+      259200,
+      259200
+    ],
+    "trajectories_not_crossing_within_horizon": 0,
+    "horizon_hours": 24,
+    "probability": null,
+    "warning": "conditional_scenarios_not_a_calibrated_ETA_or_prediction_interval"
+  },
+  "flags": [
+    {
+      "id": "W01",
+      "code": "HEAT_PREPARATION",
+      "state": "not_triggered",
+      "reasons": [
+        "ENG_attention_screen"
+      ],
+      "evidence": {
+        "phases": [
+          {
+            "phase": "recent",
+            "threshold": 32,
+            "known_crossings": 0,
+            "complete": true
+          },
+          {
+            "phase": "forecast",
+            "threshold": 32,
+            "known_crossings": 0,
+            "complete": true
+          }
+        ]
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W02",
+      "code": "COLD_FROST_PREPARATION",
+      "state": "not_triggered",
+      "reasons": [
+        "ENG_attention_screen"
+      ],
+      "evidence": {
+        "phases": [
+          {
+            "phase": "recent",
+            "threshold": 5,
+            "known_crossings": 0,
+            "complete": true
+          },
+          {
+            "phase": "forecast",
+            "threshold": 5,
+            "known_crossings": 0,
+            "complete": true
+          }
+        ],
+        "possible_frost_context": {
+          "id": "W02",
+          "code": "POSSIBLE_FROST_AIR_CONTEXT",
+          "state": "not_triggered",
+          "reasons": [
+            "ENG_attention_screen"
+          ],
+          "evidence": {
+            "phases": [
+              {
+                "phase": "recent",
+                "threshold": 2,
+                "known_crossings": 0,
+                "complete": true
+              },
+              {
+                "phase": "forecast",
+                "threshold": 2,
+                "known_crossings": 0,
+                "complete": true
+              }
+            ]
+          },
+          "probability": null,
+          "push_eligible": false
+        },
+        "air_freezing_context": {
+          "id": "W02",
+          "code": "AIR_FREEZING_CONTEXT",
+          "state": "not_triggered",
+          "reasons": [
+            "ENG_attention_screen"
+          ],
+          "evidence": {
+            "phases": [
+              {
+                "phase": "recent",
+                "threshold": 0,
+                "known_crossings": 0,
+                "complete": true
+              },
+              {
+                "phase": "forecast",
+                "threshold": 0,
+                "known_crossings": 0,
+                "complete": true
+              }
+            ]
+          },
+          "probability": null,
+          "push_eligible": false
+        }
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W03",
+      "code": "WIND_PREPARATION",
+      "state": "not_triggered",
+      "reasons": [
+        "gust_OR_mean_OR_source"
+      ],
+      "evidence": {
+        "gust": {
+          "id": "W03",
+          "code": "WIND_PREPARATION",
+          "state": "not_triggered",
+          "reasons": [
+            "ENG_attention_screen"
+          ],
+          "evidence": {
+            "phases": [
+              {
+                "phase": "recent",
+                "threshold": 15,
+                "known_crossings": 0,
+                "complete": true
+              },
+              {
+                "phase": "forecast",
+                "threshold": 15,
+                "known_crossings": 0,
+                "complete": true
+              }
+            ]
+          },
+          "probability": null,
+          "push_eligible": false
+        },
+        "mean": {
+          "id": "W03",
+          "code": "WIND_PREPARATION",
+          "state": "not_triggered",
+          "reasons": [
+            "ENG_attention_screen"
+          ],
+          "evidence": {
+            "phases": [
+              {
+                "phase": "recent",
+                "threshold": 10,
+                "known_crossings": 0,
+                "complete": true
+              },
+              {
+                "phase": "forecast",
+                "threshold": 10,
+                "known_crossings": 0,
+                "complete": true
+              }
+            ]
+          },
+          "probability": null,
+          "push_eligible": false
+        },
+        "alerts": []
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W04",
+      "code": "HEAVY_RAIN_PREPARATION",
+      "state": "not_triggered",
+      "reasons": [
+        "ENG_attention_screen"
+      ],
+      "evidence": {
+        "known_rain_mm": 0,
+        "historical_complete": true,
+        "forecast_known_rain_mm": 0,
+        "forecast_complete": true,
+        "interval_mean_rates_mm_h": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "alerts": []
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W05",
+      "code": "SOURCE_HAZARD_EVENT",
+      "state": "unknown",
+      "reasons": [
+        "source_only_no_all_clear_from_absent_coverage"
+      ],
+      "evidence": {
+        "alerts": []
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W06",
+      "code": "WATERING_DUE",
+      "state": "unknown",
+      "reasons": [
+        "profile_not_released"
+      ],
+      "evidence": {
+        "decision": "uncertain"
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W07",
+      "code": "EXCESS_ROOT_WATER_REVIEW",
+      "state": "disabled",
+      "reasons": [
+        "no_weather_only_root_saturation"
+      ],
+      "evidence": {},
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W08",
+      "code": "CONTAINER_HEAT_CONTEXT",
+      "state": "not_triggered",
+      "reasons": [
+        "merge_W01_no_root_temperature"
+      ],
+      "evidence": {},
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W09",
+      "code": "HUMID_AIR_CONTEXT",
+      "state": "not_triggered",
+      "reasons": [
+        "not_measured_dew_or_leaf_wetness"
+      ],
+      "evidence": {
+        "ambient_context": {
+          "history": {
+            "window_hours": 72.0,
+            "coverage": {
+              "complete": true,
+              "covered_hours": 72.0,
+              "reason": null
+            },
+            "paired_air": [
+              {
+                "start": 0,
+                "end": 3600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 3600,
+                "end": 7200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 7200,
+                "end": 10800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 10800,
+                "end": 14400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 14400,
+                "end": 18000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 18000,
+                "end": 21600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 21600,
+                "end": 25200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 25200,
+                "end": 28800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 28800,
+                "end": 32400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 32400,
+                "end": 36000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 36000,
+                "end": 39600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 39600,
+                "end": 43200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 43200,
+                "end": 46800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 46800,
+                "end": 50400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 50400,
+                "end": 54000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 54000,
+                "end": 57600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 57600,
+                "end": 61200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 61200,
+                "end": 64800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 64800,
+                "end": 68400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 68400,
+                "end": 72000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 72000,
+                "end": 75600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 75600,
+                "end": 79200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 79200,
+                "end": 82800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 82800,
+                "end": 86400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 86400,
+                "end": 90000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 90000,
+                "end": 93600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 93600,
+                "end": 97200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 97200,
+                "end": 100800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 100800,
+                "end": 104400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 104400,
+                "end": 108000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 108000,
+                "end": 111600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 111600,
+                "end": 115200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 115200,
+                "end": 118800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 118800,
+                "end": 122400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 122400,
+                "end": 126000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 126000,
+                "end": 129600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 129600,
+                "end": 133200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 133200,
+                "end": 136800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 136800,
+                "end": 140400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 140400,
+                "end": 144000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 144000,
+                "end": 147600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 147600,
+                "end": 151200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 151200,
+                "end": 154800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 154800,
+                "end": 158400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 158400,
+                "end": 162000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 162000,
+                "end": 165600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 165600,
+                "end": 169200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 169200,
+                "end": 172800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 172800,
+                "end": 176400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 176400,
+                "end": 180000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 180000,
+                "end": 183600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 183600,
+                "end": 187200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 187200,
+                "end": 190800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 190800,
+                "end": 194400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 194400,
+                "end": 198000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 198000,
+                "end": 201600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 201600,
+                "end": 205200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 205200,
+                "end": 208800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 208800,
+                "end": 212400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 212400,
+                "end": 216000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 216000,
+                "end": 219600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 219600,
+                "end": 223200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 223200,
+                "end": 226800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 226800,
+                "end": 230400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 230400,
+                "end": 234000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 234000,
+                "end": 237600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 237600,
+                "end": 241200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 241200,
+                "end": 244800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 244800,
+                "end": 248400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 248400,
+                "end": 252000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 252000,
+                "end": 255600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 255600,
+                "end": 259200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              }
+            ],
+            "near_saturated_air_hours": 0,
+            "leaf_wet_hours": null,
+            "infection_probability": null
+          },
+          "forecast": {
+            "window_hours": 24.0,
+            "coverage": {
+              "complete": true,
+              "covered_hours": 24.0,
+              "reason": null
+            },
+            "paired_air": [
+              {
+                "start": 259200,
+                "end": 262800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 262800,
+                "end": 266400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 266400,
+                "end": 270000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 270000,
+                "end": 273600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 273600,
+                "end": 277200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 277200,
+                "end": 280800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 280800,
+                "end": 284400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 284400,
+                "end": 288000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 288000,
+                "end": 291600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 291600,
+                "end": 295200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 295200,
+                "end": 298800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 298800,
+                "end": 302400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 302400,
+                "end": 306000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 306000,
+                "end": 309600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 309600,
+                "end": 313200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 313200,
+                "end": 316800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 316800,
+                "end": 320400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 320400,
+                "end": 324000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 324000,
+                "end": 327600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 327600,
+                "end": 331200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 331200,
+                "end": 334800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 334800,
+                "end": 338400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 338400,
+                "end": 342000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 342000,
+                "end": 345600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              }
+            ],
+            "near_saturated_air_hours": 0,
+            "leaf_wet_hours": null,
+            "infection_probability": null
+          }
+        }
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W10",
+      "code": "POWDERY_MILDEW_PREDICTION",
+      "state": "disabled",
+      "reasons": [
+        "CAL_required_no_high_RH_gate"
+      ],
+      "evidence": {
+        "ambient_context": {
+          "history": {
+            "window_hours": 72.0,
+            "coverage": {
+              "complete": true,
+              "covered_hours": 72.0,
+              "reason": null
+            },
+            "paired_air": [
+              {
+                "start": 0,
+                "end": 3600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 3600,
+                "end": 7200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 7200,
+                "end": 10800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 10800,
+                "end": 14400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 14400,
+                "end": 18000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 18000,
+                "end": 21600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 21600,
+                "end": 25200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 25200,
+                "end": 28800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 28800,
+                "end": 32400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 32400,
+                "end": 36000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 36000,
+                "end": 39600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 39600,
+                "end": 43200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 43200,
+                "end": 46800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 46800,
+                "end": 50400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 50400,
+                "end": 54000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 54000,
+                "end": 57600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 57600,
+                "end": 61200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 61200,
+                "end": 64800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 64800,
+                "end": 68400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 68400,
+                "end": 72000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 72000,
+                "end": 75600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 75600,
+                "end": 79200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 79200,
+                "end": 82800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 82800,
+                "end": 86400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 86400,
+                "end": 90000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 90000,
+                "end": 93600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 93600,
+                "end": 97200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 97200,
+                "end": 100800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 100800,
+                "end": 104400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 104400,
+                "end": 108000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 108000,
+                "end": 111600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 111600,
+                "end": 115200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 115200,
+                "end": 118800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 118800,
+                "end": 122400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 122400,
+                "end": 126000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 126000,
+                "end": 129600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 129600,
+                "end": 133200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 133200,
+                "end": 136800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 136800,
+                "end": 140400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 140400,
+                "end": 144000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 144000,
+                "end": 147600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 147600,
+                "end": 151200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 151200,
+                "end": 154800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 154800,
+                "end": 158400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 158400,
+                "end": 162000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 162000,
+                "end": 165600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 165600,
+                "end": 169200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 169200,
+                "end": 172800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 172800,
+                "end": 176400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 176400,
+                "end": 180000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 180000,
+                "end": 183600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 183600,
+                "end": 187200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 187200,
+                "end": 190800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 190800,
+                "end": 194400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 194400,
+                "end": 198000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 198000,
+                "end": 201600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 201600,
+                "end": 205200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 205200,
+                "end": 208800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 208800,
+                "end": 212400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 212400,
+                "end": 216000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 216000,
+                "end": 219600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 219600,
+                "end": 223200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 223200,
+                "end": 226800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 226800,
+                "end": 230400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 230400,
+                "end": 234000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 234000,
+                "end": 237600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 237600,
+                "end": 241200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 241200,
+                "end": 244800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 244800,
+                "end": 248400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 248400,
+                "end": 252000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 252000,
+                "end": 255600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 255600,
+                "end": 259200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              }
+            ],
+            "near_saturated_air_hours": 0,
+            "leaf_wet_hours": null,
+            "infection_probability": null
+          },
+          "forecast": {
+            "window_hours": 24.0,
+            "coverage": {
+              "complete": true,
+              "covered_hours": 24.0,
+              "reason": null
+            },
+            "paired_air": [
+              {
+                "start": 259200,
+                "end": 262800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 262800,
+                "end": 266400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 266400,
+                "end": 270000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 270000,
+                "end": 273600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 273600,
+                "end": 277200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 277200,
+                "end": 280800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 280800,
+                "end": 284400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 284400,
+                "end": 288000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 288000,
+                "end": 291600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 291600,
+                "end": 295200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 295200,
+                "end": 298800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 298800,
+                "end": 302400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 302400,
+                "end": 306000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 306000,
+                "end": 309600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 309600,
+                "end": 313200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 313200,
+                "end": 316800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 316800,
+                "end": 320400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 320400,
+                "end": 324000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 324000,
+                "end": 327600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 327600,
+                "end": 331200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 331200,
+                "end": 334800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 334800,
+                "end": 338400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 338400,
+                "end": 342000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 342000,
+                "end": 345600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              }
+            ],
+            "near_saturated_air_hours": 0,
+            "leaf_wet_hours": null,
+            "infection_probability": null
+          }
+        }
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W11",
+      "code": "FLOWER_WET_WEATHER_CONTEXT",
+      "state": "disabled",
+      "reasons": [
+        "flowering_gate_no_infection_claim"
+      ],
+      "evidence": {
+        "canopy_reception": "yes",
+        "direct_rain_forecast": false,
+        "ambient_context": {
+          "history": {
+            "window_hours": 72.0,
+            "coverage": {
+              "complete": true,
+              "covered_hours": 72.0,
+              "reason": null
+            },
+            "paired_air": [
+              {
+                "start": 0,
+                "end": 3600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 3600,
+                "end": 7200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 7200,
+                "end": 10800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 10800,
+                "end": 14400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 14400,
+                "end": 18000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 18000,
+                "end": 21600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 21600,
+                "end": 25200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 25200,
+                "end": 28800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 28800,
+                "end": 32400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 32400,
+                "end": 36000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 36000,
+                "end": 39600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 39600,
+                "end": 43200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 43200,
+                "end": 46800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 46800,
+                "end": 50400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 50400,
+                "end": 54000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 54000,
+                "end": 57600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 57600,
+                "end": 61200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 61200,
+                "end": 64800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 64800,
+                "end": 68400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 68400,
+                "end": 72000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 72000,
+                "end": 75600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 75600,
+                "end": 79200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 79200,
+                "end": 82800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 82800,
+                "end": 86400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 86400,
+                "end": 90000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 90000,
+                "end": 93600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 93600,
+                "end": 97200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 97200,
+                "end": 100800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 100800,
+                "end": 104400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 104400,
+                "end": 108000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 108000,
+                "end": 111600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 111600,
+                "end": 115200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 115200,
+                "end": 118800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 118800,
+                "end": 122400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 122400,
+                "end": 126000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 126000,
+                "end": 129600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 129600,
+                "end": 133200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 133200,
+                "end": 136800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 136800,
+                "end": 140400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 140400,
+                "end": 144000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 144000,
+                "end": 147600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 147600,
+                "end": 151200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 151200,
+                "end": 154800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 154800,
+                "end": 158400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 158400,
+                "end": 162000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 162000,
+                "end": 165600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 165600,
+                "end": 169200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 169200,
+                "end": 172800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 172800,
+                "end": 176400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 176400,
+                "end": 180000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 180000,
+                "end": 183600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 183600,
+                "end": 187200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 187200,
+                "end": 190800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 190800,
+                "end": 194400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 194400,
+                "end": 198000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 198000,
+                "end": 201600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 201600,
+                "end": 205200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 205200,
+                "end": 208800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 208800,
+                "end": 212400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 212400,
+                "end": 216000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 216000,
+                "end": 219600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 219600,
+                "end": 223200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 223200,
+                "end": 226800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 226800,
+                "end": 230400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 230400,
+                "end": 234000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 234000,
+                "end": 237600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 237600,
+                "end": 241200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 241200,
+                "end": 244800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 244800,
+                "end": 248400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 248400,
+                "end": 252000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 252000,
+                "end": 255600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 255600,
+                "end": 259200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              }
+            ],
+            "near_saturated_air_hours": 0,
+            "leaf_wet_hours": null,
+            "infection_probability": null
+          },
+          "forecast": {
+            "window_hours": 24.0,
+            "coverage": {
+              "complete": true,
+              "covered_hours": 24.0,
+              "reason": null
+            },
+            "paired_air": [
+              {
+                "start": 259200,
+                "end": 262800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 262800,
+                "end": 266400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 266400,
+                "end": 270000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 270000,
+                "end": 273600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 273600,
+                "end": 277200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 277200,
+                "end": 280800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 280800,
+                "end": 284400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 284400,
+                "end": 288000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 288000,
+                "end": 291600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 291600,
+                "end": 295200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 295200,
+                "end": 298800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 298800,
+                "end": 302400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 302400,
+                "end": 306000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 306000,
+                "end": 309600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 309600,
+                "end": 313200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 313200,
+                "end": 316800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 316800,
+                "end": 320400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 320400,
+                "end": 324000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 324000,
+                "end": 327600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 327600,
+                "end": 331200,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 331200,
+                "end": 334800,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 334800,
+                "end": 338400,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 338400,
+                "end": 342000,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              },
+              {
+                "start": 342000,
+                "end": 345600,
+                "air_c": 25,
+                "rh": 60,
+                "air_vpd_kpa": 1.2671110870027391
+              }
+            ],
+            "near_saturated_air_hours": 0,
+            "leaf_wet_hours": null,
+            "infection_probability": null
+          }
+        }
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W12",
+      "code": "WET_CANOPY_CONTEXT",
+      "state": "not_triggered",
+      "reasons": [
+        "generic_context_no_pathogen_detection"
+      ],
+      "evidence": {
+        "direct_rain_forecast": false
+      },
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W13",
+      "code": "ESTABLISHMENT_PROBLEM_REVIEW",
+      "state": "not_applicable",
+      "reasons": [
+        "no_weather_only_damping_off"
+      ],
+      "evidence": {},
+      "probability": null,
+      "push_eligible": false
+    },
+    {
+      "id": "W14",
+      "code": "ROOT_WILT_PROBLEM_REVIEW",
+      "state": "disabled",
+      "reasons": [
+        "symptoms_have_multiple_causes"
+      ],
+      "evidence": {},
+      "probability": null,
+      "push_eligible": false
+    }
+  ],
+  "cards": [],
+  "data_issues": [],
+  "biological_accuracy_validated": false,
+  "notifications_sent": 0
+}

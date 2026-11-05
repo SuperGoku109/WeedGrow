@@ -1,0 +1,1022 @@
+
+[PAGE 1]
+Hemp physiological response to seasonal
+variation in photosynthetic capacity for
+two high yield cannabidiol (CBD)
+cultivars
+December 29, 2025
+FULL RESEARCH ARTICLE
+Robert E. Pangle
+1
+*, Ashehad A. Ali
+2
+, and Michael W. Jenkins
+3
+1
+ MLJ Environmental, 2520 Venture Oaks Way, Suite 310, Sacramento, CA 95833, USA
+   https://orcid.org/0000-0001-7273-831X
+2
+ New Zealand Institute for Bioeconomy Science, AgResearch Group, Lincoln, Canterbury, New Zealand  
+ https://orcid.org/0000-0002-7328-306X
+3
+ California Department of Fish and Wildlife, Habitat Conservation Planning Branch, 1010 Riverside
+Parkway, West Sacramento, CA 95605, USA  https://orcid.org/0009-0000-4718-1230
+*Corresponding Author: robert.pangle@gmail.com 
+Published 29 December 2025 • doi.org/10.51492/cfwj.111.18
+Abstract
+A key aspect related to successful hemp cultivation is an understanding of the physiological performance
+of hemp and how diﬀering cultivars and genotypes respond physiologically to cultivation practices and
+environmental stressors. In this study, we examine the leaf-level physiological response of two hemp
+cultivars (“Boax” and “Cherry-Wine”) across the growing season from late vegetative phase to late
+ﬂowering, with a speciﬁc focus on leaf-level gas exchange, photosynthetic capacity, and cannabinoid
+content. We observed similar and high photosynthetic capacity for the hemp cultivars in our study during
+late vegetative and early to mid-ﬂowering phases of crop development. Prior to harvest, we observed a
+seasonal decline in leaf physiological function and photosynthetic capacity in late ﬂowering for both
+cultivars, and we conclude that a reduction in photosynthetic capacity along with the onset of plant
+senescence explains much of the reduced physiological performance that we observed as hemp matured
+into late ﬂower. Plastic mulching cover over planting rows had no signiﬁcant eﬀect on leaf physiological
+function or ﬁnal cannabidiol (CBD) content, and we attribute this lack of any treatment eﬀect to the fact
+that plastic mulch cover did not signiﬁcantly aﬀect canopy microclimate, nor did it signiﬁcantly aﬀect
+plant-available soil water in any physiological impactful manner. The Boax and Cherry-Wine cultivars
+exhibit high physiological performance in relation to photosynthetic capacity and a correspondingly high
+CBD content; however, despite the inherent productivity of these two cultivars, growers should be
+cautious when utilizing these hemp cultivars given their potential to exceed tetrahydrocannabinol
+
+[PAGE 2]
+(THC%) regulatory thresholds during compliance testing.
+Key words: cannabinoid potency, hemp, leaf gas exchange, photosynthetic capacity
+Citation: Pangle, R. E., A. A. Ali, and M. W. Jenkins. 2025 Hemp physiological response to seasonal
+variation in photosynthetic capacity for two high yield cannabidiol (CBD) cultivars. California Fish and
+Wildlife Journal 111:e18.
+Editor: Cherilyn Burton, Habitat Conservation Planning Branch
+Submitted: 26 November 2024; Accepted: 15 January 2025
+Copyright: ©2025, Pangle et al. This is an open access article and is considered public domain. Users
+have the right to read, download, copy, distribute, print, search, or link to the full texts of articles in
+this journal, crawl them for indexing, pass them as data to software, or use them for any other lawful
+purpose, provided the authors and the California Department of Fish and Wildlife are acknowledged.
+Funding: Rubisco Research and Consulting, LLC and VIP Farms A NC, LLC provided funding support
+related to crop establishment and execution of the ﬁeld experiment.
+Competing Interests: The authors have not declared any competing interests.
+Introduction
+Industrial hemp (Cannabis sativa L.) is an important agricultural crop, which has long been cultivated for
+ﬁber and seed (Cherney and Small 2016). Hemp cultivation in the United States has increased
+dramatically since 2013, following the implementation of hemp cultivation pilot programs at the state
+level and the passage of the Agricultural Improvement Act of 2018 (i.e., the 2018 Farm Bill), which
+legalized the production of commercial hemp nationwide at the federal level (Malone and Gomez 2019;
+Mark et al. 2020). Hemp is legally deﬁned by the 2018 Farm Bill as cannabis (and derivatives of) with ∆
+9
+ –
+tetrahydrocannabinol (THC) levels no higher than 0.3% on a dry weight basis (Mark et al. 2020). In recent
+years, hemp production has increasingly focused on the cultivation of high yielding cultivars possessing
+elevated levels of the non-psychoactive cannabis constituent cannabidiol (CBD), and there are many
+outstanding questions and challenges facing producers in regard to the agronomic best practices
+required to optimize cultivation success, especially in the highly dynamic CBD oil extract and ﬂower
+market (Adesina et al. 2020; Aryal et al. 2024). With the recent legalization of industrial hemp in the US,
+the opportunities for scientiﬁc study and research related to the growth and cultivation of hemp have
+ﬂourished, and researchers are currently examining a myriad of questions related to the optimization of
+hemp yield and productivity (Backer et al. 2019; Adesina et al. 2020; Sunoj et al. 2023). One key aspect
+related to successful hemp cultivation is an understanding of the physiological performance of hemp and
+how diﬀering cultivars and genotypes respond physiologically to speciﬁc cultivation practices, edaphic
+conditions, and environmental stressors that diﬀer by site, climate, and seasonally across crop
+development (Blandinières and Amaducci 2022; Trancoso et al. 2022). The ﬁxation of carbon dioxide
+(CO2) into carbohydrates during photosynthesis is one of the primary physiological factors aﬀecting crop
+growth, productivity, and ultimately harvestable yield (Long et al. 2006; Brestic et al. 2021). Accordingly,
+the identiﬁcation and subsequent propagation of genotypes exhibiting high rates of photosynthetic
+capacity and growth will provide industry and growers with the necessary agronomic data and planting
+material to enable selection of cultivars having the potential to maximize productivity and yield
+
+[PAGE 3]
+(Campbell et al. 2019; Blandinières and Amaducci 2022; Trancoso et al. 2022).
+Fundamentally, light irradiance, temperature, atmospheric CO2, nutrient availability, and water (H2O) are
+essential factors aﬀecting photosynthesis (Brestic et al. 2021). Foremost, solar radiation provides the
+energy that drives the light dependent reactions of photosynthesis, while atmospheric CO2 serves as the
+substrate and basic building block for carbohydrate synthesis, with the concentration of CO2 in leaf
+chloroplasts being highly dependent on atmospheric CO2 levels and the diﬀusion of CO2 into the leaf
+intercellular spaces via stomatal pores in the leaves (Farquhar and Sharkey 1982; Eichhorn Bilodeau et
+al. 2019). A consequence of CO2 uptake via stomatal opening is an accompanying loss of H2O to the
+atmosphere from plant canopies through transpiration—a process which is strongly aﬀected by the vapor
+pressure deﬁcit (VPD) of the surrounding atmosphere (Grossiord et al. 2020). As such, stomata in leaves
+serve to regulate the foliar uptake of CO2 for use in carbon ﬁxation by photosynthesis, while also
+regulating the loss of H2O via transpiration to avoid dehydration and eventual failure of the plant
+hydraulic system via xylem cavitation and desiccation (Farquhar and Sharkey 1982; Sperry 2000). The
+ratio of carbon ﬁxation (i.e., net photosynthesis) to transpiration H2O loss at the leaf-level is known as
+instantaneous H2O use eﬃciency (WUE), and this metric is often used to identify genotypes and cultivars
+that have high productivity while also minimizing transpirational H2O losses—a key physiological attribute
+of genotypes/cultivars that may be more suitable for planting in drier and drought prone sites, or
+situations where irrigation supplies or infrastructure are limited (Hatﬁeld and Dold 2019; Leakey et al.
+2019). Accordingly, measurements of leaf gas exchange parameters provide insightful data for assessing
+the inherent potential productivity of diﬀering cannabis genotypes and allows for an assessment of how
+realized plant photosynthesis and productivity varies in response to phenological and environmental
+change over the course of crop development (Bauerle et al. 2020; Rodriguez-Morrison et al. 2021;
+Blandinières and Amaducci 2022; Trancoso et al. 2022).
+In this study, we examined the leaf-level physiological response and cannabinoid CBD yield of two hemp
+cultivars across the growing season from late vegetative phase to late ﬂowering and harvest, with a
+speciﬁc focus on leaf gas exchange parameters related to leaf-level CO2 and H2O ﬂux rates (i.e.,
+photosynthetic carbon ﬁxation (leaf-An), stomatal conductance (leaf-gs), transpiration (leaf-EL), and water-
+use eﬃciency [WUE]). We also measure and quantify the seasonal change in parameters related to
+photosynthetic capacity (i.e., the maximum rate for the carboxylation capacity of the enzyme Rubisco
+(Vcmax), the electron transport rate for the regeneration of RuBP (Jmax), the triose phosphate utilization rate
+(TPU) in the chloroplast, and light saturated photosynthesis [Amax]). In conjunction with seasonal
+measurements of hemp physiological performance, we also incorporated an assessment of the leaf-level
+physiological response and cannabinoid CBD yield of hemp cultivars in response to the common
+cultivation practice of plastic mulching, which was tested against bare ground cultivation utilizing a
+randomized block design. Cultivation practices can help optimize cultivation success through inﬂuences
+on plant physiological responses due to modiﬁcations and changes in the basic environmental resources
+and drivers that govern how plants respond to their surrounding environment, and this is especially the
+case for the fundamental physiological processes related to canopy leaf-gas exchange and crop
+photosynthesis.
+Methods
+
+[PAGE 4]
+Study Site and Experimental Design
+The study site was located near Robbins in Moore County, NC, USA (35.4114 N, –79.5515 W, 145 m asl.),
+on well-drained (slope 0–4%), silt loam soils (bulk density =1.11 g cm
+3
+). Average annual precipitation
+ranges from 1,016 to 1,143 mm (Carthage NC, NOAA 2025), with mean monthly high and low
+temperatures (April to October) averaging 21–32°C and 8–20°C, respectively. We established a
+randomized block design consisting of six experimental blocks (see Table S1) in July 2019 with a
+planting of 924 hemp clones (Cannabis sativa L.) using two high CBD yielding (low ∆
+9
+-THC) cannabis
+cultivars “Boax” and “Cherry-Wine”, hereafter referred to as BX and CW respectively, and three diﬀering
+factors: two levels related to hemp cultivar (i.e., BX vs. CW), two levels of black row bed mulching cover
+(i.e., plastic mulch cover versus no plastic), and two levels of nutrient fertilizer amendment (see Table
+S1 and Supplemental Information for more details on the study site and experimental design).
+We supplemented natural precipitation with periodic irrigation, and supplemental irrigation events
+supplied the depth equivalent of 29.2 mm of water into planting beds across all six blocks. Supplemental
+irrigation via drip tape was applied to the experimental study plot on seven dates during the growing
+season. In four out of six replicate blocks (blocks #2–5), we injected supplemental irrigation with liquid
+nutrient fertilizers, whereas the two remaining replicate blocks (blocks #1 and 6) received comparable
+irrigation levels, but no nutrient additions (again, see Supplemental Information for details). Details
+related to nutrient amendments and treatments are covered in a separate analysis. We measured
+environmental conditions during the duration of our study (Figs. 1, 2) using a meteorological station
+installed within our study site and recorded data at 15-minute intervals including measurements of air
+temperature (Ta), relative humidity (RH), vapor pressure deﬁcit (VPD), barometric pressure (Patm),
+photosynthetically active radiation (PAR, also referred to as photosynthetic photon ﬂux density (PPFD),
+400–700 nm), wind speed and direction, and precipitation (see Supplemental Information for more
+details).
+
+[PAGE 5]
+Figure 1. Climate summary for the hemp experimental ﬁeld site located near Robbins, North
+Carolina during late summer and fall of 2019. Summary panels include: a) air temperature (Ta), b)
+photosynthetically active radiation (PAR or PPFD), c) relative humidity (RH%), d) soil temperature
+(Tsoil) at 15 cm and 30 cm depth, e) vapor pressure deﬁcit (VPD), and f) wind speed. The PAR sensor
+data gap is due to a lightning strike in late August that damaged the sensor.
+
+[PAGE 6]
+
+
+[PAGE 7]
+Figure 2. Summary of precipitation and soil water status for the hemp experimental ﬁeld site
+located near Robbins, North Carolina during late summer and fall of 2019. Summary panels include:
+a) daily precipitation and irrigation totals, b) soil volumetric water content (VWC%) at 15 cm and 30
+cm depth, and c) electrical conductivity (EC) at 15 cm and 30 cm soil depth.
+Physiological Measurements
+We randomly selected 10 plants from each block for repeated physiological measurements over the
+course of the study, with two plants being selected from each row, which provided a sample size of n = 5
+plants for each  of the two cultivars within a speciﬁc block (Please note: throughout the manuscript, “n” is
+used to denote the sample size for various measurements or parameters, etc.). In total, this provided n =
+60 plants for a repeated time-series of physiological measurements across the study, with treatment
+factors having the following number of plants in each treatment factor: a) cultivar (n = 60 total, n = 30
+“BX” versus n = 30 “CW”), b) plastic mulching cover (n = 40 total, n = 20 “plastic cover” versus n = 20
+“no plastic”), split evenly between cultivars, and c) nutrient amendment (n = 40 total, n = 20 “nutrient
+amendment” versus n = 20 “no amendment”). For each selected plant, we designated an adjacent plant
+(of the same cultivar and treatment factor) as a back-up to serve as a replacement in case of mortality,
+disease, or herbivore damage during the study.
+To assess changes in leaf-level physiology and physiological responses over the course of our study, we
+made repeated measures of leaf net photosynthesis (An), leaf stomatal conductance (gs), leaf
+transpiration (EL), foliar chlorophyll content (CCI), foliar nutrient content (%), leaf temperature (TL), and
+plant foliar water potential (Y) across a ten week period from 14 August to 17 October 2019 that spanned
+from the pre-ﬂowering vegetative phase of plant development through ﬂowering to maturation (see Figs.
+3, 4). Regarding plant development, ﬂowering initiation was ﬁrst observed in both cultivars on 24 August
+(BX) and 25 August (CW), and all 60 plants used in repeated physiological measurements were harvested
+on 29 October 2019. Harvested biomass included all above ground biomass (AGB, including stems,
+branches, leaves and inﬂorescences). We hand-cut plants at ~5cm stem height above ground level,
+weighed (wet AGB) and hung in an open-air drying barn and dry weights obtained.
+
+[PAGE 8]
+Figure 3. Summary of weekly to bi-weekly assessments of plant physiological function by cultivar
+for the hemp experimental ﬁeld study located near Robbins, North Carolina during late summer and
+fall of 2019. Summary panels include: a) stomatal conductance measured via SC-1 porometer (leaf-
+gs), b) leaf temperature (TL), c) foliar chlorophyll content index (CCI), d) foliar water potential (Y), e)
+foliar nitrogen content %, and f) foliar phosphorus content %. Error bars represent ± 1 S.E. of the
+mean.
+
+[PAGE 9]
+Figure 4. Seasonal summary of LI-6800 leaf gas exchange measurements by cultivar for hemp at
+the experimental ﬁeld study located near Robbins, North Carolina during late summer and fall of
+2019. Summary panels include: a) net photosynthesis (leaf-An), b) stomatal conductance (leaf-gs), c)
+leaf transpiration (EL) and d) instantaneous water-use eﬃciency (WUE). Error bars represent ± 1 S.E.
+of the mean.
+We performed weekly assessments (n = 8, Fig. 3) of leaf-level physiological response across all 60
+plants via measurements of leaf-gs(utilizing an SC-1 porometer, METER Group, Inc. USA), foliar CCI
+(MC-100, Apogee Instruments), and leaf temperature (Fluke, Model 561, infrared thermometer) on fully
+illuminated leaves in the upper canopy. The SC-1 porometer was calibrated daily before each use, and
+we made weekly measurements midday between 1100 to 1530 hrs on dry plant canopies under sunny to
+mostly sunny conditions. For balanced sampling across the experimental design, we measured two plants
+from each replicate block (one per cultivar) before proceeding to the next block. This pattern was
+followed across all six blocks for an initial total of n = 12 measurements across all blocks, then the
+pattern was repeated until all 60 plants were eventually measured. On a subset of weekly measurement
+days, we assessed plant water status and water stress on n = 16 plants (Fig. 3d) via measurements of
+predawn water potential (Ypd, n = 6 dates) and midday water potential (Ymd, n = 3 dates) using a
+
+[PAGE 10]
+Scholander type pressure chamber (PMS Instruments).
+We collected foliar tissue samples (upper canopy) for nutrient analysis (≈ 2-week intervals) from late
+vegetative (15 August) through late ﬂower (24 October) growth phases (n = 24 to 48 plants by date,
+balanced across cultivar and plastic treatments). We oven-dried samples at 60°C for 48 hrs and shipped
+to the North Carolina NCDA&CS Agronomy Services Division for laboratory analysis. For potency testing,
+we collected fresh ﬂower tissue samples from hemp ﬂowers (n = 36 to 48 plants by date, balanced
+across cultivar and plastic treatments) on three dates corresponding to early-mid ﬂowering (19
+September), late ﬂowering (10 October), and senescence/harvest (24 October). Potency analysis was
+performed by Pinnacle CT, Inc. Testing Services (Westminster, MD) using high-performance liquid
+chromatography coupled with UV detection. Total CBD and THC% were calculated as follows: total CBD%
+= (CBD% + CBDA% × 0.877), and total THC% = (THC% + THCA% × 0.877).
+In addition to weekly assessments of hemp leaf physiological responses, we performed periodic
+measurements (Fig. 4) of leaf photosynthesis (An), stomatal conductance (gs), and transpiration (leaf-EL)
+on fully illuminated leaves in the upper canopy using an LI-6800 portable photosynthesis system
+equipped with a 3×3 cm clear top leaf chamber (LI-COR Biosciences, Inc.). From the resulting gas
+exchange data, we also calculated estimates of both instantaneous and intrinsic water use eﬃciency
+(WUE) as follows: a) instantaneous WUE = leaf An/EL, and b) intrinsic WUEi =leaf An/gs. Measurements
+were performed on n = 4 dates (22 August through 15 Oct, both pre and post ﬂower initiation) from late
+morning through afternoon (1100 to 1600 hrs) on days with sunny to mostly sunny conditions. For each
+sampling eﬀort utilizing the LI-6800, a total of n = 24 plants were measured (total of n = 96
+measurements across the season), with an equal number of plants measured from each cultivar and
+plastic mulching treatment factor across blocks. Measurements were taken at ambient Ta (ranging from
+24 to 36°C depending on date and time of day), ambient RH and VPD (ranging from ~50 to 78%, and
+~1.0 to 2.2 kPa respectively), and ambient CO2 concentrations (~400 ppm). Flow rate for the system gas
+analyzers was set at 500 mmol s
+-1
+, and the 3×3 cm clear top leaf chamber light source was set at a
+saturating PPFD of 1500 to 2000 mmol m
+-2
+ s
+-1
+, depending on the date when measurements were
+performed (see Supplemental Information more details on physiological measurements).
+Light and CO2 Response Curves
+Light response curves (LRC) were measured during late vegetative (19 and 20 August) and mid-late
+ﬂower (9 October) growth periods. Light response curves were measured using the Light Response
+Program (with default settings) provided within the Auto Programs function of the LI-6800. Sample size
+was n = 12 plants for each measurement period, which included plants from each cultivar and plastic
+mulching treatment. Carbon dioxide response curves were used to measure the response of leaf-An to
+increasing leaf internal CO2 (Ci) concentrations. This response was measured using the rapidA-Ci response
+(RACiR) procedure and the AutoLog program function of the LI-6800 (as outlined in Stinziano et al. 2017).
+Measurement of RACiR curves were performed over the course of three seasonal campaigns including:
+late vegetative (21–23 August), early ﬂower (10–12 October), and late ﬂower (10 and 15 October). For
+each measurement campaign, we measured n = 24 plants using the RACiR procedure, including plants
+from each cultivar and plastic mulching treatment (for a total of n = 72 RACiR measurements over the
+study duration). See Supplemental Information for a detailed description of the methods and
+procedures used for both the LRC and RACiR measurements).
+
+[PAGE 11]
+Once processed, we used corrected RACiR data (An versus Ci) to obtain Vcmax and Jmax estimates based on
+the FvCB model (Farquhar et al. 1980) using R open-source software (R version 3.5.3) and the
+“plantecophys” R package (Ver. 1.4.4, Duursma et al. 2015). The “ﬁtaci” function was used for curve
+ﬁtting, along with leaf An, TL, PPFD, and Ci (<1000 ppm) as input variables. All parameter outputs were
+corrected to 25°C during the ﬁtting procedure, and the ﬁt method was set to “bilinear”. All ﬁt parameter
+values used in the ﬁtting procedure, including a temperature adjusted Michaelis-Menten coeﬃcient for
+the Farquhar model and photorespiratory CO2 compensation point, are reported in Table 1. Due to the
+saturation of photosynthesis at high Ci (Long and Bernacchi 2003), the “ﬁt TPU” option in the “ﬁtaci”
+function was utilized (see Fig. S1 for an example of an A-Ci curve with TPU ﬁtted). Triose phosphate
+utilization (TPU) was estimated for all A-Ci datasets, and utilizing the TPU ﬁtting option improved overall
+curve ﬁts at high Ci (P<0.0001 and R
+2
+ > 0.94, all ﬁts) and provided for more accurate parameter
+estimates for Jmax. See Gregory et al. (2021) for a discussion of potential underestimation of Jmax when TPU
+is not accounted for under situations of photosynthesis saturation at high Ci.
+Table 1. Seasonal change in photosynthetic capacity for hemp cultivars at the Robbins experimental
+ﬁeld site in 2019, including Vcmax (carboxylation capacity of the enzyme Rubisco), Jmax (electron transport
+rate for the regeneration of RuBP), TPU (triose phosphate utilization rate), and Amax (light saturated
+photosynthesis). Data presented are mean values (± 1 SEM).
+Variety Period Vcmax (μmol m
+-2
+s
+-1
+)
+Jmax (μmol m
+-2
+s
+-1
+)
+TPU (μmol m
+-2
+s
+-1
+)
+Amax (μmol m
+-2
+s
+-1
+)
+BX Late Vegetative 143.2 (2.7) 325.9 (7.8) 19.0 (0.31) 48.8 (1.9)
+BX Early Flower 138.2 (6.7) 336.3 (19.6) 19.5 (0.68) N/A
+BX Late Flower 91.7 (5.3) 155.3 (7.7) 9.9 (0.41) 26.7 (1.5)
+CW Late Vegetative 136.2 (2.6) 323.4 (8.3) 19.3 (0.27) 47.6 (1.3)
+CW Early Flower 135.2 (4.9) 338.7 (15.8) 19.4 (0.45) N/A
+CW Late Flower 95.4 (6.2) 161.1 (10.5) 10.0 (0.47) 27.3 (3.2)
+Note: Fit Parameters used for the “ﬁtaci” function in the “plantecophys R package” (see Duursma
+2015). Vcmax and Jmax were scaled to 25°C, Patm = 100, α = 0.24, ϴ = 0.85, EaV = 82,620.87, delsC =
+645.1013, EaJ = 39,676.89, EdVJ = 2e5 and delsJ = 641.3615 (all ﬁts). Γ
+«
+ = 63.79937 @ 33°C &
+42.7497 @ 25°C. Km = 1420.209 @ 33°C & 710.3131 @ 25°C.
+Statistical Analysis
+We analyzed physiological data using GraphPad Prism version 9.2.0 (GraphPad Software, LLC). Statistical
+tests for signiﬁcance between physiological variables and seasonal/treatment eﬀects were performed
+using a Mixed Eﬀects Model (REML) with a repeated measures analysis structure. In each mixed eﬀects
+model, the dependent variable was tested for signiﬁcance against the ﬁxed eﬀects related to Date,
+Cultivar, and Plastic Mulching treatment. For the repeated measures portion of the analysis, date was the
+repeated factor and plant ID was treated as the subject in the random eﬀects. Main and second order
+
+[PAGE 12]
+interaction eﬀects were tested for signiﬁcance at the P = 0.05 threshold. In the event of signiﬁcant 2nd
+order interactions between ﬁxed eﬀects, non-signiﬁcant treatment factors were pooled and a two-way
+ANOVA with repeated measures and multiple comparisons (by date) was used to identify the speciﬁc 2nd
+order interaction that was present. A Bonferroni post hoc correction was used in all instances where
+multiple comparisons were performed. Results are reported as the mean value plus-or-minus one
+standard error of the mean (SEM). The two experimental factors explicitly examined in our analysis are
+those related to cultivar and the eﬀect of plastic mulching treatment. Plastic mulching was observed to
+be a non-signiﬁcant ﬁrst order treatment factor for all parameters assessed except for Ymd, and
+statistically signiﬁcant second order interactions related to plastic mulching were infrequent or were
+physiologically insigniﬁcant when they occurred. Accordingly, data results were subsequently pooled and
+presented by date and cultivar only (i.e., the plastic mulching factor was removed from the data
+presentation).
+Results
+Environmental Variables
+Seasonal trends in environmental variables across the study period are presented in Figures 1 and 2.
+Daily mean, maximum and minimum Ta averaged 22.1, 29.0, and 16.2°C, respectively, from early August
+through late October 2019 at the study site (Fig. 1a). Maximum daily PPFD averaged 2000 to 2200 mmol
+m
+-2
+ s
+-1
+ in mid-August, decreasing to a daily maximum of 1400 to 1500 mmol m
+-2
+ s
+-1
+ by mid-October 2019
+(Fig. 1b). Daily mean RH averaged 78.8 % across the study period (Fig. 1c), while daily maximum and
+minimum VPD averaged 2.0 and 0.061 kPa (Fig. 1e). Daily maximum and minimum Tsoil (treatments
+pooled) averaged 27.9 and 22.1°C at 15cm depth, and 26.0 and 23.7°C at 30 cm, respectively (Fig. 1d).
+Precipitation measurements began on 10 August with a total of 280 mm of rainfall received through late
+October 2019 (Fig. 2a). We supplemented natural precipitation with a total of eight irrigation events that
+supplied the depth equivalent of approximately 29.2 mm of water per event (Fig. 2a) with changes in
+soil VWC (m
+3 
+m
+-3
+) at varying depths closely tracking natural precipitation events (Fig. 2b). Across the
+duration of the study, soil VWC averaged 15.9% and 25.4% at 15 and 30 cm depth, respectively (Fig.
+2b). Our study site experienced a notable dry-down period between 6 September and 26 Sept, a 3-week
+period when no precipitation occurred and no supplemental irrigation was applied (Fig. 2b). During this
+dry-down period, average soil VWC at 15 and 30 cm depth declined to 7.0% and 12.3%, respectively.
+Finally, soil electrical conductivity (EC) exhibited a strong relationship with changes in soil VWC (Fig.
+2b,c), with ECe and ECw at varying depths increasing to maximum values of 0.4 to 0.7 mS
+cm
+-1
+,respectively,post precipitation (Fig. 2c).
+Leaf Gas Exchange – An, gs, EL, and WUE
+Seasonal patterns of An, gs, and EL measured with the LI-6800 (Fig. 4) followed a similar trend to leaf gas
+exchange (leaf – gs) measured with the SC-1 porometer (Fig. 3a). Maximum rates of gas exchange were
+observed during the late vegetative and early to mid-ﬂowering portion of plant development, with gas
+exchange rates declining as late summer transitioned into fall (Figs. 3, 4). Leaf An, gs, and EL (measured
+with LI-6800) were all found to signiﬁcantly vary by date (P < 0.0001, Fig. 4). However, cultivar type (P
+= 0.90, P = 0.53, and P = 0.30, respectively for An, gs, and EL) and plastic mulching treatment (P = 0.11,
+P = 0.51, and P = 0.98 respectively for An, gs, and EL) were not found to be signiﬁcant, and no signiﬁcant
+
+[PAGE 13]
+2nd order interactions were observed for any of the three aforementioned gas exchange variables
+measured using the LI-6800 (Fig. 4). Similarly, weekly leaf-gs (measured via the SC-1 porometer, Fig.
+3a) varied signiﬁcantly by date (P < 0.0001), but cultivar type (P = 0.15) and plastic mulching treatment
+(P = 0.08) were also not found to be signiﬁcant treatment factors, and although a signiﬁcant 2nd order
+interaction between date × cultivar (P < 0.0001) was observed for the 18 September measurements
+(Fig. 3a), overall mean leaf-gs still averaged close to 1.0 mol m
+-2 
+s
+-1
+ in all instances.
+Over the course of the study, leaf-An ranged from a mean high of 42.4 (SEM = 1.60) mmol m
+-2 
+s
+-1
+ for BX
+cultivar plants on 11 September to a mean low of 21.9 (1.54) mmol m
+-2 
+s
+-1 
+for the BX grouping of plants on
+15 October (Fig. 4a). Leaf gs and EL (LI-6800) ranged from a mean high of 1.15 (0.033) and 0.016
+(0.0007) mol m
+-2 
+s
+-1
+ respectively for plants in the BX cultivar group on 22 August to a mean low of 0.504
+(0.056) and 0.0069 (0.0007) mol m
+-2 
+s
+-1
+ respectively for the CW cultivar grouping of plants on 15 October
+(Fig. 4b,c). Instantaneous water use eﬃciency (i.e., WUE, leaf An/EL) generally ranged from a mean of
+2.6 to 3.5 mmol CO2/mmol H2O by cultivar across the season (Fig. 4d). Instantaneous water use
+eﬃciency varied signiﬁcantly by date (P = 0.02), but cultivar type and plastic mulching treatment were
+not found to be signiﬁcant treatment factors (P > 0.25, all instances), and no signiﬁcant 2nd order
+interactions were observed.
+Photosynthetic Capacity – Amax, CCI, Vcmax, Jmax, and TPU
+Light saturated photosynthesis (Amax) averaged 48.8 (SEM = 1.9) and 47.6 (1.3) mmol m
+-2
+ s
+-1
+ respectively
+for BX and CW cultivars measured during late vegetative growth in mid-August 2019 at ambient CO2 and
+a saturating PPFD of 2,000 µmol m
+-2
+ s
+-1
+ (Fig. 5a, Table 1). A seasonal decline in photosynthetic capacity
+was observed, with Amax declining to 26.7 (1.5) and 27.3 (3.2) mmol m
+-2
+ s
+-1
+ respectively for BX and CW
+cultivars measured during late ﬂowering in mid-October 2019 at ambient CO2 and saturating PPFD of
+2,000 µmol m
+-2
+ s
+-1 
+(Fig. 5a, Table 1). Date was a signiﬁcant factor (P < 0.0001) in regard to seasonal
+declines in Amax, whereas cultivar and plastic mulching were not signiﬁcant factors (P = 0.77 and P =
+0.27, respectively). No signiﬁcant 2nd order interactions were noted in regard to Amax. Seasonally, foliar
+chlorophyll content index (CCI, unit-less) also exhibited a similar decline from a mean high of 38.8 (SEM
+= 0.87) for the CW cultivar plants on 29 August to an average low of 13.0 (0.51) for the CW cultivar
+plants on 17 October (Fig. 3c). Chlorophyll content index was found to signiﬁcantly vary depending on
+date (P < 0.0001), but cultivar type (P = 0.08) and plastic mulching treatment (P = 0.07) were not found
+to be signiﬁcant treatment factors. Likewise, foliar N% followed a similar seasonal pattern as Amax and
+CCI, varying from 5.2% (SEM = 0.08) across all treatments on 15 August to an average low of 2.5%
+(0.021) across treatments on 24 Oct, just prior to harvest (Fig. 3e). Foliar N% and P% (Fig. 3e, 3f)
+varied signiﬁcantly by date (P < 0.0001 both instances), but cultivar type (P = 0.60 and P = 0.06,
+respectively) and plastic mulching (P= 0.88 and P= 0.78, respectively) were not found to be signiﬁcant
+treatment factors. A signiﬁcant and strong relationship (P < 0.0001) between Amax and both foliar N% (R
+2
+= 0.81, Fig. 5b) and CCI (R
+2
+ = 0.71, Fig. 5c) was observed seasonally. While N% and CCI were also
+observed to have a signiﬁcant and positive relationship across seasonal measurements (P < 0.0001, Fig.
+S2:panels e and f), the potential use of CCI as a simple predictor of leaf N% was deemed not to be
+practical given the weak linear relationship between the two variables (R
+2
+ = 0.40).
+
+[PAGE 14]
+
+
+[PAGE 15]
+Figure 5. Light response curves (LRC, panel a) for two hemp cultivars during the late vegetative
+and late ﬂower growth periods at the Robbins hemp ﬁeld study during 2019. Measurements were
+made at ambient CO2 (400 ppm), temperature (late veg. = 33°C, late ﬂower = 25°C), and VPD (late
+veg. = 1.26 kPa, late ﬂower = 1.5 kPa). Error bars represent ± 1 S.E. of the mean. Relationship of
+Amax (light saturated photosynthesis) versus b) foliar nitrogen content (N%) and c) chlorophyll
+concentration index (CCI) for LRC data.
+Regarding Vcmax, Jmax and TPU, measurement date was observed to be signiﬁcant (P < 0.0001) in all
+instances. Cultivar type was not a signiﬁcant treatment factor in regard to Vcmax, Jmax and TPU (P = 0.77, P
+= 0.94, and P = 0.51 respectively), and neither was plastic mulching (P = 0.80, P = 0.77, and P = 0.80,
+respectively), and no signiﬁcant 2nd order interactions were observed regarding Vcmax, Jmax and TPU. The
+maximum carboxylation capacity of Rubisco (Vcmax) averaged 139.7 (SEM = 1.9) and 136.7 (4.0) mmol m
+-2
+s
+-1
+ during mid-August (i.e., late vegetative) and mid-September (i.e., early ﬂower) ACi curve
+measurement campaigns (Table 1, cultivars pooled), while the maximum rate of electron transport (Jmax)
+averaged 324.7 (5.6) and 337.5 (12.3) mmol m
+-2
+ s
+-1
+ over this same time frame, respectively. Triose
+phosphate utilization (TPU) averaged 19.2 (0.21) and 19.5 (0.39) mmol m
+-2
+ s
+-1
+ during late vegetative and
+early ﬂower ACi curve measurement campaigns. By late ﬂowering, Vcmax, Jmax, and TPU all declined to an
+overall mean of 93.6 (4.0), 158.2 (6.4), and 10.0 (0.30), respectively, by mid-October (Table 1, cultivars
+pooled). Both Vcmax and Jmax exhibited a signiﬁcant and positive relationship with N% and CCI (P < 0.0001,
+Fig. S2: panels a–d); however, the strength of the linear relationships was less robust in some instances
+(R
+2 
+ranged from 0.43 to 0.60).
+Foliar Temperature (TL) and Water Status (Y)
+Leaf TL (Fig. 3b) was found to signiﬁcantly vary by date (P < 0.0001) and cultivar type (P = 0.02), but
+plastic mulching treatment was an insigniﬁcant factor (P = 0.49). Signiﬁcant 2nd order interactions for TL
+were observed between date × cultivar (P = 0.0004) and date × plastic mulching (P = 0.02) treatment
+factors. Post-hoc analysis revealed a signiﬁcant diﬀerence (P < 0.05) in TL between the plastic and no-
+plastic mulching treatments on 18 Sept; however, the average TL diﬀerence between the two groups was
+only 0.87°C and was subsequently considered insigniﬁcant from a physiological perspective. Daily mean
+TL varied with changes in Ta, ranging from a mean high of 31.1 (SEM = 0.16)°C for CW cultivar plants on 2
+October to a daily mean low of 18.9 (0.22)°C for CW plants on 17 October (Fig. 3b).
+Foliar Ypd was found to signiﬁcantly vary by date (P < 0.0001), but cultivar type (P = 0.44) and plastic
+mulching treatment (P = 0.78) were not found to be signiﬁcant treatment factors, and no signiﬁcant 2nd
+order interactions were observed. Predawn foliar water potential (Ypd) declined during the late summer
+dry-down, decreasing from a high of -0.057 (SEM = 0.003) MPa for BX cultivar plants on 7 September to
+an average low of -0.25 (0.01) MPa for BX plants on 17 September (Fig. 3d). Midday foliar water
+potential (Ymd) also declined with soil moisture during dry-down, decreasing from a high of -0.37 (0.023)
+MPa for CW cultivar plants on 29 August to an average low of –0.62 (0.012) MPa for BX cultivar plants on
+18 September (Fig. 3d). Foliar Ymd was found to signiﬁcantly vary by date (P < 0.0001), cultivar (P =
+0.01), and plastic mulching treatment (P = 0.03), and a signiﬁcant 2nd order interaction (P = 0.006) was
+observed between date × plastic mulching treatment factors. Across all observations, the BX cultivars
+averaged a Ymd of –0.53 (0.013) MPa compared to CW cultivars which averaged –0.44 (0.015) MPa.
+
+[PAGE 16]
+Potency and Yield
+Prior to harvest at 61 days post-ﬂowering initiation, total CBD and THC% for hemp ﬂower tissue averaged
+19.6 % (SEM = 0.67) and 0.80 % (0.02) for BX cultivars and 15.3 % (0.39) and 0.57 % (0.02) for CW
+cultivars respectively (Table 2). Total CBD and THC % exhibited a decline relative to concentrations
+observed at 47 days post ﬂowering initiation, and CBD and THC concentrations were signiﬁcantly higher
+for BX compared to CW cultivars (P < 0.0001, both instances) during both the late ﬂowering and
+senescence/harvest sampling periods (Table 2). Plastic mulching treatment did not have a signiﬁcant
+eﬀect on total CBD and THC concentrations for either cultivar during late ﬂowering and harvest sampling
+(P = 0.48 and 0.91, respectively), nor were there any signiﬁcant 2nd order interactions between plastic
+mulching and cultivar in regard to total CBD and THC%. Total CBD % was regressed against leaf-An and
+foliar CCI to determine if a signiﬁcant relationship existed between growing season leaf-level
+physiological factors and total CBD production; however, no relationship was observed as regression
+comparisons across diﬀering timeframes and averaging periods were all found to be non-signiﬁcant (R
+2
+values ranged from 0.0005 to 0.053). Finally, regarding biomass, total aboveground harvestable biomass
+(AGB, i.e., stems, branches, leaves and inﬂorescences) averaged 1.12 (0.05) and 2.15 (0.13) kg plant
+-1
+ for
+BX and CW cultivars respectively (Table 2). There was a signiﬁcant diﬀerence between cultivars in
+regard to AGB (P < 0.0001), but plastic mulching had no signiﬁcant eﬀect (P = 0.43) and there were no
+signiﬁcant 2ndorder interactions present between plastic mulching treatments and cultivars.
+Table 2. Flower potency and harvest yield for Boax (BX) and Cherry-Wine (CW) hemp cultivars at the
+Robbins experimental ﬁeld site in 2019. Total
+a 
+CBD and THC% potency for hemp ﬂower sampled across n
+= 3 dates from early-mid ﬂowering (19 September) to late ﬂowering (10 October) and senescence (24
+October). Harvested biomass (kg/plant, 29 October) reﬂects total aboveground biomass (AGB) dry weight
+including stem, branch, leaf, and inﬂorescence. Data presented are mean values (± 1 SEM).
+Variety Flowering stage Days post
+ﬂower
+initiation
+Flower- total
+a
+CBD (%)
+Flower- total
+1
+THC (%)
+Harvest AGB
+(kg/plant)
+BX Early-Mid Flower 26 11.5 (0.31) 0.33 (0.02) N/A
+BX Late Flower 47 20.8 (0.60) 0.92 (0.03) N/A
+BX Senescence &
+Harvest
+61 19.6 (0.67) 0.80 (0.02) 1.12 (0.05)
+CW Early-Mid Flower 26 7.6 (0.53) 0.16 (0.03) N/A
+CW Late Flower 47 17.0 (0.63) 0.70 (0.02) N/A
+CW Senescence &
+Harvest
+61 15.3 (0.39) 0.57 (0.02) 2.15 (0.13)
+a 
+Total CBD% = (CBD% + CBDA% × 0.877), Total THC% = (THC% + THCA% × 0.877).
+
+[PAGE 17]
+Discussion
+Physiological Performance of Cultivars
+The hemp cultivars in our study exhibited similar and high photosynthetic capacity (Amax) both prior to
+and following ﬂower initiation (Figs. 4, 5, Table 1), with average An rates upwards of 48 mmol m
+-2
+ s
+-1
+observed for plants growing at ambient atmospheric CO2 concentrations and saturating light in an
+outdoor ﬁeld setting. Previous studies on indoor/greenhouse grown cannabis have documented the high
+An of cannabis cultivated under both ambient and elevated/enriched CO2 air environments (Bazzaz et al.
+1975; Lydon et al. 1987; Chandra et al. 2008; Jenkins and Livesay 2021; Rodriguez-Morrison et al. 2021).
+Likewise, industrial hemp has been documented to possess a high An (Tang et al. 2017; Tang et al. 2018;
+Bauerle et al. 2020), especially under conditions of high foliar nitrogen (N) content and no water stress.
+Notably, for hemp grown under ambient CO2 concentrations in an outdoor agricultural setting, LiCor
+Biosciences (2022) reported quite similar An rates to those observed in our study at comparable leaf
+internal CO2 concentrations (Ci). The high Amax of cannabis necessitates a correspondingly high degree of
+stomatal opening and leaf-gs to provide for adequate diﬀusion of CO2 into the leaf intercellular spaces
+during periods of high photosynthetic carbon ﬁxation (Wong et al. 1979; Reich et al. 1999; Gilbert et al.
+2011), and this particular correlation in leaf physiological traits is especially critical for C3 plants growing
+at ambient atmospheric CO2 concentrations in outdoor agronomic settings. Observed leaf-gs and EL rates
+in our study were similar between cultivars and notably higher than rates reported by Chandra et al.
+(2008, 2015), Lydon et al. (1987), Murovec et al. (2022), and Shiponi and Bernstein (2021), but measured
+leaf-gs in our study were similar to maximum leaf-gs reported by Jenkins (2021) and LiCor Biosciences
+(2022).
+Instantaneous and intrinsic WUE in our study did not diﬀer signiﬁcantly between cultivars, with
+instantaneous WUE generally averaging between 2.6 to 3.5 mmol CO2 /mmol H2O (Fig. 4d), slightly lower
+than many WUE observations reported by Chandra et al. (2008, 2015), Murovec et al. (2022), and Tang
+et al. (2018) for non-drought stressed cannabis plants. The lower WUE we observed compared to these
+aforementioned studies can partially be attributed to high rates of leaf-gs and a subsequently high degree
+of transpirational water loss which occurred in our study (Fig. 4b,c), despite the high rates of leaf-An that
+were measured concurrently (Fig. 4a). Water stressed plants often exhibit an increase in WUE, and this
+response was reported by Tang et al. (2018) in drought stressed cannabis where WUE increased from 4.0
+in well-watered plants up to 7.53 mmol CO2 /mmol H2O in plants exposed to long term water shortage;
+however, the observed increase in WUE came at a high cost to productivity, as canopy gross
+photosynthesis declined by 68% in droughted plants compared to well-watered cannabis plants in that
+particular study (Tang et al. 2018). We only experienced one short time period (mid-September 2019)
+where 15cm and 30cm soil VWC declined below 10% and 20% respectively, and plants began to show a
+slight decline in both YPD and YMD (Figs. 2b and 3d). While plants did exhibit a slight decline in both YPD
+and YMD during this temporary soil dry-down (down to approx. -0.6 MPa), measured Y (Fig. 3d) in our
+study was much higher than values reported by Caplan et al. (2019) for experimentally drought stressed
+cannabis where foliar Y ranged from -1.0 to -1.5 MPa and drought stressed cannabis plants experienced a
+30 to 40% decline in leaf photosynthesis compared to non-droughted controls. Additionally, our weekly to
+bi-weekly measurements of leaf-gs (Fig 3a) further indicate that plants did not experience signiﬁcant or
+prolonged water stress over the course of our study, as plants maintained quite high rates of leaf-gs (e.g.,
+> 900 mmol m
+-2
+ s
+-1
+) well into ﬂowering stage, only declining prior to harvest in late ﬂowering (Figs. 3a
+and 4b). Consequently, we surmise that water stress was not a signiﬁcant constraint on leaf gas
+
+[PAGE 18]
+exchange for either cultivar during our study. The possibility that the two cultivars in our study may have
+diﬀered in their sensitivity to water stress is an intriguing question, but we did not experience severe
+enough declines in plant available water (especially at depth) to detect and assess that question in our
+study. In future comparative studies of this type, the addition of a drought stress factor in the
+experimental design framework would provide the ability to fully elucidate the drought sensitivity and
+WUE of diﬀering cultivars.
+Seasonal Variation in Photosynthetic Capacity
+Seasonal declines in An and Amax were observed in our study as plants matured towards the late ﬂowering
+stage (Figs. 4a and 5), and these declines in leaf-level productivity were accompanied by declines in
+Vcmax, Jmax, foliar N%, and CCI over this same period (Fig. 3, Table 1, Fig. S2). We did not detect
+signiﬁcant diﬀerences in leaf gas exchange or photosynthetic capacity between the late vegetative and
+early ﬂowering periods of crop growth (Figs. 3a and 4, Table 1), with initial declines in both N% and CCI
+detected approximately two- and three-weeks post ﬂower initiation respectively for both cultivars (Fig.
+3c,e). Cannabis has been documented to respond positively to high levels of incident light, with leaf-An
+rates increasing with PPFD levels up to 1,500 to 2,000 umol m
+-2
+ s
+-1
+, especially in speciﬁc
+genotypes/cultivars possessing high foliar N content (Chandra et al. 2015; Tang et al. 2017; Jenkins and
+Livesay 2021). While positive responses to increasingly high levels of incident light occur in cannabis,
+photosynthesis can also reach a light saturation point (LSP), wherein the photosynthetic response
+plateaus, and no additional photosynthetic response occurs as PPFD increases (Farquhar et al. 1980;
+Long et al. 2006). In relation to cannabis, seasonal variation in Amaxand LSP has been documented in
+studies by Bauerle et al. (2020) and Rodriguez-Morrison et al. (2021), where Amax and LSP declined in the
+latter stages of plant growth and ﬂowering. We observed similar physiological changes in our study in
+relation to seasonal changes in LSP and Amax, with both cultivars exhibiting increasing An in late
+vegetative/early ﬂowering up to PPFD of 2,000 mmol m
+-2
+ s
+-1
+, then a decline in photosynthetic capacity in
+late ﬂower as leaf An reached LSP at a PPFD range of 1250 to 1500 mmol m
+-2
+ s
+-1
+ (Fig. 5a). While seasonal
+declines in temperature, foliar chlorophyll/CCI, foliar N content, and PPFD occurred concurrently as plants
+matured into late ﬂowering at our site, it is the decline in photosynthetic capacity as evidenced by
+decreases in Vcmax, Jmax, and subsequently Amax that is particularly notable (Table 1). Subsequently, we
+posit that this reduction in photosynthetic capacity, in conjunction with the physiological age of foliar
+tissues and the potential onset of plant senescence, explains much of the reduced physiological
+performance we observed as hemp matured into late ﬂower (Rodriguez-Morrison et al. 2021). Similar
+patterns were observed by Bauerle et al. (2020), where decreases in photosynthetic capacity were
+observed for cannabis leaves over a 42-day period following full leaf expansion, with a progressive
+decline in Amax, Vcmax, and Jmax observed post leaf expansion regardless of crown position or light intensity.
+With regard to photosynthetic capacity, crop species have been documented to possess high Amax, Vcmax,
+and Jmax values (see Tang et al. 2017; Miner and Bauerle 2019; Saathoﬀ and Welles 2021), and the hemp
+cultivars in our study exhibited a similar high photosynthetic capacity as evidenced by high Vcmax and Jmax
+parameter estimates and correspondingly high Amax at ambient CO2 concentrations and high PPFD. Triose
+phosphate utilization estimates in our study ranged from the mid- to higher end of many reported values
+in the literature (Wullschleger 1993; Kumarathunge et al. 2019), and for studies examining
+photosynthetic capacity in hemp (Tang et al. 2017; Bauerle et al. 2020). Notably, there is an ongoing
+debate in the modeling community regarding the importance of incorporating TPU (and/or TPU-limitation)
+into terrestrial biosphere models, with some authors suggesting limitations may be observed under
+conditions of low temperature, high light, and high CO2 (Lombardozzi et al. 2017), while others argue that
+
+[PAGE 19]
+TPU limitations are mostly negligible at current atmospheric CO2 concentrations (see Kumarathunge et al.
+2019; Rogers et al. 2021).
+Seasonal declines in Amax, Vcmax, and Jmax have been observed to correlate with declines in foliar N% in
+sunﬂower and maize (Miner and Bauerle 2019), and Rodriguez-Morrison et al. (2021) postulated that a
+decline in chlorophyll content over the course of crop development likely contributed to observed
+reductions in hemp photosynthetic capacity in their study. Foliar N content is well correlated with Amax in
+many plants, as foliar N is a critical component in many proteins and enzymes related to carbon
+metabolism and carboxylation capacity in the Calvin cycle, and a signiﬁcant proportion of foliar N is also
+located in the chloroplasts and thylakoid membranes which are responsible for light energy capture
+during photosynthesis (Evans 1989; Chandra et al. 2011; Peterson et al. 1999). Accordingly, total leaf N
+has been shown to be well correlated in many instances with leaf chlorophyll content, Ribulose 1,5-
+bisphosphate carboxylase/oxygenase (Rubisco) enzyme levels, and electron transport capacity related to
+RuBP regeneration (Evans 1989; Walker et al. 2014). As observed in previous studies (Miner and Bauerle
+2019; Rodriguez-Morrison et al. 2021), we noted signiﬁcant declines in foliar CCI and N% (Fig. 3c,e), and
+subsequently photosynthetic capacity as hemp plants transitioned into late ﬂowering and approached
+harvest/senescence (Fig. 5b,c, Table 1, Fig. S2).
+Fertilization studies of cannabis (Malceva et al. 2011; Tang et al. 2017; Tang et al. 2018) assessing the
+eﬀects of N fertilization on photosynthetic capacity and performance have reported signiﬁcant increases
+in leaf N content, chlorophyll content, and photosynthetic response to increased N fertilization, with
+Malceva et al. (2011) observing leaf N content values that ranged upwards of 4–5% in high N treatments,
+values comparable to foliar N levels observed in hemp plants in the late vegetative and early ﬂowering
+phases of our study (Fig. 3e). Similarly, Tang et al. (2017) reported signiﬁcant increases in measured
+and modeled photosynthetic capacity (upwards of 30–40 mmol m
+-2
+ s
+-1
+) at higher speciﬁc leaf nitrogen
+(SLN) levels of 1.5–2.5 g N m
+-2
+ for plants growing at high light intensity (i.e., PPFD = 2000 mmol m
+-2
+ s
+-1
+),
+values comparable to SLN estimates in our study during late vegetative and early ﬂowering periods (SLN
+approximations ranged from 1.7 to 2.9 g N m
+-2
+ in our study). We should note that SLN was not measured
+directly in our study but estimated based on observed leaf N content (our study) and an assumed speciﬁc
+leaf weight (SLW) of ~45–55 g m
+2
+ based on published cannabis values in the literature (see Rodriguez-
+Morrison et al. 2021 and Moher et al. 2022 for cannabis SLW values). Given the comparably high level of
+leaf N and associated chlorophyll content (CCI) observed early in our study (Fig. 3c,e), we conclude that
+soil N availability and subsequently foliar N were not limiting (Cockson et al. 2019; Saloner and Bernstein
+2020), and more than adequate for plants to exhibit the high photosynthetic capacity that we observed
+under conditions of high light intensity, optimal temperature, and low water stress during the late
+vegetative and early ﬂowering phase of development. Likewise, foliar P content was considered not to be
+a limiting factor in regard to photosynthetic capacity and growth, as mean foliar P% was > 0.3% in most
+all instances and periods (Fig. 3f), above the threshold for which P limitation has been documented to
+occur in cannabis (Cockson et al. 2020; Shiponi and Bernstein 2021; Veazie et al. 2021).
+Photosynthesis is also heavily inﬂuenced by temperature, as rates of many biochemical and enzymatic
+functions during carbon ﬁxation are highly temperature dependent, with many species having
+photosynthetic optima in regard to temperature, beyond which the eﬀects of temperature dependent
+processes such as photorespiration and increased cellular respiration serve to limit An, especially for C3
+crop species (Long et al. 2006; Moore et al. 2021). In our study, measurements of An in the late
+vegetative and early ﬂowering stages of plant development (i.e., August and September) were performed
+
+[PAGE 20]
+under well-watered conditions and high PPFD (Figs. 1b and 2), with maximum daily Ta and TL that
+averaged in the 30 to 34°C range (Figs. 1a and 3b). Previous work by Chandra et al. (2008, 2011) and
+Tang et al. (2017) report an optimum temperature for An in cannabis to occur in the 25–35°C range for
+plants measured under high PPFD (1500–2000 mmol m
+-2
+ s
+-1
+) and ambient CO2 conditions (350–400 ppm).
+Notably, modeling simulations performed by Tang et al. (2017) predict An rates upwards of 40 mmol m
+-2
+s
+-1
+ for hemp plants grown under ambient CO2 conditions and canopy temperatures in the 30–35°C range,
+rates comparable to those observed in our study under similar Ta, PPFD, and foliar N levels. Tang et al.
+(2017) also modeled Vcmax, Jmax, and Tp(i.e., TPU) for hemp based on the photosynthesis model of Farquhar
+et al. (1980), and reported steadily increasing Vcmax and Tprates across a Ta range from 10 to 40°C,
+whereas Jmax for hemp plateaued across a Ta range of 30 to 40°C. Accordingly, we infer that ambient
+temperatures at our study site during August/September measurements were within an optimal range for
+assessing hemp physiological performance in an outdoor agronomic setting, especially in relation to
+measuring the photosynthetic potential for hemp plants under conditions of high light intensity, low
+water stress, and high N availability. Hemp leaf-An rates at our site decreased in late ﬂowering as plants
+approached full maturity and harvest (i.e., October), with average leaf-An rates declining into the 20–30
+mmol m
+-2
+ s
+-1 
+range as maximum Ta and TL declined into the 18–25°C range, with observed leaf-An declines
+matching well with predicted hemp photosynthesis responses in the model simulation performed by Tang
+et al. (2017) for similar temperature declines
+THC Potency and USDA Guidelines
+It should be noted that during ﬂowering and maturation, both BX and CW ﬂower tissue exceeded the
+0.3% concentration limit for THC% on a dry weight basis, with BX exceeding the threshold only 26 days
+post ﬂower initiation (Table 2). Thus, both cultivars in our study surpassed the THC% threshold for hemp
+classiﬁcation as outlined by the USDA and the 2018 Farm Bill (Mark et al. 2020). Similar compliance
+concerns have been observed for industrial hemp in other studies, with Linder et al. (2022) reporting
+total THC% levels exceeding the 0.3% threshold within ~40 days post ﬂower initiation for the Cherry-
+Wine cultivars in their study. Notably, the Boax cultivar has been classiﬁed as a prohibited variety by
+some U.S. states, with, for example, Pennsylvania prohibiting the Boax hemp variety after repeated
+instances where it tested above 0.3% THC and another instance where it tested >1.0% in regard to
+compliance testing (Pennsylvania Department of Agriculture 2021). In this instance, Pennsylvania did not
+prohibit the hemp variety Cherry-Wine (as of 2022), but both Pennsylvania and Kentucky have listed it as
+a variety of concern after repeated instances of potency testing above the 0.3% THC threshold. Thus,
+while both cultivars in our study exhibited quite high photosynthetic capacity and productivity potential,
+growers should be cautious when utilizing these two particular hemp cultivars given their potential to
+exceed THC% allowance thresholds during compliance testing by state-level agencies (Suchoﬀ et al.
+2022).
+While AGB for CW cultivars exceeded harvested yield for BX cultivars by a large margin in our study
+(Table 2), it should be noted we utilized total dry AGB to assess yield, and relative yield diﬀerences
+between the two cultivars could diﬀer from our current results if inﬂorescence biomass alone had been
+used to assess cultivar yield. For example, harvested AGB in our study exceeded biomass values
+reported by Linder et al. (2022) for BaOx and Cherry-Wine hemp varieties, but aboveground biomass in
+the Linder et al. (2022) study reﬂected inﬂorescences and leaves only, which helps explain why they
+report much lower biomass yields compared to our study at a similar harvest schedule (i.e., days post
+ﬂower initiation). Likewise, Linder et al. (2022) reported lower CBD and THC% compared to
+
+[PAGE 21]
+concentrations observed in our study, and this may reﬂect the fact that cannabinoid testing in our study
+was performed on ﬂower tissue samples alone, as opposed to testing of pooled inﬂorescence and foliar
+tissue in the Linder et al. study. The concentration of CBD at harvest is a critical factor to consider when
+interpreting yield results, and while total AGB yield was lower for BX cultivars in our study, this was
+partially oﬀset by a higher CBD % in BX relative to CW cultivars (Table 2). Concentrations of CBD for
+both cultivars in our study were observed to be at the high end of reported values for various regionally
+grown hemp varieties (Chen et al. 2021; Chiluwal et al. 2023; Suchoﬀ et al. 2022).
+Summary
+We observed a high photosynthetic capacity (i.e., Vcmax, Jmax, and Amax) for the hemp plants examined in
+our study, along with observations of correspondingly high rates of leaf-An, gs, and EL during late
+vegetative and early to mid-ﬂowering phases of crop development, a period when high PPFD, optimal
+temperatures, high foliar nitrogen content, and lack of plant water stress provided favorable conditions
+for high photosynthetic carbon gain. There were no signiﬁcant diﬀerences in leaf gas-exchange rates
+between cultivars in our study, with both cultivars exhibiting very similar levels of leaf physiological
+function to each other throughout the study. We observed a decline in leaf physiological function and
+photosynthetic capacity in late ﬂowering for both cultivars leading up to harvest, and we conclude that a
+reduction in photosynthetic capacity in conjunction with the potential onset of plant senescence
+explained much of the reduced physiological performance that we observed as hemp matured into late
+ﬂower at our study site. Plastic mulching had no signiﬁcant eﬀect on leaf physiological function or ﬁnal
+CBD content during the course of our study, and we attribute this lack of any treatment eﬀect to the fact
+that plastic did not signiﬁcantly alter the canopy microclimate for hemp in our study, nor did it
+signiﬁcantly aﬀect plant-available soil water in any physiologically impactful or consequential manner.
+Given that both Boax and Cherry-Wine exhibit high physiological performance in relation to
+photosynthetic capacity and a correspondingly high CBD content, we conclude that both cultivars provide
+growers with superior planting options in their eﬀorts to maximize productivity and economic returns for
+hemp grown under similar environmental and site conditions. However, despite the inherent productivity
+of these two cultivars, growers should be cautious when utilizing such hemp cultivars, given their
+potential to exceed THC% allowance thresholds during regulatory compliance testing.
+Acknowledgements
+We thank Rubisco Research and Consulting, LLC and VIP Farms A NC, LLC for funding support related to
+crop establishment and execution of the ﬁeld experiment, and we thank Elijah Henry and Farlen Mischel
+for ﬁeld assistance with data collection and crop cultivation eﬀorts. Data processing, analysis, and
+subsequent writing of the manuscript were not funded by any entity or grant.
+Declaration of Generative AI and AI- assisted technology in the writing process
+The authors did not use Generative AI or AI-assisted technology in the writing of this manuscript.
+
+[PAGE 22]
+Literature Cited
+Adesina, I., A. Bhowmik, H. Sharma, and A. Shahbazi. 2020. A review on the current state of knowledge
+of growing conditions, agronomic soil health practices and utilities of hemp in the United States.
+Agriculture 10(4):129.
+Aryal, K., T. Maraseni, T. Kretzschmar, D. Chang, M. Naebe, L. Neary, and G. Ash. 2024. Knowledge
+mapping for a secure and sustainable hemp industry: a systematic literature review. Case Studies in
+Chemical and Environmental Engineering 9:100550.
+Backer, R., T. Schwinghamer, P. Rosenbaum, V. McCarty, S. Eichhorn Bilodeau, D. Lyu, M. B. Ahmed, G.
+Robinson, M. Lefsrud, O. Wilkins, and D. L. Smith. 2019. Closing the yield gap for cannabis: a meta-
+analysis of factors determining cannabis yield. Frontiers in Plant Science 10:495.
+https://doi.org/10.3389/fpls.2019.00495
+Bauerle, W. L., C. McCullough, M. Iversen, and M. Hazlett. 2020. Leaf age and position eﬀects on
+quantum yield and photosynthetic capacity in hemp crowns. Plants 9(2):271.
+Bazzaz, F. A., D. Dusek, D. S. Seigler, and A. W. Haney. 1975. Photosynthesis and cannabinoid content
+of temperate and tropical populations of Cannabis sativa. Biochemical Systematics and Ecology
+3(1):15–18.
+Beck, H., N. Zimmermann, T. McVicar, N. Vergopolan, A. Berg, and E. F. Wood. 2018. Present and future
+Köppen-Geiger climate classiﬁcation maps at 1-km resolution. Scientiﬁc Data 5:180214.
+Blandinières, H., and S. Amaducci. 2022. Agronomy and ecophysiology of hemp cultivation. Pages
+89–125 in D. C. Agrawal, R. Kumar, and M. Dhanasekaran, editors. Cannabis/Hemp for Sustainable
+Agriculture and Materials. Springer Singapore, Singapore.
+Brestic, M., X. Yang, X. Li, and S. I. Allakhverdiev. 2021. Crop photosynthesis for the twenty-ﬁrst
+century. Photosynthesis Research 150(1):1–3.
+Campbell, B. J., A. F. Berrada, and C. Hudalla. 2019. Genotype x environment interactions of industrial
+hemp cultivars highlight diverse responses to environmental factors. Agrosystems, Geosciences &
+Environment 2(1):180057.
+Caplan, D., M. Dixon, and Y. Zheng. 2019. Increasing inﬂorescence dry weight and cannabinoid content
+in medical cannabis using controlled drought stress. HortScience 54(5):964–969.
+Chandra, S., H. Lata, I. A. Khan, and M. A. Elsohly. 2008. Photosynthetic response of Cannabis sativa L.
+to variations in photosynthetic photon ﬂux densities, temperature and CO2 conditions. Physiology and
+Molecular Biology of Plants 14(4):299–306.
+Chandra, S., H. Lata, I. A. Khan, and M. A. ElSohly. 2011. Temperature response of photosynthesis in
+diﬀerent drug and ﬁber varieties of Cannabis sativa L. Physiology and Molecular Biology of Plants
+17(3):297–303.
+Chandra, S., H. Lata, Z. Mehmedic, I. A. Khan, and M. A. ElSohly. 2015. Light dependence of
+photosynthesis and water vapor exchange characteristics in diﬀerent high Δ9-THC yielding varieties of
+Cannabis sativa L. Journal of Applied Research on Medicinal and Aromatic Plants 2(2):39–47.
+Chen, X., H. Deng, J. A. Heise, D. P. Puthoﬀ, N. Bou-Abboud, H. Yu, and J. Peng. 2021. Contents of
+cannabinoids in hemp varieties grown in Maryland. ACS Omega 6(47):32186–32197.
+Cherney, J. H., and E. Small. 2016. Industrial hemp in North America: production, politics and potential.
+Agronomy 6(4):58.
+Chiluwal, A., S. S. Sandhu, H. Sandhu, M. Irey, F. Johns, and R. Sanchez. 2023. Cannabidiol industrial
+hemp growth, biomass, and temporal cannabinoids accumulation under diﬀerent planting dates in
+southern Florida. Agrosystems, Geosciences & Environment 6(1):e20347.
+Cockson, P., H. Landis, T. Smith, K. Hicks, and B. E. Whipker. 2019. Characterization of nutrient
+
+[PAGE 23]
+disorders of Cannabis sativa. Applied Sciences 9(20):4432.
+Cockson, P., M. Schroeder-Moreno, P. Veazie, G. Barajas, D. Logan, M. Davis, and B. E. Whipker. 2020.
+Impact of phosphorus on Cannabis sativa reproduction, cannabinoids, and terpenes. Applied Sciences
+10(21):7875.
+Duursma, R. A. 2015. Plantecophys-an R package for analyzing and modelling leaf gas exchange data.
+PLOS ONE 10(11):e0143346.
+Eichhorn Bilodeau, S., B. S. Wu, A. S. Rufyikiri, S. MacPherson, and M. Lefsrud. 2019. An update on plant
+photobiology and implications for cannabis production. Frontiers in Plant Science 10:296.
+Evans, J. R. 1989. Photosynthesis and nitrogen relationships in leaves of C3 plants. Oecologia
+78(1):9–19.
+Farquhar, G. D., S. V. von Caemmerer, and J. A. Berry. 1980. A biochemical model of photosynthetic CO2
+assimilation in leaves of C3 species. Planta 149(1):78–90.
+Farquhar, G. D., and T. D. Sharkey. 1982. Stomatal conductance and photosynthesis. Annual Review of
+Plant Physiology 33(1):317–345.
+Gilbert, M. E., M. A. Zwieniecki, and N. M. Holbrook. 2011. Independent variation in photosynthetic
+capacity and stomatal conductance leads to diﬀerences in intrinsic water use eﬃciency in 11 soybean
+genotypes before and during mild drought. Journal of Experimental Botany 62(8):2875–2887.
+Gregory, L.M., A. M. McClain, D. M. Kramer, J. D. Pardo, K. E. Smith, O. L. Tessmer, B. J. Walker, L. G.
+Ziccardi, and T. D. Sharkey. 2021. The triose phosphate utilization limitation of photosynthetic rate: out
+of global models but important for leaf models. Plant, Cell & Environment 44(10):3223–3226.
+Grossiord, C., T. N. Buckley, L. A. Cernusak, K. A. Novick, B. Poulter, R. T. Siegwolf, J. S. Sperry, and N.
+G. McDowell. 2020. Plant responses to rising vapor pressure deﬁcit. New Phytologist 226(6):1550–1566.
+Hatﬁeld, J. L., and C. Dold. 2019. Water-use eﬃciency: advances and challenges in a changing climate.
+Frontiers in Plant Science 10:103.
+Jenkins, M. W. 2021. Cannabis sativa L. response to narrow bandwidth UV and the combination of blue
+and red light during the ﬁnal stages of ﬂowering on leaf-level gas-exchange parameters, secondary
+metabolite production, and yield. Agricultural Sciences 12:1414–1432.
+Jenkins, M. W., and C. B. Livesay. 2021. Photosynthetic performance and potency of Cannabis sativa L.
+grown under LED and HPS illumination. Agricultural Sciences 12:293–304.
+Kumarathunge, D. P., B. E. Medlyn, J. E. Drake, A. Rogers, and M. G. Tjoelker. 2019. No evidence for
+triose phosphate limitation of light‐saturated leaf photosynthesis under current atmospheric CO2
+concentration. Plant, Cell & Environment 42(12):3241–3252.
+Leakey, A. D., J. N. Ferguson, C. P. Pignon, A. Wu, Z. Jin, G. L. Hammer, and D. B. Lobell. 2019. Water
+use eﬃciency as a constraint and target for improving the resilience and productivity of C3 and C4 crops.
+Annual Review of Plant Biology 70:781–808.
+LiCor Biosciences. 2022. Complementary leaf physiology measurements: the LI-600 and LI-6800.
+Application Note #979-19769.
+Linder, E. R., S. Young, X. Li, S. Henriquez Inoa, and D. H. Suchoﬀ. 2022. The eﬀect of harvest date on
+temporal cannabinoid and biomass production in the ﬂoral hemp (Cannabis sativa L.) cultivars BaOx and
+Cherry Wine. Horticulturae 8(10):959.
+Lombardozzi, D. L., N. G. Smith, S. J. Cheng, J. S. Dukes, T. D. Sharkey, A. Rogers, R. Fisher, and G. B.
+Bonan. 2018. Triose phosphate limitation in photosynthesis models reduces leaf photosynthesis and
+global terrestrial carbon storage. Environmental Research Letters 13(7):074025.
+Long, S. P., and C. J. Bernacchi. 2003. Gas exchange measurements, what can they tell us about the
+underlying limitations to photosynthesis? Procedures and sources of error. Journal of Experimental
+Botany 54(392):2393–2401.
+Long, S. P., X. G. Zhu, S. L. Naidu, and D. R. Ort. 2006. Can improvement in photosynthesis increase
+crop yields? Plant, Cell & Environment 29(3):315–330.
+
+[PAGE 24]
+Lydon, J., A. H. Teramura, and C. B. Coﬀman. 1987. UV‐B radiation eﬀects on photosynthesis, growth
+and cannabinoid production of two Cannabis sativa chemotypes. Photochemistry and Photobiology
+46(2):201–206.
+Malceva, M., M. Vikmane, and V. Stramkale. 2011. Changes of photosynthesis-related parameters and
+productivity of Cannabis sativa under diﬀerent nitrogen supply. Environmental and Experimental Biology
+9:61–69.
+Malone, T., and K. Gomez. 2019. Hemp in the United States: a case study of regulatory path
+dependence. Applied Economic Perspectives and Policy 41(2):199–214.
+Mark, T., J. Shepherd, D. Olson, W. Snell, S. Proper, and S. Thornsbury. 2020. Economic viability of
+industrial hemp in the United States: a review of state pilot programs. USDA. Economic Research Service,
+EIB-217.
+Meter Group, Inc. USA. 2018. Soil Electrical Conductivity – A Guide to Measurements. Application Note
+#18190-02.
+Miner, G. L., and W. L. Bauerle. 2019. Seasonal responses of photosynthetic parameters in maize and
+sunﬂower and their relationship with leaf functional traits. Plant, Cell & Environment 42(5):1561–1574.
+Moher, M., D. Llewellyn, M. Jones, and Y. Zheng. 2022. Light intensity can be used to modify the growth
+and morphological characteristics of cannabis during the vegetative stage of indoor production. Industrial
+Crops and Products 183:114909.
+Moore, C. E., K. Meacham-Hensold, P. Lemonnier, R. A. Slattery, C. Benjamin, C. J. Bernacchi, T. Lawson,
+and A. P. Cavanagh. 2021. The eﬀect of increasing temperature on crop photosynthesis: from enzymes to
+ecosystems. Journal of Experimental Botany 72(8):2822–2844.
+Murovec, J., J. J. Eržen, M. Flajšman, and D. Vodnik. 2022. Analysis of morphological traits, cannabinoid
+proﬁles, THCAS gene sequences, and photosynthesis in wide and narrow leaﬂet high-cannabidiol
+breeding populations of medical cannabis. Frontiers in Plant Science 13:786161.
+Pennsylvania Department of Agriculture. 2022 Hemp Varieties of Concern & Prohibited Varieties.
+Available from: https://www.agriculture.pa.gov/Plants_Land_Water/hemp/Documents
+Peterson, A. G., J. T. Ball, Y. Luo, C. B. Field, P. B. Reich, P. S. Curtis, K. L. Griﬃn, C. A. Gunderson, R. J.
+Norby, D. T. Tissue, M. Forstreuter, A. Rey, and C. S. Vogel. 1999. The photosynthesis–leaf nitrogen
+relationship at ambient and elevated atmospheric carbon dioxide: a meta‐analysis. Global Change
+Biology 5(3):331–346.
+Reich, P. B., D. S. Ellsworth, M. B. Walters, J. M. Vose, C. Gresham, J. C. Volin, and W. D. Bowman. 1999.
+Generality of leaf trait relationships: a test across six biomes. Ecology 80(6):1955–1969.
+Rodriguez-Morrison, V., D. Llewellyn, and Y. Zheng. 2021. Cannabis yield, potency, and leaf
+photosynthesis respond diﬀerently to increasing light levels in an indoor environment. Frontiers in Plant
+Science 12:456.
+Rogers, A., D. P. Kumarathunge, D. L. Lombardozzi, B. E. Medlyn, S. P. Serbin, and A. P. Walker. 2021.
+Triose phosphate utilization limitation: an unnecessary complexity in terrestrial biosphere model
+representation of photosynthesis. New Phytologist 230:17–22.
+Saathoﬀ, A. J., and J. Welles. 2021. Gas exchange measurements in the unsteady state. Plant, Cell &
+Environment 44(11):3509–3523.
+Saloner, A., and N. Bernstein. 2020. Response of medical cannabis (Cannabis sativa L.) to nitrogen
+supply under long photoperiod. Frontiers in Plant Science 11:572293.
+Shiponi, S., and N. Bernstein. 2021. The highs and lows of P supply in medical cannabis: eﬀects on
+cannabinoids, the ionome, and morpho-physiology. Frontiers in Plant Science 12:657323.
+Sperry, J. S. 2000. Hydraulic constraints on plant gas exchange. Agricultural and Forest Meteorology
+104(1):13–23.
+Stinziano, J. R., P. B. Morgan, D. J. Lynch, A. J. Saathoﬀ, D. K. McDermitt, and D. T. Hanson. 2017. The
+rapid A–Ci response: photosynthesis in the phenomic era. Plant Cell and Environment 40(8):1256–1262.
+
+[PAGE 25]
+https://doi.org/10.1111/pce.12911
+Stromquist, A., and H. Sundelius. 1969. Stratigraphy of the Albemarle Group of the Carolina Slate Belt
+in central North Carolina. Geological Survey Bulletin 1274-B. U.S Department of the Interior, Washington,
+D.C., USA.
+Suchoﬀ, D., J. Davis, M. Bloomquist, and M. Short. 2022. Understanding the relationship between THC
+and CBD in hemp. AG-926. North Carolina State Cooperative Extension Service, Raleigh, NC, USA.
+Sunoj Valiaparambil Sebastian, J., X. Dong, C. Trostle, H. Pham, M. V. Joshi, R. W. Jessup, M. D. Burrow,
+an dt. L. Povin. 2023. Hemp agronomy: current advances, questions, challenges, and opportunities.
+Agronomy 13(2):475.
+Tang, K., P. C. Struik, S. Amaducci, T. J. Stomph, and X. Yin. 2017. Hemp (Cannabis sativa L.) leaf
+photosynthesis in relation to nitrogen content and temperature: implications for hemp as a bio‐
+economically sustainable crop. GCB Bioenergy 9(10):1573–1587.
+Tang, K., A. Fracasso, P. C. Struik, X. Yin, and S. Amaducci. 2018. Water-and nitrogen-use eﬃciencies of
+hemp (Cannabis sativa L.) based on whole-canopy measurements and modeling. Frontiers in Plant
+Science 9:951.
+Taylor, S. H., and S. P. Long. 2019. Phenotyping photosynthesis on the limit–a critical examination of
+RACiR. The New Phytologist 221(2):621–624.
+Trancoso, I., G. A. de Souza, P. R. dos Santos, K. D. dos Santos, R. M. D. S. N. de Miranda, A. L. P. M. da
+Silva, D. Z. Santos, I. F. García-Tejero, and E. Campostrini. 2022. Cannabis sativa L.: crop management
+and abiotic factors that aﬀect phytocannabinoid production. Agronomy 12(7):1492.
+Veazie, P., P. Cockson, D. Kidd, and B. Whip. 2021. Elevated phosphorus fertility impact on Cannabis
+sativa ‘BaOx’growth and nutrient accumulation. International Journal of Innovative Science, Engineering
+& Technology 8:345–351.
+Walker, A. P., A. P. Beckerman, L. Gu, J. Kattge, L. A. Cernusak, T. F. Domingues, J. C. Scales, G.
+Wohlfahrt, S. D. Wullschleger, and F. I. Woodward. 2014. The relationship of leaf photosynthetic
+traits—Vcmax and Jmax—to leaf nitrogen, leaf phosphorus, and speciﬁc leaf area: a meta‐analysis and
+modeling study. Ecology and Evolution 4(16):3218–3235.
+Wong, S. C., I. R. Cowan, and G. D. Farquhar. 1979. Stomatal conductance correlates with
+photosynthetic capacity. Nature 282(5737):424–426.
+Wullschleger, S. D. 1993. Biochemical limitations to carbon assimilation in C3 plants – a retrospective
+analysis of the A/Ci curves from 109 species. Journal of Experimental Botany 44(5):907–920.

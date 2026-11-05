@@ -1,0 +1,236 @@
+{
+  "version": "7.3",
+  "scenarioTestsRun": 79,
+  "scenarioTestsPassed": 79,
+  "bankTrials": 1000,
+  "randomSeed": 20261030,
+  "passed": [
+    "test_1000_bank_trials_conservation_monotonicity_and_order_bounds",
+    "test_absent_source_coverage_is_unknown",
+    "test_air_freezing_and_frost_context_are_distinct",
+    "test_all_warning_ids_dispatched_exactly_once",
+    "test_bad_humidity_does_not_remove_valid_wind",
+    "test_cancelled_source_replaces_old_active",
+    "test_canopy_shelter_blocks_direct_rain_not_humidity",
+    "test_clone_age_not_silently_seed_age",
+    "test_conflicting_log_revision_blocks_water_only",
+    "test_conflicting_weather_is_not_summed",
+    "test_date_only_time_is_bounded_by_recorded_time",
+    "test_dated_age_can_select_supported_profile",
+    "test_deleted_log_does_not_add_water",
+    "test_deterministic_and_no_input_mutation",
+    "test_disabled_delivery_policy_sends_nothing",
+    "test_dry_candidate_is_water_but_production_is_uncertain",
+    "test_duplicate_log_is_idempotent",
+    "test_duplicate_weather_not_double_counted",
+    "test_equal_time_conflicting_alert_versions_not_asserted_active",
+    "test_excluded_measurements_do_not_change_algorithm",
+    "test_expired_source_ignored",
+    "test_forecast_accumulation_triggers_below_rate_threshold",
+    "test_forecast_rain_is_not_current_water",
+    "test_forged_approval_field_cannot_release_synthetic_profile",
+    "test_fresh_height_is_proxy_not_leaf_area_measurement",
+    "test_future_log_is_quarantined",
+    "test_future_values_cannot_be_marked_history",
+    "test_greenhouse_weather_does_not_become_internal_air",
+    "test_ground_never_reuses_a_container_profile",
+    "test_hail_requires_explicit_source",
+    "test_heat_and_container_cards_merge",
+    "test_inactive_plant_has_no_care_cards",
+    "test_large_water_at_now_changes_candidate",
+    "test_location_change_invalidates_old_history",
+    "test_log_crossing_anchor_needs_reconciliation",
+    "test_missing_age_uses_explicit_aggregate_fallback",
+    "test_missing_et0_does_not_hide_heat",
+    "test_missing_forecast_does_not_block_current_decision",
+    "test_missing_profile_does_not_crash_weather_warnings",
+    "test_missing_rain_matters_only_when_soil_can_receive_it",
+    "test_missing_rh_does_not_block_et0_water_path",
+    "test_negative_amount_is_invalid",
+    "test_new_log_revision_replaces_old",
+    "test_new_weather_issue_replaces_original",
+    "test_no_probability_or_notification_claims",
+    "test_notification_cooldown_does_not_hide_escalation",
+    "test_old_height_uses_explicit_fallback",
+    "test_old_hot_point_is_not_current_warning",
+    "test_optional_review_is_topic_specific",
+    "test_overlapping_weather_blocks_replay",
+    "test_partial_reception_needs_supported_bounds",
+    "test_partial_window_below_screen_is_unknown",
+    "test_pm_prediction_disabled_at_both_moderate_and_high_rh",
+    "test_point_crossing_can_trigger_heat_but_not_duration",
+    "test_profile_change_cannot_create_water",
+    "test_projection_is_interval_or_horizon_censored_not_exact_ETA",
+    "test_projection_never_overrides_water_due_now",
+    "test_rain_mean_rate_uses_interval_duration",
+    "test_refill_scenario_disagreement_abstains",
+    "test_root_diagnosis_never_from_rain_and_logs",
+    "test_same_heat_source_deduplicates_W05",
+    "test_same_wind_source_deduplicates_W05",
+    "test_scenario_identity_is_not_parsed_from_display_label",
+    "test_scope_mismatch_not_guessed",
+    "test_separate_equal_logs_both_count",
+    "test_soil_shelter_prevents_rain_credit",
+    "test_source_alert_survives_missing_water_history",
+    "test_stage_not_age_controls_flowers",
+    "test_unknown_amount_is_not_full_refill",
+    "test_unknown_amount_unbounded_abstains",
+    "test_unknown_canopy_reception_not_assumed_dry",
+    "test_unknown_container_type_not_assumed_ground",
+    "test_unknown_reception_cannot_default_to_fifty_percent",
+    "test_unknown_reception_retains_zero_and_full_branches",
+    "test_unknown_stage_does_not_rule_out_establishment",
+    "test_unknown_stage_not_assumed_flowering",
+    "test_unverified_source_ignored",
+    "test_vpd_is_air_only_and_combines_temperature_humidity",
+    "test_zero_amount_not_replaced_with_default"
+  ],
+  "failures": [],
+  "errors": [],
+  "biologicalAccuracyValidated": false,
+  "liveDataUsed": false,
+  "productionProfilesBundled": 0,
+  "pdfQA": {
+    "pageCount": 25,
+    "flags": [],
+    "pages": [
+      {
+        "page": 1,
+        "text_chars": 1566
+      },
+      {
+        "page": 2,
+        "text_chars": 1215
+      },
+      {
+        "page": 3,
+        "text_chars": 1780
+      },
+      {
+        "page": 4,
+        "text_chars": 1481
+      },
+      {
+        "page": 5,
+        "text_chars": 1674
+      },
+      {
+        "page": 6,
+        "text_chars": 1692
+      },
+      {
+        "page": 7,
+        "text_chars": 2299
+      },
+      {
+        "page": 8,
+        "text_chars": 2147
+      },
+      {
+        "page": 9,
+        "text_chars": 2288
+      },
+      {
+        "page": 10,
+        "text_chars": 2239
+      },
+      {
+        "page": 11,
+        "text_chars": 1821
+      },
+      {
+        "page": 12,
+        "text_chars": 2008
+      },
+      {
+        "page": 13,
+        "text_chars": 1585
+      },
+      {
+        "page": 14,
+        "text_chars": 1570
+      },
+      {
+        "page": 15,
+        "text_chars": 1682
+      },
+      {
+        "page": 16,
+        "text_chars": 1140
+      },
+      {
+        "page": 17,
+        "text_chars": 1755
+      },
+      {
+        "page": 18,
+        "text_chars": 1763
+      },
+      {
+        "page": 19,
+        "text_chars": 1573
+      },
+      {
+        "page": 20,
+        "text_chars": 1434
+      },
+      {
+        "page": 21,
+        "text_chars": 1581
+      },
+      {
+        "page": 22,
+        "text_chars": 1567
+      },
+      {
+        "page": 23,
+        "text_chars": 1895
+      },
+      {
+        "page": 24,
+        "text_chars": 1805
+      },
+      {
+        "page": 25,
+        "text_chars": 1889
+      }
+    ],
+    "visualInspectionComplete": true,
+    "pdfSHA256": "c79b365dfc562f91995caf26f65d165f752d26de6ea7f1022bd3d3511093c2ec",
+    "reviewedPages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25
+    ],
+    "additionalFullPageReviews": [
+      3,
+      16
+    ]
+  },
+  "standaloneCLISmokePassed": true,
+  "auditedAppFilesUnchanged": true,
+  "executedAt": "2026-10-30T09:15:56.340569+00:00",
+  "sourceSHA256": "f0e0de31873cdce677622ee4381357f7c9457e1bdc764e0f97d27630e6ec13f6"
+}

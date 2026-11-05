@@ -1,0 +1,1315 @@
+
+--- PAGE 1 ---
+Less water, same buds: moderate
+drought as a water-saving
+strategy for indoor cannabis
+Danilo Crispim Massuela 1* , Sebastian Munz1, Jens Hartung2,
+Alejandro Pieters3, Folkard Asch3
+and Simone Graeff-Hönninger 1
+1Agronomy, Institute of Crop Science, University of Hohenheim, Stuttgart, Germany, 2Department
+Sustainable Agriculture and Energy Systems, University of Applied Science, Weihenstephan-
+Triesdorf, Germany,
+3Institute for Agricultural Science in the Tropics (Hans Rutenberg Institute),
+University of Hohenheim, Stuttgart, Germany
+Drought stress (DS) can restrict plant growth while potentially enhancing sec-
+ondary metabolism through adaptive physiological responses. However, its effect
+on cannabinoid production remains uncertain, with previous studies reporting
+inconsistent ﬁndings. This study investigated how DS intensity and timing affect
+inﬂorescence biomass, cannabidiol (CBD) concentration, and CBD yield in two
+chemotype III (CBD-dominant; high-CBD, low-THC) medicinal cannabis geno-
+types differing in architecture and growth habit.: Two DS intensities were imposed
+during ﬂowering relative to a well-watered control held at 60 –80% of container
+capacity (CC) with a daily drip supply of 50 –300 mL per plant. Under moderate
+DS, the substrate was allowed to dry to 20 –30% CC before a daily replenishment
+of 50 –150 mL was applied to prevent wilting; this cycle was repeated at three
+ﬂowering stages (early, 46 days after planting [DAP]; mid, 60 DAP; late, 79 DAP).
+Under severe DS, water was withheld completely until the onset of wilting, as a
+single event at one of these three stages. Controlled water de ﬁcit elicited clear
+physiological responses, including reductions in relative water content, osmolal-
+ity, transpiration, photosynthesis, and stomatal conductance, demonstrating
+effective perception of and adaptation to water limitation. Despite these re-
+sponses, drought stress had only limited effects on in ﬂorescence biomass and
+cannabinoid yield. Severe DS consistently impaired plant performance and
+provided no agronomic advantage. Although it sharply raised leaf-level water-
+use efﬁciency (WUEi), this reﬂected a short-term survival response achieved at the
+expense of carbon assimilation. Moderate DS reduced water consumption
+without negatively affecting biomass or CBD yield. Notably, genotype exerted a
+stronger in ﬂuence on productivity and cannabinoid accumulation than the
+imposed irrigation regime. These ﬁndings indicate that severe drought stress is
+not a suitable strategy for enhancing cannabis production. Instead, moderate
+water de ﬁcit represents a practical approach to improving water-use ef ﬁciency
+while maintaining yield under controlled-environment cultivation. Overall, opti-
+mizing genotype selection appears to be a more effective strategy for maximizing
+productivity and cannabinoid yield than applying drought stress to stimulate
+secondary metabolism.
+KEYWORDS
+cannabidiol (CBD), controlled environment agriculture, de ﬁcit irrigation, drought
+timing, genotype, in ﬂorescence biomass, water use ef ﬁciency
+Frontiers in Plant Science frontiersin.org01
+OPEN ACCESS
+EDITED BY
+Roberto Berni,
+Log2Go, Luxembourg
+REVIEWED BY
+Maddalena Cappello Fusaro,
+University of Padua, Italy
+Tina Sullivan,
+Kansas State University, United States
+*CORRESPONDENCE
+Danilo Crispim Massuela
+danilo.crispimmassuela@uni-
+hohenheim.de
+RECEIVED 07 July 2026
+REVISED 04 August 2026
+ACCEPTED 19 August 2026
+PUBLISHED 03 September 2026
+CITATION
+Crispim Massuela D, Munz S,
+Hartung J, Pieters A, Asch F and
+Graeff-Hönninger S (2026) Less
+water, same buds: moderate
+drought as a water-saving strategy
+for indoor cannabis.
+Front. Plant Sci. 17:1930650.
+doi: 10.3389/fpls.2026.1930650
+COPYRIGHT
+© 2026 Crispim Massuela, Munz, Hartung,
+Pieters, Asch and Graeff-Hönninger. This
+is an open-access article distributed under
+the terms of the Creative Commons
+Attribution License (CC BY).The use,
+distribution or reproduction in other
+forums is permitted, provided the
+original author(s) and the copyright
+owner(s) are credited and that the
+original publication in this journal is
+cited, in accordance with accepted
+academic practice. No use, distribution
+or reproduction is permitted which does
+not comply with these terms.
+TYPE Original Research
+PUBLISHED 03 September 2026
+DOI 10.3389/fpls.2026.1930650
+
+--- PAGE 2 ---
+1 Introduction
+Cannabis (Cannabis sativa L.) is an ancient crop cultivated over
+millennia for its medicinal, nutritional, and functional values
+(Clarke and Merlin, 2016 ). In the last decade, the world has
+witnessed a revival of cannabis cultivation as countries are turning
+away from prohibition to decriminalize and regulate cannabis
+products. Different from hemp (cannabis varieties for industrial
+purposes), medicinal cannabis refers to pharmaceutical-grade
+Cannabis sativa L. cultivars, generally cultivated under environ-
+mentally controlled conditions in indoor facilities ( Zheng, 2022)t o
+be standardized for medical use. They are classi ﬁed according to
+their cannabinoid pro ﬁle into chemotype I (THC-dominant),
+chemotype II (balanced THC/CBD), and chemotype III (CBD-
+dominant).However, indoor systems used for medicinal cannabis
+cultivation are characterized by high energy consumption and
+remarkable carbon and water footprints ( Dillis et al., 2020 ; Mills,
+2012; Zheng et al., 2021). Additionally, improper waste disposal and
+water pollution are further environmental impact pathways associ-
+ated with indoor cannabis cultivation ( Wartenberg et al., 2021 ).
+Although some studies indicate a high water demand for cannabis
+cultivation, most have analyzed the impacts of outdoor cultivation
+of industrial hemp and medicinal cannabis on local watersheds
+(Bauer et al., 2015 ; Butsic and Brenner, 2016 ; Dillis et al., 2020 ;
+Zheng et al., 2021 ). Nonetheless, concrete studies on indoor
+cannabis transpiration and water footprint remain absent from
+the literature, as these results are highly variable depending on
+genotype and cultivation system ( Campbell et al., 2019 ).
+Cannabis inﬂorescence biomass and cannabinoid yields can be
+modulated through agronomic management techniques, such as
+genotype selection (Raﬁqe ta l . ,2 0 2 4), pruning techniques ( Crispim
+Massuela et al., 2022 ; Danziger and Bernstein, 2021a ; Folina et al.,
+2020), nutrition (Bernstein et al., 2019; Da Cunha Leme Filho et al.,
+2020; Drotleff, 2022 ; Gorelick and Bernstein, 2017 ; Massuela
+et al., 2023 ; Westmoreland and Bugbee, 2022 ), lighting ( Danziger
+and Bernstein, 2021b; Eaves et al., 2020; Reichel et al., 2022), substrate
+composition (Barrett et al., 2016 ; Burgel et al., 2020 ; Schober et al.,
+2023), and drought stress (DS) intensity and timing ( Caplan et al.,
+2019
+; Duong et al., 2023; Morgan et al., 2024). DS is one of the most
+signiﬁcant abiotic stresses that reduce plant growth and yields due to
+stomatal closure and metabolic limitations (Akula and Ravishankar,
+2011; Park et al., 2022; Rahnama et al., 2024). Water deﬁcit is directly
+related to a variety of cellular processes, including transpiration,
+carbon assimilation, carbohydrate transport and metabolism, signal
+transduction mechanisms, and secondary metabolite biosynthesis,
+transport, and catabolism (Gao et al., 2018; Park et al., 2022; Saloner
+and Bernstein, 2021; Song et al., 2023 ). On the other hand, DS can
+also be a major stimulant of secondary metabolite production in
+plants through protective and adaptive responses (eustress)
+(Kleinwächter and Selmar, 2015 ). However, evidence that such an
+eustress effect operates in cannabis remains preliminary and is largely
+extrapolated from other essential-oil and medicinal crops ( Sharma
+et al., 2025).
+The medicinal and commercial value of cannabis rests largely
+on its cannabinoids, a class of secondary metabolites synthesized
+and stored in the glandular trichomes of the female in ﬂorescence.
+Of the more than one hundred cannabinoids identi ﬁed in the plant,
+cannabidiol (CBD) and D9-tetrahydrocannabinol (THC) are the
+most therapeutically and economically important. Cannabinoid
+biosynthesis is itself a protective branch of secondary metabolism,
+and is therefore mechanistically tied to plant water status. A mild
+water de ﬁcit is hypothesized to act as a eustress that upregulates
+protective secondary metabolites through reactive oxygen species
+signaling ( Kleinwächter and Selmar, 2015 ), while the same de ﬁcit
+constrains photosynthesis, carbon assimilation and in ﬂorescence
+growth ( Khabbazi et al., 2026 ). Because cannabinoid yield is the
+product of concentration and biomass, water availability and
+phytochemical accumulation (cannabinoid development)
+are inseparable.
+For medicinal cannabis, the in ﬂuence of controlled DS on
+increasing yields and cannabi noid production is a matter of
+discourse among researchers and cultivators. Whether this repre-
+sents an unsupported industry claim or a sound agricultural
+practice is barely addressed in the literature. The role of DS in
+modulating cannabinoid yield remains unclear, and results reported
+in the literature are contradictory ( Caplan et al., 2019 ; Duong et al.,
+2023). With climate change projected to exacerbate freshwater
+scarcity ( Transnational Institute, 2022 ), a selection of genotypes
+exhibiting improved water-use ef ﬁciency, along with agronomic
+management techniques that reduce water consumption, will be key
+to maintaining cropping productivity.
+Previous studies investigating the effects of drought stress (DS)
+on medicinal cannabis have reported contrasting results, suggesting
+that the response depends strongly on genotype and stress man-
+agement. Caplan et al. (2019) found that severe DS applied late in
+ﬂowering increased THCA ( D9-tetrahydrocannabinolic acid) and
+CBDA (cannabidiolic acid) concentrations by 12% and 13%,
+respectively, while increasing in ﬂorescence dry weight by 30%,
+indicating that carefully timed water limitation may enhance
+cannabinoid production. In contrast, Duong et al. (2023) reported
+no signi ﬁcant effect of severe drought on CBD (cannabidiol)
+concentration in two high-CBD genotypes but observed substantial
+reductions in in ﬂorescence biomass, resulting in lower CBD yields.
+Likewise, Morgan et al. (2024) showed that severe drought de-
+creased both in ﬂorescence yield and cannabinoid concentrations,
+whereas moderate water de ﬁcit reduced irrigation requirements
+without signi ﬁcantly affecting yield or cannabinoid content.
+Beyond the effects of a single severe drought event, further
+research is needed on repeated exposure of cannabis plants to DS, as
+this may lead to acclimation responses, such as drought responses
+that reduce water status and photosynthesis, and eventually trigger
+an increase in secondary metabolites. It is worth noting that an
+extended drought period or recurrence may be necessary to induce
+this response in plants that have already undergone acclimation
+(Caplan et al., 2019 ). Finally, the effect of DS on indoor cultivated
+high-CBD cannabis plants is still not well understood and, thus, of
+great importance for the sustainability of production systems
+(Caplan et al., 2019 ).
+These contrasting ﬁndings likely re ﬂect differences in genotype,
+chemotype, and the severity, duration, and timing of the applied DS
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org02
+
+--- PAGE 3 ---
+treatments. Consequently, the interactions among these factors
+remain poorly understood, and no consensus has been reached
+regarding the use of DS as an agronomic strategy to improve
+cannabinoid production. Furthermore, little is known about the
+effects of repeated drought cycles, particularly in indoor-grown
+high-CBD cultivars, despite their potential relevance for improving
+water-use ef ﬁciency and the sustainability of medicinal cannabis
+production systems. Therefore, a clear understanding of how these
+factors interact is crucial for reconciling the existing literature and
+developing reliable agronomic protocols.
+Given the con ﬂicting ﬁndings and methodological variations in
+the existing literature, this study was designed to evaluate the effects
+of two critical factors: DS intensity (moderate vs. severe) and its
+timing across three distinct stages of ﬂowering for two high-CBD
+genotypes with different plant architectures and growth behaviors.
+While previous research has often focused on single stress events or
+intensities, our approach provides a more granular understanding
+of the plant’s response dynamics. Furthermore, this study integrates
+changes at the substrate level (decline in container water capacity)
+and physiological responses at the leaf level (relative water content,
+osmolality) with agronomic outcomes, tracing the pathway from
+stress responses to ﬁnal cannabinoid yield. We hypothesized that a
+controlled, moderate application of DS throughout ﬂowering re-
+duces water consumption and increases water use efﬁciency without
+reducing CBD concentration or yield, whereas severe DS reduces
+inﬂorescence biomass and, consequently, CBD yield. To test this,
+the objectives of this study were (i) to investigate the effect of severe
+DS at three different phenological stages during ﬂowering and (ii) to
+evaluate the application of a recurrent moderate drought treatment
+in comparison to the severe single-stress treatments and the well-
+watered control.
+2 Materials and methods
+An indoor experiment was performed at the University of
+Hohenheim (Stuttgart, Germany) between March and June 2022.
+Plants from two high-CBD (chemotype III, CBD ~16%, THC > 0,3%)
+medicinal genotypes with different architectural and growth charac-
+teristics were used in this study, namely Kanada (KAN), provided by
+AiFame (Wald-Schönengrund, Switzerland), and Terra Italia (TIT),
+provided by Female Seeds (Amsterdam, Netherlands). ‘KAN’ is a
+compact, earlier-maturing genotype (daylength requirement ~14 h)
+that establishes most of its leaf area during the vegetative phase,
+whereas ‘TIT’ is a taller, more vigorous, and later-maturing genotype
+(daylength requirement 12–13 h) with a larger leaf area. Exemplary
+leaf and inﬂorescence morphology are presented in Figures 1 and 2.
+Plants were grown in a cultivation room inside the greenhouse
+complex of the Phytotechnikum (University of Hohenheim). Air
+temperature and humidity were constantly monitored. During the
+cultivation period, the daily mean air temperatures ranged from 18.2
+to 39.0 °C, and relative humidity ranged from 11.4 to 76.1%,
+comparable to standard greenhouse conditions. Plants were culti-
+vated under ambient atmospheric CO 2 concentrations of 420 –430
+ppm CO2 (μmol mol−¹).
+2.1 Planting material and cultivation
+methods
+Plants were generated by cloning standardized stock mother
+plants. Clones (cuttings) were derived from apical tips of upper
+branches of a single mother plant for each genotype, then dipped
+into 1% Rhizopon AA powder (Rhizopon, Rijndijk, Netherlands)
+and transferred into EazyPlugs (3.5 cm × 3.5 cm × 3.5 cm) (Goirle,
+Netherlands). These cuttings were cultivated in a nursery green-
+house, with humidity maintained above 80% and adequate venti-
+lation for proper air circulation. After 19 days, rooted cuttings were
+transplanted into 4.5 L square pots with 915 ± 1 g of a peat-based,
+commercially available substrate - Substrate-5 (recipe 446, without
+FIGURE 1
+Exemplary leaves representing multiple plants of the genotypes
+KANADA (left) and TERRA ITALIA (right) at the ﬁnal harvest date (79 days
+after planting), showing morphological differences among genotypes.
+FIGURE 2
+Exemplary in ﬂorescence structure of the genotypes KANADA (left)
+and TERRA ITALIA (right) at the ﬁnal harvest date (79 days after
+planting).
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org03
+
+--- PAGE 4 ---
+fertilizer and 10% perlite) (Klasmann-Deilmann GmbH, Geeste,
+Germany). Pots were topped with 300 ± 1 g of gravel to reduce
+water loss due to evaporation. The day of transplanting was
+considered the beginning of the experiment, de ﬁned as the initial
+day after planting (DAP), i.e., 0 DAP. Pots were placed in three
+rows, each with ten pots on horticultural tables (1.0 m × 2.5 m),
+resulting in a density of 12 plants m -². In total, 44 plants per
+genotype (88 plants) were grown on three tables. Treatments were
+randomly assigned to pots within each table, with individual tables
+serving as replicates. In the ﬁrst and third tables, 29 plants were
+allocated. The remaining 30 plants were put on the second table. In
+each replicate, a row-column design was used to allocate combina-
+tions of genotype, treatment, and replicate further described in
+section 2.6.
+By the vegetative period, the photoperiod length was 18 h,
+provided by ceramic metal halide lamps (CHD Agro 400W; DH
+Licht GmbH, Wülfrath, Germany). The total vegetative duration
+after planting was 15 days. During the generative period, the
+photoperiod was 12 h and lasted for 64 days. Plants were checked
+regularly for the appearance of male ﬂowers to avoid pollination.
+The ﬁnal harvest occurred after nine weeks of ﬂowering (79 DAP),
+as reported in previous experi ments with the same genotype
+(Crispim Massuela et al., 2022 ). Pests were controlled biologically
+using auxiliary predatory insect populations (spp. Phytoseiulus
+persimilis, Amblyseius Californicus, Orius Majusculus ,a n d
+Aphidoletes aphidimyza ) provided weekly by the company Sautter
+& Stepper (Ammerbuch, Germany).
+An organic fertilizer solution was prepared by mixing
+Phytogreen® Bio NPK 5-2 –5 without molasses (Phytosolution,
+Freyburg, Germany), Carbon Ec o (Phytosolution, Freyburg,
+Germany), and Epsom salt. The concentrations [mg L -1]o fm a c r o -
+nutrients in the prepared nutrient solutions were 240 N, 96 P, 240 K,
+74 Ca, and 18.5 Mg (corresponding to approximately 17.1 mM N, 3.1
+mM P, 6.1 mM K, 1.9 mM Ca, and 0.8 mM Mg), following Massuela
+et al. (2023) . Fertilization occurred twice a week and did not occur
+during the drought. The total fertilizer amount per plant during the
+total cultivation period was 816 mg N, 326.4 mg P, 816 mg K, 251.6
+mg Ca, and 62.9 mg for KAN and 1128 mg N, 451.2 mg P, 1128 mg
+K, 347.8 mg Ca, and 87 mg for TIT. Phosphorus was supplied at a
+level higher than in a standard full-strength Hoagland solution,
+reﬂecting the formulation of the organic fertilizer used and the
+elevated P demand of cannabis during in ﬂorescence development.
+A drip irrigation system with a controller was mounted on the
+pots to provide a constant water supply of 50 –300 mL per day,
+depending on the plants ’ growth stage and environmental condi-
+tions. Neither fertilizer solution nor irrigation water leached
+through the pots. All plants received the same amount of fertilizer
+solution (mL plant -1). Water levels in pots were measured by a
+randomized weighing routine and maintained between 60 and 80%
+of container capacity (CC); this water status in the substrate is
+considered the control.
+2.2 Drought treatments
+During the ﬂowering stage, two drought treatments were
+applied. I) moderate stress (M), in which the substrate was allowed
+to dry until reaching the plateau (around 20 – 30% CC), plants then
+received a daily replenishment of water (50 –150 mL) to prevent leaf
+wilting; and II) severe DS, in which plants would not receive water
+until wilting or the end of the drought event. The severe DS was split
+into three treatments occurring at different phenological stages: A)
+at early ﬂowering (46 DAP) – by the appearance of trichomes in
+inﬂorescences (4 weeks of ﬂowering); B) at mid ﬂowering (60 DAP)
+– ripening of in ﬂorescences (6.5 weeks of ﬂowering); and C) at late
+ﬂowering (79 DAP) – by optimum harvest time (9 weeks of
+ﬂowering). The phenological stages were de ﬁned in prior experi-
+ments with the same genotype ( Crispim Massuela et al., 2022 ). For
+the severe stress treatments, plants were exposed to a single drought
+event (either by early (A), mid (B), or late (C) ﬂowering), while
+moderate stress treatment (M) plants were exposed to all three
+drought events. Between consecutive drought events, M plants were
+returned to and maintained at control conditions (60 –80% CC), so
+that the three moderate-stress cycles were separated by the intervals
+between the early (46 DAP), mid (60 DAP), and late (79 DAP)
+phenological stages. Plants from DS treatments were kept at control
+conditions before and after the drought events. Additionally,
+control plants (0) were cultivated without DS. A graphical repre-
+sentation of treatments, showing DS events and harvest dates, is
+displayed in Figure 3 .
+2.3 Plant sampling
+During the cultivation period, four destructive harvest events
+were conducted. Harvests were conducted at the end of the
+vegetative stage (15 DAP) and three times during the ﬂowering
+stage at 46, 60, and 79 DAP ( Figure 3). At the ﬁrst harvest event, all
+plants were treated equally, as drought treatments were applied
+afterward. Therefore, only control plants were harvested. At the
+second harvest, only plants treated in the ﬁrst drought event
+(drought treatments A and M) differed from the control (0).
+Thus, three drought-by-harvest combinations exist. At the third
+harvest, there are four additional combinations (A, B, M, 0). At the
+ﬁnal harvest, all drought treatments existed and differed from each
+other. Therefore, a total of 13 combinations were harvested.
+At the ﬁrst three harvest events (15, 46, and 60 DAP), three
+plants per treatment (one plant per combination and replicate) were
+cut at the base and separated into the fractions: stems, leaves (15, 46,
+60 DAP), and in ﬂorescences (46, 60 DAP). The in ﬂorescences were
+hand harvested and additionally separated into three fractions
+based on plant height (top, mid, and low) to account for inner-
+plant variation in total CBD concentration and CBD yield, as
+demonstrated by Crispim Massuela et al. (2022) .I n ﬂorescences
+were hand trimmed to remove sugar leaves. At the last harvest, four
+plants per treatment were harvested. The latter requires that these
+ﬁve combinations be replicated twice within one of the three
+replicates during the experiment ’s randomization. Stem and leaf
+samples were oven-dried at 60 °C for 48 h. The in ﬂorescences were
+air-dried in an air-circulating chamber at temperatures ranging
+from 20 to 28 °C and relative humidity between 30 and 60% until a
+target moisture content of 12% was reached. All dried samples were
+weighed to determine dry matter. For cannabinoid analysis, in ﬂo-
+rescence samples were ground to a homogeneous powder using an
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org04
+
+--- PAGE 5 ---
+ultra-centrifugal mill (Type ZM 200; Retsch, Haan, Germany). The
+residual moisture of each inﬂorescence sample was measured with a
+moisture analyzer (DBS 60-3; Kern and Sohn GmbH,
+Balingen, Germany).
+2.4 Measurement of stress levels
+During the experiment, the largest fully developed fan leaf was
+used to measure photosynthesis, transpiration, stomatal conduc-
+tance, and water de ﬁcit (wilting point, relative water content, and
+osmolality). This leaf will be referred to in this work as ‘major leaf’.
+The leaf was selected at the initiation of ﬂowering and marked on
+every plant.
+Leaf area was measured with an LI-3100 Area Meter (LI-COR,
+Lincoln, USA); speci ﬁc leaf area (SLA) (cm² g -1) was calculated as
+the ratio of the leaf area (cm²) divided by leaf dry matter (g) for
+each plant.
+2.4.1 Photosynthetic rate and SPAD
+The photosynthetic rate, transpiration rate, and stomatal con-
+ductance were measured with the gas-exchange system GFS-3000
+(Heinz Walz GmbH, Effeltrich, Germany). Environmental condi-
+tions in the measurement cuvette were set to 30 °C leaf temperature,
+50 ± 5% relative humidity, and 405 ± 5 ppm CO
+2 concentration.
+Measurements were made at 2000 μmol m -2 s-1 PAR (Amax).
+At each harvest, SPAD readings were taken from leaves at three
+different canopy positions based on plant height (low, mid, top).
+The selected leaves were: for the low position, the oldest non-
+senescent fan leaf; for the mid position, the largest and most
+developed fan leaf; and for the top position, the youngest fully
+developed fan leaf. The average of four measurements was recorded
+for each leaf using a SPAD-502 (Konica Minolta, Chiyoda, Japan),
+and the plant average was calculated as the mean across the three
+canopy positions.
+2.4.2 Water de ﬁcit in substrate
+Before the experiment, the maximum container capacity (anal-
+ogous to ‘ﬁeld capacity’, used for ﬁeld experiments) was calculated
+by saturating the substrate, measuring the substrate weight after 48
+hours, and deducting the weight of the dry substrate, which was
+measured after the substrate was dried at 70 °C for 48 hours
+(Casaroli and Jong van Lier, 2008 ).
+During each drought event, all plants were watered to 60-80% of
+container capacity. Then, drip irrigators were removed from the
+plants that would undergo drought, and substrate water levels started
+to reduce over time. All pots were weighed twice daily in the morning
+and late afternoon to monitor the drying curves of the substrate; once
+the plateau was reached (around 20-30% of container capacity),
+leaves began to wilt. The plants in the moderate stress treatment
+(M) received daily water replenishment (50 –150 ml) to prevent leaf
+wilting. The plants subjected to severe drought treatments (A–C) did
+not receive any water replenishment. The stress event was ﬁnalized
+once the major leaf wilted by more than 50° relative to the main stem,
+as suggested by Caplan et al. (2019) as a drought-stress indicator for
+cannabis plants. Each drought event lasted approximately 140 hours,
+that applies to all drought events and for both moderate and severe
+stress treatments. Once the drought was ﬁnalized, the substrate was
+rehydrated to control conditions, and plants were harvested after 4
+hours of rehydration.
+2.4.3 Water de ﬁcit in the leaves
+For leaf water deﬁcit measurements, the major leaf of each plant
+was collected at the end of each drought event, before rehydration,
+for biomass harvest. Four leaf discs (2.4 cm²) from the central leaﬂet
+were cut and used to calculate relative water content (RWC)
+following the method of González and Gonza ́lez-Vilar (2001) .
+The remaining major leaf material was used to measure osmolality
+(OD) by pressing it against a ﬁne plastic tube to extract leaf sap,
+FIGURE 3
+Graphical representation of treatments across harvest dates (DAP) and drought stress events (early, mid, late). The black water drop symbol indicat es
+which treatments were exposed to the drought event and when. The yellow star indicates which treatments were harvested at a particular harvest time.
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org05
+
+--- PAGE 6 ---
+which was then stored at -20 °C until analysis with an Osmomat
+3000 (Gonotec, Germany). The Osmomat 3000 uses the freezing-
+point depression method to measure osmolality (mOsm/kg H 2O).
+The instrument determines how much the sample’s freezing point is
+lowered relative to pure water. Because freezing-point depression is
+proportional to the number of dissolved osmotically active particles,
+the instrument directly calculates the sample ’s osmolality.
+2.5 Cannabinoid analysis
+The total CBD concentration of in ﬂorescences was analyzed by
+high-performance liquid chromatography (HPLC and calculated
+following the methods and equations presented in Massuela et al.
+(2023). Cannabinoid extraction was performed using 100 ± 10 mg
+of dried in ﬂorescences in 100 mL of a 90% methanol/10% chloro-
+form (v/v) (9 + 1) mixture in an ultrasonic bath for 30 min at 40 °C.
+After cooling down, the solution was ﬁltered through syringe ﬁlters
+Polytetraﬂuorethylen (PTFE), 0.45 μm (Macherey-Nagel GmbH &
+Co. KG, Germany) into HPLC vials and injected into the HPLC
+system (1290 In ﬁnity II LC System, Agilent, Santa Clara, USA)
+equipped with an autosampler, a quaternary pump, as well as a
+diode-array spectrophotometer (DAD) at the detection wavelength
+of 230 nm. The chromatographic separation was carried out on a
+Nucleosil 120–3 C8 column (125 mm × 4 mm i.d., 3.0 μm) with an
+EC 4/3 Nucleosil 120 –3 C8 guard column (Macherey-Nagel,
+Oensingen, Switzerland). The mobile phase was a mixture of
+HPLC-grade methanol (solvent A) and 0.1% acetic acid in HPLC-
+grade distilled H 2O (solvent B; Sigma-Aldrich, Saint Louis, MO,
+USA) at a constant ﬂow rate of 0.7 mL min-1 with gradient elution
+mode. The injection volume was 10 μL, and the total run time
+comprised 27 min. The integration of targeted peaks was performed
+using cannabinoid reference standards for CBD (C-045) and CBDA
+(C-144) (Sigma-Aldrich, Germany), and data analysis was carried
+out using the ChemStation software for LC Rev. B.04.03-SP2
+(Agilent, Santa Clara, USA). Calibration curves were generated
+from diluted standard solutions, with coef ﬁcients of determination
+of 1.0 for both CBD and CBDA. The limit of detection for CBD and
+CBDA was 0.0015%.
+Total CBD concentration (%) was calculated as a weighted sum
+of CBD (%) and CBDA (%) in each in ﬂorescence sample. The
+multiplication by the factor 0.877 accounts for the differences in
+molar mass between the acid and neutral forms of the cannabinoid,
+as one molecule of CO 2 is lost during decarboxylation ( Equation 1):
+CBDTotal = CBD + CBDA /C20:877 (1)
+To correctly evaluate cannabinoid production capacity, the
+calculated yield of total CBD (mg plant −1) must be taken into
+consideration. Yield was calculated considering in ﬂorescence fresh
+weight, the residual moisture of the analytical sample and the total
+CBD concentration, using Equation (2). The conversion factor 0.2
+represents the average dry matter concentration of fresh in ﬂores-
+cences and was applied to calculate the yield at the moisture of the
+analytical sample. The residual moisture was the weight proportion of
+water in the dried samples. The total CBD yield was calculated for
+each sample as follows ( Equation 2):
+CBDyieldTotal =C B DTotal · Inflorescence fresh weight
+/C2(0:2  /C2(1 − residual moisture)−1)( 2 )
+2.6 Statistical design
+Data from the destructive measures taken per plant were
+analyzed using the following mixed model:
+yhijklm = m + bh + rhl + chm + ti + rj + djk +( tr)ij +( td )ijk + ehijklm
+where yhijklm is the observation in row l and column m of
+replicate h treated with genotype i at harvest j and drought-harvest-
+combination k nested within j, m is the intercept, bh, rhl , and chm are
+the ﬁxed effects of replicate h and the random effects of row l and
+column m nested within replicate h. The terms ti, rj, and djk are the
+ﬁxed effects of genotype i, harvest event j and harvest-by-drought
+treatment combination k,( tr)ij and (td )ijk are the ﬁxed interaction
+effects of the corresponding main effects and ehijklm is the error effect
+of yhijklm with genotype-speci ﬁc variance. The latter was selected
+because the heterogeneous variance model showed a better ﬁt. The
+model ﬁt was measured via AIC ( Wolﬁnger, 1993 ). An analogous
+model was ﬁtted to repeated-measures data from the ﬁnal harvest
+only. In these cases, the effect of harvest event was replaced by
+canopy position. Additionally, a ﬁrst-order autoregressive variance-
+covariance structure with heterogeneous variances for
+canopy positions was assumed. As only data from six to seven
+plants per replicate exist, random row and column effects could
+not be ﬁtted. In all cases, residuals were visually checked for
+homogeneity of variances (despite the model ’s heterogeneity)
+and normality. For CBD yield , data were logarithmically
+transformed prior to analysis to ful ﬁll requirements. Afterward,
+Fisher´s LSD test was performed for signi ﬁcant effects. Results from
+multiple comparisons are presented via letter display. For CBD
+yield, mean estimates were back-transformed for presentation
+purposes only. Standard errors were back-transformed using the
+Delta method.
+For drying curves, a non-linear function based on the Page
+Model equation (Simpson et al., 2017) was ﬁtted to observations for
+each plant. The following model for the metric time variable ( t) was
+assumed, where t is the time (hours) of the drought event:
+hhijklm = e−k(t2
+hijklm )
+where hhijklm is the expected value of the plant grown in
+replicate h, row i, column m, and treated with genotype I and
+drought-by-harvest combination jk. The variables k and h are the
+parameters of the curve. Afterward, parameter estimates across
+plants were analyzed with the model (1). To avoid convergence
+problems, row and column effects were dropped from the model.
+Based on the signi ﬁcance of genotype and harvest-by-drought
+treatment combinations, mean parameters were estimated and
+plugged into the model equation for the curve. Finally, raw data
+of t and CC were plotted in scatter plots, and a simple regression
+with its 95% con ﬁdence limits was shown for visual representa-
+tion only.
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org06
+
+--- PAGE 7 ---
+3 Results and discussion
+The results and discussion are presented in order of causation to
+follow the pathway of drought stress (DS) responses, from sub-
+strate- and leaf-level physiology, through the effects on plant growth
+and in ﬂorescence biomass, and ultimately on cannabinoid (CBD)
+concentration and yield.
+The major factors related to DS investigated were genotype-
+dependent. Therefore, all results will be presented separately for the
+KAN and TIT genotypes. Particular stress-coping strategies can be
+observed when plants experience drought. TIT plants were taller
+and had greater leaf area; they exhibited higher, faster water
+consumption and thus wilted more quickly than KAN plants. On
+the other hand, the shorter KAN plants consumed water more
+slowly and wilted later than TIT plants. Figure 4 visualizes plants of
+different treatments. By the end of the stress period, unlike plants
+under severe stress, plants under moderate stress did not exhibit
+wilting of the major leaf.
+3.1 Drought at the substrate level
+At the substrate level, as water was consumed by plants, the
+weight of pots decreased over time. Single-pot weights were
+measured to account for plant water status, represented by CC
+(%). In Figure 5, the change in CC over time is shown for the severe
+and moderate drought stress during the three drought events (early,
+mid, late) and the control for both genotypes (KAN, TIT). The CC
+of control treatments was maintained between 60 and 80%, whereas
+the moderate stress treatment reduced the CC to a plateau of
+around 40% (wilting point). The severe stress treatments dried
+further until major leaf wilting occurred at around 20-30% CC. The
+pairwise comparisons of coef ﬁcients ﬁtted using equation (2)
+showed signi ﬁcant differences among the drying curves of the
+control, moderate, and severe stress treatments for both genotypes
+and all drought events.
+3.1.1 Drought at the leaf level
+Relative water content (RWC) is a measure of leaf water content
+and can indicate water stress in plants. A lower RWC indicates a
+higher water de ﬁcit in the major leaf tissue, which characterizes DS
+at the top of the plant (after progressive wilting of leaves from the
+bottom to the top). For both genotypes, RWC was signi ﬁcantly
+lower in the DS treatment compared with the control ( Table 1 ),
+except for KAN at 60 DAP (mid stress) and TIT at 46 DAP (early
+stress). Unlike severe stress treatments, moderate stress treatments
+did not show signi ﬁcantly lower RWC values, indicating that leaves
+were not wilting and that the major leaf had a similar water status to
+control treatments. Across DS events, RWC values in severely
+stressed plants were 1.9 to 23.2% lower than in control plants for
+KAN and 5.2 to 66.5% lower for TIT plants. Similarly, Asadi et al.
+(2022) reported RWC of 53% for severe, 64% for mild, and 77% for
+well-watered treatments.
+The osmolality (OS) indicates the concentration of osmotically
+active solutes in leaf tissue and is a sign of water status in the cell
+tissue. The higher the OS, the higher the concentration of osmot-
+ically active solutes in the major leaf, indicating a lower water
+content relative to the amount of solutes. During each drought
+event, the highest OS was observed in the severe drought treatment
+for both cultivars ( Table 2 ). Moderate stress did not show signif-
+icantly different OS from the control, indicating no water de ﬁcit in
+the major leaf.
+Asadi et al. (2022) reported signi ﬁcant differences in physio-
+logical and metabolic stress responses across DS treatments and
+FIGURE 4
+Exemplary plants from the genotypes KANADA (above) and TERRA
+ITALIA (below) at the ﬁnal harvest date (79 DAP), with the applied
+treatments: Control (left), Moderate stress (center), and Severe stress
+(right). Arrows indicate exemplary positions of the major leaf.
+FIGURE 5
+Reduction in CC (Container capacity, %) over time and under
+drought stress treatments during the three drought stress events
+(early, mid, late) for the genotypes KAN and TIT. The plotted curves
+are ﬁtted regressions using equation (2).
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org07
+
+--- PAGE 8 ---
+cannabis ecotypes native to Iran. Unfortunately, the authors did not
+report biomass and cannabinoid data. However, it was reported that
+severe and mild DS treatments signi ﬁcantly decreased total chlo-
+rophyll and relative water content in leaves while signi ﬁcantly
+increasing membrane leakage. Co ncerning metabol ites, plants
+under severe and mild stress showed a signi ﬁcant decrease in
+carotenoid concentrations while presenting signi ﬁcantly higher
+levels of proline, catalase, and guaiacol peroxidase. Those biomark-
+ers are related to stress-tolerance responses in plants, aimed at
+maintaining cell turgor and osmotic balance and preventing oxida-
+tive stress induced by reactive oxygen species ( Gebicka and Krych-
+Madej, 2019 ; Hayat et al., 2012 ). Consistent with the researchers ’
+results, both KAN and TIT plants demonstrated stress-coping
+mechanisms to maintain cell turgor and osmotic balance, as
+evidenced by increased leaf OP despite reductions in RWC.
+3.2 Effect on transpiration, photosynthesis,
+and stomatal conductance
+Drought stress reduces photosynthesis due to stomata closure
+and metabolic limitations. Primary metabolism is limited by water
+status in leaf cells, as indicated by lower RWC ( Table 1) and higher
+OS ( Table 2 ). Plants therefore had limitations in carbon assimila-
+tion and, thus, in biomass accumulation. With the reduction of
+TABLE 2 Osmolality (OS) of the genotypes Kanada (KAN) and Terra Italia (TIT) under control and drought stress treatments across three drought events
+(early, mid, and late ﬂowering).
+Genotype Treatment
+Osmolality (mOsm kg -1 H2O)
+DAP (day after planting)
+46 60 79
+KAN
+control 553 ± 32 1 a 593 ± 48 a 620 ± 69 b
+moderate 607 ± 32 a 571 ± 48 a 731 ± 69 ab
+severe – early 642 ± 32 a
+severe – bottom 730 ± 59 a
+severe – late 863 ± 69 a
+TIT
+control 578 ± 9 b 584 ± 25 b 643 ± 37 b
+moderate 588 ± 9 b 553 ± 25 b 667 ± 37 b
+severe – early 746 ± 9 a
+severe – bottom 713 ± 25 a
+severe – late 937 ± 37 a
+1Means with different letters are signi ﬁcantly different from each other according to Fisher ’s LSD test with a = 0.05 .
+TABLE 1 Relative water content (RWC) for control and drought stress treatments at three different drought events (early, mid, and late ﬂowering) for
+both genotypes, Kanada (KAN) and Terra Italia (TIT).
+Genotype Treatment
+RWC (%)
+Drought stress event (DAP)
+early (46) mid (60) late (79)
+KAN
+control 79 ± 1.8 1 a 92.3 ± 1.6 a 89.8 ± 1.6 a
+moderate 70.3 ± 1.8 b 94.2 ± 1.6 a 94.7 ± 1.6 a
+severe – early 60.7 ± 1.8 c
+severe – mid 90.5 ± 1.6 a
+severe – late 83.1 ± 1.6 b
+TIT
+control 77.8 ± 2.2 a 91.3 ± 1.3 a 89.4 ± 4.5 a
+moderate 81.0 ± 2.2 a 92.7 ± 1.3 a 87.5 ± 4.5 a
+severe – early 73.8 ± 2.2 a
+severe – mid 85.5 ± 1.3 b
+severe – late 59.5 ± 4.5 b
+1Means with different letters are signi ﬁcantly different from each other according to Fisher ’s LSD test with a = 0.05 .
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org08
+
+--- PAGE 9 ---
+water in the substrate - here translated by the container capacity
+(CC) –transpiration also declined ( Figure 6 ). Transpiration values
+ranged from 2.0 to 3.3 mmol m-2 s-1 in well-watered plants to nearly
+zero under severe stress. Plants under moderate stress exhibited
+high variability in transpiration rates (0.2 –2.8 mmol m -2 s-1).
+Similar trends were observed for photosynthetic rates (A) and
+stomatal conductance, which decreased in parallel with reduced
+container capacity. Photosynthetic rates were reduced by about 5 –
+10 times. This pattern was observed in measurements of 2000 PAR
+for both genotypes ( Figure 7 ). In control conditions, Amax (2000
+PAR) ranged from 5.0 to 12.7 μmol m
+-2 s-1 for KAN and 7.1 to
+11.9 μmol m-2 s-1 for TIT. On the other hand, stomatal conductance
+values ranged from 30 to 150 mmol m -2 s-1 for both genotypes and
+at both PAR levels. Generally, below 30% of CC, little to no
+photosynthesis or transpiration occurred. The reduction in stomatal
+conductance under DS is consistent with ﬁndings by Rahnama et al.
+(2010), who demonstrated that stomatal closure is a rapid response
+to osmotic stress, serving as an early mechanism to limit water loss
+and maintain osmotic balance. In general, KAN plants are reported
+to be sturdier under drought conditions, suggesting possible toler-
+ance to drought stress. Values for photosynthetic rate under well-
+watered conditions are slightly lower than the reported range (13 –
+25 μmol m -2 s-1), while values for stomatal conductance are
+consistent with previously reported values ranging from 50 to
+150 mmol m
+-2 s-1 (Chandra et al., 2008 , 2011).
+The heterogeneous responses of plants to similar stress levels
+(same CC water status) observed in transpiration, photosynthetic
+rate, and stomatal conductance con ﬁrm that stress reactions may
+vary among individuals ( Duong et al., 2023 ). Even when using
+clones from the same stock plant, we cannot guarantee homogene-
+ity of plant responses, as these depend on several environmental
+factors and the microclimate around the plants. Therefore, applying
+DS would lead to less standardization among plants and individual
+inﬂorescences within a batch, which is detrimental to compliance
+with Good Manufacturing Practice (GMP) guidelines regarding
+maximum variation in cannabinoid concentration within a batch.
+Figure 8 shows the intrinsic water use ef ﬁciency (WUEi) for the
+drought stress treatments (in colors), calculated by dividing the
+photosynthetic rate by stomatal conductance, which can be inter-
+preted as the leaf-level response of water use ef ﬁciency (WUE).
+Plants under moderate stress did not show signi ﬁcant differences in
+WUEi compared to control plants. In contrast, plants under severe
+drought treatments showed WUEi values that were double or even
+triple those of control plants (CC < 30%). However, the increase in
+WUEi under severe stress re ﬂects a short-term survival mechanism
+that prioritizes hydraulic safety and water conservation at the
+expense of carbon assimilation (Sharma et al., 2025). The associated
+reduction in stomatal conductance and photosynthesis, while
+improving instantaneous efﬁciency, ultimately limits biomass accu-
+mulation (Al-Salman et al., 2024 ; Peters et al., 2018 ). The ranges for
+plants under well-watered conditions (0.05-0.15) are consistent
+with the reported literature ( Herppich et al., 2020 ).
+Both genotypes showed similar leaf-level responses to DS.
+Despite reductions in RWC, inc reased OS suggested osmotic
+adjustment to maintain osmotic balance, whereas transpiration,
+photosynthetic activity, and stomatal conductance were reduced
+during DS events. The reported results con ﬁrm that DS occurred,
+and DS treatments yielded signiﬁcant differences compared with the
+control for the aforementioned stress parameters ( Tables 1, 2) and
+(Figures 6 –8). Under DS conditions, plants increased water-use
+efﬁciency at the leaf level ( Figure 8 ); this coping mechanism for
+drought stress has also been reported by other authors ( Morgan
+et al., 2024 ).
+3.3 Plant growth and in ﬂorescence
+biomass
+As plant growth and biomass responses to DS were predomi-
+nantly genotype-dependent, the results for ‘KAN’ and ‘TIT’ are
+analyzed and discussed separately. Consequently, this section fo-
+cuses on the factors that demonstrated signi ﬁcant effects. An
+ANOVA summary of the most relevant sources of variation is
+presented in Table 3 ; factors and interactions that were not
+statistically signi ﬁcant (e.g., stem diameter, height, SPAD) are
+omitted for clarity ( Table 3 ).
+Leaves were the plant organ most responsive to DS treatments.
+Leaf area (LA) was signiﬁcantly reduced by water deﬁcit, with a clear
+genotypic divergence in coping strategy. The genotype ‘KAN’ exhib-
+ited a conservative strategy. Having already established most of its leaf
+area (1108 cm² plant
+−¹) by the end of the vegetative stage (15 DAP), it
+maintained its LA throughout ﬂowering (923 –1207 cm² plant −¹),
+with no signi ﬁcant reduction from DS treatments ( Figure 9 ). This
+suggests a reallocation of resources rather than a loss of photosyn-
+thetic capacity. In contrast, the larger ‘TIT’ plants employed an
+FIGURE 6
+Transpiration rate (E) by Container capacity (CC) for the genotypes KAN (left) and TIT (right). The plotted lines are linear regressions, and the shad ed
+areas are 95% con ﬁdence bands.
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org09
+
+--- PAGE 10 ---
+avoidance strategy, shedding leaves in response to severe stress. This
+led to pronounced leaf senescence, particularly during the late DS
+event. At 79 DAP, plants in the severe-late treatment had less than
+half the LA (879.6 cm² plant −¹) of the control plants (1838.7 cm²
+plant−¹), a reduction signi ﬁcantly greater than that observed in the
+severe-mid treatment (1584.6 cm² plant−¹) (Figure 9). This indicates
+that ‘TIT’ abscises larger fan leaves to minimize water loss, a response
+that intensiﬁed with later stress application.
+Cannabis plants reallocate water and nutrients from leaves and
+stems to in ﬂorescences in response to stressful events as a survival
+strategy ( Massuela et al., 2023 ). Either by reducing transpiration
+(Figure 6) or by reducing leaf area ( Figure 9), plants could maintain
+water and nutrients in reduced ‘sugar ’ leaves and continue
+providing assimilates for in ﬂorescence growth, thereby maintaining
+a steady accumulation of in ﬂorescence biomass over time ( Table 4).
+The ﬁnal inﬂorescence DM at harvest (79 DAP) was primarily
+determined by genotype, with ‘TIT’ producing approximately twice
+the biomass of ‘KAN’ (Table 4 ). Within each genotype, DS
+treatments had a limited effect.
+In contrast, for the higher-yielding ‘TIT’,n o n eo ft h eD S
+treatments signi ﬁcantly altered ﬁnal in ﬂorescence biomass relative
+to the well-watered control. These results demonstrate that while a
+genotypic capacity for higher yield is a ﬁxed trait, the marginal yield
+increase observed in ‘KAN’ under speci ﬁc DS regimes was not a
+consistent response across genotypes.
+3.4 CBD concentration and yield
+In KAN plants of the control treatment, total CBD concentra-
+tion increased from 2.9% to a maximum of 4.5% by mid- ﬂowering
+(60 DAP), followed by a reduction to 3.4% by late ﬂowering
+(Table 5 ). For the TIT genotype, total CBD concentrations in
+control plants increased from 3.4% to a maximum of 9.3% by
+mid-ﬂowering (60 DAP) and remained at that level until the ﬁnal
+harvest (79 DAP). The increases in CBD concentration under
+moderate stress at the ﬁnal harvest (14.7% for ‘KAN’ and 2.2%
+for ‘TIT’) were not statistically signi ﬁcant. Ultimately, neither CBD
+concentration nor yield was signi ﬁcantly affected by DS, as the ﬁnal
+yield was predominantly determined by the strong genotypic
+difference in in ﬂorescence biomass.
+For KAN, the maximum CBD concentration occurred by mid-
+ﬂowering (60 DAP) and then declined by the last harvest event (90
+DAP) ( Table 5 ). This behavior supports the hypothesis of maxi-
+mum cannabinoid production capacity during mid-ﬂowering, while
+the reduced values at late ﬂowering (Table 5) can be attributed to a
+dilution effect due to biomass growth (Table 4). The same trend was
+observed in prior experiments with the same genotype ( Crispim
+FIGURE 7
+Photosynthetic rate (A) and Stomatal conductance (B) as a function of Container Capacity (CC) for the genotypes KAN and TIT at PAR levels of
+2000. The plotted lines are linear regressions, and the shaded areas are 95% con ﬁdence bands.
+FIGURE 8
+Intrinsic Water Use Ef ﬁciency (WUEi) by Container Capacity (CC) for
+the genotypes KAN and TIT. The plotted lines are linear regressions,
+and the shaded areas are 95% con ﬁdence bands.
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org10
+
+--- PAGE 11 ---
+Massuela et al., 2022). This trend was not observed in TIT plants, as
+the CBD concentration reached a maximum by mid- ﬂowering and
+remained at that level through the ﬁnal harvest. This suggests that
+the plant may still accumulate total CBD yield; therefore, nine
+weeks of ﬂowering may not be the optimum harvest time for TIT, as
+demonstrated for KAN in Crispim Massuela et al. (2022) .
+As a key agronomic metric, CBD yield is the product of
+inﬂorescence biomass and CBD concentration. Consequently, the
+non-signiﬁcant effect of DS treatments on CBD concentration
+(Table 5 ) meant that ﬁnal yield trends mirrored those of in ﬂores-
+cence dry matter (DM) ( Table 4 ). Although the main treatment
+effect (trt(DAP)) was not signi ﬁcant (p = 0.0663; Table 3 ), a
+signiﬁcant genotype-by-treatment interaction was observed for
+‘KAN’ (Table 6), driven primarily by variations in its in ﬂorescence
+DM. Re ﬂecting the combined trends of its yield components, the
+genotype ‘TIT’ achieved a CBD yield approximately ﬁve times
+greater than ‘KAN’. This superior performance, attributable to its
+faster growth rate, makes ‘TIT’ a more suitable genotype for indoor
+production systems targeting short cultivation cycles of less than
+80 days.
+The effects of DS on secondary metabolism - in this case, CBD
+production - of medicinal cannabis are multilayered and very
+complex ( Kleinwächter and Selmar, 2015 ). As hypothesized in the
+introduction chapter, a controlled application of DS during ﬂow-
+ering could increase cannabinoid biosynthesis, as reported by
+Caplan et al. (2019) . However, due to other co-occurring impacts
+on osmotic regulation, transpiration, and photosynthesis, this
+enhancement might be offset or even overcompensated, as reported
+by Duong et al. (2023) and Morgan et al. (2024) for reductions in
+inﬂorescence biomass.
+A broader question is whether high-CBD medicinal cannabis
+possesses the evolutionary and ecological predisposition to convert
+drought into a metabolic gain. The capacity of a species to redirect
+water-deﬁcit signaling toward enhanced secondary metabolism
+depends on whether such stress-responsive pathways were selected
+for during its evolutionary history; in plants from environments
+where a given stress was never a recurrent selective pressure, the
+corresponding pathways may be only weakly developed, yielding
+variable and poorly reproducible responses (
+Sharma et al., 2025 ).
+The avoidance strategies observed here —leaf abscission and severe
+deformation of the major fan leaves under severe stress, while
+younger tissues remained comparatively unaffected —are consistent
+with a plant that prioritizes survival and water conservation rather
+than one that channels drought signaling into trichome metabo-
+lism. This may help explain why drought did not enhance canna-
+binoid production in either genotype and suggests that other
+elicitors (for example, light spectrum, mechanical or oxidative
+cues) might be more effective than water de ﬁcit for stimulating
+secondary metabolism in this crop. In this work, the observed
+reductions in photosynthesis and stomatal conductance in the
+major fan leaves ( Figure 7 ) did not translate into signi ﬁcant
+limitations in in ﬂorescence biomass accumulation ( Table 4 ). We
+hypothesize that this discrepancy arises from source-sink dynamics
+within the plant during ﬂowering. The physiological measurements
+were conducted on older fan leaves, whereas the newly formed
+reduced leaves (sugar leaves) within the in ﬂorescences likely con-
+stitute the primary source of assimilates for in ﬂorescence growth
+(Reichel et al., 2022 ). These sugar leaves appeared resilient to the
+applied drought stress, showing no wilting even under severe
+treatments, suggesting that the plant prioritizes water and resource
+allocation to these reproductive structures. Consequently, metabolic
+activity in the inﬂorescences may have been maintained, preventing
+biomass penalties. At the mechanistic level, the eustress hypothesis
+posits that water de ﬁcit increases the accumulation of reactive
+TABLE 3 ANOVA table for the sources of variation: Days after planting (DAP), treatment (trt), Genotype (geno), and their interactions. DAP is nested
+within the factor (trt) to compare treatments at each harvest event.
+Source of variation Leaf Area In ﬂorescence Dry Matter CBD % CBD yield
+DAP 0.0371 <.0001 <.0001 <.0001
+trt(DAP) <.0001 0.1497 0.4377 0.0663
+geno <.0001 <.0001 <.0001 <.0001
+geno*DAP 0.2963 <.0001 <.0001 <.0001
+geno*trt(DAP) 0.0004 0.1405 0.8448 0.1274
+p-values correspond to the F-test for differences between levels of the corresponding factor. The p-values with statistical signi ﬁcance ( p < 0.05) were highlighted in bold.
+FIGURE 9
+Leaf area (cm² plant-1) by days after planting (DAP) for the genotypes
+KAN and TIT. Means with different letters are signi ﬁcantly different
+from each other according to Fisher’s LSD test with a = 0.05. Means
+with ns are not signi ﬁcantly different from each other according to
+global F-test.
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org11
+
+--- PAGE 12 ---
+oxygen species (ROS), which can act as signals to upregulate the
+biosynthesis of protective secondary metabolites such as
+cannabinoids and terpenoids ( Sharma et al., 2025 ). In the present
+study, however, the stress imposed on the major fan leaves did not
+translate into a measurable increase in CBD biosynthesis, most
+likely because the in ﬂorescence sink —where cannabinoids are
+synthesized and stored in glandular trichomes —remained hydrated
+and metabolically active. This decoupling between leaf-level stress
+signaling and in ﬂorescence metabolism of fers a parsimonious
+explanation for the absence of a cannabinoid response and is
+consistent with recent reports that drought effects on cannabinoid
+concentration are weak and strongly genotype-dependent (Cappello
+Fusaro et al., 2025 ; Pena et al., 2025 )( Table 4 ). While this study
+provides insights into two high-CBD genotypes, future research
+should expand to a wider genetic pool, including THC-dominant
+and balanced varieties, to fully characterize genotypic responses to
+DS. Furthermore, investigations into the interactions between DS
+and other environmental factors, such as light intensity and vapor
+pressure de ﬁcit, are needed. A critical next step is also to evaluate
+the impact of DS on the full spectrum of secondary metabolites,
+including terpenoids and ﬂavonoids, building on recent work that
+resolved terpene pro ﬁles in CBD-dominant cannabis under water
+stress (Cappello Fusaro et al., 2025 ), to understand its comprehen-
+sive effect on the phytochemical pro ﬁle and overall product quality
+(Campbell et al., 2019 ; Caplan et al., 2019 ; Gorelick and
+Bernstein, 2017 ).
+TABLE 4 Inﬂorescence dry matter (g plant -1) for the drought stress treatments across three different drought events (early, mid and late ﬂowering) for
+the genotypes Kanada (KAN) and Terra Italia (TIT).
+Genotype Treatment
+Inﬂorescences DM (g plant -1)
+DAP (days after planting)
+15 46 60 79
+KAN
+control 1.8 ± 0.5 3.3 ± 0.5 5.1 ± 0.5 5.5 ± 0.4 b
+moderate 4.0 ± 0.5 3.8 ± 0.5 7.1 ± 0.4 a
+severe – early 3.5 ± 0.5 3.8 ± 0.5 7.2 ± 0.4 a
+severe – mid 5.0 ± 0.5 5.3 ± 0.4 b
+severe – late 7.4 ± 0.4 a
+TIT
+control 2.6 ± 0.6 5.4 ± 0.6 9.3 ± 0.6 13.3 ± 0.5
+moderate 5.3 ± 0.6 8.2 ± 0.6 12.3 ± 0.5
+severe – early 5.2 ± 0.6 8.8 ± 0.6 12.9 ± 0.5
+severe – mid 8.7 ± 0.6 13.1 ± 0.5
+severe – late 13.4 ± 0.5
+Means with different letters are signiﬁcantly different from each other according to Fisher ’s LSD test with a = 0.05. Means without letters are not signi ﬁcantly different from each other according
+to global F-test.
+TABLE 5 Total CBD concentration (%) for the drought stress treatments across three different drought events (early, mid and late ﬂowering) for the
+genotypes Kanada (KAN) and Terra Italia (TIT).
+Genotype Treatment
+Total CBD (%)
+DAP (days after planting)
+15 46 60 79
+KAN
+control 2.9 ± 0.2 3.0 ± 0.2 4.5 ± 0.2 3.4 ± 0.2
+moderate 3.7 ± 0.2 4.3 ± 0.2 3.9 ± 0.2
+severe – early 3.1 ± 0.2 4.0 ± 0.2 4.0 ± 0.2
+severe – mid 4.1 ± 0.2 3.5 ± 0.2
+severe – late 3.9 ± 0.2
+TIT
+control 3.4 ± 0.5 4.5 ± 0.5 9.3 ± 0.5 9.1 ± 0.4
+moderate 4.5 ± 0.5 9.7 ± 0.5 9.3 ± 0.4
+severe – early 4.2 ± 0.5 8.4 ± 0.5 8.9 ± 0.4
+severe – mid 9.6 ± 0.5 8.9 ± 0.4
+severe – late 9.2 ± 0.4
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org12
+
+--- PAGE 13 ---
+This study highlights a critical knowledge gap, as the physiology
+of cannabis sugar leaves under drought has not yet been reported in
+the literature. Future research should directly investigate the pho-
+tosynthetic response of sugar leaves to longer drought exposures.
+Furthermore, building on ﬁndings that moderate stress can main-
+tain yields while increasing WUEi ( Figure 8 ), with signi ﬁcantly
+reduced water use ( Morgan et al., 2024 ), it would be valuable to
+explore stress acclimation by comparing recurrent moderate stress
+against constant low-level de ﬁcit irrigation to optimize water use
+efﬁciency without compromising yield ( Caplan et al., 2019 ).
+Furthermore, it should be noted that this study was limited to
+two high-CBD genotypes grown under controlled indoor condi-
+tions over a single ﬂowering cycle. The physiological measurements
+were primarily conducted on mature fan leaves, potentially over-
+looking the role of sugar leaves as key sources of assimilates during
+ﬂowering. Future research should expand the genetic scope to
+include THC-dominant and balanced chemotypes, directly assess
+sugar leaf physiology under stress, and evaluate multi-cycle stress
+applications to con ﬁrm stability of the observed responses.
+4 Conclusion
+This study assessed how the intensity and timing of drought
+stress (DS) during ﬂowering affect in ﬂorescence biomass, cannabi-
+diol (CBD) concentration, and CBD yield in two architecturally
+contrasting high-CBD (chemotype III) medicinal cannabis geno-
+types. Across all treatments, DS was reliably imposed and perceived
+by the plants. Physiological responses translated into only marginal
+effects on the agronomic endpoints, and neither in ﬂorescence
+biomass, CBD concentration, nor CBD yield were signi ﬁcantly
+altered by the irrigation regime.
+Severe DS was consistently detrimental and offered no beneﬁt. It
+triggered leaf abscission and canopy loss, which was most pro-
+nounced in the vigorous ‘Terra Italia ’ (TIT) genotype, where late-
+ﬂowering stress reduced leaf area to less than half that of the control.
+Although it raised leaf-level water-use ef ﬁciency (WUEi) two- to
+threefold, this re ﬂected a short-term hydraulic-safety response
+achieved at the expense of carbon assimilation rather than a genuine
+productivity gain. In moderate DS, relative water content and
+osmolality remained comparable to the well-watered control.
+Water consumption was lowered while fully maintaining biomass
+and CBD yield. Notably, DS did not stimulate cannabinoid biosyn-
+thesis in either genotype; the modest increases in CBD concentra-
+tion under moderate stress were not statistically signi ﬁcant.
+Across every yield-determining trait, genotype outweighed the
+imposed irrigation regime. ‘TIT’ produced approximately twice the
+inﬂorescence biomass and ﬁve times the CBD yield of the compact,
+earlier-maturing ‘Kanada’ (KAN), which instead reached its peak
+CBD concentration earlier in ﬂowering. For producers, selecting a
+well-adapted, high-yielding genotype and matching harvest timing
+to its cannabinoid trajectory is therefore a far more decisive lever for
+productivity and cannabinoid output than manipulating irrigation
+to induce stress. We conclude that moderate de ﬁcit irrigation is a
+viable and sustainable means of reducing water use in indoor
+medicinal cannabis production without compromising yield or
+quality, while severe stress should be avoided. Optimizing genotype
+selection remains the primary route to maximizing productivity,
+and the interactions between de ﬁcit irrigation, genotype, and other
+environmental elicitors such as light spectrum and vapor pressure
+deﬁcit represent a promising avenue for further improvement.
+TABLE 6 Total CBD yield (mg plant -1) for the drought stress treatments across three different drought events (early, mid, and late ﬂowering) for the
+genotypes Kanada (KAN) and Terra Italia (TIT).
+Genotype Treatment
+Total CBD yield (mg plant -1)
+DAP (days after planting)
+15 46 60 79
+KAN
+control 51.2 ± 6.9 103.9 ± 14.0 216.3 ± 29.2 187.4 ± 21.9 b
+moderate 149.1 ± 20.0 176.0 ± 23.6 273.5 ± 31.7 a
+severe – early 109.5 ± 14.8 147.9 ± 19.9 289.8 ± 33.7 a
+severe – mid 204.7 ± 27.5 180.8 ± 21.2 b
+severe – late 272.0 ± 31.9 a
+TIT
+control 96.8 ± 10.2 249.8 ± 26.5 861.1 ± 91.1 1243.6 ± 114.1
+moderate 228.8 ± 24.2 781.6 ± 82.9 1124.2 ± 104.4
+severe – early 220.7 ± 23.4 696.6 ± 74.4 1138.8 ± 105.2
+severe – mid 806.7 ± 86.4 1178.7 ± 108.2
+severe – late 1220.2 ± 112.7
+Means with different letters are signiﬁcantly different from each other according to Fisher ’s LSD test with a = 0.05. Means without letters are not signi ﬁcantly different from each other according
+to global F-test.
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org13
+
+--- PAGE 14 ---
+Data availability statement
+The datasets used and/or analysed during the current study are
+available from the corresponding author on reasonable request.
+Author contributions
+DC: Writing – original draft, Investigation, Formal analysis, Data
+curation, Methodology, Visualization. SM: Formal analysis, Writing–
+review & editing, Methodology. JH: Writing– review & editing, Data
+curation, Formal analysis. AP: Writing – review & editing. FA:
+Writing – review & editing. SG-H: Writing – review & editing,
+Conceptualization, Supervision, Project administration, Resources,
+Funding acquisition.
+Funding
+The author(s) declared that ﬁnancial support was received for
+this work and/or its publication. This research was funded by the
+German Federal Ministry for Economic Affairs and Energy within
+the Central Innovation Program for SMEs (16KN089622).
+Publishing fees supported by Funding Programme Open Access
+Publishing of University of Hohenheim.
+Conﬂict of interest
+The author(s) declared that this work was conducted in the
+absence of any commercial or ﬁnancial relationships that could be
+construed as a potential con ﬂict of interest.
+Generative AI statement
+The author(s) declared that generative AI was not used in the
+creation of this manuscript.
+Any alternative text (alt text) provided alongside ﬁgures in this
+article has been generated by Frontiers with the support of arti ﬁcial
+intelligence and reasonable e fforts have been made to ensure
+accuracy, including review by the authors wherever possible. If
+you identify any issues, please contact us.
+Publisher’s note
+All claims expressed in this article are solely those of the authors
+and do not necessarily represent those of their afﬁliated organizations,
+or those of the publisher, the editors and the reviewers. Any product
+that may be evaluated in this article, or claim that may be made by its
+manufacturer, is not guaranteed or endorsed by the publisher.
+References
+Akula, R., and Ravishankar, G. A. (2011). In ﬂuence of abiotic stress signals on
+secondary metabolites in plants. Plant Signal. Behav. 6, 1720 –1731. doi: 10.4161/
+psb.6.11.17613
+Al-Salman, Y., Cano, F. J., Mace, E., Jordan, D., Groszmann, M., and Ghannoum, O.
+(2024). High water use ef ﬁciency due to maintenance of photosynthetic capacity in
+sorghum under water stress. J. Exp. Bot. 75, 6778 –6795. doi: 10.1093/jxb/erae418
+Asadi, S., Moghaddam, H., Salami, S. A., Badi, H. N., and Naghavi, M. R. (2022).
+Evaluation of physiological responses of cannabis (Cannabis sativa L.) ecotypes under
+different levels of irrigation. Environ. Stress. Crop Sci. 15, 361 –373. doi: 10.22077/
+escs.2020.3792.1916
+Barrett, G. E., Alexander, P. D., Robinson, J. S., and Bragg, N. C. (2016). Achieving
+environmentally sustainable growing media for soilless plant cultivation systems – a
+review. Sci. Hortic. 212, 220 –234. doi: 10.1016/j.scienta.2016.09.030
+Bauer, S., Olson, J., Cockrill, A., Hattem, M., Miller, L., Tauzer, M., et al. (2015).
+Impacts of surface water diversions for marijuana cultivation on aquatic habitat in four
+northwestern California watersheds. PloS One 10, e0120016. doi: 10.1371/
+journal.pone.0120016
+Bernstein, N., Gorelick, J., Zerahia, R., and Koch, S. (2019). Impact of N, P, K, and
+humic acid supplementation on the chemical pro ﬁle of medical cannabis (Cannabis
+sativa L). Front. Plant Sci. 10. doi: 10.3389/fpls.2019.00736
+Burgel, L., Hartung, J., and Graeff-Hönninger, S. (2020). Impact of different growing
+substrates on growth, yield and cannabinoid content of two cannabis sativa L.
+genotypes in a pot culture. Horticulturae 6, 1 –14. doi: 10.3390/horticulturae6040062
+Butsic, V., and Brenner, J. C. (2016). Cannabis (Cannabis sativa or C. indica)
+agriculture and the environment: a systematic, spatially-explicit survey and potential
+impacts. Environ. Res. Lett. 11, 44023. doi: 10.1088/1748-9326/11/4/044023
+Campbell, B. J., Berrada, A. F., Hudalla, C., Amaducci, S., and McKay, J. K. (2019).
+Genotype × environment interactions of industrial hemp cultivars highlight diverse
+responses to environmental factors. Agrosystems Geosci. Environ. 2, 180057.
+doi: 10.2134/age2018.11.0057
+Caplan, D., Dixon, M., and Zheng, Y. (2019). Increasing in ﬂorescence dry weight and
+cannabinoid content in medical cannabis using controlled drought stress. HortScience
+54, 964 –969. doi: 10.21273/HORTSCI13510-18
+Cappello Fusaro, M., Lucchetta, I., and Bona, S. (2025). Water stress effects on biomass
+allocation and secondary metabolism in CBD-dominant Cannabis sativa L. Plants 14,
+1267. doi: 10.3390/plants14081267
+Casaroli, D., and Jong van Lier, Q. (2008). Crite ́rios para determinac ̧ão da
+capacidade de vaso. Rev. Bras. Cie ̂nc. Solo 32, 59 –6 6 .d o i :1 0 . 1 5 9 0 / S 0 1 0 0 -
+06832008000100007
+Chandra, S., Lata, H., Khan, I. A., and Elsohly, M. A. (2008). Photosynthetic response of
+Cannabis sativa L. to variations in photosynthetic photon ﬂux densities, temperature
+and CO2 conditions. Physiol. Mol. Biol. Plants 14, 299 –306. doi: 10.1007/s12298-008-
+0027-x
+Chandra, S., Lata, H., Khan, I. A., and ElSohly, M. A. (2011). Temperature response of
+photosynthesis in different drug and ﬁber varieties of Cannabis sativa L.
+Physiol. Mol.
+Biol. Plants 17, 297. doi: 10.1007/s12298-011-0068-4
+Clarke, R. C., and Merlin, M. D. (2016). Cannabis domestication, breeding history,
+present-day genetic diversity, and future prospects. Crit. Rev. Plant Sci. 35, 293 –327.
+doi: 10.1080/07352689.2016.1267498
+Crispim Massuela, D., Hartung, J., Munz, S., Erpenbach, F., and Graeff-Hönninger, S.
+(2022). Impact of harvest time and pruning technique on total CBD concentration and
+yield of medicinal cannabis. Plants 11, 140. doi: 10.3390/plants11010140
+Da Cunha Leme Filho, J. F., Thomason, W. E., Evanylo, G. K., Zhang, X., Strickland, M.
+S., Chim, B. K., et al. (2020). Biochemical and physiological responses of Cannabis
+sativa to an integrated plant nutrition system. Agron. J. 112, 5237–5248. doi: 10.1002/
+agj2.20400
+Danziger, N., and Bernstein, N. (2021a). Plant architecture manipulation increases
+cannabinoid standardization in ‘drug-type’ medical cannabis. Ind. Crops Prod. 167,
+113528. doi: 10.1016/j.indcrop.2021.113528
+Danziger, N., and Bernstein, N. (2021b). Light matters: Effect of light spectra on
+cannabinoid pro ﬁle and plant development of medical cannabis (Cannabis sativa L.).
+Ind. Crops Prod. 164, 113351. doi: 10.1016/j.indcrop.2021.113351
+Dillis, C., McIntee, C., Butsic, V., Le, L., Grady, K., and Grantham, T. (2020). Water
+storage and irrigation practices for cannabis drive seasonal patterns of water extraction
+and use in Northern California. J. Environ. Manage. 272, 110955. doi: 10.1016/
+j.jenvman.2020.110955
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org14
+
+--- PAGE 15 ---
+Drotleff, L. (2022). Sustainable cannabis fertilizer options as prices rise for key
+nutrition providers Mjbizdaily. Available online at: https://mjbizdaily.com/sustainable-
+cannabis-fertilizer-options-as-prices-rise-for-key-nutrition-providers/ (Accessed
+November 10, 2022).
+Duong, H., Pearson, B., Anderson, S., Berthold, E., and Kjelgren, R. (2023). Variation in
+hydric response of two industrial hemp varieties (Cannabis sativa) to induced water
+stress. Horticulturae 9, 431. doi: 10.3390/horticulturae9040431
+Eaves, J., Eaves, S., Morphy, C., and Murray, C. (2020). The relationship between light
+intensity, cannabis yields, and proﬁtability.Agron. J.112, 1466–1470. doi: 10.1002/agj2.20008
+Folina, A., Kakabouki, I., Tourkochoriti, E., Roussis, I., Pateroulakis, H., and Bilalis, D.
+(2020). Evaluation of the effect of topping on cannabidiol (CBD) content in two
+industrial hemp (Cannabis sativa L.) cultivars. Bull. Univ. Agric. Sci. Vet. Med. Cluj-
+Napoca Hortic. 77, 46 –52. doi: 10.15835/buasvmcn-hort:2019.0021
+Gao, C., Cheng, C., Zhao, L., Yu, Y., Tang, Q., Xin, P., et al. (2018). Genome-wide
+expression pro ﬁles of hemp ( Cannabis sativa L.) in response to drought stress. Int. J.
+Genomics 2018, e3057272. doi: 10.1155/2018/3057272
+Gebicka, L., and Krych-Madej, J. (2019). The role of catalases in the prevention/
+promotion of oxidative stress. J. Inorg. Biochem. 197, 110699. doi: 10.1016/
+j.jinorgbio.2019.110699
+González, L., and González-Vilar, M. (2001). “Determination of relative water content,”
+in Handbook of Plant Ecophysiology Techniques (Dordrecht: Springer Netherlands),
+207–212. doi: 10.1007/0-306-48057-3_14
+Gorelick, J., and Bernstein, N. (2017). “Chemical and physical elicitation for enhanced
+cannabinoid production in cannabis, ” in Cannabis Sativa L. - Botany and
+Biotechnology. Eds. S. Chandra, H. Lata and M. A. ElSohly (Springer International
+Publishing, Cham), 439 –456. doi: 10.1007/978-3-319-54564-6_21
+Hayat, S., Hayat, Q., AlYemeni, M. N., Wani, A. S., Pichtel, J., and Ahmad, A. (2012).
+Role of proline under changing environments. Plant Signal. Behav. 7, 1456 –1466.
+doi: 10.4161/psb.21949
+Herppich, W. B., Gusovius, H.-J., Flemming, I., and Drastig, K. (2020). Effects of
+drought and heat on photosynthetic performance, water use and yield of two selected
+ﬁber hemp cultivars at a poor-soil site in Brandenburg (Germany). Agronomy 10, 1361.
+doi: 10.3390/agronomy10091361
+Khabbazi, S. D., Park, S.-H., Ryu, B.-R., Da Cunha Leme Filho, J. F., Y ılmaz, G.,
+Khabbazi, A. D., et al. (2026). Drought stress in Cannabis sativa L.: current knowledge,
+research gaps, and future perspectives – a review. Front. Plant Sci. 17, 1890092.
+doi: 10.3389/fpls.2026.1890092
+Kleinwächter, M., and Selmar, D. (2015). New insights explain that drought stress
+enhances the quality of spice and medicinal plants: potential applications. Agron.
+Sustain. Dev. 35, 121 –131. doi: 10.1007/s13593-014-0260-3
+Massuela, D. C., Munz, S., Hartung, J., Nkebiwe, P. M., and Graeff-Hönninger, S.
+(2023). Cannabis hunger games: nutrient stress induction in ﬂowering stage – impact of
+organic and mineral fertilizer levels on biomass, cannabidiol (CBD) yield and nutrient
+use efﬁ
+ciency. Front. Plant Sci. 14. doi: 10.3389/fpls.2023.1233232
+Mills, E. (2012). The carbon footprint of indoor cannabis production. Energy Policy 46,
+58–67. doi: 10.1016/j.enpol.2012.03.023
+Morgan, W., Singh, J., Kesheimer, K., Davis, J., and Sanz-Saez, A. (2024). Severe
+drought signi ﬁcantly reduces ﬂoral hemp ( Cannabis sativa L.) yield and cannabinoid
+content but moderate drought does not. Environ. Exp. Bot. 219, 105649. doi: 10.1016/
+j.envexpbot.2024.105649
+Park, S.-H., Pauli, C. S., Gostin, E. L., Staples, S. K., Seifried, D., Kinney, C., et al. (2022).
+Effects of short-term environmental stresses on the onset of cannabinoid production in
+young immature ﬂowers of industrial hemp (Cannabis sativa L.). J. Cannabis Res. 4, 1.
+doi: 10.1186/s42238-021-00111-y
+Pena, M. M., Miranda, F. R., Ribeiro, T. O., Couto, G. C. S., Rocha, S. B. F., Martins, S.
+C. V., et al. (2025). Genotypic variation in photosynthesis and biomass partitioning
+underlies agronomic performance and cannabinoid pro ﬁle in Cannabis sativa under
+drought. Plants 14, 3840. doi: 10.3390/plants14243840
+Peters, W., van der Velde, I. R., van Schaik, E., Miller, J. B., Ciais, P., Duarte, H. F., et al.
+(2018). Increased water-use ef ﬁciency and reduced CO2 uptake by plants during
+droughts at a continental-scale. Nat. Geosci. 11, 744 –748. doi: 10.1038/s41561-018-
+0212-7
+Raﬁq, H., Hartung, J., Schober, T., Vogt, M. M., Carrera, D.A ́., Ruckle, M., et al. (2024).
+Non-destructive near-infrared technology for efﬁcient cannabinoid analysis in cannabis
+inﬂorescences. Plants 13, 833. doi: 10.3390/plants13060833
+Rahnama, A., Hosseinalipour, B., Farrokhian Firouzi, A., Tom Harrison, M., and
+Ghorbanpour, M. (2024). Root architecture traits and genotypic responses of wheat at
+seedling stage to water-deﬁcit stress. Cereal Res. Commun. 52, 1499–1510. doi: 10.1007/
+s42976-023-00481-4
+Rahnama, A., James, R. A., Poustini, K., and Munns, R. (2010). Stomatal conductance
+as a screen for osmotic stress tolerance in durum wheat growing in saline soil. Funct.
+Plant Biol. 37, 255–263. doi: 10.1071/FP09148
+Reichel, P., Munz, S., Hartung, J., Kotiranta, S., and Graeff-Hönninger, S. (2022).
+Impacts of different light spectra on CBD, CBDA and terpene concentrations in
+relation to the ﬂower positions of different Cannabis Sativa L. strains. Plants 11, 2695.
+doi: 10.3390/plants11202695
+Saloner, A., and Bernstein, N. (2021). Nitrogen supply affects cannabinoid and
+terpenoid pro ﬁle in medical cannabis (Cannabis sativa L.). Ind. Crops Prod. 167,
+113516. doi: 10.1016/j.indcrop.2021.113516
+Schober, T., Präger, A., Hartung, J., Hensmann, F., and Graeff-Hönninger, S. (2023).
+Growth dynamics and yield formation of cannabis (Cannabis sativa) cultivated in
+differing growing media under semi-controlled greenhouse conditions. Ind. Crops Prod.
+203, 117172. doi: 10.1016/j.indcrop.2023.117172
+Sharma, S., Alberti, T., De Sarandy Raposo, R., Anterola, A. M., Weber, J., Diatta, A. A.,
+et al. (2025). The effects of water-de ﬁcit stress on Cannabis sativa L. development and
+production of secondary metabolites: a review. Horticulturae 11, 646. doi: 10.3390/
+horticulturae11060646
+Simpson, R., Ram ı́r e z ,C . ,N u ñ e z ,H . ,J a q u e s ,A . ,a n dA l m o n a c i d ,S .( 2 0 1 7 ) .
+Understanding the success of Page ’s model and related empirical equations in ﬁtting
+experimental data of diffusion phenomena in food matrices. Trends Food Sci. Technol.
+62, 194–201. doi: 10.1016/j.tifs.2017.01.003
+Song, C., Saloner, A., Fait, A., and Bernstein, N. (2023). Nitrogen de ﬁciency stimulates
+cannabinoid biosynthesis in medical cannabis plants by inducing a metabolic shift
+towards production of low-N metabolites. Ind. Crops Prod. 202, 116969. doi: 10.1016/
+j.indcrop.2023.116969
+Transnational Institute (2022). Cannabis and Climate: The Carbon Footprint and
+Energy Use of Indoor Cultivation . Amsterdam: Transnational institute (TNI). Available
+online at: https://www.tni.org/en/topic/cannabis.
+Wartenberg, A. C., Holden, P. A., Bodwitch, H., Parker-Shames, P., Novotny, T.,
+Harmon, T. C., et al. (2021). Cannabis and the environment: What science tells us and
+what we still need to know. Environ. Sci. Technol. Lett. 8, 98 –107. doi: 10.1021/
+acs.estlett.0c00844
+Westmoreland, F. M., and Bugbee, B. (2022). Sustainable cannabis nutrition: Elevated
+root-zone phosphorus signi ﬁcantly increases leachate P and does not improve yield or
+quality. Front. Plant Sci. 13, 1015652. doi: 10.3389/fpls.2022.1015652
+Wolﬁnger, R. (1993). Covariance structure selection in general mixed models.
+Commun. Stat.- Simul. Comput. 22, 1079 –1106. doi: 10.1080/03610919308813143
+Zheng, Y. (2022). Handbook of Cannabis Production in Controlled Environments . 1st ed
+(Boca Raton: CRC Press). doi: 10.1201/9781003150442
+Z h e n g ,Z . ,F i d d e s ,K . ,a n dY a n g ,L .( 2 0 2 1 ) .An a r r a t i v er e v i e wo n
+environmental impacts of cannabis cultivation. J. Cannabis Res. 3, 35. doi: 10.1186/
+s42238-021-00090-0
+Crispim Massuela et al. 10.3389/fpls.2026.1930650
+Frontiers in Plant Science frontiersin.org15

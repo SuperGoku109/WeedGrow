@@ -1,0 +1,97 @@
+evaluatePlant(input):
+  authorizePlantRead(input.user, input.plant)
+  if inactiveOrDeleting(plant): return noActiveCare()
+  facts = normalizeSimpleSetupAndDatedOptionalFacts(plant)
+  weather = canonicalizeTypedWeather(rawWeather, facts.location)
+  logs = canonicalizeWaterEvents(rawLogs)
+  profile = resolveSupportedProfile(facts, modelRegistry)
+
+  current = replayOccurredWaterBalance(profile, weather, logs)
+  decision = releaseGate(robustDecision(current), profile)
+  projection = projectConditionalForecast(current, weather)
+  // projection NEVER replaces current stored water/decision
+
+  ambient = pairedAirFeatures(weather, history, forecast)
+  flags = evaluateAll14WarningsIndependently(
+    facts, weather, sourceAlerts, decision, ambient, problemReport)
+  cards = mergeSharedContextAndSourceEpisodes(flags)
+  delivery = applyNotificationPolicy(cards, priorDeliveryState)
+  return { needsWater: toNullableBoolean(decision),
+           decision, flags, cards, reasons, coverage,
+           profileVersion, computedAt, reevaluateAt }
+
+resolveSupportedProfile(facts, registry):
+  reject unsupported environment or inactive plant
+  require pot/ground + stage + medium + sun scope match
+  if profile uses pot size: require explicit valid litres
+  if profile uses age:
+    require known age, meaning and valid recorded date
+    ageNow = recordedAge + elapsedDays(recordedDate, now)
+    require supported seed/clone origin and age range
+  if profile uses height:
+    require dated height within tested freshness/range
+  if optional fact unusable:
+    follow explicitly supported aggregate fallback only
+  require correct location, forcing source and state anchor
+  return coherent parameter/state scenarios
+  // no leaf area, root depth or moisture from height/age
+
+replayOccurredWaterBalance(profile, weather, logs):
+  require valid anchor before evaluation time
+  require complete ET0 history for selected source
+  require complete rain history unless soil receives no rain
+  reject unresolved duplicate/version conflicts
+  reject an unhandled repot/move/medium/stage transition
+
+  for scenario in supportedCorrelatedScenarios:
+    for eventTiming in [earliest, latest]:
+      for withinBinOrder in [inputsFirst, lossFirst]:
+        R = scenario.initialReserve
+        for interval in occurredHistoryInTimeOrder:
+          rainL = amountMm * effectiveCatchmentM2 * delivery
+          waterL = appliedLOrBoundedScenario * retention
+          lossL = ET0mm * fittedEffectiveLossM2
+          R = applyInputsAndLossWithCapacityCap(R, ...)
+          record conservation, excess and unmet potential
+        apply known watering events exactly at now
+        keep R and scenario.actionReserve
+  return trajectories, input/loss ledger, coverage
+
+robustDecision(trajectories):
+  if no supported states or unsupported history: UNCERTAIN
+  due[j] = reserve[j] <= actionReserve[j] + numericTolerance
+  if all(due): WATER
+  else if none(due): NOT_DUE
+  else: UNCERTAIN
+
+releaseGate(candidate, profile):
+  if profile/version absent from approved registry: UNCERTAIN
+  if scenario/state coverage not validated: UNCERTAIN
+  else: candidate
+
+needsWater = true if WATER, false if NOT_DUE, null otherwise
+// Never: Boolean(undefined), unknown -> false, majority vote,
+//        mean reserve, or wateredToday -> notDue/highConfidence
+
+projectConditionalForecast(currentStates, forecast):
+  if forecast ET0/rain coverage missing: projection unavailable
+  for each current trajectory:
+    run no-rain and provided-rain scenarios separately
+    preserve soil reception, capacity and input/loss ordering
+    record first action-threshold crossing interval
+    retain trajectories with no crossing inside horizon
+  return conditional interval + horizon-censoring information
+  // Not an exact ETA, probability or prediction interval.
+  // Forecast rain never enters current reserve.
+  // Water already due now is not delayed by a wet forecast.
+
+planNotification(card, priorEpisode, policy):
+  require active plant, supported claim and enabled policy
+  require actual delivery consent/subscription in app adapter
+  block predictive disease pushes without validated model
+  if new valid source episode: plan new notification
+  else if source severity escalated: bypass repeat cooldown
+  else if repeat cooldown expired: plan eligible repeat
+  else: suppress repeat
+  // Model evaluation and delivery planning remain separate.
+  // Emulator plans only: it sends zero notifications.

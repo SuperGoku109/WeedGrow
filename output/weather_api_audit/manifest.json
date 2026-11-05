@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-30",
+  "credentialsIncluded": false,
+  "accountChanges": false,
+  "appChanges": false,
+  "files": [
+    {
+      "path": "actual_parser_audit.json",
+      "sha256": "960b40e0a9549125a72f3c3e0f206999bcac0b53fadf31eecacc068d472a8efe"
+    },
+    {
+      "path": "captured_payload_tests.py",
+      "sha256": "ce9b95580c01f8e115362e7abdd9a1e2635e80f1f2694998f30568eba1eabd7a"
+    },
+    {
+      "path": "captured_payload_verification.json",
+      "sha256": "b4935a1f3f182319f91479208bfc271f051ad6f8918341ae7d4034223518640c"
+    },
+    {
+      "path": "live_probe_report.json",
+      "sha256": "2791f8437fa6f5738ede386453c3ced8d081bf0cb427c08bb830d55a365e56ac"
+    },
+    {
+      "path": "openmeteo_archive_payload.json",
+      "sha256": "e974e7e647f7594d5b39295441eccb58ea8cf41c5fb703fd33f55a7af3d96645"
+    },
+    {
+      "path": "openmeteo_forecast_payload.json",
+      "sha256": "6bfa93b3799fb2263a42ee0dbc031ac010311620381d8b21f4ab788c25424bd9"
+    },
+    {
+      "path": "openweather_current_payload.json",
+      "sha256": "3a732b7eb0ee0b61894a8940d19d98dd2e52770a398117d80a685c9afa8e805d"
+    },
+    {
+      "path": "openweather_history_payload.json",
+      "sha256": "3a79b9e79307f3447b36ec92fdbb68ead54c5a78bb72dfe5c01e5e0fa64a0e43"
+    },
+    {
+      "path": "reproduce_repo_parser.cjs",
+      "sha256": "cd0263873c007a924eaa68c05527268f7c9e68bbaca94279a3ebb1db65438def"
+    },
+    {
+      "path": "Weather_API_Verification_2026-10-30.md",
+      "sha256": "773d5f3f75c3d4de98b5b51c40e53f4c9292cc1577883c1790b5409b131d335a"
+    }
+  ]
+}

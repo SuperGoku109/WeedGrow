@@ -1,0 +1,618 @@
+[PAGE 1]
+plants
+Article
+Leaf Age and Position Eﬀects on Quantum Yield and
+Photosynthetic Capacity in Hemp Crowns
+William L. Bauerle *, Cole McCullough, Megan Iversen and Michael Hazlett
+Department of Horticulture and Landscape Architecture, Colorado State University, Fort Collins, CO 80523,
+USA; cole.mccullough@rams.colostate.edu (C.M.); miversen@rams.colostate.edu (M.I.);
+mike.hazlett@rams.colostate.edu (M.H.)
+* Correspondence: bauerle@colostate.edu; Tel.: +1+970-491-4088
+Received: 28 December 2019; Accepted: 17 February 2020; Published: 19 February 2020
+/gid00030/gid00035/gid00032/gid00030/gid00038/gid00001/gid00033/gid00042/gid00045/gid00001
+/gid00048/gid00043/gid00031/gid00028/gid00047/gid00032/gid00046
+Abstract: We examined the aging of leaves prior to abscission and the consequences for estimating
+whole-crown primary production in Cannabis sativa L. (hemp). Leaves at three vertical positions
+in hemp crowns were examined from initial full leaf expansion until 42 days later. Photosynthetic
+capacity decreased as leaves aged regardless of crown position, light intensity, or photoperiod.
+Although leaves remained green, the photosynthetic capacity declined logarithmically to values of
+50% and 25% of the maximum 9 and 25 days later, respectively. Plants grown under+450 µmol m−2 s−1
+supplemental photosynthetically active radiation or enriched diﬀuse light responded similarly; there
+was no evidence that photoperiod or enriched di ﬀuse light modiﬁed the gas exchange pattern.
+At approximately 14 days after full leaf expansion, leaf light levels >500 µmol m−2 s−1 decreased
+photosynthesis, which resulted in ≥10% lower maximum electron transport rate at ≥ 20 days of
+growth period. Furthermore, leaves were saturated at lower light levels as leaf age progressed
+(≤500 µmol m−2 s−1). Incorporating leaf age corrections of photosynthetic physiology is needed when
+estimating hemp primary production.
+Keywords: leaf longevity; leaf position; photosynthetic capacity; self-shading
+1. Introduction
+Uniformity in leaf distribution throughout a canopy minimizes the spatial variability of the
+within−canopy solar radiation environment. Three-dimensional crown growth and development,
+however, changes the within-canopy architecture and light environment as new leaves develop
+and self-shade one another [ 1]. As canopies become denser, crown-to-crown competition among
+neighboring plants further increases the spatial and temporal crown light interception asymmetry [2,3].
+These heterogeneity eﬀects on the within-canopy light environment can accelerate leaf aging and
+subsequently decrease photosynthetic performance [ 3–6]. As a result, the distinction between
+age-related physiological deterioration versus light-gradient-related physiological acclimation to lower
+light intensities within a canopy is not always clear. Nonetheless, each are important for understanding
+the carbon budget of whole crowns.
+Leaves develop from cell proliferation at apical meristems. As stem growth progresses, a natural
+leaf age chronosequence develops, followed by variations in photosynthetic capacity and eﬃciency [7].
+Deciphering the eﬀects of leaf longevity on photosynthetic capacity and eﬃciency within a crown is
+complicated by environmental factors (e.g., light acclimation) as well as sink eﬀects that can correlate
+with decreases in photosynthetic productivity. Consequently, to evaluate the quantitative importance
+of optimal leaf longevity on whole-crown primary production, the contributions of leaves throughout
+the crown have to be considered (e.g., [3,6,8]).
+Plants 2020, 9, 271; doi:10.3390/plants9020271 www.mdpi.com /journal/plants
+[PAGE 2]
+Plants 2020, 9, 271 2 of 14
+Relative to the leaf development chronosequence of a plant crown, hemp stems develop leaves
+symmetrically along a space–time continuum (isotropic growth). For that reason, an actively growing
+non-stressed vegetative hemp crown provides a good system for investigating leaf age eﬀects because
+it can be described by a single crown scalar that encompasses three-dimensional crown growth and
+development (e.g., [9]). Hemp crown growth and development thus provide a straightforward model
+system to determine the impact of leaf age and position eﬀects on long-term carbon gain in canopies.
+Repeated measurements on the same leaves and leaves across various ages and crown positions are
+the most common means to investigate a photosynthetic capacity versus leaf longevity relationship [7].
+In the absence of environmental stress, the quantum yield of photosynthesis (φCO2), or moles
+of photons absorbed that are converted to moles of CO 2 ﬁxed, is similar among C3 species [10–12].
+For example, a φCO2 mean value of 0.093 was reported among widely divergent plant species [12].
+Conversely, environmental stress such as oversaturating light can result in photoinhibition and
+subsequent reductions in photosynthetic eﬃciency and capacity [13]. To encompass the eﬀects of leaf
+age, supraoptimal light, and extended photoperiod on photosynthetic function, we considered all
+three throughout the crown. Such leaf photosynthetic parameter information would be needed in leaf
+models estimating continuous seasonal ﬂuctuations in carbon uptake.
+We investigated the rate of decline of φCO2 and photosynthetic capacity for hemp leaves well
+in advance of abscission. The aim of this study was to investigate the changes in leaf gas exchange
+throughout the vegetative stage in Cannabis sativa ‘cherry wine’ crowns at three crown positions. We
+hypothesized that the age of a leaf from the time of full expansion could be used to predict φCO2 and
+photosynthetic capacity characteristics of hemp leaves when additional environmental stresses are
+absent (e.g., light availability, substrate nutrition, and water resources). If conﬁrmed, leaf age after full
+expansion could be developed into a metric to inform canopy management decisions. For example,
+removal of older leaves throughout the crop cycle may enhance canopy CO2 uptake and ultimately
+crop yield. Thus, we characterized the age-related decline in φCO2 and photosynthetic capacity and
+developed leaf-age-based prediction models that will be used in a later paper to construct a carbon
+assimilation and utilization budget for hemp crowns.
+2. Results
+Figure 1 shows the decrease in maximum net photosynthesis (Amax), φCO2, and leaf light saturation
+(Ls) with leaf age for hemp. For all leaves, the highest photosynthetic activity was observed immediately
+after full leaf expansion and showed a steady decline as leaf age progressed (Figure 1). Compared
+to a C 3 φCO2 mean of 0.093, the estimated hemp maximum φCO2 was comparable (logarithmic
+estimated y-intercept of ~0.091; Figure 1a). Using φCO2 as a biological reference, we therefore ﬁtted
+Equation (3) to photosynthetic parameters Amax, Ls, maximum electron transport rate (Jmax), maximum
+Rubisco carboxylation rate (V cmax), CO2 compensation point (Γc), and triose phosphate utilization
+(TPU). In addition, a decline in leaf dark respiration (Rd) was observed; however, the Rd relationship
+with leaf age was best described by a simple log-transformed linear function (Figure 2). In contrast,
+the light response compensation point (Qc) stayed comparatively constant throughout the study period
+(Figure 3). For A max, φCO2, and L s, we observed a 10%–20% greater estimated maximum value
+compared with the observed maximum mean value (estimated y-intercept, Figure 1). Compared with
+the maximum estimated y-intercept value, Amax and Rd decreased by 50% and 75% after approximately
+9 and 28 days (Figures 1 and 2). Similarly, Ls and φCO2 decreased by 50% and 75% after approximately
+8 and 22 days. Although photosynthetic capacity declined steadily after leaf full expansion, we note
+that the compensatory metabolic activity of Rd decreased.
+[PAGE 3]
+Plants 2020, 9, 271 3 of 14
+Plants 2020, 9, x FOR PEER REVIEW 3 of 14 
+ 
+ 
+Figure 1. The quantum yield ( ϕCO2), maximum photosynthesis (A max), and leaf light saturation (L s) 
+of hemp leaves as a function of leaf age. Binned averages per three-day collection sequence (means ± 
+SE) of measured changes in ( a) ϕCO2, (b) Amax, and ( c) Ls versus leaf age. Sa mples were pooled for 
+treatments and crown position, and sample size in bins is indicated by bubble diameter (n = 3–18 for 
+ϕCO2, Amax, and Ls). Solid lines are logarithmic regression curves fitted to the entire data set. 
+Figure 1. The quantum yield (φCO2), maximum photosynthesis (Amax), and leaf light saturation (Ls)
+of hemp leaves as a function of leaf age. Binned averages per three-day collection sequence (means±
+SE) of measured changes in (a) φCO2, (b) Amax, and (c) Ls versus leaf age. Samples were pooled for
+treatments and crown position, and sample size in bins is indicated by bubble diameter (n = 3–18 for
+φCO2, Amax, and Ls). Solid lines are logarithmic regression curves ﬁtted to the entire data set.
+Plants 2020, 9, x FOR PEER REVIEW 4 of 14 
+ 
+ 
+Figure 2. The leaf respiration rate (R d) of hemp leaves as a function of leaf age. The log base of leaf 
+age and leaf age (primary and secondary x-axis, respectively). Binne d averages per three-day 
+collection sequence (means ± SE), where samples were pooled for treatments and crown position, and 
+sample size in bins is indicated by the bubble diameter (n = 3–18 for Rd). Solid line is a linear regression 
+fitted to the entire data set. 
+ 
+Figure 3. The light compensation point (Qc) of hemp leaves as a function of leaf age. Cuvette O 2 was 
+atmospheric ambient (~21%) and temperature was controlled at 25 °C. Binned averages per three-day 
+collection sequence (means ± SE), where samples were pooled for treatments and crown position, and 
+sample size in bins is indicated by the bubble diameter (n = 3–18 for Qc). Solid line is a linear regression 
+fitted to the entire data set. 
+Vcmax, Jmax, Γc, and TPU also decreased as leaf age progressed (Figure 4a–d). Table 1 shows the 
+significance of correlations among variables that were  expected to vary with leaf age for the pooled 
+data. Leaf spectral index (LSI), an indicator of leaf chlorophyll and nitrogen per unit leaf area, did not 
+show a significant change with leaf age (Table 1). For the majority of the study, LSI readings remained 
+Figure 2. The leaf respiration rate (Rd) of hemp leaves as a function of leaf age. The log base of leaf age
+and leaf age (primary and secondary x-axis, respectively). Binned averages per three-day collection
+sequence (means± SE), where samples were pooled for treatments and crown position, and sample
+size in bins is indicated by the bubble diameter (n = 3–18 for Rd). Solid line is a linear regression ﬁtted
+to the entire data set.
+[PAGE 4]
+Plants 2020, 9, 271 4 of 14
+Plants 2020, 9, x FOR PEER REVIEW 4 of 14 
+ 
+ 
+Figure 2. The leaf respiration rate (R d) of hemp leaves as a function of leaf age. The log base of leaf 
+age and leaf age (primary and secondary x-axis, respectively). Binne d averages per three-day 
+collection sequence (means ± SE), where samples were pooled for treatments and crown position, and 
+sample size in bins is indicated by the bubble diameter (n = 3–18 for Rd). Solid line is a linear regression 
+fitted to the entire data set. 
+ 
+Figure 3. The light compensation point (Qc) of hemp leaves as a function of leaf age. Cuvette O 2 was 
+atmospheric ambient (~21%) and temperature was controlled at 25 °C. Binned averages per three-day 
+collection sequence (means ± SE), where samples were pooled for treatments and crown position, and 
+sample size in bins is indicated by the bubble diameter (n = 3–18 for Qc). Solid line is a linear regression 
+fitted to the entire data set. 
+Vcmax, Jmax, Γc, and TPU also decreased as leaf age progressed (Figure 4a–d). Table 1 shows the 
+significance of correlations among variables that were  expected to vary with leaf age for the pooled 
+data. Leaf spectral index (LSI), an indicator of leaf chlorophyll and nitrogen per unit leaf area, did not 
+show a significant change with leaf age (Table 1). For the majority of the study, LSI readings remained 
+Figure 3. The light compensation point (Qc) of hemp leaves as a function of leaf age. Cuvette O2 was
+atmospheric ambient (~21%) and temperature was controlled at 25◦C. Binned averages per three-day
+collection sequence (means± SE), where samples were pooled for treatments and crown position, and
+sample size in bins is indicated by the bubble diameter (n= 3–18 for Qc). Solid line is a linear regression
+ﬁtted to the entire data set.
+Vcmax, Jmax, Γc, and TPU also decreased as leaf age progressed (Figure 4a–d). Table 1 shows the
+signiﬁcance of correlations among variables that were expected to vary with leaf age for the pooled
+data. Leaf spectral index (LSI), an indicator of leaf chlorophyll and nitrogen per unit leaf area, did not
+show a signiﬁcant change with leaf age (Table 1). For the majority of the study, LSI readings remained
+high and constant after full leaf expansion. Even though other photosynthetic parameters declined
+precipitously, LSI showed only a small decline (~6%) over the course of 42 days (Figure 4e). We
+note, however, that although LSI did not deteriorate appreciably during the study period, LSI values
+decreased abruptly 7–10 days after physiological measurements commenced (~50 days after leaf full
+expansion). For V cmax, Jmax, Γc, and TPU, we observed a 10%–20% greater estimated maximum value
+compared with the observed maximum value (cf. y-intercept and maximum measured mean, Figure 4).
+In comparison with the estimated maximum y-intercept value, Vcmax and Jmax decreased by 50% and
+75% after approximately 9 and 28 days (Figure 4a,b). Similarly, Γc increased and TPU decreased by
+50% after approximately 19 and 21 days (Figure 4c,d).
+Table 1. Pearson’s correlation coeﬃcients (r) and signiﬁcance levels (p) for correlated variables. Samples
+were pooled for treatments and crown position. Leaf respiration rate (R d), quantum yield ( φCO2),
+maximum photosynthesis (Amax), leaf light saturation (Ls), light compensation point (Qc), maximum
+electron transport rate (Jmax), maximum Rubisco carboxylation rate (Vcmax), triose phosphate utilization
+(TPU), CO2 compensation point (Γc), and leaf spectral index (LSI, a proxy for leaf nitrogen content,
+chlorophyll a + b concentration, and greenness characteristics) versus leaf age. Total number of leaves
+= 27.
+Correlated Variable r p
+Rd vs. Age 0.95 <0.00000
+Amax vs. Age 0.96 <0.00000
+Ls vs. Age 0.95 <0.00000
+φCO2 vs. Age 0.94 <0.00000
+Qc vs. Age 0.04 0.60
+LSI vs. Age 0.57 0.07
+Jmax vs. Age 0.96 <0.00000
+Vcmax vs. Age 0.96 <0.00000
+TPU vs. Age 0.93 0.00003
+Γc vs. Age 0.66 0.03
+[PAGE 5]
+Plants 2020, 9, 271 5 of 14
+Plants 2020, 9, x FOR PEER REVIEW 6 of 14 
+ 
+ 
+Figure 4. Maximum electron transport rate (Jmax), maximum Rubisco carboxylation rate (Vcmax), triose 
+phosphate utilization (TPU), CO2 compensation point (Γc), and leaf spectral index (LSI) of hemp leaves as 
+a function of leaf age. Binned averages per three-day collection sequence (means ± SE), where samples were 
+pooled for treatments and crown position. Measured changes in (a) Jmax, (b) Vcmax, (c) TPU, (d) Γc, and (e) 
+LSI (a proxy for leaf nitrogen content, chlorophyll a + b concentration, and greenness characteristics). 
+Sample size in bins indicated by bubble diameter (n = 3–18 for J
+max, Vcmax, TPU, Γc, and LSI). Solid lines are 
+logarithmic (panels a–d) and linear (panel e) regressions fitted to the entire data set. 
+Figure 4. Maximum electron transport rate (Jmax), maximum Rubisco carboxylation rate (Vcmax), triose
+phosphate utilization (TPU), CO2 compensation point (Γc), and leaf spectral index (LSI) of hemp leaves
+as a function of leaf age. Binned averages per three-day collection sequence (means ± SE), where
+samples were pooled for treatments and crown position. Measured changes in ( a) Jmax, (b) Vcmax,
+(c) TPU, (d) Γc, and (e) LSI (a proxy for leaf nitrogen content, chlorophyll a + b concentration, and
+greenness characteristics). Sample size in bins indicated by bubble diameter (n = 3–18 for Jmax, Vcmax,
+TPU, Γc, and LSI). Solid lines are logarithmic (panels a–d) and linear (panel e) regressions ﬁtted to the
+entire data set.
+[PAGE 6]
+Plants 2020, 9, 271 6 of 14
+It is probable that high light intensity lowers values of Vcmax and Jmax. For example, the excess
+illumination at a light intensity of 1500 µmol photons m−2 s−1 versus 500 µmol photons m−2 s−1
+could induce photoinhibition. To evaluate supraoptimal light e ﬀects on our parameter estimates,
+we performed net photosynthesis (An) versus [CO2] (An/Ci) analysis on leaves under two disparate
+light intensities (500 versus 1500 µmol photons m−2 s−1), representing light intensities separated
+by approximately 50% of the sun’s intensity at the earth’s surface. Although both light intensities
+were either close to (500 µmol photons m−2 s−1) or in excess (1500 µmol photons m−2 s−1) of hemp’s
+Ls (Figure 1c), we showed that approximately 1000 µmol photons m−2 s−1 of additional light did
+not result in appreciable decreases in Vcmax and Jmax for leaves younger than 14 days old (Figure 5).
+After a leaf age≥20 days, an approximate 10% or greater decrease in J max occurred at 1500 versus
+500 µmol photons m−2 s−1 (Figure 5a). In contrast, V cmax did not show signs of a decrease due to
+excess irradiance (Figure 5b). We noted a slightly lower Vcmax and Jmax was observed at 500 versus
+1500 µmol photons m−2 s−1 up to a leaf age of ~20 days.
+Plants 2020, 9, x FOR PEER REVIEW 7 of 14 
+ 
+ 
+Figure 5. Percent change of photosynthetic physiology to photon flux of 1500 versus 500 μmol m−2 s−1. 
+(a) Percent change of 500 relative to 1500 μmol m−2 s−1 maximum electron transport rate (Jmax) and (b) 
+percent change of 500 relative to 1500 μmol m−2 s−1 maximum Rubisco carboxylation rate (Vcmax). Solid 
+lines are linear regressions fitted to the entire data set. 
+ 
+Figure 6. Maximum photosynthesis (Amax) at crown layer 3 (the lowest crown position) of hemp leaves 
+as a function of leaf age. Binne d averages per three-day collection  sequence (means ± SE), where 
+samples were pooled for treatments and crown position. Sample size in bins indicated by bubble 
+diameter (n = 3–18 for A
+max). Solid line is a logarithmic regression curve fitted to the leaf age data set. 
+  
+Figure 5. Percent change of photosynthetic physiology to photon ﬂux of 1500 versus 500 µmol m−2 s−1.
+(a) Percent change of 500 relative to 1500 µmol m−2 s−1 maximum electron transport rate (Jmax) and
+(b) percent change of 500 relative to 1500 µmol m−2 s−1 maximum Rubisco carboxylation rate (Vcmax).
+Solid lines are linear regressions ﬁtted to the entire data set.
+Apart from our meristem measurements not encompassing the very earliest leaf growth stage
+due to inadequate leaf expansion for the gas exchange chamber, a decline in physiological activity
+was generally observed among Amax, φCO2, Vcmax, Rd, Jmax, and TPU photosynthetic parameters as
+leaves aged. In addition, leaves of various ages at crown layer 3 (the lowest crown position) showed
+a similar Amax response as those among crown positions and treatments (cf. Figures 1b and 6). Other
+than the linear log-transformed correlation of leaf age with Rd (Figure 2) and the relatively constant
+LSI and Qc, a logarithmic nontransformed relationship best characterized the correlation between
+the photosynthetic variable and leaf age (r = 0.66–0.96; Table 1). Table 2 shows the number of days
+after full leaf expansion for a decrease or increase (−, +) of 50% and 75% from the maximum mean
+[PAGE 7]
+Plants 2020, 9, 271 7 of 14
+physiological parameter value. Table 3 illustrates the logarithmic regression equations for the rate of
+change over time between leaf age and the physiological parameters.
+Plants 2020, 9, x FOR PEER REVIEW 7 of 14 
+ 
+ 
+Figure 5. Percent change of photosynthetic physiology to photon flux of 1500 versus 500 μmol m−2 s−1. 
+(a) Percent change of 500 relative to 1500 μmol m−2 s−1 maximum electron transport rate (Jmax) and (b) 
+percent change of 500 relative to 1500 μmol m−2 s−1 maximum Rubisco carboxylation rate (Vcmax). Solid 
+lines are linear regressions fitted to the entire data set. 
+ 
+Figure 6. Maximum photosynthesis (Amax) at crown layer 3 (the lowest crown position) of hemp leaves 
+as a function of leaf age. Binne d averages per three-day collection  sequence (means ± SE), where 
+samples were pooled for treatments and crown position. Sample size in bins indicated by bubble 
+diameter (n = 3–18 for A
+max). Solid line is a logarithmic regression curve fitted to the leaf age data set. 
+  
+Figure 6. Maximum photosynthesis (Amax) at crown layer 3 (the lowest crown position) of hemp leaves
+as a function of leaf age. Binned averages per three-day collection sequence (means ± SE), where
+samples were pooled for treatments and crown position. Sample size in bins indicated by bubble
+diameter (n = 3–18 for Amax). Solid line is a logarithmic regression curve ﬁtted to the leaf age data set.
+Table 2. Days after full leaf expansion when an estimated decrease or increase ( −, +) of 50% and
+75% from the maximum mean physiological parameter value occurred. Samples were pooled for
+treatments and crown position, and estimates were calculated with either a linear (*) or logarithmic (†)
+equation. Leaf respiration rate (R d), quantum yield (φCO2), maximum photosynthesis (Amax), leaf
+light saturation (Ls), light compensation point (Qc), maximum electron transport rate (Jmax), maximum
+Rubisco carboxylation rate (Vcmax), triose phosphate utilization (TPU), CO2 compensation point (Γc),
+and leaf spectral index (LSI, a proxy for leaf nitrogen content, chlorophyll a + b concentration, and
+greenness characteristics) versus leaf age. Total number of leaves = 27.
+Parameter ( −, +) 50% 75% Equation Type
+Amax − 9 25 †
+Ls − 8 20 †
+φCO2 − 8 22 †
+Rd − 9 25 *
+Qc − >100 >100 *
+Jmax − 9 27 †
+Vcmax − 9 28 †
+TPU − 21 93 †
+Γc + 19 24 †
+LSI − >100 >100 *
+[PAGE 8]
+Plants 2020, 9, 271 8 of 14
+Table 3. Rate of change over time logarithmic and /or linear regression equations between leaf age
+and physiological parameters. Samples were pooled for treatments and crown position and ﬁtted
+with either a linear (*) or logarithmic (†) equation. Leaf respiration rate (Rd), quantum yield (φCO2),
+maximum photosynthesis (Amax), leaf light saturation (Ls), light compensation point (Qc), maximum
+electron transport rate (Jmax), maximum Rubisco carboxylation rate (Vcmax), triose phosphate utilization
+(TPU), CO2 compensation point (Γc), and leaf spectral index (LSI, a proxy for leaf nitrogen content,
+chlorophyll a + b concentration, and greenness characteristics) versus leaf age. Total number of leaves
+= 27.
+Parameter r2 Slope*ln(x) +y-Intercept Equation Type
+Rd 0.91 0.68 * −2.898 *
+Amax 0.92 −6.419 27.471 †
+Ls 0.89 −145.9 588.31 †
+φCO2 0.91 −0.022 0.091 †
+Qc 0.04 −0.456 * 11.001 *
+LSI 0.32 −0.152 * 49.334 *
+Jmax 0.93 −61.47 269.8 †
+Vcmax 0.92 −19.65 87.833 †
+TPU 0.93 −2.312 13.956 †
+Γc 0.63 3.546 67.292 †
+3. Discussion
+The present study investigated the e ﬀect of leaf age on the gas exchange of hemp in order to
+understand the inﬂuences on leaf photosynthesis and underlying physiological traits. After the age
+of full leaf expansion, the photosynthetic capacity of leaves under diﬀerent light treatments showed
+similar decreasing patterns of gas exchange in relation to their age (cf. Figures 1 and 3). There was no
+evidence that photoperiod or enriched diﬀuse light modiﬁed the gas exchange pattern. This indicates
+that younger leaves have a higher capacity to accumulate photosynthate [3]. The proportion of young
+leaves in high light is therefore of critical importance to canopy photosynthesis [14].
+Other gas exchange experiments using data collected from leaves at various ages have also
+implicated leaf age as a major contributing factor to photosynthetic capacity. Our results add to this
+growing evidence that photosynthetic capacity declines as leaves age after full expansion [5,15–19].
+The age-related decrease in photosynthetic capacity may be partly caused by decreased mesophyll
+conductance and stomatal limitation [ 20,21], although the concurrent decrease in R d along with
+photosynthetic capacity in hemp appears to support the hypothesis that leaf age directly aﬀects leaf
+biochemical properties.
+The data show evidence of young canopy leaves with a higher A max that falls in conjunction
+with increased leaf age (Figure 6). We calculated how the An/Ci parameters behaved under high light
+compared to those from curves generated at approximately 50% lower irradiance. We observed that in
+leaves≥20 days old, Jmax decreased approximately 10% when exposed to1500 µmol photons m−2 s−1 as
+compared with 500 µmol photons m−2 s−1. This suggests that a simple downregulation function based
+on leaf age might serve as an easily measured index of leaf photosynthetic capacity. An index would
+have practical applications in research on hemp carbon ﬁxation and be applicable in leaf-to-canopy
+upscaling schemes. For example, by mapping the distribution of leaf age throughout a crown, the
+whole-canopy performance may be compared among canopies comprised of diﬀerent age leaves [22,23].
+The challenge when modeling the time course of carbon ﬂuxes would be to identify architectural
+properties that positively impact the total canopy CO2 uptake [24].
+Identiﬁcation of optimal canopy architectural features for potential photosynthetic improvements
+could focus breeding eﬀorts of genetically modiﬁable leaf traits [25,26]. It could also be used to study
+the inﬂuence of canopy architecture on canopy photosynthesis. Although it may be convenient to use
+LSI as a proxy for chlorophyll in some species due to the ability to sense it via remote satellite reﬂectance,
+our results suggest this approach would not be accurate for tracking changes in photosynthetic capacity
+[PAGE 9]
+Plants 2020, 9, 271 9 of 14
+in well-fertilized hemp. Additional research is needed to determine speciﬁc changes in leaf N and
+chlorophyll relative to LSI if remote sensing is to be used to estimate changes in photosynthetic capacity
+and performance.
+Measured responses of A max for hemp leaves at various ages on the lowest crown position
+(the position that oﬀered the largest lateral gradient in leaf ages) resulted in a similar leaf-age-related
+response as compared to the logarithmic rate of decrease that was observed across crown positions
+(cf. Figures 1b and 6). Due to leaf age decreasing photosynthetic activity, we can discern strategies
+for dealing with the leaf age eﬀects, for instance, restricting substantial levels of irradiance to the top
+layers by closing the canopy to protect the lower layers and to ensure a high degree of light saturation
+for the upper layers.
+Increases in photosynthetic capacity are frequently observed in new leaves that are building
+physiological and structural capacity. Once leaves are fully expanded, photosynthetic capacity declines
+linearly with leaf age in many plant species despite favorable growing conditions [27,28]. We found
+a logarithmic function provided the best ﬁt to our data, together with a physiological justiﬁcation:
+the estimated φCO2 y-intercept of 0.091 was comparable to the C3 mean of 0.093 [12]. Consistent with
+some crown level studies, we found the eﬀect of leaf age to vary temporally but not spatially within the
+crown, where decreases in Amax, for example, have been found to be related to a leaf age reduction in
+Vcmax (e.g., [20,21]). When two variables are correlated, there may or may not be a causative connection,
+and this connection may be indirect. Our correlational results demonstrate that leaf age can predict
+photosynthetic capacity in hemp (Table 1). Studies to ascertain the underlying mechanism by which
+leaf age aﬀects photosynthetic capacity, such as investigations of hemp cell half-life, should be a priority
+for future research.
+In conclusion, we measured a progressive decline in Vcmax and Jmax in hemp during the vegetative
+stage, supporting the need for age-related downscaling of these parameters. Overall, our results
+indicate that leaf age is an important temporal factor in hemp crowns. Our logarithmic modeling
+approach signiﬁcantly simpliﬁes the description of crown photosynthetic parameters as well as
+approximates the photosynthetic capacity of hemp leaves at various stages of ontogeny. From a canopy
+management view, our correlation models of leaf-age-related physiological deterioration simplify the
+description of age eﬀects on hemp photosynthetic activity by permitting temporal scalars to modify
+photosynthetic parameters when predicting hemp crown productivity. This makes it possible to extract
+canopy gas exchange estimates that would otherwise be expensive and labor intensive to measure in
+the ﬁeld. The next step is to incorporate leaf model parameterizations into a canopy-scale gas exchange
+model to eﬀectively extrapolate the leaf-scale results to a whole canopy.
+4. Materials and Methods
+A preliminary study was conducted solely to understand hemp crown development and
+morphology at the Colorado State University Horticulture Center in Fort Collins, CO, USA. Thirty
+seed-based, two-week-old plugs of Cannabis sativa ‘cherry wine’ were transplanted into 11 L bato
+buckets ﬁlled with horticulture perlite. Treatments consisted of two independent 1.5× 2.5 m plots of
+15 equally spaced plants: one under natural light and the other under natural light plus an extended
+photoperiod with supplemental light ( +450 µmol m−2 s−1 photosynthetic photon ﬂux (PPF) via
+high-pressure sodium lamps (600 W Xtrasun, Hydrofarm Inc. Petaluma, CA, USA)). To ensure
+adequate nutrients and water, Peters’ Excel Cal-Mag (15-5-15) was applied twice daily at a strength of
+200 ppm N through microemitter irrigation (360◦ substrate surface drip rings). All plants were allowed
+to acclimate for 14 days prior to crown morphology sampling.
+We sampled total plant height (HT), stem diameter (SD), stem length, and three-dimensional
+crown size (x, y, and z directions, in meters) on all plants six times over the course of the growing cycle
+to assess isotropic growth characteristics. Immediately after each of the six morphology measurement
+intervals, leaf area was estimated by a destructive harvest on a randomly selected plant per treatment.
+The crowns were equally subdivided into three vertical sections and all leaves per sector were removed
+[PAGE 10]
+Plants 2020, 9, 271 10 of 14
+and measured for total area (LiCor 3100, Lincoln, NE, USA). Fresh and dry weights were determined
+separately for leaves and stems, and dry mass was determined after being oven-dried at 70 ◦C for
+approximately 3–5 days.
+After the preliminary study, which allowed us to gain an understanding of the chronosequence
+of leaf development throughout a hemp crown, we conducted leaf gas exchange measurements on
+new and independent plant material from 7 August 2019 to 1 October 2019 at the Colorado State
+University Horticulture Center. Sixty feminized seeds of Cannabis sativa ‘cherry wine’ were sown
+on 11 July 2019 and transplanted into 5 × 7.5 cm rock wool cubes on 25 July 2019. On 31 July
+2019, plants were transplanted into 11 L bato buckets and growing methods were as described in the
+preliminary experiment. Thirty replicate plants were randomly transferred to either a natural (n= 15) or
+extended photoperiod with supplemental light (n= 15) treatment. The extended photoperiod treatment
+maintained day length at 18 h; photoperiod varied in the natural treatment as day length changed. An
+additional 30 plants were transferred into an enriched diﬀuse light environment where reﬂective white
+plastic covered the ﬂoor surface and crown–crown competition among neighboring plants was minimal
+(crown–crown spacing was>3× of the extended and natural photoperiod treatments). The diﬀuse light
+enrichment was approximately 150% at the lowermost crown periphery (height above ground level
+~0.4 m) (LiCor 189, 191R, Lincoln, NE, USA) and the photoperiod varied as in the natural treatment.
+4.1. Leaf Gas Exchange and Light Absorption Measurements
+To examine the age-related photosynthetic capacity characteristics, three replicate plants per
+treatment located in the center of the plot were sampled for changes in leaf gas exchange traits.
+The south-facing second node branchlet leaf of the ﬁfth main stem node from the substrate surface
+was tagged and repeatedly measured. Initially, the crown position encompassed the topmost fully
+expanded sunlit leaves and leaf age was deﬁned as the days immediately after full leaf expansion. Due
+to isometric indeterminate growth during the vegetative phase of the growth cycle, the 10th and 15th
+node branchlets were added once the crown developed fully expanded leaves at the respective crown
+positions; that is, the crown was ultimately divided into three strata (the upper, middle, and bottom
+third of the live crown). Due to successive leaf production in hemp, this sampling regime facilitated the
+sequential addition of the middle and bottom crown positions at approximately 3 and 6 weeks into the
+study, together with repeated measurements of the same individual leaves. Periodically, measurements
+of leaves with contrasting ages and positions within a branch took place on a given sampling day.
+Gas exchange was repeatedly measured at each canopy position on fully expanded leaves of three
+replicate plants per treatment using a portable gas exchange system (CIRAS-2, PP Systems, Haverhill,
+MA, USA) ﬁtted with a light- and environmentally controlled cuvette (Model PLC (U), PP Systems).
+The measurements were performed at a controlled leaf temperature of 25◦C and vapor pressure deﬁcit
+(VPD) of 1.2 kPa.
+Response curves of net photosynthesis (An) versus [CO2] (An/Ci) and photosynthetically active
+radiation (Qp) (An/Qp) were repeatedly run on three plants per treatment at three canopy positions.
+For the A n/Ci curves, leaves were acclimated in the chamber for 5–10 min until A n was stable at
+a controlled CO 2 concentration (415 µmol mol−1) and light level (1500 µmol m−2 s−1). The CO 2
+response curve was constructed at CO 2 levels of 415, 300, 200, 150, 100, 50, 25, 450, 500, 800, 1000,
+1500, and 415 µmol CO2 mol−1. After the completion of the A n/Ci curve, CO 2 concentration was
+kept constant at 415 µmol mol−1 and Qp was sequentially lowered from 1500 to 1200, 1000, 800, 600,
+400, 200, 175, 150, 125, 100, 80, 60, 40, 25, 20, and 0 µmol m−2 s−1. Due to the time consumption of
+generating a An/Qp and An/Ci curve per leaf and the continuous addition of new leaves as canopy
+positions developed, the younger leaf sample size ended up being larger than that of older leaves.
+Immediately after gas exchange, ﬁve replicate light absorptance samples were recorded at that leaf
+with a SPAD meter and averaged (model 502B, Minolta Inc., Ramsey, NJ, USA). The SPAD values were
+used to correct φa to φ as described in [29] and to track the changes in the LSI [30–32]. After the initial
+three measurement periods at node 5, we started to observe downregulation of leaf light saturation.
+[PAGE 11]
+Plants 2020, 9, 271 11 of 14
+Thus, measurement periods 4–11 subsequently added an additional An/Ci response curve generated at
+500 µmol m−2 s−1 Qp to cover the eﬀects of excess light on photosynthetic function.
+4.2. Photosynthetically Active Radiation Measurements
+Two line quantum sensors (model LI191R, Li-Cor Inc., Lincoln, NE, USA) were placed parallel
+to the north/south row orientation adjacent to the plant stems. A third line sensor was placed 0.5 m
+above the canopy. The line sensors sampled PAR every minute and then recorded a 15 min average
+(CR10x; Campbell Scientiﬁc, Logan, UT, USA).
+4.3. A n/Ci Curve Fitting
+The model of Farquhar et al. [33] was used to estimate the maximum Rubisco carboxylation rate
+(Vcmax) and maximum rate of electron transport for RuBP regeneration (Jmax) under saturating light.
+The An/Ci data were analyzed as per the default ﬁtting method “ﬁtaci” function of the “plantecophys”
+package [34] according to Wullschelger [35]:
+An = (1− 0.5/τCi)× min (Vc, Wj, Tp)− RL (1)
+where the minimum of any of the three factors—Rubisco activity (V c), RuBP regeneration (W j),
+and regeneration of inorganic phosphate (T p)—can limit CO 2 assimilation. Tau ( τ) represents the
+speciﬁcity factor for Rubisco [36]. Respiration in the light (R L), comprising mainly of processes other
+than photorespiration, refers to the release of CO2 in the light [37]. The CO 2 compensation point (Γc)
+was estimated from the intersection of the regression line with the x-axis. Equation (1) was ﬁtted
+separately for An/Ci curves at 1500 and 500 µmol m−2 s−1.
+4.4. A n/Qp Curve Fitting
+Photosynthesis versus Q p data were ﬁt to the nonrectangular hyperbola model of Parsons et
+al. [38] using least-squares regression:
+An = φa Qp + Amax−√(φa Qp + Amax)2− 4 φa Qp ø Amax /2− Rd (2)
+where A max is the light-saturated net photosynthetic rate, φa is the apparent quantum yield of
+assimilation, ø is the convexity of the curve, and R d is the respiration rate. The parameter φa was
+calculated by linear regression analysis on the initial slope from 20 to 125 µmol m−2 s−1 to exclude
+the Kok e ﬀect region (≤20 µmol m−2 s−1) [39] and prevent φa underestimation from data in the
+nonlinear region (≥125 µmol m−2 s−1) [40]. The light compensation point (Q c) was estimated from
+the intersection of the regression line with the x-axis (An = 0), and Rd was measured at the end of the
+An/Qp curve. Quantum yield for CO2 (φCO2) was derived from φa by correcting φa for the percentage
+leaf absorptance of Qp as described in Bauerle et al. [29]. Equation (2) was ﬁtted separately for the
+independent An/Qp curves.
+4.5. Parameterizations of Leaf Photosynthetic Longevity
+The functional form of the rate of change in Amax, φCO2, Ls, Jmax, Vcmax, Γc, and TPU with leaf
+age can be expressed in the following leaf-age-based logarithmic scalar function (e.g., φCO2):
+φCO2 = aln(La) + b (3)
+where a and b are the ﬁt constants of the logarithmic (ln) least-squares regressions between the rate of
+change for Amax, φCO2, Ls, Jmax, Vcmax, Γc, and TPU and leaf age (La), respectively. From a causal view,
+the form of Equation (3) introduces biological function by allowing each physiological parameter to
+achieve its theoretical maximum at the time of full leaf expansion. The model was validated for φCO2
+[PAGE 12]
+Plants 2020, 9, 271 12 of 14
+via the known requirement of 8 mol of photons to reduce 1 mol of CO2 where the theoretical maximum
+φCO2 = 0.125. Due to cyclic photophosphorylation, 0.125 is then reduced to ~0.112 and further
+reduced to ~0.092 by means of CO2 released through photorespiration measured at atmospheric O2
+levels [10,12,40]. A φCO2 of ~0.092 would then decrease further due to a deterioration in physiological
+function [12].
+4.6. Statistical Analysis
+The gas exchange experiment was designed to allow us to discriminate between eﬀects due to
+leaf age, eﬀects due to crown position, and any subsequent interactions due to light environment
+(e.g., enriched diﬀuse light). The total sample size for An/Qp and An/Ci curves was 27 leaves (n = 9
+under ambient, n = 9 under +450 µmol m−2 s−1 PPF supplemental light, and n = 9 under enriched
+diﬀuse radiation). Of the nine leaves per treatment, n = 3 replicate leaves were at each of three
+crown positions per treatment. Leaves ranged in age from 1 to 42 days. The curve parameters were
+evaluated at three-day age interval ranges. A one-way ANOVA with the least signiﬁcant diﬀerence at
+a signiﬁcance level ofp > 0.05 was used to assess photosynthetic parameters among treatment factors
+per three-day interval and was found to not be signiﬁcantly diﬀerent among treatments and crown
+positions. Samples were pooled among treatments and crown positions and subsequently binned
+to build a general leaf age eﬀect equation per photosynthetic parameter. Logarithmic least-squares
+and linear regression was ﬁtted between photosynthetic parameters and leaf age, treating age as
+a continuous variable. In addition, we investigated exponential, polynomial, and power correlation
+analysis to assess the strength of the coeﬃcient of determination (r2). For leaf ages beyond day 17, there
+was not a balanced design at every measurement interval due to the time consumption of generating
+an An/Qp and two An/Ci curves per leaf; so after day 17, we used a one-way ANOVA with replicate
+and treatment, nesting replicate within treatment.
+Author Contributions: Conceptualization, W.L.B. and M.H.; methodology, W.L.B., M.H., M.I., and C.M.; software,
+W.L.B. and M.H.; formal analysis, W.L.B.; investigation, M.I. and C. M.; resources, W.L.B. and M. H.; data curation,
+W.L.B., M.H., M.I., and C.M.; writing—original draft preparation, W.L.B.; writing—review and editing, W.L.B.,
+M.H., M.I., and C.M.; supervision, W.L.B.; project administration, W.L.B.; funding acquisition, W.L.B. and M.H.
+All authors have read and agreed to the published version of the manuscript.
+Funding: This research received no external funding.
+Acknowledgments: The authors acknowledge Northern Colorado Hemp Consultants, LLC for donating
+plant material.
+Conﬂicts of Interest: The authors declare no conﬂict of interest.
+References
+1. Burgess, A.J.; Retkute, R.; Herman, T.; Murchie, E.H. Exploring relationships between canopy architecture,
+light distribution, and photosynthesis in contrasting rice genotypes using 3D canopy reconstruction. Front.
+Plant Sci. 2017, 8, 734. [CrossRef] [PubMed]
+2. Gspaltl, M.; Bauerle, W.L.; Binkley, D.; Sterba, H. Leaf area and light use eﬃciency patterns of Norway spruce
+under diﬀerent thinning regimes and age classes. For. Ecol. Manag. 2013, 288, 49–59. [CrossRef] [PubMed]
+3. Bielczynski, L.W.; Lacki, M.K.; Hoefnagels, I.; Gambin, A.; Crocea, R. Leaf and plant age aﬀects photosynthetic
+performance and photoprotective capacity. Plant Physiol. 2017, 175, 1634–1648. [CrossRef]
+4. Hikosaka, K.; Terashima, I.; Katoh, S. Eﬀects of leaf age, nitrogen nutrition and photon ﬂux density on the
+distribution of nitrogen among leaves of a vine (Ipomoea tricolor Cav.) grown horizontally to avoid mutual
+shading of leaves. Oecologia 1994, 97, 451–457. [CrossRef]
+5. Wright, I.J.; Michell, A.C.; Leishman, R.; Cassia, A.; Read, A.B.; Westoby, M. Gradients of light availability
+and leaf traits with leaf age and canopy position in 28 Australian shrubs and trees. Funct. Plant Biol. 2006, 33,
+407–419. [CrossRef]
+[PAGE 13]
+Plants 2020, 9, 271 13 of 14
+6. Han, Q.; Kawasaki, T.; Nakano, T.; Chiba, Y. Leaf-age e ﬀects on seasonal variability in photosynthetic
+parameters and its relationships with leaf mass per area and leaf nitrogen concentration within a Pinus
+densiﬂora crown. Tree Physiol. 2008, 28, 551–558. [CrossRef] [PubMed]
+7. Kitajima, A.; Mulkey, S.S.; Samaniego, M.; Wright, S.J. Decline of photosynthetic capacity with leaf age and
+position in two tropical pioneer tree species. Am. J. Bot. 2002, 89, 1925–1932. [CrossRef]
+8. Werner, C.; Ryel, R.J.; Correia, O.; Beyschlag, W. E ﬀects of photoinhibition on whole-plant carbon gain
+assessed with a photosynthesis model. Plant Cell Environ. 2001, 24, 27–40. [CrossRef]
+9. Whitewoods, C.D.; Coen, E. Growth and development of three-dimensional plant form. Curr. Biol. 2017, 27,
+R910–R918. [CrossRef]
+10. Ehleringer, J.; Björkman, O. Quantum yields for CO2 uptake in C3 and C4 plants. Plant Physiol. 1977, 59,
+86–90. [CrossRef]
+11. Osborne, B.; Garrett, M. Quantum yields for CO2 uptake in some diploid and tetraploid plant species. Plant
+Cell Environ. 1983, 6, 135–144. [CrossRef]
+12. Long, S.P .; Postl, W.F.; Bolhár Nordenkampf, H.R. Quantum yields for uptake of carbon dioxide in C 3
+vascular plants of contrasting habitats and taxonomic groupings. Planta 1993, 189, 226–234. [CrossRef]
+13. Long, S.P .; Humphries, S.; Falkowski, P .G. Photoinhibition of photosynthesis in nature.Annu. Rev. Plant
+Physiol. Plant Mol. Biol. 1994, 45, 633–662. [CrossRef]
+14. Long, S.P .; Zhu, X.G.; Naidu, S.I.; Ort, D.R. Can improvement in photosynthesis increase crop yields?Plant
+Cell Environ. 2006, 29, 315–330. [CrossRef]
+15. Evans, J.R. Nitrogen and photosynthesis in the ﬂag leaf of wheat (Triticum aestivum L.). Plant Physiol. 1983,
+72, 297–302. [CrossRef]
+16. Osmond, C.B.; Förster, B. Photoinhibition: Then and now. In Photoprotection, Photoinhibition, Gene Regulation
+and Environment—Advances in Photosynthesis and Respiration; Demmig-Adams, B., Adams, W.W., Mattoo, A.K.,
+Eds.; Springer: Dordrecht, The Netherlands, 2008; Volume 21, pp. 11–22. [CrossRef]
+17. Raven, J.A. Flight or ﬂight: The economics of repair and avoidance of photoinhibition of photosynthesis.
+Funct. Ecol. 1989, 3, 5–19. [CrossRef]
+18. Kitajima, A.; Mulkey, S.S.; Wright, S.J. Decline of photosynthetic capacity with leaf age in relation to leaf
+longevities for ﬁve tropical canopy tree species. Am. J. Bot. 1997, 85, 702–708. [CrossRef]
+19. Wilson, K.B.; Baldocchi, D.D.; Hanson, P .J. Leaf age aﬀects the seasonal pattern of photosynthetic capacity
+and net ecosystem exchange of carbon in a deciduous forest. Plant Cell Environ. 2001, 24, 571–583. [CrossRef]
+20. Niinemets, Ü.; Cescatti, A.; Rodeghiero, M.; Tosens, T. Complex adjustments of photosynthetic potentials
+and internal diﬀusion conductance to current and previous light availabilities and leaf age in Mediterranean
+evergreen species. Plant Cell Environ. 2006, 29, 1159–1178. [CrossRef]
+21. Warren, C. Why does photosynthesis decrease with needle age in Pinus pinaster? Trees 2006, 20, 157–164.
+[CrossRef]
+22. Bondada, B.R.; Oosterhuis, D.M. Decline in photosynthesis as related to alterations in chloroplast
+ultrastructure of a cotton leaf during ontogeny. Photosynthetica 1998, 35, 467–471. [CrossRef]
+23. Song, Q.; Zhang, G.; Zhu, X.-G. Optimal crop canopy architecture to maximize canopy photosynthetic CO2
+uptake under elevated CO 2—A theoretical study using a mechanistic model of canopy photosynthesis.
+Funct. Plant Biol. 2013, 40, 109–124. [CrossRef]
+24. Miner, G.S.; Bauerle, W.L. Seasonal responses of photosynthetic parameters in maize and sunﬂower and
+their relationship with leaf functional traits. Plant Cell Environ. 2019, 42, 1561–1574. [CrossRef]
+25. Parry, M.A.J.; Reynolds, M.; Salvucci, M.E.; Raines, C.; Andralojc, P .J.; Zhu, X.G.; Rice, G.D.; Condon, A.G.;
+Furbank, R.T. Raising yield potential of wheat. II. Increasing photosynthetic capacity and eﬃciency. J. Exp.
+Bot. 2011, 62, 453–467. [CrossRef]
+26. Flexas, J.; Carriquí, M. Photosynthesis and photosynthetic eﬃciencies along the terrestrial plant’s phylogeny:
+Lessons for improving crop photosynthesis. Plant J. 2019. [CrossRef]
+27. Witkowski, E.T.F.; Lamont, B.B.; Walton, C.S.; Radford, S. Leaf demography, sclerophylla and ecophysiology
+of two Banksias with contrasting leaf life spans. Aust. J. Bot. 1992, 40, 849–862. [CrossRef]
+28. Ackerly, D.D.; Bazzaz, F.A. Leaf dynamics, self-shading and carbon gain in seedlings of a tropical pioneer
+tree. Oecologia 1995, 101, 289–298. [CrossRef] [PubMed]
+[PAGE 14]
+Plants 2020, 9, 271 14 of 14
+29. Bauerle, W.L.; Weston, D.J.; Bowden, J.D.; Dudley, J.B.; Toler, J.E. Leaf absorptance of photosynthetically
+active radiation in relation to chlorophyll meter estimates among woody plant species. Sci. Hort. 2004, 101,
+169–178. [CrossRef]
+30. Peñuelas, J.; Filella, I. Visible and near-infrared reﬂectance techniques for diagnosing plant physiological
+status. Trends Plant Sci. 1998, 3, 151–156. [CrossRef]
+31. Richardson, A.D.; Duigan, S.P .; Berlyn, G.P . An evaluation of noninvasive methods to estimate foliar
+chlorophyll content. New Phytol. 2002, 153, 185–194. [CrossRef]
+32. Bauerle, W.L.; Oren, R.; Way, D.A.; Qian, S.S.; Stoy, P .C.; Thornton, P .E.; Bowden, J.D.; Ho ﬀman, F.M.;
+Reynolds, R.F. Photoperiodic regulation of the seasonal pattern of photosynthetic capacity and the implications
+for carbon cycling. Proc. Nat. Acad. Sci. USA 2012, 22, 8612–8617. [CrossRef] [PubMed]
+33. Farquhar, G.D.; von Caemmerer, S.; Berry, J.A. A biochemical model of photosynthetic CO2 assimilation in
+leaves of C3 species. Planta 1980, 149, 78–90. [CrossRef] [PubMed]
+34. Duursma, R.A. Plantecophys—An R package for analyzing and modelling leaf gas exchange data. PLoS
+ONE 2015, 10, e0143346. [CrossRef] [PubMed]
+35. Wullschleger, S.D. Biochemical limitations of carbon assimilation in C3 plants—A retrospective analysis of
+the A/Ci curves of 109 species. J. Exp. Bot. 1993, 44, 907–920. [CrossRef]
+36. Jordan, D.B.; Ogren, W.L. The CO 2/O2 speciﬁcity of ribulose 1,5-bisphosphate concentration, pH and
+temperature. Planta 1984, 161, 308–313. [CrossRef]
+37. Brooks, A.; Farquhar, G.D. Eﬀects of temperature on the CO2/O2 speciﬁcity of ribulose 1,5-bisphosphate
+carboxylase/oxygenase and the rate of respiration in the light. Planta 1985, 165, 397–406. [CrossRef]
+38. Parsons, R.; Weyers, J.D.B.; Lawson, T.; Godber, I.M. Rapid and straightforward estimates of photosynthetic
+characteristics using a portable gas exchange system. Photosynthesis 1997, 34, 265–279. [CrossRef]
+39. Sharp, R.E.; Matthews, M.A.; Boyer, J.S. Kok eﬀect and the quantum yield of photosynthesis: Light partially
+inhibits dark respiration. Plant Physiol. 1984, 75, 95–101. [CrossRef]
+40. Singsaas, E.L.; Ort, D.R.; DeLucia, E.H. Variation in measured values of photosynthetic quantum yield in
+ecophysiological studies. Oecologia 2001, 128, 15–23. [CrossRef]
+© 2020 by the authors. Licensee MDPI, Basel, Switzerland. This article is an open access
+article distributed under the terms and conditions of the Creative Commons Attribution
+(CC BY) license (http://creativecommons.org/licenses/by/4.0/).

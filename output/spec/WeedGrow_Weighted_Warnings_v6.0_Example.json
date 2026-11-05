@@ -1,0 +1,1140 @@
+{
+  "input": {
+    "plant": {
+      "authorized": true,
+      "active": true,
+      "notDeleting": true,
+      "outdoor": true,
+      "pot": true,
+      "foliage": true,
+      "flowers": true,
+      "vulnerableEstablishment": false,
+      "potSolarExposed": true
+    },
+    "mode": "occurred",
+    "weatherSupport": true,
+    "hazardSupport": true,
+    "hours": [
+      {
+        "start": -72,
+        "end": -71,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -71,
+        "end": -70,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -70,
+        "end": -69,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -69,
+        "end": -68,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -68,
+        "end": -67,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -67,
+        "end": -66,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -66,
+        "end": -65,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -65,
+        "end": -64,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -64,
+        "end": -63,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -63,
+        "end": -62,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -62,
+        "end": -61,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -61,
+        "end": -60,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -60,
+        "end": -59,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -59,
+        "end": -58,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -58,
+        "end": -57,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -57,
+        "end": -56,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -56,
+        "end": -55,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -55,
+        "end": -54,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -54,
+        "end": -53,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -53,
+        "end": -52,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -52,
+        "end": -51,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -51,
+        "end": -50,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -50,
+        "end": -49,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -49,
+        "end": -48,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -48,
+        "end": -47,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -47,
+        "end": -46,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -46,
+        "end": -45,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -45,
+        "end": -44,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -44,
+        "end": -43,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -43,
+        "end": -42,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -42,
+        "end": -41,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -41,
+        "end": -40,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -40,
+        "end": -39,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -39,
+        "end": -38,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -38,
+        "end": -37,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -37,
+        "end": -36,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -36,
+        "end": -35,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -35,
+        "end": -34,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -34,
+        "end": -33,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -33,
+        "end": -32,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -32,
+        "end": -31,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -31,
+        "end": -30,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -30,
+        "end": -29,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -29,
+        "end": -28,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -28,
+        "end": -27,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -27,
+        "end": -26,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -26,
+        "end": -25,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -25,
+        "end": -24,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -24,
+        "end": -23,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -23,
+        "end": -22,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -22,
+        "end": -21,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -21,
+        "end": -20,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -20,
+        "end": -19,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -19,
+        "end": -18,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -18,
+        "end": -17,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -17,
+        "end": -16,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -16,
+        "end": -15,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -15,
+        "end": -14,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -14,
+        "end": -13,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -13,
+        "end": -12,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -12,
+        "end": -11,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -11,
+        "end": -10,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -10,
+        "end": -9,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -9,
+        "end": -8,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -8,
+        "end": -7,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -7,
+        "end": -6,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -6,
+        "end": -5,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -5,
+        "end": -4,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -4,
+        "end": -3,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -3,
+        "end": -2,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -2,
+        "end": -1,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      },
+      {
+        "start": -1,
+        "end": 0,
+        "T": 23,
+        "RH": 92,
+        "valid": true,
+        "nature": "occurred"
+      }
+    ],
+    "weather": {
+      "peakT": 29,
+      "minT": 18,
+      "heatDegreeHours": 0,
+      "coldDegreeHours": 0,
+      "gustMps": 8,
+      "windMps": 3,
+      "rainRate": 4,
+      "rain24h": 12,
+      "rain24hComplete": true,
+      "hazardFeedAssessed": true
+    },
+    "water": {
+      "supported": true,
+      "reconciled": true,
+      "margins": [
+        0.4,
+        0.9
+      ]
+    },
+    "root": {
+      "supported": true,
+      "excessAboveBound": false,
+      "pastNormalDrainWindow": false
+    },
+    "wetEvents": [
+      {
+        "valid": true,
+        "coverage": 1,
+        "meanWetT": 20,
+        "wetHours": 12,
+        "wetnessEvidence": "sensor",
+        "nature": "occurred"
+      }
+    ],
+    "context": {
+      "W10": {
+        "crowdingOrPoorAirflow": true,
+        "localHistory": false,
+        "verifiedSusceptibility": null
+      },
+      "W11": {
+        "denseFlowersOrSlowDrying": true,
+        "freshDamage": false,
+        "localHistory": false
+      }
+    },
+    "dampness": {
+      "assessed": true,
+      "supportedNightEpisode": true
+    },
+    "leafEpisode": {
+      "supported": true,
+      "dsvBand": [
+        2,
+        3
+      ],
+      "nature": "occurred"
+    }
+  },
+  "output": {
+    "W01": {
+      "id": "W01",
+      "state": "not_triggered",
+      "score": [
+        0.0,
+        0.0
+      ],
+      "parts": {
+        "intensity": [
+          0.0,
+          0.0
+        ],
+        "dose": [
+          0.0,
+          0.0
+        ]
+      },
+      "basis": "ENG intensity/dose index, not tissue damage",
+      "subtype": null,
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W02": {
+      "id": "W02",
+      "state": "not_triggered",
+      "score": [
+        0.0,
+        0.0
+      ],
+      "parts": {
+        "minimum": [
+          0.0,
+          0.0
+        ],
+        "dose": [
+          0.0,
+          0.0
+        ]
+      },
+      "basis": "ENG intensity/dose index, not tissue damage",
+      "subtype": "cold",
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W03": {
+      "id": "W03",
+      "state": "not_triggered",
+      "score": [
+        0.0,
+        0.0
+      ],
+      "parts": {
+        "gust": [
+          0.0,
+          0.0
+        ],
+        "sustained": [
+          0.0,
+          0.0
+        ]
+      },
+      "basis": "ENG intensity/dose index, not tissue damage",
+      "subtype": null,
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W04": {
+      "id": "W04",
+      "state": "not_triggered",
+      "score": [
+        8.055555555555555,
+        8.055555555555555
+      ],
+      "parts": {
+        "rate": [
+          0.1111111111111111,
+          0.1111111111111111
+        ],
+        "complete24hAmount": [
+          0.05,
+          0.05
+        ]
+      },
+      "basis": "ENG intensity/dose index, not tissue damage",
+      "subtype": null,
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W05": {
+      "id": "W05",
+      "state": "not_triggered",
+      "score": null,
+      "subtype": null,
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W06": {
+      "id": "W06",
+      "state": "not_due",
+      "score": null,
+      "reason": "joint reserve-minus-action-threshold margins",
+      "dailyMoistureCheckRequired": false,
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W07": {
+      "id": "W07",
+      "state": "not_triggered",
+      "score": null,
+      "basis": "abnormal active-root evidence, not normal moisture or humidity",
+      "labComparison": null,
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W08": {
+      "id": "W08",
+      "state": "not_triggered",
+      "score": null,
+      "family": "heat",
+      "dedupeWith": "W01",
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W09": {
+      "id": "W09",
+      "state": "dampness_context",
+      "score": null,
+      "basis": "proxy/direct fog; no measured leaf-wetness claim or root-water credit",
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W10": {
+      "id": "W10",
+      "state": "conditions_watch",
+      "score": [
+        81.46011505303724,
+        96.37761227196896
+      ],
+      "level": "strong_exposure",
+      "core": {
+        "band": [
+          94.94302150433893,
+          99.3084580799655
+        ],
+        "central": 97.60191880469428,
+        "coverage": 1.0,
+        "knownEquivalentHours": 44.76601524434732,
+        "knownEquivalentHoursLow": 44.76601524434732,
+        "unknownEquivalentHours": 0,
+        "model": "ENG kernel with cannabis compatibility evidence"
+      },
+      "context": [
+        50.0,
+        70.0
+      ],
+      "scoreUnits": "attention points; not percent disease",
+      "basis": "research prototype; thresholds/outer weights uncalibrated",
+      "symptomsUnassessed": true,
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": true,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W11": {
+      "id": "W11",
+      "state": "conditions_watch",
+      "score": [
+        80.75447905756594,
+        93.89085659468041
+      ],
+      "level": "strong_exposure",
+      "core": {
+        "band": [
+          98.22068436795136,
+          99.8787295496449
+        ],
+        "central": 99.35014533214085,
+        "coverage": 1.0,
+        "knownEquivalentHours": 40.28941371991256,
+        "knownEquivalentHoursLow": 40.28941371991256,
+        "unknownEquivalentHours": 0,
+        "model": "ENG kernel with cannabis compatibility evidence",
+        "wetEventProxyUsed": true
+      },
+      "context": [
+        40.0,
+        40.0
+      ],
+      "scoreUnits": "attention points; not percent disease",
+      "basis": "research prototype; thresholds/outer weights uncalibrated",
+      "symptomsUnassessed": true,
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": true,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W12": {
+      "id": "W12",
+      "state": "conditions_watch",
+      "score": [
+        35.0,
+        82.5
+      ],
+      "level": "attention",
+      "core": {
+        "band": [
+          50,
+          75
+        ],
+        "coverage": 1.0,
+        "model": "tomato DSV translated to wet-leaf attention comparator"
+      },
+      "context": [
+        0.0,
+        100.0
+      ],
+      "scoreUnits": "attention points; not percent disease",
+      "basis": "research prototype; thresholds/outer weights uncalibrated",
+      "symptomsUnassessed": true,
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W13": {
+      "id": "W13",
+      "state": "not_relevant",
+      "score": null,
+      "dedupeWith": "W07",
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    },
+    "W14": {
+      "id": "W14",
+      "state": "not_triggered",
+      "score": null,
+      "dedupeWith": "W07",
+      "cause": "unconfirmed",
+      "mode": "occurred",
+      "modelVersion": "6.0",
+      "productionEnabled": false,
+      "candidatePushEligible": false,
+      "deliveryRequiresEpisodeDeduplication": true
+    }
+  },
+  "deliverySimulation": {
+    "W01": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W02": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W03": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W04": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W05": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W06": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W07": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W08": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W09": {
+      "activeCard": true,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W10": {
+      "activeCard": true,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W11": {
+      "activeCard": true,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 1
+    },
+    "W12": {
+      "activeCard": true,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W13": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    },
+    "W14": {
+      "activeCard": false,
+      "candidatePush": false,
+      "productionPush": false,
+      "reason": "research-only delivery simulation",
+      "pastFlowerExposureCount": 0
+    }
+  },
+  "stateAfter": {
+    "W01": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_triggered"
+    },
+    "W02": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_triggered"
+    },
+    "W03": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_triggered"
+    },
+    "W04": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_triggered"
+    },
+    "W05": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_triggered"
+    },
+    "W06": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_due"
+    },
+    "W07": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_triggered"
+    },
+    "W08": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_triggered"
+    },
+    "W09": {
+      "active": true,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "dampness_context"
+    },
+    "W10": {
+      "active": true,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "conditions_watch"
+    },
+    "W11": {
+      "active": true,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [
+        {
+          "atH": 0,
+          "episode": "demo-humid-episode",
+          "claim": "conducive exposure, not infection"
+        }
+      ],
+      "currentAssessment": "conditions_watch"
+    },
+    "W12": {
+      "active": true,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "conditions_watch"
+    },
+    "W13": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_relevant"
+    },
+    "W14": {
+      "active": false,
+      "episode": "demo-humid-episode",
+      "lastPushH": null,
+      "flowerExposureHistory": [],
+      "currentAssessment": "not_triggered"
+    }
+  }
+}

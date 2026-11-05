@@ -1,0 +1,869 @@
+{
+  "version": "7.2",
+  "asOf": "2026-10-30",
+  "researchCheckedThrough": "2026-10-29",
+  "currentProductScope": "outdoor; basic setup + watering logs + automatic weather",
+  "supersedes": "v7.1 for algorithm design; v7.1 low-input constraints retained",
+  "routineUserAction": "log watering; amount optional",
+  "dailyMeasurementRequirements": [],
+  "acceptedProfileFields": [
+    "environment",
+    "plantedIn",
+    "potSize",
+    "growthStage",
+    "sunlightExposure",
+    "soilType",
+    "mediumChoice",
+    "soilRainReception",
+    "canopyRainReception",
+    "ageDays",
+    "ageKnown",
+    "ageRecordedAt",
+    "height"
+  ],
+  "acceptedRoutineLogFields": [
+    "type",
+    "timestamp",
+    "occurrencePrecision",
+    "calendarDay",
+    "timeZone",
+    "waterMl"
+  ],
+  "excludedResearchInputs": [
+    "leafTemperature",
+    "rootTemperature",
+    "leafVPD",
+    "PPFD",
+    "internalCO2",
+    "stomatalConductance",
+    "leafNitrogen",
+    "leafAgeDistribution",
+    "leafWetnessSensor",
+    "soilOxygen",
+    "measuredRootDepth",
+    "verifiedDiseaseResistance"
+  ],
+  "excludedBaseModels": [
+    "leaf-temperature estimation",
+    "leaf VPD",
+    "biochemical photosynthesis",
+    "measured-PAR/DLI-dependent decisions",
+    "native cultivar stomatal response lookup",
+    "grape actual-wetness equations",
+    "weather-only root oxygen/rot prediction"
+  ],
+  "weatherCapabilities": [
+    "scopedAirTemperature",
+    "scopedWind",
+    "scopedRainRate",
+    "completeRainAmount",
+    "pairedHourlyAir",
+    "occurredHourlyHistory",
+    "sourceHazardProduct",
+    "nearSaturatedNight",
+    "typedReferenceET0IfAvailable",
+    "radiationIfAvailable"
+  ],
+  "sources": {
+    "S01": {
+      "title": "UC IPM: Broome (1995) and Nair-Allen (1993) Botrytis models",
+      "url": "https://ipm.ucanr.edu/disease/database/grapebotrytis.html",
+      "scope": "Published grape berry polynomial and grape flower response parameters. Their native tissues and tested domains differ. Both are transferred exposure comparators here. The source fit statistic is not WeedGrow accuracy; their model-disagreement envelope is not a confidence interval."
+    },
+    "S02": {
+      "title": "Denton et al. (2025): South African cannabis water use",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12398160/",
+      "scope": "Full text and PDF reviewed. Field evapotranspiration and stage Kc values support a matching ground-water profile. Field ET includes soil/background evaporation; it cannot be converted into a universal pot dose."
+    },
+    "S03": {
+      "title": "Chandra et al. (2011): temperature response of cannabis genotypes",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3550580/",
+      "scope": "Seven genotypes had different photosynthetic temperature responses; optima spanned approximately 25-35 C. Gas-exchange response is not outdoor air-temperature injury probability. Supports cultivar uncertainty, not the proposed 32 C alert cutoff."
+    },
+    "S04": {
+      "title": "Seifi et al. (2025): cannabis powdery mildew resistance",
+      "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1543229/full",
+      "scope": "Full methods reviewed: inoculated plants were held at 23 C/80% RH for 48 hours, then 70% RH during continued growth and later scoring. Infection in this protocol contradicts an 85% RH necessary-condition screen; it does not identify a minimum humidity or a complete field response curve."
+    },
+    "S05": {
+      "title": "Buirs, Lung and Punja (2025): cannabis bud rot epidemiology",
+      "url": "https://www.tandfonline.com/doi/full/10.1080/07060661.2025.2478250",
+      "scope": "Publisher abstract and indexed methods reviewed; full PDF access unavailable. In a 49-day flowering cycle, inoculation timing affected disease, symptoms appeared later, and measured flower microclimate differed from ambient. Supports exposure history and local drying context; no universal outdoor flower correction or fitted WeedGrow weights."
+    },
+    "S06": {
+      "title": "Punja (2026): HLVd and cannabis fungal susceptibility",
+      "url": "https://www.tandfonline.com/doi/full/10.1080/07060661.2026.2649769",
+      "scope": "Publisher abstract/indexed methods reviewed; full PDF access unavailable. Cannabis PM development was reported under 21-25 C and 65% RH, with genotype-dependent effects associated with HLVd status. Do not infer HLVd from weather, apply an unmeasured multiplier, or treat a strain label as a resistance assay."
+    },
+    "S07": {
+      "title": "Cannabis germplasm field resistance to G. ambrosiae (2026)",
+      "url": "https://apsjournals.apsnet.org/doi/10.1094/PDIS-07-25-1591-RE",
+      "scope": "Publisher abstract and indexed discussion reviewed; full PDF access unavailable. New York field seasons show germplasm and phenology differences. Weather associations across two seasons do not identify independent weather coefficients. Supplementary and germplasm records are follow-up data sources, not downloaded training data in this work."
+    },
+    "S08": {
+      "title": "Kumar et al. (2026): short-term cannabis waterlogging, Crops 6(5):90",
+      "url": "https://www.mdpi.com/2673-7655/6/5/90",
+      "scope": "Peer-reviewed 25 September 2026 article, DOI 10.3390/crops6050090. Full public PDF reviewed; Tables 2 and 3 visually checked. Experiment 2 has five replicates/group, Ferimon 12, controlled inundation, early versus flower-initiation treatments and 3/6-day durations. This report fits four rounded group means; individual data were not obtained."
+    },
+    "S09": {
+      "title": "Kim et al. (2010): portability of leaf-wetness estimation",
+      "url": "https://www.esalq.usp.br/departamentos/leb/agmfacil/artigos/artigos_sentelhas_2010/2010-A%26FMeteor_140%287-8%29_871-880_LWD-Portability.pdf",
+      "scope": "Primary full paper reviewed. Weather-based wetness estimation is feasible but site/sensor dependent. Fuzzy-model mean absolute errors at painted-sensor sites ranged 1.1-4.0 hours/day; these are neither a confidence interval nor an error estimate for WeedGrow. The paper's complete fuzzy model is not implemented here."
+    },
+    "S10": {
+      "title": "Cornell NEWA: TOMCAST tomato disease model table",
+      "url": "https://bpb-us-e1.wpmucdn.com/blogs.cornell.edu/dist/1/8867/files/2019/08/draft-veg-tomato-diseases.pdf",
+      "scope": "Primary extension model documentation, including temperature/wetness DSV lookup. This prototype ports only the lookup as a general wet-leaf exposure comparator. It does not implement the full TOMCAST day, interruption/reset rules, spray program or cannabis pathogen validation."
+    },
+    "S11": {
+      "title": "FAO Irrigation and Drainage Paper 56: water balance",
+      "url": "https://www.fao.org/4/X0490E/x0490e0e.htm",
+      "scope": "Physical basis for root-zone storage, depletion and ET accounting. Application requires supported parameters, units, rooting domain and retained water inputs. Not a justification for fixed watering days from age or pot volume alone."
+    },
+    "S12": {
+      "title": "OpenWeather One Call 3.0 API documentation",
+      "url": "https://openweathermap.org/api/one-call-3",
+      "scope": "Provider field definitions, including units, rain intervals and alert structures. Endpoint, entitlement and raw hourly storage must be verified for the actual deployment. A current rain rate, daily forecast amount and precipitation probability are different inputs."
+    },
+    "S13": {
+      "title": "Oregon State University: the disease triangle",
+      "url": "https://horticulture.oregonstate.edu/nursery/nursery/disease-triangle",
+      "scope": "Disease requires a susceptible host, pathogen and suitable environment. A weather model observes only part of this process; favourable conditions are not a diagnosis."
+    },
+    "S14": {
+      "title": "Gonzalez-Dominguez et al. (2015): mechanistic grape Botrytis model",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0140444",
+      "scope": "A useful architecture example coupling weather, host phenology and inoculum. Reported epidemic classification was 17/21 apparent and 15/21 cross-validated, not evidence of 81% cannabis accuracy. Its numerous grape parameters cannot be silently transferred."
+    },
+    "S15": {
+      "title": "Virginia Tech: container plant/root system considerations",
+      "url": "https://ext.vt.edu/content/pubs_ext_vt_edu/en/SPES/spes-749.html",
+      "scope": "General container production context. Physical container volume and nominal substrate descriptions do not directly establish the young plant's active root-zone water reserve. General nursery guidance is contextual rather than cannabis-specific calibration."
+    },
+    "S16": {
+      "title": "Chandra et al. (2008): acute light x temperature; separate CO2 response",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3550641/",
+      "scope": "Abstract only. leaf gas exchange; chamber light/temperature combinations; CO2 tested separately. Photosynthesis and transpiration responded differently to combined heat and light. The abstract does not establish a full temperature x light x CO2 factorial response. Use joint exposure and separate carbon/water channels. No digitized response coefficients or outdoor optimum inferred."
+    },
+    "S17": {
+      "title": "Tang et al. (2017): hemp leaf nitrogen x temperature physiology",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1111/gcbb.12451",
+      "scope": "Publisher abstract and indexed results/methods; full PDF unavailable. hemp; leaf nitrogen, temperature and biochemical model. Photosynthetic capacity depended on leaf nitrogen and temperature; light-capture efficiency differed between growth environments. Useful model architecture and limits. No coefficient port from inaccessible tables; no fertilizer requirement inferred from weather."
+    },
+    "S18": {
+      "title": "Tang et al. (2018): whole-canopy water/nitrogen measurements and modelling",
+      "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2018.00951/full",
+      "scope": "Full PDF. Futura 75; canopy chambers, field/container experiments, nitrogen and water supply. Sunlit/shaded canopy modelling coupled photosynthesis, stomatal resistance and available water; canopy structure changed under sustained deficit. Prefer a coupled process model to multiplying independent weather percentages. Measured transpiration was an input to stress calculations; this does not prove weather-only prediction of unknown roots."
+    },
+    "S19": {
+      "title": "Sheldon et al. (2021): soil drying and VPD response across hemp cultivars",
+      "url": "https://doi.org/10.1080/15427528.2021.1883175",
+      "scope": "Full university-hosted PDF; Tables 1/2 visually checked. separate soil-drying and 32 C VPD trials; field comparison. Table rows contain heterogeneous soil-water breakpoints and both segmented and linear transpiration responses. Trial-to-field transfer was imperfect. Retain cultivar/profile uncertainty; no universal VPD or percent-moisture trigger. Preserve the paper's conflicting abstract/body counts instead of inventing prevalence."
+    },
+    "S20": {
+      "title": "Rodriguez-Morrison et al. (2021): leaf and whole-plant light responses",
+      "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2021.646020/full",
+      "scope": "Full PDF. CBD-dominant indoor cannabis; light gradient and leaf responses over flowering. Leaf photosynthetic responses varied with local light and developmental time and did not directly predict whole-plant light response. Keep leaf physiology, canopy interception and whole-plant outcomes separate. No universal damaging-light threshold from leaf saturation."
+    },
+    "S21": {
+      "title": "Bauerle et al. (2020): leaf age and crown position",
+      "url": "https://www.mdpi.com/2223-7747/9/2/271",
+      "scope": "Full PDF. Cherry Wine; 27 sampled leaves across light treatments/crown positions; ages 1-42 days. Photosynthetic capacity declined with leaf age after full expansion, including in leaves that remained green. Plant age is not leaf age. No age-based canopy multiplier without leaf distribution and transfer validation."
+    },
+    "S22": {
+      "title": "Mateva et al. (2024): genotype x water regime x light response",
+      "url": "https://www.frontiersin.org/journals/plant-physiology/articles/10.3389/fphgy.2024.1441262/full",
+      "scope": "Full PDF. three CBD-flower hemp genotypes; water treatments, light-response measurements and recovery. Water-regime/genotype responses differed in gas exchange and photoprotection. Source term 0% FC described the no-irrigation treatment. Water availability changes light response; recovery is a state, not immediate reset. Do not interpret the treatment label as literally measured zero root water."
+    },
+    "S23": {
+      "title": "Yuan et al. (2024): salt, drought and mycorrhizal combinations",
+      "url": "https://www.mdpi.com/2309-608X/10/4/283",
+      "scope": "Full PDF. hemp; salt/drought/inoculation; three replicate pots, two plants per pot. Combined stresses and inoculation effects were context-dependent. The treatment table includes selected salt-drought cells, not every possible salt x drought combination. Salinity can constrain water uptake in moist medium. Do not infer EC, colonization, a universal synergy multiplier or an untested full response surface."
+    },
+    "S24": {
+      "title": "Pena et al. (2025): genotype and drought physiology",
+      "url": "https://www.mdpi.com/2223-7747/14/24/3840",
+      "scope": "Full PDF. two contrasting cannabis clones; 32 plants total; genotype x water treatment. Both diffusional and non-diffusional limitations mattered. Most measured interactions were small; exceptions depended on endpoint. Moisture levels measured on different days were explicitly not directly comparable. Do not force every pair into a synergistic interaction or generalize THC/CBD labels into drought classes. Use same-time controls and endpoint-specific effects."
+    },
+    "S25": {
+      "title": "Corredor-Perilla et al. (2025): canopy humidity and plant development",
+      "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2025.1678142/full",
+      "scope": "Full PDF. one type-III genotype; 10 plants per RH treatment; manually modified chamber ventilation. Sustained high-humidity treatment was associated with altered development and lower biomass. Opening/sealing chambers also changed air exchange; harvest times differed. Supporting association, not an isolated RH coefficient. Independent chamber replication is not clearly established. Assumed leaf-temperature offsets cannot validate leaf VPD."
+    },
+    "S26": {
+      "title": "Kim et al. (2025): constant versus fluctuating cold exposure",
+      "url": "https://doi.org/10.1186/s42238-025-00311-w",
+      "scope": "Full PDF. one day-neutral inbred population; two runs; constant/fluctuating temperature treatments. Temperature, maturity and different plant endpoints did not have interchangeable responses. Constant and fluctuating schedules were explicitly compared. Retain day/night sequence, duration and stage. No frost survival threshold, universal base temperature or auto-flowering clock transferred from this trial."
+    },
+    "S27": {
+      "title": "Kim et al. (2025): light, RH and temperature in cannabis cuttings",
+      "url": "https://www.hst-j.org/articles/xml/O4qy/",
+      "scope": "Full publisher HTML. two Korean hemp cultivars; six cuttings/treatment; separate light, RH and temperature experiments. Rootless-cutting responses depended on cultivar and environment. Temperature experiment used a different substrate from the RH/light experiments. Rootless/establishing plants need their own scope. These were not a complete joint-factor response experiment; no adult-plant humidity target or adult root-temperature coefficient follows."
+    },
+    "S28": {
+      "title": "Pangle, Ali and Jenkins (2025): field hemp physiological capacity",
+      "url": "https://journal.wildlife.ca.gov/2025/12/29/hemp-physiological-response-to-seasonal-variation-in-photosynthetic-capacity-for-two-high-yield-cannabidiol-cbd-cultivars/",
+      "scope": "Full PDF; Table 1 visually checked. Boax and Cherry-Wine; 2019 field season; repeated gas exchange, light and CO2 curves. Published Vcmax/Jmax capacities declined later in the season. Stage, leaf age, nitrogen and season covaried; the site did not impose severe drought. Numerical priors for a tightly scoped research sandbox. Do not identify an independent stage coefficient or reproduce field rates using leaf-temperature assumptions."
+    },
+    "S29": {
+      "title": "Holweg et al. (2025): chronic air temperature x light in medical cannabis",
+      "url": "https://research.wur.nl/en/publications/high-air-temperature-reduces-plant-specialized-metabolite-yield-i/",
+      "scope": "University primary abstract; full PDF unavailable. two genotypes; three light levels; four cultivation cycles with two temperature regimes. Sustained temperature effects depended on genotype and endpoint. Acute leaf-photosynthesis findings did not supply a universal long-term optimum. Strong reason to keep endpoint and duration explicit. No extracted interaction coefficient, inflection temperature or claimed fully crossed randomized temperature design from the abstract."
+    },
+    "S30": {
+      "title": "Collado and Hernandez (2025): light history, stage and water use",
+      "url": "https://www.nature.com/articles/s41598-025-27437-4",
+      "scope": "Full PDF. Suver Haze; static/dynamic light histories, greenhouse sunlight, repeated leaf measurements. Instantaneous light and prior light exposure had different effects on transpiration. Whole-crop water use and water use per biomass were distinct endpoints. Track acclimation/history and canopy development. Reported crop-level regression is not a per-pot daily coefficient; water-use efficiency gains do not prove lower absolute plant water use."
+    },
+    "S31": {
+      "title": "Duursma (2015): plantecophys model architecture",
+      "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0143346",
+      "scope": "Primary methods paper. Coupled biochemical/stomatal/energy-balance modelling is a research option; it needs target parameters and independent validation. Not run as an R package in this work."
+    },
+    "S32": {
+      "title": "plantecophys author documentation: model and temperature conventions",
+      "url": "https://remkoduursma.r-universe.dev/plantecophys/doc/manual.html",
+      "scope": "Current primary software documentation checked. Gross limitation terms require respiration subtraction for net exchange; Ci differs from ambient CO2. TPU is not automatically temperature-corrected in fitaci. Generic temperature defaults and software versions must not silently replace a cannabis calibration."
+    },
+    "S33": {
+      "title": "Open-Meteo: weather/radiation/reference ET definitions",
+      "url": "https://open-meteo.com/en/docs",
+      "scope": "Official API documentation checked 29 October 2026. Interval-mean radiation, instantaneous values, reference grass ET0 and grid actual-land ET are distinct. These definitions support an optional adapter; no provider migration or live fetch is implemented here."
+    },
+    "S34": {
+      "title": "Angelaki et al. (2026). Integrating Hydraulic Properties into Irrigation Management of Industrial Hemp (Felina 32) Under Mediterranean Conditions",
+      "url": "https://www.mdpi.com/2073-4395/16/6/649",
+      "scope": "Full 23-page primary PDF reviewed; methods p3, Table1 p6 and threshold calculation. Two mineral soils; three plants/pot; final four pot replicates/cell; 2022 Greece experiment published 19 March 2026. Not potting-mix or individual-plant validation.",
+      "access": "full_primary_pdf",
+      "localResearchPDF": "tmp/research_v72/hydraulic_2026.pdf",
+      "sha256": "20277f7f7c99d51a9e43ef92c145af6b31a8e646127620fc757301edae5b6b52"
+    },
+    "S35": {
+      "title": "Duong et al. (2023). Variation in Hydric Response of Two Industrial Hemp Varieties to Induced Water Stress",
+      "url": "https://www.mdpi.com/2311-7524/9/4/431",
+      "scope": "Full 13-page primary PDF reviewed; methods p3-4, Table1 p8, Figure4 p9. Cherry and Wife; 11-L peat/perlite containers; four plants per variety/treatment. Water use normalized by leaf area is not a ground-depth irrigation dose.",
+      "access": "full_primary_pdf",
+      "localResearchPDF": "tmp/research_v72/hydric_2023.pdf",
+      "sha256": "bcc6e28ba9e08ec244ff985695e7cd3ab9ed4385bb8c8d42b93a6ea8cd42ea98"
+    },
+    "S36": {
+      "title": "Collado, Hwang and Hernandez (2024). Supplemental greenhouse lighting increased water use efficiency, crop growth and cutting production in Cannabis sativa",
+      "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2024.1371702/full",
+      "scope": "Full 15-page primary PDF reviewed; methods and Table3 p6. Suver Haze vegetative greenhouse crop; four light treatments, three plot replicates/treatment; 21-day crop totals. Improved WUE does not imply lower absolute water use.",
+      "access": "full_primary_pdf",
+      "localResearchPDF": "tmp/research_v72/water_use_light_2024.pdf",
+      "sha256": "87cf753deeebfd0ec355e35cd7ba217c68d032578bd4094783a54cb33a35e70f"
+    },
+    "S37": {
+      "title": "Crispim Massuela et al. (2026). Less water, same buds: moderate drought as a water-saving strategy for indoor cannabis",
+      "url": "https://www.frontiersin.org/journals/plant-science/articles/10.3389/fpls.2026.1930650/full",
+      "scope": "Full 15-page primary PDF reviewed; methods p3-5 and outcome tables. Published 3 September 2026; two high-CBD genotypes, 88 plants, 4.5-L peat pots, three table replicates with harvest/treatment allocations. Indoor flowering deficit experiment, not an outdoor default schedule.",
+      "access": "full_primary_pdf",
+      "localResearchPDF": "tmp/research_v72/drought_2026.pdf",
+      "sha256": "482335a9febff3be324c11c8b319de5fb656c1b166cb2788219d955cb7c645a1"
+    },
+    "S38": {
+      "title": "Akinrinlola and Hansen (2023). Efficacy of Organic Fungicides Against Hemp Powdery Mildew Caused by Golovinomyces ambrosiae in a Greenhouse in Tennessee",
+      "url": "https://apsjournals.apsnet.org/doi/10.1094/PDIS-09-22-2094-RE",
+      "scope": "Primary publisher-indexed methods/results reviewed; direct full-page request returned 403. Bibliography cross-checked in PubMed PMID36471461. Treatment trial with susceptible cultivars and inoculum; mean RH51/48%, temperatures17-26/20-27C. Not a controlled humidity dose-response.",
+      "access": "primary_indexed_methods_results_direct_full_page_403"
+    }
+  },
+  "newSources": [
+    "S34",
+    "S35",
+    "S36",
+    "S37",
+    "S38"
+  ],
+  "parameters": [
+    {
+      "id": "P01",
+      "name": "Air VPD relation constants",
+      "value": [
+        0.6108,
+        17.27,
+        237.3
+      ],
+      "units": "kPa and Celsius",
+      "origin": "PUB_PHYSICAL",
+      "sources": [
+        "S11"
+      ],
+      "appUse": "compute_air_only",
+      "limit": "Paired air values. Not leaf VPD or actual transpiration."
+    },
+    {
+      "id": "P02",
+      "name": "South African stage Kc",
+      "value": [
+        0.7,
+        0.75,
+        0.77,
+        0.66
+      ],
+      "units": "dimensionless",
+      "origin": "PUB_SITE_ESTIMATES",
+      "sources": [
+        "S02"
+      ],
+      "appUse": "research_prior_matching_ground",
+      "limit": "Initial/development/mid/mature; site-scale ET includes soil/background. Not pot L/day or universal stage mapping."
+    },
+    {
+      "id": "P03",
+      "name": "CL/SCL field capacity",
+      "value": [
+        0.32,
+        0.26
+      ],
+      "units": "m3/m3",
+      "origin": "PUB_MEASURED",
+      "sources": [
+        "S34"
+      ],
+      "appUse": "research_profile_example_only",
+      "limit": "Two particular mineral soils, not every clay/sandy soil or commercial mix."
+    },
+    {
+      "id": "P04",
+      "name": "CL/SCL permanent wilting point",
+      "value": [
+        0.12,
+        0.1
+      ],
+      "units": "m3/m3",
+      "origin": "PUB_MEASURED",
+      "sources": [
+        "S34"
+      ],
+      "appUse": "research_profile_example_only",
+      "limit": "Laboratory/soil-specific quantities; users are not asked for them."
+    },
+    {
+      "id": "P05",
+      "name": "Study maximum allowable depletion",
+      "value": 0.6,
+      "units": "fraction of available water",
+      "origin": "PUB_AUTHOR_SELECTED",
+      "sources": [
+        "S34"
+      ],
+      "appUse": "not_production_default",
+      "limit": "Chosen by authors from hydraulic properties, not an estimated universal cannabis stress threshold."
+    },
+    {
+      "id": "P06",
+      "name": "Study CL/SCL critical water content",
+      "value": [
+        0.2,
+        0.164
+      ],
+      "units": "m3/m3",
+      "origin": "DER_FROM_P03_P04_P05",
+      "sources": [
+        "S34"
+      ],
+      "appUse": "reproducibility_example",
+      "limit": "Matches paper; soil-specific design thresholds, not app sensor inputs."
+    },
+    {
+      "id": "P07",
+      "name": "Derived CL/SCL 10-L available storage",
+      "value": [
+        2,
+        1.6
+      ],
+      "units": "L",
+      "origin": "DER",
+      "sources": [
+        "S34"
+      ],
+      "appUse": "illustration_only",
+      "limit": "Uses actual filled10L, not20L nominal container. Assumes full stated volume root-accessible for calculation."
+    },
+    {
+      "id": "P08",
+      "name": "Derived CL/SCL depletion allowance and remaining action reserve",
+      "value": {
+        "depletion": [
+          1.2,
+          0.96
+        ],
+        "remaining_action_reserve": [
+          0.8,
+          0.64
+        ]
+      },
+      "units": "L",
+      "origin": "DER",
+      "sources": [
+        "S34"
+      ],
+      "appUse": "illustration_only",
+      "limit": "Depletion=C*p; remaining action reserve=C*(1-p). Not a watering dose per plant; three plants shared each study pot."
+    },
+    {
+      "id": "P09",
+      "name": "Greenhouse light-treatment crop ET totals",
+      "value": [
+        39.8,
+        70.6
+      ],
+      "units": "L/m2 per21days",
+      "origin": "PUB_MEASURED",
+      "sources": [
+        "S36"
+      ],
+      "appUse": "direction_and_validation_constraint",
+      "limit": "Higher light increased total water loss while improving WUE; not outdoor sun-category multipliers."
+    },
+    {
+      "id": "P10",
+      "name": "Native PM trial mean RH",
+      "value": [
+        51,
+        48
+      ],
+      "units": "%",
+      "origin": "PUB_REPORTED_MEANS",
+      "sources": [
+        "S38"
+      ],
+      "appUse": "remove_high_mean_RH_necessary_gate",
+      "limit": "Means do not describe hourly extremes or establish a causal RH curve."
+    },
+    {
+      "id": "P11",
+      "name": "Native PM trial temperature ranges",
+      "value": [
+        [
+          17,
+          26
+        ],
+        [
+          20,
+          27
+        ]
+      ],
+      "units": "C",
+      "origin": "PUB_REPORTED_TRIAL_CONDITIONS",
+      "sources": [
+        "S38"
+      ],
+      "appUse": "evidence_context_only",
+      "limit": "Not measured minimum/optimum/maximum infection temperatures."
+    },
+    {
+      "id": "P12",
+      "name": "Native PM inoculation protocol",
+      "value": [
+        23,
+        80,
+        48
+      ],
+      "units": "C; %RH; hours",
+      "origin": "PUB_PROTOCOL",
+      "sources": [
+        "S04"
+      ],
+      "appUse": "evidence_context_only",
+      "limit": "23C80%RH48h protocol followed by70%RH; not a necessary threshold or48h risk model."
+    },
+    {
+      "id": "P13",
+      "name": "Indoor control water status range",
+      "value": [
+        60,
+        80
+      ],
+      "units": "%container_capacity",
+      "origin": "PUB_PROTOCOL",
+      "sources": [
+        "S37"
+      ],
+      "appUse": "exclude_outdoor_default",
+      "limit": "Sensor/gravimetric controlled indoor peat experiment. Not VWC60-80%."
+    },
+    {
+      "id": "P14",
+      "name": "Water conversion",
+      "value": 1,
+      "units": "L per(mm*m2)",
+      "origin": "DER_DIMENSIONAL",
+      "sources": [],
+      "appUse": "compute_volume_when_geometry_supported",
+      "limit": "Effective catchment and delivered fraction still uncertain."
+    },
+    {
+      "id": "P15",
+      "name": "Initial heat screen",
+      "value": 32,
+      "units": "C air",
+      "origin": "ENG_LEGACY",
+      "sources": [
+        "S03"
+      ],
+      "appUse": "pilot_weather_attention_only",
+      "limit": "Not measured leaf injury onset or optimum; no injury probability."
+    },
+    {
+      "id": "P16",
+      "name": "Initial cold/possible frost/freezing screens",
+      "value": [
+        5,
+        2,
+        0
+      ],
+      "units": "C air",
+      "origin": "ENG_LEGACY",
+      "sources": [],
+      "appUse": "pilot_weather_attention_only",
+      "limit": "Context screens, no frost guarantee or measured plant tissue temperature."
+    },
+    {
+      "id": "P17",
+      "name": "Initial wind screens",
+      "value": [
+        15,
+        10
+      ],
+      "units": "m/s gust; mean",
+      "origin": "ENG_LEGACY",
+      "sources": [],
+      "appUse": "pilot_weather_attention_only",
+      "limit": "No measured cannabis breakage threshold; source alerts can operate independently."
+    },
+    {
+      "id": "P18",
+      "name": "Initial heavy-rain screens",
+      "value": [
+        10,
+        25
+      ],
+      "units": "mm/h; mm per complete24h",
+      "origin": "ENG_LEGACY",
+      "sources": [],
+      "appUse": "pilot_weather_attention_only",
+      "limit": "No universal pot saturation/flooding threshold."
+    },
+    {
+      "id": "P19",
+      "name": "Hourly update cadence",
+      "value": 1,
+      "units": "hour",
+      "origin": "ENG_DESIGN",
+      "sources": [],
+      "appUse": "scheduler_candidate",
+      "limit": "Recompute sooner on new event/source alert; not care accuracy evidence."
+    },
+    {
+      "id": "P20",
+      "name": "Container/ground profile loss, storage, refill and action parameters",
+      "value": null,
+      "units": "profile-dependent",
+      "origin": "CAL_REQUIRED",
+      "sources": [
+        "S11",
+        "S19",
+        "S34",
+        "S35"
+      ],
+      "appUse": "release_blocker_per_domain",
+      "limit": "Do not initialize them from a strain label, pot volume alone, or the engineering screens."
+    },
+    {
+      "id": "P21",
+      "name": "Disease response coefficients and alert cutoffs",
+      "value": null,
+      "units": "model-dependent",
+      "origin": "CAL_REQUIRED",
+      "sources": [
+        "S04",
+        "S05",
+        "S38"
+      ],
+      "appUse": "release_blocker_for_predictive_push",
+      "limit": "Ambient feature extraction works without coefficients; disease prediction does not."
+    }
+  ],
+  "waterDecision": {
+    "method": "supported correlated scenario trajectories; unanimity against profile-specific action reserve",
+    "states": [
+      "water",
+      "not_due",
+      "uncertain"
+    ],
+    "probabilityOutput": false,
+    "measuredMoistureOutput": false,
+    "requires": [
+      "validated_domain_profile",
+      "supported_initialization_or_state_range",
+      "time_ordered_supported_history"
+    ],
+    "noVolumeDefaultFullRefill": false,
+    "forecastRainCreditedBeforeOccurrence": false
+  },
+  "diseasePolicy": {
+    "output": "ambient conditions and preparation, not pathogen detection",
+    "temperatureHumidityPaired": true,
+    "pathogenAssumedObserved": false,
+    "predictivePushReleased": false,
+    "highRHRequiredForPM": false,
+    "weatherOnlyRootRotPrediction": false,
+    "autoLeafTemperatureOrWetness": false,
+    "legacyContextWeightsRenormalized": false
+  },
+  "gaps": [
+    {
+      "id": "G01",
+      "uncertainty": "Initial reserve and unknown watering amounts",
+      "investigation": "Instrumented reference pots; replay with log times only versus optional volumes. Report loss of useful decision coverage.",
+      "consequence": "Blocks binary water decisions when robust states disagree."
+    },
+    {
+      "id": "G02",
+      "uncertainty": "Effective storage/accessible roots per setup",
+      "investigation": "Measure representative filled volumes, rooting stages and medium retention in research cohort; infer ranges using base app inputs only.",
+      "consequence": "Separate pot/ground and establishment domains."
+    },
+    {
+      "id": "G03",
+      "uncertainty": "Actual plant loss versus weather ET0",
+      "investigation": "Lysimeter/weighing reference; fit setup-stage-size response and substrate evaporation separately; test outdoors.",
+      "consequence": "No universal Kc*pot-volume formula."
+    },
+    {
+      "id": "G04",
+      "uncertainty": "Rain delivery and drainage",
+      "investigation": "Co-located rain gauges and pot mass for exposed/sheltered setups, canopy stages and rain patterns.",
+      "consequence": "Rain reception is needed; partial is not50%."
+    },
+    {
+      "id": "G05",
+      "uncertainty": "Age/height/medium usefulness",
+      "investigation": "Ablate dated optional fields on held-out plants; check whether they reduce threshold-time error.",
+      "consequence": "Do not require them unless benefit and burden justify it."
+    },
+    {
+      "id": "G06",
+      "uncertainty": "Weather spatial error and missing history",
+      "investigation": "Compare API with reference stations/gauges across target regions; monitor provider-specific latency and revisions.",
+      "consequence": "Never fill unavailable rain/history with zeros."
+    },
+    {
+      "id": "G07",
+      "uncertainty": "PM native response and specificity",
+      "investigation": "Prospective weather-only cohort with independent disease confirmation and negative follow-up; compare a simple seasonal/scouting baseline.",
+      "consequence": "No reliable humidity-only gate or weather-only infection probability yet."
+    },
+    {
+      "id": "G08",
+      "uncertainty": "Bud-rot stage and ambient-to-bud transfer",
+      "investigation": "Flower-stage cohort with separately measured microclimate and verified outcomes; score using app-feasible inputs only.",
+      "consequence": "No fixed internal bud RH offset or borrowed grape thresholds."
+    },
+    {
+      "id": "G09",
+      "uncertainty": "Warning thresholds and notification burden",
+      "investigation": "Pilot ENG weather screens and factual conditions cards; measure actionable events, misses and repeated alerts.",
+      "consequence": "Keep predictive disease push disabled pending validation."
+    },
+    {
+      "id": "G10",
+      "uncertainty": "Supported soil and climate coverage",
+      "investigation": "Leave-medium, leave-region, leave-grower and future-season evaluation, including South African storm/wind regimes.",
+      "consequence": "Declare profile coverage; abstain outside it."
+    },
+    {
+      "id": "G11",
+      "uncertainty": "Water need versus recommended dose",
+      "investigation": "Separate retained-water estimation and drainage evaluation; log-only dose-free route must be tested.",
+      "consequence": "Do not convert a water-needed flag into unvalidated litres."
+    },
+    {
+      "id": "G12",
+      "uncertainty": "Advice effectiveness and disease prevention",
+      "investigation": "Prospective intervention evaluation with comparable controls and independent outcomes.",
+      "consequence": "Warning accuracy alone does not demonstrate prevention."
+    }
+  ],
+  "appAudit": [
+    {
+      "path": "firestoreModels.ts",
+      "sha256": "74d8f7285c17ab2ee22345590d3556d0a1034d52b65da0b80837257b0b2ca1c1"
+    },
+    {
+      "path": "lib/weather/fetchWeather.ts",
+      "sha256": "4fa7dd142bf3d7d9061d05ff38cdc27ed845eebc384a19f8d5c605c5cb0230cd"
+    },
+    {
+      "path": "lib/weather/weatherResponse.ts",
+      "sha256": "ecfa435518c330cee5be047539cbff89fecf709685c6aabb5529571c4110a843"
+    },
+    {
+      "path": "lib/weather/weatherMeasurements.ts",
+      "sha256": "baabb5886aca57d8673b43ef0f7fad5e11df6cccb602f71b37d4adbcc7e85ec5"
+    },
+    {
+      "path": "features/plants/form/plantSectionForm.ts",
+      "sha256": "5b8c417f2648461d28cacb6a362728a0b21aa8dcc2a48844e5a6678fe41ec4c5"
+    },
+    {
+      "path": "lib/suggestions/adviceInputs.ts",
+      "sha256": "8938b3a1e58da19600bd845eca2cf00ee781165bf98547b7f083783dc680b611"
+    },
+    {
+      "path": "lib/suggestions/wateringEngine.ts",
+      "sha256": "bb5b7bee77b655d521b827f2483038b188ec8ef8e49ba1eba8ec4bd584ca46d4"
+    },
+    {
+      "path": "features/plants/plantCare.ts",
+      "sha256": "912d6a2dca8e0136eca2a4c7dd47230e6983c2aac7e5fd952b73be9128d1e24a"
+    }
+  ],
+  "warnings": [
+    {
+      "id": "W01",
+      "name": "Heat",
+      "productDisposition": "Weather preparation",
+      "realisticBasis": "Air temperature and covered duration, current/forecast separated. No leaf-temperature input.",
+      "eligibility": "Supported local air temperature/duration OR explicit applicable source event",
+      "factorCombinationAndPriority": "Air/source evidence first; stage/pot only changes preparation wording",
+      "excludedInferences": "No leaf temperature, injury probability or optimum inferred",
+      "deliveryStatus": "ENG screen pilot; source adapter required for source route"
+    },
+    {
+      "id": "W02",
+      "name": "Cold/frost/freezing",
+      "productDisposition": "Weather preparation",
+      "realisticBasis": "Air minimum and source products; possible frost is a weather screen, not measured tissue ice.",
+      "eligibility": "Supported local minimum/duration OR applicable source frost/freeze event",
+      "factorCombinationAndPriority": "Air/source evidence first; known vulnerable stage affects advice",
+      "excludedInferences": "No tissue-temperature or no-frost guarantee",
+      "deliveryStatus": "ENG screens pilot; source route separately validated"
+    },
+    {
+      "id": "W03",
+      "name": "Wind",
+      "productDisposition": "Weather preparation",
+      "realisticBasis": "Wind/gust and optional source products; stage/pot affects practical wording.",
+      "eligibility": "Supported gust/mean wind OR applicable source event",
+      "factorCombinationAndPriority": "Intensity provides trigger; plant/pot context affects stabilization advice",
+      "excludedInferences": "No fixed breakage odds or disease ventilation discount",
+      "deliveryStatus": "ENG screens pilot; source route separately validated"
+    },
+    {
+      "id": "W04",
+      "name": "Heavy rain",
+      "productDisposition": "Weather preparation",
+      "realisticBasis": "Rate/complete amount; reception affects direct effects and retained-water estimate.",
+      "eligibility": "Supported rain rate/complete amount OR applicable source event",
+      "factorCombinationAndPriority": "Amount/rate plus direct reception; retained volume enters only through water model",
+      "excludedInferences": "No saturation/root-rot inference or rate-total substitution",
+      "deliveryStatus": "ENG screens pilot; source route separately validated"
+    },
+    {
+      "id": "W05",
+      "name": "Hail/severe",
+      "productDisposition": "Source-only, adapter needed",
+      "realisticBasis": "Explicit mapped source event. Current fetch excludes alerts; descriptions are not a validated alert adapter.",
+      "eligibility": "Explicit mapped hazard with source, location and validity",
+      "factorCombinationAndPriority": "Source event is prerequisite; severity retained from issuer",
+      "excludedInferences": "No hail from cloud text/UV; absent coverage is not all-clear",
+      "deliveryStatus": "Requires tested source adapter"
+    },
+    {
+      "id": "W06",
+      "name": "Watering",
+      "productDisposition": "Estimated care decision",
+      "realisticBasis": "Validated low-input profile and supported initial/input/history ranges; robust trajectory decision else uncertain.",
+      "eligibility": "Certified profile + supported state/history + coherent trajectories",
+      "factorCombinationAndPriority": "Remaining reserve versus profile action threshold; delivery and losses in physical units",
+      "excludedInferences": "No omitted-volume full refill, forecast-rain current credit or timer as moisture",
+      "deliveryStatus": "Per-domain validation required before binary decision"
+    },
+    {
+      "id": "W07",
+      "name": "Excess root water",
+      "productDisposition": "Optional problem review",
+      "realisticBasis": "No automated root-saturation/rot claim from ordinary weather and watering logs.",
+      "eligibility": "Optional user-initiated problem evidence",
+      "factorCombinationAndPriority": "Reported evidence leads; rain/watering may contextualize review",
+      "excludedInferences": "No weather-only root saturation or infection",
+      "deliveryStatus": "No automatic weather-only route"
+    },
+    {
+      "id": "W08",
+      "name": "Container heat",
+      "productDisposition": "Merge with heat card",
+      "realisticBasis": "Conditional container advice; no root-overheating score or measured pot-wall temperature.",
+      "eligibility": "Pot context + eligible heat preparation",
+      "factorCombinationAndPriority": "Conditional action merged into heat card",
+      "excludedInferences": "No root/pot-wall temperature score",
+      "deliveryStatus": "Merged context only"
+    },
+    {
+      "id": "W09",
+      "name": "Dew/dampness",
+      "productDisposition": "Merge as humidity context",
+      "realisticBasis": "Near-saturated night/weather context; no exact dew or leaf-wetness prediction.",
+      "eligibility": "Supported paired air/dew context and solar night",
+      "factorCombinationAndPriority": "Covered humidity exposure provides descriptive context",
+      "excludedInferences": "No measured condensation or leaf-wet-hours",
+      "deliveryStatus": "Merged context only"
+    },
+    {
+      "id": "W10",
+      "name": "Powdery mildew",
+      "productDisposition": "Ambient conditions card",
+      "realisticBasis": "Ambient paired T/RH history; no required high average RH or leaf wetness gate. No calibrated risk curve; predictive push unreleased.",
+      "eligibility": "Foliage relevance + supported paired ambient data",
+      "factorCombinationAndPriority": "Concurrent T/RH and duration; no mandatory high-RH/rain gate",
+      "excludedInferences": "No spores, susceptibility, infection or universal temperature bounds inferred",
+      "deliveryStatus": "Predictive push disabled pending prospective validation"
+    },
+    {
+      "id": "W11",
+      "name": "Bud rot",
+      "productDisposition": "Ambient conditions card",
+      "realisticBasis": "Reported flowering plus ambient history/direct rain context. No internal bud offset, actual wet-hours equation or calibrated probability.",
+      "eligibility": "Reported flowering + supported ambient data",
+      "factorCombinationAndPriority": "Tissue gate first; concurrent exposure/history; canopy rain adds preparation context",
+      "excludedInferences": "No exact flower week from age, fixed bud offset or actual wet-hours",
+      "deliveryStatus": "Predictive push disabled; factual preparation context allowed"
+    },
+    {
+      "id": "W12",
+      "name": "Wet-leaf disease",
+      "productDisposition": "Shared wet-weather context",
+      "realisticBasis": "Rain reaching canopy and humid weather can support context; no pathogen/Septoria detector.",
+      "eligibility": "Supported canopy-rain/humidity context",
+      "factorCombinationAndPriority": "Shared preparation plus direct-exposure relevance",
+      "excludedInferences": "No specific leaf-spot pathogen detection",
+      "deliveryStatus": "Merged generic context only"
+    },
+    {
+      "id": "W13",
+      "name": "Wet establishment",
+      "productDisposition": "Optional problem review",
+      "realisticBasis": "Establishment context only when known; no weather-only damping-off prediction.",
+      "eligibility": "Known establishment context + optional problem evidence",
+      "factorCombinationAndPriority": "Reported problem drives review; stage contextualizes",
+      "excludedInferences": "No weather-only damping-off prediction",
+      "deliveryStatus": "No automatic weather-only route"
+    },
+    {
+      "id": "W14",
+      "name": "Root/wilt problem",
+      "productDisposition": "Optional problem review",
+      "realisticBasis": "User-initiated problem path when a problem occurs; no weather-only root-rot diagnosis.",
+      "eligibility": "Optional symptom/problem report",
+      "factorCombinationAndPriority": "Reported evidence drives differential problem review",
+      "excludedInferences": "No weather-only root-rot diagnosis or automatic watering from wilt",
+      "deliveryStatus": "No automatic weather-only route"
+    }
+  ],
+  "productionModelImplemented": false,
+  "referencePurpose": "offline math and dependency contract only; all trajectory parameters supplied explicitly; no calibrated profiles bundled"
+}

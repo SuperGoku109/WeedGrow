@@ -1,0 +1,810 @@
+
+[PAGE 1]
+Academic Editor: Keith R. Davis
+Received: 12 November 2025
+Revised: 14 December 2025
+Accepted: 15 December 2025
+Published: 17 December 2025
+Citation: Pena, M.M.; Miranda, F.R.;
+Ribeiro, T.O.; Couto, G.C.S.; Rocha,
+S.B.F.; Martins, S.C.V .; DaMatta, F.M.
+Genotypic Variation in Photosynthesis
+and Biomass Partitioning Underlies
+Agronomic Performance and
+Cannabinoid Profile inCannabis sativa
+Under Drought. Plants 2025, 14, 3840.
+https://doi.org/10.3390/
+plants14243840
+Copyright: © 2025 by the authors.
+Licensee MDPI, Basel, Switzerland.
+This article is an open access article
+distributed under the terms and
+conditions of the Creative Commons
+Attribution (CC BY) license
+(https://creativecommons.org/
+licenses/by/4.0/).
+Article
+Genotypic Variation in Photosynthesis and Biomass Partitioning
+Underlies Agronomic Performance and Cannabinoid Profile in
+Cannabis sativa Under Drought
+Mateus M. Pena 1, Felipe R. Miranda 1
+ , Thiago O. Ribeiro 1, Gustavo C. S. Couto 1
+ , Sérgio B. F. Rocha 2,
+Samuel C. V . Martins1
+ and Fábio M. DaMatta 1,*
+1 National Institute of Science and Technology on Plant Physiology Under Stress Conditions, Departamento de
+Biologia Vegetal, Universidade Federal de Viçosa, Viçosa 36570-900, MG, Brazil; mateus.pena@ufv.br (M.M.P .);
+felprm@gmail.com (F.R.M.); thiago.o.ribeiro@ufv.br (T.O.R.); gustavo.couto@ufv.br (G.C.S.C.);
+samuel.martins@ufv.br (S.C.V .M.)
+2 Departamento de Agronomia, Universidade Federal de Viçosa, Viçosa 36570-900, MG, Brazil;
+sergio.rocha@ufv.br
+* Correspondence: fdamatta@ufv.br
+Abstract
+Drought is a major constraint on Cannabis sativa productivity and cannabinoid yield, yet
+the physiological mechanisms underlying genotypic variation in drought responses remain
+poorly understood. We hypothesized that (i) more vigorous genotypes would sustain
+higher photosynthetic rates, (ii) drought would constrain photosynthesis through both
+diffusional and non-diffusional limitations, and (iii) water deficits would alter cannabinoid
+production in a genotype-dependent manner. To test these hypotheses, two contrasting
+genotypes (one tetrahydrocannabinol- (THC) dominant and another cannabidiol- (CBD)
+dominant) were grown under greenhouse conditions, with water deficit imposed at early
+flowering. Water deficit induced neither osmotic nor elastic adjustment in either genotype.
+Although CBD plants accumulated more biomass, they did not exhibit higher photosyn-
+thetic rates under well-watered conditions. Under drought, THC plants relied primarily
+on stomatal regulation, whereas CBD plants showed additional nonstomatal impairments,
+resulting in stronger declines in photosynthesis. Despite contrasting photoprotective
+adjustments, both genotypes converged to similar oxidative damage, suggesting that pho-
+toprotection was not decisive for their physiological divergence. At the agronomic level,
+THC plants maintained a higher harvest index under drought, greater baseline cannabinoid
+concentrations, and inflorescence biomass with higher energetic value. In CBD plants,
+drought-induced reductions in cannabinoid content and harvest index largely reflected
+greater photosynthetic impairment and less efficient carbon use. Overall, the resilience
+of C. sativa to drought imposed at early flowering appears to depend less on hydraulic
+stability and more on sustaining photosynthetic performance, secondary metabolism, and
+efficient biomass partitioning. These traits represent key targets for breeding genotypes
+better adapted to cultivation under increasingly variable water availability.
+Keywords: carbon allocation; cannabinoid yield; drought stress; harvest index; photosyn-
+thetic performance
+1. Introduction
+Among abiotic stresses, drought is a major constraint to plant performance, limiting
+growth and productivity and often reshaping resource allocation in crops [1,2]. The magni-
+Plants 2025, 14, 3840 https://doi.org/10.3390/plants14243840
+
+[PAGE 2]
+Plants 2025, 14, 3840 2 of 17
+tude of its effects depends on the intensity and duration of stress, as well as on genotypic
+traits and plant developmental stage [ 3]. One of the earliest physiological responses to
+declining soil water availability is the inhibition of cell expansion, directly caused by re-
+duced turgor as tissues lose water [4,5]. This response usually leads to reductions in leaf
+area and plant stature; however, biomass may also be preferentially allocated to roots,
+thereby enhancing soil exploration and water uptake capacity [ 6]. In addition, plants
+often adjust their water relations through osmotic adjustment—via the accumulation of
+compatible solutes to sustain turgor—and elastic adjustment, involving changes in cell
+wall mechanical properties that moderate the decline in water potential (Ψw) with water
+loss. Such adjustments help to establish favorable Ψw gradients that facilitate water uptake
+and/or retention, thereby contributing to homeostasis under drought and mitigating its
+negative impacts [7].
+To conserve water, plants typically partially close stomata under drought [6], leading
+to reduced stomatal conductance (gs). As a result, both transpiration and CO 2 diffusion
+into the leaf are restricted, ultimately limiting photosynthesis [3,6]. In parallel, mesophyll
+conductance (gm), which governs CO2 diffusion to the chloroplast stroma, also tends to
+decrease, further reinforcing diffusional limitations to photosynthesis [5,8]. As drought
+intensifies, photosynthesis is additionally constrained by photochemical limitations, in-
+cluding reduced ATP and NADPH production, impairing RuBP regeneration, and by
+biochemical constraints such as decreased RuBisCO activity [5,9]. Thus, photosynthesis
+under drought reflects the interplay of diffusional and non-diffusional limitations, whose
+relative importance depends on stress intensity and duration, genotype, atmospheric evap-
+orative demand, and previous drought exposure [ 5,10]. In any case, as photosynthesis
+declines, part of the absorbed light energy cannot be dissipated through photochemical pro-
+cesses, favoring the overproduction of reactive oxygen species (ROS). Although enzymatic
+(e.g., superoxide dismutase, SOD; catalase, CAT; peroxidases, POX) and non-enzymatic
+(e.g., ascorbate, glutathione, carotenoids, phenolics, proline) antioxidant systems act to
+scavenge ROS, insufficient antioxidant responses may lead to oxidative damage, includ-
+ing lipid peroxidation, pigment degradation, and impaired chloroplast membranes and
+proteins [11,12].
+Cannabis sativa L., an annual and predominantly dioecious species, has gained in-
+creasing agronomic and biomedical interest owing to its production of fibers, seeds, and
+recreational and medicinal cannabinoids, particularly ∆9-tetrahydrocannabinol (THC) and
+cannabidiol (CBD) [13]. These compounds accumulate in glandular trichomes, especially
+on pistillate inflorescences of female plants, which bear higher trichome densities than other
+tissues [14]. Under drought, cannabis exhibits typical plant responses, including impaired
+water status accompanied by reductions in gs and net photosynthesis rates (A) [13]. Recent
+studies in hemp and medicinal cannabis have documented wide variation in stomatal
+sensitivity to drought, reflecting adaptive diversity and potential for selecting more re-
+silient genotypes [13,15,16]. Nevertheless, the mechanistic basis of reduced photosynthetic
+performance under drought in cannabis remains only partially understood and warrants
+further investigation.
+From a metabolic and productive perspective, drought can decrease biomass accumu-
+lation and floral yield in cannabis, but its effects on cannabinoid content are variable and
+depend on stress intensity, developmental stage, and genotype [13]. Controlled studies
+suggest that moderate, late-stage drought (during advanced flowering) may increase THC
+and CBD concentrations without penalizing inflorescence mass, whereas severe or early
+drought tends to reduce both yield and cannabinoid levels [17–19]. Overall, the available
+evidence points to nonlinear, genotype-specific responses.
+
+[PAGE 3]
+Plants 2025, 14, 3840 3 of 17
+Because cannabis cultivation requires relatively few agricultural inputs, the species
+may be suitable for production under reduced water availability, even when yield is par-
+tially compromised, as reported for industrial hemp [20]. Understanding how cannabis
+genotypes respond physiologically and productively to water deficit is therefore critical,
+particularly in light of the projected increase in drought frequency and severity under
+climate change [21]. Despite recent advances, little is known about how genotypes that
+differ in overall vigor and morphological architecture—rather than in cannabinoid profile
+per se—adjust their water relations, photosynthetic processes, and biomass allocation under
+drought. Moreover, the mechanisms through which water deficit limits photosynthesis in
+cannabis, especially the relative contributions of stomatal and non-stomatal constraints,
+remain insufficiently resolved. Existing studies rarely integrate these photosynthetic re-
+sponses with drought-induced shifts in water relations, carbon allocation, and secondary
+metabolism, offering limited insight into how contrasting genotypes coordinate these pro-
+cesses and how such physiological differences ultimately influence growth and cannabinoid
+production under water limitation. We hypothesized that (i) more vigorous genotypes,
+characterized by greater biomass accumulation, would also sustain higher photosynthetic
+rates; (ii) drought would constrain photosynthesis through both stomatal and nonstomatal
+limitations, with genotypic differences in their relative contribution; and (iii) water deficit
+would alter the production of major cannabinoids (CBD and THC) in a genotype-dependent
+manner, reflecting variation in photosynthetic performance and water status. By comparing
+two genotypes that differ broadly in growth habit and metabolic profile—but were not
+selected as explicit chemotype representatives—under controlled water regimes, this study
+provides a mechanistic assessment of how contrasting cannabis genotypes cope with water
+deficit by integrating physiological, biochemical, and productive responses.
+2. Results
+Because measurements at 50% and 30% field capacity (FC) were conducted on different
+days, under potentially varying environmental conditions, the responses observed at
+these two soil moisture levels are not strictly comparable. Therefore, control plants were
+evaluated at both time points, and the treatment effects are presented here as comparisons
+between well-watered and water-stressed plants within each soil moisture level.
+To place the results in a broader quantitative and biological context, effect size analysis
+(partial η2; Table S1) revealed a clear hierarchy in the relative importance of the experi-
+mental factors across trait categories. Overall, traits related to plant–water relations and
+gas exchange were largely governed by water availability at both soil moisture levels,
+underscoring the dominant role of drought in constraining plant function, with only a few
+parameters (e.g., A) showing comparable contributions of water availability and genotype
+at 30% FC. In contrast, biochemical and metabolic traits exhibited a more nuanced pattern:
+antioxidant enzyme activities reflected similar contributions of genotype and water avail-
+ability, whereas oxidative damage, as indicated by malondialdehyde (MDA) accumulation,
+was predominantly driven by water deficit. Primary carbohydrate metabolism was also
+mainly controlled by water availability, particularly for hexoses, while genotype exerted
+a stronger influence on sucrose and starch pools, consistent with inherent differences in
+carbon allocation strategies. Strikingly, cannabinoid profiles and biomass-related traits
+were overwhelmingly determined by genotype, highlighting strong genetic control over
+these economically relevant traits, whereas inflorescence biomass showed comparable
+contributions of genetic and environmental factors. Overall, genotype × water interaction
+effects were generally small, indicating that genotypic differences were largely conserved
+across water regimes and that the main effects of genotype and drought dominated the
+
+[PAGE 4]
+Plants 2025, 14, 3840 4 of 17
+observed responses. Notable exceptions were detected for major cannabinoid pools and
+inflorescence biomass, for which interaction effects were more pronounced.
+As expected, both leaf Ψw at predawn ( Ψpd) and midday ( Ψmd) declined under
+drought, except for Ψmd in CBD plants under 50% FC (Figure 1). Interestingly, Ψpd re-
+mained relatively stable as soil water content declined from 50% to 30% FC, suggesting
+a limited capacity of predawn values to reflect progressive stress severity. By contrast,
+Ψmd exhibited a marked reduction (from −0.4/−0.5 MPa to −0.8 MPa) in both genotypes,
+highlighting its greater sensitivity to short-term diurnal water deficits. At 30% FC, no
+genotypic differences were detected in either Ψpd or Ψmd, indicating comparable water
+status with increasing drought severity (Figure 1).
+Figure 1. (A) Predawn water potential (Ψpd) and (B) midday water potential (Ψmd) in two cannabis
+genotypes grown under well-watered or drought conditions. For droughted plants, measurements
+were taken at 50% and 30% field capacity (FC). Values are means ± SE (n = 8). Different letters
+indicate significant differences between genotypes within the same water regime; asterisks, when
+shown, indicate a drought effect within a genotype (Tukey’s test,p ≤ 0.05).
+From pressure–volume curves, the osmotic potential at full turgor (Ψs(100)) and at the
+turgor loss point ( Ψs(0)), and the bulk modulus of elasticity ( ε) were essentially similar
+across genotypes and unaffected by the treatments (Table 1). Leaf capacitance at full turgor
+(C(100)) remained stable across treatments, whereas capacitance at the turgor loss point (C(0))
+in THC plants decreased by 50% under drought compared with control values (Table 1).
+Table 1. Parameters from pressure–volume curves: osmotic potential at full turgor (Ψs(100)) and at
+the turgor loss point (Ψs(0)), bulk modulus of elasticity (ε), and leaf capacitance at full turgor (C(100))
+and at the turgor loss point (C(0)) in two cannabis genotypes grown under well-watered or drought
+conditions. Values are means ± SE (n = 5). Different letters indicate significant differences between
+genotypes within the same water regime; asterisks, when shown, indicate a drought effect within a
+genotype (Tukey’s test,p ≤ 0.05).
+Parameters
+CBD THC
+Control Drought Control Drought
+Ψs(100) (MPa) −0.73 ± 0.12 a −0.62 ± 0.06 a −1.08 ± 0.17 a −0.69 ± 0.05 a
+Ψs(0) (MPa) −1.23 ± 0.19 a −1.13 ± 0.08 a −1.50 ± 0.15 a −1.08 ± 0.06 a
+ε (MPa) 5.77 ± 1.12 a 4.49 ± 0.48 a 6.75 ± 1.21 a 5.82 ± 0.62 a
+C(100) (mol m−2 MPa−1) 0.09 ± 0.02 a 0.11 ± 0.01 a 0.09 ± 0.01 a 0.09 ± 0.01 a
+C(0) (mol m−2 MPa−1) 0.11 ± 0.02 b 0.11 ± 0.01 a 0.22 ± 0.03 a 0.11 ± 0.02 a *
+Under full irrigation, gas-exchange parameters did not differ between genotypes. In
+contrast, drought stress markedly altered these traits (Figure 2). At 50% FC, A declined
+by approximately 40%, accompanied by sharp reductions in gs (76–81%), intercellular
+CO2 concentration (Ci, 32–48%), and transpiration rate (E, ~67%) relative to control plants,
+
+[PAGE 5]
+Plants 2025, 14, 3840 5 of 17
+irrespective of genotype (Figure 2A–D). Conversely, the electron transport rate (ETR)
+and the single-point apparent maximum carboxylation capacity of RuBisCO, based on
+chloroplastic CO2 concentration (Vcmax), remained unaffected (Figure 2E,F), whereas the
+ETR/A and photorespiration to gross photosynthesis (Rp/AG) ratios nearly doubled under
+drought in both genotypes (Figure 2G,H). At 30% FC, decreases in A and gs became even
+more pronounced, particularly in CBD, reaching ~20% and 6%, respectively, of the values
+observed in irrigated plants (in THC, the corresponding values were 44% and 20%, as
+can be deduced from Figure 2A,B). In THC, however, A did not decline further relative to
+50% FC, whereas E was strongly reduced (Figure 2D). While ETR remained stable, Vcmax
+decreased by 37% exclusively in CBD (Figure 2E,F). Furthermore, both ETR/A and Rp/AG
+ratios plateaued at 30% FC in THC plants but in CBD they were 242% and 189% higher,
+respectively, than in well-watered controls (Figure 2G,H). Regardless of drought severity,A
+and gs were strongly and positively correlated (r ≥ 0.79, p < 0.05) in both genotypes.
+Figure 2. (A) Net photosynthetic rate (A), (B) stomatal conductance (gs). (C) internal CO2 concen-
+tration (Ci), (D) transpiration rate (E), (E) electron transport rate (ETR), (F) maximum single-point
+carboxylation capacity based on chloroplastic CO2 concentration (Vcmax), (G) electron transport rate-
+to-photosynthesis ratio (ETR/A), and (H) photorespiration-to-gross photosynthesis ratio (RP/AG) in
+two cannabis genotypes grown under well-watered or drought conditions. For droughted plants,
+measurements were taken at 50% and 30% field capacity (FC). Values are means± SE (n = 8). Different
+letters indicate significant differences between genotypes within the same water regime; asterisks,
+when shown, indicate a drought effect within a genotype (Tukey’s test,p ≤ 0.05).
+
+[PAGE 6]
+Plants 2025, 14, 3840 6 of 17
+We additionally assessed some chlorophyll (Chl) a fluorescence (only at 30% FC)
+and showed similar drought responses in both genotypes (Table 2). In control plants,
+the maximum quantum efficiency of PSII photochemistry ( Fv/Fm) values averaged
+0.81–0.83, but declined by approximately 20% under drought, a reduction accompanied
+by marked increases in the minimum fluorescence (F0, 52–66%), whereas the coefficient of
+photochemical quenching (qL) strongly decreased by 59–73% and the non-photochemical
+quenching (NPQ) reduced by 36–40%; nevertheless, the absolute values of NPQ were
+consistently higher in THC (81–98%) than in CBD plants, irrespective of water availability
+(Table 2).
+Table 2. Maximum quantum efficiency of PSII photochemistry ( Fv/Fm), minimum chlorophyll
+fluorescence (F0), coefficient of photochemical quenching (qL), and non- photochemical quenching
+(NPQ) in two cannabis genotypes grown under well-watered or drought conditions. Values are
+means ± SE (n = 8). Different letters indicate significant differences between genotypes within the
+same water regime; asterisks, when shown, indicate a drought effect within a genotype (Tukey’s test,
+p ≤ 0.05).
+Parameters
+CBD THC
+Control Drought Control Drought
+Fv/Fm 0.81 ± 0.01 a 0.64 ± 0.01 a * 0.83 ± 0.01 a 0.68 ± 0.02 a *
+F0 626 ± 18 a 950 ± 72 a * 554 ± 19 a 922 ± 98 a *
+qL 0.46 ± 0.02 a 0.19 ± 0.01 a * 0.44 ± 0.03 a 0.12 ± 0.07 a *
+NPQ 0.96 ± 0.08 b 0.58 ± 0.07 b * 1.74 ± 0.28 a 1.15 ± 0.14 a *
+Antioxidant enzyme activities declined overall under drought (Table 3). SOD activity
+decreased by 36% in CBD and 50% in THC, while CAT was reduced by 30% and 22%,
+respectively, in these clones. Despite these reductions, both SOD and CAT activities
+remained higher in CBD than in THC plants, an advantage that became even more evident
+under drought, with activities 78% (SOD) and 45% (CAT) greater in CBD. In contrast,
+POX activity showed a genotype-specific response: it dropped sharply in CBD (58%) but
+was unaffected in THC, resulting in similar levels between genotypes under drought.
+Regardless of these enzymatic differences, MDA concentrations increased by ~23–29% in
+both genotypes, indicating comparable oxidative damage under water deficit (Table 3).
+Table 3. Activities of superoxide dismutase (SOD), catalase (CAT) and peroxidases (POX), and
+malondialdehyde (MDA) concentration in two cannabis genotypes grown under well-watered or
+drought conditions. Values are means ± SE (n = 5). Different letters indicate significant differences
+between genotypes within the same water regime; asterisks, when shown, indicate a drought effect
+within a genotype (Tukey’s test,p ≤ 0.05).
+Parameters CBD THC
+Control Drought Control Drought
+SOD (U min−1 mg−1 protein) 26.43 ± 1.9 a 16.73 ± 1.2 a * 19.85 ± 1.5 b 9.23 ± 0.6 b *
+CAT (µmol H2O2 min−1 mg−1 protein) 17.5 ± 1.3 a 14.1 ± 0.9 a * 12.4 ± 0.7 b 8.7 ± 0.5 b *
+POX (nmol purpurogalin min−1 mg−1 protein) 106 ± 12 a 31 ± 12 a * 41 ± 12 b 35 ± 10 a
+MDA (µmol g−1 DW) 0.95 ± 0.09 a 1.24 ± 0.06 a * 1.16 ± 0.05 a 1.50 ± 0.09 a *
+Metabolic analyses revealed pronounced shifts in metabolite profiles under water
+deficit (Table 4). Total Chl (a + b) decreased by 33% in CBD and 18% in THC plants, resulting
+in 32% higher Chl pools in droughted THC individuals. Carotenoid concentrations also
+declined, by 40% in CBD and 27% in THC. Regardless of genotype, drought induced
+significant reductions in free amino acids (~30%) and in carbohydrates, as evidenced by
+
+[PAGE 7]
+Plants 2025, 14, 3840 7 of 17
+decreases in concentrations of glucose (~35%), fructose (~22%), sucrose (~22%), and starch
+(19% in CBD and 39% in THC). Glucose and fructose concentrations did not differ between
+genotypes; however, sucrose pools were consistently higher (~15%) in THC than in CBD
+plants. Conversely, starch concentrations were markedly lower in THC plants—by 33%
+under irrigation and 42% under drought—relative to CBD. Total phenols were unaffected
+by drought but remained slightly higher in CBD than in THC. Proline concentration showed
+no significant genotypic differences under either water regime, although it declined slightly
+under drought in both cultivars (Table 4).
+Table 4. Leaf concentrations (per dry mass) of chlorophylls, carotenoids, free amino acids, glucose,
+fructose, sucrose, starch, phenols and in two cannabis genotypes grown under well-watered or
+drought conditions. Values are means ± SE (n = 5). Different letters indicate significant differences
+between genotypes within the same water regime; asterisks, when shown, indicate a drought effect
+within a genotype (Tukey’s test,p ≤ 0.05).
+Parameters CBD THC
+Control Drought Control Drought
+Chlorophylls a + b (µg g−1) 2807 ± 133 a 1759 ± 131 b * 2813 ± 35 a 2320 ± 77 a *
+Carotenoids (µg g−1) 735 ± 20 a 437 ± 33 a * 715 ± 9 a 522 ± 22 a *
+Glucose (µmol g−1) 87 ± 10 a 55 ± 3 a * 84 ± 6 a 55 ± 4 a *
+Fructose (µmol g−1) 30 ± 3 a 24 ± 3 a * 38 ± 5 a 29 ± 2 a *
+Sucrose (µmol g−1) 93 ± 7 b 73 ± 3 b * 107 ± 2 a 82 ± 2 a *
+Starch (mmol equiv. glucose g−1) 0.90 ± 0.09 a 0.73 ± 0.06 a * 0.60 ± 0.07 b 0.42 ± 0.07 b *
+Amino acids (µmol g−1) 43 ± 2 a 30 ± 2 a * 44 ± 1 a 32 ± 2 a *
+Phenolics (mg g−1) 113 ± 3 a 102 ± 6 a 89 ± 2 b 91 ± 4 b
+Proline (µmol g−1) 9.81 ± 0.5 a 8.09 ± 0.5 a * 10.05 ± 1.0 a 7.72 ± 0.5 a *
+As expected, CBD concentrations were substantially higher in the CBD genotype (~7%,
+w/w) than in the THC genotype (~0.3–0.4%). Conversely, the THC genotype accumulated
+markedly greater THC pools (16.8–20.7%) than the CBD genotype (0.63–0.68%) (Figure 3).
+Water deficit significantly reduced THC and CBD concentrations in both genotypes, de-
+creasing THC levels by 7% and 19% and CBD concentrations by 14% and 25% in the CBD
+and THC genotypes, respectively (Figure 3A,B). Total cannabigerol (CBG) levels were low
+(<0.1%) in CBD plants and were increased (96%) by drought, whereas in THC individ-
+uals they were consistently higher (~0.4–0.5%) but declined by 24% under water deficit
+(Figure 3C). Regardless of water regime, THC plants maintained substantially higher total
+cannabinoid pools—approximately 1.7-fold those of CBD plants (Figure 3D).
+Relative to THC, both well-watered and droughted CBD plants accumulated greater
+total biomass (by 37% and 25%, respectively), primarily due to their higher stem biomass
+(85% and 94%), whereas leaf biomass was comparable between genotypes (Figure 4A–C).
+The greater stem mass of CBD plants was mainly associated with their larger stem diameter
+(~40%), as plant height did not differ between genotypes. Total biomass decreased by
+21% in response to water deficit exclusively in CBD (Figure 4A). In contrast, total leaf
+area did not differ between genotypes but declined by approximately 10% under drought,
+irrespective of genotype (Figure 4D). Inflorescence biomass was higher in well-watered
+CBD plants but similar between genotypes under drought; however, drought reduced
+inflorescence biomass by 32% in CBD plants only (Figure 4E). Consequently, harvest index
+(HI) decreased by 22% in these plants relative to their well-watered counterparts, although
+HI values in well-watered CBD plants remained comparable to those observed in THC
+plants under both water regimes (Figure 4F).
+
+[PAGE 8]
+Plants 2025, 14, 3840 8 of 17
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 3. Leaf concentrations (per dry mass) of ( A) cannabidiol (CBD), (B) tetrahydrocannabinol
+(THC), (C) cannabigerol (CBG) and (D) total cannabinoids in two cannabis genotypes grown under
+well-watered or drought conditions. Values are means ± SE (n = 8). Different letters indicate
+significant differences between genotypes within the same water regime; asterisks, when shown,
+indicate a drought effect within a genotype (Tukey’s test,p ≤ 0.05).
+Figure 4. (A) Total biomass, ( B) stem biomass, ( C) leaf biomass, ( D) leaf area, ( E) inflorescence
+biomass, and (F) harvest index (HI) in two Cannabis genotypes grown under well-watered or drought
+conditions. Values are means ± SE (n = 8). Different letters indicate significant differences between
+genotypes within the same water regime; asterisks, when shown, indicate a drought effect within a
+genotype (Tukey’s test,p ≤ 0.05).
+
+[PAGE 9]
+Plants 2025, 14, 3840 9 of 17
+3. Discussion
+3.1. Stable Leaf Water Relations Fail to Explain Divergence in Growth and
+Photosynthetic Performance
+As expected, plants under drought showed reductions in both Ψpd and Ψmd, which
+became more pronounced as water deficit intensified. Genotypic differences in these
+parameters were negligible; moreover, there was no evidence of osmotic adjustment (as
+indicated by the invariance of Ψs(100) and Ψs(0)) nor of elastic adjustment, since ε also
+remained constant across water regimes and genotypes [ 22,23]. Therefore, genotypic
+differences in drought tolerance regarding photosynthetic performance are unlikely to
+be attributable to plant–water relations per se. Importantly, Ψmd consistently exceeded
+Ψs(0) by ≥0.2 MPa, indicating that leaves did not reach the turgor-loss point; accordingly,
+the deficits imposed qualify as mild at 50% FC and moderate at 30% FC. Both genotypes
+exhibited relatively low ε, implying that large changes in Ψw require substantial water
+loss and providing a hydraulic buffer that dampens the diurnal gradient between Ψpd and
+Ψmd [24]. These features likely explain (i) the modest absolute decreases in Ψpd and Ψmd
+across deficit levels and (ii) the relatively small separation between them. Overall, the
+observed divergence in photosynthetic performance between genotypes is more plausibly
+attributable to non-hydraulic controls, as detailed below.
+Maintenance of water relation parameters such as ε, Ψs(100) and Ψs(0) suggests differ-
+ences in growth ability should not be attributed to varying hydrostatic pressures and/or
+cell-wall elasticity properties between genotypes. In contrast, hydraulic capacitance re-
+vealed a genotype-specific adjustment: while C(100) remained unchanged, C(0) decreased
+by 50% in THC plants under drought relative to controls (Table 1). This reduction may
+indicate a diminished capacity to buffer declines in leaf Ψw once turgor is lost, potentially
+exacerbating desiccation stress in this genotype.
+3.2. Contrasting Stomatal Versus Non-Stomatal Limitations Reveal Divergent Strategies of
+Photosynthetic Response to Drought
+The initial reductions in A, observed under 50% FC, were primarily attributable to
+diffusional limitations at the stomatal level, regardless of genotype. This interpretation is
+supported by the strong correlation between A and gs, the decline in Ci —resulting from a
+proportionally greater reduction in gs than in A (on average c. 78% and 43%, respectively;
+Figure 2A,B)—and the maintenance of both photochemical activity (stable ETR) and the
+intrinsic biochemical capacity for CO 2 fixation (Vcmax unchanged). As the water deficit
+intensified (30% FC), however, the mechanisms limiting photosynthesis diverged between
+genotypes. In THC, reductions in A remained predominantly linked to stomatal closure. In
+contrast, in the CBD genotype, nonstomatal factors also appeared to contribute substantially
+to the observed decreases in A. This inference is supported by the similarCi values between
+genotypes, despite significantly lower A and Vcmax in CBD plants. Together, these findings
+indicate distinct drought-response strategies: THC plants rely predominantly on stomatal
+regulation, thereby preserving the functionality of the photosynthetic machinery under
+stress, whereas CBD exhibits greater susceptibility to biochemical (and potentially meso-
+phyll) limitations [25]. From an ecophysiological standpoint, these contrasting strategies
+have important implications for field performance. Genotypes like THC, whose photosyn-
+thetic decline is dominated by stomatal limitations, are expected to recover more rapidly
+following rehydration, an advantageous trait under intermittent drought. Conversely,
+genotypes such as CBD, in which stress impairs nonstomatal processes, are likely to exhibit
+slower and often incomplete recovery of photosynthesis, increasing the risk of productivity
+losses under prolonged or recurrent drought [10].
+
+[PAGE 10]
+Plants 2025, 14, 3840 10 of 17
+3.3. Failure to Upregulate Photoprotective Pathways Enhances Photosynthesis Photoinhibition and
+Oxidative Stress During Water Deficit
+ETR values, regardless of treatment, were fully sufficient to sustain the measured
+A rates [26], even in the face of drought-induced decreases in Chl concentration. Under
+drought, however, a marked increase in the ETR/A ratio was detected, particularly in CBD
+plants at 30% FC, where values were more than 200% higher than in THC counterparts.
+Such an imbalance indicates that the relative electron flux exceeded the capacity for carbon
+fixation, a condition often associated with electron over-reduction and increased excitation
+pressure on PSII [27]. In agreement, pronounced declines in qL were observed, reflecting
+reduced openness of PSII reaction centers and a perturbed balance between photochemical
+excitation and electron utilization in downstream metabolism [28]. This scenario points
+to enhanced oxidative pressure within chloroplasts, which may ultimately culminate in
+oxidative stress and photoinhibition [27]. Although part of the excess electron pressure
+may be alleviated through photorespiration (particularly in CBD plants) [29,30], the lower
+NPQ values indicate that thermal dissipation of excess energy via the xanthophyll cycle
+was insufficiently upregulated [31,32]. This interpretation is consistent with the observed
+decreases in carotenoid pools, further constraining the capacity for non-photochemical
+quenching. Consequently, plants exhibited clear signs of PSII photoinhibition, as indicated
+by drought-induced declines in Fv/Fm, suggesting that a fraction of the reaction centers
+became damaged or temporarily inactivated [33,34]. In support, F0 values rose markedly
+even after ≈2 h of dark acclimation. While such increases do not unequivocally confirm
+chronic photoinhibition, particularly in the absence of overnight dark adaptation, they
+nonetheless suggest a sustained excitation pressure on PSII and a potential exacerbation of
+ROS formation. Given that antioxidant enzyme activities were concurrently downregulated
+under drought, the detoxification of ROS was impaired. Interestingly, despite this general
+downregulation, CBD plants exhibited relatively higher SOD and CAT activities, along
+with greater pools of total phenolics, compared with THC. These adjustments, however,
+were insufficient to counterbalance the greater oxidative burden in CBD. Ultimately, the
+interplay between excitation pressure and antioxidant defenses converged toward a similar
+outcome in both genotypes, as reflected by comparable oxidative damage, evidenced by
+elevated (and similar) MDA levels, a marker for oxidative damage [1].
+3.4. Genotypic Differences in Photosynthesis, Biomass Partitioning and Cannabinoid Yield
+Determine Agronomic and Energetic Returns Under Varying Water Availability
+No significant reduction in leaf and stem biomass was observed under drought, most
+likely because water deficit was imposed after the onset of flowering—a stage at which
+vegetative growth markedly declines or even ceases in annual species [ 35]. The greater
+total biomass of CBD plants, however, cannot be attributed to higher A per unit leaf
+area, differences in leaf area, leaf carbohydrate concentrations, or altered cell-wall elastic
+properties, as previously discussed. Rather, CBD plants invested disproportionately in
+stem growth, suggesting a tendency to allocate more carbon to structural tissues at the
+expense of reproductive organs, particularly under stress. In contrast, the stability of HI
+in THC plants indicates a greater capacity to maintain reproductive partitioning during
+drought, reflecting enhanced tolerance of both photosynthetic and assimilate allocation
+processes. Consistent with this, the sharp decrease in starch pools accompanied by a modest
+rise in sucrose concentration suggests the mobilization of stored carbohydrates to sustain
+assimilate export toward reproductive sinks, thereby promoting more efficient carbon use
+under water-limited conditions.
+Under well-watered conditions, CBD and THC plants differed in inflorescence biomass
+but displayed similar HI. However, genotypic differences might emerge if HI were ex-
+pressed on an energetic basis [36]. Because cannabinoids (CBD, THC, and CBG) are highly
+
+[PAGE 11]
+Plants 2025, 14, 3840 11 of 17
+reduced terpenoid isomers (C21H30O2) with low oxygen content, their combustion enthalpy
+(~38 MJ kg−1) is comparable to that of lipids and more than twice that of carbohydrates
+or proteins [37]. Consequently, the markedly lower cannabinoid concentrations in CBD
+plants (≈40% of those in THC) directly translated into a lower energy density of their
+inflorescence biomass.
+Water deficit imposed at early flowering reduced both CBD and THC concentrations,
+in agreement with previous studies [ 18,19], which have shown that drought stress can
+impair photosynthetic performance and, consequently, cannabinoid biosynthesis [16,38].
+In the present study, the pronounced decline in A under drought sharply reduced both
+HI and total cannabinoid concentration in CBD plants. In THC plants, however, the
+more moderate decrease in A—coupled with greater carbohydrate mobilization—was
+insufficient to compromise inflorescence yield or HI, although energy content declined
+proportionally to the reduction in cannabinoid concentration. Importantly, the reduction in
+CBG concentration observed in the THC genotype under drought may indicate functional
+upregulation, or at least maintenance, of key enzymes in the cannabinoid biosynthetic
+pathway [18], in sharp contrast to CBD plants, which instead exhibited increased CBG
+pools under stress. In any case, both genotypes experienced drought-induced decreases
+in cannabinoid accumulation, underscoring the sensitivity of secondary metabolism to
+water limitation. Yet, because THC plants consistently accumulated higher baseline levels
+of cannabinoids, their biomass retained substantially greater energetic value even under
+drought. In contrast, the combined effects of lower HI and reduced cannabinoid content in
+CBD plants resulted in biomass with comparatively lower agronomic and energetic returns.
+Taken together, these findings indicate that genotypic differences in carbon allocation and
+metabolic plasticity underlie the contrasting agronomic and energetic outcomes observed.
+The superior capacity of THC plants to maintain reproductive partitioning and preserve
+high-energy secondary metabolites under drought confers a dual advantage—greater
+resilience and higher energy yield per unit biomass.
+4. Materials and Methods
+4.1. Plant Material, Experimental Design, and Analytical Procedures
+The experiment was carried out in Viçosa (20 ◦45′14′′ S, 42◦52′53′′ W; 650 m a.s.l.),
+southeastern Brazil. Two short-day–adapted cannabis genotypes (clones) were used, dif-
+fering in growth habit and capacity to produce major cannabinoids: one accumulating
+predominantly THC with lower biomass (hereafter referred to as THC genotype) and the
+other accumulating CBD with greater biomass production (CBD genotype). Visual observa-
+tions indicated that CBD plants displayed more vigorous early growth, characterized by a
+greater number of smaller leaves compared with THC plants. Importantly, these genotypes
+were not selected on the basis of drought-related traits, and noa priori differences in drought
+tolerance were expected; their contrasting vigor and metabolic profiles simply provided a
+convenient framework for examining physiological responses to water deficit.
+After successful rooting in a controlled mist chamber, 32 uniform seedlings (16 per
+genotype) were transplanted into 10 L pots filled with a commercial substrate (Mecplant®).
+Plants were maintained in a greenhouse under naturally fluctuating conditions with tem-
+peratures ranging from 18.9± 0.8 to 29.7 ± 1.1 ◦C, relative humidity from 52± 9 to 96 ± 3%,
+and variable photosynthetic photon flux density (PPFD). To maintain vegetative growth,
+PPFD was initially supplemented for approximately 4 h per day with 50 W LED lamps,
+extending the photoperiod to about 16 h. Individuals were spaced 50 cm apart within rows
+and 75 cm between rows and were fertilized weekly with a commercial nutrient solution
+(DuGreen®) following the manufacturer’s recommendations.
+
+[PAGE 12]
+Plants 2025, 14, 3840 12 of 17
+When plants reached approximately 1 m tall (40 days after transplanting), the LED
+lamps were turned off to induce flowering, which occurred uniformly in each genotype.
+Until the onset of flowering, plants were irrigated to maintain substrate moisture close to FC.
+To this end, a water retention curve of the substrate was established [39] to determine both
+FC and the permanent wilting point, thereby enabling precise control of water application.
+After early flowering (46 days after transplanting), half of the plants of each genotype
+continued to be irrigated at FC, whereas the remaining plants were subjected to a stepwise
+reduction in water availability to 75, 50, 40, and 30% of FC, with each moisture level
+maintained for 5 d. During drought imposition, the soil surface of each pot was covered
+with plastic film to minimize evaporative water loss. Physiological measurements and
+sampling for subsequent biochemical analyses (see below) were performed in droughted
+plants on the fourth or fifth day after irrigation corresponding to 50 and 30% FC. Unless
+otherwise specified, measurements were taken on the youngest fully expanded leaves. The
+experiment lasted 75 days, at which point all plants were harvested for biomass analyses.
+4.2. Leaf Water Potential and Pressure–Volume Curves
+Leaf Ψw was determined at both predawn and midday using a Scholander-type
+pressure chamber (Model 1000; PMS Instrument Company, Albany, NY, USA). To prevent
+desiccation before measurement, leaves were excised and immediately sealed in zip-lock
+plastic bags containing a moistened paper towel. For pressure–volume curves, leaves were
+collected and sealed as described above. Samples were transferred to the laboratory (100 m
+away) and rehydrated to full turgor by immersing their petioles in water inside a humidity-
+saturated chamber for 12 h. Subsequently, leaf fresh mass (precision balance, 0.1 mg)
+and Ψw (Scholander chamber) were recorded periodically during a natural dehydration
+cycle until Ψw reached approximately –2.5 MPa. Leaves were then oven-dried at 60 ◦C
+until constant mass. Pressure–volume curves were constructed by plotting the relative
+water content against the inverse of Ψw, following Tyree and Hammel [40]. From these
+curves, Ψs(100), Ψs(0), ε, C(100), and C(0) were determined, as described by Blackman and
+Brodribb [41].
+4.3. Gas Exchange and Chlorophyll Fluorescence
+Gas exchange (A, gs, E, and Ci) and Chl a fluorescence were measured simultaneously
+using a portable photosynthesis system (LI-6400XT; LI-COR, Lincoln, NE, USA) fitted
+with an integrated fluorescence chamber (LI-6400-40). Gas-exchange measurements were
+recorded at 09h00 −11h00 (solar time) at a PPFD of 1000 µmol m −2 s−1, 28 ◦C, and an
+ambient CO2 concentration of 430 µmol mol−1, following DaMatta et al. [42].
+Leaf samples were first dark-adapted for 2 h, after which they were exposed to a weak
+modulated measuring beam (0.03 µmol m−2 s−1) to determine F0. Maximum fluorescence
+(Fm) was then obtained by applying a saturating pulse of white light (8000 µmol photons
+m−2 s−1; 0.8 s). From these values, the maximum quantum efficiency of PSII photochemistry
+was calculated as Fv/Fm = (Fm − F0)/Fm. In light-acclimated tissues (1000 µmol m−2 s−1),
+steady-state fluorescence (Fs) was measured immediately before another saturating pulse
+(8000 µmol m−2 s−1, 0.8 s), which yielded the maximum fluorescence under light ( Fm′).
+Following this, actinic illumination was switched off and a far-red beam (2 µmol m−2 s−1)
+was applied to obtain the minimal fluorescence in light-acclimated leaves ( F0′). These
+parameters were then used to estimate several photosynthetic traits: the coefficient of
+photochemical quenching, qL = [(Fm′ − Fs)/(Fm′ − F0′)] × (F0′/Fs), the non-photochemical
+quenching, NPQ = ((Fm − Fm′)/Fm′, and the effective quantum yield of PSII, ΦPSII = (Fm′
+− Fs)/Fm′ [28]. ETR was subsequently derived as ΦPSII×PPFD×f α; where f represents the
+
+[PAGE 13]
+Plants 2025, 14, 3840 13 of 17
+assumed 0.5 partitioning of excitation energy between PSI and PSII, and α corresponds to
+the leaf absorptance (set at 0.84) of photosynthetic tissues [43].
+Nocturnal mitochondrial respiration (Rn) was measured 2 h after darkness and used to
+estimate respiration in the light (Rd) following Lloyd et al. [44]: Rd = (0.5 − 0.05 ln(PPFD))
+× Rn. The rate of photorespiration (Rp) was then obtained according to Valentini et al. [45]
+using the equation Rp = 1/12 [ETR − 4(A + Rd)], and the Rp/AG ratio was calculated as
+described by DaMatta et al. [ 42]. Vcmax was estimated with the one-point method [ 46],
+using tobacco RuBisCO kinetics (Kc = 8.6 µM; Ko = 226 µM) [47] together with simultaneous
+morning A and ETR, when both parameters typically reach their maximum. Finally, Vcmax
+values were standardized to 25◦C following the temperature correction procedure proposed
+by Sharkey et al. [48].
+4.4. Biochemical and Cannabinoid Analyses
+Leaf samples collected at midday were rapidly frozen in liquid nitrogen and stored
+at −80 ◦C until biochemical analyses. Tissues were subsequently lyophilized at −48 ◦C
+and ground with metallic beads in a Mini Bead Beater disruptor. For primary metabolite
+quantification, 10 mg aliquots were extracted in methanol [49]. The soluble fraction was
+used to determine photosynthetic pigments [ 50], hexoses and sucrose [ 51], total amino
+acids [52], total phenolics [53], and proline [54]; the insoluble fraction was analyzed for
+total proteins [55] and starch [49,56].
+MDA was quantified from 30 mg of lyophilized tissue extracted in aqueous 80% (v/v)
+ethanol. The extract was split into two tubes: one received 20% (w/v) trichloroacetic acid
+(TCA) only, and the other received 20% (w/v) TCA containing 0.65% (w/v) thiobarbituric
+acid. MDA, used as a proxy for lipid peroxidation, was determined in the soluble fraction
+following Hodges et al. [57], with the corrections proposed by Landi [58]. For antioxidant
+enzymes, 20 mg aliquots were extracted as in Peixoto et al. [59] to determine activities of
+SOD (EC 1.15.1.1) [60], CAT (EC 1.11.1.6) [61], and POX (EC 1.11.1.7) [62]. Protein content of
+enzymatic extracts was measured by the Bradford assay [55] using bovine serum albumin
+as the standard, and specific enzyme activities were expressed on a protein basis.
+The major cannabinoids (CBD, THC, and CBG) were quantified using a portable
+Fourier-transform near-infrared (FT-NIR) spectrometer (Valenveras Portable Lab, NeoSpec-
+tra, Barcelona, Spain) operating across the 1350–2500 nm range. Analyses were performed
+on oven-dried, ground inflorescences, following validated protocols for NIR-based cannabi-
+noid profiling [63,64]. According to the manufacturer, the prediction models achieved
+coefficients of determination (R2) > 0.90 and errors comparable to those of standard HPLC
+assays. Total cannabinoid concentration was computed as the sum of CBD, THC, and CBG.
+4.5. Growth Traits
+At the end of the experiment, aboveground tissues were separated into leaves, stems,
+and inflorescences, which were oven-dried at 70 ◦C for 72 h to determine their dry mass.
+Senesced leaves—typically remaining attached to the stems but detaching easily when
+handled—were collected and their mass added to the total leaf dry mass. Plant height
+and stem diameter were measured with a ruler and a digital caliper, respectively. Roots
+were excluded from the analysis due to the difficulty of separating them from the substrate
+and the inevitable losses during washing. For each plant, two representative leaves were
+scanned prior to drying to estimate specific leaf area (SLA). Total leaf area was then
+calculated by multiplying SLA by total leaf biomass. The HI was computed as the ratio of
+inflorescence biomass to total aboveground biomass, following standard procedures used
+for field-grown crops.
+
+[PAGE 14]
+Plants 2025, 14, 3840 14 of 17
+4.6. Experimental Design and Statistical Analysis
+The experiment followed a completely randomized factorial design with two geno-
+types and two water regimes. Each treatment consisted of eight replicates, with individual
+pots (one plant per pot) serving as the experimental unit. Data were first tested for normal-
+ity (Shapiro–Wilk test) and homogeneity of variances (Levene’s test). As all assumptions
+were met, data were analyzed in R (RStudio 2024.12.1+536) using a two-way ANOVA at
+p ≤ 0.05. Effect sizes for genotype, water treatment, and their interaction were quantified as
+partial eta squared (ηp2), providing an estimate of the magnitude and biological relevance
+of each effect. Pairwise comparisons were then conducted (i) between genotypes within
+each soil moisture level (indicated by different letters) and (ii) between water treatments
+within each genotype (indicated by an asterisk when drought caused a significant effect).
+5. Conclusions
+In summary, the combined physiological, biochemical, and agronomic evidence
+demonstrates that drought responses in cannabis involve complex trade-offs between
+carbon assimilation, metabolite biosynthesis, and reproductive allocation, which differ
+markedly between genotypes.
+Our results only partially supported the initial hypotheses. Although CBD plants
+were more vigorous, they did not sustain higher A and, under drought, experienced both
+stomatal and nonstomatal limitations that compromised their photosynthetic performance.
+In contrast, THC plants relied primarily on stomatal regulation to modulate A under water
+deficit. Despite genotypic contrasts in photoprotective responses, both genotypes con-
+verged toward similar levels of oxidative damage, indicating that photoprotection was not
+decisive for their divergence. At the agronomic level, THC plants maintained a higher HI
+under drought, greater baseline cannabinoid concentrations, and higher energetic value.
+In contrast, the sharper decline in cannabinoids observed in CBD plants was largely at-
+tributable to reduced photosynthesis and less efficient carbohydrate use, whereas in THC
+plants, the metabolic pathway itself was likely modified, as suggested by decreases in CBG
+pools. Overall, drought resilience in cannabis imposed at early flowering appears to depend
+less on hydraulic stability and more on safeguarding photosynthetic performance, sustain-
+ing secondary metabolism, and ensuring efficient biomass partitioning. These traits provide
+promising targets for breeding genotypes better adapted to water-limited environments.
+Supplementary Materials: The following supporting information can be downloaded at: https:
+//www.mdpi.com/article/10.3390/plants14243840/s1.
+Author Contributions: M.M.P .: Writing—review & editing, Writing—original draft, Validation,
+Methodology, Investigation, Data curation, Conceptualization. F.R.M.: Writing—review & editing,
+Writing—original draft, Validation, Methodology, Investigation. T.O.R.: Methodology, Investigation.
+G.C.S.C.: Methodology, Investigation. S.B.F.R.: Methodology, Investigation, Project administra-
+tion, Funding acquisition. S.C.V .M.: Writing—review & editing, Validation, Supervision. F.M.D.:
+Writing—review & editing, Writing—original draft, Visualization, Supervision, Project administra-
+tion, Funding acquisition, Conceptualization. All authors have read and agreed to the published
+version of the manuscript.
+Funding: F.M.D. acknowledges research fellowships granted by the National Council for Scientific
+and Technological Development (CNPq, Brazil) and the Foundation for Research Assistance of the
+Minas Gerais State (FAPEMIG-Brazil) (Grant CRA-RED-00060-23). Scholarships were provided by
+CAPES (Finance Code 001).
+Data Availability Statement: The original contributions presented in this study are included in the
+article/supplementary material. Further inquiries can be directed to the corresponding author.
+Conflicts of Interest: The authors declare no conflicts of interest.
+
+[PAGE 15]
+Plants 2025, 14, 3840 15 of 17
+References
+1. Farooq, M.; Wahid, A.; Kobayashi, N.; Fujita, D.; Basra, S.M.A. Plant drought stress: Effects, mechanisms and management.Agron.
+Sustain. Dev. 2009, 29, 185–212. [CrossRef]
+2. Ali, S.; Mir, R.A.; Haque, M.A.; Danishuddin; Almalki, M.A.; Alfredan, M.; Khalifa, A.; Mahmoudi, H.; Shahid, M.; Tyagi, A.; et al.
+Exploring physiological and molecular dynamics of drought stress responses in plants: Challenges and future directions. Front.
+Plant Sci. 2025, 16, 1565635. [CrossRef]
+3. Mukarram, M.; Choudhary, S.; Kurjak, D.; Petek, A.; Khan, M.M.A. Drought: Sensing, signalling, effects and tolerance in higher
+plants. Physiol. Plant. 2021, 172, 1291–1300. [CrossRef]
+4. Shao, H.-B.; Chu, L.-Y.; Jaleel, C.A.; Zhao, C.-X. Water-deficit stress-induced anatomical changes in higher plants.C. R. Biol. 2008,
+331, 215–225.
+5. Chaves, M.M.; Flexas, J.; Pinheiro, C. Photosynthesis under drought and salt stress: Regulation mechanisms from whole plant to
+cell. Ann. Bot. 2009, 103, 551–560. [CrossRef]
+6. Dietz, K.J.; Zörb, C.; Geilfus, C.M. Drought and crop yield. Plant Biol. 2021, 23, 881–893. [CrossRef]
+7. Kramer, P .J.; Boyer, J.S. Water Relations of Plants and Soils; Academic Press: San Diego, CA, USA, 1995.
+8. Flexas, J.; Díaz-Espejo, A.; Conesa, M.A.; Coopman, R.E.; Douthe, C.; Gago, J.; Gallé, A.; Galmés, J.; Medrano, H.; Ribas-Carbo, M.;
+et al. Mesophyll conductance to CO2 and Rubisco as targets for improving intrinsic water use efficiency in C3 plants. Plant Cell
+Environ. 2016, 39, 965–982.
+9. Ilyas, M.; Nisar, M.; Khan, N.; Hazrat, A.; Khan, A.H.; Hayat, K.; Fahad, X.; Khan, A.; Ullah, A. Drought tolerance strategies in
+plants: A mechanistic approach. J. Plant Growth Regul. 2021, 40, 926–944. [CrossRef]
+10. Flexas, J.; Medrano, H. Drought-inhibition of photosynthesis in C3 plants: Stomatal and non-stomatal limitations revisited. Ann.
+Bot. 2002, 89, 183–189.
+11. Foyer, C.H.; Kunert, K. The ascorbate–glutathione cycle coming of age. J. Exp. Bot. 2024, 75, 2682–2699. [CrossRef] [PubMed]
+12. Wang, P .; Liu, W.-C.; Han, C.; Wang, S.; Bai, M.-Y.; Song, C.-P . Reactive oxygen species: Multidimensional regulators of plant
+adaptation to abiotic stress and development. J. Integr. Plant Biol. 2024, 66, 330–367. [CrossRef]
+13. Sharma, S.; Alberti, T.; Raposo, R.S.; Anterola, A.M.; Weber, J.; Diatta, A.A.; Leme Filho, J.F.C. The effects of water-deficit stress on
+Cannabis sativa L. development and production of secondary metabolites: A review. Horticulturae 2025, 11, 646. [CrossRef]
+14. Fetterman, P .S.; Keith, E.S.; Waller, C.W.; Guerrero, O.; Doorenbos, N.J.; Quimby, M.W. Mississippi-grownCannabis sativa L.:
+Preliminary observation on chemical definition of phenotype and variations in tetrahydrocannabinol content versus age, sex, and
+plant part. J. Pharm. Sci. 1971, 60, 1246–1249. [CrossRef] [PubMed]
+15. Sheldon, K.; Shekoofa, A.; Walker, E.; Kelly, H. Physiological screening for drought-tolerance traits among hemp (Cannabis sativa
+L.) cultivars in controlled environments and in field. J. Crop Improv. 2021, 35, 816–831. [CrossRef]
+16. Gill, A.R.; Loveys, B.R.; Cowley, J.M.; Hall, T.; Cavagnaro, T.R.; Burton, R.A. Physiological and morphological responses of
+industrial hemp (Cannabis sativa L.) to water deficit. Ind. Crops Prod. 2022, 187, 115331.
+17. Caplan, D.; Dixon, M.; Zheng, Y. Increasing inflorescence dry weight and cannabinoid content in medical cannabis using
+controlled drought stress. HortScience 2019, 54, 964–969. [CrossRef]
+18. Park, S.H.; Pauli, C.S.; Gostin, E.L.; Staples, S.K.; Seifried, D.; Kinney, C.; Vanden Heuvel, B.D. Effects of short-term environmental
+stresses on the onset of cannabinoid production in young immature flowers of industrial hemp (Cannabis sativa L.). J. Cannabis
+Res. 2022, 4, 1. [CrossRef]
+19. Morgan, W.; Singh, J.; Kesheimer, K.; Davis, J.; Sanz-Saez, A. Identifying physiological traits related with drought tolerance and
+water-use efficiency in floral hemp (Cannabis sativa L.). Crop Sci. 2024, 64, 354–372. [CrossRef]
+20. Cosentino, S.L.; Riggi, E.; Testa, G.; Scordia, D.; Copani, V . Evaluation of European developed fibre hemp genotypes (Cannabis
+sativa L.) in semi-arid Mediterranean environment. Ind. Crops Prod. 2013, 50, 312–324. [CrossRef]
+21. Gebrechorkos, S.H.; Sheffield, J.; Vicente-Serrano, S.M.; Funk, C.; Miralles, D.G.; Peng, J.; Dyer, E.; Talib, J.; Beck, H.E.; Singer,
+M.B.; et al. Warming accelerates global drought severity. Nature 2025, 642, 628–635. [CrossRef]
+22. Bartlett, M.K.; Scoffoni, C.; Sack, L. The determinants of leaf turgor loss point and prediction of drought tolerance of species and
+biomes: A global meta-analysis. Ecol. Lett. 2012, 15, 393–405.
+23. Blum, A. Osmotic adjustment is a prime drought stress adaptive engine in support of plant production. Plant Cell Environ. 2017,
+40, 4–10. [CrossRef]
+24. Marshall, J.G.; Dumbroff, E.B. Turgor regulation via cell wall adjustment in white spruce. Plant Physiol. 1999, 119, 313–319.
+[CrossRef] [PubMed]
+25. Gago, J.; Daloso, D.M.; Carriquí, M.; Nadal, M.; Morales, M.; Araújo, W.L.; Nunes-Nesi, A.; Perera-Castro, A.V .; Clemente-
+Moreno, M.J.; Flexas, J. The photosynthesis game is in the “interplay”: Mechanisms underlying CO2 diffusion in leaves. Environ.
+Exp. Bot. 2020, 178, 104174.
+26. Martins, S.C.V .; Galmés, J.; Molins, A.; DaMatta, F.M. Improving the estimation of mesophyll conductance to CO2: On the role of
+electron transport rate correction and respiration. J. Exp. Bot. 2013, 64, 3285–3298. [CrossRef]
+
+[PAGE 16]
+Plants 2025, 14, 3840 16 of 17
+27. Marçal, D.M.; Avila, R.T.; Quiroga-Rojas, L.F.; de Souza, R.P .; Junior, C.C.G.; Ponte, L.R.; Barbosa, M.L.; Oliveira, L.A.; Martins, S.C.;
+Ramalho, J.D.; et al. Elevated [CO2] benefits coffee growth and photosynthetic performance regardless of light availability.Plant
+Physiol. Biochem. 2021, 158, 524–535. [CrossRef]
+28. Kramer, D.M.; Johnson, G.; Kiirats, O.; Edwards, G.E. New fluorescence parameters for the determination of QA redox state and
+excitation energy fluxes. Photosynth. Res. 2004, 79, 209–218. [CrossRef]
+29. Wingler, A.; Lea, P .J.; Quick, W.P .; Leegood, R.C. Photorespiration: Metabolic pathways and their role in stress protection.Philos.
+Trans. R. Soc. Lond. B Biol. Sci. 2000, 355, 1517–1529. [CrossRef]
+30. Villalobos-González, L.; Alarcón, N.; Bastías, R.; Pérez, C.; Sanz, R.; Peña-Neira, Á.; Pastenes, C. Photoprotection is achieved by
+photorespiration and modification of the leaf incident light, and their extent is modulated by the stomatal sensitivity to water
+deficit in grapevines. Plants 2022, 11, 1050. [CrossRef]
+31. Muller, P .; Li, X.P .; Niyogi, K.K. Non-photochemical quenching: A response to excess light energy. Plant Physiol. 2001, 125,
+1558–1566. [CrossRef] [PubMed]
+32. Murchie, E.H.; Lawson, T. Chlorophyll fluorescence analysis: A guide to good practice and understanding some new applications.
+J. Exp. Bot. 2013, 64, 3983–3998. [CrossRef]
+33. Baker, N.R.; Rosenqvist, E. Applications of chlorophyll fluorescence can improve crop production strategies: An examination of
+future possibilities. J. Exp. Bot. 2004, 55, 1607–1621. [CrossRef] [PubMed]
+34. Zhuang, J.; Wang, Y.; Chi, Y.; Zhou, L.; Chen, J.; Zhou, W.; Song, J.; Zhao, N.; Ding, J. Drought stress strengthens the link between
+chlorophyll fluorescence parameters and photosynthetic traits. PeerJ 2020, 8, e10046. [CrossRef]
+35. Araki, T. Transition from vegetative to reproductive phase. Curr. Opin. Plant Biol. 2001, 4, 63–68. [CrossRef] [PubMed]
+36. Sinha, S.K.; Bhargava, S.C.; Goel, A. Energy as the basis of harvest index. J. Agric. Sci. 1982, 99, 237–238. [CrossRef]
+37. Nelson, D.L.; Cox, M.M. Lehninger Principles of Biochemistry, 7th ed.; W.H. Freeman: New York, NY, USA, 2017.
+38. Qiao, M.; Hong, C.; Jiao, Y.; Hou, S.; Gao, H. Impacts of drought on photosynthesis in major food crops and the related
+mechanisms of plant responses to drought. Plants 2024, 13, 1808. [CrossRef] [PubMed]
+39. Cavatte, P .C.; Oliveira, A.A.; Morais, L.E.; Martins, S.C.; Sanglard, L.M.; DaMatta, F.M. Could shading reduce the negative
+impacts of drought on coffee? A morphophysiological analysis. Physiol. Plant. 2012, 144, 111–122. [CrossRef]
+40. Tyree, M.T.; Hammel, H.T. The measurement of the turgor pressure and the water relations of plants by the pressure-bomb
+technique. J. Exp. Bot. 1972, 23, 267–282. [CrossRef]
+41. Blackman, C.J.; Brodribb, T.J. Two measures of leaf capacitance: Insights into the water transport pathway and hydraulic
+conductance in leaves. Funct. Plant Biol. 2011, 38, 118–126. [CrossRef]
+42. DaMatta, F.M.; Godoy, A.G.; Menezes-Silva, P .E.; Martins, S.C.; Sanglard, L.M.; Morais, L.E.; Torre-Neto, A.; Ghini, R. Sustained
+enhancement of photosynthesis in coffee trees grown under free-air CO2 enrichment conditions: Disentangling the contributions
+of stomatal, mesophyll, and biochemical limitations. J. Exp. Bot. 2016, 67, 341–352.
+43. Maxwell, K.; Johnson, G.N. Chlorophyll fluorescence—A practical guide. J. Exp. Bot. 2000, 51, 659–668. [CrossRef]
+44. Lloyd, J.; Grace, J.; Miranda, A.C.; Meir, P .; Wong, S.C.; Miranda, H.S.; Wright, I.R.; Gash, J.H.C.; McIntyre, J. A simple calibrated
+model of Amazon rainforest productivity based on leaf biochemical properties. Plant Cell Environ. 1995, 18, 1129–1145. [CrossRef]
+45. Valentini, R.; Epron, D.; De Angelis, P .; Matteucci, G.; Dreyer, E. In situ estimation of net CO2 assimilation, photosynthetic electron
+flow and photorespiration in Quercus cerris leaves: Diurnal cycles under different levels of water supply. Plant Cell Environ. 1995,
+18, 631–640. [CrossRef]
+46. De Kauwe, M.G.; Lin, Y.S.; Wright, I.J.; Medlyn, B.E.; Crous, K.Y.; Ellsworth, D.S.; Maire, V .; Prentice, I.C.; Atkin, O.K.; Rogers, A.;
+et al. A test of the “one-point method” for estimating maximum carboxylation capacity from field-measured, light-saturated
+photosynthesis. New Phytol. 2016, 210, 1130–1144. [CrossRef]
+47. von Caemmerer, S.; Evans, J.R.; Hudson, G.S.; Andrews, T.J.; Seemann, J.R. The kinetics of ribulose-1,5-bisphosphate carboxy-
+lase/oxygenase in vivo inferred from measurements of photosynthesis in leaves of transgenic tobacco. Planta 1994, 195, 88–97.
+[CrossRef]
+48. Sharkey, T.D.; Bernacchi, C.J.; Farquhar, G.D.; Singsaas, E.L. Fitting photosynthetic carbon dioxide response curves for C3 leaves.
+Plant Cell Environ. 2007, 30, 1035–1040. [CrossRef]
+49. Lisec, J.; Schauer, N.; Kopka, J.; Willmitzer, L.; Fernie, A.R. Gas chromatography mass spectrometry–based metabolite profiling in
+plants. Nat. Protoc. 2006, 1, 387–396. [CrossRef]
+50. Bender-Machado, L.; Bäuerlein, M.; Carrari, F.; Schauer, N.; Lytovchenko, A.; Gibon, Y.; Kelly, A.; Loureiro, M.; Müller-Röber, B.;
+Willmitzer, L.; et al. Expression of a yeast acetyl CoA hydrolase in the mitochondrion of tobacco plants inhibits growth and
+restricts photosynthesis. Plant Mol. Biol. 2004, 55, 645–662. [CrossRef]
+51. Fernie, A.R.; Roscher, A.; Ratcliffe, R.G.; Kruger, N.J. Fructose 2,6-bisphosphate activates pyrophosphate: Fructose 6 phosphate
+1-phosphotransferase and increases triose phosphate to hexose phosphate cycling in heterotrophic cells. Planta 2001, 212, 250–263.
+[CrossRef]
+52. Yemm, E.W.; Cocking, E.C.; Ricketts, R.E. The determination of amino-acids with ninhydrin. Analyst 1955, 80, 209–214. [CrossRef]
+
+[PAGE 17]
+Plants 2025, 14, 3840 17 of 17
+53. Bieleski, R.L.; Turner, N.A. Separation and estimation of amino acids in crude plant extracts by thin-layer electrophoresis and
+chromatography. Anal. Biochem. 1966, 17, 278–293. [CrossRef]
+54. Carillo, P .; Gibon, Y. Protocol: Extraction and determination of proline. PrometheusWiki 2011, 2011, 1–5.
+55. Bradford, M.M. A rapid and sensitive method for the quantitation of microgram quantities of protein utilizing the principle of
+protein-dye binding. Anal. Biochem. 1976, 72, 248–254. [CrossRef]
+56. Praxedes, S.C.; DaMatta, F.M.; Loureiro, M.E.; Maria, M.A.; Cordeiro, A.T. Effects of long-term soil drought on photosynthesis
+and carbohydrate metabolism in mature robusta coffee (Coffea canephora Pierre var. kouillou) leaves. Environ. Exp. Bot. 2006, 56,
+263–273. [CrossRef]
+57. Hodges, D.M.; DeLong, J.M.; Forney, C.F.; Prange, R.K. Improving the thiobarbituric acid reactive substances assay for estimating
+lipid peroxidation in plant tissues containing anthocyanin and other interfering compounds. Planta 1999, 207, 604–611. [CrossRef]
+58. Landi, M. Commentary to: “Improving the thiobarbituric acid-reactive-substances assay for estimating lipid peroxidation in
+plant tissues containing anthocyanin and other interfering compounds” by Hodges et al., Planta (1999), 207, 604–611. Planta 2017,
+245, 1067. [CrossRef]
+59. Peixoto, P .H.P .; Cambraia, J.; Sant’Anna, R.; Mosquim, P .R.; Moreira, M.A. Aluminum effects on lipid peroxidation and on the
+activities of enzymes of oxidative metabolism in sorghum. Rev. Bras. Fisiol. Veg. 1999, 11, 137–143.
+60. Giannopolitis, C.N.; Ries, S.K. Superoxide dismutases: I. Occurrence in higher plants. Plant Physiol. 1977, 59, 309–314. [CrossRef]
+61. Havir, E.A.; McHale, N.A. Biochemical and developmental characterization of multiple forms of catalase in tobacco leaves. Plant
+Physiol. 1987, 84, 450–455. [CrossRef]
+62. Kwak, S.S.; Lee, M.S.; Park, I.H.; Kim, I.J.; Liu, J.R. Enhancement of peroxidase activity by stress-related chemicals in sweet potato.
+Phytochemistry 1996, 43, 565–568. [CrossRef]
+63. Jarén, C.; Zambrana, P .C.; Pérez-Roncal, C.; López-Maestresalas, A.; Ábrego, A.; Arazuri, S. Potential of NIRS technology for the
+determination of cannabinoid content in industrial hemp (Cannabis sativa L.). Agronomy 2022, 12, 938. [CrossRef]
+64. Rafiq, H.; Hartung, J.; Schober, T.; Vogt, M.M.; Carrera, D.A.; Ruckle, M.; Graeff-Hönninger, S. Non-destructive near-infrared
+technology for efficient cannabinoid analysis in cannabis inflorescences. Plants 2024, 13, 833. [CrossRef] [PubMed]
+Disclaimer/Publisher’s Note: The statements, opinions and data contained in all publications are solely those of the individual
+author(s) and contributor(s) and not of MDPI and/or the editor(s). MDPI and/or the editor(s) disclaim responsibility for any injury to
+people or property resulting from any ideas, methods, instructions or products referred to in the content.

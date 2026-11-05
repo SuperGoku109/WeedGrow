@@ -4,3 +4,10 @@
   outline-offset: 3px;
   box-shadow: 0 0 0 6px #243420;
 }
+
+/* Editor inputs have a shared, animated frame that includes their unit badge.
+   Keep keyboard focus visible on that frame instead of outlining its inner text area. */
+:is(input, textarea)[id^="editor-input-"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}

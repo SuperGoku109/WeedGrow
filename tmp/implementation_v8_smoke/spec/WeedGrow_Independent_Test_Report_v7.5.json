@@ -1,0 +1,45 @@
+{
+  "version": "7.5",
+  "engine": "C:\\Users\\Zane\\dev\\WeedGrow\\tmp\\implementation_v8_smoke\\spec\\WeedGrow_Algorithm_Emulator_v7.4.py",
+  "engineSHA256": "8427dbc7be67f0e5a2cf3585e5c2e915eddd1bc8bc5d20189dd835b35efdae4a",
+  "testsRun": 115,
+  "independentTests": 20,
+  "existingTests": 95,
+  "seededBankTrials": 1000,
+  "failures": [],
+  "errors": [],
+  "knownAnswerCases": 13,
+  "exhaustiveParameterSets": 96,
+  "mutationChecks": [
+    {
+      "mutation": "omit_weather_loss",
+      "detected": true
+    },
+    {
+      "mutation": "ignore_delivered_water",
+      "detected": true
+    },
+    {
+      "mutation": "millimetre_litre_unit_error",
+      "detected": true
+    },
+    {
+      "mutation": "compare_reserve_to_depletion",
+      "detected": true
+    },
+    {
+      "mutation": "unknown_refill_assumed_full",
+      "detected": true
+    },
+    {
+      "mutation": "forecast_rain_credited_now",
+      "detected": true
+    },
+    {
+      "mutation": "broken_air_vpd",
+      "detected": true
+    }
+  ],
+  "allPassed": true,
+  "biologicalAccuracyValidated": false
+}

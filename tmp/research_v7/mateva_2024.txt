@@ -1,0 +1,1080 @@
+
+[PAGE 1]
+Genotype-speciﬁc
+morphophysiological adaptations
+and proline accumulation
+uncover drought adaptation
+complexity in hemp ( Cannabis
+sativa and Cannabis indica )
+Kumbirai Ivyne Mateva1*, Ein Mahenga1,2, Terrence Matibiri1,
+Casper Nyaradzai Kamutando2, Frank Magama1
+and Susan Dimbi1
+1Tobacco Research Board (TRB), Kutsaga Research Station, Harare, Zimbabwe, 2Department of Plant
+Production Sciences and Technologies, University of Zimbabwe, Harare, Zimbabwe
+Hemp, which has a wide range of industrial applications, has been marginalized
+due to its association with marijuana. This stigma has hindered research into
+improving its resilience to various stressors, resulting in underutilization and
+neglect. As cultivation expands globally, particularly in hot, dry regions of Africa,
+understanding drought stress mechanisms in hemp is crucial. This study
+investigates the drought adaptation mechanisms of three CBD ﬂower hemp
+genotypes: Cannabis indica (MP) from Switzerland, Cannabis sativa (AQ) from
+South Africa, and Cannabis sativa (ZB) from Zimbabwe. Conducted under well-
+watered (WW-75% ﬁeld capacity [FC]), mild drought (MD-40% FC), and severe
+drought (SD-0% FC) conditions, the research examines morphophysiological
+adaptations and proline accumulation in these genotypes, assessed 55 days after
+transplanting. Results revealed genotype-speciﬁc responses to watering regimes.
+MP demonstrated controlled water use and inherent drought tolerance,
+maintaining high assimilation rates ( A) and superior photosynthetic
+performance ( FPSII) under drought conditions. ZB maintained proline levels
+during drought recovery, suggesting optimized resource allocation and
+alternative stress-responsive mechanisms, while exhibiting effective morning
+water use and high non-photochemical quenching (NPQ) for photoprotection.
+AQ showed conservative water use strategies bene ﬁcial in water-limited
+environments. These ﬁndings provide a foundation for breeding programs
+aimed at developing robust and resilient hemp varieties suited to speci ﬁc
+environmental conditions.
+KEYWORDS
+chlorophyll ﬂuorescence, drought stress, industrial hemp, neglected/underutilized
+species, photosynthesis, proline accumulation
+Frontiers in Plant Physiology frontiersin.org01
+OPEN ACCESS
+EDITED BY
+Giles Nicholas Johnson,
+The University of Manchester,
+United Kingdom
+REVIEWED BY
+Sorin Vatca,
+University of Agricultural Sciences and
+Veterinary Medicine of Cluj-Napoca, Romania
+Oded Liran,
+University of Haifa, Israel
+*CORRESPONDENCE
+Kumbirai Ivyne Mateva
+kmateva@kutsaga.co.zw
+RECEIVED 30 May 2024
+ACCEPTED 22 July 2024
+PUBLISHED 09 September 2024
+CITATION
+Mateva KI, Mahenga E, Matibiri T,
+Kamutando CN, Magama F and Dimbi S
+(2024) Genotype-speci ﬁc
+morphophysiological adaptations and proline
+accumulation uncover drought adaptation
+complexity in hemp ( Cannabis sativa
+and Cannabis indica ).
+Front. Plant Physiol. 2:1441262.
+doi: 10.3389/fphgy.2024.1441262
+COPYRIGHT
+© 2024 Mateva, Mahenga, Matibiri, Kamutando,
+M a g a m aa n dD i m b i .T h i si sa no p e n - a c c e s s
+article distributed under the terms of the
+Creative Commons Attribution License (CC BY).
+The use, distribution or reproduction in other
+forums is permitted, provided the original
+author(s) and the copyright owner(s) are
+credited and that the original publication in
+this journal is cited, in accordance with
+accepted academic practice. No use,
+distribution or reproduction is permitted
+which does not comply with these terms.
+TYPE Original Research
+PUBLISHED 09 September 2024
+DOI 10.3389/fphgy.2024.1441262
+
+[PAGE 2]
+1 Introduction
+The economic importance of hemp cultivation is evident in its
+diverse applications in agriculture, industry, and healthcare. Hemp
+is utilized in various forms such as grain, ﬁber, and the highly
+sought-after cannabidiol (CBD) ﬂower ( Zheljazkov et al., 2023 ).
+Hemp grain is known for being a nutritional powerhouse, providing
+a rich source of protein and healthy fats. This makes hemp a
+valuable component in promoting food security and addressing
+dietary needs ( Van Der Werf et al., 1996 ; Ehrensing, 1998 ; Small
+and Marcus, 2002 ; Salentijn et al., 2015 ). The robust ﬁbers derived
+from hemp have versatile applications in the textile, paper, and
+construction industries, contr ibuting to the development of
+sustainable and eco-friendly materials.
+The CBD ﬂower is associated with medicinal properties, leading
+to a rising demand in the wellness and pharmaceutical sectors.
+CBD, a non-psychoactive compound found in hemp, has been
+extensively studied for its potential therapeutic bene ﬁts, including
+anti-in ﬂammatory, analgesic, and neuroprotective properties.
+Xiong et al. (2012) conducted research highlighting the
+neuroprotective potential of CBD, indicating its relevance in
+mitigating neurological disorders.
+While hemp’s contributions are invaluable, there is an ongoing
+debate about its taxonomic classi ﬁcation within the Cannabis
+genus. The dispute centers around the monotypic perspective,
+which recognizes only C. sativa , and the polytypic viewpoint,
+which acknowledges both C. sativa and C. indica as distinct
+species ( Small and Cronquist, 1976 ; Russo, 2019 ). Currently, the
+widely accepted taxonomy categorizes hemp under a single species,
+C. sativa L., with subspecies sativa, indica, and ruderalis, which
+offers some resolution to the taxonomic discourse ( Warwick and
+Rightford, 2020). However, it’s important to note, as highlighted by
+McPartland (2018) , that distinctions between C. sativa and C.
+indica go beyond taxonomy. Morphological differences, such as
+C. sativa ’s taller, ﬁbrous stalk compared to C. indica ’s shorter,
+woody stalk, and phytochemical variations, such as C. sativa
+typically exhibiting a cannabinoid ratio with higher D9-
+tetrahydrocannabinol (THC) than CBD, while
+C. indica shows
+the opposite, are key factors. Additionally, differences in their
+original geographic range further differentiate the two species,
+with C. sativa predominantly found in Europe and C. indica in Asia.
+The economic potential of hemp cultivation comes with
+environmental challenges, especially in drought-prone regions.
+This type of climate phenomena, marked by increased
+temperatures in the Paci ﬁc Ocean, results in extended dry periods
+and less rainfall, worsening water scarcity and drought stress in
+agricultural areas. Southern Africa, in particular, suffers severe
+consequences during drought events, impacting crop production,
+food security, and livestock ( Baudoin et al., 2017 ; Sifundza et al.,
+2019; Mugiyo et al., 2023 ). Small-scale farmers, who lack suf ﬁcient
+water resources and irrigation systems, are especially vulnerable.
+Therefore, a better understanding of drought responses and
+adaptive strategies in hemp and other crops is vital.
+Drought stress has a profound effect on plant growth and
+physiological processes. Resear chers have extensively studied
+strategies that plants use to cope with water de ﬁciency, such as
+stomatal regulation, osmotic adjustment, and activation of
+antioxidant defense mechanisms ( Verslues et al., 2007 ). However,
+there is still much to learn about the complex interaction of these
+mechanisms, particularly in the case of hemp. Prolonged and severe
+drought stress can hinder growth, cause changes in plant
+morphology, and even lead to plant death. Understanding the
+nuanced responses and underlying mechanisms is crucial for
+developing strategies to enhance crop productivity and resilience
+under water-limited conditions ( Ahmed et al., 2019 ).
+Recent research has focused on the relationship between leaf
+chlorophyll ﬂuorescence characteristics, membrane lipid
+peroxidation, and stress response in plants exposed to drought
+conditions ( Kalaji et al., 2016 ). The study of photosynthesis,
+protective enzyme activity, an d their interactions provides
+valuable insights into light energy conversion, utilization, and
+drought resistance ( Zhu et al., 2020 ). Studies have also
+emphasized the inhibitory effects of drought on plant growth and
+photosynthesis and highlighted the importance of understanding
+these processes under water-limited conditions ( Efeoğlu, 2009 ).
+In regions like Zimbabwe, where outdoor hemp cultivation is
+allowed but irrigation systems are not widespread, vulnerability to
+drought stress is signi ﬁcant. Insuf ﬁcient water resources greatly
+affect the growth and yield of hemp crops, which necessitates
+conducting comprehensive st udies on the physiological and
+biochemical responses to drought stress. Proline, an amino acid,
+plays a crucial role in osmotic adjustment and stress mitigation in
+plants ( Hayat et al., 2012a , b). Accumulation and recovery of
+proline under drought stress conditions act as a protective
+mechanism, helping to maintain cell turgor and overall cellular
+integrity ( Raza et al., 2023 ).
+This study aims to ﬁll the current research gap by conducting
+experiments on potted plants. The study will be investigating
+different hemp genotypes under controlled water conditions. Our
+goal is to examine how drought stress affects various aspects of
+hemp, such as photosynthesis, chlorophyll ﬂuorescence parameters,
+and proline accumulation. By doing this, we hope to gain a holistic
+understanding of how hemp responds to water-limited
+environments. Ultimately, our ﬁndings will not only contribute to
+the existing knowledge of hemp physiology but also help in the
+development of water-saving practices for hemp cultivation. This
+will promote sustainable and resilient hemp production,
+particularly in regions prone to drought.
+2 Materials and methods
+2.1 Plant materials
+Three hemp genotypes, sourced from diverse geographical
+regions, exemplify distinct genetic lineages within the Cannabis
+species. Given advancements in our understanding of cannabis
+taxonomy, it ’s crucial to provide detailed illustrations of their
+genetic diversity. Notably, b eyond genetic makeup, these
+genotypes manifest pronounced differences in morphology; for
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org02
+
+[PAGE 3]
+instance, C. sativa exhibits a tall, ﬁbrous stalk, while C. indica
+displays a shorter stature with a woody stalk, highlighting the
+multifaceted nature of genetic and phenotypic variation within
+the Cannabis genus ( McPartland, 2018 ). The genotypes, including
+a Swiss genotype classi ﬁed as Cannabis indica (genotype MP), a
+South African genotype as Cannabis sativa (genotype AQ), and a
+Zimbabwean genotype also as Cannabis sativa (genotype ZB), were
+selected to represent genetic diversity, considering their source
+locations, morphology, and environmental pressure adaptations.
+To protect intellectual property and prevent unauthorized
+propagation, the strain names were omitted and focused on
+describing characteristics. The germplasm used in this study were
+obtained as feminized seeds from individual suppliers, certi ﬁed to
+have a THC content below 1% on a dry weight basis, in accordance
+with the regulations in Zimbabwe. The experiment was conducted
+in the 2023 season at the Kutsaga Research Station (-17.9190513,
+31.1222), Harare, Zimbabwe, under a rain-out shelter. Sterilization
+was employed according to Gilbert et al. (2023) with modiﬁcations
+described below to ensure the seeds were devoid of fungal
+contamination. A surface steril ization method was employed,
+involving a 5% sodium hypochlorite solution followed by rinsing
+with distilled water. Sterilized seeds were then sown in Kutsaga ﬂoat
+trays ® with 242 cells, allowing them to germinate for 8-d.
+Afterward, well-established and uniform seedlings at day 21 after
+planting were transplanted into 20 L free-draining pots measuring
+31.5 cm in diameter and 38 cm in height, from top to bottom. Each
+pot accommodated a single seedling and was ﬁlled with
+approximately 32 kg of a homogeneous sandy clay soil mixture,
+comprising 10% silt, 48% sand, and 42% clay. The soil used had a
+pH of 4.7 (extraction method with 0.01M CaCl 2 solution) and an
+electrical conductivity (EC) of 13 µS cm -1, determined through soil
+tests conducted by Kutsaga ’s ISO 17025 accredited Analytical
+Chemistry Laboratory in Harar e, Zimbabwe. Throughout the
+growth period, plants were fertilized weekly with 50 mL of
+nutritive solution. The solution used was a mixture of COCOS A
++ B (House and Garden, Van De Zwaan, USA; total N 4%, K
+2O 9%,
+P2O5 3%; diluted 1:250) and N27% NITROGEN (House and
+Garden, Van De Zwaan, USA; total N 27%; diluted 1:100).
+2.2 Experiment design and treatments
+The experimental design followed a factorial treatment structure,
+employing a completely randomized design with levels of hemp
+genotypes (i.e., MP, AQ and ZB), and three water management
+levels i.e., Well-Watered (WW-75% ﬁeld capacity [FC] which was
+adequate water supply), Moderate Drought (MD-40% [FC] which is
+suboptimal moisture level), and Severe Drought (SD-0% [FC] which
+is Severe Water Stress), and its treatment combination replicated
+three times. Following transplanting, all plants were consistently
+maintained in a well-watered state, receiving 75% FC, a value
+determined to represent the true ﬁeld capacity considering the
+soil’s physical properties. At 40-d after transplanting (DAT), the
+initiation of water management treatments—WW-75% FC, MD-40%
+FC, and SD-0% FC —marked a pivotal point in the experimental
+timeline (Figure 1). The WW-75% FC treatment, functioning as the
+control, maintained soil water at 75% FC by supplying an average of
+30.2 L of water during the subsequent drought stress period, ensuring
+optimal soil moisture for sustained plant growth. In the MD-40% FC
+treatment, the soil water level was deliberately reduced to 40% FC for
+a period of 15-d, creating conditions that mimic moderate water
+scarcity. Throughout the 15-d drought stress period, an average of
+12.1 L of water was supplied, strategically imposing a controlled
+reduction in water availability to induce a measurable stress response
+in the hemp genotypes. The SD-0% FC treatment represented the
+most challenging water stress scenario, with no water supplied during
+the drought stress period, reducing the soil water level to 0% FC for a
+period of 15-d. This extreme condition aimed to simulate severe
+drought stress, thereby challenging the adaptability and resilience of
+the genotypes to extreme water scarcity. To ensure consistent water
+levels, all pots were irrigated once every 2-d at 7.30am until they
+reached the desired ﬁeld capacity. Soil ﬁeld capacity for the water
+managements was maintained by monitoring using a Field scout
+TDR300 soil moisture meter (Spectrum Technologies, UK), with
+compensation of the water lost by addition of an equivalent amount
+of water. At 55 DAT—peak drought stress, the MD-40% FC and SD-
+0% FC treatments were discontinued, and all plants were transitioned
+back to the well-watered state, receiving 75% FC until the ﬁnal
+harvest at 80 DAT ( Figure 1).
+2.3 Measurement parameters and methods
+2.3.1 Gaseous exchange parameters
+Stomatal conductance ( gsw) and net assimilation rate ( A)
+readings were obtained from the youngest, fully expanded fan
+leaves, using the LI-6800 portable photosynthesis system infrared
+gas analyzer (LI-COR, Lincoln, NE, USA). Leaves were allowed to
+acclimate to cuvette conditions at 20°C, with the ﬂow rate was set at
+500 mmol s -1,C O 2 concentration at 400 mmol mol -1,a n da t
+photosynthetic photon ﬂux density (PPFD) of 1000 mmol m -2 s-1
+PPFD (Barcaccia et al., 2022). Measurements of gsw were conducted
+every 2-h at 8 am, 10 am, 12 pm, 2 pm, and 4 pm, while A
+measurements were taken between 10 am and 12 pm, all at 55 DAT
+—during the peak drought stress period. In addition, a gradient of
+light intensities ranging from 0 to 2000 mmol m -2 s-1 PPFD was
+applied for A measurements according to the user ’sm a n u a l .
+I n t r i n s i cw a t e ru s ee fﬁciency ( iWUE) was also calculated by
+dividing the A by gsw, for each data point.
+2.3.2 Chlorophyll ﬂuorescence parameters
+Chlorophyll ﬂuorescence assessments were conducted using the
+auxiliary equipment integrated into the LI-6800 portable
+photosynthesis system infrared gas analyzer (LI-COR, Lincoln,
+NE, USA). Following the nomenclature proposed by Baker and
+Rosenqvist (2004) , measurements of photosystem II (PSII)
+efﬁciency were performed to evaluate the conversion of light
+energy into chemical energy during photosynthesis. The maximal
+photochemical ef ﬁciency of photosystem II ( Fv/Fm)r a t i o ,
+representing the ratio of variable ﬂuorescence ( Fv) to maximum
+ﬂuorescence ( Fm) when all PSII reaction centers are open, was
+utilized for this assessment. Fv, calculated as the difference between
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org03
+
+[PAGE 4]
+Fm (maximum ﬂuorescence) and Fo (minimum ﬂuorescence), was
+determined for dark-adapted samples at 55 DAT. The readings were
+taken during the night, commencing at 7.30 pm, ensuring that the
+plants experienced a period of darkness before measurement. This
+dark adaptation period consid ered the sunset time, occurring
+between 5.30 pm and 6 pm in Zimbabwe. To determine the
+efﬁciency of PSII under light adaptation, calculations were made
+for the quantum yield of PSII ( FPSII) calculated from ﬂuorescence
+as the difference between 1 and the steady-state F ( Fs) divided by
+maximal F, light-adapted (Fm’). Additionally, measurements of light
+adapted electron transport rate (ETR) and non-photochemical
+quenching (NPQ) were conducte d across a gradient of light
+intensities, ranging from 0 to 2000 mmol m-2 s-1 PPFD at 55 DAT.
+2.3.3 Biochemical analysis (proline determination)
+Biochemical analysis of proline was done during the last day of
+drought stress and at 14-d of drought recovery. Analysis was based
+on Lee et al. (2018) and Gill et al. (2022) with modi ﬁcations
+described below. The youngest fully expanded leaves were
+harvested, and proline accumulation analysis was immediately
+conducted to minimize changes in proline levels. Proline from 30
+mg of fresh leaf material was extracted by homogenization in 200 mL
+of 1% aqueous sulfosalicylic acid (w/v) using a plastic micro pestle
+(MRS Scienti ﬁc, UK) until a paste-like consistency was achieved.
+Another 800 mL of 1% aqueous sulfosalicylic acid (w/v) was added
+to the homogenized samples, followed by further grinding for 1 min
+to make it more efﬁcient in extracting and quantifying proline from
+the leaf samples. The plant extract was divided into batches, and 66
+mL of each extract was transferred to a separate Eppendorf tube, 132
+mL of acid ninhydrin reagent (1.25% ninhydrin in 80% glacial acetic
+acid) was added. The Eppendorf tubes were placed in a 5L general
+purpose water bath at 95°C and incubated for 60 min to allow the
+reaction between proline and ninhydrin. After incubation, the
+reaction was stopped by immersing the tubes in an ice bath for
+10 min. Following cooling, the absorbance of each reaction mixture
+was measured at 510 nm using a spectrophotometer (Thermo
+Scientiﬁc GENESYS 20-Monochromator, UK). A standard curve
+was obtained and the generated linear equation (R
+2 = 0.99) was used
+to calculate proline in plant extracts ( Supplementary Figure 1 ).
+2.4 Statistical analysis
+Data was analyzed using a two-way analysis of variance
+(ANOVA) through the General Linear Model procedure in the
+Statistica Version 13.3 software (TIBCO Software Inc, USA). The
+effects of genotype (G), and water management (WM), as well as
+the interaction effects of these two factors (i.e., G × WM) on the
+various traits measured in the study were tested. To determine
+signiﬁcant differences between means, Tukey ’s Honestly Signi ﬁcant
+Difference (HSD) test was applied at a signi ﬁcance level of 5%.
+Figures representing key photosynthetic parameters were generated
+across different soil moisture levels (WW-75%FC, MD-40% FC, and
+SD-0% FC), using Sigma Plot 10.0 software (Systat Software Inc.,
+Chicago, IL, USA). The g sw curve captured the diurnal stomatal
+dynamics, governing gas exchange, while the A curve revealed the
+plant’s carbon assimilation performance. These curves were then
+used to establish a linear correlation between A and gsw. Light curves
+for FPSII, ETR, and NPQ were plotted, showcasing the ef ﬁciency of
+light conversion, highlighting changes in electron ﬂow through the
+photosynthetic chain, and illustrating plant responses to light stress.
+3 Results
+3.1 Rainout shelter conditions and visible
+hemp responses to soil
+moisture differences
+Average maximum temperatures ranged from 24.7°C to 31.6°C,
+with minimum temperatures varying between 2.9°C and 18.6°C.
+Evaporation rates ranged from 2.6 mm to 10.5 mm, while sunshine
+hours ﬂuctuated between 2.4 and 10.5-h ( Supplementary Figure 2 ).
+Under the WW-75% FC treatment, the hemp plants maintained a
+healthy morphological status with green leaves. However, in the
+MD-40% FC treatment, visible signs of stress were observed, as
+evidenced by slight yellowish discoloration on the bottom leaves.
+The most noticeable differences in plant response occurred under
+the SD-0% FC treatment, where severe water stress was evident. The
+leaves displayed a pronounced yellowish-brown to purple
+coloration and exhibited a loss of turgor ( Supplementary Figure 3 ).
+3.2 Diurnal stomatal conductance
+dynamics under varying water availability
+Highly signi ﬁcant differences ( P<0.001; Figures 2A –C), were
+observed for gsw. Across the three water management treatments,
+stomatal conductance (g sw) exhibited a diurnal pattern that was
+speciﬁc to each genotype. In the WW-75% FC treatment, the gsw of
+all three genotypes remains relatively high throughout the day
+(Figure 2A ), with values ranging from approximately 0.3 to 0.5
+mol H2Om -2 s−1. At 8 am and 10 am, the gsw is high and statistically
+similar among the genotypes. As the day progresses to 12 pm, 2 pm,
+and 4 pm, there is a noticeable decrease in gsw. By 4 pm, a signiﬁcant
+reduction is observed, particularly in ZB. This trend suggests that
+while WW-75% FC treatment allow for higher stomatal activity,
+diurnal variations still lead to a decline as the day progresses, likely
+due to increasing temperature and evaporative demand. Under
+MD-40% FC treatment, the gsw shows a marked decrease compared
+to the WW-75% FC treatment. At 8 am, all three genotypes have
+relatively high conductance, but it starts to decline sharply by 10 am
+and 12 pm ( Figure 2B ). MP and AQ show similar conductance
+trends, whereas ZB tends to have slightly lower values at these times.
+By 2 pm and 4 pm, gsw decreases further for all genotypes, with no
+signiﬁcant differences among them at 4 pm. This indicates that
+moderate drought stress reduces overall stomatal activity and that
+the response varies slightly among genotypes. In SD-0% FC
+treatment, the gsw is consistently low throughout the day for all
+genotypes, re ﬂecting the plants ’ response to extreme water
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org04
+
+[PAGE 5]
+deﬁciency (Figure 2C). The values range from approximately 0.1 to
+0.2 mol H 2Om -2 s−1, indicating a substantial reduction in stomatal
+activity. At all times of the day, there are no signi ﬁcant differences
+among the genotypes, across all time points.
+3.3 Light response of net assimilation rate
+under drought stress
+Across the different water managements, an increase in light
+intensity corresponded to a highly signiﬁcant (P<0.001; Figures 3A–
+C) increase in A across all genotypes. Genotype ZB had the highestA
+value at a light intensity of 2000 mmol m-2 s-1, reaching a peak of 28.4
+mmol·CO2 m-2 s-1. The MP genotype had a lower A value, while
+genotype AQ had the lowestA value, approximately half of ZB’sv a l u e .
+Interestingly, genotype AQ, showed a unique response characterized
+by a plateau effect at higher light levels, with the WW-75% FC
+treatment reaching a peak of 11.7mmol·CO2 m-2 s-1 at 2000 mmol m-2
+s-1 PPFD. Under MD-40% FC treatment, the A rates of all three
+genotypes are reduced compared to the WW-75% FC treatment
+(Figure 3B). The response to increasing PPFD is less pronounced,
+with maximum A rates reaching approximately 20mmol·CO2 m-2 s-1.
+MP maintains the highest A rates across all light intensities, while ZB
+shows the lowest. Under SD-0% FC treatment, the A rates are
+substantially reduced for all genotypes ( Figure 3C). The rates range
+from 0 to approximately 5 mmol·CO2 m-2 s-1 across the PPFD
+spectrum, indicating a minimal response to increasing light intensity.
+3.4 Intrinsic water use ef ﬁciency under
+drought stress
+There was a highly signiﬁcant interaction (P<0.001; Figures 4A–
+C) between water management and genotype for intrinsic water use
+efﬁciency (iWUE).I n Figure 4A, which represents the WW-75% FC
+treatment, the A rate shows a positive correlation with gsw.A s gsw
+FIGURE 1
+The study design included three treatments: well-watered (WW-75% FC), mild drought (MD-40% FC), and severe drought (SD-0% FC). Well-watered
+plants received regular irrigation, while mild drought plants had reduced irrigation (40% of ﬁeld capacity) for 15-d. Severe drought plants received no
+irrigation for the same period. Visual indicators, such as solid blue bars and red bar inserts, represented the respective treatments. The treatment s
+are depicted by solid blue and red colours, respectively.
+FIGURE 2
+Diurnal curves of leaf stomatal conductance (gsw). Measurements were taken every 2-h from 8am to 4pm on the fourth fan-leaf counting from the top,
+using LI-6800 LICOR. MP ( C. indica), AQ ( C. sativa) and ZB ( C. sativa). Times are shown in 12 h format, well-watered (WW-75% FC ); (A),m o d e r a t e
+drought (MD-40% FC); (B), and severe drought (SD-0% FC); (C). The letters on the plots highlight statistical differences. Values are presented as mean ±
+se (n = 5).
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org05
+
+[PAGE 6]
+increases from approximately 0.0 to 0.4 mol·H 2Om -2 s-1, the A rate
+also increases, reaching up to about 28 mmol·CO2 m-2 s-1 for the ZB
+genotype. The AQ and MP genotypes display lower A rates
+compared to ZB but still follow a similar trend of increasing A
+rate with increasing gsw. Under MD-40% FC treatment, distinct
+patterns emerge among the different genotypes (Figure 4B). The MP
+genotype shows a tendency to shift toward the far right of the graph.
+The data points for MP extend to higher gsw values (up to 0.4
+mol·H2Om -2 s-1) and demonstrate a relatively higher A rate
+compared to the other genotypes. The AQ and ZB genotypes
+exhibit clustering in the lower to mid-range gsw values
+(approximately 0.0 to 0.2 mol·H 2Om -2 s-1). Their A rates are
+more varied but generally lower than those of MP, indicating that
+these genotypes do not maintain as high gsw under MD-40% FC
+treatment as MP. Figure 4C, representing SD-0% FC treatment, the
+A rate is signi ﬁcantly reduced across all genotypes. The A rates do
+not exceed 10 mmol·CO2 m-2 s-1, and most data points cluster
+around lower values of gsw (0.0 to 0.2 mol·H 2Om -2 s-1). This
+suggests a substantial impact of SD-0% FC treatment on
+photosynthetic activity, regardless of the genotype.
+3.5 Light response of chlorophyll
+ﬂuorescence parameters under
+drought stress
+A highly signi ﬁcant interaction ( P<0.001 ; Figures 5A –I)
+between water management and genotype for FPSII, NPQ, and
+ETR. Genotype MP and ZB both showed slightly higher FPSII under
+the WW-75% FC treatment ( Figure 5A), compared to AQ at lower
+PPFD values. The decline in FPSII suggests light saturation effects as
+PPFD increases. Under MD-40% FC treatment, FPSII still decreases
+with increasing PPFD, but the values are generally lower compared
+to the WW-75% FC treatment ( Figure 5B ). MP maintains higher
+FPSII at lower PPFD, while AQ and ZB exhibit similar declines.
+Under SD-0% FC treatment, FPSII is substantially lower across all
+genotypes and PPFD levels, indicating signi ﬁcant photoinhibition
+or stress ( Figure 5C ). MP, AQ, and ZB show minimal differences,
+with FPSII values clustering closely together.
+In Figure 5D, under the WW-75% FC treatment, NPQ increases
+with PPFD, indicating enhanced energy dissipation as heat to
+protect the photosystem. ZB sh ows the highest NPQ values,
+suggesting a robust photoprotective mechanism, followed by MP
+and AQ. Under MD-40% FC treatment, NPQ still increases with
+PPFD, but the differences between genotypes are less pronounced
+(Figure 5E). ZB maintains slightly higher NPQ, indicating effective
+energy dissipation under moderate drought. In Figure 5F , under
+SD-0% FC treatment, NPQ values are highest under severe drought
+across all genotypes, re ﬂecting increased stress and the need for
+photoprotection. ZB continues to show higher NPQ, followed by
+MP and AQ, but the differences are minimal.
+In Figure 5G , WW-75% FC treatment, ETR increases with
+PPFD for all genotypes, with MP and ZB showing higher rates
+compared to AQ, indicating more ef ﬁcient electron transport under
+the WW-75% FC treatment. Under MD-40% FC treatment, ETR
+increases with PPFD but at a reduced rate compared to the WW-
+75% FC treatment ( Figure 5H ). MP maintains a higher ETR than
+AQ and ZB, suggesting better electron transport ef ﬁciency under
+stress. In Figure 5I, ETR values are signi ﬁcantly reduced under SD-
+0% FC treatment across all PPFD levels. MP, AQ, and ZB exhibit
+similar ETR values, indicating s evere limitations in electron
+transport due to extreme drought stress.
+After dark adaptation, Fv/Fm was signiﬁcantly (P<0.05; Table 1)
+affected by the interaction between water management and
+genotype. Genotype MP showed remarkable stability, with Fv/Fm
+values of 0.83 under WW-75% FC treatment, increasing by 1.2%
+under MD-40% FC treatment, and remaining stable with no change
+under SD-0% FC treatment. Genotype AQ exhibited an increase of
+3.7% under MD-40% FC treatment, but a signi ﬁcant decrease of
+2.4% under SD-0% FC treatment. Genotype ZB maintained a stable
+FIGURE 3
+The net assimilation rate (A), measured in mmol CO2 m-2 s −1, plotted against photosynthetic photon ﬂux density (PPFD) ranging from 0 to 2000
+mmolm-2 s -1 on young fully expanded leaves using LI-6800 LICOR at 45-d after transplanting. MP ( C. indica ), AQ ( C. sativa ) and ZB ( C. sativa ).
+Well-watered (WW-75% FC); (A), moderate drought (MD-40% FC); (B), and severe drought (SD-0% FC); (C). Values are presented as mean ± se
+(n = 5).
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org06
+
+[PAGE 7]
+Fv/Fm value of 0.85 under WW-75% FC treatment and MD-40% FC
+treatment, but experienced a 5.9% decrease to 0.80 under SD-0%
+FC treatment.
+3.6 In ﬂuence of drought on
+proline accumulation
+There was a signi ﬁcant interaction (P<0.001; Table 1), involving
+both water management and genotype. Genotype MP shows a
+signiﬁcant increase in proline content under both MD-40% FC
+treatment (51.2%) and SD-0% FC treatment (69.8%) compared to
+WW-75% FC treatment. Genotype AQ exhibits a moderate increase
+in proline content under MD-40% FC treatment (37.8%) and a slight
+increase under SD-0% FC treatment (10.8%). Genotype ZB has a
+minimal increase in proline content under MD-40% FC treatment
+(5.3%) and a decrease under SD-0% FC treatment (15.8%),
+Throughout the drought recovery period, there was a general
+decline in proline concentrations, with signi ﬁcant differences
+(P<0.05; Table 1 ) observed only among the three genotypes
+(Figure 6 ). It is important to highlight that genotype ZB showed
+signiﬁcant increases in proline levels during drought recovery phases,
+especially under MD-40% FC treatment recovery (34.4% increase).
+3.7 Shoot fresh during drought recovery
+The interaction effects between water management and
+genotype on shoot fresh weight (SFW) were not statistically
+signiﬁcant ( P>0.05, Table 2 ). Interestingly, Genotype ZB shows
+minimal reduction in SFW under drought conditions, with only a
+2.4% decrease from well-watered to severe drought. Genotype AQ
+exhibits resilience with a slight increase in SFW under mild drought
+and a stable SFW under severe drought, showing only a 0.3%
+decrease from mild to severe drought. Genotype MP is more
+affected by drought, with an 8.8% decrease in SFW from WW-
+75% FC treatment to SD-0% FC treatment.
+4 Discussion
+In this study, the major morphophysiological adaptations and
+proline signaling of three distinct hemp genotypes —MP (C. indica),
+AQ ( C. sativa ), and ZB ( C. sativa )—originating from Switzerland,
+South Africa, and Zimbabwe, respectively were investigated. During
+the study, these genotypes were exposed to water management stress
+in a generally warm to hot climate, characterized by occasional
+temperature ﬂuctuations. The evaporation rates indicated varying
+degrees of water loss. When water was abundant, hemp plants
+displayed resilience with green leaves, demonstrating their ability to
+adapt to well-watered conditions. However, when subjected to
+moderate water de ﬁcit, signs of stress were observed across all
+genotypes, highlighting the genotype-speciﬁc responses to this level
+of water scarcity. Severe water de ﬁcit triggered pronounced stress
+responses, such as yellowish-brown to purple discoloration in the AQ
+genotype and turgor loss in leaves, which was particularly noticeable
+in the ZB genotype. These observations emphasize the impact of
+severe water de ﬁcit conditions on hemp genotypes, and underscore
+the need for a nuanced understanding of their responses to different
+water management strategies.
+The study also examined the morphological differences and
+drought tolerance mechanisms among different hemp genotypes.
+The environmental conditions in Zimbabwe and South Africa,
+characterized by warm climates and diverse soil compositions,
+may contribute to C. sativa ’s adaptability to arid conditions. On
+the other hand, the cooler climate in Switzerland may in ﬂuence the
+growth of C. indica . Morphological differences, such as taller
+structures in C. sativa and a more compact appearance in C.
+indica , could affect water utilization ef ﬁciency and drought
+response. Previous studies on other crops suggest that leaf shape,
+FIGURE 4
+Intrinsic water-use ef ﬁciency (iWUE) taken on young fully expanded leaves using LI-6800 LICOR at 55-d after transplanting. MP ( C. indica ), AQ ( C.
+sativa) and ZB ( C. sativa ). Well-watered (WW-75% FC); (A), moderate drought (MD-40% FC); (B), and severe drought (SD-0% FC); (C). Values are
+presented as mean ± se (n = 5).
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org07
+
+[PAGE 8]
+size, and stomatal density are crucial factors in drought tolerance.
+These ﬁndings align with observations by Mateva et al. (2023) on
+bambara groundnut ( Vigna subterranea (L.) Verdc.). They
+identiﬁed differential deep root foraging and density patterns in
+genotypes sourced from dry and wet regions, highlighting the
+signiﬁcant in ﬂuence of environmental factors on plant traits and
+unintentional selection by farmers ( Mateva, 2022 ). With these
+ﬁndings in mind, future research on hemp genotypes could
+beneﬁt from a holistic approach that incorporates both above and
+below-ground phenotyping to develop more resilient varieties.
+4.1 Diurnal stomatal dynamics and
+genotypic responses to water de ﬁcit:
+adaptability and water use strategies
+Distinctive patterns ingsw,ak e yp a r a m e t e ri nﬂuencing water loss
+and overall plant water status, were observed. Stomatal behavior
+exhibited diurnal variation, co nsistent across different water
+treatments, indicating dynamic gaseous exchange throughout the
+day ( Farooq et al., 2009 ). Under optimal water conditions, ZB
+consistently exhibited higher gsw throughout most of the day
+FIGURE 5
+Quantum yield of PSII ( FPSII); (A–C) calculated from ﬂuorescence as the difference between 1 and the steady-state F (Fs) divided by maximal F light-
+adapted (Fm')., non-photochemical quenching (NPQ); (D–F) and electron transport rate (ETR); (G–I) taken at different light intensities (0, 500, 1000,
+1500 and 2000 mmolmol-1 PPFD) on young fully expanded leaves at 55-d after transplanting. MP ( C. indica ), AQ ( C. sativa ) and ZB ( C. sativa ). Well-
+watered (WW-75% FC), moderate drought (MD-40% FC), and severe drought (SD-0% FC). Values are presented as mean ± se (n = 5).
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org08
+
+[PAGE 9]
+compared to MP and AQ. However, in the afternoon, ZB showed a
+decline in gsw while MP recorded higher values. This afternoon data
+is valuable for distinguishing stress-sensitive and stress-insensitive
+genotypes. This genotype-speci ﬁc variation in stomatal regulation
+aligns with previous research highlighting the signiﬁcance of stomatal
+conductance (g
+sw) in plant responses to water availability ( Seleiman
+et al., 2021). As explained byFarooq et al. (2009)and Gill et al. (2022),
+stomatal closure is associated w ith reduced leaf turgor, water
+potential, and overall biomass accumulation.
+4.2 Interplay of assimilation rates, stomatal
+conductance, under varying light, and
+drought stress
+In the investigation, it was found that under scenarios of
+increased light intensity (2000 mmol m -2s-1 PPFD) combined with
+sufﬁcient water availability, the ZB and MP genotypes demonstrated
+signiﬁcantly higher A compared to the AQ genotype. However,
+when exposed to stress-inducin g conditions characterized by
+drought stress and intense light, a noticeable trade-off emerged.
+The MP genotype exhibited elevated A under both moderate and
+severe water de ﬁcit conditions, while the ZB genotype had the
+lowest A in both treatments. This suggests a dynamic utilization of
+resources, highlighting the adaptability of each genotype to varying
+environmental challenges. Reduced A in plants serves as a reliable
+indicator of compromised growth, yield, and metabolic processes,
+often associated with environmental stress such as drought ( Jones
+et al., 2018 ). This decline re ﬂects the plant ’s impaired ability to
+effectively capture and convert carbon dioxide, disrupting the
+synthesis of essential molecules crucial for growth and
+development ( Smith et al., 2020 ). Furthermore, the subsequent
+shift in the energy budget may result in altered resource
+allocation, further impactin go v e r a l lp l a n tr e s i l i e n c ei n
+challenging conditions ( Garcı́a-Tejero et al., 2019 ).
+Further investigation was conducted to explore the relationship
+between A and gsw to calculate iWUE (Rouhi et al., 2007 ; Herppich
+et al., 2020 ; Li et al., 2021 ). iWUE reﬂects a plant ’se f ﬁciency in
+utilizing water for photosynthetic carbon assimilation, indicating its
+ability to optimize carbon gain while minimizing water loss. The
+study highlighted the varied responses among genotypes to drought
+stress. The genotypes ZB and AQ demonstrated a conservative
+water use strategy, while MP showed a potential trade-off between
+water use efﬁciency and carbon gain under mild drought stress. This
+emphasizes that different hemp genotypes, landraces, or species
+may have disparate responses. Some may prioritize water
+conservation through signi ﬁcant stomatal closure, while others
+use adaptive strategies to balance photosynthetic needs with
+water conservation.
+4.3 Insights from chlorophyll ﬂuorescence
+and biochemical variations
+among genotypes
+Drought stress poses considerable challenges to plant growth,
+especially impacting FPSII (Sapeta et al., 2023 ). Our study aligns
+with existing research, supporting a signi ﬁcant decrease in FPSII
+activity under severe drought stress. Notably, the MP genotype
+consistently exhibited superio r photosynthetic performance,
+TABLE 1 F v/Fm and proline content across three genotypes (MP, AQ, ZB) under different water management treatments.
+Genotype (G) Water Management (WM)
+Fv/Fm Proline (mg mL -1)
+Drought
+stress Drought stress Drought recovery
+MP Well-watered-75% FC 0.83 ± 0.001 ab 0.43 ± 0.03 ab 0.27 ± 0.02 a
+Mild drought-40% FC 0.84 ± 0.002 a 0.65 ± 0.01 a 0.47 ± 0.03 a
+Severe drought-0% FC 0.83 ± 0.004 ab 0.73 ± 0.02 a 0.28 ± 0.07 a
+AQ Well-watered-75% FC 0.82 ± 0.009 ab 0.37 ± 0.02 b 0.37 ± 0.04 a
+Mild drought-40% FC 0.85 ± 0.003 a 0.51 ± 0.04 b 0.42 ± 0.08 a
+Severe drought-0% FC 0.80 ± 0.014 b 0.41 ± 0.02 ab 0.35 ± 0.02 a
+ZB Well-watered-75% FC 0.85 ± 0.007 a 0.38 ± 0.02 b 0.32 ± 0.03 a
+Mild drought-40% FC 0.85 ± 0.010 a 0.40 ± 0.01 ab 0.43 ± 0.06 a
+Severe drought-0% FC 0.80 ± 0.011 b 0.32 ± 0.05 b 0.36 ± 0.08 a
+Two-way ANOVA analysis
+G 0.08 ns 0.00 *** 0.02 *
+WM 0.00 *** 0.00 *** 0.49 ns
+G×W M 0.04 * 0.00 *** 0.33 ns
+Fv/Fm: maximal photochemical ef ﬁciency of photosystem II and Proline accumulated (mg mL -1). Values are presented as mean ± se (n = 3), values with different letters showing signi ﬁcant
+difference among hemp species. Tukey’s Honestly Signiﬁcant Difference (HSD) as follows: * P<0.05 and *** P<0.01, and ns, not signiﬁcant; MP (C. indica), AQ (C. sativa) and ZB (C. sativa). WM,
+water management; WW, well-watered-75% FC; MD, mild drought stress-40% FC; and severe drought-0% FC; G, genotype effect; WM, water management effec t; G × WM, genotype × water
+management effect.
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org09
+
+[PAGE 10]
+maintaining high FPSII values even under drought stress, in contrast
+to the responses of ZB and AQ genotypes. This robust performance
+in MP correlated with elevated ETR, reﬂecting higher A and growth,
+as suggested by ( Wang et al., 2021 ). Higher Fv/Fm values were
+observed in MP, attributed to its ability to maintain cellular
+hydration under drought stress, preventing photoinhibition and
+preserving the D1 protein associated with PSII ( Abid et al., 2018 ;
+Makonya et al., 2020 ). While ZB and AQ genotypes generally
+exhibited healthy plants with Fv/Fm values close to the theoretical
+maximum under well-watered and moderate drought stress
+conditions, severe drought stress led to a decline in Fv/Fm values,
+indicating compromised ETR. ZB and AQ recorded Fv/Fm values of
+0.8 under severe drought stress, a threshold considered indicative of
+stress in many plant species ( Makonya, 2019). The reduction in F
+v/
+Fm is often associated with an increase in the ef ﬁciency of NPQ
+(Guan et al., 2015 ; Możdżeńet al., 2015 ; Bano et al., 2021 ).
+Notably, the ZB genotype demonstrated pronounced NPQ
+under well-watered conditions, as well as during moderate and
+severe drought stress, spanning diverse light intensities. The impact
+of light intensities or photon ﬂux densities on photosynthesis is
+noteworthy ( Huang et al., 2021 ). In conditions of low light, plants
+tend to augment the antenna size of photosystems, enhancing the
+capture and transfer of excitation energy to the photosynthetic
+reaction centers ( Green and Parson, 2003 ). Conversely, when
+exposed to excessive light, as observed in our study, plants
+dissipate surplus excitation energy through NPQ of the excited
+state of Chlorophyll a, releasing it as heat ( Miu, 2012; Saglam et al.,
+2014; Liu et al., 2019 ; Bano et al., 2021 ; Hu et al., 2023 ). Our study
+underscores this dynamic interplay between drought stress, light
+intensities and the plant’s photoprotective mechanisms, with the ZB
+genotype serving as a noteworthy example.
+Proline accumulation is indicative of osmotic regulation, has
+been reported in numerous studies ( Marin et al., 2010 ; Abid et al.,
+2018; Gill et al., 2022 ). The MP genotype consistently showed
+increased proline levels under both moderate and severe drought
+stress, aligning with trends observed in drought-tolerant
+germplasms of peanut ( Furlan et al., 2020 ) and rice ( Dien et al.,
+2019). This emphasizes the importance of up-regulating P5CS, a
+key enzyme in proline biosynthesis, as a signi ﬁcant factor
+inﬂuencing proline production, as highlighted in the study by
+Parkash and Singh (2020) . As expected, proline concentrations
+generally decreased during the drought recovery period. However,
+the ZB genotype-maintained proline concentrations without
+decline, suggesting optimized resource allocation or alternative
+stress-responsive mechanisms. This ability to moderate proline
+levels after stress, avoiding excessive energy expenditure ( Forlani
+et al., 2019 ), implies preparedness for recurring stress, acting as a
+preventive measure ( Wang et al., 2018 ). ZB ’s resilience may also
+involve enhanced antioxidant production or speci ﬁc gene activation
+(Seok et al., 2023 ), contributing to its strong capacity to sustain
+growth and biomass production under water stress. This suggests
+that ZB possesses physiological or genetic traits that confer drought
+resilience. Similarly, AQ demonstrates effective adaptation to
+ﬂuctuating water availability, adjusting its physiological processes
+to cope with both moderate and severe water stress without
+signiﬁ
+cant biomass loss.
+Future studies should validate these hypotheses to enhance our
+understanding of ZB ’s complex stress adaptation strategies.
+Addressing the non-signi ﬁcant water management effects and G
+× WM interaction by increasing sample size and replicating under
+different environmental conditions would provide more robust
+conclusions. Given the signi ﬁcant genotype effect, research should
+FIGURE 6
+Proline accumulated (mg mL -1). Values are presented as mean ± se (n = 3), values with different letters showing signi ﬁcant difference among hemp
+species, after 20 days drought recovery period using Tukey's Honestly Signi ﬁcant Difference (HSD). MP ( C. indica ), AQ ( C. sativa ) and ZB ( C. sativa ).
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org10
+
+[PAGE 11]
+include a broader range of genotypes to capture the full scope of
+genetic variability in drought response. Incorporating physiological
+and biochemical parameters such as root depth, leaf water potential,
+pigment composition, photosynthetic complex stoichiometry, and
+the presence of reactive oxygen species would offer deeper insights
+into drought tolerance mechanisms.
+5 Conclusion
+In this study, the major morphophysiological adaptations and
+proline signaling of three hemp genotypes—MP (C. indica), AQ ( C.
+sativa), and ZB ( C. sativa)—were investigated under varying water
+management conditions. ZB maintained proline levels during drought
+recovery, suggesting optimized resource allocation and alternative
+stress-responsive mechanisms, while MP showed increased proline
+levels under drought, indicating r eliance on osmotic regulation. ZB
+exhibited dynamic stomatal conductance and high non-
+photochemical quenching (NPQ), highlighting its effective water use
+and photoprotective strategies. MP maintained high assimilation rates
+(A) and superior photosynthetic performance (FPSII) under drought
+stress. These ﬁndings underscore the importance of proline
+accumulation, gsw, A, and photoprotective mechanisms in drought
+resilience. Future research should include a broader range of
+genotypes and additional physiological and biochemical parameters
+to fully understand the genetic variability in drought response and
+enhance the development of drought-tolerant hemp varieties.
+Data availability statement
+The original contributions presented in the study are included
+in the article/ Supplementary Material . Further inquiries can be
+directed to the corresponding author.
+Author contributions
+KM: Conceptualization, Data curation, Formal analysis,
+Investigation, Methodology, Soft ware, Supervision, Validation,
+Visualization, Writing – original draft, Writing – review & editing.
+EM: Formal analysis, Investigation, Writing – original draft, Writing
+– review & editing. TM: Investigation, Supervision, Writing– review
+& editing. CK: Conceptualization, Investigation, Supervision, Writing
+– review & editing. FM: Conceptualization, Funding acquisition,
+Investigation, Project administration, Resources, Supervision,
+Validation, Writing – review & editing. SD: Conceptualization,
+Funding acquisition, Investigation, Project administration,
+Resources, Supervision, Validation, Writing – review & editing.
+Funding
+The author(s) declare ﬁnancial support was received for the
+research, authorship, and/or publication of this article. The support
+of the Tobacco Research Board t/a Kutsaga in funding this research
+is gratefully acknowledged.
+Acknowledgments
+We would like to express our gra titude to the Plant Breeding
+Division at Kutsaga for providing the genotypes used in this study.
+Special thanks go to Mr. Hillary Zharo from the Department of
+Biotechnology at the University of Zimbabwe for his valuable
+assistance in proline quantiﬁcation. Our gratitude is extended to Dr.
+Givemore Munashe Makonya from Washington State University
+(WSU) and Kutsaga ’s editorial team for their dedicated efforts in
+assisting with the internal review of the manuscript. Their valuable
+contributions and feedback have greatly improved the quality of
+this work.
+TABLE 2 Shoot fresh weight (SFW) across three genotypes (MP, AQ, ZB).
+Treatments
+Drought recovery
+SFW (g)
+Genotype (G)
+MP 60.00 ± 5.84 b
+AQ 71.78 ± 8.86 b
+ZB 114.65 ± 14.17 a
+Water Management (WM)
+Well-watered-75% FC 78.00 ± 12.75 a
+Mild drought-40% FC 88.38 ± 9.80 a
+Severe drought-0% FC 80.05 ± 12.18 a
+G×W M
+MP × Well-watered-75% FC 62.03 ± 8.24 a
+AQ × Well-watered-75% FC 62.23 ± 16.28 a
+ZB × Well-watered-75% FC 109.73 ± 32.01 a
+MP × Mild drought-40% FC 61.42 ± 5.38 a
+AQ × Mild drought-40% FC 76.65 ± 19.98 a
+ZB × Mild drought-40% FC 127.07 ± 8.92 a
+MP × Severe drought-0% FC 56.55 ± 15.73 a
+AQ × Severe drought-0% FC 76.45 ± 10.45 a
+ZB × Severe drought-0% FC 107.15 ± 29.93 a
+Two-way
+ANOVA analysis
+G 0.00 ***
+WM 0.77 ns
+G × WM 0.96 ns
+SFW, Shoot fresh weight. Values are presented as mean ± se (n = 18), values with different
+letters showing signi ﬁcant difference among hemp species. Tukey ’s Honestly Signi ﬁcant
+Difference (HSD) as follows: *** P<0.01, and ns, not signiﬁcant. MP (C. indica), AQ (C. sativa)
+and ZB ( C. sativa ).
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org11
+
+[PAGE 12]
+Conﬂict of interest
+The authors declare that the research was conducted in the
+absence of any commercial or ﬁnancial relationships that could be
+construed as a potential con ﬂict of interest.
+Publisher’s note
+All claims expressed in this article are solely those of the authors
+and do not necessarily represent those of their af ﬁliated
+organizations, or those of the publisher, the editors and the
+reviewers. Any product that may be evaluated in this article, or
+claim that may be made by its manufacturer, is not guaranteed or
+endorsed by the publisher.
+Supplementary material
+The Supplementary Material for this article can be found online
+at: https://www.frontiersin.org/articles/10.3389/fphgy.2024.1441262/
+full#supplementary-material
+References
+Abid, M., Ali, S., Qi, L. K., Zahoor, R., Tian, Z., Jiang, D., et al. (2018). Physiological
+and biochemical changes during drought and recovery periods at tillering and jointing
+stages in wheat ( Triticum aestivum L. ). Sci. Rep. 8, 1 –15. doi: 10.1038/s41598-018-
+21441-7
+Ahmed, M., Aslam, M. A., Hassan, F. U. L., Hayat, R., Ahmad, S., Ahmed, M., et al.
+(2019). Biochemical, physiological and agronomic response of wheat to changing
+climate of rainfed areas of Pakistan. Pakistan Botanical 51, 2, 535 –551. doi: 10.30848/
+PJB2019
+Baker, N. R., and Rosenqvist, E. (2004). Applications of chlorophyll ﬂuorescence can
+improve crop production strategies: An examination of future possibilities. J. Exp. Bot.
+55, 1607 –1621. doi: 10.1093/jxb/erh196
+Bano, H., Athar, H.ur R., Zafar, Z. U., Ogbaga, C. C., and Ashraf, M. (2021).
+Peroxidase activity and operation of photo-protective component of NPQ play key
+roles in drought tolerance of mung bean [ Vigna radiata (L.) Wilcziek ]. Physiologia
+Plantarum 172, 603 –614. doi: 10.1111/ppl.13337
+Barcaccia, G., Palumbo, F., Scariolo, F., Vannozzi, A., Borin, M., Bona, S., et al.
+(2022). Cannabis sativa : an optimization study for ROI by bachelor of science in
+mechanical engineering Cannabis sativa : an optimization study for ROI. Front. Plant
+Sci. 13, 1–29. doi: 10.3390/plants10010185
+Baudoin, M. A., Vogel, C., Nortje, K., and Naik, M. (2017). Living with drought in
+South Africa: lessons learnt from the recent El Niño drought period. Int. J. Disaster Risk
+Reduction 23, 128 –137. doi: 10.1016/j.ijdrr.2017.05.005
+Dien, D. C., Thu, T. T. P., Moe, K., and Yamakawa, T. (2019). Proline and
+carbohydrate metabolism in rice varieties ( Oryza sativa L. ) under various drought
+and recovery conditions. Plant Physiol. Rep. 24, 376 –387. doi: 10.1007/s40502-019-
+00462-y
+Efeoğlu, B. (2009). Heat shock proteins and heat shock response in plants. Gazi Univ.
+J. Sci. 22, 67–75.
+Ehrensing, D. T. (1998). Feasibility of Industrial Hemp Production in the United
+States Paci ﬁcN o r t h w e s t(OSU Agricultural Experiment Station Bulletin), 1 –46.
+Available at: https://catalog.extension.oregonst ate.edu/sites/catalog.extension.
+oregonstate.edu/ﬁles/project/pdf/sb681.pdf%5Cnhttp://hdl.handle.net/1957/13306.
+Farooq, M., Basra, S. M. A., Wahid, A., Ahmad, N., and Saleem, B. A. (2009).
+Improving the drought tolerance in rice ( Oryza sativa L.) by exogenous application of
+salicylic acid. Journal of Agronomy and Crop Science 195 (4), 237
+–246. doi: 10.1111/
+j.1439-037X.2009.00365.x
+Forlani, G., Bertazzini, M., and Cagnano, G. (2019). Stress-driven increase in proline
+levels, and not proline levels themselves, correlates with the ability to withstand excess salt
+in a group of 17 Italian rice genotypes. Plant Biol. J. 21, 336–342. doi: 10.1111/plb.12916
+Furlan, A. L., Bianucci, E., Giordano, W., Castro, S., and Becker, D. F. (2020). Proline
+metabolic dynamics and implications in drought tolerance of peanut plants. Plant
+Physiol. biochemistry: PPB 151, 566 –578. doi: 10.1016/j.plaphy.2020.04.010
+Garcı́a-Tejero, I. F., Dura ́n Zuazo, V. H., Sa ́nchez-Carnenero, C., Herna ́ndez, A.,
+Ferreiro-Vera, C., and Casano, S. (2019). Seeking suitable agronomical practices for
+industrial hemp (Cannabis sativa L.) cultivation for biomedical applications. Ind. Crops
+Products 139. doi: 10.1016/j.indcrop.2019.111524
+Gilbert, G. S., Diaz, A., and Bregoff, H. A. (2023). Seed disinfestation practices to
+control seed-borne fungi and bacteria in home production of sprouts. Foods 12, 747.
+doi: 10.3390/foods12040747
+Gill, A. R., Loveys, B. R., Cowley, J. M., Hall, T., Cavagnaro, T. R., and Burton, R. A.
+(2022). Physiological and morphological responses of industrial hemp ( Cannabis sativa
+L.)t ow a t e rd eﬁcit. Ind. Crops Products 187, 115331. doi: 10.1016/j.indcrop.2022.115331
+Green, B., and Parson, W. (2003). Light-harvsting antennas in photosynthesis.
+Photosynthesis Research 82, 109. doi: 10.1007/978-94-017-2087-8
+Guan, X. K., Song, L., Wang, T. C., Turner, N. C., and Li, F. M. (2015). Effect of
+drought on the gas exchange, chlorophyll ﬂuorescence and yield of six different-era
+spring wheat cultivars. J. Agron. Crop Sci. 201, 253 –266. doi: 10.1111/jac.12103
+Hayat, S., Hayat, Q., AlYemeni, M. N., Wani, A. S., Pichtel, J., and Ahmad, A.
+(2012a). Role of proline under changing environments: A review. Plant Signaling
+Behav. 7, 1456 –1466. doi: 10.4161/psb.21949
+Hayat, S., Khalique, G., Irfan, M., Wani, A. S., Tripathi, B. N., and Ahmad, A.
+(2012b). Physiological changes induced by chromium stress in plants: an overview.
+Protoplasma 249, 599 –611. doi: 10.1007/s00709-011-0331-0
+Herppich, W. B., Gusovius, H. J., Flemming, I., and Drastig, K. (2020). Effects of
+drought and heat on photosynthetic performance, water use and yield of two selected
+ﬁber hemp cultivars at a poor-soil site in brandenburg (Germany). Agronomy 10, 8–10.
+doi: 10.3390/agronomy10091361
+Hu, F., Zhang, Y., and Guo, J. (2023). Effects of drought stress on photosynthetic
+physiological characteristics, leaf microstructure, and related gene expression of yellow
+horn. Plant Signaling Behav. 18. doi: 10.1080/15592324.2023.2215025
+Huang, M. Y., Wong, S. L., and Weng, J. H. (2021). Rapid light-response curve of
+chlorophyll ﬂuorescence in terrestrial plants: Relationship to CO
+2 exchange among ﬁve
+woody and four fern species adapted to different light and water regimes. Plants 10, 1–
+13. doi: 10.3390/plants10030445
+Jones, Z. L., Mikkelson, K. M., Nygren, S., Sedlak, D. L., and Jonathan, O. (2018).
+Establishment and convergence of photosynthetic microbial biomats in shallow unit
+process open-water wetlands. Water Res . doi: 10.1016/j.watres.2018.01.021
+Kalaji, H. M., Jajoo, A., Oukarroum, A., and Brestic, M. (2016). Chlorophyll a
+ﬂuorescence as a tool to monitor physiological status of plants under abiotic stress
+conditions Chlorophyll a ﬂuorescence as a tool to monitor physiological status of plants
+under abiotic stress conditions. Acta Physiologiae Plantarum , 38. doi: 10.1007/s11738-
+016-2113-y
+Lee, M. R., Kim, C. S., Park, T., Choi, Y. S., and Lee, K. H. (2018). Optimization of the
+ninhydrin reaction and development of a multiwell plate-based high-throughput
+proline detection assay. Analytical Biochem. 556, 57–62. doi: 10.1016/j.ab.2018.06.022
+Li, H., Yang, Y., Wang, H., Liu, S., Jia, F., Su, Y., et al. (2021). The receptor-like kinase
+erecta confers improved water use ef ﬁciency and drought tolerance to poplar via
+modulating stomatal density. Int. J. Mol. Sci. 22. doi: 10.3390/ijms22147245
+Liu, B., Liang, J., Tang, G., Wang, X., Liu, F., and Zhao, D. (2019). Drought stress
+affects on growth, water use ef ﬁciency, gas exchange and chlorophyll ﬂuorescence of
+Juglans rootstocks. Scientia Hortic. 250, 230 –235. doi: 10.1016/j.scienta.2019.02.056
+Makonya, G. M. (2019). Thermo and drought tolerance markers and regulation of
+heat stress proteins for chickpea (Cicer arietinum L.; Fabaceae) production in NE South
+Africa (Faculty of Science, Department of Biological Sciences). Available at: http://hdl.
+handle.net/11427/32397.
+Makonya, G. M., Ogola, J. B., Muasya, A. M., Crespo, O., Maseko, S., Valentine, A. J.,
+et al. (2020). Intermittent moisture supply induces drought priming responses in some
+heat-tolerant chickpea genotypes. Crop Sci. 60, 2527 –2542. doi: 10.1002/csc2.20228
+Marin, J. A., Andreu, P., Carrasco, A., and Arbeloa, A. (2010). Determination of
+proline concentration, an abiotic stress marker, in root exudates of excised root cultures
+of fruit tree rootstocks under salt stress 24, 722 –727. http://hdl.handle.net/10261/
+255659
+Mateva, K. I. (2022). Root trait variation and its contribution to drought tolerance in
+bambara groundnut (Vigna subterranea (L.) Verdc.). PhD thesis (University of
+Nottingham).
+Mateva, K. I., Tan, X. L., Halimi, R. A., Chai, H. H., Makonya, G. M., and Gao, X.
+(2023). Bambara groundnut (Vigna subterranea (L.) Verdc.) . 557 –615. doi: 10.1016/
+B978-0-323-90537-4.00021-1
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org12
+
+[PAGE 13]
+McPartland, J. M. (2018). Cannabis systematics at the levels of family, genus, and
+species Vol. 3 (Cannabis and Cannabinoid Research), 203 –212. doi: 10.1089/
+can.2018.0039
+Miu, L. (2012). Response of photosynthesis and chlorophyll ﬂuorescence to drought
+stress in two maize cultivars. Afr. J. Agric. Reseearch 7, 4751–4760. doi: 10.5897/AJAR
+Możdżeń, K., Bojarski, B., Rut, G., Migda łek, G., Repka, P., and Rzepka, A. (2015).
+Effect of drought stress induced by Mannitol on physiological parameters of maize (Zea
+mays L.) seedlings and plants. J. Microbiology Biotechnol. Food Sci. 4(special issue 2, 86–
+91. doi: 10.15414/jmbfs.2015.4.special2.86-91
+Mugiyo, H., Magadzire, T., Choruma, D. J., Chimonyo, V. G. P., Manzou, R., Jiri, O.,
+et al. (2023). El Niño ’s effects on southern African agriculture in 2023/24 and
+anticipatory action strategies to reduce the impacts in Zimbabwe. Atmosphere 14,
+1692. doi: 10.3390/atmos14111692
+Parkash, V., and Singh, S. (2020). A review on potential plant-based water stress
+indicators for vegetable crops. Sustainability 12, 3945. doi: 10.3390/su12103945
+Raza, A., Charagh, S., Corpas, F. J., and Jin, W. (2023). Assessment of proline
+function in higher plants under extreme temperatures. Plant biology 25, 379 –395.
+doi: 10.1111/plb.13510
+Rouhi, V., Samson, R., Lemeur, R., and van Damme, P. (2007). Photosynthetic gas
+exchange characteristics in three different almond species during drought stress and
+subsequent recovery. Environ. Exp. Bot. 59, 117 –129. doi: 10.1016/
+j.envexpbot.2005.10.001
+Russo, E. B. (2019). The case for the entourage effect and conventional breeding of
+clinical cannabis: No “Strain,” no gain. Front. Plant Sci. 9. doi: 10.3389/fpls.2018.01969
+Saglam, A., Terzi, R., and Demiralay, M. (2014). Effect of polyethylene glycol induced
+drought stress on photosynthesis in two chickpea genotypes with different drought
+tolerance. Acta Biologica Hungarica 65, 178 –188. doi: 10.1556/ABiol.65.2014.2.6
+Salentijn, E. M. J., Zhang, Q., Amaducci, S., Yang, M., and Trindade, L. M. (2015).
+New developments in ﬁber hemp (Cannabis sativa L.) breeding. Ind. Crops Products 68,
+32–41. doi: 10.1016/j.indcrop.2014.08.011
+Sapeta, H., Yokono, M., Takabayashi, A., Ueno, Y., Cordeiro, A. M., Hara, T., et al.
+(2023). Reversible down-regulation of photosystems I and II leads to fast
+photosynthesis recovery after long-term drought in Jatropha curcas. J. Exp. Bot. 74,
+336–351. doi: 10.1093/jxb/erac423
+Seleiman, M. F., Al-suhaibani, N., Ali, N., Akmal, M., Alotaibi, M., Refay, Y., et al.
+(2021). Alleviate Its Adverse Effects .1 –25.
+Seok, H.-Y., Lee, S.-Y., Sarker, S., Bayzid, Md, and Moon, Y.-H. (2023). Genome-
+wide analysis of stress-responsive genes and alternative splice variants in Arabidopsis
+roots under osmotic stresses. Int. J. Mol. Sci. 24, 14580. doi: 10.3390/ijms241914580
+Sifundza, L. S., van der Zaag, P., and Masih, I. (2019). Evaluation of the responses of
+institutions and actors to the 2015/2016 el niño drought in the komati catchment in
+Southern Africa: Lessons to support future drought management. Water SA 45, 547 –
+559. doi: 10.17159/wsa/2019.v45.i4.7535
+Small, E., and Cronquist, A. (1976). “A practical and natural taxonomy for cannabis
+author (s): ernest small and arthur cronquist, ” in Taxon, vol. 25.
+Small, E., and Marcus, D. (2002). Hemp: a new crop with new uses for North America .
+Eds. J. Janick and A. Whipkey (Alexandria, VA: ASHS Press), 284 –326. Available at:
+http://www.hort.purdue.edu/newcrop/ncnu02/v5284.html%0Ahttp://www.hemphasis.
+com/ﬁles/publications/newuses.htm.
+Smith, M. N., Taylor, T. C., van Haren, J., Rosolem, R., Restrepo-Coupe, N., Adams,
+J., et al. (2020). Empirical evidence for resilience of tropical forest photosynthesis in a
+warmer world. Nat. Plants 6, 1225 –1230. doi: 10.1038/s41477-020-00780-2
+Van Der Werf, H. M. G., Mathijssen, E. W. J. M., and Haverkort, A. J. (1996). The
+potential of hemp ( Cannabis sativa L. ) for sustainable ﬁbre production: A crop
+physiological appraisal. Ann. Appl. Biol. 129. doi: 10.1111/j.1744-7348.1996.tb05736.x
+Verslues, P. E., Kim, Y.-S., and Zhu, J.-K. (2007). Altered ABA, proline and hydrogen
+peroxide in an Arabidopsis glutamate: glyoxylate aminotransferase. Plant Mol. Biol. 64,
+205-217. doi: 10.1007/s11103-007-9145-z
+Wang, A., Ma, C., Ma, H., Qiu, Z., and Wen, X. (2021). Physiological and proteomic
+responses of pitaya to PEG-induced drought stress. Agric. (Switzerland) 11.
+doi: 10.3390/agriculture11070632
+Wang, C., Zhou, L., Zhang, G., Xu, Y., Gao, X., Jiang, N., et al. (2018). Effects of
+drought stress simulated by polyethylene glycol on seed germination, root and seedling
+growth, and seedling antioxidant characteristics in job ‘ s tears. Agricultural sciences 09,
+991–1006. doi: 10.4236/as.2018.98069
+Warwick, B., and Rightford, B. (2020). Exploring hemp farming as a sustainable
+agriculture in South Africa, using a social- ecological systems approach. (Doctoral
+dissertation, Stellenbosch: Stellenbosch University). http://hdl.handle.net/10019.1/
+108267
+Xiong, W., Cui, T., Cheng, K., Yang, F., Chen, S., Willenbring, D., et al. (2012).
+Cannabinoids suppress in ﬂammatory and neuropathic pain by targeting a3 glycine
+receptors. The Journal of Experimental Medicine 209 (6), 1121-1134. doi: 10.1084/
+jem.20120242
+Zheljazkov, V. D., Sikora, V., Noller, J., Latkovi, D., Ocamb, C. M., and Koren, A.
+(2023). Industrial hemp ( Cannabis sativa L.) agronomy and utilization : A review.
+Agronomy 13 (3), 931. doi: 10.3390/agronomy13030931
+Zhu, Y., Luo, X., Nawaz, G., Yin, J., and Yang, J. (2020). Physiological and
+Biochemical Responses of four cassava cultivars to drought stress. Sci. Rep. 10, 1
+–12.
+doi: 10.1038/s41598-020-63809-8
+Mateva et al. 10.3389/fphgy.2024.1441262
+Frontiers in Plant Physiology frontiersin.org13

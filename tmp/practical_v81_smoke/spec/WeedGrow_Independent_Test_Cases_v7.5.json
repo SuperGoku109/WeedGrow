@@ -1,0 +1,20 @@
+{
+  "version": "7.5",
+  "meaning": "Exact expected results conditional on synthetic normalized inputs; not measured plant watering needs.",
+  "units": "litres, millimetres, square metres, seconds UTC",
+  "cases": [
+    {"id":"B01_dry", "initial":1.0,"et0":1.5,"rain":0,"soil_rain":"yes","expected_reserves":[0.7],"expected_candidate":"water","derivation":"1.0 - 1.5*(0.15+0.05) = 0.7 < 0.8 action reserve"},
+    {"id":"B02_still_available", "initial":1.3,"et0":1.5,"rain":0,"soil_rain":"yes","expected_reserves":[1.0],"expected_candidate":"not_due","derivation":"1.3 - 0.3 = 1.0 > 0.8"},
+    {"id":"B03_exact_action_boundary", "initial":1.1,"et0":1.5,"rain":0,"soil_rain":"yes","expected_reserves":[0.8],"expected_candidate":"water","derivation":"1.1 - 0.3 = 0.8; declared rule includes equality"},
+    {"id":"B04_zero_demand", "initial":1.2,"et0":0,"rain":0,"soil_rain":"yes","expected_reserves":[1.2],"expected_candidate":"not_due","derivation":"Zero forcing and no inputs leave reserve unchanged"},
+    {"id":"B05_exposed_rain", "initial":0.7,"et0":0.5,"rain":5,"soil_rain":"yes","expected_reserves":[1.0],"expected_candidate":"not_due","derivation":"5 mm * 0.08 m2 = 0.4 L; 0.7+0.4-0.1=1.0; neither clipping bound reached"},
+    {"id":"B06_sheltered_rain", "initial":0.7,"et0":0.5,"rain":5,"soil_rain":"no","expected_reserves":[0.6],"expected_candidate":"water","derivation":"Direct rain delivery zero; 0.7 - 0.1 = 0.6"},
+    {"id":"B07_known_refill_now", "initial":1.0,"et0":1.5,"rain":0,"soil_rain":"yes","watering_now":0.25,"expected_reserves":[0.9],"expected_candidate":"not_due","derivation":"1.0-0.3 + 0.25*0.8 = 0.9; watering exactly now follows historical loss"},
+    {"id":"B08_small_refill_now", "initial":1.0,"et0":1.5,"rain":0,"soil_rain":"yes","watering_now":0.1,"expected_reserves":[0.78],"expected_candidate":"water","derivation":"1.0-0.3 + 0.1*0.8 = 0.78; watering today does not force not_due"},
+    {"id":"B09_unknown_refill", "initial":1.0,"et0":1.5,"rain":0,"soil_rain":"yes","watering_now":null,"unknown_amounts":[0.1,0.4],"expected_reserves":[0.78,1.02],"expected_candidate":"uncertain","derivation":"Small scenario:0.7+0.08=0.78; large:0.7+0.32=1.02; they straddle0.8"},
+    {"id":"B10_storage_overflow", "initial":1.0,"et0":2.5,"rain":37.5,"soil_rain":"yes","expected_reserves":[1.5,2.0],"expected_candidate":"not_due","derivation":"Rain delivers3L. Inputs-first:min(2,1+3)-0.5=1.5; loss-first:min(2,1-0.5+3)=2.0"},
+    {"id":"B11_depleted_then_watered", "initial":0.2,"et0":2.5,"rain":0,"soil_rain":"yes","watering_now":1,"expected_reserves":[0.8],"expected_candidate":"water","derivation":"Bank clips at0 after0.5 potential loss, then1*0.8=0.8. Does not assert actual plant transpiration0.5L"},
+    {"id":"B12_no_double_weather_bonus", "initial":1.0,"et0":1.5,"rain":0,"soil_rain":"yes","temperature":40,"humidity":15,"expected_reserves":[0.7],"expected_candidate":"water","derivation":"Same supplied ET0/profile as B01 means same bank; heat still independently raises a weather flag"},
+    {"id":"B13_forecast_not_current", "initial":1.0,"et0":1.5,"rain":0,"soil_rain":"yes","forecast_rain_per_hour":4,"expected_reserves":[0.7],"expected_candidate":"water","derivation":"Tomorrow's96mm does not change today's1.0-0.3 reserve; W04 can still trigger for forecast rain"}
+  ]
+}

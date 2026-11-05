@@ -1,0 +1,169 @@
+{
+  "version": "7.1",
+  "executedAt": "2026-10-29T21:18:20.428873+00:00",
+  "capabilityChecksPassed": 30,
+  "checks": [
+    {
+      "id": "APP71-01",
+      "name": "All14 IDs have explicit product dispositions",
+      "passed": true
+    },
+    {
+      "id": "APP71-02",
+      "name": "Routine user has no daily measurement dependency",
+      "passed": true
+    },
+    {
+      "id": "APP71-03",
+      "name": "No mandatory daily moisture check",
+      "passed": true
+    },
+    {
+      "id": "APP71-04",
+      "name": "Excluded leafTemperature cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-05",
+      "name": "Excluded rootTemperature cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-06",
+      "name": "Excluded leafVPD cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-07",
+      "name": "Excluded PPFD cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-08",
+      "name": "Excluded internalCO2 cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-09",
+      "name": "Excluded stomatalConductance cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-10",
+      "name": "Excluded leafNitrogen cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-11",
+      "name": "Excluded leafAgeDistribution cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-12",
+      "name": "Excluded leafWetnessSensor cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-13",
+      "name": "Excluded soilOxygen cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-14",
+      "name": "Excluded measuredRootDepth cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-15",
+      "name": "Excluded verifiedDiseaseResistance cannot change base capability",
+      "passed": true
+    },
+    {
+      "id": "APP71-16",
+      "name": "Reported flowering enables flower ambient route",
+      "passed": true
+    },
+    {
+      "id": "APP71-17",
+      "name": "Vegetative plant does not get flower disease route",
+      "passed": true
+    },
+    {
+      "id": "APP71-18",
+      "name": "Summary-only cache cannot claim paired exposure",
+      "passed": true
+    },
+    {
+      "id": "APP71-19",
+      "name": "Forecast hours do not supply occurred exposure",
+      "passed": true
+    },
+    {
+      "id": "APP71-20",
+      "name": "No automatic root-saturation inference",
+      "passed": true
+    },
+    {
+      "id": "APP71-21",
+      "name": "Unknown root state does not become a root-rot diagnosis",
+      "passed": true
+    },
+    {
+      "id": "APP71-22",
+      "name": "Optional current problem review independent of weather",
+      "passed": true
+    },
+    {
+      "id": "APP71-23",
+      "name": "Excluded alert feed cannot provide hail route",
+      "passed": true
+    },
+    {
+      "id": "APP71-24",
+      "name": "Independent supported source survives numeric gaps",
+      "passed": true
+    },
+    {
+      "id": "APP71-25",
+      "name": "Outdoor API does not measure greenhouse interior",
+      "passed": true
+    },
+    {
+      "id": "APP71-26",
+      "name": "Permission gate precedes capability output",
+      "passed": true
+    },
+    {
+      "id": "APP71-27",
+      "name": "Missing optional age/height/soil provenance does not block hazards",
+      "passed": true
+    },
+    {
+      "id": "APP71-28",
+      "name": "A water amount does not prove full root wetting",
+      "passed": true
+    },
+    {
+      "id": "APP71-29",
+      "name": "No guessed binary water result from a capability check",
+      "passed": true
+    },
+    {
+      "id": "APP71-30",
+      "name": "Current paired-air dependency is not leaf VPD",
+      "passed": true
+    }
+  ],
+  "appChanged": false,
+  "biologicalAccuracyValidated": false,
+  "runtimePredictionEngineImplemented": false,
+  "pdfQA": {
+    "pages": 16,
+    "renderedPages": 16,
+    "issues": [],
+    "bookmarks": 14,
+    "visualReviewComplete": true,
+    "visualReviewNotes": "All16 final pages visually reviewed; no clipping, overlaps, missing glyphs or spill pages."
+  },
+  "pdfSha256": "3aadbb5fd4fb1b900edb8b972c9c3d39d4863da3b5663192f5fc154482484465"
+}
