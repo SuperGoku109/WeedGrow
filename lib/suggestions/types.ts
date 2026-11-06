@@ -1,6 +1,6 @@
 import type { WateringInsight } from '@/lib/suggestions/wateringSuggestions';
 
-export type SuggestionKind = 'watering' | 'powderyMildew' | 'rootRot';
+export type SuggestionKind = 'watering' | 'powderyMildew' | 'rootRot' | 'weather' | 'weatherContext';
 export type SuggestionSeverity = 'info' | 'watch' | 'warn' | 'critical';
 export type SuggestionConfidence = 'low' | 'medium' | 'high';
 
@@ -15,6 +15,7 @@ export interface SuggestionCard {
   metrics: Record<string, string | number | boolean | null>;
   confidence: SuggestionConfidence;
   algorithmVersion: string;
+  diagnostics?: import('@/lib/careAlgorithm/careDiagnostics').DiagnosticEntry[];
 }
 
 export interface SuggestionAlgorithmContext {

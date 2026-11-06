@@ -1,14 +1,15 @@
 import { create } from 'zustand';
 import type { PlantForm, PlantFieldSetter } from '../form/PlantForm';
+import type { Plant } from '@/firestoreModels';
 
-export type GrowthStage = 'germination' | 'seedling' | 'vegetative' | 'flowering';
+export type GrowthStage = Plant['growthStage'];
 export type Environment = 'outdoor' | 'greenhouse' | 'indoor';
 export type PlantedIn = 'pot' | 'ground';
 
 const initialState: PlantForm = {
   name: '',
   strain: '',
-  growthStage: 'germination',
+  growthStage: 'unknown',
   ageDays: '', // changed from '0' to ''
   environment: 'outdoor',
   plantedIn: 'pot',

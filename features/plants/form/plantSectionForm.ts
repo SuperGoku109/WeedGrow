@@ -1,7 +1,8 @@
 import type { Plant } from '@/firestoreModels';
 import { plantDay, addDays } from '@/lib/dates/plantDay';
 import { validateLogDate } from '@/lib/logs/plantJournal';
-import { validatePlantFields } from '@/lib/plants/plantValidation';
+import { validatePlantFields, PLANT_STAGES } from '@/lib/plants/plantValidation';
+import { MEDIUMS, RAIN_EXPOSURES, rainExposure, rainReception } from '@/lib/careAlgorithm/setupFacts';
 export type Field = { key: string; label: string; options?: string[]; number?: boolean; multiline?: boolean; list?: boolean };
 export const sections: Record<string, Field[]> = {
   'Basics': [{ key: 'name', label: 'Plant name' }, { key: 'strain', label: 'Strain name' }, { key: 'strainType', label: 'Strain type', options: ['unknown', 'sativa', 'indica', 'hybrid'] }, { key: 'startedOn', label: 'Started growing on (YYYY-MM-DD)' }, { key: 'growthStage', label: 'Growth stage', options: ['germination', 'seedling', 'vegetative', 'flowering', 'clone'] }, { key: 'ageDays', label: 'Age in days (optional estimate)', number: true }, { key: 'height', label: 'Height (cm)', number: true }],
@@ -10,6 +11,9 @@ export const sections: Record<string, Field[]> = {
   'Location and weather': [{ key: 'locationNickname', label: 'Location nickname (optional)' }, { key: 'locationLabel', label: 'Town or area' }, { key: 'lat', label: 'Latitude', number: true }, { key: 'lng', label: 'Longitude', number: true }],
   'Notes and history': [{ key: 'notes', label: 'Lasting notes', multiline: true }, { key: 'environmentNotes', label: 'Setup notes', multiline: true }, { key: 'trainingTags', label: 'Training (comma separated)', list: true }, { key: 'pests', label: 'Pest history (comma separated)', list: true }],
 };
+sections['Growing setup'].push({ key: 'rainExposure', label: 'Rain reaching this plant', options: [...RAIN_EXPOSURES] },
+  { key: 'careMedium', label: 'Growing medium (optional)', options: [...MEDIUMS] });
+sections.Basics.find(field => field.key === 'growthStage')!.options = [...PLANT_STAGES];
 /** Validate changed sections before issuing one atomic plant update. */
 export function buildAllSectionUpdates(values: Record<string, string>, initial: { values: Record<string, string>; ageMode: string; locationMode: 'custom' | 'space' }, locationMode: 'custom' | 'space', plant: Plant, today: string, ageMode: 'date' | 'estimate') {
   const updates: Record<string, unknown> = {};
@@ -42,8 +46,8 @@ export function buildSectionUpdates(section: string, values: Record<string, stri
       updates.locationLabel = values.locationLabel.trim();
       updates.locationMode = locationMode;
     } else {
-      for (const field of fields.filter(item => !['reminderType', 'intervalDays', 'customDays', 'timeOfDay'].includes(item.key))) {
-        const value = values[field.key].trim();
+      for (const field of fields.filter(item => !['reminderType', 'intervalDays', 'customDays', 'timeOfDay', 'rainExposure'].includes(item.key))) {
+        const value = (values[field.key] || '').trim();
         updates[field.key] = field.list ? value.split(',').map(part => part.trim()).filter(Boolean) : field.number ? value ? Number(value) : null : value;
       }
       if (section === 'Basics') {
@@ -64,6 +68,11 @@ export function buildSectionUpdates(section: string, values: Record<string, stri
         } else { updates.startedOn = null; updates.ageKnown = false; updates.ageEstimated = false; }
       }
       if (section === 'Growing setup') {
+        const exposure = values.rainExposure || 'unknown';
+        if (!RAIN_EXPOSURES.includes(exposure as typeof RAIN_EXPOSURES[number])) return fail('Choose a valid rain exposure.');
+        // Leave unmatched legacy combinations alone on unrelated edits; do not infer exposure from a roof/garden name.
+        if (exposure !== rainExposure(plant)) updates.rainReception = rainReception(exposure);
+        updates.careMedium = values.careMedium || null;
         if (values.plantedIn === 'ground') updates.potSize = null;
         if (values.environment === 'indoor') updates.sunlightExposure = null;
         if (values.environment === 'outdoor') updates.sensorProfileId = null;

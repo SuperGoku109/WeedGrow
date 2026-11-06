@@ -1,18 +1,22 @@
 import { mapConcurrent } from '@/lib/data/mapConcurrent';
-import { plantDay, addDays } from '@/lib/dates/plantDay';
+import { addDays, plantDay } from '@/lib/dates/plantDay';
 import { fetchLogsAndWeatherForRange } from '@/lib/logs/fetchLogsAndWeatherForRange';
 import { fetchWeather } from '@/lib/weather/fetchWeather';
 import { parseWeatherData } from '@/lib/weather/parseWeatherData';
 import { updateWeatherCache } from '@/lib/weather/updateFirestore';
 import { weatherMatchesLocation } from '@/lib/plants/locationState';
 import logger from '@/lib/logger';
-import { calculatePlantWatering, getLocalDateString, DEFAULT_LOOKBACK_DAYS, DEFAULT_RAIN_THRESHOLD_MM, type PlantSummary, type WateringInsight, type EvaluateOptions, type RangeEntry } from './wateringEngine';
+import { waterExplanation } from '@/lib/careAlgorithm/waterExplanation';
+import type { CareDiagnostic } from '@/lib/careAlgorithm/careDiagnostics';
+import { calculatePlantWatering, DEFAULT_LOOKBACK_DAYS, DEFAULT_RAIN_THRESHOLD_MM, type PlantSummary, type WateringInsight, type EvaluateOptions, type RangeEntry } from './wateringEngine';
 export { getLocalDateString } from './wateringEngine';
 export type { PlantSummary, WateringInsight } from './wateringEngine';
 function hasValidCoordinates(plant: PlantSummary): plant is PlantSummary & {
   location: { lat: number; lng: number };
 } {
-  return typeof plant.location?.lat === 'number' && typeof plant.location?.lng === 'number';
+  return typeof plant.location?.lat === 'number' && typeof plant.location?.lng === 'number'
+    && Number.isFinite(plant.location.lat) && Number.isFinite(plant.location.lng)
+    && Math.abs(plant.location.lat) <= 90 && Math.abs(plant.location.lng) <= 180;
 }
 
 async function refreshWeatherIfMissing(
@@ -58,13 +62,34 @@ async function refreshWeatherIfMissing(
 }
 
 async function evaluatePlantWatering(plant: PlantSummary, today: Date, options: EvaluateOptions): Promise<WateringInsight | null> {
-  if (plant.status && plant.status !== 'active') return null;
-  const day = getLocalDateString(today);
+  if (plant.deleting || plant.status && plant.status !== 'active') return null;
+  let diagnostic: CareDiagnostic | undefined;
+  if (plant.careEvaluationRevision) {
+    try {
+      const { readPlantCareStatus } = await import('@/services/plantCareEvaluation');
+      const status = await readPlantCareStatus(plant.id, plant, today);
+      diagnostic = status.diagnostic;
+      const trusted = status.evaluation;
+      if (trusted) {
+        const insight = calculatePlantWatering(plant, today, options, {});
+        return insight ? { ...insight, careEvaluation: trusted, careDiagnostic: diagnostic, needsWater: trusted.water.needsWater, reason: waterExplanation(trusted.water) } : null;
+      }
+    } catch { diagnostic = { source: 'local_fallback', status: 'server_snapshot_read_failed', checkedAtUtc: today.getTime() / 1000, backendRevisionPresent: true }; }
+  }
+  const fallback = (range: Record<string, RangeEntry>, journalHistoryReadFailed = false) => {
+    const insight = calculatePlantWatering(plant, today, options, range);
+    if (!insight || !insight.careEvaluation) return insight;
+    insight.careDiagnostic = { ...insight.careDiagnostic!, ...diagnostic, journalHistoryReadFailed };
+    insight.careEvaluation.water.reasonCodes = [insight.careDiagnostic.status];
+    insight.reason = waterExplanation(insight.careEvaluation.water);
+    return insight;
+  };
+  const day = plantDay(today, plant.locationTimeZone);
   let range: Record<string, RangeEntry>;
   try { range = await fetchLogsAndWeatherForRange(plant.id, addDays(day, -options.lookbackDays), addDays(day, 1), plant.locationTimeZone); }
-  catch (error) { logger.error('Failed to fetch logs/weather for plant', { plantId: plant.id, error }); return null; }
+  catch (error) { logger.error('Failed to fetch logs/weather for plant', { plantId: plant.id, error }); return fallback({}, true); }
   range = await refreshWeatherIfMissing(plant, range, [day, addDays(day, 1)]);
-  return calculatePlantWatering(plant, today, options, range);
+  return fallback(range);
 }
 /**
  * Evaluates watering insight for each plant.
@@ -85,7 +110,7 @@ export async function evaluateWateringInsights(
   const insights = await mapConcurrent(plants, 2, async plant => {
     if (signal?.aborted) return null;
     try {
-      const insight = await evaluatePlantWatering(plant, new Date(plantDay(new Date(), plant.locationTimeZone) + 'T00:00:00'), mergedOptions);
+      const insight = await evaluatePlantWatering(plant, new Date(), mergedOptions);
       return signal?.aborted ? null : insight;
     } catch (error) {
       logger.error('Failed to evaluate watering insight for plant', { plantId: plant.id, error });

@@ -1,0 +1,18 @@
+{
+  "version": "8.4",
+  "crop": "Hops (Humulus lupulus)",
+  "changeScope": "Wording, branding, internal file references and package version only",
+  "originalArchiveSHA256": "8e55efb44c227aac04f947fdba8a57b2c36cda3a3bb5d1ca526ab98f414fc37c",
+  "originalFilesReviewed": 44,
+  "pythonFilesCompared": 13,
+  "pythonChangesLimitedToTextAndFileReferences": true,
+  "jsonFilesWithUnchangedStructureAndNonTextValues": 22,
+  "weatherFixturesAndKnownAnswerInputsByteIdentical": true,
+  "sourceAddressesPreservedAfterURLDecoding": true,
+  "sourceLabelsAreDescriptiveSummaries": true,
+  "baselineTestsPassed": 243,
+  "revisedTestsPassed": 243,
+  "canonicalWeatherSamplesChecked": 1652,
+  "removedTerminologyScanPassed": true,
+  "hopsCalibrationOrValidationAdded": false
+}

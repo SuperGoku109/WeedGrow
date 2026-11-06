@@ -77,11 +77,11 @@ export function parseWeatherMeasurements(input: unknown): Record<string, Weather
       dewPoint: sourceData.dew_point,
       cloudCoverage: sourceData.clouds,
       windGust: sourceData.wind_gust,
-      sunrise: sourceData.sunrise
-        ? new Date((sourceData.sunrise + tzOffset) * 1000).toISOString()
+      sunrise: sourceData.sunrise != null
+        ? new Date(sourceData.sunrise * 1000).toISOString()
         : undefined,
-      sunset: sourceData.sunset
-        ? new Date((sourceData.sunset + tzOffset) * 1000).toISOString()
+      sunset: sourceData.sunset != null
+        ? new Date(sourceData.sunset * 1000).toISOString()
         : undefined,
       pop: sourceData.pop,
     };

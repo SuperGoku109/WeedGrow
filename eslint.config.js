@@ -16,6 +16,9 @@ module.exports = defineConfig([
       'ios/**',
       '**/dist/**',
       'web-build/**',
+      // Generated handoff/research artifacts and third-party extraction outputs are not application source.
+      'output/**',
+      'tmp/**',
     ],
   },
   {
@@ -36,7 +39,7 @@ module.exports = defineConfig([
     },
   },
   {
-    files: ['lib/suggestions/wateringEngine.ts', 'lib/plants/plantRules.ts', 'features/plants/form/*.ts'],
+    files: ['lib/suggestions/wateringEngine.ts', 'lib/careAlgorithm/**/*.ts', 'lib/plants/plantRules.ts', 'features/plants/form/*.ts'],
     rules: {
       'no-restricted-imports': ['error', { paths: ['react', 'react-native', 'firebase/firestore'], patterns: [{ group: ['@/services/**', '@/lib/weather/fetchWeather', '@/lib/weather/updateFirestore', '@/lib/logs/fetchLogsAndWeatherForRange'], message: 'Domain calculations and form conversion must stay independent of I/O.' }] }],
     },

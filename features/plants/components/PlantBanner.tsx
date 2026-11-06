@@ -8,7 +8,7 @@ import { usePhotoUri } from '@/ui/PlantImage';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 import type { PlantTheme } from './plantDetailTheme';
 
-const stageIcons = { germination: 'seed-outline', seedling: 'sprout', vegetative: 'leaf', flowering: 'flower-outline', clone: 'content-cut' } as const;
+const stageIcons = { unknown: 'help-circle-outline', germination: 'seed-outline', seedling: 'sprout', vegetative: 'leaf', flowering: 'flower-outline', clone: 'content-cut' } as const;
 const environmentIcons = { outdoor: 'white-balance-sunny', indoor: 'home-outline', greenhouse: 'greenhouse' } as const;
 function BotanicalCover({ theme }: { theme: PlantTheme }) {
   return <Svg width="132" height="154" viewBox="0 0 96 112" aria-hidden={true}>
@@ -28,7 +28,7 @@ export default function PlantBanner({ plant, theme: t, onCover }: { plant: Plant
   const photo = usePhotoUri(uri, true);
   const [broken, setBroken] = React.useState(false);
   React.useEffect(() => setBroken(false), [uri]);
-  const stage = plant.growthStage || 'seedling';
+  const stage = plant.growthStage || 'unknown';
   const status = plant.status || 'active';
   const environment = plant.environment || 'outdoor';
   const place = plant.locationNickname?.trim() || (plant.plantedIn === 'pot' ? 'Potted plant' : plant.plantedIn === 'ground' ? 'In the ground' : '');

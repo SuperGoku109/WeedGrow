@@ -1,0 +1,65 @@
+{
+  "version": "8.3",
+  "integrityPassed": true,
+  "verifiedManifestFiles": 43,
+  "canonicalFixtureSamples": 1652,
+  "tasks": 28,
+  "acceptanceAreas": 16,
+  "testMethods": 243,
+  "suites": [
+    {
+      "command": [
+        "WeedGrow_Independent_Tests_v7.5.py",
+        "--include-existing"
+      ],
+      "exitCode": 0,
+      "testsRun": 115,
+      "output": "ith_default (existing_scenarios.Scenarios) ... ok\n\n----------------------------------------------------------------------\nRan 115 tests in 0.424s\n\nOK\n"
+    },
+    {
+      "command": [
+        "legacy_v82/WeedGrow_Functional_Tests_v8.2.py"
+      ],
+      "exitCode": 0,
+      "testsRun": 34,
+      "output": "..................................\n----------------------------------------------------------------------\nRan 34 tests in 0.076s\n\nOK\n"
+    },
+    {
+      "command": [
+        "WeedGrow_Field_Evaluator_Tests_v8.3.py"
+      ],
+      "exitCode": 0,
+      "testsRun": 26,
+      "output": "..........................\n----------------------------------------------------------------------\nRan 26 tests in 0.001s\n\nOK\n"
+    },
+    {
+      "command": [
+        "WeedGrow_API_Air_Fallback_Tests_v8.1.py"
+      ],
+      "exitCode": 0,
+      "testsRun": 15,
+      "output": "...............\n----------------------------------------------------------------------\nRan 15 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "command": [
+        "WeedGrow_Handoff_Tests_v8.3.py"
+      ],
+      "exitCode": 0,
+      "testsRun": 45,
+      "output": ".............................................\n----------------------------------------------------------------------\nRan 45 tests in 0.238s\n\nOK\n"
+    },
+    {
+      "command": [
+        "weather_evidence/captured_payload_tests.py"
+      ],
+      "exitCode": 0,
+      "testsRun": 8,
+      "output": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.004s\n\nOK\n"
+    }
+  ],
+  "emptyUnconfiguredDatasetRejected": true,
+  "applicationChanged": false,
+  "realPlantOutcomes": 0,
+  "predictiveAccuracyValidated": false,
+  "productionActivationReady": false
+}

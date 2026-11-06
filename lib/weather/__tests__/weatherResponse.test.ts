@@ -15,3 +15,20 @@ it('does not manufacture conditions or save an infinite hourly peak from incompl
   expect(result['1970-01-01'].temperature).toBe(20);
   expect(result['1970-01-01'].hourlySummary).toBeUndefined();
 });
+
+it.each([
+  { humidity: 101 }, { humidity: -1 }, { clouds: 101 }, { pop: 1.1 },
+  { wind_speed: -1 }, { wind_gust: -1 }, { uvi: -1 }, { rainfall: -1 },
+  { rain: -1 }, { rain: { '1h': -1 } }, { snow: { '1h': -1 } },
+  { sunrise: 1e20 }, { sunset: -1e20 },
+])('rejects out-of-range measurements before caching: %p', fields => {
+  expect(() => decodeWeatherResponse({ current: { dt: 1, ...fields } })).toThrow();
+});
+
+it.each(['7200', true, Infinity, 1e20, 0.5])('rejects invalid timezone offset %p', timezone_offset => {
+  expect(() => decodeWeatherResponse({ timezone_offset })).toThrow('timezone offset');
+});
+
+it.each(['1000', true, Infinity, -1, 1e20])('rejects invalid retrieval timestamp %p', _weedgrowFetchedAt => {
+  expect(() => decodeWeatherResponse({ _weedgrowFetchedAt })).toThrow('retrieval timestamp');
+});

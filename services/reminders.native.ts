@@ -34,7 +34,7 @@ export function syncReminders(uid: string | undefined, tasks: CareTask[], enable
     let count = 0;
     for (const { task, due } of upcoming) {
       if (count >= 50) break;
-      await Notifications.scheduleNotificationAsync({ identifier: `weedgrow:${uid}:${task.id}:${due.getTime()}`, content: { title: 'Plant care check', body: `Check ${task.plantName}: ${task.kind === 'watering' ? 'watering' : 'feeding'} is due. Confirm conditions before acting.`, data: { plantId: task.plantId, ownerUid: uid } }, trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: due, channelId: 'care' } });
+      await Notifications.scheduleNotificationAsync({ identifier: `weedgrow:${uid}:${task.id}:${due.getTime()}`, content: { title: 'Plant care reminder', body: `${task.plantName}: your ${task.kind === 'watering' ? 'watering' : 'feeding'} routine is scheduled. This reminder does not measure plant need.`, data: { plantId: task.plantId, ownerUid: uid } }, trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: due, channelId: 'care' } });
       count++;
     }
   });

@@ -4,6 +4,7 @@ import { validatePlantFields, MAX_PLANT_AGE_DAYS, PLANT_ENVIRONMENTS } from '@/l
 import { normalizePlantSetup } from '@/lib/plants/plantRules';
 
 export const stages = [
+  { value: 'unknown', label: 'Not sure', detail: 'Keep the growth stage unknown', icon: 'help-circle-outline' },
   { value: 'germination', label: 'Germination', detail: 'Starting from a seed', icon: 'seed-outline' },
   { value: 'seedling', label: 'Seedling', detail: 'A small, young plant', icon: 'sprout-outline' },
   { value: 'vegetative', label: 'Vegetative', detail: 'Established leafy growth', icon: 'leaf' },

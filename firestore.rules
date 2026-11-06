@@ -11,9 +11,14 @@ service cloud.firestore {
     }
     function validPlant() {
       return request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 100
-        && request.resource.data.growthStage in ['germination', 'seedling', 'vegetative', 'flowering', 'clone']
+        && request.resource.data.growthStage in ['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone']
         && request.resource.data.environment in ['outdoor', 'indoor', 'greenhouse']
-        && request.resource.data.plantedIn in ['pot', 'ground'];
+        && request.resource.data.plantedIn in ['pot', 'ground']
+        && (request.resource.data.get('careMedium', null) == null || request.resource.data.careMedium in ['', 'soil', 'soilless_mix', 'coco', 'other'])
+        && (request.resource.data.get('rainReception', null) == null || (request.resource.data.rainReception is map
+          && request.resource.data.rainReception.keys().hasOnly(['soil', 'canopy'])
+          && request.resource.data.rainReception.soil in ['yes', 'no', 'partial', 'unknown']
+          && request.resource.data.rainReception.canopy in ['yes', 'no', 'partial', 'unknown']));
     }
     // Sanitized diagnostics only: one capped record per account, no raw user content.
     match /clientDiagnostics/{uid} {
@@ -36,9 +41,15 @@ service cloud.firestore {
       allow get: if signedIn() && (!exists(/databases/$(database)/documents/plants/$(plantId)) || request.auth.uid in resource.data.owners);
       allow list: if signedIn() && request.auth.uid in resource.data.owners;
       allow create: if signedIn() && request.resource.data.owners == [request.auth.uid] && validPlant()
+        && request.resource.data.get('careEvaluationRevision', null) == null
+        && request.resource.data.get('waterLedgerRevision', 0) == 0
+        && request.resource.data.get('setupLedgerRevision', 0) == 0
         && request.resource.data.get('careSummary', null) == null
         && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
       allow update: if signedIn() && request.auth.uid in resource.data.owners && validPlant()
+        && request.resource.data.get('careEvaluationRevision', null) == resource.data.get('careEvaluationRevision', null)
+        && request.resource.data.get('waterLedgerRevision', 0) == resource.data.get('waterLedgerRevision', 0)
+        && request.resource.data.get('setupLedgerRevision', 0) == resource.data.get('setupLedgerRevision', 0)
         && (request.resource.data.get('careSummary', null) == null || (request.resource.data.careSummary.version == 1 && request.resource.data.careSummary.revision == request.resource.data.get('careRevision', 0)))
         && request.resource.data.owners == resource.data.owners
         && request.resource.data.createdAt == resource.data.createdAt;
@@ -50,6 +61,41 @@ service cloud.firestore {
           && request.resource.data.dataUri.matches('data:image/jpeg;base64,[A-Za-z0-9+/=]+')
           && request.resource.data.dataUri.size() <= (assetId.matches('.*_thumb') ? 20480 : 184320);
         allow update: if false;
+      }
+      match /care/{snapshotId} {
+        allow read: if ownsPlant(plantId);
+        allow delete: if ownsPlant(plantId) && get(/databases/$(database)/documents/plants/$(plantId)).data.get('deleting', false) == true;
+        allow create, update: if false;
+      }
+      match /careEvents/{eventId} {
+        allow read, delete: if ownsPlant(plantId) && get(/databases/$(database)/documents/plants/$(plantId)).data.get('deleting', false) == true;
+        allow create, update: if false;
+      }
+      match /careTransitions/{transitionId} {
+        allow read, delete: if ownsPlant(plantId) && get(/databases/$(database)/documents/plants/$(plantId)).data.get('deleting', false) == true;
+        allow create, update: if false;
+      }
+      match /careShadow/{runId} {
+        allow read, delete: if ownsPlant(plantId) && get(/databases/$(database)/documents/plants/$(plantId)).data.get('deleting', false) == true;
+        allow create, update: if false;
+      }
+      match /careWaterCheckpoints/{checkpointId} {
+        allow read, delete: if ownsPlant(plantId) && get(/databases/$(database)/documents/plants/$(plantId)).data.get('deleting', false) == true;
+        allow create, update: if false;
+      }
+      match /careWaterState/{stateId} {
+        allow read, delete: if ownsPlant(plantId) && get(/databases/$(database)/documents/plants/$(plantId)).data.get('deleting', false) == true;
+        allow create, update: if false;
+      }
+      match /careWaterHistory/{revisionId} {
+        allow read, delete: if ownsPlant(plantId) && get(/databases/$(database)/documents/plants/$(plantId)).data.get('deleting', false) == true;
+        allow create, update: if false;
+      }
+      match /careWeather/{revisionId} {
+        // Backend-only acquisition/revision data; owners may clean it up when deleting their plant.
+        allow delete: if ownsPlant(plantId) && get(/databases/$(database)/documents/plants/$(plantId)).data.get('deleting', false) == true;
+        allow read: if ownsPlant(plantId) && get(/databases/$(database)/documents/plants/$(plantId)).data.get('deleting', false) == true;
+        allow create, update: if false;
       }
       match /logs/{logId} {
         allow read, delete: if ownsPlant(plantId);

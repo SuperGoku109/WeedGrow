@@ -1,0 +1,207 @@
+{
+  "test_coordinates": {
+    "lat": -26.2041,
+    "lon": 28.0473
+  },
+  "location_scope": "Public Johannesburg city-centre test coordinate; not a user plant location",
+  "configured_key_used": true,
+  "account_changes": false,
+  "app_changes": false,
+  "probes": [
+    {
+      "probe": "openweather_current",
+      "retrieved_at_utc": "2026-10-30T12:44:36.392937+00:00",
+      "status": 200,
+      "top_level_keys": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "current",
+        "hourly",
+        "daily"
+      ],
+      "payload_file": "openweather_current_payload.json",
+      "hourly_count": 48,
+      "hourly_first_keys": [
+        "dt",
+        "temp",
+        "feels_like",
+        "pressure",
+        "humidity",
+        "dew_point",
+        "uvi",
+        "clouds",
+        "visibility",
+        "wind_speed",
+        "wind_deg",
+        "wind_gust",
+        "weather",
+        "pop"
+      ],
+      "daily_count": 8,
+      "daily_first_keys": [
+        "dt",
+        "sunrise",
+        "sunset",
+        "moonrise",
+        "moonset",
+        "moon_phase",
+        "summary",
+        "temp",
+        "feels_like",
+        "pressure",
+        "humidity",
+        "dew_point",
+        "wind_speed",
+        "wind_deg",
+        "wind_gust",
+        "weather",
+        "clouds",
+        "pop",
+        "uvi"
+      ],
+      "current_keys": [
+        "dt",
+        "sunrise",
+        "sunset",
+        "temp",
+        "feels_like",
+        "pressure",
+        "humidity",
+        "dew_point",
+        "uvi",
+        "clouds",
+        "visibility",
+        "wind_speed",
+        "wind_deg",
+        "wind_gust",
+        "weather"
+      ]
+    },
+    {
+      "probe": "openweather_history",
+      "retrieved_at_utc": "2026-10-30T12:44:36.393937+00:00",
+      "status": 200,
+      "top_level_keys": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "data"
+      ],
+      "payload_file": "openweather_history_payload.json",
+      "data_count": 1,
+      "data_first_keys": [
+        "dt",
+        "sunrise",
+        "sunset",
+        "temp",
+        "feels_like",
+        "pressure",
+        "humidity",
+        "dew_point",
+        "clouds",
+        "wind_speed",
+        "wind_deg",
+        "wind_gust",
+        "weather"
+      ]
+    },
+    {
+      "probe": "openmeteo_forecast",
+      "retrieved_at_utc": "2026-10-30T12:44:36.393937+00:00",
+      "status": 200,
+      "top_level_keys": [
+        "latitude",
+        "longitude",
+        "generationtime_ms",
+        "utc_offset_seconds",
+        "timezone",
+        "timezone_abbreviation",
+        "elevation",
+        "current_units",
+        "current",
+        "hourly_units",
+        "hourly"
+      ],
+      "payload_file": "openmeteo_forecast_payload.json",
+      "hourly_keys": [
+        "time",
+        "temperature_2m",
+        "relative_humidity_2m",
+        "dew_point_2m",
+        "rain",
+        "showers",
+        "precipitation",
+        "wind_speed_10m",
+        "wind_gusts_10m",
+        "shortwave_radiation",
+        "et0_fao_evapotranspiration"
+      ],
+      "hourly_lengths": {
+        "time": 96,
+        "temperature_2m": 96,
+        "relative_humidity_2m": 96,
+        "dew_point_2m": 96,
+        "rain": 96,
+        "showers": 96,
+        "precipitation": 96,
+        "wind_speed_10m": 96,
+        "wind_gusts_10m": 96,
+        "shortwave_radiation": 96,
+        "et0_fao_evapotranspiration": 96
+      },
+      "current_keys": [
+        "time",
+        "interval",
+        "temperature_2m",
+        "relative_humidity_2m",
+        "dew_point_2m",
+        "rain",
+        "wind_speed_10m"
+      ]
+    },
+    {
+      "probe": "openmeteo_archive",
+      "retrieved_at_utc": "2026-10-30T12:44:36.395000+00:00",
+      "status": 200,
+      "top_level_keys": [
+        "latitude",
+        "longitude",
+        "generationtime_ms",
+        "utc_offset_seconds",
+        "timezone",
+        "timezone_abbreviation",
+        "elevation",
+        "hourly_units",
+        "hourly"
+      ],
+      "payload_file": "openmeteo_archive_payload.json",
+      "hourly_keys": [
+        "time",
+        "temperature_2m",
+        "relative_humidity_2m",
+        "dew_point_2m",
+        "rain",
+        "precipitation",
+        "wind_speed_10m",
+        "wind_gusts_10m",
+        "shortwave_radiation",
+        "et0_fao_evapotranspiration"
+      ],
+      "hourly_lengths": {
+        "time": 72,
+        "temperature_2m": 72,
+        "relative_humidity_2m": 72,
+        "dew_point_2m": 72,
+        "rain": 72,
+        "precipitation": 72,
+        "wind_speed_10m": 72,
+        "wind_gusts_10m": 72,
+        "shortwave_radiation": 72,
+        "et0_fao_evapotranspiration": 72
+      }
+    }
+  ]
+}

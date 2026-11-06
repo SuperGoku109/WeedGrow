@@ -1,0 +1,293 @@
+{
+  "version": "8.3",
+  "files": [
+    {
+      "path": "docs/algorithm-implementation-plan-v8.3.md",
+      "bytes": 34562,
+      "sha256": "abb2acb0dcc943d20c55ea1da6145606298b2e06a15e02ad134964dd079ef21f",
+      "role": "current_implementation_backlog"
+    },
+    {
+      "path": "docs/algorithm-implementation-plan-verification-v8.3.json",
+      "bytes": 924,
+      "sha256": "3849c08fd484018605fc2cea7fc8ac756fc7f9b3a5fd582c84a6036c055dacdd",
+      "role": "current_implementation_backlog"
+    },
+    {
+      "path": "docs/algorithm-implementation-tasks-v8.3.json",
+      "bytes": 50234,
+      "sha256": "1266b3f40ec96a64a88d4e9ca1ef7ffe2ebba657abb0992d88b24365e437a19e",
+      "role": "current_implementation_backlog"
+    },
+    {
+      "path": "output/spec/legacy_v82/WeedGrow_Functional_Package_Verification_v8.2.json",
+      "bytes": 304,
+      "sha256": "665df1252f25d8a849a271a17b28a29b7fc1cae37b1361f41faa58897f80f508",
+      "role": "historical_partial_reference_not_current_raw_adapter"
+    },
+    {
+      "path": "output/spec/legacy_v82/WeedGrow_Functional_Reference_v8.2.py",
+      "bytes": 11123,
+      "sha256": "384f84f46cd913ce538f4b510cf8aadeff0ec4ceeb222c00041d1cefdece38dd",
+      "role": "historical_partial_reference_not_current_raw_adapter"
+    },
+    {
+      "path": "output/spec/legacy_v82/WeedGrow_Functional_Tests_v8.2.py",
+      "bytes": 10787,
+      "sha256": "7c0a1b6b2027f8c6442eb8b01398d7fdc36e9c477fec0addb2146b9848fcc246",
+      "role": "historical_partial_reference_not_current_raw_adapter"
+    },
+    {
+      "path": "output/spec/legacy_v82/WeedGrow_Functional_Verification_v8.2.json",
+      "bytes": 141,
+      "sha256": "5386a97fabab76a0395505092fa491c581c4b04ecc51710d1f9a285678ef12a6",
+      "role": "historical_partial_reference_not_current_raw_adapter"
+    },
+    {
+      "path": "output/spec/weather_evidence/actual_parser_audit.json",
+      "bytes": 700,
+      "sha256": "960b40e0a9549125a72f3c3e0f206999bcac0b53fadf31eecacc068d472a8efe",
+      "role": "historical_source_evidence_or_offline_fixture_test"
+    },
+    {
+      "path": "output/spec/weather_evidence/captured_payload_tests.py",
+      "bytes": 3329,
+      "sha256": "5cd8d811c648a3997573ed555ee17682f2f02debd81d5f0d6715ceca53fa60c7",
+      "role": "historical_source_evidence_or_offline_fixture_test"
+    },
+    {
+      "path": "output/spec/weather_evidence/live_probe_report.json",
+      "bytes": 4929,
+      "sha256": "2791f8437fa6f5738ede386453c3ced8d081bf0cb427c08bb830d55a365e56ac",
+      "role": "historical_source_evidence_or_offline_fixture_test"
+    },
+    {
+      "path": "output/spec/weather_evidence/Weather_API_Verification_2026-10-30.md",
+      "bytes": 7942,
+      "sha256": "92d84593be1bd92d79935548ff6367602004f3547617444afc0fdfd949f8694d",
+      "role": "historical_source_evidence_or_offline_fixture_test"
+    },
+    {
+      "path": "output/spec/weather_fixtures/openmeteo_archive_payload.json",
+      "bytes": 10291,
+      "sha256": "e974e7e647f7594d5b39295441eccb58ea8cf41c5fb703fd33f55a7af3d96645",
+      "role": "frozen_public_coordinate_payload"
+    },
+    {
+      "path": "output/spec/weather_fixtures/openmeteo_forecast_payload.json",
+      "bytes": 15005,
+      "sha256": "6bfa93b3799fb2263a42ee0dbc031ac010311620381d8b21f4ab788c25424bd9",
+      "role": "frozen_public_coordinate_payload"
+    },
+    {
+      "path": "output/spec/weather_fixtures/openweather_current_payload.json",
+      "bytes": 31745,
+      "sha256": "3a732b7eb0ee0b61894a8940d19d98dd2e52770a398117d80a685c9afa8e805d",
+      "role": "frozen_public_coordinate_payload"
+    },
+    {
+      "path": "output/spec/weather_fixtures/openweather_history_payload.json",
+      "bytes": 610,
+      "sha256": "3a79b9e79307f3447b36ec92fdbb68ead54c5a78bb72dfe5c01e5e0fa64a0e43",
+      "role": "frozen_public_coordinate_payload"
+    },
+    {
+      "path": "output/spec/WeedGrow_Algorithm_Emulator_v7.4.py",
+      "bytes": 36474,
+      "sha256": "8427dbc7be67f0e5a2cf3585e5c2e915eddd1bc8bc5d20189dd835b35efdae4a",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/WeedGrow_Algorithm_Scenarios_v7.4.py",
+      "bytes": 26173,
+      "sha256": "d37783b12f7b04824aaa23be4aa0cf54b75bb956482a92afb421997113ab1eaa",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/WeedGrow_API_Air_Fallback_Tests_v8.1.py",
+      "bytes": 2910,
+      "sha256": "d9ff29e735fa1789e21298123e7593a1ce34ee6517c96c411ae0e54b42795fd4",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/WeedGrow_API_Air_Fallback_v8.1.py",
+      "bytes": 1627,
+      "sha256": "e834bf615505b93d9b3eb725c490675bf453a3901fe76048f6de8ede538d710a",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/WeedGrow_Field_Dataset_Contract_v8.3.json",
+      "bytes": 2702,
+      "sha256": "f8c56d41955ac3925a6b60d9d1f51f0a0ccc732483d74d87ee8047793ef96f4b",
+      "role": "current_requirement"
+    },
+    {
+      "path": "output/spec/WeedGrow_Field_Dataset_v8.3.json",
+      "bytes": 129,
+      "sha256": "3450fadd44ba33b6f62fe2bb0d5b9009f6cf8b78a821923e0fb5a26b86435b49",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/WeedGrow_Field_Evaluator_Tests_v8.3.py",
+      "bytes": 8074,
+      "sha256": "82851d984bf8731066cf682301967f9b446747488f275b4d37a0761d22d1cc21",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/WeedGrow_Field_Evaluator_v8.3.py",
+      "bytes": 6169,
+      "sha256": "f0f82fb4d577257e2dbe13e7e8eac4d3284e1a7aee8ad51ac9cfd20e1981bfa9",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/WeedGrow_Field_Validation_Template_v7.5.json",
+      "bytes": 1975,
+      "sha256": "b1c2c06766321b297788cdbcfcfccc23dc2aa1d294e7105259f4705451acf32b",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/WeedGrow_Handoff_Reference_v8.3.py",
+      "bytes": 17647,
+      "sha256": "ae86ec675c0ef3f8d5ce3285d35f65f0dc90f9baf7e57dd34a162480f22c7857",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/WeedGrow_Handoff_Tests_v8.3.py",
+      "bytes": 15340,
+      "sha256": "4d6078eae78cbd6a539a5db99a7329038e934562271f06138d12c3dd9b5e97de",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/WeedGrow_Implementation_Boundary_Contract_v8.3.md",
+      "bytes": 9211,
+      "sha256": "da02576752ad0a360983c23f40945af67c0196a2c9f5b74ecdbde9e20a19c3c9",
+      "role": "current_requirement"
+    },
+    {
+      "path": "output/spec/WeedGrow_Implementation_Contract_v8.3.json",
+      "bytes": 54398,
+      "sha256": "dd47cc2d7a55211374a0ebfdefa34ea2426ad3e78b0568d26bcb95428e45947f",
+      "role": "current_requirement"
+    },
+    {
+      "path": "output/spec/WeedGrow_Implementation_Master_v8.3.md",
+      "bytes": 50237,
+      "sha256": "5bbf3a3e70aad9aad8b08aa49b818baee1dd0fd29f09653d9165ca8b69b121f5",
+      "role": "current_requirement"
+    },
+    {
+      "path": "output/spec/WeedGrow_Independent_Test_Cases_v7.5.json",
+      "bytes": 3305,
+      "sha256": "0eb61a4f1e7ce3877181657c0cc21402552169bb8514e458c7e79ab112da3411",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/WeedGrow_Independent_Test_Report_v7.5.json",
+      "bytes": 1092,
+      "sha256": "b0c351f80e2be7a81d8c9b4c0b0e9ae6ee5a83d35231701001bd4236cb50cc0a",
+      "role": "scoped_prior_engineering_report"
+    },
+    {
+      "path": "output/spec/WeedGrow_Independent_Tests_v7.5.py",
+      "bytes": 9923,
+      "sha256": "2edffb5aadcd682ab78a574e9f0d439db2a51dee95b84b97fd777bd81cddc0a0",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/WeedGrow_Independent_Tests_v7.5_README.md",
+      "bytes": 3636,
+      "sha256": "72e0f8d2ca8a9db2705a571cf97f7537a1dbc45b2344ed4ddd40031fdf4ed282",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/WeedGrow_Known_Answers_v7.5.md",
+      "bytes": 2920,
+      "sha256": "5a84085da61b6b2e2faddf393d7782cafc9b3ad90114503fe62be12c46cdd7c5",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/WeedGrow_Practical_Refinement_Verification_v8.1.json",
+      "bytes": 113,
+      "sha256": "043cc2b3758ddc20a7a0c2889fb28f3dcf56739cddf53478c64550b9082b4683",
+      "role": "scoped_prior_engineering_report"
+    },
+    {
+      "path": "output/spec/WeedGrow_Release_Policy_v8.0.json",
+      "bytes": 742,
+      "sha256": "31804c5a47f89aa9b2d5e8a2456ba72db1e170c67f7e51d0380e6e54fdabf66c",
+      "role": "intentionally_unapproved_release_policy"
+    },
+    {
+      "path": "output/spec/WeedGrow_SPEC_STATUS.json",
+      "bytes": 920,
+      "sha256": "a2bd2b4a621e731b95a3c65114416d0da2a1a2455ca15ca7aa319850732f2e97",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/WeedGrow_Weather_Sample_Contract_v8.3.json",
+      "bytes": 2332,
+      "sha256": "445316ac2fb751daccb4a5d512aaa496ae58ed79193f3efc0029a4b8c2a86432",
+      "role": "current_requirement"
+    },
+    {
+      "path": "README_START_HERE.md",
+      "bytes": 4482,
+      "sha256": "fb36efda7ec89fa3991c32db8fda670751473b5ebe210f6c1d52e1d069c3af53",
+      "role": "entrypoint"
+    },
+    {
+      "path": "tools/verify_handoff_v8.3.py",
+      "bytes": 7714,
+      "sha256": "4aff5485334f390b65d7aeb41d8eff0d22d1d0f4002461e23a2a5fa398fd424a",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "verification/Original_Failure_Reproductions_v8.2.json",
+      "bytes": 1335,
+      "sha256": "28d660199d79c97de1dd330392b9e88b162a0c84975f0a84c2d96ec97d65e7b8",
+      "role": "audit_record"
+    },
+    {
+      "path": "verification/WeedGrow_Handoff_Audit_v8.3.json",
+      "bytes": 19481,
+      "sha256": "c9bba5ab989278fbdc3d9d9e39f88c581636242f9851346f5ee40da554b4b8bd",
+      "role": "audit_record"
+    },
+    {
+      "path": "verification/WeedGrow_Handoff_Audit_v8.3.md",
+      "bytes": 13488,
+      "sha256": "b0ac1ba510eb619754af80d9352c2a56643f698a6ed20caac256ece2216784f8",
+      "role": "audit_record"
+    }
+  ],
+  "immutableOracleSHA256": "0eb61a4f1e7ce3877181657c0cc21402552169bb8514e458c7e79ab112da3411",
+  "buildVerification": {
+    "testMethods": 243,
+    "allSuitesPassed": true,
+    "canonicalFixtureSamples": 1652,
+    "realPlantOutcomes": 0,
+    "productionActivationReady": false,
+    "commands": [
+      [
+        "WeedGrow_Independent_Tests_v7.5.py",
+        "--include-existing"
+      ],
+      [
+        "legacy_v82/WeedGrow_Functional_Tests_v8.2.py"
+      ],
+      [
+        "WeedGrow_Field_Evaluator_Tests_v8.3.py"
+      ],
+      [
+        "WeedGrow_API_Air_Fallback_Tests_v8.1.py"
+      ],
+      [
+        "WeedGrow_Handoff_Tests_v8.3.py"
+      ],
+      [
+        "weather_evidence/captured_payload_tests.py"
+      ]
+    ],
+    "verificationToolSHA256": "4aff5485334f390b65d7aeb41d8eff0d22d1d0f4002461e23a2a5fa398fd424a"
+  }
+}

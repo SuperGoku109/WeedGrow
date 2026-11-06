@@ -1,0 +1,21 @@
+
+> weedgrowapp@1.0.0 deploy:care
+> node scripts/deploy-care.cjs
+
+C:\Users\Zane\dev\WeedGrow\scripts\deploy-care.cjs:21
+  if (!/not found|NOT_FOUND|404/i.test(message)) throw new Error(message);
+                                                 ^
+
+Error: Your project weed-grow must be on the Blaze (pay-as-you-go) plan to complete this command. Required API secretmanager.googleapis.com can't be enabled until the upgrade is complete. To upgrade, visit the following URL:
+
+https://console.firebase.google.com/project/weed-grow/usage/details
+    at Object.<anonymous> (C:\Users\Zane\dev\WeedGrow\scripts\deploy-care.cjs:21:56)
+    at Module._compile (node:internal/modules/cjs/loader:1872:14)
+    at Object..js (node:internal/modules/cjs/loader:2003:10)
+    at Module.load (node:internal/modules/cjs/loader:1594:32)
+    at Module._load (node:internal/modules/cjs/loader:1396:12)
+    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)
+    at Module.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:154:5)
+    at node:internal/main/run_main_module:33:47
+
+Node.js v24.19.0

@@ -39,9 +39,18 @@ export function relevantCareGaps(plant: Plant) {
   if (plant.environment !== 'indoor' && !plant.sunlightExposure) fields.push({ label: 'Sunlight', section: 'Growing setup', reason: 'helps estimate drying conditions' });
   return fields;
 }
-export function presentCareCard(card: SuggestionCard, wateredToday: boolean, stale: boolean): SuggestionCard {
-  if (card.kind === 'watering' && wateredToday) return { ...card, severity: 'info', title: 'Watering recorded today', summary: 'Recheck soil before watering again.', reasons: [], confidence: 'high', metrics: { ...card.metrics, needsWater: false } };
+export function presentCareCard(card: SuggestionCard, wateredToday: boolean, stale: boolean, now = new Date()): SuggestionCard {
+  const annotation = card.kind === 'watering' && wateredToday ? { ...card, summary: 'Watering recorded today. ' + card.summary } : card;
+  if (card.algorithmVersion.startsWith('hops-')) {
+    const expires = card.metrics.expiresAtUtc;
+    if ((card.kind === 'weather' || card.kind === 'weatherContext') && (typeof expires !== 'number' || expires <= now.getTime() / 1000)) return { ...card, active: false };
+    if (typeof expires === 'number' && expires <= now.getTime() / 1000) stale = true;
+    if (stale && card.kind === 'watering' && card.metrics.needsWater !== null) return { ...annotation, confidence: 'low', severity: 'info', title: 'Watering estimate unavailable',
+      summary: `${wateredToday ? 'Watering recorded today. ' : ''}A current watering estimate is unavailable. Your logs and routine reminders remain available.`,
+      reasons: [], metrics: { ...card.metrics, needsWater: null, decision: 'uncertain' } };
+    return annotation;
+  }
   if (stale) return { ...card, confidence: 'low', severity: 'watch', title: card.kind === 'watering' ? 'Check soil moisture' : card.title, summary: 'Weather is out of date or its update time is unknown. Check current conditions before acting on this suggestion. ' + card.summary };
   if (card.kind === 'watering' && (card.confidence === 'low' || card.title.toLowerCase().includes('check whether'))) return { ...card, severity: 'watch', title: 'Check soil moisture', summary: 'Check the soil before deciding whether to water. ' + card.summary };
-  return card;
+  return annotation;
 }

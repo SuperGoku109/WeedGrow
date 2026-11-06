@@ -4,6 +4,8 @@ const card = { id: 'watering', kind: 'watering', severity: 'critical', title: 'C
 it('presents uncertain watering as a check and keeps confirmed risks urgent', () => {
   expect(presentCareCard(card, false, false)).toMatchObject({ severity: 'watch', title: 'Check soil moisture' });
   expect(presentCareCard({ ...card, kind: 'powderyMildew' } as SuggestionCard, false, false).severity).toBe('critical');
-  expect(presentCareCard(card, true, false)).toMatchObject({ severity: 'info', title: 'Watering recorded today' });
+  // Recording water annotates care; it cannot supply moisture evidence or increase confidence.
+  expect(presentCareCard(card, true, false)).toMatchObject({ severity: 'watch', title: 'Check soil moisture', confidence: 'low' });
+  expect(presentCareCard({ ...card, metrics: { needsWater: true } }, true, false).metrics.needsWater).toBe(true);
   expect(card.severity).toBe('critical');
 });

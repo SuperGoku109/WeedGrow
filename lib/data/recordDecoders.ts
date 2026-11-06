@@ -18,7 +18,7 @@ function clocks(data: Record<string, unknown>, path: string) { optional(data, ['
 export function decodePlant(value: unknown, path: string): Plant {
   const data = record(value, path);
   check(text(data.name) && !!data.name.trim(), path, 'name'); check(strings(data.owners) && data.owners.length, path, 'owners');
-  check(['germination', 'seedling', 'vegetative', 'flowering', 'clone'].includes(String(data.growthStage)), path, 'growthStage');
+  check(['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone'].includes(String(data.growthStage)), path, 'growthStage');
   check(['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)), path, 'environment'); check(['pot', 'ground'].includes(String(data.plantedIn)), path, 'plantedIn');
   check(['active', 'archived', 'harvested', 'dead'].includes(String(data.status)), path, 'status');
   optional(data, ['strain', 'strainType', 'startedOn', 'groupId', 'locationLabel', 'locationTimeZone', 'locationNickname', 'sensorProfileId', 'potSize', 'sunlightExposure', 'wateringFrequency', 'feedingFrequency', 'fertilizer', 'notes', 'imageUri', 'soilType', 'soilPh', 'permanentProtection', 'environmentNotes'], text, path);
@@ -33,6 +33,9 @@ export function decodePlant(value: unknown, path: string): Plant {
   if (data.reminderSchedule != null) { const schedule = record(data.reminderSchedule, path); check(['none', 'interval', 'custom'].includes(String(schedule.type)), path, 'reminderSchedule'); optional(schedule, ['intervalDays'], finite, path); optional(schedule, ['customDays'], strings, path); optional(schedule, ['timeOfDay'], text, path); }
   if (data.currentWeather != null) decodeWeather(data.currentWeather, `${path}/currentWeather`);
   if (data.harvest != null) { const harvest = record(data.harvest, path); check(text(harvest.date) && text(harvest.recordId) && text(harvest.notes), path, 'harvest'); optional(harvest, ['weightGrams'], finite, path); }
+  optional(data, ['careMedium', 'careEvaluationRevision'], text, path);
+  optional(data, ['waterLedgerRevision', 'setupLedgerRevision'], value => finite(value) && Number.isInteger(value) && value >= 0, path);
+  if (data.rainReception != null) { const rain = record(data.rainReception, path); check(text(rain.soil) && text(rain.canopy) && ['yes', 'no', 'partial', 'unknown'].includes(rain.soil) && ['yes', 'no', 'partial', 'unknown'].includes(rain.canopy), path, 'rainReception'); }
   // Missing optional legacy metadata remains explicitly unknown.
   return { ...data, strain: data.strain ?? '', createdAt: data.createdAt ?? null, updatedAt: data.updatedAt ?? null } as unknown as Plant;
 }

@@ -1,12 +1,20 @@
 import { validatePlantDatesAndReminders } from './plantRules';
+import { MEDIUMS } from '@/lib/careAlgorithm/setupFacts';
 /** Field policies shared by forms and the write boundary. Only supplied fields
  * are checked, so an unrelated edit can still repair a legacy record. */
-export const PLANT_STAGES = ['germination', 'seedling', 'vegetative', 'flowering', 'clone'] as const;
+export const PLANT_STAGES = ['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone'] as const;
 export const PLANT_ENVIRONMENTS = ['outdoor', 'indoor', 'greenhouse'] as const;
 export const MAX_PLANT_AGE_DAYS = 36500;
 
 export function validatePlantFields(fields: Record<string, unknown>, today?: string): Record<string, string> {
   const errors: Record<string, string> = validatePlantDatesAndReminders(fields, today);
+  if (fields.careMedium != null && !MEDIUMS.includes(fields.careMedium as typeof MEDIUMS[number])) errors.careMedium = 'Choose a supported growing medium or leave it unknown.';
+  if (fields.rainReception != null) {
+    const rain = fields.rainReception as { soil?: unknown; canopy?: unknown };
+    if (typeof rain !== 'object' || Array.isArray(rain) || typeof rain.soil !== 'string' || typeof rain.canopy !== 'string'
+      || !['yes', 'no', 'partial', 'unknown'].includes(rain.soil)
+      || !['yes', 'no', 'partial', 'unknown'].includes(rain.canopy)) errors.rainReception = 'Choose a valid rain exposure.';
+  }
   if ('name' in fields && (typeof fields.name !== 'string' || !fields.name.trim() || fields.name.trim().length > 100)) errors.name = 'Use a plant name of 1–100 characters.';
   const choices: Record<string, readonly string[]> = { growthStage: PLANT_STAGES, environment: PLANT_ENVIRONMENTS, plantedIn: ['pot', 'ground'], status: ['active', 'archived', 'harvested', 'dead'], strainType: ['unknown', 'sativa', 'indica', 'hybrid'], locationMode: ['custom', 'space'] };
   for (const [field, values] of Object.entries(choices)) if (field in fields && !values.includes(fields[field] as string)) errors[field] = `Choose a valid ${field === 'growthStage' ? 'growth stage' : field === 'strainType' ? 'strain type' : field === 'locationMode' ? 'location mode' : field}.`;

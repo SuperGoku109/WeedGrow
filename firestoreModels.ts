@@ -8,6 +8,12 @@ export interface ProgressPic { calendarDay?: string; timeZone?: string; id: stri
 export interface CareSummaryEntry { id: string; mutationId?: string; timestamp: Timestamp; calendarDay?: string; timeZone?: string }
 export interface CareSummary { version: 1; revision: number; watering: CareSummaryEntry | null; fertilizing: CareSummaryEntry | null }
 export interface Plant {
+    waterLedgerRevision?: number;
+    setupLedgerRevision?: number;
+    /** Server-owned pointer; clients cannot write or restore it. */
+    careEvaluationRevision?: string | null;
+    careMedium?: string | null;
+    rainReception?: { soil: 'yes' | 'no' | 'partial' | 'unknown'; canopy: 'yes' | 'no' | 'partial' | 'unknown' };
     careRevision?: number;
     careSummary?: CareSummary | null;
     name: string;
@@ -29,7 +35,7 @@ export interface Plant {
     deleting?: boolean;
     harvest?: { date: string; weightGrams?: number; notes: string; recordId: string };
     owners: string[];
-    growthStage: 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone';
+    growthStage: 'unknown' | 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone';
     ageDays?: number | null;
     ageKnown?: boolean;
     status: 'active' | 'archived' | 'harvested' | 'dead';

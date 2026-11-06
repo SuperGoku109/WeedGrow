@@ -1,0 +1,299 @@
+{
+  "version": "8.4",
+  "files": [
+    {
+      "path": "docs/algorithm-implementation-plan-v8.4.md",
+      "bytes": 34563,
+      "sha256": "aad702ccaa91bdd3a3c5bc847d05e8516675d92190733c554a9cd64e1f051862",
+      "role": "current_implementation_backlog"
+    },
+    {
+      "path": "docs/algorithm-implementation-plan-verification-v8.4.json",
+      "bytes": 924,
+      "sha256": "90f64b6945830d04b160da102490476dd0a6c17e00f17073708d2716a98d0379",
+      "role": "current_implementation_backlog"
+    },
+    {
+      "path": "docs/algorithm-implementation-tasks-v8.4.json",
+      "bytes": 50235,
+      "sha256": "69c37f710f58c22642b28b65c6524b7555d7ee30ee7b4daa74e2400ba7e4be21",
+      "role": "current_implementation_backlog"
+    },
+    {
+      "path": "output/spec/legacy_v82/HopsGrow_Functional_Package_Verification_v8.2.json",
+      "bytes": 304,
+      "sha256": "665df1252f25d8a849a271a17b28a29b7fc1cae37b1361f41faa58897f80f508",
+      "role": "historical_partial_reference_not_current_raw_adapter"
+    },
+    {
+      "path": "output/spec/legacy_v82/HopsGrow_Functional_Reference_v8.2.py",
+      "bytes": 11123,
+      "sha256": "384f84f46cd913ce538f4b510cf8aadeff0ec4ceeb222c00041d1cefdece38dd",
+      "role": "historical_partial_reference_not_current_raw_adapter"
+    },
+    {
+      "path": "output/spec/legacy_v82/HopsGrow_Functional_Tests_v8.2.py",
+      "bytes": 10787,
+      "sha256": "799aa98eb4d3879897ac7f56b085534e962f41e6b879b859521e456c69383097",
+      "role": "historical_partial_reference_not_current_raw_adapter"
+    },
+    {
+      "path": "output/spec/legacy_v82/HopsGrow_Functional_Verification_v8.2.json",
+      "bytes": 141,
+      "sha256": "5386a97fabab76a0395505092fa491c581c4b04ecc51710d1f9a285678ef12a6",
+      "role": "historical_partial_reference_not_current_raw_adapter"
+    },
+    {
+      "path": "output/spec/weather_evidence/actual_parser_audit.json",
+      "bytes": 700,
+      "sha256": "960b40e0a9549125a72f3c3e0f206999bcac0b53fadf31eecacc068d472a8efe",
+      "role": "historical_source_evidence_or_offline_fixture_test"
+    },
+    {
+      "path": "output/spec/weather_evidence/captured_payload_tests.py",
+      "bytes": 3329,
+      "sha256": "5cd8d811c648a3997573ed555ee17682f2f02debd81d5f0d6715ceca53fa60c7",
+      "role": "historical_source_evidence_or_offline_fixture_test"
+    },
+    {
+      "path": "output/spec/weather_evidence/live_probe_report.json",
+      "bytes": 4929,
+      "sha256": "2791f8437fa6f5738ede386453c3ced8d081bf0cb427c08bb830d55a365e56ac",
+      "role": "historical_source_evidence_or_offline_fixture_test"
+    },
+    {
+      "path": "output/spec/weather_evidence/Weather_API_Verification_2026-10-30.md",
+      "bytes": 7942,
+      "sha256": "542a987fe7f4aff625ae026691869a76d3cc494df1ec357fac77b9adbd9b52f7",
+      "role": "historical_source_evidence_or_offline_fixture_test"
+    },
+    {
+      "path": "output/spec/weather_fixtures/openmeteo_archive_payload.json",
+      "bytes": 10291,
+      "sha256": "e974e7e647f7594d5b39295441eccb58ea8cf41c5fb703fd33f55a7af3d96645",
+      "role": "frozen_public_coordinate_payload"
+    },
+    {
+      "path": "output/spec/weather_fixtures/openmeteo_forecast_payload.json",
+      "bytes": 15005,
+      "sha256": "6bfa93b3799fb2263a42ee0dbc031ac010311620381d8b21f4ab788c25424bd9",
+      "role": "frozen_public_coordinate_payload"
+    },
+    {
+      "path": "output/spec/weather_fixtures/openweather_current_payload.json",
+      "bytes": 31745,
+      "sha256": "3a732b7eb0ee0b61894a8940d19d98dd2e52770a398117d80a685c9afa8e805d",
+      "role": "frozen_public_coordinate_payload"
+    },
+    {
+      "path": "output/spec/weather_fixtures/openweather_history_payload.json",
+      "bytes": 610,
+      "sha256": "3a79b9e79307f3447b36ec92fdbb68ead54c5a78bb72dfe5c01e5e0fa64a0e43",
+      "role": "frozen_public_coordinate_payload"
+    },
+    {
+      "path": "output/spec/HopsGrow_Algorithm_Emulator_v7.4.py",
+      "bytes": 36474,
+      "sha256": "f4c4eec642b83f01227ec9e0afa99797ecf93328bbe61952d1b60a50f96d7f71",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/HopsGrow_Algorithm_Scenarios_v7.4.py",
+      "bytes": 26173,
+      "sha256": "41febb58e40e54fb58f89ac7f63ab6073c9c6d7cca5b2cbfa7f546d80bb90d49",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/HopsGrow_API_Air_Fallback_Tests_v8.1.py",
+      "bytes": 2910,
+      "sha256": "5e97be751ead7115b62113f2526fde6251a0cdb1fcefed0c64cbba6a0ed782e1",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/HopsGrow_API_Air_Fallback_v8.1.py",
+      "bytes": 1627,
+      "sha256": "e834bf615505b93d9b3eb725c490675bf453a3901fe76048f6de8ede538d710a",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/HopsGrow_Field_Dataset_Contract_v8.4.json",
+      "bytes": 2702,
+      "sha256": "baeae56eb1d95e9e524f706c40eb8e79b47f0b3f0cfc0d6ba13ec0ee3fbcdc72",
+      "role": "current_requirement"
+    },
+    {
+      "path": "output/spec/HopsGrow_Field_Dataset_v8.4.json",
+      "bytes": 129,
+      "sha256": "3450fadd44ba33b6f62fe2bb0d5b9009f6cf8b78a821923e0fb5a26b86435b49",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/HopsGrow_Field_Evaluator_Tests_v8.4.py",
+      "bytes": 8074,
+      "sha256": "25d026346d742461bb44e71f24f590e0fa0a438e39d5c69d758b3cb603650a76",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/HopsGrow_Field_Evaluator_v8.4.py",
+      "bytes": 6169,
+      "sha256": "b1d8518534cb99692760cd8feee41e125658c5ed7aec4d0df3df84d669e31aa5",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/HopsGrow_Field_Validation_Template_v7.5.json",
+      "bytes": 1975,
+      "sha256": "b1c2c06766321b297788cdbcfcfccc23dc2aa1d294e7105259f4705451acf32b",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/HopsGrow_Handoff_Reference_v8.4.py",
+      "bytes": 17647,
+      "sha256": "913467ad3c32f8fc013ae14cfebf4a85418dea43ae0e57df89d7dbc2a3618191",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/HopsGrow_Handoff_Tests_v8.4.py",
+      "bytes": 15340,
+      "sha256": "fefd181c79cc5814fb41d5671f22522621972d2556db01bc7749ae9f7d7a6564",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/HopsGrow_Implementation_Boundary_Contract_v8.4.md",
+      "bytes": 9211,
+      "sha256": "c54bb308e125c7061e8188bc031fdcd105245124adbb0f1e7daa927d854991c3",
+      "role": "current_requirement"
+    },
+    {
+      "path": "output/spec/HopsGrow_Implementation_Contract_v8.4.json",
+      "bytes": 54593,
+      "sha256": "77ce443857dd2d4d87648b373bea832bd396485549472f383248da0f8a6d00fa",
+      "role": "current_requirement"
+    },
+    {
+      "path": "output/spec/HopsGrow_Implementation_Master_v8.4.md",
+      "bytes": 50670,
+      "sha256": "eec17217406419bee20f2c2759360e92d68024a0983b4108313417cac445b29c",
+      "role": "current_requirement"
+    },
+    {
+      "path": "output/spec/HopsGrow_Independent_Test_Cases_v7.5.json",
+      "bytes": 3305,
+      "sha256": "0eb61a4f1e7ce3877181657c0cc21402552169bb8514e458c7e79ab112da3411",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/HopsGrow_Independent_Test_Report_v7.5.json",
+      "bytes": 1092,
+      "sha256": "de4552e502cdd9cf7c31d69ee956a60e007e9812974ec114ae5095e76799589a",
+      "role": "scoped_prior_engineering_report"
+    },
+    {
+      "path": "output/spec/HopsGrow_Independent_Tests_v7.5.py",
+      "bytes": 9923,
+      "sha256": "9bb564b4529615e8e5f9bac3e7e671eed9e68a56eb6fa85931c580a197d00ee8",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "output/spec/HopsGrow_Independent_Tests_v7.5_README.md",
+      "bytes": 3632,
+      "sha256": "f2da88d0b1b77ac5d028caa50d87fcc5b1e6885243b535db739f8ede0ce672a4",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/HopsGrow_Known_Answers_v7.5.md",
+      "bytes": 2916,
+      "sha256": "0b60bc9b9b671ebd1035191179cc3c16cd220b6c91a07078de232cf6baa056b6",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/HopsGrow_Practical_Refinement_Verification_v8.1.json",
+      "bytes": 113,
+      "sha256": "043cc2b3758ddc20a7a0c2889fb28f3dcf56739cddf53478c64550b9082b4683",
+      "role": "scoped_prior_engineering_report"
+    },
+    {
+      "path": "output/spec/HopsGrow_Release_Policy_v8.0.json",
+      "bytes": 742,
+      "sha256": "31804c5a47f89aa9b2d5e8a2456ba72db1e170c67f7e51d0380e6e54fdabf66c",
+      "role": "intentionally_unapproved_release_policy"
+    },
+    {
+      "path": "output/spec/HopsGrow_SPEC_STATUS.json",
+      "bytes": 920,
+      "sha256": "648e63b82acfd2b016aeca9a8ef22601c3f9b6bf7ca0287891de2d6752f25205",
+      "role": "reference_contract_or_guidance"
+    },
+    {
+      "path": "output/spec/HopsGrow_Weather_Sample_Contract_v8.4.json",
+      "bytes": 2332,
+      "sha256": "3fa82b6a750893282e5349f0c5d9169cba565831811dea75a54f76d54719c893",
+      "role": "current_requirement"
+    },
+    {
+      "path": "README_START_HERE.md",
+      "bytes": 4923,
+      "sha256": "31a9ded5fe01ed14ff113363de94682fcf57816f38f81b37b42b2a258508c4ad",
+      "role": "entrypoint"
+    },
+    {
+      "path": "tools/verify_handoff_v8.4.py",
+      "bytes": 7714,
+      "sha256": "c8f0714d40f9d355c719397028cb33a1685d469c918655bab2957a5e9d61e740",
+      "role": "offline_reference_or_verifier"
+    },
+    {
+      "path": "verification/Original_Failure_Reproductions_v8.2.json",
+      "bytes": 1335,
+      "sha256": "28d660199d79c97de1dd330392b9e88b162a0c84975f0a84c2d96ec97d65e7b8",
+      "role": "audit_record"
+    },
+    {
+      "path": "verification/HopsGrow_Handoff_Audit_v8.4.json",
+      "bytes": 19481,
+      "sha256": "3a2286c2545ba2f927da3897872fdd650eaf91d5195478443b966ef8b6d48fd0",
+      "role": "audit_record"
+    },
+    {
+      "path": "verification/HopsGrow_Handoff_Audit_v8.4.md",
+      "bytes": 13488,
+      "sha256": "b50c0cd31329d8d5668983a57ac9470732aface0e85114a3ead4eaf33e279dc5",
+      "role": "audit_record"
+    },
+    {
+      "path": "verification/HopsGrow_Wording_Review_v8.4.json",
+      "bytes": 778,
+      "sha256": "fe5389f69a2dc10cc15111622c8650a3c050194910f19a6f161f2dfae450da45",
+      "role": "wording_revision_verification"
+    }
+  ],
+  "immutableOracleSHA256": "0eb61a4f1e7ce3877181657c0cc21402552169bb8514e458c7e79ab112da3411",
+  "buildVerification": {
+    "testMethods": 243,
+    "allSuitesPassed": true,
+    "canonicalFixtureSamples": 1652,
+    "realPlantOutcomes": 0,
+    "productionActivationReady": false,
+    "commands": [
+      [
+        "HopsGrow_Independent_Tests_v7.5.py",
+        "--include-existing"
+      ],
+      [
+        "legacy_v82/HopsGrow_Functional_Tests_v8.2.py"
+      ],
+      [
+        "HopsGrow_Field_Evaluator_Tests_v8.4.py"
+      ],
+      [
+        "HopsGrow_API_Air_Fallback_Tests_v8.1.py"
+      ],
+      [
+        "HopsGrow_Handoff_Tests_v8.4.py"
+      ],
+      [
+        "weather_evidence/captured_payload_tests.py"
+      ]
+    ],
+    "verificationToolSHA256": "c8f0714d40f9d355c719397028cb33a1685d469c918655bab2957a5e9d61e740"
+  }
+}

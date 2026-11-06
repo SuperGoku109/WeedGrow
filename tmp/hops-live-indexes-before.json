@@ -1,0 +1,91 @@
+{
+  "status": "success",
+  "result": {
+    "indexes": [
+      {
+        "collectionGroup": "groups",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "createdBy",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "plantIds",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "density": "SPARSE_ALL"
+      },
+      {
+        "collectionGroup": "logs",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "type",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "timestamp",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "density": "SPARSE_ALL"
+      },
+      {
+        "collectionGroup": "logs",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "type",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "timestamp",
+            "order": "DESCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "DESCENDING"
+          }
+        ],
+        "density": "SPARSE_ALL"
+      },
+      {
+        "collectionGroup": "plants",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "owners",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "sensorProfileId",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "density": "SPARSE_ALL"
+      }
+    ],
+    "fieldOverrides": [
+      {
+        "collectionGroup": "photoAssets",
+        "fieldPath": "dataUri",
+        "ttl": false,
+        "indexes": []
+      }
+    ]
+  }
+}

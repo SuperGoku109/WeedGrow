@@ -1,0 +1,8 @@
+PASS lib/careAlgorithm/__tests__/stormDiseaseScenarios.test.ts
+PASS lib/suggestions/__tests__/hopsIntegration.test.ts
+PASS lib/careAlgorithm/__tests__/sourceEvents.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       93 passed, 93 total
+Snapshots:   0 total
+Time:        2.694 s

@@ -1,0 +1,24 @@
+{
+  "currentProductSpec": "8.4",
+  "document": "HopsGrow_Implementation_Master_v8.4.md",
+  "productionScope": "basic setup + watering logs + automatic weather",
+  "dailyMeasurementRequirements": [],
+  "researchOnly": [
+    "v7.0 physiology emulator",
+    "leaf-temperature/leaf-VPD calculations",
+    "measured-photon-dependent predictions",
+    "cultivar laboratory lookups"
+  ],
+  "appImplementationChanged": false,
+  "predictiveAccuracyValidated": false,
+  "evidenceBaseline": "7.2",
+  "offlineReference": "HopsGrow_Algorithm_Emulator_v7.4.py",
+  "productionProfilesBundled": 0,
+  "fullBlueprintBaseline": "7.3",
+  "referenceAlgorithmVersion": "7.4",
+  "testHarnessVersion": "7.5",
+  "fieldEvaluatorVersion": "8.4",
+  "productionActivationReady": false,
+  "functionalReference": "legacy_v82/HopsGrow_Functional_Reference_v8.2.py",
+  "boundaryReference": "HopsGrow_Handoff_Reference_v8.4.py"
+}

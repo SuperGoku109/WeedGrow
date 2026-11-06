@@ -1,0 +1,175 @@
+{
+  "status": "success",
+  "result": {
+    "indexes": [
+      {
+        "collectionGroup": "groups",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "createdBy",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "plantIds",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "density": "SPARSE_ALL"
+      },
+      {
+        "collectionGroup": "logs",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "type",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "timestamp",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "density": "SPARSE_ALL"
+      },
+      {
+        "collectionGroup": "logs",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "type",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "timestamp",
+            "order": "DESCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "DESCENDING"
+          }
+        ],
+        "density": "SPARSE_ALL"
+      },
+      {
+        "collectionGroup": "plants",
+        "queryScope": "COLLECTION",
+        "fields": [
+          {
+            "fieldPath": "owners",
+            "arrayConfig": "CONTAINS"
+          },
+          {
+            "fieldPath": "sensorProfileId",
+            "order": "ASCENDING"
+          },
+          {
+            "fieldPath": "__name__",
+            "order": "ASCENDING"
+          }
+        ],
+        "density": "SPARSE_ALL"
+      }
+    ],
+    "fieldOverrides": [
+      {
+        "collectionGroup": "care",
+        "fieldPath": "evaluation",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "care",
+        "fieldPath": "inputKey",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careShadow",
+        "fieldPath": "checkpoint",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careShadow",
+        "fieldPath": "input",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careShadow",
+        "fieldPath": "output",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careUsage",
+        "fieldPath": "expiresAt",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careWaterCheckpoints",
+        "fieldPath": "checkpoint",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careWaterHistory",
+        "fieldPath": "raw",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careWaterHistory",
+        "fieldPath": "samples",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careWaterState",
+        "fieldPath": "checkpoint",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careWaterState",
+        "fieldPath": "profile",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careWeather",
+        "fieldPath": "expiresAt",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careWeather",
+        "fieldPath": "raw",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "careWeather",
+        "fieldPath": "samples",
+        "ttl": false,
+        "indexes": []
+      },
+      {
+        "collectionGroup": "photoAssets",
+        "fieldPath": "dataUri",
+        "ttl": false,
+        "indexes": []
+      }
+    ]
+  }
+}

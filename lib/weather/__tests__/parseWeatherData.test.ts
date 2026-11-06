@@ -12,6 +12,23 @@ function toUnix(iso: string): number {
 }
 
 describe('parseWeatherData', () => {
+  it.each([7200, -18000])('preserves UTC solar instants with timezone offset %s', timezone_offset => {
+    const parsed = parseWeatherData({
+      timezone_offset,
+      current: {
+        dt: toUnix('2026-02-10T12:00:00Z'), temp: 24, humidity: 55, wind_speed: 6, uvi: 4,
+        sunrise: toUnix('2026-02-10T04:00:00Z'), sunset: toUnix('2026-02-10T18:00:00Z'),
+      },
+    });
+    expect(parsed['2026-02-10'].sunrise).toBe('2026-02-10T04:00:00.000Z');
+    expect(parsed['2026-02-10'].sunset).toBe('2026-02-10T18:00:00.000Z');
+  });
+
+  it('keeps the Unix epoch as a valid solar timestamp', () => {
+    const parsed = parseWeatherData({ current: { dt: 0, temp: 20, humidity: 50, wind_speed: 1, uvi: 0, sunrise: 0, sunset: 1 } });
+    expect(parsed['1970-01-01'].sunrise).toBe('1970-01-01T00:00:00.000Z');
+  });
+
   it('keeps observed current rainfall for today while merging daily temperature segments', () => {
     const dateKey = '2026-02-10';
     const parsed = parseWeatherData({

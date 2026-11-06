@@ -1,0 +1,38 @@
+{
+  "measuredAt": "2026-11-06T14:08:57.535Z",
+  "node": "v24.19.0",
+  "platform": "win32",
+  "scope": "Synthetic water replay only. Excludes production evaluateCare fingerprint/warnings, forecast branches, adapters, database/network/auth, cold starts and hosted runtime. No calibration validation.",
+  "results": [
+    {
+      "hours": 24,
+      "scenarios": 1,
+      "repetitions": 50,
+      "inputBytes": 21132,
+      "resultBytes": 669,
+      "meanWallMs": 0.37868800000000136,
+      "p95WallMs": 0.7636999999999858,
+      "meanCpuMs": 0.62
+    },
+    {
+      "hours": 168,
+      "scenarios": 4,
+      "repetitions": 20,
+      "inputBytes": 143552,
+      "resultBytes": 1648,
+      "meanWallMs": 2.4694149999999935,
+      "p95WallMs": 3.1149000000000058,
+      "meanCpuMs": 5.45
+    },
+    {
+      "hours": 720,
+      "scenarios": 8,
+      "repetitions": 5,
+      "inputBytes": 615514,
+      "resultBytes": 3048,
+      "meanWallMs": 11.252560000000017,
+      "p95WallMs": 11.941100000000006,
+      "meanCpuMs": 12.4
+    }
+  ]
+}

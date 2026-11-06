@@ -1,0 +1,60 @@
+{
+  "version": "8.4",
+  "evaluator": "HopsGrow_Field_Evaluator_v8.4.py",
+  "datasetFields": {
+    "criterion_id": "nonempty string; null only while unconfigured",
+    "criterion_definition": "nonempty independent care criterion; null while unconfigured",
+    "criterion_defined_before_predictions": "boolean, must be true for evaluation",
+    "cases": "array"
+  },
+  "adjudicatedCaseFields": {
+    "case_id": "unique nonempty string",
+    "plant_group": "nonempty deidentified string",
+    "grower_group": "nonempty deidentified string",
+    "split": [
+      "train",
+      "tune",
+      "test"
+    ],
+    "criterion_id": "matches dataset",
+    "adjudication_status": [
+      "pending",
+      "adjudicated"
+    ],
+    "observed_watering_needed": "boolean for adjudicated cases only",
+    "decision": [
+      "water",
+      "not_due",
+      "uncertain"
+    ],
+    "evaluation_utc": "UTC epoch seconds",
+    "latest_input_available_at_utc": "UTC epoch seconds; <=evaluation",
+    "prediction_frozen_utc": "UTC epoch seconds; >=evaluation and <label revelation",
+    "label_revealed_utc": "UTC epoch seconds",
+    "reference_method": "nonempty string",
+    "adjudicator_id": "nonempty string"
+  },
+  "collectionTemplateMapping": {
+    "deidentified_plant_id": "plant_group (only if it is the declared independent plant group)",
+    "grower_group_id": "grower_group",
+    "evaluation_time_utc": "evaluation_utc",
+    "prediction_frozen_at_utc": "prediction_frozen_utc",
+    "split_group": "split plus separately preserved group IDs; not a mechanical rename",
+    "information_available_at_prediction_time": "derive latest_input_available_at_utc from immutable input records, not guessed",
+    "model_and_profile_version": "retain in the input snapshot/export; evaluator does not verify model freeze",
+    "additionalRequired": "label_revealed_utc, exact decision and criterion/group/reference fields must be collected explicitly"
+  },
+  "missingOutcome": "pending; never infer false",
+  "metrics": {
+    "decision_coverage": "decided / adjudicated eligible",
+    "adjudication_coverage": "adjudicated eligible / selected split cases",
+    "false_water_recommendations_per_negative": "FP / (FP+TN+uncertain_not_due)",
+    "false_water_per_recommendation": "FP / (TP+FP)",
+    "precision_of_water_recommendations": "TP / (TP+FP)"
+  },
+  "limitations": [
+    "Timestamps/labels are assertions checked for consistency, not independently authenticated.",
+    "Research measurements, model freeze records and outcome criterion need independent review.",
+    "The scorer never authorizes release; no numeric targets are assigned by this handoff."
+  ]
+}

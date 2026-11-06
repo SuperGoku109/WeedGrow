@@ -1,0 +1,21 @@
+{
+  "purpose": "Independent real-plant outcomes, distinct from synthetic logic tests. Empty until actual independently adjudicated reference cases exist.",
+  "routine_user_measurements_required": [],
+  "outcome_policy": {
+    "criterion_id": null,
+    "criterion_definition": null,
+    "approved_before_evaluation": false,
+    "notes": "Define watering-needed at a stated time/horizon with a supported care endpoint. A single moisture percentage, compliance with an app reminder, or absence of a disease report is not automatically ground truth. Reference measurements are collected by the research team or opt-in cohort, not required of ordinary users."
+  },
+  "case_fields": ["case_id", "deidentified_plant_id", "grower_group_id", "region", "evaluation_time_utc", "information_available_at_prediction_time", "normalized_input_file", "model_and_profile_version", "prediction_frozen_at_utc", "reference_method", "reference_observed_at_utc", "adjudicator_id", "criterion_id", "adjudication_status", "observed_watering_needed", "disease_confirmation_method_if_relevant", "followup_horizon_if_relevant", "split_group"],
+  "cases": [],
+  "evaluation_rules": [
+    "Use only adjudicated cases under a predefined criterion; missing outcomes stay unevaluated.",
+    "Freeze model predictions before revealing reference labels. Never feed reference sensors or later weather into the ordinary-input prediction.",
+    "Split by grower/plant and future season; keep related hourly records in the same partition.",
+    "Report total case count and decision coverage, false watering, missed due decisions, and abstentions separately.",
+    "Report performance on decided cases alongside positive cases left uncertain; never silently count unknown as not_due or hide abstentions.",
+    "For disease outcomes, require confirmation/follow-up and a defined horizon; ambient context is not a positive diagnosis.",
+    "Zero eligible cases means not_evaluated, never100percent accuracy."
+  ]
+}

@@ -1,3 +1,4 @@
+/** Historical heuristic/regression support. Production hops care uses W10=disabled, never this risk score. */
 export type MildewRiskLevel = 'low' | 'watch' | 'high' | 'very_high';
 
 export interface MildewDaySample {

@@ -19,13 +19,16 @@ export function routineDays(value?: string | null): number | null {
   return match && Number(match[1]) > 0 && Number(match[1]) <= 365 ? Number(match[1]) : null;
 }
 export function buildCareTasks(plant: Plant & { id: string }, logs: PlantLog[], now = new Date()): CareTask[] {
-  if (plant.status !== 'active') return [];
+  if (plant.status !== 'active' || plant.deleting) return [];
   return (['watering', 'feeding'] as const).flatMap(kind => {
     const schedule = kind === 'watering' ? plant.reminderSchedule : undefined;
+    if (schedule?.type === 'none') return [];
     const interval = schedule?.type === 'interval' ? schedule.intervalDays : routineDays(kind === 'watering' ? plant.wateringFrequency : plant.feedingFrequency);
     const customDays = schedule?.type === 'custom' && Array.isArray(schedule.customDays) ? schedule.customDays.filter(day => ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'].includes(day)) : undefined;
     if ((!interval || !Number.isInteger(interval) || interval < 1 || interval > 365) && !customDays?.length) return [];
-    const latestLog = logs.filter(log => log.type === (kind === 'watering' ? 'watering' : 'fertilizing') && log.timestamp?.toDate?.() && Number.isFinite(log.timestamp.toDate().getTime())).sort((a, b) => b.timestamp.toDate().getTime() - a.timestamp.toDate().getTime())[0];
+    const latestLog = logs.filter(log => log.type === (kind === 'watering' ? 'watering' : 'fertilizing') && log.timestamp?.toDate?.()
+      && Number.isFinite(log.timestamp.toDate().getTime()) && log.timestamp.toDate() <= now
+      && (!log.calendarDay || log.calendarDay <= plantDay(now, plant.locationTimeZone))).sort((a, b) => b.timestamp.toDate().getTime() - a.timestamp.toDate().getTime())[0];
     const latest = latestLog?.timestamp.toDate();
     const time = /^([01]\d|2[0-3]):[0-5]\d$/.test(schedule?.timeOfDay || '') ? schedule!.timeOfDay! : '09:00';
     const zone = plant.locationTimeZone;

@@ -6,6 +6,7 @@ import { GrowPress, GrowReveal } from '@/ui/GrowMotion';
 import type { WeatherCacheEntry } from '@/firestoreModels';
 import type { SuggestionCard } from '@/lib/suggestions/suggestionCards';
 import type { PlantTheme } from './plantDetailTheme';
+import CareDiagnosticDetails from './CareDiagnosticDetails';
 
 export const detailStyles = StyleSheet.create({
   section: { marginTop: 22, marginBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
@@ -53,7 +54,7 @@ export function InsightPanel({ card, theme, expanded, onToggle, onRecord }: { ca
       <View style={{ flex: 1, gap: 2 }}><Text style={{ color, fontSize: 12, lineHeight: 17, fontWeight: '600' }}>{severity}</Text><Text style={{ color: theme.text, fontSize: 14, fontWeight: '600', lineHeight: 20 }}>{card.title}</Text></View>
       <MaterialCommunityIcons name={expanded ? 'chevron-up' : 'chevron-down'} size={20} color={theme.muted} />
     </GrowPress>
-    {expanded && <GrowReveal style={{ paddingHorizontal: 14, paddingBottom: 14 }}><Text style={[detailStyles.body, { color: theme.muted }]}>{card.summary}</Text>{Array.from(new Set(card.reasons)).filter(reason => !card.summary.toLowerCase().includes(reason.toLowerCase())).map(reason => <Text key={reason} style={[detailStyles.body, { color: theme.muted, marginTop: 6 }]}>• {reason}</Text>)}<Text style={{ color: theme.muted, fontSize: 12, lineHeight: 18, marginTop: 10, textTransform: 'capitalize' }}>{card.confidence} confidence · Weather-based suggestion</Text>{onRecord && <View style={{ marginTop: 12, alignSelf: 'flex-start' }}><PlantActionButton label={card.kind === 'watering' ? 'Record soil check' : 'Log observation'} icon="notebook-plus-outline" theme={theme} onPress={onRecord} /></View>}</GrowReveal>}
+    {expanded && <GrowReveal style={{ paddingHorizontal: 14, paddingBottom: 14 }}><Text style={[detailStyles.body, { color: theme.muted }]}>{card.summary}</Text>{Array.from(new Set(card.reasons)).filter(reason => !card.summary.toLowerCase().includes(reason.toLowerCase())).map(reason => <Text key={reason} style={[detailStyles.body, { color: theme.muted, marginTop: 6 }]}>• {reason}</Text>)}<Text style={{ color: theme.muted, fontSize: 12, lineHeight: 18, marginTop: 10, textTransform: 'capitalize' }}>{card.algorithmVersion.startsWith('hops-') && card.metrics.needsWater === null ? 'No supported watering estimate' : `${card.confidence} confidence · Weather-based suggestion`}</Text>{card.kind === 'watering' && !!card.diagnostics?.length && <CareDiagnosticDetails entries={card.diagnostics} theme={theme} />}{onRecord && <View style={{ marginTop: 12, alignSelf: 'flex-start' }}><PlantActionButton label={card.kind === 'watering' ? 'Record soil check' : 'Log observation'} icon="notebook-plus-outline" theme={theme} onPress={onRecord} /></View>}</GrowReveal>}
   </View>;
 }
 

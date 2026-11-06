@@ -11,7 +11,11 @@ jest.mock('@/lib/suggestions/wateringSuggestions', () => ({ evaluateWateringInsi
 jest.mock('@/lib/logger', () => ({ __esModule: true, default: { error: jest.fn() } }));
 it('does not refetch for notes or clock ticks, and exposes an explicit refresh for stale advice', async () => {
   jest.useFakeTimers();
-  jest.mocked(evaluateWateringInsights).mockResolvedValue([{ plantId: 'p', plantName: 'Plant', needsWater: true, reason: 'Check soil', weatherFetchedAtMs: mockClock.getTime() }] as any);
+  mockClock = new Date('2026-10-24T12:00:00Z');
+  jest.mocked(evaluateWateringInsights).mockResolvedValue([{ plantId: 'p', plantName: 'Plant', needsWater: true, reason: 'Check soil', weatherFetchedAtMs: mockClock.getTime(),
+    careEvaluation: { engineVersion: 'hops-8.4.0', policyVersion: 'test', profileVersion: 'test', locationRevision: 1,
+      dataRevisionFingerprint: 'test', evaluationUtc: mockClock.getTime() / 1000, nextEvaluationUtc: mockClock.getTime() / 1000 + 6 * 3600,
+      water: { decision: 'water', needsWater: true, reasonCodes: [] } } }] as any);
   const plant = { id: 'p', name: 'Plant', status: 'active', location: { lat: 1, lng: 2 }, locationTimeZone: 'Africa/Johannesburg' } as any;
   let advice!: ReturnType<typeof useWateringSuggestions>;
   function Probe({ notes = '' }: { notes?: string }) { advice = useWateringSuggestions([{ ...plant, notes }]); return null; }

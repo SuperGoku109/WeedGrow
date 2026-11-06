@@ -12,6 +12,7 @@ const allowed: Record<string, string[]> = {
   groups: ['locationLabel', 'name', 'environment', 'plantIds', 'location', 'createdBy', 'createdAt', 'updatedAt', 'sensorProfileId', 'weatherSourcePlantId', 'restoreOperationId'],
   sensorProfiles: ['name', 'createdBy', 'createdAt', 'updatedAt', 'temperature', 'humidity', 'soilMoisture', 'light', 'source', 'readings', 'environment', 'description', 'type', 'settings', 'environmentType', 'isManual', 'defaultTemp', 'defaultHumidity', 'restoreOperationId'],
 };
+allowed.plants.push('rainReception', 'careMedium');
 export function validateBackup(raw: string): GardenBackup {
   if (raw.length > MAX_BACKUP_BYTES || utf8Bytes(raw) > MAX_BACKUP_BYTES) throw new Error('Choose a backup under 30 MB.');
   let parsed: unknown;
@@ -33,7 +34,7 @@ export function validateBackup(raw: string): GardenBackup {
     if (kind === 'logs') for (const [key, max] of [['waterMl', 1000000], ['nutrientMlPerL', 1000], ['ph', 14], ['heightCm', 10000], ['soilMoisture', 100]] as const) {
       if (data[key] != null && (typeof data[key] !== 'number' || !Number.isFinite(data[key]) || (data[key] as number) < 0 || (data[key] as number) > max)) throw new Error(`The ${key} measurement is invalid.`);
     }
-    if (kind === 'plants' && (typeof data.name !== 'string' || !data.name.trim() || data.name.length > 100 || !['germination', 'seedling', 'vegetative', 'flowering', 'clone'].includes(String(data.growthStage)) || !['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)) || !['pot', 'ground'].includes(String(data.plantedIn)) || !['active', 'archived', 'harvested', 'dead'].includes(String(data.status)))) throw new Error('A plant has invalid required fields.');
+    if (kind === 'plants' && (typeof data.name !== 'string' || !data.name.trim() || data.name.length > 100 || !['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone'].includes(String(data.growthStage)) || !['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)) || !['pot', 'ground'].includes(String(data.plantedIn)) || !['active', 'archived', 'harvested', 'dead'].includes(String(data.status)))) throw new Error('A plant has invalid required fields.');
     if (kind === 'groups' && (typeof data.name !== 'string' || !data.name.trim() || !['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)))) throw new Error('A space has invalid required fields.');
     if (kind === 'photoAssets' && (typeof data.dataUri !== 'string' || !/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(data.dataUri) || data.dataUri.length > (parts[3].endsWith('_thumb') ? 20480 : 184320))) throw new Error('An image is invalid or too large.');
     if ((kind === 'logs' || kind === 'progressPics') && data.occurrencePrecision != null && !['date', 'time'].includes(String(data.occurrencePrecision))) throw new Error('A record has invalid date precision.');

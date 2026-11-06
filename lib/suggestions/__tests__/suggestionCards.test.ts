@@ -1,4 +1,5 @@
-import { buildSuggestionCardsFromInsight } from '@/lib/suggestions/suggestionCards';
+// Frozen legacy card regressions; production hops cards are covered by hopsIntegration.test.ts.
+import { buildSuggestionCardsFromInsight } from './legacySuggestionCards';
 import type { WateringInsight } from '@/lib/suggestions/wateringSuggestions';
 jest.mock('@/lib/weather/parseWeatherData', () => ({ parseWeatherData: jest.fn() }));
 jest.mock('@/lib/logs/fetchLogsAndWeatherForRange', () => ({ fetchLogsAndWeatherForRange: jest.fn() }));

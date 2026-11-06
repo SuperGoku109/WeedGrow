@@ -20,6 +20,15 @@ import {
   toDateKey,
   type RangeMap,
 } from './fixtures';
+// Frozen legacy scenarios, retained for comparison only. Hops production does not call this heuristic.
+jest.mock('../wateringEngine', () => {
+  const actual = jest.requireActual('../wateringEngine');
+  const legacy = jest.requireActual('./legacyWateringEngine');
+  return { ...actual, calculatePlantWatering: (plant: unknown, now: Date, options: unknown, range: unknown) => {
+    const day = new Date(now); day.setHours(0, 0, 0, 0);
+    return legacy.calculateLegacyPlantWatering(plant, day, options, range);
+  } };
+});
 
 jest.mock('@/lib/logs/fetchLogsAndWeatherForRange', () => ({
   fetchLogsAndWeatherForRange: jest.fn(),

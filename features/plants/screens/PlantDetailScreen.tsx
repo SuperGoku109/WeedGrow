@@ -199,7 +199,7 @@ export default function PlantDetailScreen() {
   if (!plant && plantError) return <LoadError message={plantError} onRetry={retryPlant} onBack={goBack} />;
   if (!plant) return <NotFoundView />;
   const selectedLogs = data.logs[selected] || [];
-  const displayCards = cards.map(card => presentCareCard(card, todayLogs.some(log => log.type === 'watering'), weatherFreshness(data.weather[today]).stale));
+    const displayCards = cards.map(card => presentCareCard(card, todayLogs.some(log => log.type === 'watering'), card.algorithmVersion.startsWith('hops-') ? false : weatherFreshness(data.weather[today]).stale, clock)).filter(card => card.active);
   const backLabel = groupId && params.returnToPlants !== '1' ? 'Back to garden' : 'Back to plants';
   const dayLabel = new Date(`${selected}T12:00:00`).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'short' });
   return <SafeAreaView edges={['top', 'left', 'right']} style={{ flex: 1, backgroundColor: t.background }}>

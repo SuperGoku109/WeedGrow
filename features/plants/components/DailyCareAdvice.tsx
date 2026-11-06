@@ -12,7 +12,7 @@ export default function DailyCareAdvice({ cards, loading, error, hasLocation, th
   if (!hasLocation) return <Text style={{ color: t.muted, fontSize: 14, lineHeight: 21 }}>Add a location in Details for weather-based care advice.</Text>;
   if (loading) return <View accessibilityLiveRegion="polite" style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 12 }}><ActivityIndicator size="small" color={t.accent} /><Text style={{ color: t.muted, fontSize: 14 }}>Checking today’s care advice…</Text></View>;
   if (error) return <View style={{ gap: 10 }}><Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 14 }}>{error}</Text><PlantActionButton label="Retry care advice" icon="refresh" theme={t} onPress={onRefresh} /></View>;
-  if (!cards.length) return <Text style={{ color: t.muted, fontSize: 14, paddingVertical: 8 }}>No care alerts for today.</Text>;
+  if (!cards.length) return <Text style={{ color: t.muted, fontSize: 14, paddingVertical: 8 }}>Care estimates are unavailable.</Text>;
   const priority = { critical: 0, warn: 1, watch: 2, info: 3 };
   const ordered = [...cards].sort((a, b) => priority[a.severity] - priority[b.severity]);
   const lead = ordered[0];
@@ -25,11 +25,13 @@ export default function DailyCareAdvice({ cards, loading, error, hasLocation, th
       <View style={s.copy}>
         <View style={s.heading}><Text style={[s.title, { color: t.text }]}>Care today</Text><Text style={[s.count, { color: t.muted }]}>{count}</Text></View>
         {!expanded && <Text style={[s.summary, { color: t.text }]}><Text style={{ color, fontWeight: '600' }}>{severity} · </Text>{lead.title}</Text>}
+        {!expanded && lead.kind === 'watering' && lead.metrics.needsWater === null && !!lead.diagnostics?.length
+          && <Text numberOfLines={2} style={[s.summary, { color: t.muted }]}>{lead.summary}</Text>}
       </View>
       <MaterialCommunityIcons name={expanded ? 'chevron-up' : 'chevron-down'} size={22} color={t.muted} />
     </GrowPress>
     {expanded && <View>
-      {ordered.map(card => <View key={card.id} style={{ borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: t.border }}><InsightPanel theme={t} card={card} expanded={openNote === card.id} onToggle={() => setOpenNote(openNote === card.id ? null : card.id)} onRecord={canRecord && onRecord ? () => onRecord('health', card.kind === 'watering' ? 'soil-check' : undefined) : undefined} /></View>)}
+      {ordered.map(card => <View key={card.id} style={{ borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: t.border }}><InsightPanel theme={t} card={card} expanded={openNote === card.id} onToggle={() => setOpenNote(openNote === card.id ? null : card.id)} onRecord={canRecord && onRecord && !['weather', 'weatherContext'].includes(card.kind) && !(card.algorithmVersion.startsWith('hops-') && card.metrics.needsWater === null) ? () => onRecord('health', card.kind === 'watering' ? 'soil-check' : undefined) : undefined} /></View>)}
       <View style={[s.footer, { borderTopColor: t.border }]}><PlantActionButton label="Refresh care advice" icon="refresh" theme={t} onPress={onRefresh} /></View>
     </View>}
   </View>;

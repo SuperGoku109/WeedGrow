@@ -21,6 +21,22 @@ test('minimized advice retains the urgent warning and count without explanations
   expect(text()).not.toContain('Mildew risk explanation'); expect(button('Log observation')).toBeUndefined();
   expect(button('Expand care notes').props.accessibilityState.expanded).toBe(false);
 });
+
+test('unavailable care shows a specific cause and opt-in selectable diagnostics without requesting a soil check', async () => {
+  const unavailable: SuggestionCard = { ...card('Watering estimate unavailable', 'info', 'watering'), algorithmVersion: 'hops-8.4.0',
+    summary: 'No backend watering evaluation has been published for this plant.', metrics: { needsWater: null },
+    diagnostics: [{ label: 'Reason codes', value: 'server_evaluation_missing' }, { label: 'Journal weather entries', value: '8 dates present' }] };
+  await act(async () => { renderer = create(React.createElement(DailyCareAdvice, { cards: [unavailable], loading: false, error: '', hasLocation: true,
+    theme: plantThemes.grove, onRefresh: () => {}, onRecord: record })); });
+  expect(text()).toContain('No backend watering evaluation');
+  act(() => button('Expand care notes').props.onPress());
+  act(() => button('Care note: Watering estimate unavailable').props.onPress());
+  expect(text()).not.toContain('server_evaluation_missing');
+  act(() => button('Show watering diagnostics').props.onPress());
+  expect(text()).toContain('server_evaluation_missing'); expect(text()).toContain('8 dates present');
+  expect(button('Record soil check')).toBeUndefined();
+  expect(renderer.root.findAllByType(Text).some((node: any) => node.props.selectable === true && node.props.children === 'server_evaluation_missing')).toBe(true);
+});
 test('only one explanation opens at a time, preserves logging context, and minimizing closes details', async () => {
   await mount();
   act(() => button('Expand care notes').props.onPress());

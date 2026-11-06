@@ -1,0 +1,32 @@
+
+=== Deploying to 'weed-grow'...
+
+i  deploying functions
+Running command: npm --prefix "$RESOURCE_DIR" run typecheck
+
+> typecheck
+> tsc --noEmit
+
+Running command: npm --prefix "$RESOURCE_DIR" run build
+
+> build
+> esbuild src/index.ts src/operations.ts src/careOperations.ts --bundle --platform=node --target=node22 --packages=external --outdir=dist --tsconfig=../tsconfig.json
+
+
+  dist\index.js           116.5kb
+  dist\operations.js      113.0kb
+  dist\careOperations.js  109.1kb
+
+Done in 21ms
++  functions: Finished running predeploy script.
+i  functions: preparing codebase default for deployment
+i  functions: ensuring required API cloudfunctions.googleapis.com is enabled...
+i  functions: ensuring required API cloudbuild.googleapis.com is enabled...
+i  artifactregistry: ensuring required API artifactregistry.googleapis.com is enabled...
+!  functions: missing required API cloudbuild.googleapis.com. Enabling now...
+!  artifactregistry: missing required API artifactregistry.googleapis.com. Enabling now...
++  functions: required API cloudfunctions.googleapis.com is enabled
+
+Error: Your project weed-grow must be on the Blaze (pay-as-you-go) plan to complete this command. Required API artifactregistry.googleapis.com can't be enabled until the upgrade is complete. To upgrade, visit the following URL:
+
+https://console.firebase.google.com/project/weed-grow/usage/details

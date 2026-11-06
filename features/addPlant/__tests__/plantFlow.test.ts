@@ -26,7 +26,7 @@ describe('plant creation validation', () => {
   it('allows a minimal plant without age, photo, or location', () => {
     expect(validatePlantForm(form)).toEqual({});
   });
-  it.each(['germination', 'seedling', 'vegetative', 'flowering', 'clone'])('supports the existing %s stage', growthStage => {
+  it.each(['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone'])('supports the %s stage', growthStage => {
     expect(validatePlantForm({ ...form, growthStage })).toEqual({});
   });
   it.each(['-1', '1.5', 'abc', '4days', '999999'])('rejects invalid age %s', ageDays => {

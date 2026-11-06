@@ -7,11 +7,14 @@ const { ESLint } = require('eslint');
     ['features/plants/hooks/useBoundaryProbe.ts', "import { db } from '@/services/firebase';", true],
     ['services/boundaryProbe.ts', "import { usePlant } from '@/features/plants/hooks/usePlant';", true],
     ['lib/suggestions/wateringEngine.ts', "import { fetchWeather } from '@/lib/weather/fetchWeather';", true],
+    ['lib/careAlgorithm/evaluate.ts', "import { fetchWeather } from '@/lib/weather/fetchWeather';", true],
     ['features/plants/components/BoundaryProbe.tsx', "import { fetchJournalPage } from '@/lib/logs/journalQueries';", false],
   ];
   for (const [filePath, source, blocked] of cases) {
     const [result] = await eslint.lintText(source, { filePath });
     assert.equal(result.messages.some(message => message.ruleId === 'no-restricted-imports'), blocked, `Boundary policy for ${filePath}`);
   }
+  assert.equal(await eslint.isPathIgnored('lib/careAlgorithm/evaluate.ts'), false, 'Production algorithms remain in lint scope');
+  assert.equal(await eslint.isPathIgnored('tmp/generated/research.js'), true, 'Generated scratch artifacts are outside application lint');
   console.log('PASS: UI/query, hook/query, service/presentation and domain/I-O boundaries are enforced; repository APIs remain allowed.');
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -10,6 +10,14 @@ it('sets the next routine from completed care and preserves the local calendar d
 it('keeps archived and harvested plants out of the checklist', () => {
   expect(buildCareTasks({ ...plant, status: 'harvested' }, [], now)).toEqual([]);
   expect(buildCareTasks({ ...plant, status: 'archived' }, [], now)).toEqual([]);
+  expect(buildCareTasks({ ...plant, deleting: true }, [], now)).toEqual([]);
+});
+it('honors an explicit no-reminders selection instead of falling back to a watering routine', () => {
+  expect(buildCareTasks({ ...plant, reminderSchedule: { type: 'none' } }, [], now).map(t => t.kind)).toEqual(['feeding']);
+});
+it('future care logs do not complete today or move the next routine into the future', () => {
+  const logs: PlantLog[] = [{ type: 'watering', updatedBy: 'user-a', timestamp: timestamp('2026-10-21T16:00:00') }];
+  expect(buildCareTasks(plant, logs, now)[0].due).toEqual(buildCareTasks(plant, [], now)[0].due);
 });
 it('does not invent a care frequency for an unspecified routine', () => {
   expect(routineDays('As needed')).toBeNull();

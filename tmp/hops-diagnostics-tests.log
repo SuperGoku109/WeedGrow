@@ -1,0 +1,166 @@
+PASS lib/careAlgorithm/__tests__/careDiagnostics.test.ts
+PASS services/__tests__/plantCareEvaluation.test.ts
+PASS lib/careAlgorithm/__tests__/waterBank.test.ts
+FAIL lib/careAlgorithm/__tests__/wateringScenarios.test.ts
+  ● missing ET0 is unknown rather than zero demand
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /unavailable/
+    Received string:  "The watering algorithm is missing required occurred ET0 or liquid-rain coverage. Daily journal weather summaries do not fill that gap."
+
+      53 |   expect(evaluation.water.needsWater).toBe(c.expected === 'uncertain' ? null : c.expected === 'water');
+      54 |   expect(evaluation.warnings.find(w => w.id === 'W06')?.state).toBe(c.expected === 'uncertain' ? 'unknown' : c.expected === 'water' ? 'triggered' : 'not_triggered');
+    > 55 |   expect(waterExplanation(evaluation.water)).toMatch(c.expected === 'water' ? /watering is due/ : c.expected === 'not_due' ? /not due at the evaluation time/ : /unavailable/);
+         |                                              ^
+      56 | });
+      57 |
+      58 | test('temperature, RH, gust and radiation do not double-count ET0 or diagnose wet roots', () => {
+
+      at toMatch (lib/careAlgorithm/__tests__/wateringScenarios.test.ts:55:46)
+
+  ● missing exposed rain is unknown rather than zero rain
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /unavailable/
+    Received string:  "The watering algorithm is missing required occurred ET0 or liquid-rain coverage. Daily journal weather summaries do not fill that gap."
+
+      53 |   expect(evaluation.water.needsWater).toBe(c.expected === 'uncertain' ? null : c.expected === 'water');
+      54 |   expect(evaluation.warnings.find(w => w.id === 'W06')?.state).toBe(c.expected === 'uncertain' ? 'unknown' : c.expected === 'water' ? 'triggered' : 'not_triggered');
+    > 55 |   expect(waterExplanation(evaluation.water)).toMatch(c.expected === 'water' ? /watering is due/ : c.expected === 'not_due' ? /not due at the evaluation time/ : /unavailable/);
+         |                                              ^
+      56 | });
+      57 |
+      58 | test('temperature, RH, gust and radiation do not double-count ET0 or diagnose wet roots', () => {
+
+      at toMatch (lib/careAlgorithm/__tests__/wateringScenarios.test.ts:55:46)
+
+  ● unfinished current hour is not filled using the last completed hour
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /unavailable/
+    Received string:  "The watering algorithm is missing required occurred ET0 or liquid-rain coverage. Daily journal weather summaries do not fill that gap."
+
+      53 |   expect(evaluation.water.needsWater).toBe(c.expected === 'uncertain' ? null : c.expected === 'water');
+      54 |   expect(evaluation.warnings.find(w => w.id === 'W06')?.state).toBe(c.expected === 'uncertain' ? 'unknown' : c.expected === 'water' ? 'triggered' : 'not_triggered');
+    > 55 |   expect(waterExplanation(evaluation.water)).toMatch(c.expected === 'water' ? /watering is due/ : c.expected === 'not_due' ? /not due at the evaluation time/ : /unavailable/);
+         |                                              ^
+      56 | });
+      57 |
+      58 | test('temperature, RH, gust and radiation do not double-count ET0 or diagnose wet roots', () => {
+
+      at toMatch (lib/careAlgorithm/__tests__/wateringScenarios.test.ts:55:46)
+
+PASS lib/careAlgorithm/__tests__/warningNoise.test.ts
+PASS features/plants/__tests__/careAdviceDisclosure.test.ts
+PASS lib/careAlgorithm/__tests__/stormDiseaseScenarios.test.ts
+PASS lib/careAlgorithm/__tests__/weather.test.ts
+PASS lib/careAlgorithm/__tests__/waterTimeline.test.ts
+PASS lib/careAlgorithm/__tests__/correctnessAudit.test.ts
+PASS lib/careAlgorithm/__tests__/replay.test.ts
+PASS lib/careAlgorithm/__tests__/checkpoint.test.ts
+PASS lib/careAlgorithm/__tests__/productionSnapshot.test.ts
+PASS lib/careAlgorithm/__tests__/warnings.test.ts
+PASS lib/suggestions/__tests__/hopsSuggestions.test.ts
+PASS lib/suggestions/__tests__/hopsIntegration.test.ts
+PASS lib/careAlgorithm/__tests__/logAdapter.test.ts
+PASS lib/careAlgorithm/__tests__/forecastWater.test.ts
+FAIL lib/careAlgorithm/__tests__/historySelection.test.ts
+  ● watering explanations track the actual decision rather than the local unavailable fallback
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "history is incomplete"
+    Received string:    "The watering algorithm is missing required occurred ET0 or liquid-rain coverage. Daily journal weather summaries do not fill that gap."
+
+      24 |   expect(waterExplanation({ decision: 'water', needsWater: true, reasonCodes: [] })).toContain('watering is due');
+      25 |   expect(waterExplanation({ decision: 'not_due', needsWater: false, reasonCodes: [] })).toContain('not due at the evaluation time');
+    > 26 |   expect(waterExplanation({ decision: 'uncertain', needsWater: null, reasonCodes: ['history_gap'] })).toContain('history is incomplete');
+         |                                                                                                       ^
+      27 | });
+      28 |
+      29 | test('a conflicting rain path cannot erase complete demand for sheltered roots, but blocks an exposed plant', () => {
+
+      at Object.toContain (lib/careAlgorithm/__tests__/historySelection.test.ts:26:103)
+
+PASS lib/careAlgorithm/__tests__/evaluationValidity.test.ts
+PASS lib/careAlgorithm/__tests__/sourceEvents.test.ts
+
+Summary of all failing tests
+FAIL lib/careAlgorithm/__tests__/wateringScenarios.test.ts
+  ● missing ET0 is unknown rather than zero demand
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /unavailable/
+    Received string:  "The watering algorithm is missing required occurred ET0 or liquid-rain coverage. Daily journal weather summaries do not fill that gap."
+
+      53 |   expect(evaluation.water.needsWater).toBe(c.expected === 'uncertain' ? null : c.expected === 'water');
+      54 |   expect(evaluation.warnings.find(w => w.id === 'W06')?.state).toBe(c.expected === 'uncertain' ? 'unknown' : c.expected === 'water' ? 'triggered' : 'not_triggered');
+    > 55 |   expect(waterExplanation(evaluation.water)).toMatch(c.expected === 'water' ? /watering is due/ : c.expected === 'not_due' ? /not due at the evaluation time/ : /unavailable/);
+         |                                              ^
+      56 | });
+      57 |
+      58 | test('temperature, RH, gust and radiation do not double-count ET0 or diagnose wet roots', () => {
+
+      at toMatch (lib/careAlgorithm/__tests__/wateringScenarios.test.ts:55:46)
+
+  ● missing exposed rain is unknown rather than zero rain
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /unavailable/
+    Received string:  "The watering algorithm is missing required occurred ET0 or liquid-rain coverage. Daily journal weather summaries do not fill that gap."
+
+      53 |   expect(evaluation.water.needsWater).toBe(c.expected === 'uncertain' ? null : c.expected === 'water');
+      54 |   expect(evaluation.warnings.find(w => w.id === 'W06')?.state).toBe(c.expected === 'uncertain' ? 'unknown' : c.expected === 'water' ? 'triggered' : 'not_triggered');
+    > 55 |   expect(waterExplanation(evaluation.water)).toMatch(c.expected === 'water' ? /watering is due/ : c.expected === 'not_due' ? /not due at the evaluation time/ : /unavailable/);
+         |                                              ^
+      56 | });
+      57 |
+      58 | test('temperature, RH, gust and radiation do not double-count ET0 or diagnose wet roots', () => {
+
+      at toMatch (lib/careAlgorithm/__tests__/wateringScenarios.test.ts:55:46)
+
+  ● unfinished current hour is not filled using the last completed hour
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /unavailable/
+    Received string:  "The watering algorithm is missing required occurred ET0 or liquid-rain coverage. Daily journal weather summaries do not fill that gap."
+
+      53 |   expect(evaluation.water.needsWater).toBe(c.expected === 'uncertain' ? null : c.expected === 'water');
+      54 |   expect(evaluation.warnings.find(w => w.id === 'W06')?.state).toBe(c.expected === 'uncertain' ? 'unknown' : c.expected === 'water' ? 'triggered' : 'not_triggered');
+    > 55 |   expect(waterExplanation(evaluation.water)).toMatch(c.expected === 'water' ? /watering is due/ : c.expected === 'not_due' ? /not due at the evaluation time/ : /unavailable/);
+         |                                              ^
+      56 | });
+      57 |
+      58 | test('temperature, RH, gust and radiation do not double-count ET0 or diagnose wet roots', () => {
+
+      at toMatch (lib/careAlgorithm/__tests__/wateringScenarios.test.ts:55:46)
+
+FAIL lib/careAlgorithm/__tests__/historySelection.test.ts
+  ● watering explanations track the actual decision rather than the local unavailable fallback
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "history is incomplete"
+    Received string:    "The watering algorithm is missing required occurred ET0 or liquid-rain coverage. Daily journal weather summaries do not fill that gap."
+
+      24 |   expect(waterExplanation({ decision: 'water', needsWater: true, reasonCodes: [] })).toContain('watering is due');
+      25 |   expect(waterExplanation({ decision: 'not_due', needsWater: false, reasonCodes: [] })).toContain('not due at the evaluation time');
+    > 26 |   expect(waterExplanation({ decision: 'uncertain', needsWater: null, reasonCodes: ['history_gap'] })).toContain('history is incomplete');
+         |                                                                                                       ^
+      27 | });
+      28 |
+      29 | test('a conflicting rain path cannot erase complete demand for sheltered roots, but blocks an exposed plant', () => {
+
+      at Object.toContain (lib/careAlgorithm/__tests__/historySelection.test.ts:26:103)
+
+
+Test Suites: 2 failed, 19 passed, 21 total
+Tests:       4 failed, 406 passed, 410 total
+Snapshots:   0 total
+Time:        8.161 s

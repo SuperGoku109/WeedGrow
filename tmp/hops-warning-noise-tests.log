@@ -1,0 +1,21 @@
+PASS lib/careAlgorithm/__tests__/warningNoise.test.ts
+PASS lib/careAlgorithm/__tests__/stormDiseaseScenarios.test.ts
+PASS lib/careAlgorithm/__tests__/waterBank.test.ts
+PASS lib/careAlgorithm/__tests__/wateringScenarios.test.ts
+PASS lib/careAlgorithm/__tests__/evaluationValidity.test.ts
+PASS lib/careAlgorithm/__tests__/waterTimeline.test.ts
+PASS lib/careAlgorithm/__tests__/weather.test.ts
+PASS lib/careAlgorithm/__tests__/forecastWater.test.ts
+PASS lib/careAlgorithm/__tests__/sourceEvents.test.ts
+PASS lib/careAlgorithm/__tests__/historySelection.test.ts
+PASS lib/careAlgorithm/__tests__/replay.test.ts
+PASS lib/careAlgorithm/__tests__/checkpoint.test.ts
+PASS lib/careAlgorithm/__tests__/correctnessAudit.test.ts
+PASS lib/careAlgorithm/__tests__/logAdapter.test.ts
+PASS lib/careAlgorithm/__tests__/productionSnapshot.test.ts
+PASS lib/careAlgorithm/__tests__/warnings.test.ts
+
+Test Suites: 16 passed, 16 total
+Tests:       382 passed, 382 total
+Snapshots:   0 total
+Time:        6.318 s

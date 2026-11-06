@@ -1,6 +1,7 @@
 import { getFirestore, FieldPath, Timestamp } from 'firebase-admin/firestore';
 import { parseWeatherMeasurements } from '../../lib/weather/weatherMeasurements';
 import { plantDay } from '../../lib/dates/plantDay';
+import { refreshPlantCare } from './careOperations';
 
 const db = () => getFirestore();
 const point = (p: unknown): p is { lat: number; lng: number } => !!p && typeof p === 'object' && 'lat' in p && 'lng' in p && typeof p.lat === 'number' && typeof p.lng === 'number' && Number.isFinite(p.lat) && Number.isFinite(p.lng) && Math.abs(p.lat) <= 90 && Math.abs(p.lng) <= 180;
@@ -80,7 +81,10 @@ export async function runMaintenance(key: string) {
     let plants = db().collection('plants').orderBy(FieldPath.documentId()).limit(100);
     if (state?.plantCursor) plants = plants.startAfter(state.plantCursor);
     const legacy = await plants.get();
-    for (const plant of legacy.docs) if (plant.data().careSummary?.version !== 1 && !plant.data().deleting) await rebuildCareSummary(plant.id);
+    for (const plant of legacy.docs) if (!plant.data().deleting) {
+      if (plant.data().careSummary?.version !== 1) await rebuildCareSummary(plant.id);
+      try { await refreshPlantCare(plant.id, key); } catch { failures++; }
+    }
     await lease.set({ gardenCursor: cursor, plantCursor: legacy.size === 100 ? legacy.docs.at(-1)!.id : null, lastRunAt: Timestamp.now(), failures }, { merge: true });
   } finally {
     await db().runTransaction(async tx => { if ((await tx.get(lease)).data()?.token === token) tx.update(lease, { until: Timestamp.fromMillis(0) }); });

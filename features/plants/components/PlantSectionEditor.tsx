@@ -21,6 +21,7 @@ import EditorGroup from './EditorGroup';
 import EditorRow from './EditorRow';
 import EditorPotSize from './EditorPotSize';
 import { sections, buildSectionUpdates, buildAllSectionUpdates } from '../form/plantSectionForm';
+import { rainExposure } from '@/lib/careAlgorithm/setupFacts';
 
 export default function PlantSectionEditor({ plantId, plant, section, onClose, onSaved, onDeleted, theme }: { plantId: string; plant: Plant; section: string; onClose: () => void; onSaved: () => void; onDeleted?: () => void; theme?: PlantTheme }) {
   const t = theme || plantThemes.grove;
@@ -31,7 +32,7 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
   const fields = React.useMemo(() => all ? Object.values(sections).flat() : sections[section] || sections.Basics, [all, section]);
   const fieldsByKey = React.useMemo(() => new Map(fields.map(field => [field.key, field])), [fields]);
   const [values, setValues] = React.useState<Record<string, string>>(() => {
-    const source = { ...plant, strainType: plant.strainType || 'unknown', ageDays: plant.ageKnown === false ? '' : plant.ageDays, lat: plant.location?.lat, lng: plant.location?.lng, reminderType: plant.reminderSchedule?.type || 'none', intervalDays: plant.reminderSchedule?.intervalDays, customDays: plant.reminderSchedule?.customDays?.join(', '), timeOfDay: plant.reminderSchedule?.timeOfDay };
+    const source = { ...plant, rainExposure: rainExposure(plant), strainType: plant.strainType || 'unknown', ageDays: plant.ageKnown === false ? '' : plant.ageDays, lat: plant.location?.lat, lng: plant.location?.lng, reminderType: plant.reminderSchedule?.type || 'none', intervalDays: plant.reminderSchedule?.intervalDays, customDays: plant.reminderSchedule?.customDays?.join(', '), timeOfDay: plant.reminderSchedule?.timeOfDay };
     return Object.fromEntries(fields.map(field => { const value = source[field.key as keyof typeof source]; return [field.key, Array.isArray(value) ? value.join(', ') : value == null ? '' : String(value)]; }));
   });
   const [locationMode, setLocationMode] = React.useState<'custom' | 'space'>(plant.locationMode || 'custom');
@@ -56,7 +57,8 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
       ? buildAllSectionUpdates(values, JSON.parse(initial.current), locationMode, plant, plantDay(new Date(), plant.locationTimeZone), ageMode as 'date' | 'estimate')
       : buildSectionUpdates(section, includes('Care plan') && values.reminderType !== 'none' ? { ...values, timeOfDay: values.timeOfDay || '09:00' } : values, locationMode, plant, plantDay(new Date(), plant.locationTimeZone), ageMode as 'date' | 'estimate')) as UpdatePlantFields,
   });
-  const friendly = (value: string) => ({ unknown: 'Unknown', none: 'No reminders', interval: 'Every few days', custom: 'Custom mix', native: 'Native soil', raised: 'Raised bed', store: 'Store-bought mix', customSoil: 'Custom mix', pot: 'A pot', ground: 'The ground' } as Record<string, string>)[value] || (value ? value.charAt(0).toUpperCase() + value.slice(1) : 'Not set');
+  const friendly = (value: string) => ({ unknown: 'Unknown', none: 'No reminders', interval: 'Every few days', custom: 'Custom mix', native: 'Native soil', raised: 'Raised bed', store: 'Store-bought mix', customSoil: 'Custom mix', pot: 'A pot', ground: 'The ground',
+    exposed: 'Rain reaches soil and leaves', sheltered: 'Protected from direct rain', partial: 'Partly exposed to rain', soil_sheltered: 'Leaves exposed, soil sheltered', soilless_mix: 'Soilless potting mix', coco: 'Coco coir' } as Record<string, string>)[value] || (value ? value.charAt(0).toUpperCase() + value.slice(1) : 'Not set');
   const change = (key: string, value: string) => { setValues(previous => ({ ...previous, [key]: value })); setError(''); };
   const today = plantDay(new Date(), plant.locationTimeZone);
   const disabled = busy || deleteOpen || locating || !draft.ready || !!draft.saved;
@@ -98,6 +100,8 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
       {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700', marginTop: 12 }}>Growing setup</Text>}
       <EditorRow>{renderField('environment')}{renderField('plantedIn')}</EditorRow>
       <EditorRow>{renderField('potSize')}{renderField('sunlightExposure')}{renderField('sensorProfileId')}</EditorRow>
+      {renderField('rainExposure')}{renderField('careMedium')}
+      <Text style={{ color: t.muted, fontSize: 13, lineHeight: 20 }}>These optional setup facts describe direct rain and growing medium. Unknown is fine; no daily measurements are needed.</Text>
       <EditorGroup title="Soil & extras" flat={all} collapsible={!all}><EditorRow>{renderField('soilType')}{renderField('soilPh')}</EditorRow>{renderField('permanentProtection')}{renderField('companionPlants')}</EditorGroup>
     </>}
     {includes('Care plan') && <>

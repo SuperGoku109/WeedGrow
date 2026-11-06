@@ -24,6 +24,20 @@
         },
         {
           "fieldPath": "timestamp",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "logs",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "type",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timestamp",
           "order": "DESCENDING"
         }
       ]
@@ -45,8 +59,78 @@
   ],
   "fieldOverrides": [
     {
+      "collectionGroup": "careWaterHistory",
+      "fieldPath": "raw",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careWaterHistory",
+      "fieldPath": "samples",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careWaterState",
+      "fieldPath": "checkpoint",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careWaterState",
+      "fieldPath": "profile",
+      "indexes": []
+    },
+    {
       "collectionGroup": "photoAssets",
       "fieldPath": "dataUri",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careWeather",
+      "fieldPath": "raw",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careWeather",
+      "fieldPath": "samples",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careWeather",
+      "fieldPath": "expiresAt",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "care",
+      "fieldPath": "evaluation",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "care",
+      "fieldPath": "inputKey",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careUsage",
+      "fieldPath": "expiresAt",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careShadow",
+      "fieldPath": "input",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careShadow",
+      "fieldPath": "output",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careShadow",
+      "fieldPath": "checkpoint",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "careWaterCheckpoints",
+      "fieldPath": "checkpoint",
       "indexes": []
     }
   ]

@@ -1,0 +1,23 @@
+{
+  "status": "success",
+  "result": [
+    {
+      "name": "projects/weed-grow/databases/(default)",
+      "uid": "daa0212f-9098-494c-9090-4d999189eb0b",
+      "createTime": "2025-06-04T22:16:04.389816Z",
+      "updateTime": "2025-06-04T22:16:04.389816Z",
+      "locationId": "africa-south1",
+      "type": "FIRESTORE_NATIVE",
+      "concurrencyMode": "PESSIMISTIC",
+      "versionRetentionPeriod": "3600s",
+      "earliestVersionTime": "2026-11-06T12:41:51.515870Z",
+      "appEngineIntegrationMode": "DISABLED",
+      "pointInTimeRecoveryEnablement": "POINT_IN_TIME_RECOVERY_DISABLED",
+      "deleteProtectionState": "DELETE_PROTECTION_DISABLED",
+      "databaseEdition": "STANDARD",
+      "freeTier": true,
+      "realtimeUpdatesMode": "REALTIME_UPDATES_MODE_ENABLED",
+      "etag": "IKWZk7K885cDMODs8r+G3pcD"
+    }
+  ]
+}

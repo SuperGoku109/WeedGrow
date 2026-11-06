@@ -1,0 +1,78 @@
+{
+  "version": "8.4",
+  "shape": "one variable sample",
+  "requiredFields": [
+    "schema_version",
+    "provider",
+    "product",
+    "source_revision",
+    "model_selection",
+    "model_selection_basis",
+    "location_revision",
+    "retrieved_at_utc",
+    "available_at_utc",
+    "issued_at_utc",
+    "variable",
+    "value",
+    "unit",
+    "time_support",
+    "kind",
+    "valid_start_utc",
+    "valid_end_utc",
+    "quality",
+    "reason_codes"
+  ],
+  "kinds": [
+    "occurred_estimate",
+    "forecast",
+    "current_point"
+  ],
+  "timeSupports": [
+    "point",
+    "interval_mean",
+    "interval_maximum",
+    "interval_sum",
+    "rate"
+  ],
+  "quality": [
+    "ok",
+    "missing",
+    "invalid"
+  ],
+  "variables": {
+    "air_temperature_c": "°C",
+    "air_rh_pct": "%",
+    "air_dewpoint_c": "°C",
+    "wind_speed_ms": "m/s",
+    "wind_gust_ms": "m/s",
+    "shortwave_w_m2": "W/m²",
+    "et0_mm": "mm",
+    "liquid_rain_mm": "mm",
+    "rain_rate_mm_h": "mm/h"
+  },
+  "invariants": [
+    "finite JSON numbers; boolean/string never numeric",
+    "point/rate in these adapters: start=end; intervals:start<end",
+    "quality=ok iff value is nonnull; null never zero",
+    "available<=retrieved; issue=null or issue<=available",
+    "nonforecast valid_end<=retrieved; forecast may describe past valid times",
+    "same immutable revision preserves first acquisition; new correction has its own availability",
+    "UTC seconds, singular unit, request model selection is not resolved provider model identity"
+  ],
+  "optionalFields": [
+    "measurement_height_m",
+    "grid_latitude",
+    "grid_longitude",
+    "grid_elevation_m"
+  ],
+  "validator": "HopsGrow_Handoff_Reference_v8.4.py:validate_sample",
+  "legacyNames": {
+    "historical_model_estimate": "kind=occurred_estimate + product=archive",
+    "historical_weather_estimate": "kind=occurred_estimate + product=timemachine_metric",
+    "units": "unit",
+    "wind_10m_ms": "wind_speed_ms + measurement_height_m=10",
+    "gust_10m_ms": "wind_gust_ms + measurement_height_m=10",
+    "reported_gust": "product-specific point or interval_maximum"
+  },
+  "legacyEmulator": "No direct compatibility. Preserve real support/provenance in a tested path adapter; do not invent representative hours."
+}

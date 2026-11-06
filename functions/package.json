@@ -6,7 +6,8 @@
     "node": "22"
   },
   "scripts": {
-    "build": "esbuild src/index.ts src/operations.ts --bundle --platform=node --target=node22 --packages=external --outdir=dist --tsconfig=../tsconfig.json",
+    "gcp-build": "",
+    "build": "esbuild src/index.ts src/operations.ts src/careOperations.ts --bundle --platform=node --target=node22 --packages=external --outdir=dist --tsconfig=../tsconfig.json",
     "test": "node ../scripts/test-backend.cjs",
     "typecheck": "tsc --noEmit"
   },

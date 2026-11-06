@@ -1,0 +1,344 @@
+{
+  "version": "8.4",
+  "originalZipSHA256": "9d9c403c18808b372307a062507b75aab6673db13690df748f435f0584d8a18d",
+  "originalFilesReviewed": 36,
+  "findings": [
+    {
+      "id": "A01",
+      "problem": "One invalid RH/units/array could abort otherwise valid independent weather variables.",
+      "fix": "Canonical per-variable null/quality/reasons; reject only untrustworthy path envelopes/axes.",
+      "tests": "HandoffTests bad_rh, wrong_wind_units, misaligned_array, missing_showers"
+    },
+    {
+      "id": "A02",
+      "problem": "A negative rain component could be hidden by adding positive showers.",
+      "fix": "Validate both components before sum; boolean/nonfinite values are invalid.",
+      "tests": "HandoffTests negative_rain_component, boolean_component, nan"
+    },
+    {
+      "id": "A03",
+      "problem": "Explicit OpenWeather rain:null was inferred zero by the omission rule.",
+      "fix": "Separate absent key from explicit null/malformed structure.",
+      "tests": "HandoffTests explicit_null_openweather_rain, absent_openweather_rain"
+    },
+    {
+      "id": "A04",
+      "problem": "Adapter kind/unit/wind names did not match the main contract; first availability was overwritten on refetch.",
+      "fix": "One canonical sample contract, matching enums/units and explicit immutable-revision availability.",
+      "tests": "HandoffTests contract_valid_samples, first_availability, canonical_unit_validator; root verifier"
+    },
+    {
+      "id": "A05",
+      "problem": "Point wind was called a mean; Forecast gust period was lost and Archive gust needed product-specific handling.",
+      "fix": "Official product mappings preserve point wind, Forecast preceding-hour gust maximum and explicit CERRA distinction.",
+      "tests": "HandoffTests forecast_gust, archive_gust, wind_speed_is_point"
+    },
+    {
+      "id": "A06",
+      "problem": "Older W11 returned disabled for flowering with missing applicable evidence.",
+      "fix": "Explicit AND/OR truth table; missing ->unknown, both arms false ->not_triggered, supported positive ->context_only.",
+      "tests": "HandoffTests flowering_missing_weather, flower_context_truth_table"
+    },
+    {
+      "id": "A07",
+      "problem": "Invalid W06/W10 flag/state combinations could bypass intended card routes; string gates were truthy.",
+      "fix": "Flag-specific display eligibility and strict boolean gates.",
+      "tests": "HandoffTests water_context_state, predictive_pm, string_false, context_never_pushes"
+    },
+    {
+      "id": "A08",
+      "problem": "A malformed evaluator dataset could crash; requested split typos looked empty.",
+      "fix": "Structured invalid_evaluation for malformed data/split/status/criterion/provenance.",
+      "tests": "BoundaryTests; retained 14 known-count/leakage evaluator tests"
+    },
+    {
+      "id": "A09",
+      "problem": "Pending outcomes could be hidden from selected-population accounting; two false-water denominators were easy to confuse.",
+      "fix": "Selected/pending counts, adjudication coverage, water recommendation precision and FP/recommendation alongside FP/negative.",
+      "tests": "BoundaryTests pending_population, precision_and_false_recommendation_denominators"
+    },
+    {
+      "id": "A10",
+      "problem": "Old collection template field names did not directly match the evaluator dataset.",
+      "fix": "Exact dataset contract with nonmechanical mapping and explicit missing fields; unconfigured dataset remains rejected.",
+      "tests": "Root verifier emptyUnconfiguredDatasetRejected; field evaluator tests"
+    },
+    {
+      "id": "A11",
+      "problem": "Documented captured_payload_tests.py was missing; task links depended on a local C: workspace; test execution modified delivered reports.",
+      "fix": "Ship the script with resolved fixture paths, portable root-relative package layout and temporary-copy verifier.",
+      "tests": "Captured payload suite, manifest/link checks and relocated extraction verification"
+    },
+    {
+      "id": "A12",
+      "problem": "Older partial reference behavior and app/validation readiness could be mistaken for current production rules.",
+      "fix": "One current master/contract, explicit reference-role table, legacy folder, dated report scope and task acceptance refinements.",
+      "tests": "Task DAG, acceptance coverage, fixed oracle integrity and disabled release checks"
+    },
+    {
+      "id": "A13",
+      "problem": "Nulling invalid provider RH could accidentally make it eligible for dewpoint fallback.",
+      "fix": "Quality-aware paired-air wrapper refuses invalid RH and mismatched source/time; missing RH alone can derive.",
+      "tests": "HandoffTests invalid_normalized_rh, missing_normalized_rh, dewpoint_different_source"
+    }
+  ],
+  "originalFiles": [
+    {
+      "path": "HANDOFF_MANIFEST.json",
+      "bytes": 6449,
+      "sha256": "d3dcdad97746f9ca5dff7517e1c6e5a05328779f59fe4e73de46c22d544cc1d0",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "README_START_HERE.md",
+      "bytes": 3253,
+      "sha256": "2301b20a065ea68577752a7b61b80232b6bacbf3f2f7a430b1e28ae3b84a491a",
+      "action": "reviewed_documentation",
+      "review": "Full instructions/catalogue reviewed for precedence, working paths and claims. Current entrypoint replaces ambiguous handoff instructions; fixed expected conclusions retained."
+    },
+    {
+      "path": "implementation/algorithm-implementation-plan-v8.2.md",
+      "bytes": 38388,
+      "sha256": "15f4f9e1a4bb8821e6a1eb793b38e9189ef221bd3939a53ed5a03471f3367795",
+      "action": "superseded_v83",
+      "review": "All 28 tasks/dependencies/acceptance coverage reviewed; portable v8.4 task plan adds audited boundary checks without adding tasks."
+    },
+    {
+      "path": "implementation/algorithm-implementation-plan-verification-v8.2.json",
+      "bytes": 861,
+      "sha256": "c7d55eac1eb75ff8bf18407b33b3c2f769755f1faebd549ec67c5afe58ab529f",
+      "action": "superseded_v83",
+      "review": "All 28 tasks/dependencies/acceptance coverage reviewed; portable v8.4 task plan adds audited boundary checks without adding tasks."
+    },
+    {
+      "path": "implementation/algorithm-implementation-tasks-v8.2.json",
+      "bytes": 43554,
+      "sha256": "ef720560a2c80f82e459cbb028130fda9012e8c6436b62734af247b6ef8a71ec",
+      "action": "superseded_v83",
+      "review": "All 28 tasks/dependencies/acceptance coverage reviewed; portable v8.4 task plan adds audited boundary checks without adding tasks."
+    },
+    {
+      "path": "spec/HopsGrow_API_Air_Fallback_Tests_v8.1.py",
+      "bytes": 2910,
+      "sha256": "d9ff29e735fa1789e21298123e7593a1ce34ee6517c96c411ae0e54b42795fd4",
+      "action": "reviewed_reference_or_superseded_helper",
+      "review": "Source reviewed; relevant executable suite run. Frozen math/air references retained; current adapter/scorer fixes have separate v8.4 tests."
+    },
+    {
+      "path": "spec/HopsGrow_API_Air_Fallback_v8.1.py",
+      "bytes": 1627,
+      "sha256": "e834bf615505b93d9b3eb725c490675bf453a3901fe76048f6de8ede538d710a",
+      "action": "reviewed_reference_or_superseded_helper",
+      "review": "Source reviewed; relevant executable suite run. Frozen math/air references retained; current adapter/scorer fixes have separate v8.4 tests."
+    },
+    {
+      "path": "spec/HopsGrow_Algorithm_Emulator_v7.4.py",
+      "bytes": 36474,
+      "sha256": "8427dbc7be67f0e5a2cf3585e5c2e915eddd1bc8bc5d20189dd835b35efdae4a",
+      "action": "reviewed_reference_or_superseded_helper",
+      "review": "Source reviewed; relevant executable suite run. Frozen math/air references retained; current adapter/scorer fixes have separate v8.4 tests."
+    },
+    {
+      "path": "spec/HopsGrow_Algorithm_Scenarios_v7.4.py",
+      "bytes": 26173,
+      "sha256": "d37783b12f7b04824aaa23be4aa0cf54b75bb956482a92afb421997113ab1eaa",
+      "action": "reviewed_reference_or_superseded_helper",
+      "review": "Source reviewed; relevant executable suite run. Frozen math/air references retained; current adapter/scorer fixes have separate v8.4 tests."
+    },
+    {
+      "path": "spec/HopsGrow_Field_Dataset_v8.0.json",
+      "bytes": 127,
+      "sha256": "4b94d6e072b0c590fc7f8bab3a53dbc5f645627f4a584d55430d4598245526c5",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "spec/HopsGrow_Field_Evaluator_Tests_v8.0.py",
+      "bytes": 5201,
+      "sha256": "08f57dad76295b597156cb8cb75b8fd50222357bc49aba1cbfd9be3bc3fa4135",
+      "action": "reviewed_reference_or_superseded_helper",
+      "review": "Source reviewed; relevant executable suite run. Frozen math/air references retained; current adapter/scorer fixes have separate v8.4 tests."
+    },
+    {
+      "path": "spec/HopsGrow_Field_Evaluator_Verification_v8.0.json",
+      "bytes": 103,
+      "sha256": "5564c760fd63f4106cab2c587b8661043372be9277ad18a6c6a003e7ad5de05a",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "spec/HopsGrow_Field_Evaluator_v8.0.py",
+      "bytes": 4960,
+      "sha256": "3ff420b7c8180440f01e0ed411ae2922519fc8ee1a86574cf0ade5855d4791be",
+      "action": "reviewed_reference_or_superseded_helper",
+      "review": "Source reviewed; relevant executable suite run. Frozen math/air references retained; current adapter/scorer fixes have separate v8.4 tests."
+    },
+    {
+      "path": "spec/HopsGrow_Field_Validation_Template_v7.5.json",
+      "bytes": 1975,
+      "sha256": "b1c2c06766321b297788cdbcfcfccc23dc2aa1d294e7105259f4705451acf32b",
+      "action": "retained_with_explicit_mapping",
+      "review": "Empty collection guidance retained; incompatible evaluator field names now explicitly mapped in v8.4 dataset contract."
+    },
+    {
+      "path": "spec/HopsGrow_Functional_Package_Verification_v8.2.json",
+      "bytes": 304,
+      "sha256": "665df1252f25d8a849a271a17b28a29b7fc1cae37b1361f41faa58897f80f508",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "spec/HopsGrow_Functional_Reference_v8.2.py",
+      "bytes": 11123,
+      "sha256": "384f84f46cd913ce538f4b510cf8aadeff0ec4ceeb222c00041d1cefdece38dd",
+      "action": "reviewed_reference_or_superseded_helper",
+      "review": "Source reviewed; relevant executable suite run. Frozen math/air references retained; current adapter/scorer fixes have separate v8.4 tests."
+    },
+    {
+      "path": "spec/HopsGrow_Functional_Tests_v8.2.py",
+      "bytes": 10764,
+      "sha256": "4503d7f97e9c32140845479e5a6d89c9c49b16abc004e652e5db7038d3a00144",
+      "action": "reviewed_reference_or_superseded_helper",
+      "review": "Source reviewed; relevant executable suite run. Frozen math/air references retained; current adapter/scorer fixes have separate v8.4 tests."
+    },
+    {
+      "path": "spec/HopsGrow_Functional_Verification_v8.2.json",
+      "bytes": 141,
+      "sha256": "5386a97fabab76a0395505092fa491c581c4b04ecc51710d1f9a285678ef12a6",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "spec/HopsGrow_Functional_v8.2_README.md",
+      "bytes": 1691,
+      "sha256": "8d12ec6bd141233c5dbe849d8158eb18a01bfa462c5d9c7b2806a8e3ea70adae",
+      "action": "reviewed_documentation",
+      "review": "Full instructions/catalogue reviewed for precedence, working paths and claims. Current entrypoint replaces ambiguous handoff instructions; fixed expected conclusions retained."
+    },
+    {
+      "path": "spec/HopsGrow_Implementation_Contract_v8.2.json",
+      "bytes": 52723,
+      "sha256": "646130c40dfb764c56494184a55aecf54eb4ccbdb5b364151597aec64bbb9822",
+      "action": "superseded_v83",
+      "review": "Requirements checked against helpers/provider docs/tasks; 42 factors, 14 warnings and all 38 source records preserved with clarified precedence."
+    },
+    {
+      "path": "spec/HopsGrow_Implementation_Master_v8.2.md",
+      "bytes": 47132,
+      "sha256": "330e6f3d7501c68942dc45192d7e3091ed45a314b95083cce1c6a534cc75becd",
+      "action": "superseded_v83",
+      "review": "Requirements checked against helpers/provider docs/tasks; 42 factors, 14 warnings and all 38 source records preserved with clarified precedence."
+    },
+    {
+      "path": "spec/HopsGrow_Independent_Test_Cases_v7.5.json",
+      "bytes": 3305,
+      "sha256": "0eb61a4f1e7ce3877181657c0cc21402552169bb8514e458c7e79ab112da3411",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "spec/HopsGrow_Independent_Test_Report_v7.5.json",
+      "bytes": 1092,
+      "sha256": "b0c351f80e2be7a81d8c9b4c0b0e9ae6ee5a83d35231701001bd4236cb50cc0a",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "spec/HopsGrow_Independent_Tests_v7.5.py",
+      "bytes": 9923,
+      "sha256": "2edffb5aadcd682ab78a574e9f0d439db2a51dee95b84b97fd777bd81cddc0a0",
+      "action": "reviewed_reference_or_superseded_helper",
+      "review": "Source reviewed; relevant executable suite run. Frozen math/air references retained; current adapter/scorer fixes have separate v8.4 tests."
+    },
+    {
+      "path": "spec/HopsGrow_Independent_Tests_v7.5_README.md",
+      "bytes": 3636,
+      "sha256": "72e0f8d2ca8a9db2705a571cf97f7537a1dbc45b2344ed4ddd40031fdf4ed282",
+      "action": "reviewed_documentation",
+      "review": "Full instructions/catalogue reviewed for precedence, working paths and claims. Current entrypoint replaces ambiguous handoff instructions; fixed expected conclusions retained."
+    },
+    {
+      "path": "spec/HopsGrow_Known_Answers_v7.5.md",
+      "bytes": 2920,
+      "sha256": "5a84085da61b6b2e2faddf393d7782cafc9b3ad90114503fe62be12c46cdd7c5",
+      "action": "reviewed_documentation",
+      "review": "Full instructions/catalogue reviewed for precedence, working paths and claims. Current entrypoint replaces ambiguous handoff instructions; fixed expected conclusions retained."
+    },
+    {
+      "path": "spec/HopsGrow_Practical_Refinement_Verification_v8.1.json",
+      "bytes": 113,
+      "sha256": "043cc2b3758ddc20a7a0c2889fb28f3dcf56739cddf53478c64550b9082b4683",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "spec/HopsGrow_Release_Policy_v8.0.json",
+      "bytes": 742,
+      "sha256": "31804c5a47f89aa9b2d5e8a2456ba72db1e170c67f7e51d0380e6e54fdabf66c",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "spec/HopsGrow_SPEC_STATUS.json",
+      "bytes": 845,
+      "sha256": "d76c87baac85823fa9bb3d8c97c0764078e5772809eef44797698487ef29ae94",
+      "action": "reviewed_metadata",
+      "review": "Full JSON parsed and role/version/claims checked. Empty/unapproved scientific parameters remain intentional; historical test reports are not app/crop validation."
+    },
+    {
+      "path": "spec/weather_evidence/Weather_API_Verification_2026-10-30.md",
+      "bytes": 7544,
+      "sha256": "773d5f3f75c3d4de98b5b51c40e53f4c9292cc1577883c1790b5409b131d335a",
+      "action": "retained_evidence_or_corrected_instructions",
+      "review": "Historical source/probe/parser findings reviewed against fixtures. Missing documented script supplied and command path corrected; app findings remain historical."
+    },
+    {
+      "path": "spec/weather_evidence/actual_parser_audit.json",
+      "bytes": 700,
+      "sha256": "960b40e0a9549125a72f3c3e0f206999bcac0b53fadf31eecacc068d472a8efe",
+      "action": "retained_evidence_or_corrected_instructions",
+      "review": "Historical source/probe/parser findings reviewed against fixtures. Missing documented script supplied and command path corrected; app findings remain historical."
+    },
+    {
+      "path": "spec/weather_evidence/live_probe_report.json",
+      "bytes": 4929,
+      "sha256": "2791f8437fa6f5738ede386453c3ced8d081bf0cb427c08bb830d55a365e56ac",
+      "action": "retained_evidence_or_corrected_instructions",
+      "review": "Historical source/probe/parser findings reviewed against fixtures. Missing documented script supplied and command path corrected; app findings remain historical."
+    },
+    {
+      "path": "spec/weather_fixtures/openmeteo_archive_payload.json",
+      "bytes": 10291,
+      "sha256": "e974e7e647f7594d5b39295441eccb58ea8cf41c5fb703fd33f55a7af3d96645",
+      "action": "retained_frozen_fixture",
+      "review": "Full JSON parsed; every requested row normalized and semantic contract checked; payload bytes retained as frozen evidence."
+    },
+    {
+      "path": "spec/weather_fixtures/openmeteo_forecast_payload.json",
+      "bytes": 15005,
+      "sha256": "6bfa93b3799fb2263a42ee0dbc031ac010311620381d8b21f4ab788c25424bd9",
+      "action": "retained_frozen_fixture",
+      "review": "Full JSON parsed; every requested row normalized and semantic contract checked; payload bytes retained as frozen evidence."
+    },
+    {
+      "path": "spec/weather_fixtures/openweather_current_payload.json",
+      "bytes": 31745,
+      "sha256": "3a732b7eb0ee0b61894a8940d19d98dd2e52770a398117d80a685c9afa8e805d",
+      "action": "retained_frozen_fixture",
+      "review": "Full JSON parsed; every requested row normalized and semantic contract checked; payload bytes retained as frozen evidence."
+    },
+    {
+      "path": "spec/weather_fixtures/openweather_history_payload.json",
+      "bytes": 610,
+      "sha256": "3a79b9e79307f3447b36ec92fdbb68ead54c5a78bb72dfe5c01e5e0fa64a0e43",
+      "action": "retained_frozen_fixture",
+      "review": "Full JSON parsed; every requested row normalized and semantic contract checked; payload bytes retained as frozen evidence."
+    }
+  ],
+  "biologicalConstantsAdded": 0,
+  "routineUserInputsAdded": 0,
+  "appImplementationChanged": false,
+  "realPlantOutcomes": 0,
+  "productionActivationReady": false
+}

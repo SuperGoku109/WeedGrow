@@ -1,4 +1,5 @@
 import { plantDay } from '@/lib/dates/plantDay';
+import { evaluationValidAt, waterDecisionAt } from '@/lib/careAlgorithm/evaluationValidity';
 import { useSession } from '@/services/session';
 import { adviceInput } from '@/lib/suggestions/adviceInputs';
 import { usePlantActivity } from '@/features/care/usePlantActivity';
@@ -26,7 +27,7 @@ interface WateringSuggestionState {
 export function useWateringSuggestions(plants: PlantWithId[], enabled = true): WateringSuggestionState {
   const { user } = useSession(); const uid = user?.uid;
   const clock = useMinuteClock(); const [revision, retry] = useReducer(value => value + 1, 0);
-  const inputKey = JSON.stringify(plants.filter(plant => plant.status === 'active' && plant.location).map(adviceInput));
+  const inputKey = JSON.stringify(plants.filter(plant => plant.status === 'active' && !plant.deleting && plant.location).map(adviceInput));
   const ids = useMemo(() => (JSON.parse(inputKey) as PlantSummary[]).map(plant => plant.id), [inputKey]);
   const activity = usePlantActivity(enabled ? ids : [], ['watering'], plants);
   const { error: activityError, refresh: refreshActivity } = activity;
@@ -53,9 +54,9 @@ export function useWateringSuggestions(plants: PlantWithId[], enabled = true): W
   const loading = enabled && !!uid && ids.length > 0 && (activity.loading || result.key !== requestKey || result.loading);
   const error = activity.error || (result.key === requestKey ? result.error : null);
 
-  const isFresh = useCallback((insight: WateringInsight) => typeof insight.weatherFetchedAtMs === 'number' && Number.isFinite(insight.weatherFetchedAtMs) && clock.getTime() - insight.weatherFetchedAtMs <= 6 * 3600000 && insight.weatherFetchedAtMs <= clock.getTime() + 60000, [clock]);
+  const isFresh = useCallback((insight: WateringInsight) => evaluationValidAt(insight.careEvaluation, clock.getTime() / 1000), [clock]);
   const stale = enabled && ids.length > 0 && !loading && (!insights.length || insights.some(insight => !isFresh(insight)));
-  const plantsNeedingWater = useMemo(() => insights.filter(insight => insight.needsWater && isFresh(insight)), [insights, isFresh]);
+  const plantsNeedingWater = useMemo(() => insights.filter(insight => waterDecisionAt(insight.careEvaluation, clock.getTime() / 1000) === true), [insights, clock]);
 
   const suggestions = useMemo<Suggestion[]>(() => {
     if (!plantsNeedingWater.length) return [];

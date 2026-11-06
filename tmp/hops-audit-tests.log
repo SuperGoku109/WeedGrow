@@ -1,0 +1,19 @@
+PASS lib/careAlgorithm/__tests__/wateringScenarios.test.ts
+PASS lib/careAlgorithm/__tests__/waterBank.test.ts
+PASS lib/careAlgorithm/__tests__/weather.test.ts
+PASS lib/careAlgorithm/__tests__/waterTimeline.test.ts
+PASS lib/careAlgorithm/__tests__/productionSnapshot.test.ts
+PASS lib/careAlgorithm/__tests__/replay.test.ts
+PASS lib/careAlgorithm/__tests__/checkpoint.test.ts
+PASS lib/careAlgorithm/__tests__/historySelection.test.ts
+PASS lib/careAlgorithm/__tests__/correctnessAudit.test.ts
+PASS lib/careAlgorithm/__tests__/logAdapter.test.ts
+PASS lib/careAlgorithm/__tests__/evaluationValidity.test.ts
+PASS lib/careAlgorithm/__tests__/forecastWater.test.ts
+PASS lib/careAlgorithm/__tests__/warnings.test.ts
+PASS lib/careAlgorithm/__tests__/sourceEvents.test.ts
+
+Test Suites: 14 passed, 14 total
+Tests:       153 passed, 153 total
+Snapshots:   0 total
+Time:        5.413 s, estimated 6 s
