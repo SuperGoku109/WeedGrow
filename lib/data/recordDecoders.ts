@@ -34,6 +34,8 @@ export function decodePlant(value: unknown, path: string): Plant {
   if (data.currentWeather != null) decodeWeather(data.currentWeather, `${path}/currentWeather`);
   if (data.harvest != null) { const harvest = record(data.harvest, path); check(text(harvest.date) && text(harvest.recordId) && text(harvest.notes), path, 'harvest'); optional(harvest, ['weightGrams'], finite, path); }
   optional(data, ['careMedium', 'careEvaluationRevision'], text, path);
+  optional(data, ['careNextEvaluationUtc'], value => finite(value) && value >= 0, path);
+  optional(data, ['careEventProtocol'], value => value === 1, path);
   optional(data, ['waterLedgerRevision', 'setupLedgerRevision'], value => finite(value) && Number.isInteger(value) && value >= 0, path);
   if (data.rainReception != null) { const rain = record(data.rainReception, path); check(text(rain.soil) && text(rain.canopy) && ['yes', 'no', 'partial', 'unknown'].includes(rain.soil) && ['yes', 'no', 'partial', 'unknown'].includes(rain.canopy), path, 'rainReception'); }
   // Missing optional legacy metadata remains explicitly unknown.

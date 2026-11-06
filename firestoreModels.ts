@@ -12,6 +12,10 @@ export interface Plant {
     setupLedgerRevision?: number;
     /** Server-owned pointer; clients cannot write or restore it. */
     careEvaluationRevision?: string | null;
+    /** Server-owned due index; null means no automatic re-evaluation is scheduled. */
+    careNextEvaluationUtc?: number | null;
+    /** Server-enrolled protocol: care-log writes must atomically advance careRevision. */
+    careEventProtocol?: 1;
     careMedium?: string | null;
     rainReception?: { soil: 'yes' | 'no' | 'partial' | 'unknown'; canopy: 'yes' | 'no' | 'partial' | 'unknown' };
     careRevision?: number;

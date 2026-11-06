@@ -27,6 +27,10 @@ if (metadata.status !== 0) {
   const created = run(['functions:secrets:set', 'OPENWEATHERMAP_API_KEY', '--data-file', '-'], { input: key, stdio: ['pipe', 'inherit', 'inherit'] });
   if (created.status !== 0) process.exit(created.status || 1);
 }
-const result = run(['deploy', '--only', 'functions,firestore:rules,firestore:indexes']);
-if (result.error) throw result.error;
-process.exit(result.status || 0);
+// Enforce the journal revision contract before a worker can enroll/cache a
+// plant. Never deploy these new functions against the older permissive rules.
+for (const target of ['firestore:rules,firestore:indexes', 'functions']) {
+  const result = run(['deploy', '--only', target]);
+  if (result.error) throw result.error;
+  if (result.status !== 0) process.exit(result.status || 1);
+}

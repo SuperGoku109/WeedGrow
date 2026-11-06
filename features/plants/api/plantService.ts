@@ -56,7 +56,7 @@ export async function deletePlantAndSubcollections(id: string) {
   invalidatePlantCache();
 }
 
-export type UpdatePlantFields = Partial<Omit<Plant, 'createdAt' | 'updatedAt' | 'owners' | 'careSummary' | 'careRevision' | 'waterLedgerRevision' | 'setupLedgerRevision' | 'careEvaluationRevision' | 'deleting' | 'harvest' | 'currentWeather' | 'locationRevision' | 'weatherHistoryBefore' | 'locationChangedAt' | 'locationTimeZone' | 'ageRecordedAt'>>;
+export type UpdatePlantFields = Partial<Omit<Plant, 'createdAt' | 'updatedAt' | 'owners' | 'careSummary' | 'careRevision' | 'waterLedgerRevision' | 'setupLedgerRevision' | 'careEvaluationRevision' | 'careNextEvaluationUtc' | 'careEventProtocol' | 'deleting' | 'harvest' | 'currentWeather' | 'locationRevision' | 'weatherHistoryBefore' | 'locationChangedAt' | 'locationTimeZone' | 'ageRecordedAt'>>;
 
 export async function updatePlant(id: string, updates: UpdatePlantFields, baseline?: EditBaseline) {
   // The start date is checked inside the transaction against the plant's day.

@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { getFirestore, Timestamp } from 'firebase-admin/firestore';
+import { getFirestore, Timestamp, type DocumentSnapshot } from 'firebase-admin/firestore';
 import type { Plant } from '../../firestoreModels';
 import { careInputKey, type CareSnapshot } from '../../lib/careAlgorithm/snapshot';
 import { evaluateCare } from '../../lib/careAlgorithm/evaluate';
@@ -10,6 +10,7 @@ import { preparePlantWater } from './careWatering';
 import { synchronizeWaterEvents } from './careEventLedger';
 import { revisionFingerprint } from '../../lib/careAlgorithm/revisions';
 import { openWeatherStormConditions } from '../../lib/careAlgorithm/stormConditions';
+import { ENGINE_VERSION } from '../../lib/careAlgorithm/types';
 export { acquireCareWeather, readWeatherPolicy } from './careWeather';
 export { captureWaterEvent, readWaterEvents, synchronizeWaterEvents } from './careEventLedger';
 export { captureSetupTransition, readSetupTransitions, recordShadowWaterRun } from './careStateLedger';
@@ -17,12 +18,23 @@ export { readWaterPolicy, approvedWaterProfiles } from './careWaterPolicy';
 export { acquireWaterHistory } from './careWaterHistory';
 
 /** Weather acquisition and watering releases have separate protected configuration and race fences. */
-export async function refreshPlantCare(plantId: string, weatherKey: string, request: typeof fetch = fetch, clock: () => number = () => Date.now() / 1000) {
+export interface CareConfiguration { weather: DocumentSnapshot; watering: DocumentSnapshot; useVerifiedLedgerCache?: boolean }
+export function careConfigurationKey(configuration: CareConfiguration) {
+  return revisionFingerprint([configuration.weather.updateTime?.toMillis() ?? null, configuration.watering.updateTime?.toMillis() ?? null, ENGINE_VERSION]);
+}
+export async function readCareConfiguration(): Promise<CareConfiguration> {
+  const db = getFirestore();
+  const [weather, watering] = await Promise.all([db.doc('careConfiguration/weather').get(), db.doc('careConfiguration/watering').get()]);
+  return { weather, watering };
+}
+export async function refreshPlantCare(plantId: string, weatherKey: string, request: typeof fetch = fetch, clock: () => number = () => Date.now() / 1000,
+  configuration?: CareConfiguration) {
   const db = getFirestore(); const ref = db.doc(`plants/${plantId}`); const configRef = db.doc('careConfiguration/weather');
   const waterConfigRef = db.doc('careConfiguration/watering');
-  const [config, waterConfig] = await Promise.all([configRef.get(), waterConfigRef.get()]);
+  const { weather: config, watering: waterConfig } = configuration ?? await readCareConfiguration();
   const waterPolicy = readWaterPolicy(waterConfig.data());
-  if (waterPolicy) await synchronizeWaterEvents(plantId, 2000, clock);
+  const synchronized = waterPolicy ? await synchronizeWaterEvents(plantId, 2000, clock,
+    { useVerifiedCache: configuration?.useVerifiedLedgerCache === true, cacheVerifiedResult: true }) : undefined;
   const first = await ref.get();
   if (!first.exists || first.data()?.deleting) return false;
   const plant = first.data() as Plant; const inputKey = careInputKey(plant);
@@ -31,9 +43,20 @@ export async function refreshPlantCare(plantId: string, weatherKey: string, requ
   const now = clock(); if (!Number.isFinite(now)) throw new Error('invalid_care_evaluation_time');
   const existingSnapshot = (await ref.collection('care').doc('current').get()).data() as CareSnapshot | undefined;
   if (existingSnapshot?.inputKey === inputKey && existingSnapshot.configurationRevision === configUpdate
+    && existingSnapshot.evaluation.engineVersion === ENGINE_VERSION
     && (existingSnapshot.waterConfigurationRevision ?? null) === waterConfigUpdate
     && existingSnapshot.evaluation.evaluationUtc <= now
-    && (existingSnapshot.evaluation.nextEvaluationUtc === null || existingSnapshot.evaluation.nextEvaluationUtc > now)) return false;
+    && (existingSnapshot.evaluation.nextEvaluationUtc === null || existingSnapshot.evaluation.nextEvaluationUtc > now)) {
+    // Upgrade old snapshots into the due index without recomputing advice.
+    if (plant.careNextEvaluationUtc !== existingSnapshot.evaluation.nextEvaluationUtc) await db.runTransaction(async tx => {
+      const latest = await tx.get(ref);
+      if (latest.exists && !latest.data()?.deleting && careInputKey(latest.data() as Plant) === inputKey
+        && latest.data()?.careEvaluationRevision === existingSnapshot.revision) {
+        tx.update(ref, { careNextEvaluationUtc: existingSnapshot.evaluation.nextEvaluationUtc });
+      }
+    });
+    return false;
+  }
   const pin = plant.location; const revision = plant.locationRevision ?? 0;
   const scope = policy && pin ? weatherScopeKey(pin, revision, policy.version) : null;
   const cacheRef = scope ? ref.collection('careWeather').doc(scope) : null;
@@ -63,7 +86,7 @@ export async function refreshPlantCare(plantId: string, weatherKey: string, requ
   let water: Awaited<ReturnType<typeof preparePlantWater>> | undefined;
   let waterFailure = false;
   if (waterPolicy) {
-    try { water = await preparePlantWater(plantId, plant, waterPolicy, clock(), request, clock); }
+    try { water = await preparePlantWater(plantId, plant, waterPolicy, clock(), request, clock, synchronized); }
     catch { waterFailure = true; }
   }
   const evaluatedAt = water?.replay?.evaluationUtc ?? clock();
@@ -100,11 +123,11 @@ export async function refreshPlantCare(plantId: string, weatherKey: string, requ
       || (currentWaterConfig.updateTime?.toMillis() ?? null) !== waterConfigUpdate) return false;
     const current = await tx.get(ref.collection('care').doc('current'));
     if ((current.data()?.evaluation?.evaluationUtc ?? -Infinity) > evaluatedAt) return false;
-    const old = cacheRef ? await tx.get(cacheRef) : null;
+    const old = leased && cacheRef ? await tx.get(cacheRef) : null;
     if (leased && old?.data()?.leaseToken !== leaseToken) return false;
-    const immutableRef = record && scope ? ref.collection('careWeather').doc(`${scope}_${record.revision}`) : null;
+    const immutableRef = leased && record && scope ? ref.collection('careWeather').doc(`${scope}_${record.revision}`) : null;
     const immutable = immutableRef ? await tx.get(immutableRef) : null;
-    if (eligible && record && cacheRef) {
+    if (leased && eligible && record && cacheRef) {
       const prior = immutable?.data() as AcquisitionRecord | undefined;
       // Content-identical refetches preserve first acquisition, including concurrent retries.
       const firstAvailableUtc = prior?.revision === record.revision ? Math.min(prior.firstAvailableUtc, record.firstAvailableUtc) : record.firstAvailableUtc;
@@ -120,7 +143,7 @@ export async function refreshPlantCare(plantId: string, weatherKey: string, requ
     }
     tx.set(ref.collection('care').doc('current'), snapshot);
     if (water?.checkpoint) tx.set(ref.collection('careWaterState').doc('checkpoint'), JSON.parse(revisionFingerprint({ checkpoint: water.checkpoint, evaluationUtc: evaluatedAt })));
-    tx.update(ref, { careEvaluationRevision: snapshotRevision });
+    tx.update(ref, { careEvaluationRevision: snapshotRevision, careNextEvaluationUtc: evaluation.nextEvaluationUtc });
     return true;
   });
 }

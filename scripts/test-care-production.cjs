@@ -5,11 +5,11 @@ const { initializeApp } = backend('firebase-admin/app');
 const { getFirestore, Timestamp } = backend('firebase-admin/firestore');
 if (!process.env.FIRESTORE_EMULATOR_HOST || !process.env.GCLOUD_PROJECT?.startsWith('demo-')) throw new Error('Care tests require disposable local emulators.');
 initializeApp({ projectId: process.env.GCLOUD_PROJECT });
-const { refreshPlantCare, acquireCareWeather, readWeatherPolicy, captureWaterEvent, readWaterEvents, synchronizeWaterEvents,
+const { refreshPlantCare, readCareConfiguration, acquireCareWeather, readWeatherPolicy, captureWaterEvent, readWaterEvents, synchronizeWaterEvents,
   captureSetupTransition, readSetupTransitions, recordShadowWaterRun, acquireWaterHistory } = require('../functions/dist/careOperations.js');
 const { initializeApp: clientApp, deleteApp } = require('firebase/app');
 const { getAuth, connectAuthEmulator, createUserWithEmailAndPassword } = require('firebase/auth');
-const { getFirestore: clientDb, connectFirestoreEmulator, doc, getDoc, setDoc, updateDoc, deleteDoc, terminate, setLogLevel } = require('firebase/firestore');
+const { getFirestore: clientDb, connectFirestoreEmulator, doc, getDoc, setDoc, updateDoc, deleteDoc, writeBatch, terminate, setLogLevel } = require('firebase/firestore');
 setLogLevel('silent');
 const policy = { enabled: true, version: 'SYNTHETIC-INTEGRATION-ONLY', product: 'onecall_metric', maxAcquisitionAgeSeconds: 900,
   maxCurrentAgeSeconds: 900, maxForecastLeadSeconds: 86400, requestTimeoutMs: 1000, retryAfterSeconds: 60, retentionSeconds: 86400,
@@ -35,7 +35,7 @@ const denied = promise => assert.rejects(promise, error => error.code === 'permi
   try {
     await waterConfig.delete();
     await plant.set({ name: 'Hops', strain: '', owners: [alice.uid], status: 'active', environment: 'outdoor', plantedIn: 'pot', growthStage: 'flowering',
-      location: { lat: -26, lng: 28 }, locationRevision: 1, rainReception: { soil: 'yes', canopy: 'yes' } });
+      location: { lat: -26, lng: 28 }, locationRevision: 1, rainReception: { soil: 'yes', canopy: 'yes' }, createdAt: Timestamp.now(), updatedAt: Timestamp.now() });
     await config.delete();
     assert.equal(await run(), true); let snapshot = await read();
     assert.equal(snapshot.evaluation.water.needsWater, null); assert.equal(snapshot.evaluation.weatherPreparationEnabled, false); assert.equal(calls, 0);
@@ -89,6 +89,8 @@ const denied = promise => assert.rejects(promise, error => error.code === 'permi
     await denied(getDoc(doc(bob.db, 'plants', id, 'care', 'current')));
     await denied(setDoc(carePath, { evaluation: { water: { needsWater: true } } }));
     await denied(updateDoc(doc(alice.db, 'plants', id), { careEvaluationRevision: 'forged' }));
+    await denied(updateDoc(doc(alice.db, 'plants', id), { careNextEvaluationUtc: 0 }));
+    await denied(updateDoc(doc(alice.db, 'plants', id), { careEventProtocol: 1 }));
     await denied(setDoc(doc(alice.db, 'careConfiguration', 'weather'), { enabled: true }));
     await denied(getDoc(doc(alice.db, 'plants', id, 'careWeather', original.id)));
     await denied(deleteDoc(carePath));
@@ -182,7 +184,14 @@ const denied = promise => assert.rejects(promise, error => error.code === 'permi
     await actual.update({ waterMl: null }); assert.equal(await waterRun(), true);
     assert.equal((await read()).evaluation.water.needsWater, null, 'Omitted amount never becomes a full refill');
     await actual.delete(); assert.equal(await waterRun(), true); assert.equal((await read()).evaluation.water.needsWater, true);
-    clock.now += 600; assert.equal(await waterRun(), false, 'Fresh cache retains its original evaluation timestamp');
+    clock.now += 600;
+    const context = { ...await readCareConfiguration(), useVerifiedLedgerCache: true };
+    const { measureFirestoreOperations } = require('./firestore-operation-meter.cjs');
+    const cachedRun = await measureFirestoreOperations(backend('firebase-admin/firestore'),
+      () => refreshPlantCare(id, 'TEST-ONLY-SECRET', historyProvider, () => clock.now, context));
+    assert.equal(cachedRun.value, false, 'Fresh cache retains its original evaluation timestamp');
+    assert.equal(cachedRun.metrics.reads, 4, 'Warm unchanged care checks use four document reads, independent of watering-history length');
+    assert.equal(cachedRun.metrics.queries, 0); assert.equal(cachedRun.metrics.writes, 0);
     clock.now += 301; assert.equal(await waterRun(), true);
     assert.equal((await read()).evaluation.water.needsWater, null, 'Archive trailing gap/unfinished hour cannot be bridged using forecasts or zero loss');
     await waterConfig.set({ ...waterPolicy, profiles: [{ ...waterPolicy.profiles[0], statisticalReviewId: '' }] });
@@ -194,6 +203,17 @@ const denied = promise => assert.rejects(promise, error => error.code === 'permi
     assert.equal((await plant.get()).data().careEvaluationRevision, pointerBeforeWaterRace);
     await waterConfig.set({ ...waterPolicy, enabled: false });
     assert.equal(await waterRun(), true); assert.equal((await read()).evaluation.water.needsWater, null);
+    assert.equal((await plant.get()).data().careEventProtocol, 1, 'Verified history enrolls the revision-protected protocol');
+    const protectedPlant = doc(alice.db, 'plants', id); const clientWater = doc(alice.db, 'plants', id, 'logs', 'protocol-water');
+    const clientFact = { type: 'watering', waterMl: 100, occurrencePrecision: 'time', timestamp: new Date(clock.now * 1000), recordedAt: new Date(clock.now * 1000), updatedBy: alice.uid };
+    await denied(setDoc(clientWater, clientFact));
+    const revision = (await plant.get()).data().careRevision || 0;
+    const create = writeBatch(alice.db); create.set(clientWater, clientFact); create.update(protectedPlant, { careRevision: revision + 1, careSummary: null }); await create.commit();
+    await denied(updateDoc(clientWater, { waterMl: 200 }));
+    await denied(deleteDoc(clientWater));
+    await denied(updateDoc(protectedPlant, { careRevision: revision }));
+    await denied(updateDoc(protectedPlant, { careEventProtocol: 0 }));
+    const remove = writeBatch(alice.db); remove.delete(clientWater); remove.update(protectedPlant, { careRevision: revision + 2, careSummary: null }); await remove.commit();
     await denied(setDoc(doc(alice.db, 'careConfiguration', 'watering'), waterPolicy));
     await denied(setDoc(doc(alice.db, 'plants', id, 'careWaterState', 'origin'), { anchorUtc: clock.now, reserveL: [2, 2] }));
     await denied(setDoc(doc(alice.db, 'plants', id, 'careWaterHistory', 'fake'), { samples: [] }));

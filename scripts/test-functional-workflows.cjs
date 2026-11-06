@@ -41,6 +41,12 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
   try {
     const ids = Array.from({ length: 8 }, (_, i) => `${prefix}-${i}`);
     for (const id of ids) await f.setDoc(f.doc(db, 'plants', id), plant);
+    // Exercise all real client workflows under the enrolled revision protocol,
+    // including eight-plant watering's cross-document security-rule budget.
+    const admin = require('node:module').createRequire(path.join(root, 'functions/package.json'));
+    admin('firebase-admin/app').initializeApp({ projectId: 'demo-weedgrow' });
+    const serverDb = admin('firebase-admin/firestore').getFirestore();
+    for (const pid of ids) await serverDb.doc(`plants/${pid}`).update({ careEventProtocol: 1 });
     const id = ids[0];
     const { ensureCareSummary } = require('../services/careSummaries.ts');
     const summaryPlant = ids[7];

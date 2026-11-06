@@ -1,0 +1,156 @@
+
+> weedgrowapp@1.0.0 verify
+> node scripts/verify.cjs
+
+
+Backend types
+
+Backend build
+
+Types
+
+Lint and boundaries
+
+Architecture policy
+PASS: UI/query, hook/query, service/presentation and domain/I-O boundaries are enforced; repository APIs remain allowed.
+
+Unit and scenario tests
+PASS features/plants/__tests__/dailyJournalFlow.test.ts
+PASS features/plants/__tests__/plantEditorDelete.test.ts
+PASS lib/suggestions/__tests__/suggestionCards.test.ts
+PASS features/groups/__tests__/managePlants.test.ts
+PASS lib/careAlgorithm/__tests__/waterBank.test.ts
+PASS features/plants/__tests__/PlantLogComposer.test.ts
+PASS features/plants/__tests__/editorControls.test.ts
+PASS features/plants/__tests__/journalCalendar.test.ts
+PASS lib/careAlgorithm/__tests__/wateringScenarios.test.ts
+PASS ui/__tests__/anchoredActionMenu.test.ts
+PASS features/groups/__tests__/EditGroupModal.test.ts
+PASS lib/careAlgorithm/__tests__/stormDiseaseScenarios.test.ts
+PASS features/plants/__tests__/careAdviceDisclosure.test.ts
+PASS features/plants/__tests__/quickWatering.test.ts
+PASS features/plants/__tests__/plantProfileView.test.ts
+PASS lib/careAlgorithm/__tests__/warningNoise.test.ts
+PASS lib/careAlgorithm/__tests__/weather.test.ts
+PASS lib/weather/__tests__/refreshGardenWeather.test.ts
+PASS features/plants/__tests__/journalTimeline.test.ts
+PASS lib/careAlgorithm/__tests__/waterTimeline.test.ts
+PASS lib/suggestions/__tests__/wateringSuggestions.test.ts
+PASS features/care/__tests__/usePlantActivity.test.ts
+PASS features/home/__tests__/createGarden.test.ts
+PASS lib/weather/__tests__/weatherResponse.test.ts
+PASS lib/backup/__tests__/backupSafety.test.ts
+PASS features/care/__tests__/useCareTasks.test.ts
+PASS services/__tests__/plantCareEvaluation.test.ts
+PASS features/addPlant/__tests__/savePlant.test.ts
+PASS lib/careAlgorithm/__tests__/careDiagnostics.test.ts
+PASS lib/plants/__tests__/photoRepository.test.ts
+PASS features/plants/__tests__/plantForms.test.ts
+PASS lib/suggestions/__tests__/wateringSuggestions.intentScenarios.test.ts
+PASS lib/logs/__tests__/journalRepository.test.ts
+PASS lib/careAlgorithm/__tests__/correctnessAudit.test.ts
+PASS features/plants/__tests__/usePlantJournalData.test.ts
+PASS features/location/__tests__/useLocationPicker.test.ts
+PASS features/addPlant/__tests__/gardenDraft.test.ts
+PASS features/location/__tests__/deviceLocationWeb.test.ts
+PASS lib/data/__tests__/recordDecoders.test.ts
+PASS lib/backup/__tests__/backupFormat.test.ts
+PASS lib/careAlgorithm/__tests__/replay.test.ts
+PASS features/plants/__tests__/plantProfile.test.ts
+PASS features/groups/__tests__/useGroupWeather.test.ts
+PASS features/location/__tests__/deviceLocationNative.test.ts
+PASS features/plants/__tests__/useProgressGallery.test.ts
+PASS ui/__tests__/useDiscardGuard.test.ts
+PASS lib/careAlgorithm/__tests__/checkpoint.test.ts
+PASS features/addPlant/__tests__/draftStorage.test.ts
+PASS features/plants/__tests__/plantListPresentation.test.ts
+PASS hooks/__tests__/asyncLifecycle.test.ts
+PASS features/plants/__tests__/plantHistorySearch.test.ts
+PASS ui/__tests__/useEditDraft.test.ts
+PASS lib/plants/__tests__/preparePlantPhoto.test.ts
+PASS lib/care/__tests__/careTasks.test.ts
+PASS features/home/__tests__/useWateringSuggestions.test.ts
+PASS lib/logs/__tests__/fetchLogsAndWeatherForRange.test.ts
+PASS lib/careAlgorithm/__tests__/productionSnapshot.test.ts
+PASS features/groups/__tests__/useGroupDetail.test.ts
+PASS hooks/__tests__/motionPreference.test.ts
+PASS hooks/__tests__/journalSearch.test.ts
+PASS lib/logs/__tests__/journalRecovery.test.ts
+PASS services/__tests__/careSnooze.test.ts
+PASS lib/progressPics/__tests__/uploadProgressPic.test.ts
+PASS lib/plants/__tests__/plantValidation.test.ts
+PASS features/plants/__tests__/plantEditorMutations.test.ts
+PASS services/__tests__/errorReporting.test.ts
+PASS lib/plants/__tests__/editConflict.test.ts
+PASS lib/data/__tests__/pagedLiveQuery.test.ts
+PASS lib/data/__tests__/liveStore.test.ts
+PASS features/addPlant/__tests__/plantFlow.test.ts
+PASS lib/suggestions/__tests__/hopsSuggestions.test.ts
+PASS features/plants/__tests__/journalDay.test.ts
+PASS lib/weather/__tests__/parseWeatherData.test.ts
+PASS lib/suggestions/__tests__/wateringEngine.test.ts
+PASS lib/suggestions/__tests__/hopsIntegration.test.ts
+PASS lib/logs/__tests__/addPlantLog.test.ts
+PASS lib/careAlgorithm/__tests__/warnings.test.ts
+PASS lib/data/__tests__/mapConcurrent.test.ts
+PASS lib/data/__tests__/deleteCollectionInBatches.test.ts
+PASS lib/careAlgorithm/__tests__/forecastWater.test.ts
+PASS features/plants/__tests__/plantLifecycle.test.ts
+PASS features/groups/__tests__/groupCollection.test.ts
+PASS lib/careAlgorithm/__tests__/sourceEvents.test.ts
+PASS features/plants/__tests__/careSetup.test.ts
+PASS services/__tests__/session.test.ts
+PASS lib/diagnostics/__tests__/reportError.test.ts
+PASS features/plants/__tests__/journalPresentation.test.ts
+PASS services/__tests__/reminders.test.ts
+PASS lib/weather/__tests__/fetchWeather.test.ts
+PASS lib/careAlgorithm/__tests__/historySelection.test.ts
+PASS lib/careAlgorithm/__tests__/evaluationValidity.test.ts
+PASS features/plants/__tests__/activityForm.test.ts
+PASS services/__tests__/homeGardenView.test.ts
+PASS lib/logs/__tests__/plantJournal.test.ts
+PASS lib/errors/__tests__/saveFeedback.test.ts
+PASS lib/careAlgorithm/__tests__/logAdapter.test.ts
+PASS features/home/__tests__/HomeRedirect.test.ts
+PASS features/plants/__tests__/carePresentation.test.ts
+PASS features/location/__tests__/locationService.test.ts
+PASS features/home/__tests__/gardenSelection.test.ts
+PASS design-system/tokens/__tests__/garden.test.ts
+PASS features/location/__tests__/locationState.test.ts
+PASS services/__tests__/careSummaries.test.ts
+PASS lib/weather/__tests__/refreshPlantWeather.test.ts
+PASS lib/weather/__tests__/weatherReadings.test.ts
+PASS lib/weather/__tests__/powderyMildewRisk.test.ts
+PASS lib/plants/__tests__/plantAge.test.ts
+PASS lib/dates/__tests__/plantDay.test.ts
+PASS lib/plants/__tests__/plantRules.test.ts
+PASS lib/suggestions/__tests__/adviceInputs.test.ts
+
+Test Suites: 110 passed, 110 total
+Tests:       863 passed, 863 total
+Snapshots:   0 total
+Time:        32.952 s
+
+Local Firebase integration and ownership checks
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-weedgrow", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node scripts/test-integrations.cjs
+(node:10368) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+PASS: runtime-domain checks, paged export/CSV, profile deletion barriers and concurrent membership/profile integrity.
+PASS: concurrent watering, date corrections, safe undo, 8-plant atomic watering/retry, space moves/deletion, backup restore/retry, photo caption/cover/deletion, harvest retry/repeat and pending-deletion guards, historical weather preservation, same-day move snapshots, inheritance/overrides skipped-care semantics, interrupted large restore/resume, conflicting edits, synced snoozes, photo lost-response reconciliation and westward repeated-date weather protection.
+PASS: owned atomic saves and queries; foreign reads/writes, actor spoofing, oversized photos, unsigned access and partial writes are blocked.
+PASS: summary initialization, duplicate rebuilds, undo/type correction, deleted parents, scheduled weather freshness, moved-pin races and preserved history.
+PASS: protected care/weather, authoritative events, shadow isolation, production ET0/rain to due/not-due/unknown, checkpoint correction, source gaps, approval revocation and ownership.
+PASS: unchanged ten-entry ledger 31 reads/0 writes; protected fast path 2 reads/0 writes; changed-only repairs; due-only maintenance 13 SDK reads; idle 7 SDK reads; policy/bootstrap reconciliation; duplicate-write avoidance.
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator
+
+PASS: all verification stages completed.

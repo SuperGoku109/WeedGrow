@@ -4,6 +4,14 @@
       "collectionGroup": "plants",
       "queryScope": "COLLECTION",
       "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "careNextEvaluationUtc", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "plants",
+      "queryScope": "COLLECTION",
+      "fields": [
         {
           "fieldPath": "owners",
           "arrayConfig": "CONTAINS"
@@ -58,6 +66,11 @@
     }
   ],
   "fieldOverrides": [
+    {
+      "collectionGroup": "careWaterState",
+      "fieldPath": "result",
+      "indexes": []
+    },
     {
       "collectionGroup": "careWaterHistory",
       "fieldPath": "raw",

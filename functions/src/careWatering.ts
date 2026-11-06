@@ -15,7 +15,8 @@ import { loadWaterHistory, historyModelSelection } from './careWaterHistory';
 
 interface WaterOrigin { schemaVersion: 1; anchorUtc: number; setup: Setup; profile: Profile; coordinates: { lat: number; lng: number } }
 /** Builds the actual production replay input. Missing evidence is a reason, never a timer fallback. */
-export async function preparePlantWater(plantId: string, plant: Plant, policy: WaterPolicy, nowUtc: number, request: typeof fetch, clock: () => number) {
+export async function preparePlantWater(plantId: string, plant: Plant, policy: WaterPolicy, nowUtc: number, request: typeof fetch, clock: () => number,
+  synchronized?: Awaited<ReturnType<typeof readWaterEvents>>) {
   const approvedProfiles = approvedWaterProfiles(policy); const setup = plantSetup(plant); const profile = selectWaterProfile(setup, approvedProfiles);
   const fail = (reason: string) => ({ profile, approvedProfiles, replay: undefined as ReplayInput | undefined, reasonCodes: [reason], checkpoint: null as WaterCheckpoint | null });
   if (!profile) return fail('approved_profile_domain_unavailable_or_ambiguous');
@@ -61,7 +62,10 @@ export async function preparePlantWater(plantId: string, plant: Plant, policy: W
     previousSetup = nextSetup; previousProfile = nextProfile;
   }
   if (revisionFingerprint(previousSetup) !== revisionFingerprint(setup) || revisionFingerprint(previousProfile) !== revisionFingerprint(profile)) return fail('water_setup_history_not_synchronized');
-  const events = await readWaterEvents(plantId, nowUtc);
+  // Reuse only this invocation's verified ledger, bound to the same plant
+  // dependencies. A concurrent revision forces another authoritative read.
+  const events = synchronized?.cacheable && synchronized.inputKey === careInputKey(plant) && synchronized.asOfUtc <= nowUtc
+    ? synchronized : await readWaterEvents(plantId, nowUtc);
   if (!events.complete) return fail(events.reasonCodes[0]);
   const requiresRain = origin.setup.soilRain !== 'no' || transitions.some(t => t.setup.soilRain !== 'no');
   const history = await loadWaterHistory(plantId, origin.coordinates, origin.setup.locationRevision, origin.anchorUtc, nowUtc, policy, request, clock, requiresRain);
