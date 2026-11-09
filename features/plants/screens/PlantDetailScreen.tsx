@@ -33,6 +33,8 @@ import PlantBanner from '../components/PlantBanner';
 import { JournalTimeline } from '../components/PlantJournal';
 import JournalDateNavigator from '../components/JournalDateNavigator';
 import DailyCareAdvice from '../components/DailyCareAdvice';
+import LocalCareControls from '../components/LocalCareControls';
+import { useLocalCareRevision } from '@/hooks/useLocalCareRevision';
 import PlantLogComposer, { logChoices, type ActivitySaveOptions, type ActivitySaveResult } from '../components/PlantLogComposer';
 import { PhotoComposer, PlantPhotoGallery, pickProgressPhoto } from '../components/PlantPhotoGallery';
 import { presentCareCard, weatherFreshness } from '../plantCare';
@@ -111,6 +113,7 @@ export default function PlantDetailScreen() {
   const [message, setMessage] = React.useState('');
   React.useEffect(() => { setNewPhotoId(''); setFocusedEntry(''); setReturnToSearch(false); setPhotoOpen(false); setComposer(null); setEditingSection(null); anchors.current = {}; pendingAnchor.current = ''; }, [id]);
   const [refresh, setRefresh] = React.useState(0);
+  const localCareRevision = useLocalCareRevision();
   const [cards, setCards] = React.useState<SuggestionCard[]>([]);
   const [insightLoading, setInsightLoading] = React.useState(false);
   const [insightError, setInsightError] = React.useState('');
@@ -156,14 +159,14 @@ export default function PlantDetailScreen() {
   React.useEffect(() => {
     let cancelled = false; const controller = new AbortController();
     setCards([]); setInsightError('');
-    if (adviceKey === 'null' || !hasLocation || !id || (section !== 'Journal' || !isToday)) { setInsightLoading(false); return; }
+    if (adviceKey === 'null' || !id || (section !== 'Journal' || !isToday)) { setInsightLoading(false); return; }
     setInsightLoading(true);
     if (data.loading || data.weatherLoading) return () => controller.abort();
-    evaluateSuggestionCardsForPlant(JSON.parse(adviceKey), undefined, controller.signal).then(result => { if (!cancelled) setCards(result?.cards || []); })
+    evaluateSuggestionCardsForPlant(JSON.parse(adviceKey), { execution: 'local' }, controller.signal).then(result => { if (!cancelled) setCards(result?.cards || []); })
       .catch(() => { if (!cancelled) setInsightError('Care suggestions could not be refreshed.'); })
       .finally(() => { if (!cancelled) setInsightLoading(false); });
     return () => { cancelled = true; controller.abort(); };
-  }, [adviceKey, id, hasLocation, today, activitySignature, refresh, section, isToday, adviceWeatherTime, data.loading, data.weatherLoading]);
+  }, [adviceKey, id, hasLocation, today, activitySignature, refresh, section, isToday, adviceWeatherTime, data.loading, data.weatherLoading, localCareRevision]);
   const editPlant = () => setEditingSection('All');
   const switchSection = (next: Section) => {
     setFocusedEntry('');
@@ -218,7 +221,7 @@ export default function PlantDetailScreen() {
         {section === 'Journal' && <View onLayout={event => { journalTop.current = event.nativeEvent.layout.y; }}>
           {returnToSearch && <GrowPress accessibilityRole="button" onPress={() => setSearchOpen(true)} style={{ minHeight: 48, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Back to search results</Text></GrowPress>}
           <JournalDateNavigator today={today} selected={selected} dates={dates} logs={data.logs} historyStatus={data.loading ? 'loading' : data.error ? 'error' : 'ready'} theme={t} minimum={day.minimum} canGoBack={day.canGoBack} onSelect={day.select} onJump={day.jump} onMove={day.moveWeek} onToday={day.backToToday} onSearch={() => setSearchOpen(true)} />
-          {isToday && <DailyCareAdvice key={id} cards={displayCards} loading={insightLoading || data.loading || data.weatherLoading} error={insightError} hasLocation={hasLocation} theme={t} onRecord={(category, context) => openLog(category, context)} canRecord={plant.status === 'active'} onRefresh={() => setRefresh(value => value + 1)} />}
+          {isToday && <><DailyCareAdvice key={id} cards={displayCards} loading={insightLoading || data.loading || data.weatherLoading} error={insightError} hasLocation={hasLocation} theme={t} onRecord={(category, context) => openLog(category, context)} canRecord={plant.status === 'active'} onRefresh={() => setRefresh(value => value + 1)} /><LocalCareControls key={'local:' + id} plantId={id} theme={t} /></>}
           <SectionTitle title={isToday ? 'Recorded today' : dayLabel} theme={t} caption={isFuture ? 'FORECAST' : data.loading ? undefined : data.error ? 'Unavailable' : selectedLogs.length ? selectedLogs.length + (selectedLogs.length === 1 ? ' entry' : ' entries') : undefined} />
           {!isFuture && <View onLayout={event => { timelineTop.current = event.nativeEvent.layout.y; }}><JournalTimeline key={'activity:' + selected} compactEmpty emptyMessage={isToday ? 'Nothing recorded today.' : 'No activity recorded on this day.'} logs={selectedLogs} loading={data.loading} error={data.error} theme={t} timeZone={plant.locationTimeZone} onEdit={editEntry} onDelete={setDeletingEntry} highlightedId={focusedEntry} highlightLabel={highlightLabel} onRetry={data.retry} onViewPhoto={entry => { const photoId = entry.id.startsWith('photo_') ? entry.id.slice(6) : entry.id === 'setup-photo' ? entry.id : ''; setNewPhotoId(photoId); switchSection('Photos'); pendingAnchor.current = photoId; }} onEntryLayout={(entryId, y) => rememberAnchor(entryId, journalTop.current + timelineTop.current + y)} /></View>}
           {isFuture && <Text style={[ds.body, { color: t.muted }]}>Forecast only. Choose today or an earlier date to record completed activities.</Text>}

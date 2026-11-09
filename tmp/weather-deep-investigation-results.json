@@ -1,0 +1,230 @@
+{
+  "checkedAt": "2026-11-09T11:44:46.893Z",
+  "results": [
+    {
+      "name": "onecall-somerset-metric",
+      "status": 200,
+      "dailyCount": 1,
+      "hourlyCount": 1,
+      "current": {
+        "dt": 1794224681,
+        "temp": 11.78
+      },
+      "daily": {
+        "dt": 1794218400,
+        "temp": {
+          "day": 11.78,
+          "min": 11.78,
+          "max": 11.78,
+          "night": 11.78,
+          "eve": 11.78,
+          "morn": 11.78
+        }
+      },
+      "timezone": "Africa/Johannesburg",
+      "fields": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "current",
+        "hourly",
+        "daily"
+      ]
+    },
+    {
+      "name": "onecall-berlin-metric",
+      "status": 200,
+      "dailyCount": 8,
+      "hourlyCount": 48,
+      "current": {
+        "dt": 1794224681,
+        "temp": 4.29
+      },
+      "daily": {
+        "dt": 1794218400,
+        "temp": {
+          "day": 4.35,
+          "min": -0.09,
+          "max": 4.45,
+          "night": -0.09,
+          "eve": 2.91,
+          "morn": 2.61
+        }
+      },
+      "timezone": "Europe/Berlin",
+      "fields": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "current",
+        "minutely",
+        "hourly",
+        "daily"
+      ]
+    },
+    {
+      "name": "onecall-somerset-standard",
+      "status": 200,
+      "dailyCount": 1,
+      "hourlyCount": 1,
+      "current": {
+        "dt": 1794224682,
+        "temp": 284.93
+      },
+      "daily": {
+        "dt": 1794218400,
+        "temp": {
+          "day": 284.93,
+          "min": 284.93,
+          "max": 284.93,
+          "night": 284.93,
+          "eve": 284.93,
+          "morn": 284.93
+        }
+      },
+      "timezone": "Africa/Johannesburg",
+      "fields": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "current",
+        "hourly",
+        "daily"
+      ]
+    },
+    {
+      "name": "onecall-missing-key",
+      "status": 401,
+      "cod": 401,
+      "message": "Please note that using One Call 3.0 requires a separate subscription to the One Call by Call plan. Learn more here https://openweathermap.org/price. If you have",
+      "fields": [
+        "cod",
+        "message"
+      ]
+    },
+    {
+      "name": "onecall-invalid-key",
+      "status": 401,
+      "cod": 401,
+      "message": "Please note that using One Call 3.0 requires a separate subscription to the One Call by Call plan. Learn more here https://openweathermap.org/price. If you have",
+      "fields": [
+        "cod",
+        "message"
+      ]
+    },
+    {
+      "name": "forecast-explicit-40",
+      "status": 200,
+      "cod": "200",
+      "listCount": 0,
+      "fields": [
+        "cod",
+        "message",
+        "cnt",
+        "list",
+        "city"
+      ]
+    },
+    {
+      "name": "forecast-berlin",
+      "status": 200,
+      "cod": "200",
+      "listCount": 40,
+      "fields": [
+        "cod",
+        "message",
+        "cnt",
+        "list",
+        "city"
+      ]
+    },
+    {
+      "name": "open-meteo-forecast",
+      "status": 200,
+      "current": {
+        "time": 1794223800,
+        "interval": 900,
+        "temperature_2m": 24,
+        "relative_humidity_2m": 42,
+        "weather_code": 0,
+        "wind_speed_10m": 4.61
+      },
+      "daily": {
+        "time": [
+          1793923200,
+          1794009600,
+          1794096000,
+          1794182400,
+          1794268800,
+          1794355200
+        ],
+        "temperature_2m_max": [
+          19.5,
+          17.8,
+          26.3,
+          28.2,
+          23.4,
+          22.6
+        ],
+        "temperature_2m_min": [
+          13.4,
+          12.7,
+          13,
+          15.8,
+          15.1,
+          15.7
+        ],
+        "uv_index_max": [
+          7,
+          8.2,
+          8.9,
+          8.85,
+          9,
+          9
+        ],
+        "sunrise": [
+          1793936380,
+          1794022728,
+          1794109078,
+          1794195429,
+          1794281781,
+          1794368135
+        ],
+        "sunset": [
+          1793985474,
+          1794071931,
+          1794158389,
+          1794244846,
+          1794331304,
+          1794417762
+        ]
+      },
+      "returnedGrid": {
+        "latitude": -34.059753,
+        "longitude": 18.7875,
+        "elevation": 28
+      },
+      "hourCount": 144,
+      "firstHour": 1793923200,
+      "lastHour": 1794438000,
+      "hourlyUnits": {
+        "time": "unixtime",
+        "temperature_2m": "°C",
+        "relative_humidity_2m": "%",
+        "dew_point_2m": "°C",
+        "rain": "mm",
+        "showers": "mm",
+        "et0_fao_evapotranspiration": "mm",
+        "wind_speed_10m": "m/s",
+        "wind_gusts_10m": "m/s",
+        "shortwave_radiation": "W/m²",
+        "weather_code": "wmo code"
+      },
+      "missingPastEt0": 0,
+      "missingPastRain": 0
+    }
+  ]
+}

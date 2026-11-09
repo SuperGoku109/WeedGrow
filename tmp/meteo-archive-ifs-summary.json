@@ -1,0 +1,24 @@
+{
+  "status": 200,
+  "hours": 96,
+  "variables": [
+    "time",
+    "et0_fao_evapotranspiration",
+    "rain"
+  ],
+  "units": {
+    "time": "unixtime",
+    "et0_fao_evapotranspiration": "mm",
+    "rain": "mm"
+  },
+  "coverage": {
+    "et0_fao_evapotranspiration": {
+      "lastPastNonNull": 1794222000,
+      "nulls": 0
+    },
+    "rain": {
+      "lastPastNonNull": 1794222000,
+      "nulls": 0
+    }
+  }
+}

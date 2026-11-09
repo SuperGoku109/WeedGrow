@@ -8,6 +8,7 @@ import { weatherMatchesLocation } from '@/lib/plants/locationState';
 import logger from '@/lib/logger';
 import { waterExplanation } from '@/lib/careAlgorithm/waterExplanation';
 import type { CareDiagnostic } from '@/lib/careAlgorithm/careDiagnostics';
+import { readLocalPlantCare } from '@/services/localPlantCare';
 import { calculatePlantWatering, DEFAULT_LOOKBACK_DAYS, DEFAULT_RAIN_THRESHOLD_MM, type PlantSummary, type WateringInsight, type EvaluateOptions, type RangeEntry } from './wateringEngine';
 export { getLocalDateString } from './wateringEngine';
 export type { PlantSummary, WateringInsight } from './wateringEngine';
@@ -63,6 +64,12 @@ async function refreshWeatherIfMissing(
 
 async function evaluatePlantWatering(plant: PlantSummary, today: Date, options: EvaluateOptions): Promise<WateringInsight | null> {
   if (plant.deleting || plant.status && plant.status !== 'active') return null;
+  if (options.execution === 'local') {
+    const result = await readLocalPlantCare(plant.id, plant, today);
+    const insight = calculatePlantWatering(plant, today, options, {});
+    return insight && result.evaluation ? { ...insight, careEvaluation: result.evaluation, careDiagnostic: result.diagnostic,
+      needsWater: result.evaluation.water.needsWater, reason: waterExplanation(result.evaluation.water) } : insight;
+  }
   let diagnostic: CareDiagnostic | undefined;
   if (plant.careEvaluationRevision) {
     try {
@@ -103,6 +110,7 @@ export async function evaluateWateringInsights(
   if (!plants.length) return [];
 
   const mergedOptions: EvaluateOptions = {
+    execution: options?.execution ?? 'backend',
     lookbackDays: options?.lookbackDays ?? DEFAULT_LOOKBACK_DAYS,
     rainfallThresholdMm: options?.rainfallThresholdMm ?? DEFAULT_RAIN_THRESHOLD_MM,
   };

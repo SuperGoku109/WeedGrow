@@ -1,7 +1,8 @@
+import { decodeOpenMeteo, type OpenMeteoPayload } from './openMeteo';
 import { isRecord } from '@/lib/data/recordDecoders';
 export interface WeatherTemperatures { day?: number; night?: number; morn?: number; eve?: number; min?: number; max?: number }
 export interface WeatherSample { dt: number; temp?: number | WeatherTemperatures; humidity?: number; wind_speed?: number; rain?: number | { '1h'?: number }; snow?: { '1h'?: number }; rainfall?: number; uvi?: number; weather?: { description?: string }[]; dew_point?: number; clouds?: number; wind_gust?: number; sunrise?: number; sunset?: number; pop?: number }
-export interface WeatherResponse { current?: WeatherSample; daily?: WeatherSample[]; hourly?: WeatherSample[]; timezone?: string; timezone_offset?: number; _weedgrowFetchedAt?: number }
+export interface WeatherResponse { current?: WeatherSample; daily?: WeatherSample[]; hourly?: WeatherSample[]; timezone?: string; timezone_offset?: number; _weedgrowFetchedAt?: number; _weedgrowForecastIssue?: 'repeated_point_forecast'; _weedgrowProvider?: 'Open-Meteo'; _weedgrowMeteo?: OpenMeteoPayload; _weedgrowNotes?: string[] }
 const finite = (value: unknown): value is number => typeof value === 'number' && Number.isFinite(value);
 function sample(value: unknown): WeatherSample {
   if (!isRecord(value) || !finite(value.dt) || value.dt < -62135596800 || value.dt > 253402214399) throw new Error('Weather response has an invalid observation date.');
@@ -24,6 +25,11 @@ function sample(value: unknown): WeatherSample {
 export function decodeWeatherResponse(value: unknown): WeatherResponse {
   if (!isRecord(value)) throw new Error('Weather response was incomplete.');
   const result: WeatherResponse = {};
+  if (value._weedgrowProvider === 'Open-Meteo') {
+    result._weedgrowProvider = 'Open-Meteo'; result._weedgrowMeteo = decodeOpenMeteo(value._weedgrowMeteo);
+    if (Array.isArray(value._weedgrowNotes)) result._weedgrowNotes = value._weedgrowNotes.filter((v): v is string => typeof v === 'string' && v.length < 300).slice(0, 32);
+  }
+  if (value._weedgrowForecastIssue === 'repeated_point_forecast') result._weedgrowForecastIssue = value._weedgrowForecastIssue;
   if (value.current != null) result.current = sample(value.current);
   for (const key of ['daily', 'hourly'] as const) if (value[key] != null) { const entries = value[key]; if (!Array.isArray(entries) || entries.length > (key === 'daily' ? 16 : 168)) throw new Error('Weather response has an invalid forecast window.'); result[key] = entries.map(sample); }
   if (typeof value.timezone === 'string') result.timezone = value.timezone;

@@ -15,3 +15,15 @@ it('rejects invalid or excessive ranges before making requests', async () => {
   await expect(fetchLogsAndWeatherForRange('p', '2026-01-01', '2026-12-31')).rejects.toThrow('90');
   expect(getDocs).not.toHaveBeenCalled();
 });
+it('local care reads journal identities in one query without fetching display weather', async () => {
+  const timestamp = { toDate: () => new Date('2026-11-09T12:00:00Z'), toMillis: () => Date.parse('2026-11-09T12:00:00Z') };
+  jest.mocked(getDocs).mockResolvedValue({ docs: [{ id: 'water-42', data: () => ({ type: 'watering', calendarDay: '2026-11-09', timestamp }) }] } as never);
+  const result = await fetchLogsAndWeatherForRange('p', '2026-11-08', '2026-11-09', 'Africa/Johannesburg', { logsOnly: true });
+  expect(getDocs).toHaveBeenCalledTimes(1);
+  expect(result['2026-11-09'].logs[0]).toMatchObject({ id: 'water-42' });
+  expect(result['2026-11-09'].weather).toBeNull();
+});
+it('a cached partial journal cannot establish an empty watering history for local care', async () => {
+  jest.mocked(getDocs).mockResolvedValue({ docs: [], metadata: { fromCache: true } } as never);
+  await expect(fetchLogsAndWeatherForRange('p', '2026-11-08', '2026-11-09', 'Africa/Johannesburg', { logsOnly: true })).rejects.toThrow('could not be confirmed');
+});

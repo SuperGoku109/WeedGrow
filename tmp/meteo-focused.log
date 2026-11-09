@@ -1,0 +1,16 @@
+PASS features/plants/__tests__/localCareControls.test.ts
+PASS lib/weather/__tests__/refreshGardenWeather.test.ts
+PASS lib/weather/__tests__/weatherResponse.test.ts
+PASS lib/careAlgorithm/__tests__/localCare.test.ts
+PASS lib/weather/__tests__/fetchWeather.test.ts
+PASS services/__tests__/localPlantCare.test.ts
+PASS lib/weather/__tests__/refreshPlantWeather.test.ts
+PASS lib/weather/__tests__/weatherQuality.test.ts
+PASS lib/weather/__tests__/parseWeatherData.test.ts
+PASS lib/weather/__tests__/weatherReadings.test.ts
+PASS lib/weather/__tests__/powderyMildewRisk.test.ts
+
+Test Suites: 11 passed, 11 total
+Tests:       97 passed, 97 total
+Snapshots:   0 total
+Time:        5.458 s

@@ -28,3 +28,10 @@ it('manual refresh bypasses the provider cache', async () => {
   expect(fetchWeather).toHaveBeenCalledWith(1, 2, true);
   expect(getDoc).not.toHaveBeenCalled();
 });
+it('two-hour-old current conditions refresh instead of being reused for six hours', async () => {
+  const today = plantDay(new Date(), 'UTC');
+  jest.mocked(getDoc).mockResolvedValue({ data: () => ({ date: today, source: 'Open-Meteo', sourceCoordinates: plant.location,
+    locationRevision: 0, fetchedAt: { toDate: () => new Date(Date.now() - 2 * 3600000) } }) } as never);
+  await refreshPlantWeather('p', { ...plant, locationTimeZone: 'UTC' });
+  expect(fetchWeather).toHaveBeenCalledWith(1, 2, false);
+});

@@ -29,7 +29,7 @@ export function refreshGardenWeather(id: string, force = false): Promise<void> {
     const location = garden.location;
     const cached = garden.currentWeather;
     const fetched = cached?.fetchedAt?.toMillis?.();
-    if (!force && cached && sameLocation(cached.sourceCoordinates, location) && cached.date === plantDay(new Date(), cached.timeZone) && fetched && Date.now() - fetched >= 0 && Date.now() - fetched < 6 * 3600000) return;
+    if (!force && cached?.source === 'Open-Meteo' && sameLocation(cached.sourceCoordinates, location) && cached.date === plantDay(new Date(), cached.timeZone) && fetched && Date.now() - fetched >= 0 && Date.now() - fetched < 3600000) return;
     const parsed = parseWeatherData(await fetchWeather(location.lat, location.lng, force));
     const live = Object.values(parsed).find(entry => !entry.forecasted);
     if (!live) throw new Error('Weather provider did not return current conditions.');

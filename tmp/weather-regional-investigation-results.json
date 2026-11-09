@@ -1,0 +1,161 @@
+{
+  "checkedAt": "2026-11-09T11:45:22.599Z",
+  "results": [
+    {
+      "name": "cape-town",
+      "status": 200,
+      "dailyCount": 1,
+      "hourlyCount": 1,
+      "current": {
+        "dt": 1794224718,
+        "temp": 14.51
+      },
+      "daily": {
+        "dt": 1794218400,
+        "temp": {
+          "day": 14.51,
+          "min": 14.51,
+          "max": 14.51,
+          "night": 14.51,
+          "eve": 14.51,
+          "morn": 14.51
+        }
+      },
+      "timezone": "Africa/Johannesburg",
+      "fields": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "current",
+        "hourly",
+        "daily"
+      ]
+    },
+    {
+      "name": "brackenfell",
+      "status": 200,
+      "dailyCount": 1,
+      "hourlyCount": 1,
+      "current": {
+        "dt": 1794224718,
+        "temp": 11.16
+      },
+      "daily": {
+        "dt": 1794218400,
+        "temp": {
+          "day": 11.16,
+          "min": 11.16,
+          "max": 11.16,
+          "night": 11.16,
+          "eve": 11.16,
+          "morn": 11.16
+        }
+      },
+      "timezone": "Africa/Johannesburg",
+      "fields": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "current",
+        "hourly",
+        "daily"
+      ]
+    },
+    {
+      "name": "somerset-west-town",
+      "status": 200,
+      "dailyCount": 1,
+      "hourlyCount": 1,
+      "current": {
+        "dt": 1794224718,
+        "temp": 11.5
+      },
+      "daily": {
+        "dt": 1794218400,
+        "temp": {
+          "day": 11.5,
+          "min": 11.5,
+          "max": 11.5,
+          "night": 11.5,
+          "eve": 11.5,
+          "morn": 11.5
+        }
+      },
+      "timezone": "Africa/Johannesburg",
+      "fields": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "current",
+        "hourly",
+        "daily"
+      ]
+    },
+    {
+      "name": "johannesburg",
+      "status": 200,
+      "dailyCount": 1,
+      "hourlyCount": 1,
+      "current": {
+        "dt": 1794224719,
+        "temp": 15.37
+      },
+      "daily": {
+        "dt": 1794214800,
+        "temp": {
+          "day": 15.37,
+          "min": 15.37,
+          "max": 15.37,
+          "night": 15.37,
+          "eve": 15.37,
+          "morn": 15.37
+        }
+      },
+      "timezone": "Africa/Johannesburg",
+      "fields": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "current",
+        "hourly",
+        "daily"
+      ]
+    },
+    {
+      "name": "sydney",
+      "status": 200,
+      "dailyCount": 8,
+      "hourlyCount": 48,
+      "current": {
+        "dt": 1794224720,
+        "temp": 13.68
+      },
+      "daily": {
+        "dt": 1794186000,
+        "temp": {
+          "day": 19.13,
+          "min": 11.5,
+          "max": 20.8,
+          "night": 13.68,
+          "eve": 18.38,
+          "morn": 11.83
+        }
+      },
+      "timezone": "Australia/Sydney",
+      "fields": [
+        "lat",
+        "lon",
+        "timezone",
+        "timezone_offset",
+        "current",
+        "minutely",
+        "hourly",
+        "daily"
+      ]
+    }
+  ]
+}

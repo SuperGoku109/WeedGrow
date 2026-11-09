@@ -1,0 +1,6 @@
+PASS lib/careAlgorithm/__tests__/localCare.test.ts
+
+Test Suites: 1 passed, 1 total
+Tests:       13 passed, 13 total
+Snapshots:   0 total
+Time:        5.114 s

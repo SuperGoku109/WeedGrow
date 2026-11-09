@@ -3,6 +3,7 @@ import { parseWeatherMeasurements } from '../../lib/weather/weatherMeasurements'
 import { plantDay } from '../../lib/dates/plantDay';
 import { refreshPlantCare, readCareConfiguration, careConfigurationKey } from './careOperations';
 import { revisionFingerprint } from '../../lib/careAlgorithm/revisions';
+import { openMeteoUrl, openMeteoWeatherResponse } from '../../lib/weather/openMeteo';
 
 const db = () => getFirestore();
 const point = (p: unknown): p is { lat: number; lng: number } => !!p && typeof p === 'object' && 'lat' in p && 'lng' in p && typeof p.lat === 'number' && typeof p.lng === 'number' && Number.isFinite(p.lat) && Number.isFinite(p.lng) && Math.abs(p.lat) <= 90 && Math.abs(p.lng) <= 180;
@@ -28,15 +29,16 @@ export async function rebuildCareSummary(id: string) {
   });
 }
 export async function collectGardenWeather(id: string, key: string, request: typeof fetch = fetch) {
+  void key; // Kept in the API for existing callers; Open-Meteo needs no credential.
   const ref = db().doc(`groups/${id}`); const first = await ref.get(); const garden = first.data();
   if (!garden || garden.deleting || !point(garden.location)) return false;
   const pin = garden.location; const cached = garden.currentWeather;
   const age = Date.now() - (cached?.fetchedAt?.toMillis?.() || 0);
-  if (same(cached?.sourceCoordinates, pin) && cached?.date === plantDay(new Date(), cached.timeZone) && age >= 0 && age < 6 * 3600000) return false;
-  const response = await request(`https://api.openweathermap.org/data/3.0/onecall?lat=${pin.lat}&lon=${pin.lng}&exclude=minutely,alerts&units=metric&appid=${encodeURIComponent(key)}`, { signal: AbortSignal.timeout(15000) });
+  if (cached?.source === 'Open-Meteo' && same(cached?.sourceCoordinates, pin) && cached?.date === plantDay(new Date(), cached.timeZone) && age >= 0 && age < 3600000) return false;
+  const response = await request(openMeteoUrl(pin.lat, pin.lng, 0, 7), { signal: AbortSignal.timeout(15000) });
   if (!response.ok) throw new Error(`weather-${response.status}`);
   const raw = await response.json();
-  const parsed = parseWeatherMeasurements({ ...raw, _weedgrowFetchedAt: Date.now() });
+  const parsed = parseWeatherMeasurements(openMeteoWeatherResponse(raw));
   const observed = Object.values(parsed).find(v => !v.forecasted);
   if (!observed) throw new Error('weather-incomplete');
   const today = plantDay(new Date(), observed.timeZone);

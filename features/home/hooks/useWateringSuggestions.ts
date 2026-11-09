@@ -4,6 +4,7 @@ import { useSession } from '@/services/session';
 import { adviceInput } from '@/lib/suggestions/adviceInputs';
 import { usePlantActivity } from '@/features/care/usePlantActivity';
 import { useMinuteClock } from '@/hooks/useMinuteClock';
+import { useLocalCareRevision } from '@/hooks/useLocalCareRevision';
 import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import type { PlantWithId } from '@/features/groups/hooks/useGroupDetail';
 import logger from '@/lib/logger';
@@ -26,15 +27,16 @@ interface WateringSuggestionState {
 
 export function useWateringSuggestions(plants: PlantWithId[], enabled = true): WateringSuggestionState {
   const { user } = useSession(); const uid = user?.uid;
+  const localCareRevision = useLocalCareRevision();
   const clock = useMinuteClock(); const [revision, retry] = useReducer(value => value + 1, 0);
-  const inputKey = JSON.stringify(plants.filter(plant => plant.status === 'active' && !plant.deleting && plant.location).map(adviceInput));
+  const inputKey = JSON.stringify(plants.filter(plant => plant.status === 'active' && !plant.deleting).map(adviceInput));
   const ids = useMemo(() => (JSON.parse(inputKey) as PlantSummary[]).map(plant => plant.id), [inputKey]);
   const activity = usePlantActivity(enabled ? ids : [], ['watering'], plants);
   const { error: activityError, refresh: refreshActivity } = activity;
   const refresh = useCallback(() => { if (activityError) refreshActivity(); retry(); }, [activityError, refreshActivity]);
   const activityKey = JSON.stringify(ids.map(id => activity.logs[`${id}:watering`]?.map(log => [log.id, log.mutationId, log.calendarDay, log.timestamp?.toMillis?.()])));
   const daysKey = JSON.stringify((JSON.parse(inputKey) as PlantSummary[]).map(plant => plantDay(clock, plant.locationTimeZone)));
-  const requestKey = `${uid}:${inputKey}:${activityKey}:${daysKey}:${revision}:${enabled}`;
+  const requestKey = `${uid}:${inputKey}:${activityKey}:${daysKey}:${revision}:${enabled}:${localCareRevision}`;
   const [result, setResult] = useState<{ key: string; insights: WateringInsight[]; loading: boolean; error: string | null }>({ key: '', insights: [], loading: false, error: null });
   useEffect(() => {
     if (!enabled || !uid || !ids.length || activity.loading) return;
@@ -42,7 +44,7 @@ export function useWateringSuggestions(plants: PlantWithId[], enabled = true): W
     setResult({ key: requestKey, insights: [], loading: true, error: null });
     // Coalesce the initial listener results and changes from one care action.
     const timer = setTimeout(() => {
-      void evaluateWateringInsights(JSON.parse(inputKey), undefined, controller.signal).then(insights => {
+      void evaluateWateringInsights(JSON.parse(inputKey), { execution: 'local' }, controller.signal).then(insights => {
         if (!controller.signal.aborted) setResult({ key: requestKey, insights, loading: false, error: null });
       }).catch(error => {
         if (!controller.signal.aborted) { logger.error('Unable to evaluate watering suggestions', error); setResult({ key: requestKey, insights: [], loading: false, error: 'Unable to evaluate watering suggestions' }); }
@@ -53,10 +55,11 @@ export function useWateringSuggestions(plants: PlantWithId[], enabled = true): W
   const insights = useMemo(() => enabled && result.key === requestKey ? result.insights : [], [enabled, result.key, result.insights, requestKey]);
   const loading = enabled && !!uid && ids.length > 0 && (activity.loading || result.key !== requestKey || result.loading);
   const error = activity.error || (result.key === requestKey ? result.error : null);
-
-  const isFresh = useCallback((insight: WateringInsight) => evaluationValidAt(insight.careEvaluation, clock.getTime() / 1000), [clock]);
+  // Weather acquisition can finish after the minute clock's last sample.
+  const freshnessUtc = Date.now() / 1000;
+  const isFresh = useCallback((insight: WateringInsight) => evaluationValidAt(insight.careEvaluation, freshnessUtc), [freshnessUtc]);
   const stale = enabled && ids.length > 0 && !loading && (!insights.length || insights.some(insight => !isFresh(insight)));
-  const plantsNeedingWater = useMemo(() => insights.filter(insight => waterDecisionAt(insight.careEvaluation, clock.getTime() / 1000) === true), [insights, clock]);
+  const plantsNeedingWater = useMemo(() => insights.filter(insight => waterDecisionAt(insight.careEvaluation, freshnessUtc) === true), [insights, freshnessUtc]);
 
   const suggestions = useMemo<Suggestion[]>(() => {
     if (!plantsNeedingWater.length) return [];
@@ -75,7 +78,7 @@ export function useWateringSuggestions(plants: PlantWithId[], enabled = true): W
         key: 'watering',
         icon: '💧',
         title: 'Plants to check for watering',
-        description: 'Check soil moisture before acting on these estimates. ' + description,
+        description: 'Experimental on-device estimates use your selected weather mode and test profile. Check soil moisture before acting. ' + description,
         affected: uniqueNames,
       },
     ];

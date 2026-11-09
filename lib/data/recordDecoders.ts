@@ -59,7 +59,13 @@ export function decodeLog(value: unknown, path: string): PlantLog {
 export function decodeWeather(value: unknown, path: string, depth = 0): WeatherCacheEntry {
   const data = record(value, path); check(depth < 4, path, 'previousLocations');
   check(text(data.date) && isCalendarDay(data.date), path, 'date'); check(timestamp(data.fetchedAt), path, 'fetchedAt');
-  for (const field of ['temperature', 'humidity', 'windSpeed', 'rainfall', 'uvIndex']) check(finite(data[field]), path, field);
+  if (data.source !== 'Open-Meteo') check(finite(data.temperature), path, 'temperature');
+  else optional(data, ['temperature'], finite, path);
+  optional(data, ['uvIndex', 'observationUtc', 'humidity', 'windSpeed', 'rainfall', 'rainIntervalSeconds'], finite, path);
+  optional(data, ['weatherDataVersion'], value => value === 2 || value === 3, path);
+  optional(data, ['temperatureBasis'], value => value === 'model', path);
+  optional(data, ['qualityNotes'], value => Array.isArray(value) && value.length <= 32 && value.every(v => typeof v === 'string' && v.length < 300), path);
+  optional(data, ['forecastIssue'], value => value === 'repeated_point_forecast', path);
   optional(data, ['dewPoint', 'cloudCoverage', 'windGust', 'pop', 'nightHumidity', 'locationRevision'], finite, path);
   optional(data, ['source', 'weatherSummary', 'timeZone', 'locationLabel', 'sunrise', 'sunset'], text, path); optional(data, ['sourceCoordinates'], point, path);
   optional(data, ['forecasted'], value => typeof value === 'boolean', path);

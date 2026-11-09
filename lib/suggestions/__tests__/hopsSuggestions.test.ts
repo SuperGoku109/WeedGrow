@@ -2,6 +2,7 @@ import { evaluateWateringInsights } from '../wateringSuggestions';
 import { fetchLogsAndWeatherForRange } from '@/lib/logs/fetchLogsAndWeatherForRange';
 import { fetchWeather } from '@/lib/weather/fetchWeather';
 import { makePlantSummary, createRangeWindow, makeWeatherEntry, toDateKey, makeLog, addRangeLog } from './fixtures';
+jest.mock('@/services/localPlantCare', () => ({ readLocalPlantCare: jest.fn() }));
 jest.mock('@/lib/logs/fetchLogsAndWeatherForRange', () => ({ fetchLogsAndWeatherForRange: jest.fn() }));
 jest.mock('@/lib/weather/fetchWeather', () => ({ fetchWeather: jest.fn() }));
 jest.mock('@/lib/weather/updateFirestore', () => ({ updateWeatherCache: jest.fn() }));

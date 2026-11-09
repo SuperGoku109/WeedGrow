@@ -72,7 +72,7 @@ export function makeWeatherEntry(
 
   // Scenario inputs are human-facing km/h. Cached weather stores provider m/s.
   const value = { ...base, ...overrides };
-  value.windSpeed /= 3.6;
+  if (typeof value.windSpeed === 'number') value.windSpeed /= 3.6;
   if (value.windGust != null) value.windGust /= 3.6;
   return value;
 }

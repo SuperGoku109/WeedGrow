@@ -32,7 +32,7 @@ it('saves weather for an empty garden and updates its current conditions', async
 });
 it('does not fetch again while current weather at the same pin is fresh', async () => {
   setup();
-  jest.mocked(getDoc).mockResolvedValue({ data: () => ({ ...garden, currentWeather: { ...live, sourceCoordinates: location } }) } as never);
+  jest.mocked(getDoc).mockResolvedValue({ data: () => ({ ...garden, currentWeather: { ...live, source: 'Open-Meteo', sourceCoordinates: location } }) } as never);
   await refreshGardenWeather('fresh');
   expect(fetchWeather).not.toHaveBeenCalled();
   expect(runTransaction).not.toHaveBeenCalled();

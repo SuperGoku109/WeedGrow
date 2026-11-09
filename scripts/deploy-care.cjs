@@ -13,20 +13,7 @@ const cli = path.join(modules.stdout.trim(), 'firebase-tools', 'lib', 'bin', 'fi
 if (!fs.existsSync(cli)) throw new Error('Install firebase-tools before deploying.');
 const run = (args, options = {}) => spawnSync(process.execPath, [cli, ...args, '--project', project, '--non-interactive'], { cwd: root, env, stdio: 'inherit', ...options });
 
-// Read metadata only: this command never retrieves the secret payload.
-const metadata = run(['functions:secrets:get', 'OPENWEATHERMAP_API_KEY', '--json'], { stdio: 'pipe', encoding: 'utf8' });
-if (metadata.status !== 0) {
-  let message = '';
-  try { message = JSON.parse(metadata.stdout).error || ''; } catch { message = 'Could not read deployment secret metadata.'; }
-  if (!/not found|NOT_FOUND|404/i.test(message)) throw new Error(message);
-  const envPath = path.join(root, '.env');
-  const local = fs.existsSync(envPath) ? require('dotenv').parse(fs.readFileSync(envPath)) : {};
-  const key = process.env.OPENWEATHERMAP_API_KEY || local.OPENWEATHERMAP_API_KEY;
-  if (typeof key !== 'string' || !key.trim()) throw new Error('OPENWEATHERMAP_API_KEY is missing from the local environment.');
-  // Pipe directly to Secret Manager through the official CLI; no key in argv, logs or temporary files.
-  const created = run(['functions:secrets:set', 'OPENWEATHERMAP_API_KEY', '--data-file', '-'], { input: key, stdio: ['pipe', 'inherit', 'inherit'] });
-  if (created.status !== 0) process.exit(created.status || 1);
-}
+// Open-Meteo's public endpoint needs no provider secret or subscription setup.
 // Enforce the journal revision contract before a worker can enroll/cache a
 // plant. Never deploy these new functions against the older permissive rules.
 for (const target of ['firestore:rules,firestore:indexes', 'functions']) {

@@ -1,0 +1,14 @@
+PASS lib/weather/__tests__/weatherQuality.test.ts
+PASS lib/weather/__tests__/refreshGardenWeather.test.ts
+PASS lib/weather/__tests__/weatherResponse.test.ts
+PASS lib/data/__tests__/recordDecoders.test.ts
+PASS lib/weather/__tests__/refreshPlantWeather.test.ts
+PASS lib/weather/__tests__/parseWeatherData.test.ts
+PASS lib/weather/__tests__/weatherReadings.test.ts
+PASS lib/weather/__tests__/fetchWeather.test.ts
+PASS lib/weather/__tests__/powderyMildewRisk.test.ts
+
+Test Suites: 9 passed, 9 total
+Tests:       75 passed, 75 total
+Snapshots:   0 total
+Time:        3.998 s

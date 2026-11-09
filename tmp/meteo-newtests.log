@@ -1,0 +1,7 @@
+PASS lib/weather/__tests__/openMeteo.test.ts
+PASS lib/careAlgorithm/__tests__/meteoCare.test.ts
+
+Test Suites: 2 passed, 2 total
+Tests:       16 passed, 16 total
+Snapshots:   0 total
+Time:        2.841 s, estimated 3 s

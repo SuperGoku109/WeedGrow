@@ -57,7 +57,6 @@ export default {
       FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
       FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
 
-      OPENWEATHERMAP_API_KEY: process.env.OPENWEATHERMAP_API_KEY
     }
   }
 };

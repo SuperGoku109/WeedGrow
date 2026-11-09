@@ -20,6 +20,7 @@ import {
   toDateKey,
   type RangeMap,
 } from './fixtures';
+jest.mock('@/services/localPlantCare', () => ({ readLocalPlantCare: jest.fn() }));
 // Frozen legacy scenarios, retained for comparison only. Hops production does not call this heuristic.
 jest.mock('../wateringEngine', () => {
   const actual = jest.requireActual('../wateringEngine');

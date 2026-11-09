@@ -9,7 +9,8 @@ import { readWaterPolicy } from './careWaterPolicy';
 import { preparePlantWater } from './careWatering';
 import { synchronizeWaterEvents } from './careEventLedger';
 import { revisionFingerprint } from '../../lib/careAlgorithm/revisions';
-import { openWeatherStormConditions } from '../../lib/careAlgorithm/stormConditions';
+import { openWeatherStormConditions, meteoStormConditions } from '../../lib/careAlgorithm/stormConditions';
+import { decodeOpenMeteo } from '../../lib/weather/openMeteo';
 import { ENGINE_VERSION } from '../../lib/careAlgorithm/types';
 export { acquireCareWeather, readWeatherPolicy } from './careWeather';
 export { captureWaterEvent, readWaterEvents, synchronizeWaterEvents } from './careEventLedger';
@@ -109,7 +110,9 @@ export async function refreshPlantCare(plantId: string, weatherKey: string, requ
   // Publish an identity, not raw replay inputs or protected release configuration.
   evaluation.dataRevisionFingerprint = createHash('sha256').update(evaluation.dataRevisionFingerprint).digest('hex');
   evaluation.weatherPreparationEnabled = eligible && windows.length > 0;
-  if (evaluation.weatherPreparationEnabled && record && policy) evaluation.stormConditions = openWeatherStormConditions(record.raw,
+  if (evaluation.weatherPreparationEnabled && record && policy) evaluation.stormConditions = policy.product === 'open_meteo_forecast'
+    ? meteoStormConditions(decodeOpenMeteo(record.raw), { sourceRevision: record.revision, locationRevision: revision, availableUtc: record.firstAvailableUtc }, evaluatedAt)
+    : openWeatherStormConditions(record.raw,
     { sourceRevision: record.revision, locationRevision: record.locationRevision, availableUtc: record.firstAvailableUtc }, evaluatedAt,
     policy.maxCurrentAgeSeconds, policy.maxForecastLeadSeconds);
   if (weatherFailure) evaluation.water.reasonCodes.push('weather_acquisition_unavailable');

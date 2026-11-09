@@ -1,48 +1,48 @@
 import { decodeWeatherResponse, type WeatherResponse } from './weatherResponse';
 import { isRecord } from '@/lib/data/recordDecoders';
+import { openMeteoUrl, openMeteoWeatherResponse } from './openMeteo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Constants from 'expo-constants';
 const pending = new Map<string, Promise<WeatherResponse>>();
+const PREFIX = 'weedgrow.meteo.v1.';
+export async function readCachedWeatherResponse(lat: number, lng: number): Promise<WeatherResponse | undefined> {
+  try {
+    const stored: unknown = JSON.parse(await AsyncStorage.getItem(`${PREFIX}${lat}:${lng}`) || 'null');
+    if (!isRecord(stored)) return undefined;
+    const value = decodeWeatherResponse(stored.value);
+    return value._weedgrowProvider === 'Open-Meteo' ? value : undefined;
+  } catch { return undefined; }
+}
+/** Public non-commercial Open-Meteo endpoint. One shared bundle per location, no API key. */
 export async function fetchWeather(lat: number, lng: number, force = false): Promise<WeatherResponse> {
-  const apiKey = Constants?.expoConfig?.extra?.OPENWEATHERMAP_API_KEY;
-  if (typeof apiKey !== 'string' || !apiKey) throw new Error('Weather is not configured. Your plant and history are still available.');
-  const key = `${lat}:${lng}`;
-  const cacheKey = 'weedgrow.weather.v1.' + key;
+  const url = openMeteoUrl(lat, lng); const key = `${lat}:${lng}`; const cacheKey = PREFIX + key;
   if (!force) {
-    try { const stored: unknown = JSON.parse(await AsyncStorage.getItem(cacheKey) || 'null'); if (isRecord(stored) && typeof stored.savedAt === 'number' && Date.now() - stored.savedAt >= 0 && Date.now() - stored.savedAt < 30 * 60000) { const cached = decodeWeatherResponse(stored.value); if (cached.current) return cached; } } catch { /* A cache error must not prevent a request. */ }
+    const cached = await readCachedWeatherResponse(lat, lng); const at = cached?._weedgrowFetchedAt;
+    if (typeof at === 'number' && Date.now() >= at && Date.now() - at < 3600000) return cached!;
   }
-  // Only in-flight network calls are shared. A manual refresh must never join
-  // a cache-only lookup and accidentally return old conditions.
   const existing = pending.get(key); if (existing) return existing;
   const job = (async () => {
-    const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), 15000);
+    const controller = new AbortController(); const timeout = setTimeout(() => controller.abort(), 20000);
     try {
-      const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lng}&exclude=minutely,alerts&units=metric&appid=${encodeURIComponent(apiKey)}`;
-      const response = await fetch(url, { signal: controller.signal });
-      if (!response.ok) throw new Error(`Weather provider returned ${response.status}. Retry later.`);
-      const value = decodeWeatherResponse(await response.json() as unknown);
-      value._weedgrowFetchedAt = Date.now();
-      if (!value?.current || !Number.isFinite(value.current.temp)) throw new Error('Weather response was incomplete.');
-      await saveSharedWeather(cacheKey, value);
-
-      return value;
-    } catch (error) { throw new Error(error instanceof Error && error.message.startsWith('Weather provider') ? error.message : 'Weather could not be reached. Check your connection and retry.'); }
-    finally { clearTimeout(timeout); }
+      const response = await fetch(url, { signal: controller.signal, redirect: 'error' });
+      if (!response.ok) throw new Error(`Open-Meteo returned HTTP ${response.status}. ${response.status === 429 ? 'The free weather request limit was reached. Retry later.' : 'Retry later.'}`);
+      const value = decodeWeatherResponse(openMeteoWeatherResponse(await response.json() as unknown));
+      if (!value.current || !Number.isFinite(value.current.temp)) throw new Error('Open-Meteo did not return a usable recent temperature.');
+      await saveSharedWeather(cacheKey, value); return value;
+    } catch (error) {
+      throw new Error(error instanceof Error && error.message.startsWith('Open-Meteo') ? error.message : 'Open-Meteo could not be reached. Check your connection and retry.');
+    } finally { clearTimeout(timeout); }
   })().finally(() => { if (pending.get(key) === job) pending.delete(key); });
   pending.set(key, job); return job;
 }
-
 let cacheQueue = Promise.resolve();
 async function saveSharedWeather(key: string, value: WeatherResponse) {
   const job = cacheQueue.catch(() => {}).then(async () => {
-    const indexKey = 'weedgrow.weather.index.v1';
-    const previous: unknown = JSON.parse(await AsyncStorage.getItem(indexKey) || '[]');
-    const keys: string[] = Array.isArray(previous) ? previous.filter(item => typeof item === 'string' && item.startsWith('weedgrow.weather.v1.') && item !== key) : [];
-    keys.push(key);
-    const expired = keys.splice(0, Math.max(0, keys.length - 32));
+    const indexKey = 'weedgrow.meteo.index.v1'; const previous: unknown = JSON.parse(await AsyncStorage.getItem(indexKey) || '[]');
+    const keys: string[] = Array.isArray(previous) ? previous.filter(item => typeof item === 'string' && item.startsWith(PREFIX) && item !== key) : [];
+    keys.push(key); const expired = keys.splice(0, Math.max(0, keys.length - 16));
     for (const old of expired) await AsyncStorage.removeItem(old);
     await AsyncStorage.setItem(key, JSON.stringify({ savedAt: Date.now(), value }));
     await AsyncStorage.setItem(indexKey, JSON.stringify(keys));
   });
-  cacheQueue = job; await job.catch(() => {}); // Plant snapshots are authoritative.
+  cacheQueue = job; await job.catch(() => {});
 }

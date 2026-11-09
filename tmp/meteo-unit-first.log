@@ -1,0 +1,484 @@
+PASS features/plants/__tests__/dailyJournalFlow.test.ts
+PASS features/plants/__tests__/plantEditorDelete.test.ts
+PASS features/groups/__tests__/managePlants.test.ts
+PASS lib/careAlgorithm/__tests__/waterBank.test.ts
+PASS features/plants/__tests__/PlantLogComposer.test.ts
+PASS features/plants/__tests__/journalCalendar.test.ts
+PASS features/plants/__tests__/editorControls.test.ts
+PASS ui/__tests__/anchoredActionMenu.test.ts
+PASS lib/careAlgorithm/__tests__/wateringScenarios.test.ts
+PASS features/groups/__tests__/EditGroupModal.test.ts
+FAIL features/plants/__tests__/localCareControls.test.ts
+  ● presets activate the test and reveal assumptions and parameters
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "Choose a preset"
+    Received string:    "Algorithm controls · on device Open Experimental.  Choose Open-Meteo weather or a manual preset to start.  No backend worker required. Use Open-Meteo weather Dry test Rain test"
+
+      21 | afterEach(() => act(() => renderer.unmount()));
+      22 | test('presets activate the test and reveal assumptions and parameters', async () => {
+    > 23 |   expect(text()).toContain('Choose a preset');
+         |                  ^
+      24 |   await act(async () => button('Dry test').props.onPress());
+      25 |   expect(saveLocalCareSettings).toHaveBeenCalledWith('p', expect.objectContaining({ enabled: true, et0MmPerDay: 8, rainMmPerDay: 0 }));
+      26 |   expect(text()).toContain('not measured weather history');
+
+      at Object.toContain (features/plants/__tests__/localCareControls.test.ts:23:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● blank numeric input is rejected instead of becoming zero
+
+    TypeError: Cannot read properties of undefined (reading 'props')
+
+      31 |   await act(async () => button('Algorithm controls').props.onPress());
+      32 |   const input = renderer.root.findAllByType(TextInput).find((node: any) => node.props.accessibilityLabel === 'Test ET0 rate (mm/day)');
+    > 33 |   act(() => input.props.onChangeText(''));
+         |                   ^
+      34 |   await act(async () => button('Apply and recalculate').props.onPress());
+      35 |   expect(saveLocalCareSettings).not.toHaveBeenCalled(); expect(text()).toContain('Blank values are not zero');
+      36 | });
+
+      at props (features/plants/__tests__/localCareControls.test.ts:33:19)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:789:22)
+      at Object.<anonymous> (features/plants/__tests__/localCareControls.test.ts:33:6)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS lib/suggestions/__tests__/suggestionCards.test.ts
+PASS features/plants/__tests__/careAdviceDisclosure.test.ts
+PASS lib/backup/__tests__/backupFormat.test.ts
+PASS lib/careAlgorithm/__tests__/warningNoise.test.ts
+PASS features/plants/__tests__/quickWatering.test.ts
+PASS lib/careAlgorithm/__tests__/stormDiseaseScenarios.test.ts
+PASS features/plants/__tests__/plantProfileView.test.ts
+PASS lib/careAlgorithm/__tests__/weather.test.ts
+PASS lib/careAlgorithm/__tests__/careDiagnostics.test.ts
+FAIL lib/careAlgorithm/__tests__/localCare.test.ts
+  ● disabled inputs explain the action needed; dry and rainy presets run without a server release
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /Choose Dry test/
+    Received string:  "Choose Use Open-Meteo weather, Dry test or Rain test in Algorithm controls, or enter your own test profile and weather rates. The calculation runs on this device."
+
+      14 | test('disabled inputs explain the action needed; dry and rainy presets run without a server release', () => {
+      15 |   const disabled = evaluateLocalCare(plant, [], defaultLocalCareSettings(now), now);
+    > 16 |   expect(disabled.water.needsWater).toBeNull(); expect(waterExplanation(disabled.water)).toMatch(/Choose Dry test/);
+         |                                                                                          ^
+      17 |   const dryResult = evaluateLocalCare(plant, [], dry(), now);
+      18 |   expect(dryResult.water.needsWater).toBe(true); expect(reserve(dryResult)[0]).toBeCloseTo(0);
+      19 |   const rainy = evaluateLocalCare(plant, [], localCarePreset('rainy', now), now);
+
+      at Object.toMatch (lib/careAlgorithm/__tests__/localCare.test.ts:16:90)
+
+PASS features/home/__tests__/createGarden.test.ts
+FAIL lib/weather/__tests__/refreshGardenWeather.test.ts
+  ● does not fetch again while current weather at the same pin is fresh
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: -26, 28, false
+
+      35 |   jest.mocked(getDoc).mockResolvedValue({ data: () => ({ ...garden, currentWeather: { ...live, sourceCoordinates: location } }) } as never);
+      36 |   await refreshGardenWeather('fresh');
+    > 37 |   expect(fetchWeather).not.toHaveBeenCalled();
+         |                            ^
+      38 |   expect(runTransaction).not.toHaveBeenCalled();
+      39 | });
+      40 | it('rejects a stale response when the garden pin changed', async () => {
+
+      at Object.toHaveBeenCalled (lib/weather/__tests__/refreshGardenWeather.test.ts:37:28)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS features/plants/__tests__/journalTimeline.test.ts
+PASS lib/suggestions/__tests__/wateringSuggestions.test.ts
+PASS lib/careAlgorithm/__tests__/waterTimeline.test.ts
+PASS features/care/__tests__/useCareTasks.test.ts
+PASS lib/plants/__tests__/photoRepository.test.ts
+PASS features/addPlant/__tests__/gardenDraft.test.ts
+PASS lib/careAlgorithm/__tests__/productionSnapshot.test.ts
+PASS features/plants/__tests__/plantForms.test.ts
+PASS lib/plants/__tests__/preparePlantPhoto.test.ts
+PASS features/addPlant/__tests__/savePlant.test.ts
+PASS features/plants/__tests__/usePlantJournalData.test.ts
+PASS lib/suggestions/__tests__/wateringSuggestions.intentScenarios.test.ts
+PASS services/__tests__/localPlantCare.test.ts
+FAIL lib/weather/__tests__/weatherResponse.test.ts
+  ● does not manufacture conditions or save an infinite hourly peak from incomplete samples
+
+    expect(received).toThrow(expected)
+
+    Expected substring: "required conditions"
+
+    Received function did not throw
+
+      11 |
+      12 | it('does not manufacture conditions or save an infinite hourly peak from incomplete samples', () => {
+    > 13 |   expect(() => parseWeatherData({ current: { dt: 1, temp: 20 } })).toThrow('required conditions');
+         |                                                                    ^
+      14 |   const result = parseWeatherData({ current: { dt: 1, temp: 20, humidity: 55, wind_speed: 2, uvi: 1 }, hourly: [{ dt: 1, humidity: 60 }] });
+      15 |   expect(result['1970-01-01'].temperature).toBe(20);
+      16 |   expect(result['1970-01-01'].hourlySummary).toBeUndefined();
+
+      at Object.toThrow (lib/weather/__tests__/weatherResponse.test.ts:13:68)
+
+PASS features/location/__tests__/deviceLocationWeb.test.ts
+PASS features/location/__tests__/useLocationPicker.test.ts
+PASS ui/__tests__/useDiscardGuard.test.ts
+PASS lib/weather/__tests__/weatherQuality.test.ts
+PASS lib/careAlgorithm/__tests__/replay.test.ts
+PASS features/plants/__tests__/plantHistorySearch.test.ts
+PASS lib/backup/__tests__/backupSafety.test.ts
+PASS services/__tests__/careSnooze.test.ts
+PASS ui/__tests__/useEditDraft.test.ts
+PASS services/__tests__/plantCareEvaluation.test.ts
+PASS hooks/__tests__/journalSearch.test.ts
+PASS lib/logs/__tests__/journalRepository.test.ts
+PASS lib/plants/__tests__/plantAge.test.ts
+PASS lib/diagnostics/__tests__/reportError.test.ts
+PASS features/plants/__tests__/plantEditorMutations.test.ts
+PASS features/plants/__tests__/journalDay.test.ts
+PASS features/home/__tests__/useWateringSuggestions.test.ts
+PASS features/plants/__tests__/useProgressGallery.test.ts
+PASS lib/weather/__tests__/parseWeatherData.test.ts
+PASS lib/plants/__tests__/editConflict.test.ts
+PASS lib/logs/__tests__/journalRecovery.test.ts
+PASS lib/suggestions/__tests__/hopsIntegration.test.ts
+PASS lib/progressPics/__tests__/uploadProgressPic.test.ts
+PASS lib/data/__tests__/pagedLiveQuery.test.ts
+PASS features/groups/__tests__/useGroupDetail.test.ts
+PASS features/groups/__tests__/groupCollection.test.ts
+PASS lib/logs/__tests__/fetchLogsAndWeatherForRange.test.ts
+PASS features/addPlant/__tests__/plantFlow.test.ts
+PASS services/__tests__/session.test.ts
+PASS lib/suggestions/__tests__/hopsSuggestions.test.ts
+PASS lib/data/__tests__/recordDecoders.test.ts
+PASS lib/careAlgorithm/__tests__/correctnessAudit.test.ts
+PASS features/plants/__tests__/careSetup.test.ts
+PASS lib/errors/__tests__/saveFeedback.test.ts
+PASS lib/careAlgorithm/__tests__/historySelection.test.ts
+PASS lib/careAlgorithm/__tests__/evaluationValidity.test.ts
+PASS hooks/__tests__/asyncLifecycle.test.ts
+PASS lib/careAlgorithm/__tests__/forecastWater.test.ts
+PASS lib/careAlgorithm/__tests__/checkpoint.test.ts
+PASS features/location/__tests__/deviceLocationNative.test.ts
+PASS lib/plants/__tests__/plantValidation.test.ts
+PASS lib/data/__tests__/deleteCollectionInBatches.test.ts
+PASS features/plants/__tests__/journalPresentation.test.ts
+PASS features/groups/__tests__/useGroupWeather.test.ts
+PASS lib/data/__tests__/liveStore.test.ts
+PASS lib/data/__tests__/mapConcurrent.test.ts
+PASS lib/careAlgorithm/__tests__/warnings.test.ts
+PASS lib/careAlgorithm/__tests__/logAdapter.test.ts
+PASS lib/care/__tests__/careTasks.test.ts
+FAIL lib/weather/__tests__/fetchWeather.test.ts
+  ● reuses a location response across sequential plant requests but refreshes on demand
+
+    Open-Meteo returned invalid location/time metadata.
+
+      30 |       await saveSharedWeather(cacheKey, value); return value;
+      31 |     } catch (error) {
+    > 32 |       throw new Error(error instanceof Error && error.message.startsWith('Open-Meteo') ? error.message : 'Open-Meteo could not be reached. Check your connection and retry.');
+         |             ^
+      33 |     } finally { clearTimeout(timeout); }
+      34 |   })().finally(() => { if (pending.get(key) === job) pending.delete(key); });
+      35 |   pending.set(key, job); return job;
+
+      at lib/weather/fetchWeather.ts:32:13
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● coalesces concurrent requests for the same pin
+
+    Open-Meteo returned invalid location/time metadata.
+
+      30 |       await saveSharedWeather(cacheKey, value); return value;
+      31 |     } catch (error) {
+    > 32 |       throw new Error(error instanceof Error && error.message.startsWith('Open-Meteo') ? error.message : 'Open-Meteo could not be reached. Check your connection and retry.');
+         |             ^
+      33 |     } finally { clearTimeout(timeout); }
+      34 |   })().finally(() => { if (pending.get(key) === job) pending.delete(key); });
+      35 |   pending.set(key, job); return job;
+
+      at lib/weather/fetchWeather.ts:32:13
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● local care can read the cached response and provenance without a provider request
+
+    expect(received).toMatchObject(expected)
+
+    Matcher error: received value must be a non-null object
+
+    Received has value: undefined
+
+      20 |   const request = jest.spyOn(global, 'fetch');
+      21 |   await AsyncStorage.setItem('weedgrow.weather.v1.1:2', JSON.stringify({ savedAt: Date.now(), value: { current: { dt: 1792526400, temp: 20 }, _weedgrowFetchedAt: 1792526400000 } }));
+    > 22 |   expect(await readCachedWeatherResponse(1, 2)).toMatchObject({ _weedgrowFetchedAt: 1792526400000 });
+         |                                                 ^
+      23 |   expect(await readCachedWeatherResponse(3, 4)).toBeUndefined();
+      24 |   expect(request).not.toHaveBeenCalled();
+      25 | });
+
+      at Object.toMatchObject (lib/weather/__tests__/fetchWeather.test.ts:22:49)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● verifies repeated single-point weather with the current endpoint and caches only the limited result
+
+    Open-Meteo returned invalid location/time metadata.
+
+      30 |       await saveSharedWeather(cacheKey, value); return value;
+      31 |     } catch (error) {
+    > 32 |       throw new Error(error instanceof Error && error.message.startsWith('Open-Meteo') ? error.message : 'Open-Meteo could not be reached. Check your connection and retry.');
+         |             ^
+      33 |     } finally { clearTimeout(timeout); }
+      34 |   })().finally(() => { if (pending.get(key) === job) pending.delete(key); });
+      35 |   pending.set(key, job); return job;
+
+      at lib/weather/fetchWeather.ts:32:13
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● does not reuse a previously cached repeated-point payload
+
+    Open-Meteo returned invalid location/time metadata.
+
+      30 |       await saveSharedWeather(cacheKey, value); return value;
+      31 |     } catch (error) {
+    > 32 |       throw new Error(error instanceof Error && error.message.startsWith('Open-Meteo') ? error.message : 'Open-Meteo could not be reached. Check your connection and retry.');
+         |             ^
+      33 |     } finally { clearTimeout(timeout); }
+      34 |   })().finally(() => { if (pending.get(key) === job) pending.delete(key); });
+      35 |   pending.set(key, job); return job;
+
+      at lib/weather/fetchWeather.ts:32:13
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS lib/logs/__tests__/addPlantLog.test.ts
+PASS features/plants/__tests__/plantLifecycle.test.ts
+PASS features/home/__tests__/HomeRedirect.test.ts
+PASS features/care/__tests__/usePlantActivity.test.ts
+PASS hooks/__tests__/motionPreference.test.ts
+PASS services/__tests__/reminders.test.ts
+PASS lib/suggestions/__tests__/wateringEngine.test.ts
+PASS lib/weather/__tests__/weatherReadings.test.ts
+PASS lib/logs/__tests__/plantJournal.test.ts
+PASS lib/careAlgorithm/__tests__/sourceEvents.test.ts
+PASS features/plants/__tests__/plantListPresentation.test.ts
+PASS features/plants/__tests__/activityForm.test.ts
+PASS features/location/__tests__/locationService.test.ts
+PASS features/home/__tests__/gardenSelection.test.ts
+PASS services/__tests__/errorReporting.test.ts
+PASS features/plants/__tests__/plantProfile.test.ts
+PASS features/location/__tests__/locationState.test.ts
+PASS features/addPlant/__tests__/draftStorage.test.ts
+PASS lib/plants/__tests__/plantRules.test.ts
+PASS services/__tests__/homeGardenView.test.ts
+PASS lib/dates/__tests__/plantDay.test.ts
+PASS features/plants/__tests__/carePresentation.test.ts
+PASS lib/weather/__tests__/powderyMildewRisk.test.ts
+PASS lib/weather/__tests__/refreshPlantWeather.test.ts
+PASS lib/suggestions/__tests__/adviceInputs.test.ts
+PASS design-system/tokens/__tests__/garden.test.ts
+PASS services/__tests__/careSummaries.test.ts
+
+Summary of all failing tests
+FAIL features/plants/__tests__/localCareControls.test.ts
+  ● presets activate the test and reveal assumptions and parameters
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "Choose a preset"
+    Received string:    "Algorithm controls · on device Open Experimental.  Choose Open-Meteo weather or a manual preset to start.  No backend worker required. Use Open-Meteo weather Dry test Rain test"
+
+      21 | afterEach(() => act(() => renderer.unmount()));
+      22 | test('presets activate the test and reveal assumptions and parameters', async () => {
+    > 23 |   expect(text()).toContain('Choose a preset');
+         |                  ^
+      24 |   await act(async () => button('Dry test').props.onPress());
+      25 |   expect(saveLocalCareSettings).toHaveBeenCalledWith('p', expect.objectContaining({ enabled: true, et0MmPerDay: 8, rainMmPerDay: 0 }));
+      26 |   expect(text()).toContain('not measured weather history');
+
+      at Object.toContain (features/plants/__tests__/localCareControls.test.ts:23:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● blank numeric input is rejected instead of becoming zero
+
+    TypeError: Cannot read properties of undefined (reading 'props')
+
+      31 |   await act(async () => button('Algorithm controls').props.onPress());
+      32 |   const input = renderer.root.findAllByType(TextInput).find((node: any) => node.props.accessibilityLabel === 'Test ET0 rate (mm/day)');
+    > 33 |   act(() => input.props.onChangeText(''));
+         |                   ^
+      34 |   await act(async () => button('Apply and recalculate').props.onPress());
+      35 |   expect(saveLocalCareSettings).not.toHaveBeenCalled(); expect(text()).toContain('Blank values are not zero');
+      36 | });
+
+      at props (features/plants/__tests__/localCareControls.test.ts:33:19)
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:789:22)
+      at Object.<anonymous> (features/plants/__tests__/localCareControls.test.ts:33:6)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL lib/careAlgorithm/__tests__/localCare.test.ts
+  ● disabled inputs explain the action needed; dry and rainy presets run without a server release
+
+    expect(received).toMatch(expected)
+
+    Expected pattern: /Choose Dry test/
+    Received string:  "Choose Use Open-Meteo weather, Dry test or Rain test in Algorithm controls, or enter your own test profile and weather rates. The calculation runs on this device."
+
+      14 | test('disabled inputs explain the action needed; dry and rainy presets run without a server release', () => {
+      15 |   const disabled = evaluateLocalCare(plant, [], defaultLocalCareSettings(now), now);
+    > 16 |   expect(disabled.water.needsWater).toBeNull(); expect(waterExplanation(disabled.water)).toMatch(/Choose Dry test/);
+         |                                                                                          ^
+      17 |   const dryResult = evaluateLocalCare(plant, [], dry(), now);
+      18 |   expect(dryResult.water.needsWater).toBe(true); expect(reserve(dryResult)[0]).toBeCloseTo(0);
+      19 |   const rainy = evaluateLocalCare(plant, [], localCarePreset('rainy', now), now);
+
+      at Object.toMatch (lib/careAlgorithm/__tests__/localCare.test.ts:16:90)
+
+FAIL lib/weather/__tests__/refreshGardenWeather.test.ts
+  ● does not fetch again while current weather at the same pin is fresh
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: -26, 28, false
+
+      35 |   jest.mocked(getDoc).mockResolvedValue({ data: () => ({ ...garden, currentWeather: { ...live, sourceCoordinates: location } }) } as never);
+      36 |   await refreshGardenWeather('fresh');
+    > 37 |   expect(fetchWeather).not.toHaveBeenCalled();
+         |                            ^
+      38 |   expect(runTransaction).not.toHaveBeenCalled();
+      39 | });
+      40 | it('rejects a stale response when the garden pin changed', async () => {
+
+      at Object.toHaveBeenCalled (lib/weather/__tests__/refreshGardenWeather.test.ts:37:28)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL lib/weather/__tests__/weatherResponse.test.ts
+  ● does not manufacture conditions or save an infinite hourly peak from incomplete samples
+
+    expect(received).toThrow(expected)
+
+    Expected substring: "required conditions"
+
+    Received function did not throw
+
+      11 |
+      12 | it('does not manufacture conditions or save an infinite hourly peak from incomplete samples', () => {
+    > 13 |   expect(() => parseWeatherData({ current: { dt: 1, temp: 20 } })).toThrow('required conditions');
+         |                                                                    ^
+      14 |   const result = parseWeatherData({ current: { dt: 1, temp: 20, humidity: 55, wind_speed: 2, uvi: 1 }, hourly: [{ dt: 1, humidity: 60 }] });
+      15 |   expect(result['1970-01-01'].temperature).toBe(20);
+      16 |   expect(result['1970-01-01'].hourlySummary).toBeUndefined();
+
+      at Object.toThrow (lib/weather/__tests__/weatherResponse.test.ts:13:68)
+
+FAIL lib/weather/__tests__/fetchWeather.test.ts
+  ● reuses a location response across sequential plant requests but refreshes on demand
+
+    Open-Meteo returned invalid location/time metadata.
+
+      30 |       await saveSharedWeather(cacheKey, value); return value;
+      31 |     } catch (error) {
+    > 32 |       throw new Error(error instanceof Error && error.message.startsWith('Open-Meteo') ? error.message : 'Open-Meteo could not be reached. Check your connection and retry.');
+         |             ^
+      33 |     } finally { clearTimeout(timeout); }
+      34 |   })().finally(() => { if (pending.get(key) === job) pending.delete(key); });
+      35 |   pending.set(key, job); return job;
+
+      at lib/weather/fetchWeather.ts:32:13
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● coalesces concurrent requests for the same pin
+
+    Open-Meteo returned invalid location/time metadata.
+
+      30 |       await saveSharedWeather(cacheKey, value); return value;
+      31 |     } catch (error) {
+    > 32 |       throw new Error(error instanceof Error && error.message.startsWith('Open-Meteo') ? error.message : 'Open-Meteo could not be reached. Check your connection and retry.');
+         |             ^
+      33 |     } finally { clearTimeout(timeout); }
+      34 |   })().finally(() => { if (pending.get(key) === job) pending.delete(key); });
+      35 |   pending.set(key, job); return job;
+
+      at lib/weather/fetchWeather.ts:32:13
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● local care can read the cached response and provenance without a provider request
+
+    expect(received).toMatchObject(expected)
+
+    Matcher error: received value must be a non-null object
+
+    Received has value: undefined
+
+      20 |   const request = jest.spyOn(global, 'fetch');
+      21 |   await AsyncStorage.setItem('weedgrow.weather.v1.1:2', JSON.stringify({ savedAt: Date.now(), value: { current: { dt: 1792526400, temp: 20 }, _weedgrowFetchedAt: 1792526400000 } }));
+    > 22 |   expect(await readCachedWeatherResponse(1, 2)).toMatchObject({ _weedgrowFetchedAt: 1792526400000 });
+         |                                                 ^
+      23 |   expect(await readCachedWeatherResponse(3, 4)).toBeUndefined();
+      24 |   expect(request).not.toHaveBeenCalled();
+      25 | });
+
+      at Object.toMatchObject (lib/weather/__tests__/fetchWeather.test.ts:22:49)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● verifies repeated single-point weather with the current endpoint and caches only the limited result
+
+    Open-Meteo returned invalid location/time metadata.
+
+      30 |       await saveSharedWeather(cacheKey, value); return value;
+      31 |     } catch (error) {
+    > 32 |       throw new Error(error instanceof Error && error.message.startsWith('Open-Meteo') ? error.message : 'Open-Meteo could not be reached. Check your connection and retry.');
+         |             ^
+      33 |     } finally { clearTimeout(timeout); }
+      34 |   })().finally(() => { if (pending.get(key) === job) pending.delete(key); });
+      35 |   pending.set(key, job); return job;
+
+      at lib/weather/fetchWeather.ts:32:13
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● does not reuse a previously cached repeated-point payload
+
+    Open-Meteo returned invalid location/time metadata.
+
+      30 |       await saveSharedWeather(cacheKey, value); return value;
+      31 |     } catch (error) {
+    > 32 |       throw new Error(error instanceof Error && error.message.startsWith('Open-Meteo') ? error.message : 'Open-Meteo could not be reached. Check your connection and retry.');
+         |             ^
+      33 |     } finally { clearTimeout(timeout); }
+      34 |   })().finally(() => { if (pending.get(key) === job) pending.delete(key); });
+      35 |   pending.set(key, job); return job;
+
+      at lib/weather/fetchWeather.ts:32:13
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+
+Test Suites: 5 failed, 109 passed, 114 total
+Tests:       10 failed, 888 passed, 898 total
+Snapshots:   0 total
+Time:        33.662 s

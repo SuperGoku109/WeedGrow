@@ -54,6 +54,7 @@ export interface WateringInsight {
 }
 
 export interface EvaluateOptions {
+  execution?: 'local' | 'backend';
   lookbackDays: number;
   rainfallThresholdMm: number;
 }

@@ -9,7 +9,7 @@ import { InsightPanel } from './PlantDetailPanels';
 export default function DailyCareAdvice({ cards, loading, error, hasLocation, theme: t, onRefresh, onRecord, canRecord = true }: { cards: SuggestionCard[]; loading: boolean; error: string; hasLocation: boolean; theme: PlantTheme; onRefresh(): void; onRecord?(category: import('@/lib/logs/plantJournal').JournalCategory, context?: 'soil-check'): void; canRecord?: boolean }) {
   const [expanded, setExpanded] = React.useState(false);
   const [openNote, setOpenNote] = React.useState<string | null>(null);
-  if (!hasLocation) return <Text style={{ color: t.muted, fontSize: 14, lineHeight: 21 }}>Add a location in Details for weather-based care advice.</Text>;
+  if (!hasLocation && !loading && !cards.some(card => card.metrics.experimental === true)) return <Text style={{ color: t.muted, fontSize: 14, lineHeight: 21 }}>Add a location in Details for weather-based care advice.</Text>;
   if (loading) return <View accessibilityLiveRegion="polite" style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 12 }}><ActivityIndicator size="small" color={t.accent} /><Text style={{ color: t.muted, fontSize: 14 }}>Checking today’s care advice…</Text></View>;
   if (error) return <View style={{ gap: 10 }}><Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 14 }}>{error}</Text><PlantActionButton label="Retry care advice" icon="refresh" theme={t} onPress={onRefresh} /></View>;
   if (!cards.length) return <Text style={{ color: t.muted, fontSize: 14, paddingVertical: 8 }}>Care estimates are unavailable.</Text>;

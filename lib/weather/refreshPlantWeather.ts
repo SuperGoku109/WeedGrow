@@ -15,14 +15,15 @@ export function refreshPlantWeather(id: string, plant: WeatherLocation, force = 
   const job = (async () => {
     const today = plantDay(new Date(), plant.locationTimeZone);
     const wanted = requestedDate || today;
+    const freshForMs = wanted === today ? 3600000 : 6 * 3600000;
     if (!force) {
       const live = plant.currentWeather;
       const age = live?.fetchedAt?.toDate?.().getTime();
-      if (live?.date === wanted && weatherMatchesLocation(live, plant) && age && Date.now() - age >= 0 && Date.now() - age < 6 * 3600000) return { [wanted]: live }; 
+      if (live?.source === 'Open-Meteo' && live.date === wanted && weatherMatchesLocation(live, plant) && age && Date.now() - age >= 0 && Date.now() - age < freshForMs) return { [wanted]: live };
       const snapshot = await getDoc(doc(db, 'plants', id, 'weatherCache', wanted));
       const weather = snapshot.data() as WeatherCacheEntry | undefined;
       const fetched = weather?.fetchedAt?.toDate?.().getTime();
-      if (plant.locationTimeZone && weatherMatchesLocation(weather, plant) && fetched && Date.now() - fetched >= 0 && Date.now() - fetched < 6 * 3600000) return { [wanted]: weather! };
+      if (weather?.source === 'Open-Meteo' && plant.locationTimeZone && weatherMatchesLocation(weather, plant) && fetched && Date.now() - fetched >= 0 && Date.now() - fetched < freshForMs) return { [wanted]: weather };
     }
     const response = await fetchWeather(plant.location.lat, plant.location.lng, force);
     const parsed = parseWeatherData(response);

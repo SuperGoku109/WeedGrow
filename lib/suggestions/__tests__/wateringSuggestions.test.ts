@@ -17,6 +17,7 @@ import {
   toDateKey,
   type RangeMap,
 } from './fixtures';
+jest.mock('@/services/localPlantCare', () => ({ readLocalPlantCare: jest.fn() }));
 // Frozen pre-v8.4 regression suite. Production nullable behavior is exercised in hopsIntegration/hopsSuggestions.
 // Preserve these historical expectations without routing the retired heuristic into the app.
 jest.mock('../wateringEngine', () => {

@@ -1,0 +1,144 @@
+PASS services/__tests__/localPlantCare.test.ts
+FAIL lib/suggestions/__tests__/suggestionCards.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    C:\Users\Zane\dev\WeedGrow\node_modules\firebase\auth\dist\esm\index.esm.js:1
+    ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,jest){export * from '@firebase/auth';
+                                                                                      ^^^^^^
+
+    SyntaxError: Unexpected token 'export'
+
+      1 | import { resetLiveStores } from '@/lib/data/liveStore';
+      2 | import { useSyncExternalStore } from 'react';
+    > 3 | import { onAuthStateChanged, type User } from 'firebase/auth';
+        | ^
+      4 | import { auth } from './authClient';
+      5 |
+      6 | export function requireUserId(): string {
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (services/session.ts:3:1)
+      at Object.require (services/localCareSettings.ts:4:1)
+      at Object.require (services/localPlantCare.ts:3:1)
+      at Object.require (lib/suggestions/wateringSuggestions.ts:11:1)
+      at Object.require (lib/suggestions/__tests__/legacySuggestionCards.ts:1:1)
+      at Object.require (lib/suggestions/__tests__/suggestionCards.test.ts:2:1)
+
+FAIL lib/suggestions/__tests__/wateringSuggestions.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    C:\Users\Zane\dev\WeedGrow\node_modules\firebase\auth\dist\esm\index.esm.js:1
+    ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,jest){export * from '@firebase/auth';
+                                                                                      ^^^^^^
+
+    SyntaxError: Unexpected token 'export'
+
+      1 | import { resetLiveStores } from '@/lib/data/liveStore';
+      2 | import { useSyncExternalStore } from 'react';
+    > 3 | import { onAuthStateChanged, type User } from 'firebase/auth';
+        | ^
+      4 | import { auth } from './authClient';
+      5 |
+      6 | export function requireUserId(): string {
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (services/session.ts:3:1)
+      at Object.require (services/localCareSettings.ts:4:1)
+      at Object.require (services/localPlantCare.ts:3:1)
+      at Object.require (lib/suggestions/wateringSuggestions.ts:11:1)
+      at Object.require (lib/suggestions/__tests__/wateringSuggestions.test.ts:1:1)
+
+FAIL lib/suggestions/__tests__/wateringSuggestions.intentScenarios.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    C:\Users\Zane\dev\WeedGrow\node_modules\firebase\auth\dist\esm\index.esm.js:1
+    ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,jest){export * from '@firebase/auth';
+                                                                                      ^^^^^^
+
+    SyntaxError: Unexpected token 'export'
+
+      1 | import { resetLiveStores } from '@/lib/data/liveStore';
+      2 | import { useSyncExternalStore } from 'react';
+    > 3 | import { onAuthStateChanged, type User } from 'firebase/auth';
+        | ^
+      4 | import { auth } from './authClient';
+      5 |
+      6 | export function requireUserId(): string {
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (services/session.ts:3:1)
+      at Object.require (services/localCareSettings.ts:4:1)
+      at Object.require (services/localPlantCare.ts:3:1)
+      at Object.require (lib/suggestions/wateringSuggestions.ts:11:1)
+      at Object.require (lib/suggestions/__tests__/wateringSuggestions.intentScenarios.test.ts:3:1)
+
+Test Suites: 3 failed, 1 passed, 4 total
+Tests:       5 passed, 5 total
+Snapshots:   0 total
+Time:        2.877 s, estimated 3 s

@@ -45,8 +45,8 @@ export function presentCareCard(card: SuggestionCard, wateredToday: boolean, sta
     const expires = card.metrics.expiresAtUtc;
     if ((card.kind === 'weather' || card.kind === 'weatherContext') && (typeof expires !== 'number' || expires <= now.getTime() / 1000)) return { ...card, active: false };
     if (typeof expires === 'number' && expires <= now.getTime() / 1000) stale = true;
-    if (stale && card.kind === 'watering' && card.metrics.needsWater !== null) return { ...annotation, confidence: 'low', severity: 'info', title: 'Watering estimate unavailable',
-      summary: `${wateredToday ? 'Watering recorded today. ' : ''}A current watering estimate is unavailable. Your logs and routine reminders remain available.`,
+    if (stale && card.kind === 'watering' && card.metrics.needsWater !== null) return { ...annotation, confidence: 'low', severity: 'info', title: card.metrics.experimental ? 'Local test: refresh needed' : 'Watering estimate unavailable',
+      summary: card.metrics.experimental ? 'This experimental result expired. Refresh care advice or apply test inputs to recalculate on this device.' : `${wateredToday ? 'Watering recorded today. ' : ''}A current watering estimate is unavailable. Your logs and routine reminders remain available.`,
       reasons: [], metrics: { ...card.metrics, needsWater: null, decision: 'uncertain' } };
     return annotation;
   }

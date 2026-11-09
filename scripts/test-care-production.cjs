@@ -15,6 +15,17 @@ const policy = { enabled: true, version: 'SYNTHETIC-INTEGRATION-ONLY', product: 
   maxCurrentAgeSeconds: 900, maxForecastLeadSeconds: 86400, requestTimeoutMs: 1000, retryAfterSeconds: 60, retentionSeconds: 86400,
   licensingEvidenceId: 'TEST-NOT-A-LICENSE', adapterReviewId: 'TEST-NOT-AN-APPROVAL', maxRequestsPerDay: 100 };
 const clients = [];
+async function verifyMeteoAcquisition() {
+  const at = Date.now() / 1000; const meteoPolicy = { ...policy, product: 'open_meteo_forecast', version: 'TEST-METEO' };
+  const fixture = require('./fixtures/open-meteo.cjs')(at);
+  for (const [field, values] of Object.entries(fixture.hourly)) fixture.hourly[field] = values.slice(48, 96);
+  const record = await acquireCareWeather({ lat: -34, lng: 18 }, 1, meteoPolicy, '', async url => {
+    assert.equal(new URL(url).hostname, 'api.open-meteo.com'); assert.equal(new URL(url).searchParams.has('appid'), false);
+    return new Response(JSON.stringify(fixture));
+  }, () => at);
+  assert.ok(record.samples.length > 0 && record.samples.length <= 600);
+  assert.ok(record.samples.every(s => s.provider === 'Open-Meteo' && s.source_revision === record.revision));
+}
 async function account(label) {
   const app = clientApp({ projectId: process.env.GCLOUD_PROJECT, apiKey: 'demo' }, `care-${label}-${Date.now()}`); clients.push(app);
   const auth = getAuth(app); connectAuthEmulator(auth, 'http://127.0.0.1:9099', { disableWarnings: true });
@@ -23,6 +34,7 @@ async function account(label) {
 }
 const denied = promise => assert.rejects(promise, error => error.code === 'permission-denied');
 (async () => {
+  await verifyMeteoAcquisition();
   const db = getFirestore(); const config = db.doc('careConfiguration/weather'); const priorConfig = await config.get();
   const waterConfig = db.doc('careConfiguration/watering'); const priorWaterConfig = await waterConfig.get();
   const alice = await account('owner'); const bob = await account('foreign');

@@ -122,11 +122,17 @@ export interface WeatherCacheEntry {
     fetchedAt: Timestamp;
     forecasted: boolean;
     source: string;
-    temperature: number;
-    humidity: number;
-    windSpeed: number; // Provider metres/second; convert only at presentation.
-    rainfall: number;
-    uvIndex: number;
+    temperature?: number;
+    humidity?: number;
+    windSpeed?: number; // Provider metres/second; convert only at presentation.
+    rainfall?: number;
+    uvIndex?: number;
+    weatherDataVersion?: 2 | 3;
+    rainIntervalSeconds?: number;
+    qualityNotes?: string[];
+    temperatureBasis?: 'model';
+    observationUtc?: number;
+    forecastIssue?: 'repeated_point_forecast';
     weatherSummary: string;
     hourlySummary?: {
       peakTemp: number;

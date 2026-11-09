@@ -37,7 +37,7 @@ The default is disabled: an absent, disabled or incomplete policy produces no ne
 {
   "enabled": false,
   "version": "UNRELEASED-8.4",
-  "product": "onecall_metric",
+  "product": "open_meteo_forecast",
   "licensingEvidenceId": null,
   "adapterReviewId": null,
   "maxAcquisitionAgeSeconds": null,
@@ -50,7 +50,7 @@ The default is disabled: an absent, disabled or incomplete policy produces no ne
 }
 ```
 
-1. Review the chosen provider's actual terms, product access and field semantics against the [One Call documentation](https://openweathermap.org/api/one-call-3). The existing `OPENWEATHERMAP_API_KEY` backend secret is the credential binding; no key belongs in the policy or snapshot. No subscription change is made by the code.
+1. Review [Open-Meteo's field semantics](https://open-meteo.com/en/docs) and [non-commercial terms](https://open-meteo.com/en/terms). The public endpoint requires no provider secret. Use a new reviewed policy version with `product: open_meteo_forecast`; old One Call configuration must not be reused as approval for a different provider. No subscription change is made by the code. See [integration notes](open-meteo-integration.md).
 2. Configure reviewed versioned operational values and evidence IDs using privileged administration in a staging project. Numeric implementation bounds prevent unlimited requests, but are not recommended freshness targets or an agronomic policy. The request budget applies to care acquisition; size the complete application's other provider usage separately.
 3. Deploy the reviewed rules/indexes/functions to staging. Enable and verify Firestore TTL for `expiresAt` in the `careWeather` and `careUsage` collection groups. This weather cache supplies no active water anchor, so TTL is not allowed to masquerade as a water-history retention policy.
 4. Test real credentials/provider responses, function event delivery, source expiry, quota failure, policy rollback, ownership and setup/move races. Local tests use mocked provider HTTP; they do not establish live service access, licensing, uptime or operational capacity.

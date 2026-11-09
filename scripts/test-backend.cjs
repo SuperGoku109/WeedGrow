@@ -23,13 +23,13 @@ const { rebuildCareSummary, collectGardenWeather } = require('../functions/dist/
   const garden = db.doc(`groups/${id}`); const pin = { lat: -33, lng: 18 };
   await garden.set({ location: pin, locationLabel: 'Disposable', createdBy: 'test' });
   let reads = 0;
-  const provider = async () => { reads++; return { ok: true, json: async () => ({ current: { dt: Math.floor(Date.now()/1000), temp: 24, humidity: 55, wind_speed: 2, uvi: 3 }, timezone: 'UTC', timezone_offset: 0 }) }; };
+  const provider = async url => { assert.equal(new URL(url).hostname, 'api.open-meteo.com'); reads++; const fixture = require('./fixtures/open-meteo.cjs')(); fixture.current.temperature_2m = 24; return { ok: true, json: async () => fixture }; };
   await collectGardenWeather(id, 'test-only', provider);
   const weather = (await garden.get()).data().currentWeather;
   assert.equal(weather.temperature, 24); assert.deepEqual(weather.sourceCoordinates, pin);
   await collectGardenWeather(id, 'test-only', provider); assert.equal(reads, 1, 'Fresh conditions avoid provider calls');
   await garden.update({ currentWeather: null });
-  await collectGardenWeather(id, 'test-only', async () => { await garden.update({ location: { lat: -34, lng: 19 } }); return provider(); });
+  await collectGardenWeather(id, 'test-only', async url => { await garden.update({ location: { lat: -34, lng: 19 } }); return provider(url); });
   assert.equal((await garden.get()).data().currentWeather, null, 'A moved pin rejects in-flight conditions');
   await collectGardenWeather(id, 'test-only', provider);
   assert.equal((await garden.get()).data().currentWeather.previousLocations.length, 1, 'Same-day history retains the old pin');

@@ -17,6 +17,7 @@ export function inspectCareSnapshot(value: unknown, plant: Plant, nowUtc: number
   const base = { source: 'local_fallback' as const, checkedAtUtc: nowUtc, backendRevisionPresent: !!plant.careEvaluationRevision,
     ...(finite(e?.evaluationUtc) ? { snapshotEvaluatedUtc: e.evaluationUtc } : {}), ...(finite(e?.nextEvaluationUtc) ? { snapshotExpiresUtc: e.nextEvaluationUtc } : {}) };
   const reject = (status: string): CareReadResult => ({ evaluation: null, diagnostic: { ...base, status } });
+  if (e?.execution === 'local-experimental') return reject('server_snapshot_release_invalid');
   if (!plant.careEvaluationRevision) return reject('server_evaluation_missing');
   if (value == null) return reject('server_snapshot_missing');
   if (!raw) return reject('server_snapshot_invalid');
