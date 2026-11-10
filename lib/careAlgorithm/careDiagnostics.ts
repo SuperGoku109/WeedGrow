@@ -7,6 +7,8 @@ export interface CareDiagnostic {
 export interface CareReadResult { evaluation: Evaluation | null; diagnostic: CareDiagnostic }
 export interface DiagnosticEntry { label: string; value: string }
 const messages: Record<string, string> = {
+  automatic_pot_volume_required: 'Add the pot size with its unit in plant Details. Other care parameters are estimated automatically.',
+  automatic_root_zone_unknown: 'For ground planting, the saved details do not establish root-zone water storage. Check the soil before deciding to water; weather advice remains available.',
   local_meteo_unavailable: 'Open-Meteo weather could not be loaded for this location. Refresh weather or use an explicit manual test.',
   local_meteo_stale: 'The Open-Meteo bundle is over one hour old or dated in the future. Refresh weather to recalculate.',
   local_meteo_current_hour_missing: 'The current hour has no usable ET0 or liquid-rain model estimate. Missing amounts are not treated as zero.',
@@ -55,17 +57,31 @@ const stamp = (value: number | undefined) => {
 };
 export function careDiagnosticEntries(e: Evaluation | undefined, diagnostic: CareDiagnostic | undefined, nowUtc: number): DiagnosticEntry[] {
   const entries: DiagnosticEntry[] = [];
+  if (e?.outdoor) return [
+    { label: 'Result source', value: 'On-device observation rules' },
+    { label: 'Soil-check status', value: e.outdoor.checkStatus },
+    { label: 'Drying conditions', value: e.outdoor.drying },
+    { label: 'Last user observation', value: e.outdoor.latestObservation ? `${e.outdoor.latestObservation.state} at ${stamp(e.outdoor.latestObservation.at)}` : 'Not available' },
+    { label: 'Learning', value: `${e.outdoor.learning.qualifiedTransitions} qualified transitions; ${e.outdoor.learning.adjustment}` },
+    { label: 'Evaluated at (UTC)', value: stamp(e.evaluationUtc) },
+    { label: 'Valid until (UTC)', value: stamp(e.nextEvaluationUtc ?? undefined) },
+    { label: 'Reason', value: e.water.estimate?.explanation ?? 'Check soil directly.' },
+  ];
   if (e?.execution === 'local-experimental') {
     entries.push({ label: 'Result source', value: 'On-device experiment — no backend required' },
       { label: 'Evaluated at (UTC)', value: stamp(e.evaluationUtc) }, { label: 'Valid until (UTC)', value: stamp(e.nextEvaluationUtc ?? undefined) },
-      { label: 'Profile', value: 'Editable test parameters; not a calibrated hops release' });
+      { label: 'Profile', value: e.localInputs?.profileMode === 'automatic' ? 'Estimated automatically from plant details; not a calibrated hops release' : 'Editable test parameters; not a calibrated hops release' });
     const inputs = e.localInputs;
     if (inputs) entries.push({ label: 'Test start (UTC)', value: stamp(inputs.anchorUtc) },
       { label: 'Water forcing', value: inputs.weatherMode === 'open-meteo' ? 'Open-Meteo hourly model ET0 and liquid rain. Current-hour timing is bounded conditionally; not field measurements.' : `Assumed constant ET0 ${inputs.et0MmPerDay} mm/day and rain ${inputs.rainMmPerDay} mm/day; not measured weather history` },
-      { label: 'Starting reserve', value: `${inputs.initialReserveL} L (test assumption)` },
+      { label: 'Starting reserve', value: inputs.profileMode === 'automatic' ? 'Unknown initial wetness; replay starts with zero-to-capacity bounds' : `${inputs.initialReserveL} L (test assumption)` },
       { label: 'Watering records', value: inputs.includeJournal ? `${inputs.journalEntries} selected journal entries` : 'Journal excluded for this experiment' },
       { label: 'Extra simulated water now', value: `${inputs.extraWaterL} L` });
     if (inputs?.weatherMode === 'open-meteo') entries.push({ label: 'Weather acquired (UTC)', value: stamp(inputs.weatherRetrievedUtc) });
+    if (inputs?.automaticBasis?.length) entries.push({ label: 'Plant details used', value: inputs.automaticBasis.join(' · ') });
+    if (e.water.estimate) entries.push({ label: 'Decision method', value: 'Practical weather and watering-history estimate; no exact reserve required' },
+      { label: 'Rule applied', value: e.water.estimate.rule }, { label: 'Reason', value: e.water.estimate.explanation },
+      { label: 'Rule window', value: `${e.water.estimate.lookbackHours} hours` });
     for (const scenario of e.water.evidence?.scenarios ?? []) entries.push({ label: 'Estimated reserve', value: `${scenario.reserveL[0].toFixed(3)}–${scenario.reserveL[1].toFixed(3)} L; threshold ${scenario.actionReserveL} L` });
     const codes = safeCareCodes(e.water.reasonCodes);
     if (codes.length) entries.push({ label: 'Reason codes', value: codes.join(', ') });

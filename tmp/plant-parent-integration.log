@@ -1,0 +1,21 @@
+i  emulators: Starting emulators: auth, firestore
+i  emulators: Detected demo project ID "demo-weedgrow", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail.
+i  firestore: Firestore Emulator logging to firestore-debug.log
++  firestore: Firestore Emulator UI websocket is running on 9150.
+i  Running script: node scripts/test-integrations.cjs
+(node:16488) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+PASS: outdoor observation create/correct/delete, rain provenance, care revision invalidation, JSON/CSV export and saved-timestamp decision replay.
+PASS: runtime-domain checks, paged export/CSV, profile deletion barriers and concurrent membership/profile integrity.
+PASS: concurrent watering, date corrections, safe undo, 8-plant atomic watering/retry, space moves/deletion, backup restore/retry, photo caption/cover/deletion, harvest retry/repeat and pending-deletion guards, historical weather preservation, same-day move snapshots, inheritance/overrides skipped-care semantics, interrupted large restore/resume, conflicting edits, synced snoozes, photo lost-response reconciliation and westward repeated-date weather protection.
+PASS: owned atomic saves and queries; foreign reads/writes, actor spoofing, oversized photos, unsigned access and partial writes are blocked.
+PASS: summary initialization, duplicate rebuilds, undo/type correction, deleted parents, scheduled weather freshness, moved-pin races and preserved history.
+PASS: protected care/weather, authoritative events, shadow isolation, production ET0/rain to due/not-due/unknown, checkpoint correction, source gaps, approval revocation and ownership.
+PASS: unchanged ten-entry ledger 31 reads/0 writes; protected fast path 2 reads/0 writes; changed-only repairs; due-only maintenance 13 SDK reads; idle 7 SDK reads; policy/bootstrap reconciliation; duplicate-write avoidance.
++  Script exited successfully (code 0)
+i  emulators: Shutting down emulators.
+i  firestore: Stopping Firestore Emulator
+!  Firestore Emulator has exited upon receiving signal: SIGINT
+i  auth: Stopping Authentication Emulator
+i  hub: Stopping emulator hub
+i  logging: Stopping Logging Emulator

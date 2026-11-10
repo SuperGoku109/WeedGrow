@@ -1,0 +1,9 @@
+PASS lib/care/__tests__/plantCareFeatures.test.ts
+PASS features/plants/__tests__/dailyJournalFlow.test.ts
+PASS features/plants/__tests__/plantForms.test.ts
+PASS lib/care/__tests__/careTasks.test.ts
+
+Test Suites: 4 passed, 4 total
+Tests:       38 passed, 38 total
+Snapshots:   0 total
+Time:        10.219 s

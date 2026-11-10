@@ -1,3 +1,4 @@
+import { evaluateSuggestionCardsForPlant } from '@/lib/suggestions/suggestionCards';
 import React from 'react';
 // @ts-expect-error Expo includes the renderer without declarations.
 import { act, create } from 'react-test-renderer';
@@ -30,6 +31,7 @@ jest.mock('react-native-calendars', () => ({ Calendar: () => null }));
 jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable, GrowReveal: jest.requireActual('react-native').View, useReducedMotion: () => true }));
 jest.mock('@/ui/PlantImage', () => ({ PlantImage: () => null }));
 jest.mock('@/ui/ActionDialog', () => () => null);
+jest.mock('@/features/plants/components/WateringCareCard', () => () => null);
 jest.mock('@/features/plants/components/PlantBanner', () => () => null);
 jest.mock('@/features/plants/components/PlantMovementHistory', () => () => null);
 jest.mock('@/features/plants/components/PlantLifecycle', () => () => null);
@@ -53,7 +55,7 @@ function tab(name: string) { return renderer.root.findAll((node: any) => node.pr
 it('opens one quiet daily Journal with three tabs and fixed creation actions', async () => {
   await mount(); const tree = JSON.stringify(renderer.toJSON());
   expect(selectedTab()).toBe('Journal'); expect(dates().props.selected).toBe('2026-10-26');
-  expect(tab('Today')).toBeUndefined(); expect(tab('Photos')).toBeDefined(); expect(tab('Details')).toBeDefined();
+  expect(tab('Today')).toBeUndefined(); expect(tab('Photos')).toBeDefined(); expect(tab('Plant info')).toBeDefined();
   expect(tree).toContain('Nothing recorded today.'); expect(tree).not.toContain('Not recorded today'); expect(tree).not.toContain('View full journal');
   expect(button('Add activity')).toBeDefined(); expect(button('Add photo')).toBeDefined();
 });
@@ -107,4 +109,11 @@ it('opens the complete editor from the persistent Edit plant action', async () =
   expect(renderer.root.findAllByType(PlantSectionEditor)).toHaveLength(0);
   act(() => button('Edit plant').props.onPress());
   expect(renderer.root.findByType(PlantSectionEditor).props.section).toBe('All');
+});
+
+it('refreshes current observation advice at its expiry while the plant screen stays open', async () => {
+  jest.mocked(evaluateSuggestionCardsForPlant).mockImplementation(async () => ({ cards: [{ id: 'p:soil', kind: 'watering', active: true, severity: 'info', title: 'Check soil', summary: 'Check before watering', reasons: [], confidence: 'medium', algorithmVersion: 'hops-8.4.0', metrics: { observationDriven: true, expiresAtUtc: Date.now() / 1000 + 300 } }] }) as any);
+  await mount(); const initialCalls = jest.mocked(evaluateSuggestionCardsForPlant).mock.calls.length;
+  await act(async () => { jest.advanceTimersByTime(300100); });
+  expect(jest.mocked(evaluateSuggestionCardsForPlant).mock.calls.length).toBeGreaterThan(initialCalls);
 });

@@ -1,0 +1,29 @@
+FAIL features/plants/__tests__/dailyJournalFlow.test.ts
+  ● refreshes current observation advice at its expiry while the plant screen stays open
+
+    TypeError: A dynamic import callback was invoked without --experimental-vm-modules
+
+      111 |
+      112 | it('refreshes current observation advice at its expiry while the plant screen stays open', async () => {
+    > 113 |   const { evaluateSuggestionCardsForPlant } = await import('@/lib/suggestions/suggestionCards');
+          |   ^
+      114 |   jest.mocked(evaluateSuggestionCardsForPlant).mockImplementation(async () => ({ cards: [{ id: 'p:soil', kind: 'watering', active: true, severity: 'info', title: 'Check soil', summary: 'Check before watering', reasons: [], confidence: 'medium', algorithmVersion: 'hops-8.4.0', metrics: { observationDriven: true, expiresAtUtc: Date.now() / 1000 + 300 } }] }) as any);
+      115 |   await mount(); const initialCalls = jest.mocked(evaluateSuggestionCardsForPlant).mock.calls.length;
+      116 |   await act(async () => { jest.advanceTimersByTime(300100); });
+
+      at Object.<anonymous> (features/plants/__tests__/dailyJournalFlow.test.ts:113:3)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+PASS features/plants/__tests__/PlantLogComposer.test.ts
+PASS features/home/__tests__/useWateringSuggestions.test.ts
+PASS lib/careAlgorithm/__tests__/outdoorSpecCompliance.test.ts
+PASS lib/backup/__tests__/backupSafety.test.ts
+PASS services/__tests__/careRecommendations.test.ts
+
+Test Suites: 1 failed, 5 passed, 6 total
+Tests:       1 failed, 61 passed, 62 total
+Snapshots:   0 total
+Time:        5.629 s, estimated 7 s

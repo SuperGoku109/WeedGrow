@@ -1,0 +1,7 @@
+PASS lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts
+PASS services/__tests__/careRecommendations.test.ts
+
+Test Suites: 2 passed, 2 total
+Tests:       55 passed, 55 total
+Snapshots:   0 total
+Time:        2.339 s

@@ -123,10 +123,24 @@ it('does not offer a committed draft as unfinished when cleanup is unavailable',
 });
 it('opens soil checking directly on moisture input without recording watering', async () => {
   await mount({ initialCategory: 'health', initialContext: 'soil-check' });
-  expect(field('Soil moisture')).toBeDefined(); expect(field('Water amount')).toBeUndefined(); expect(field('pH')).toBeUndefined();
+  expect(button('Soil feels dry')).toBeDefined(); expect(button('Soil feels moist')).toBeDefined(); expect(button('Soil feels wet')).toBeDefined(); expect(field('Water amount')).toBeUndefined(); expect(field('pH')).toBeUndefined();
 });
 it('offers known watering history before another watering form is filled', async () => {
   const watering = { ...currentEntry, type: 'watering', category: 'watering' };
   await mount({ knownWaterings: { '2026-10-27': watering }, onOpenEntry: jest.fn() });
   expect(button('Save watering')).toBeUndefined(); expect(field('Water amount')).toBeUndefined(); expect(button('Edit existing watering')).toBeDefined();
+});
+
+it('saves a categorical root-zone observation without fabricating a percentage or watering', async () => {
+  await mount({ initialCategory: 'health', initialContext: 'soil-check', configuration: 'setup-1' });
+  await act(async () => button('Soil feels moist').props.onPress());
+  await act(async () => button('Save soil check').props.onPress());
+  expect(save).toHaveBeenCalledWith('health', expect.any(String), expect.any(String), { moistureState: 'MOIST', moistureConfiguration: 'setup-1' }, expect.any(String), expect.any(Object));
+});
+
+it('saves user-confirmed rain as a health observation rather than watering', async () => {
+  await mount({ initialCategory: 'health' });
+  await act(async () => button('Reported heavy rain').props.onPress());
+  await act(async () => button('Save health check').props.onPress());
+  expect(save).toHaveBeenCalledWith('health', expect.any(String), expect.any(String), { rainfallObservation: 'HEAVY' }, expect.any(String), expect.any(Object));
 });

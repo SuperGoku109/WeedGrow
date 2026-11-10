@@ -40,3 +40,17 @@ test('configured routine reminders respect plant time/weekday, bounded delivery 
     expect(request.content.data).toMatchObject({ plantId: 'p', ownerUid: 'owner' });
   }
 });
+
+test('smart feeding schedules label reviews independently while smart watering uses inspection alerts', async () => {
+  const plant = { id: 'smart-feed', name: 'Garden plant', status: 'active', environment: 'outdoor', locationTimeZone: 'UTC', reminderSchedule: { type: 'smart' }, feedingReminderSchedule: { type: 'smart', intervalDays: 21, timeOfDay: '09:00' } } as Plant & { id: string };
+  const tasks = buildCareTasks(plant, [], new Date());
+  expect(tasks.map(task => task.kind)).toEqual(['feeding']);
+  await syncReminders('owner', tasks, true);
+  const calls = jest.mocked(Notifications.scheduleNotificationAsync).mock.calls.map(([request]) => request);
+  expect(calls.length).toBeGreaterThan(0);
+  for (const request of calls) {
+    expect(request.content.body).toContain('fertilizer label');
+    expect(request.content.data).toMatchObject({ plantId: 'smart-feed', ownerUid: 'owner' });
+    expect((request.trigger as { date: Date }).date.getUTCHours()).toBe(9);
+  }
+});

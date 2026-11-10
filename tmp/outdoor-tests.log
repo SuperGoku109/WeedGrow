@@ -1,0 +1,377 @@
+PASS features/plants/__tests__/dailyJournalFlow.test.ts (5.218 s)
+FAIL lib/careAlgorithm/__tests__/automaticProfile.test.ts
+  ● unknown initial wetness remains a range rather than an arbitrary half-full pot
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      44 |   const p = profile(); const evaluation = evaluateLocalCare(plant, [], p.settings, now, weather(0), now, p.reasonCodes, p);
+      45 |   expect(evaluation.water.needsWater).toBeNull();
+    > 46 |   expect(evaluation.water.evidence?.scenarios.every(s => s.reserveL[0] === 0)).toBe(true);
+         |                                                                                ^
+      47 |   expect(evaluation.localInputs?.profileMode).toBe('automatic');
+      48 | });
+      49 | test('sufficient model depletion can establish due across automatic scenarios, and known watering refills them', () => {
+
+      at Object.toBe (lib/careAlgorithm/__tests__/automaticProfile.test.ts:46:80)
+
+  ● sufficient model depletion can establish due across automatic scenarios, and known watering refills them
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: null
+
+      50 |   const p = profile(); const raw = weather(1);
+      51 |   const evaluate = (logs: any[]) => evaluateLocalCare(plant, logs, p.settings, now, raw, now, p.reasonCodes, p);
+    > 52 |   expect(evaluate([]).water.needsWater).toBe(true);
+         |                                         ^
+      53 |   // Mathematical overflow/clamping case, not a recommended watering amount.
+      54 |   expect(evaluate([{ type: 'watering', occurrencePrecision: 'time', timestamp: makeTimestamp(new Date(now * 1000)), waterMl: 10000 }]).water.needsWater).toBe(false);
+      55 | });
+
+      at Object.toBe (lib/careAlgorithm/__tests__/automaticProfile.test.ts:52:41)
+
+PASS features/plants/__tests__/plantEditorDelete.test.ts
+PASS lib/careAlgorithm/__tests__/meteoCare.test.ts
+FAIL lib/careAlgorithm/__tests__/practicalWatering.test.ts
+  ● automatic integration gives practical advice for {"plantedIn":"ground","potSize":null}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: null
+
+      117 |   const p = { ...plant, ...changes }, automatic = automaticCareProfile(p, defaultLocalCareSettings(now), now);
+      118 |   const result = evaluateLocalCare(p, [], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, automatic.reasonCodes, automatic);
+    > 119 |   expect(result.water.needsWater).toBe(true); expect(result.water.estimate?.rule).toBe('sustained_hot_dry_no_watering');
+          |                                   ^
+      120 |   const log = { type: 'watering' as const, occurrencePrecision: 'time' as const, waterMl: 1000, timestamp: makeTimestamp(new Date(now * 1000)), updatedBy: 'demoUser' };
+      121 |   expect(evaluateLocalCare(p, [log], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, automatic.reasonCodes, automatic).water.needsWater).toBe(false);
+      122 |   expect(evaluateLocalCare(p, [], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, [...automatic.reasonCodes, 'local_journal_read_failed'], automatic).water.needsWater).toBeNull();
+
+      at toBe (lib/careAlgorithm/__tests__/practicalWatering.test.ts:119:35)
+
+  ● automatic integration gives practical advice for {"potSize":null}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: null
+
+      117 |   const p = { ...plant, ...changes }, automatic = automaticCareProfile(p, defaultLocalCareSettings(now), now);
+      118 |   const result = evaluateLocalCare(p, [], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, automatic.reasonCodes, automatic);
+    > 119 |   expect(result.water.needsWater).toBe(true); expect(result.water.estimate?.rule).toBe('sustained_hot_dry_no_watering');
+          |                                   ^
+      120 |   const log = { type: 'watering' as const, occurrencePrecision: 'time' as const, waterMl: 1000, timestamp: makeTimestamp(new Date(now * 1000)), updatedBy: 'demoUser' };
+      121 |   expect(evaluateLocalCare(p, [log], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, automatic.reasonCodes, automatic).water.needsWater).toBe(false);
+      122 |   expect(evaluateLocalCare(p, [], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, [...automatic.reasonCodes, 'local_journal_read_failed'], automatic).water.needsWater).toBeNull();
+
+      at toBe (lib/careAlgorithm/__tests__/practicalWatering.test.ts:119:35)
+
+PASS features/groups/__tests__/managePlants.test.ts
+PASS lib/careAlgorithm/__tests__/waterBank.test.ts
+FAIL services/__tests__/localPlantCare.test.ts
+  ● no saved test configuration is required for automatic care
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "automatic-pot-v1"
+    Received: null
+
+      57 |   const result = await readLocalPlantCare(plant.id, plant, now);
+      58 |   expect(result.evaluation?.localInputs?.profileMode).toBe('automatic');
+    > 59 |   expect(result.evaluation?.profileVersion).toBe('automatic-pot-v1');
+         |                                             ^
+      60 |   expect(result.evaluation?.water.reasonCodes).not.toContain('local_test_inputs_required');
+      61 |   expect(fetchWeather).toHaveBeenCalled(); expect(fetchLogsAndWeatherForRange).toHaveBeenCalled();
+      62 | });
+
+      at Object.toBe (services/__tests__/localPlantCare.test.ts:59:45)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● corrupted saved inputs give a useful local error instead of a missing server result
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: "local_test_settings_invalid"
+    Received array: ["no_moisture_observation"]
+
+      81 |   await AsyncStorage.setItem(`weedgrow.local-care.v1.demoUser.${plant.id}`, '{broken');
+      82 |   const result = await readLocalPlantCare(plant.id, plant, now);
+    > 83 |   expect(result.evaluation?.water.needsWater).toBeNull(); expect(result.evaluation?.water.reasonCodes).toContain('local_test_settings_invalid');
+         |                                                                                                        ^
+      84 | });
+      85 | test('live mode calculates after provider acquisition, without a false future/stale error', async () => {
+      86 |   await saveLocalCareSettings(plant.id, { ...localCarePreset('dry', now.getTime() / 1000), weatherMode: 'open-meteo' });
+
+      at Object.toContain (services/__tests__/localPlantCare.test.ts:83:104)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL features/plants/__tests__/PlantLogComposer.test.ts
+  ● opens soil checking directly on moisture input without recording watering
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      124 | it('opens soil checking directly on moisture input without recording watering', async () => {
+      125 |   await mount({ initialCategory: 'health', initialContext: 'soil-check' });
+    > 126 |   expect(field('Soil moisture')).toBeDefined(); expect(field('Water amount')).toBeUndefined(); expect(field('pH')).toBeUndefined();
+          |                                  ^
+      127 | });
+      128 | it('offers known watering history before another watering form is filled', async () => {
+      129 |   const watering = { ...currentEntry, type: 'watering', category: 'watering' };
+
+      at Object.toBeDefined (features/plants/__tests__/PlantLogComposer.test.ts:126:34)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS features/plants/__tests__/journalCalendar.test.ts
+PASS features/plants/__tests__/editorControls.test.ts
+PASS lib/careAlgorithm/__tests__/wateringScenarios.test.ts
+PASS ui/__tests__/anchoredActionMenu.test.ts
+PASS features/groups/__tests__/EditGroupModal.test.ts
+PASS lib/weather/__tests__/fetchWeather.test.ts
+PASS features/plants/__tests__/localCareControls.test.ts
+PASS lib/weather/__tests__/openMeteo.test.ts
+PASS lib/careAlgorithm/__tests__/stormDiseaseScenarios.test.ts
+PASS features/plants/__tests__/careAdviceDisclosure.test.ts
+PASS lib/careAlgorithm/__tests__/warningNoise.test.ts
+PASS lib/careAlgorithm/__tests__/weather.test.ts
+PASS lib/suggestions/__tests__/wateringSuggestions.test.ts
+PASS features/plants/__tests__/quickWatering.test.ts
+PASS features/plants/__tests__/plantProfileView.test.ts
+PASS lib/weather/__tests__/refreshGardenWeather.test.ts
+PASS features/plants/__tests__/journalTimeline.test.ts
+PASS lib/careAlgorithm/__tests__/waterTimeline.test.ts
+PASS features/home/__tests__/createGarden.test.ts
+PASS lib/careAlgorithm/__tests__/localCare.test.ts
+PASS features/care/__tests__/useCareTasks.test.ts
+PASS lib/plants/__tests__/plantValidation.test.ts
+PASS lib/suggestions/__tests__/suggestionCards.test.ts
+PASS features/addPlant/__tests__/savePlant.test.ts
+PASS lib/weather/__tests__/weatherResponse.test.ts
+PASS lib/backup/__tests__/backupSafety.test.ts
+PASS lib/data/__tests__/recordDecoders.test.ts
+PASS hooks/__tests__/journalSearch.test.ts
+PASS features/plants/__tests__/journalDay.test.ts
+PASS features/plants/__tests__/usePlantJournalData.test.ts
+PASS features/plants/__tests__/plantForms.test.ts
+PASS lib/suggestions/__tests__/wateringSuggestions.intentScenarios.test.ts
+PASS lib/logs/__tests__/journalRepository.test.ts
+PASS features/plants/__tests__/plantHistorySearch.test.ts
+PASS lib/suggestions/__tests__/wateringEngine.test.ts
+PASS lib/careAlgorithm/__tests__/replay.test.ts
+PASS features/addPlant/__tests__/gardenDraft.test.ts
+PASS lib/careAlgorithm/__tests__/correctnessAudit.test.ts
+PASS services/__tests__/careSnooze.test.ts
+PASS lib/backup/__tests__/backupFormat.test.ts
+PASS lib/plants/__tests__/plantAge.test.ts
+PASS features/home/__tests__/useWateringSuggestions.test.ts
+PASS features/plants/__tests__/useProgressGallery.test.ts
+PASS lib/careAlgorithm/__tests__/productionSnapshot.test.ts
+PASS design-system/tokens/__tests__/garden.test.ts
+PASS ui/__tests__/useDiscardGuard.test.ts
+PASS lib/careAlgorithm/__tests__/forecastWater.test.ts
+PASS lib/progressPics/__tests__/uploadProgressPic.test.ts
+PASS services/__tests__/plantCareEvaluation.test.ts
+PASS features/location/__tests__/useLocationPicker.test.ts
+PASS lib/suggestions/__tests__/hopsIntegration.test.ts
+PASS lib/weather/__tests__/weatherReadings.test.ts
+PASS lib/logs/__tests__/fetchLogsAndWeatherForRange.test.ts
+PASS lib/careAlgorithm/__tests__/checkpoint.test.ts
+PASS features/addPlant/__tests__/plantFlow.test.ts
+PASS services/__tests__/session.test.ts
+PASS lib/weather/__tests__/weatherQuality.test.ts
+PASS features/location/__tests__/deviceLocationWeb.test.ts
+PASS hooks/__tests__/motionPreference.test.ts
+PASS lib/plants/__tests__/photoRepository.test.ts
+PASS features/groups/__tests__/groupCollection.test.ts
+PASS features/care/__tests__/usePlantActivity.test.ts
+PASS lib/suggestions/__tests__/hopsSuggestions.test.ts
+PASS lib/logs/__tests__/journalRecovery.test.ts
+PASS features/plants/__tests__/plantEditorMutations.test.ts
+PASS features/groups/__tests__/useGroupDetail.test.ts
+PASS ui/__tests__/useEditDraft.test.ts
+PASS hooks/__tests__/asyncLifecycle.test.ts
+PASS lib/plants/__tests__/editConflict.test.ts
+PASS features/plants/__tests__/plantListPresentation.test.ts
+PASS lib/weather/__tests__/parseWeatherData.test.ts
+PASS lib/data/__tests__/pagedLiveQuery.test.ts
+PASS lib/logs/__tests__/addPlantLog.test.ts
+PASS lib/careAlgorithm/__tests__/evaluationValidity.test.ts
+PASS features/location/__tests__/deviceLocationNative.test.ts
+PASS features/plants/__tests__/plantProfile.test.ts
+PASS lib/plants/__tests__/preparePlantPhoto.test.ts
+PASS lib/careAlgorithm/__tests__/logAdapter.test.ts
+PASS lib/careAlgorithm/__tests__/careDiagnostics.test.ts
+PASS features/plants/__tests__/careSetup.test.ts
+PASS lib/dates/__tests__/plantDay.test.ts
+PASS lib/data/__tests__/deleteCollectionInBatches.test.ts
+PASS lib/careAlgorithm/__tests__/warnings.test.ts
+PASS lib/careAlgorithm/__tests__/historySelection.test.ts
+PASS lib/careAlgorithm/__tests__/sourceEvents.test.ts
+PASS services/__tests__/reminders.test.ts
+PASS features/plants/__tests__/plantLifecycle.test.ts
+PASS features/groups/__tests__/useGroupWeather.test.ts
+PASS lib/plants/__tests__/plantRules.test.ts
+PASS features/plants/__tests__/carePresentation.test.ts
+PASS features/home/__tests__/HomeRedirect.test.ts
+PASS features/plants/__tests__/activityForm.test.ts
+PASS services/__tests__/homeGardenView.test.ts
+PASS lib/weather/__tests__/powderyMildewRisk.test.ts
+PASS lib/care/__tests__/careTasks.test.ts
+PASS services/__tests__/errorReporting.test.ts
+PASS lib/data/__tests__/liveStore.test.ts
+PASS services/__tests__/careSummaries.test.ts
+PASS lib/diagnostics/__tests__/reportError.test.ts
+PASS features/home/__tests__/gardenSelection.test.ts
+PASS features/plants/__tests__/journalPresentation.test.ts
+PASS features/addPlant/__tests__/draftStorage.test.ts
+PASS lib/weather/__tests__/refreshPlantWeather.test.ts
+PASS features/location/__tests__/locationService.test.ts
+PASS lib/data/__tests__/mapConcurrent.test.ts
+PASS lib/logs/__tests__/plantJournal.test.ts
+PASS features/location/__tests__/locationState.test.ts
+PASS lib/errors/__tests__/saveFeedback.test.ts
+PASS lib/suggestions/__tests__/adviceInputs.test.ts
+
+Summary of all failing tests
+FAIL lib/careAlgorithm/__tests__/automaticProfile.test.ts
+  ● unknown initial wetness remains a range rather than an arbitrary half-full pot
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: undefined
+
+      44 |   const p = profile(); const evaluation = evaluateLocalCare(plant, [], p.settings, now, weather(0), now, p.reasonCodes, p);
+      45 |   expect(evaluation.water.needsWater).toBeNull();
+    > 46 |   expect(evaluation.water.evidence?.scenarios.every(s => s.reserveL[0] === 0)).toBe(true);
+         |                                                                                ^
+      47 |   expect(evaluation.localInputs?.profileMode).toBe('automatic');
+      48 | });
+      49 | test('sufficient model depletion can establish due across automatic scenarios, and known watering refills them', () => {
+
+      at Object.toBe (lib/careAlgorithm/__tests__/automaticProfile.test.ts:46:80)
+
+  ● sufficient model depletion can establish due across automatic scenarios, and known watering refills them
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: null
+
+      50 |   const p = profile(); const raw = weather(1);
+      51 |   const evaluate = (logs: any[]) => evaluateLocalCare(plant, logs, p.settings, now, raw, now, p.reasonCodes, p);
+    > 52 |   expect(evaluate([]).water.needsWater).toBe(true);
+         |                                         ^
+      53 |   // Mathematical overflow/clamping case, not a recommended watering amount.
+      54 |   expect(evaluate([{ type: 'watering', occurrencePrecision: 'time', timestamp: makeTimestamp(new Date(now * 1000)), waterMl: 10000 }]).water.needsWater).toBe(false);
+      55 | });
+
+      at Object.toBe (lib/careAlgorithm/__tests__/automaticProfile.test.ts:52:41)
+
+FAIL lib/careAlgorithm/__tests__/practicalWatering.test.ts
+  ● automatic integration gives practical advice for {"plantedIn":"ground","potSize":null}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: null
+
+      117 |   const p = { ...plant, ...changes }, automatic = automaticCareProfile(p, defaultLocalCareSettings(now), now);
+      118 |   const result = evaluateLocalCare(p, [], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, automatic.reasonCodes, automatic);
+    > 119 |   expect(result.water.needsWater).toBe(true); expect(result.water.estimate?.rule).toBe('sustained_hot_dry_no_watering');
+          |                                   ^
+      120 |   const log = { type: 'watering' as const, occurrencePrecision: 'time' as const, waterMl: 1000, timestamp: makeTimestamp(new Date(now * 1000)), updatedBy: 'demoUser' };
+      121 |   expect(evaluateLocalCare(p, [log], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, automatic.reasonCodes, automatic).water.needsWater).toBe(false);
+      122 |   expect(evaluateLocalCare(p, [], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, [...automatic.reasonCodes, 'local_journal_read_failed'], automatic).water.needsWater).toBeNull();
+
+      at toBe (lib/careAlgorithm/__tests__/practicalWatering.test.ts:119:35)
+
+  ● automatic integration gives practical advice for {"potSize":null}
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: null
+
+      117 |   const p = { ...plant, ...changes }, automatic = automaticCareProfile(p, defaultLocalCareSettings(now), now);
+      118 |   const result = evaluateLocalCare(p, [], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, automatic.reasonCodes, automatic);
+    > 119 |   expect(result.water.needsWater).toBe(true); expect(result.water.estimate?.rule).toBe('sustained_hot_dry_no_watering');
+          |                                   ^
+      120 |   const log = { type: 'watering' as const, occurrencePrecision: 'time' as const, waterMl: 1000, timestamp: makeTimestamp(new Date(now * 1000)), updatedBy: 'demoUser' };
+      121 |   expect(evaluateLocalCare(p, [log], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, automatic.reasonCodes, automatic).water.needsWater).toBe(false);
+      122 |   expect(evaluateLocalCare(p, [], automatic.settings, now, openMeteoWeatherResponse(weather(), now * 1000), now, [...automatic.reasonCodes, 'local_journal_read_failed'], automatic).water.needsWater).toBeNull();
+
+      at toBe (lib/careAlgorithm/__tests__/practicalWatering.test.ts:119:35)
+
+FAIL services/__tests__/localPlantCare.test.ts
+  ● no saved test configuration is required for automatic care
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "automatic-pot-v1"
+    Received: null
+
+      57 |   const result = await readLocalPlantCare(plant.id, plant, now);
+      58 |   expect(result.evaluation?.localInputs?.profileMode).toBe('automatic');
+    > 59 |   expect(result.evaluation?.profileVersion).toBe('automatic-pot-v1');
+         |                                             ^
+      60 |   expect(result.evaluation?.water.reasonCodes).not.toContain('local_test_inputs_required');
+      61 |   expect(fetchWeather).toHaveBeenCalled(); expect(fetchLogsAndWeatherForRange).toHaveBeenCalled();
+      62 | });
+
+      at Object.toBe (services/__tests__/localPlantCare.test.ts:59:45)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● corrupted saved inputs give a useful local error instead of a missing server result
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: "local_test_settings_invalid"
+    Received array: ["no_moisture_observation"]
+
+      81 |   await AsyncStorage.setItem(`weedgrow.local-care.v1.demoUser.${plant.id}`, '{broken');
+      82 |   const result = await readLocalPlantCare(plant.id, plant, now);
+    > 83 |   expect(result.evaluation?.water.needsWater).toBeNull(); expect(result.evaluation?.water.reasonCodes).toContain('local_test_settings_invalid');
+         |                                                                                                        ^
+      84 | });
+      85 | test('live mode calculates after provider acquisition, without a false future/stale error', async () => {
+      86 |   await saveLocalCareSettings(plant.id, { ...localCarePreset('dry', now.getTime() / 1000), weatherMode: 'open-meteo' });
+
+      at Object.toContain (services/__tests__/localPlantCare.test.ts:83:104)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL features/plants/__tests__/PlantLogComposer.test.ts
+  ● opens soil checking directly on moisture input without recording watering
+
+    expect(received).toBeDefined()
+
+    Received: undefined
+
+      124 | it('opens soil checking directly on moisture input without recording watering', async () => {
+      125 |   await mount({ initialCategory: 'health', initialContext: 'soil-check' });
+    > 126 |   expect(field('Soil moisture')).toBeDefined(); expect(field('Water amount')).toBeUndefined(); expect(field('pH')).toBeUndefined();
+          |                                  ^
+      127 | });
+      128 | it('offers known watering history before another watering form is filled', async () => {
+      129 |   const watering = { ...currentEntry, type: 'watering', category: 'watering' };
+
+      at Object.toBeDefined (features/plants/__tests__/PlantLogComposer.test.ts:126:34)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+
+Test Suites: 4 failed, 114 passed, 118 total
+Tests:       7 failed, 947 passed, 954 total
+Snapshots:   0 total
+Time:        44.273 s

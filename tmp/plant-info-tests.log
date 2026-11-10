@@ -1,0 +1,7 @@
+PASS features/plants/__tests__/dailyJournalFlow.test.ts
+PASS features/plants/__tests__/careFeatures.test.ts
+
+Test Suites: 2 passed, 2 total
+Tests:       14 passed, 14 total
+Snapshots:   0 total
+Time:        4.232 s, estimated 5 s

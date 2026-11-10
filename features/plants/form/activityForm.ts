@@ -1,3 +1,4 @@
+import type { PlantLog } from '@/firestoreModels';
 import { validateLogDate, type JournalCategory } from '@/lib/logs/plantJournal';
 import { measurementError, measurementKeys, type MeasurementKey } from '@/lib/logs/logMeasurements';
 export type ActivityErrors = Partial<Record<MeasurementKey | 'date' | 'description', string>>;
@@ -8,7 +9,10 @@ export function validateActivityForm(category: JournalCategory, description: str
   const errors: ActivityErrors = {};
   const invalidDate = validateLogDate(date, today);
   if (invalidDate) errors.date = invalidDate;
-  const values: Partial<Record<MeasurementKey, number>> = {};
+  const values: Partial<PlantLog> = {};
+  if (raw.moistureState && ['DRY', 'MOIST', 'WET'].includes(raw.moistureState)) { values.moistureState = raw.moistureState as PlantLog['moistureState']; if (raw.moistureConfiguration) values.moistureConfiguration = raw.moistureConfiguration; }
+  if (values.moistureState && ['useful', 'too_early', 'too_late'].includes(raw.inspectionFeedback)) values.inspectionFeedback = raw.inspectionFeedback as PlantLog['inspectionFeedback'];
+  if (['LIGHT', 'MODERATE', 'HEAVY'].includes(raw.rainfallObservation)) values.rainfallObservation = raw.rainfallObservation as PlantLog['rainfallObservation'];
   for (const key of activityMeasurements(category)) {
     const input = (raw[key] || '').trim();
     if (!input) continue;

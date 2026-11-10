@@ -1,0 +1,32 @@
+PASS lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts
+FAIL features/plants/__tests__/PlantLogComposer.test.ts
+  ● saves a categorical root-zone observation without fabricating a percentage or watering
+
+    TypeError: Cannot read properties of undefined (reading 'props')
+
+      135 |   await mount({ initialCategory: 'health', initialContext: 'soil-check', configuration: 'setup-1' });
+      136 |   await act(async () => button('Soil feels moist').props.onPress());
+    > 137 |   await act(async () => button('Save health check').props.onPress());
+          |                                                    ^
+      138 |   expect(save).toHaveBeenCalledWith('health', expect.any(String), expect.any(String), { moistureState: 'MOIST', moistureConfiguration: 'setup-1' }, expect.any(String), expect.any(Object));
+      139 | });
+      140 |
+
+      at features/plants/__tests__/PlantLogComposer.test.ts:137:52
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:789:22)
+      at Object.<anonymous> (features/plants/__tests__/PlantLogComposer.test.ts:137:12)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS services/__tests__/localPlantCare.test.ts
+PASS lib/careAlgorithm/__tests__/automaticProfile.test.ts
+PASS lib/careAlgorithm/__tests__/practicalWatering.test.ts
+
+Test Suites: 1 failed, 4 passed, 5 total
+Tests:       1 failed, 100 passed, 101 total
+Snapshots:   0 total
+Time:        6.519 s

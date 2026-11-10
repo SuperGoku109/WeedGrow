@@ -1,0 +1,8 @@
+PASS features/plants/__tests__/careFeatures.test.ts
+PASS lib/care/__tests__/plantCareFeatures.test.ts
+PASS features/addPlant/__tests__/savePlant.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       24 passed, 24 total
+Snapshots:   0 total
+Time:        6.736 s

@@ -36,6 +36,7 @@ const SEVERITY_RANK: Record<SuggestionSeverity, number> = {
 };
 
 const KIND_RANK: Record<SuggestionKind, number> = {
+  health: 3,
   watering: 0,
   powderyMildew: 1,
   rootRot: 2,

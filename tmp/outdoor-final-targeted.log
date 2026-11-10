@@ -1,0 +1,8 @@
+PASS lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts
+PASS lib/logs/__tests__/journalRepository.test.ts
+PASS lib/careAlgorithm/__tests__/careDiagnostics.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       68 passed, 68 total
+Snapshots:   0 total
+Time:        2.931 s

@@ -1,7 +1,10 @@
+import CareScheduleEditor from './CareScheduleEditor';
+import { effectiveSchedule } from '@/lib/care/reminderSchedules';
+import { contextLabel, contextChoices } from '@/lib/care/plantContext';
 import { useEditDraft, DraftRecovery } from '@/ui/useEditDraft';
 import React from 'react';
 import { ActivityIndicator, Text, View } from 'react-native';
-import type { Plant } from '@/firestoreModels';
+import type { Plant, PlantReminderSchedule } from '@/firestoreModels';
 import { type UpdatePlantFields } from '../api/plantService';
 import { usePlantEditorMutations } from '../hooks/usePlantEditorMutations';
 import ActionDialog from '@/ui/ActionDialog';
@@ -32,7 +35,8 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
   const fields = React.useMemo(() => all ? Object.values(sections).flat() : sections[section] || sections.Basics, [all, section]);
   const fieldsByKey = React.useMemo(() => new Map(fields.map(field => [field.key, field])), [fields]);
   const [values, setValues] = React.useState<Record<string, string>>(() => {
-    const source = { ...plant, rainExposure: rainExposure(plant), strainType: plant.strainType || 'unknown', ageDays: plant.ageKnown === false ? '' : plant.ageDays, lat: plant.location?.lat, lng: plant.location?.lng, reminderType: plant.reminderSchedule?.type || 'none', intervalDays: plant.reminderSchedule?.intervalDays, customDays: plant.reminderSchedule?.customDays?.join(', '), timeOfDay: plant.reminderSchedule?.timeOfDay };
+    const water = effectiveSchedule(plant, 'watering'), feed = effectiveSchedule(plant, 'feeding');
+    const source = { ...plant, feedingReminderType: feed.type, feedingIntervalDays: feed.intervalDays, feedingCustomDays: feed.customDays?.join(', '), feedingTimeOfDay: feed.timeOfDay, rainExposure: rainExposure(plant), strainType: plant.strainType || 'unknown', ageDays: plant.ageKnown === false ? '' : plant.ageDays, lat: plant.location?.lat, lng: plant.location?.lng, reminderType: water.type, intervalDays: water.intervalDays, customDays: water.customDays?.join(', '), timeOfDay: water.timeOfDay };
     return Object.fromEntries(fields.map(field => { const value = source[field.key as keyof typeof source]; return [field.key, Array.isArray(value) ? value.join(', ') : value == null ? '' : String(value)]; }));
   });
   const [locationMode, setLocationMode] = React.useState<'custom' | 'space'>(plant.locationMode || 'custom');
@@ -62,15 +66,20 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
   const change = (key: string, value: string) => { setValues(previous => ({ ...previous, [key]: value })); setError(''); };
   const today = plantDay(new Date(), plant.locationTimeZone);
   const disabled = busy || deleteOpen || locating || !draft.ready || !!draft.saved;
-  const selectedDays = values.customDays?.split(',').map(day => day.trim().slice(0, 3).toLowerCase()).filter(Boolean) || [];
-  const schedule = values.reminderType === 'interval' ? `Every ${values.intervalDays || '…'} days` : values.reminderType === 'custom' ? selectedDays.map(friendly).join(', ') || 'Choose reminder days' : 'No reminders';
+  const careSchedule = (kind: 'watering' | 'feeding'): PlantReminderSchedule => kind === 'watering' ? {
+    type: (values.reminderType || 'none') as PlantReminderSchedule['type'], intervalDays: values.intervalDays ? Number(values.intervalDays) : undefined, customDays: (values.customDays || '').split(',').map(v => v.trim()).filter(Boolean), timeOfDay: values.timeOfDay || '09:00',
+  } : { type: (values.feedingReminderType || 'none') as PlantReminderSchedule['type'], intervalDays: values.feedingIntervalDays ? Number(values.feedingIntervalDays) : undefined, customDays: (values.feedingCustomDays || '').split(',').map(v => v.trim()).filter(Boolean), timeOfDay: values.feedingTimeOfDay || '09:00' };
+  const changeSchedule = (kind: 'watering' | 'feeding', value: PlantReminderSchedule) => setValues(previous => ({ ...previous,
+    ...(kind === 'watering' ? { reminderType: value.type, intervalDays: String(value.intervalDays ?? ''), customDays: value.customDays?.join(', ') || '', timeOfDay: value.timeOfDay || '' }
+      : { feedingReminderType: value.type, feedingIntervalDays: String(value.intervalDays ?? ''), feedingCustomDays: value.customDays?.join(', ') || '', feedingTimeOfDay: value.timeOfDay || '' }),
+  }));
   const renderField = (key: string) => {
     const field = fieldsByKey.get(key);
     if (!field || key === 'potSize' && values.plantedIn === 'ground' || key === 'sensorProfileId' && values.environment === 'outdoor' || key === 'sunlightExposure' && values.environment === 'indoor') return null;
     if (key === 'potSize') return <EditorPotSize key={key} value={values.potSize} disabled={disabled} onChange={value => change(key, value)} />;
     const label = ({ ageDays: 'Estimated age', height: 'Height', environment: 'Growing environment', trainingTags: 'Training methods', pests: 'Pests recorded', companionPlants: 'Companion plants', soilPh: 'Soil pH', intervalDays: 'Repeat every', permanentProtection: 'Cover or protection', locationNickname: locationMode === 'space' ? 'Spot within this garden' : 'Location label' } as Record<string, string>)[key] || field.label;
     if (field.options) {
-      const options = key === 'sensorProfileId' ? [{ value: '', label: 'No sensor profile' }, ...profiles.map(profile => ({ value: profile.id, label: profile.name })), ...(!profiles.some(profile => profile.id === values.sensorProfileId) && values.sensorProfileId ? [{ value: values.sensorProfileId, label: 'Current profile' }] : [])] : field.options.map(value => ({ value, label: value === 'custom' ? key === 'soilType' ? 'Custom mix' : 'Selected weekdays' : !value ? 'Not set' : friendly(value) }));
+      const options = key === 'sensorProfileId' ? [{ value: '', label: 'No sensor profile' }, ...profiles.map(profile => ({ value: profile.id, label: profile.name })), ...(!profiles.some(profile => profile.id === values.sensorProfileId) && values.sensorProfileId ? [{ value: values.sensorProfileId, label: 'Current profile' }] : [])] : field.options.map(value => ({ value, label: key in contextChoices ? contextLabel(value) : value === 'custom' ? key === 'soilType' ? 'Custom mix' : 'Selected weekdays' : !value ? 'Not set' : friendly(value) }));
       if (values[key] && !options.some(option => option.value === values[key])) options.push({ value: values[key], label: values[key] });
       return <EditorSelect key={key} disabled={disabled} label={label} value={values[key]} options={options} onSelect={value => change(key, value)} />;
     }
@@ -80,7 +89,7 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
     {!!error && <Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text>}
     <GrowPress accessibilityRole="button" accessibilityLabel="Save section changes" disabled={disabled} onPress={save} style={[ds.button, { backgroundColor: t.accent, opacity: disabled ? 0.5 : 1 }]}>{busy && <ActivityIndicator color={t.onAccent} />}<Text style={{ color: t.onAccent, fontWeight: '700' }}>{busy ? 'Saving…' : 'Save changes'}</Text></GrowPress>
   </View>}>
-    <DraftRecovery theme={t} draft={draft} apply={value => { setValues(value.values); setLocationMode(value.locationMode); setAgeMode(value.ageMode || (value.values.startedOn ? 'date' : 'estimate')); }} />
+    <DraftRecovery theme={t} draft={draft} apply={value => { setValues(previous => ({ ...previous, ...value.values })); setLocationMode(value.locationMode); setAgeMode(value.ageMode || (value.values.startedOn ? 'date' : 'estimate')); }} />
     {!!profileError && <Text style={{ color: t.danger }}>{profileError}</Text>}
     {includes('Basics') && <>
       {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700' }}>Plant profile</Text>}
@@ -100,18 +109,17 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
       {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700', marginTop: 12 }}>Growing setup</Text>}
       <EditorRow>{renderField('environment')}{renderField('plantedIn')}</EditorRow>
       <EditorRow>{renderField('potSize')}{renderField('sunlightExposure')}{renderField('sensorProfileId')}</EditorRow>
+      {renderField('growingSite')}{values.plantedIn === 'pot' && <><EditorRow>{renderField('potMaterial')}{renderField('potType')}</EditorRow>{renderField('potDrainage')}</>}
       {renderField('rainExposure')}{renderField('careMedium')}
       <Text style={{ color: t.muted, fontSize: 13, lineHeight: 20 }}>These optional setup facts describe direct rain and growing medium. Unknown is fine; no daily measurements are needed.</Text>
       <EditorGroup title="Soil & extras" flat={all} collapsible={!all}><EditorRow>{renderField('soilType')}{renderField('soilPh')}</EditorRow>{renderField('permanentProtection')}{renderField('companionPlants')}</EditorGroup>
     </>}
     {includes('Care plan') && <>
       {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700', marginTop: 12 }}>Care routine</Text>}
-      <EditorRow>{renderField('wateringFrequency')}{renderField('feedingFrequency')}</EditorRow>{renderField('fertilizer')}
+      <EditorRow>{renderField('wateringFrequency')}{renderField('feedingFrequency')}</EditorRow>{renderField('fertilizer')}{renderField('fertilizerForm')}
       <EditorGroup title="Reminders" flat={all}>
-        <EditorRow minColumnWidth={140}>{renderField('reminderType')}{values.reminderType === 'interval' && renderField('intervalDays')}</EditorRow>
-      {values.reminderType === 'custom' && <View style={{ gap: 8 }}><Text style={{ color: t.muted }}>Reminder days</Text><View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 6 }}>{['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].map(day => <GrowPress key={day} accessibilityRole="checkbox" aria-checked={selectedDays.includes(day)} accessibilityLabel={friendly(day)} accessibilityState={{ checked: selectedDays.includes(day) }} disabled={disabled} onPress={() => change('customDays', (selectedDays.includes(day) ? selectedDays.filter(item => item !== day) : [...selectedDays, day]).join(', '))} style={{ minHeight: 48, minWidth: 44, padding: 10, borderRadius: 10, backgroundColor: selectedDays.includes(day) ? t.accent : t.surface }}><Text style={{ color: selectedDays.includes(day) ? t.onAccent : t.text }}>{friendly(day)}</Text></GrowPress>)}</View></View>}
-      {values.reminderType !== 'none' && <><View style={{ flexDirection: 'row', gap: 12 }}><View style={{ flex: 1 }}><EditorSelect disabled={disabled} label="Hour" value={(values.timeOfDay || '09:00').split(':')[0]} options={Array.from({ length: 24 }, (_, i) => ({ value: String(i).padStart(2, '0'), label: String(i).padStart(2, '0') }))} onSelect={hour => change('timeOfDay', hour + ':' + (values.timeOfDay || '09:00').split(':')[1])} /></View><View style={{ flex: 1 }}><EditorSelect disabled={disabled} label="Minute" value={(values.timeOfDay || '09:00').split(':')[1]} options={Array.from({ length: 60 }, (_, i) => ({ value: String(i).padStart(2, '0'), label: String(i).padStart(2, '0') }))} onSelect={minute => change('timeOfDay', (values.timeOfDay || '09:00').split(':')[0] + ':' + minute)} /></View></View><Text style={{ color: t.muted, lineHeight: 21 }}>For phone notifications, enable care reminders in Settings. Times use your device’s time zone.</Text></>}
-      {values.reminderType !== 'none' && <Text accessibilityLiveRegion="polite" style={{ color: t.text }}>{schedule} at {values.timeOfDay || '09:00'}</Text>}
+        <CareScheduleEditor kind="watering" value={careSchedule('watering')} onChange={value => changeSchedule('watering', value)} allowSmart={(values.environment || plant.environment) === 'outdoor'} disabled={disabled} theme={t} />
+        <CareScheduleEditor kind="feeding" value={careSchedule('feeding')} onChange={value => changeSchedule('feeding', value)} disabled={disabled} theme={t} />
       </EditorGroup>
     </>}
     {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700', marginTop: 12 }}>Location</Text>}

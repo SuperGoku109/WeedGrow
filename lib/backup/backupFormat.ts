@@ -1,3 +1,4 @@
+import { validatePlantFields } from '@/lib/plants/plantValidation';
 import { isRecord } from '@/lib/data/recordDecoders';
 import { MAX_BACKUP_BYTES, MAX_BACKUP_RECORDS, utf8Bytes } from './backupLimits';
 export interface BackupRecord { path: string; data: Record<string, unknown> }
@@ -12,7 +13,8 @@ const allowed: Record<string, string[]> = {
   groups: ['locationLabel', 'name', 'environment', 'plantIds', 'location', 'createdBy', 'createdAt', 'updatedAt', 'sensorProfileId', 'weatherSourcePlantId', 'restoreOperationId'],
   sensorProfiles: ['name', 'createdBy', 'createdAt', 'updatedAt', 'temperature', 'humidity', 'soilMoisture', 'light', 'source', 'readings', 'environment', 'description', 'type', 'settings', 'environmentType', 'isManual', 'defaultTemp', 'defaultHumidity', 'restoreOperationId'],
 };
-allowed.plants.push('rainReception', 'careMedium');
+allowed.plants.push('rainReception', 'careMedium', 'potMaterial', 'potType', 'growingSite', 'potDrainage', 'fertilizerForm', 'feedingReminderSchedule');
+allowed.logs.push('moistureState', 'moistureConfiguration', 'inspectionFeedback', 'rainfallObservation');
 export function validateBackup(raw: string): GardenBackup {
   if (raw.length > MAX_BACKUP_BYTES || utf8Bytes(raw) > MAX_BACKUP_BYTES) throw new Error('Choose a backup under 30 MB.');
   let parsed: unknown;
@@ -30,6 +32,7 @@ export function validateBackup(raw: string): GardenBackup {
     const kind = parts.length === 4 ? parts[2] : parts[0];
     if (Object.keys(record.data).some(key => !allowed[kind]?.includes(key))) throw new Error(`Unsupported fields in ${record.path}.`);
     const data = record.data;
+    if (kind === 'plants') { const errors = validatePlantFields(Object.fromEntries(['potMaterial', 'potType', 'growingSite', 'potDrainage', 'fertilizerForm', 'reminderSchedule', 'feedingReminderSchedule'].filter(key => data[key] != null).map(key => [key, data[key]]))); if (Object.keys(errors).length) throw new Error(Object.values(errors)[0]); }
     for (const key of ['description', 'caption', 'notes', 'wateringFrequency', 'feedingFrequency', 'strain']) if (data[key] != null && typeof data[key] !== 'string') throw new Error(`The ${key} field must be text.`);
     if (kind === 'logs') for (const [key, max] of [['waterMl', 1000000], ['nutrientMlPerL', 1000], ['ph', 14], ['heightCm', 10000], ['soilMoisture', 100]] as const) {
       if (data[key] != null && (typeof data[key] !== 'number' || !Number.isFinite(data[key]) || (data[key] as number) < 0 || (data[key] as number) > max)) throw new Error(`The ${key} measurement is invalid.`);
@@ -39,6 +42,12 @@ export function validateBackup(raw: string): GardenBackup {
     if (kind === 'photoAssets' && (typeof data.dataUri !== 'string' || !/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(data.dataUri) || data.dataUri.length > (parts[3].endsWith('_thumb') ? 20480 : 184320))) throw new Error('An image is invalid or too large.');
     if ((kind === 'logs' || kind === 'progressPics') && data.occurrencePrecision != null && !['date', 'time'].includes(String(data.occurrencePrecision))) throw new Error('A record has invalid date precision.');
     if ((kind === 'logs' || kind === 'progressPics') && data.recordedAt != null && !isTimestamp(data.recordedAt)) throw new Error('A record has an invalid submission timestamp.');
+    if (kind === 'logs') {
+      if (data.moistureState != null && !['DRY', 'MOIST', 'WET'].includes(String(data.moistureState))) throw new Error('A journal entry has invalid moisture state.');
+      if (data.rainfallObservation != null && !['LIGHT', 'MODERATE', 'HEAVY'].includes(String(data.rainfallObservation))) throw new Error('A journal entry has invalid rainfall observation.');
+      if (data.inspectionFeedback != null && !['useful', 'too_early', 'too_late'].includes(String(data.inspectionFeedback))) throw new Error('A journal entry has invalid inspection feedback.');
+      if (data.moistureConfiguration != null && typeof data.moistureConfiguration !== 'string') throw new Error('A journal entry has invalid moisture configuration.');
+    }
     if (kind === 'logs' && (!['watering', 'fertilizing', 'note', 'photo', 'training', 'stage_change', 'harvest'].includes(String(data.type)) || !isTimestamp(data.timestamp))) throw new Error('A journal entry has an invalid type or date.');
     if (kind === 'progressPics' && (!isTimestamp(data.timestamp) || typeof (data.imageUrl || data.url) !== 'string')) throw new Error('A photo has invalid metadata.');
     if (JSON.stringify(data).length > (kind === 'weatherCache' ? 800000 : 200000)) throw new Error('A backup record is too large.');

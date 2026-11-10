@@ -1,0 +1,12 @@
+
+> weedgrowapp@1.0.0 web
+> expo start --web --max-workers 2 --port 8081
+
+env: load .env
+env: export FIREBASE_API_KEY FIREBASE_AUTH_DOMAIN FIREBASE_PROJECT_ID FIREBASE_STORAGE_BUCKET FIREBASE_MESSAGING_SENDER_ID FIREBASE_APP_ID FIREBASE_MEASUREMENT_ID OPENWEATHERMAP_API_KEY FIRESTORE_EMULATOR_HOST FIREBASE_AUTH_EMULATOR_HOST
+Starting project at C:\Users\Zane\dev\WeedGrow
+› Port 8081 is being used by another process
+› Skipping dev server
+Input is required, but 'npx expo' is in non-interactive mode.
+Required input:
+> Use port 8082 instead?

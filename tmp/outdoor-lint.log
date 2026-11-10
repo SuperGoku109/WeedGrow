@@ -1,0 +1,9 @@
+
+C:\Users\Zane\dev\WeedGrow\services\localPlantCare.ts
+  6:26  warning  'C:\Users\Zane\dev\WeedGrow\lib\dates\plantDay.ts' imported multiple times  import/no-duplicates
+  9:36  warning  'C:\Users\Zane\dev\WeedGrow\lib\dates\plantDay.ts' imported multiple times  import/no-duplicates
+
+✖ 2 problems (0 errors, 2 warnings)
+  0 errors and 1 warning potentially fixable with the `--fix` option.
+
+ESLint found too many warnings (maximum: 0).

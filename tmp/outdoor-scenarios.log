@@ -1,0 +1,56 @@
+FAIL lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts
+  ● light rainfall invalidates prior dry evidence without proving hydration
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "CHECK_NOW"
+    Received: "CHECK_SOON"
+
+      57 | });
+      58 | test('light rainfall invalidates prior dry evidence without proving hydration', () => {
+    > 59 |   const r = evaluate([observation('DRY', 2)], [...weather(), sample('liquid_rain_mm', .3, .5)]); expect(r.water.needsWater).toBeNull(); expect(r.checkStatus).toBe('CHECK_NOW');
+         |                                                                                                                                                               ^
+      60 | });
+      61 | test('forecast rain neither invalidates dry observation nor creates completed watering', () => {
+      62 |   const r = evaluate([observation('DRY')], [...weather(), sample('liquid_rain_mm', 25, 3, true)]); expect(r.water.needsWater).toBe(true);
+
+      at Object.toBe (lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts:59:159)
+
+  ● limited history retains baseline
+
+    TypeError: logs.flatMap is not a function
+
+      26 | export interface Observation { id: string; at: number; state: Moisture; configuration?: string; precise: boolean }
+      27 | export function normalizeObservations(logs: readonly PlantLog[], now: number): Observation[] {
+    > 28 |   const rows = logs.flatMap((log, i) => {
+         |                     ^
+      29 |     const at = utcSeconds(log.timestamp);
+      30 |     if (at === null || at > now || !['DRY', 'MOIST', 'WET'].includes(log.moistureState ?? '')) return [];
+      31 |     return [{ id: (log as PlantLog & { id?: string }).id ?? String(i), at, state: log.moistureState!, configuration: log.moistureConfiguration, precise: log.occurrencePrecision === 'time' }];
+
+      at flatMap (lib/careAlgorithm/outdoorContext.ts:28:21)
+      at evaluateOutdoorCare (lib/careAlgorithm/outdoorIntelligence.ts:27:45)
+      at evaluate (lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts:22:151)
+      at evaluate (lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts:91:119)
+
+  ● limited history retains baseline
+
+    TypeError: logs.flatMap is not a function
+
+      26 | export interface Observation { id: string; at: number; state: Moisture; configuration?: string; precise: boolean }
+      27 | export function normalizeObservations(logs: readonly PlantLog[], now: number): Observation[] {
+    > 28 |   const rows = logs.flatMap((log, i) => {
+         |                     ^
+      29 |     const at = utcSeconds(log.timestamp);
+      30 |     if (at === null || at > now || !['DRY', 'MOIST', 'WET'].includes(log.moistureState ?? '')) return [];
+      31 |     return [{ id: (log as PlantLog & { id?: string }).id ?? String(i), at, state: log.moistureState!, configuration: log.moistureConfiguration, precise: log.occurrencePrecision === 'time' }];
+
+      at flatMap (lib/careAlgorithm/outdoorContext.ts:28:21)
+      at evaluateOutdoorCare (lib/careAlgorithm/outdoorIntelligence.ts:27:45)
+      at evaluate (lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts:22:151)
+      at evaluate (lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts:91:119)
+
+Test Suites: 1 failed, 1 total
+Tests:       3 failed, 41 passed, 44 total
+Snapshots:   0 total
+Time:        2.333 s

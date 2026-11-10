@@ -11,6 +11,7 @@ export { validateMeasurements } from './logMeasurements';
 
 export type JournalEntry = PlantLog & { id: string };
 export type LogInput = Omit<PlantLog, 'timestamp'>;
+const affectsCare = (log: Partial<PlantLog>) => !!log.moistureState || !!log.rainfallObservation || !!log.careCheck || log.category === 'pests' || ['watering', 'fertilizing'].includes(log.type ?? '');
 export const wateringId = (date: string) => `watering_${date}`;
 export const newLogId = () => doc(collection(db, 'journalIds')).id;
 export async function legacyWaterings(plantId: string, day: string, zone?: string | null) {
@@ -55,7 +56,7 @@ export async function saveJournalEntry(plantId: string, input: LogInput, date: s
       const careSnoozes = { ...(plant.data().careSnoozes || {}) }; delete careSnoozes[input.type === 'watering' ? 'watering' : 'feeding'];
       transaction.update(doc(db, 'plants', plantId), { careSnoozes });
     }
-    if (['watering', 'fertilizing'].includes(input.type) || existing && ['watering', 'fertilizing'].includes(existing.type)) transaction.update(doc(db, 'plants', plantId), { careSummary: null, careRevision: (plant.data().careRevision || 0) + 1 });
+    if (affectsCare(input) || existing && affectsCare(existing)) transaction.update(doc(db, 'plants', plantId), { careSummary: null, careRevision: (plant.data().careRevision || 0) + 1 });
     const sameDay = !!existing && (existing.calendarDay || plantDay(existing.timestamp.toDate(), existing.timeZone || zone)) === date;
     const eventZone = sameDay ? existing.timeZone || zone : zone;
     const precision = sameDay ? existing.occurrencePrecision || 'time' : date === plantDay(new Date(), zone) ? 'time' : 'date';
@@ -74,7 +75,7 @@ export async function deleteJournalEntry(plantId: string, id: string, expected?:
     const plant = await transaction.get(parent);
     if (!snapshot.exists()) return;
     if (typeof expected === 'object' ? journalRevision(snapshot.data()) !== journalRevision(expected) : snapshot.data().mutationId !== expected) throw new Error('This entry has changed. Open the journal to remove it.');
-    if (plant.exists() && ['watering', 'fertilizing'].includes(snapshot.data().type)) transaction.update(parent, { careSummary: null, careRevision: (plant.data().careRevision || 0) + 1 });
+    if (plant.exists() && affectsCare(snapshot.data())) transaction.update(parent, { careSummary: null, careRevision: (plant.data().careRevision || 0) + 1 });
     transaction.delete(ref);
   });
 }

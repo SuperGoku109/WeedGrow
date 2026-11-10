@@ -6,6 +6,35 @@ import { useLocalCareRevision } from '@/hooks/useLocalCareRevision';
 import { loadLocalCareSettings, saveLocalCareSettings, type LocalCareSettings } from '@/services/localCareSettings';
 import { defaultLocalCareSettings, localCarePreset, localCareSettingsError } from '@/lib/careAlgorithm/localCare';
 import type { PlantTheme } from './plantDetailTheme';
+import type { Plant } from '@/firestoreModels';
+
+/** The ordinary care flow has no engineering inputs. Test overrides are opt-in. */
+export default function LocalCareControls({ plantId, plant, theme: t, onEditSetup }: { plantId: string; plant?: Plant; theme: PlantTheme; onEditSetup?(): void }) {
+  const { user } = useSession(); const revision = useLocalCareRevision();
+  const [testing, setTesting] = React.useState(false); const [manual, setManual] = React.useState(false); const [error, setError] = React.useState('');
+  React.useEffect(() => {
+    let active = true;
+    void loadLocalCareSettings(plantId).then(value => { if (active) setManual(value.profileMode === 'manual'); }).catch(() => {});
+    return () => { active = false; };
+  }, [plantId, user?.uid, revision]);
+  const automatic = async () => {
+    try { await saveLocalCareSettings(plantId, defaultLocalCareSettings(Date.now() / 1000)); setManual(false); setTesting(false); setError(''); }
+    catch { setError('Care settings could not be reset. Retry.'); }
+  };
+  const basis = plant ? [plant.potSize ? `${plant.potSize} pot` : plant.plantedIn === 'pot' ? 'pot size needed' : 'ground planting', plant.growthStage,
+    plant.careMedium || 'medium not specified'].join(' · ') : '';
+  return <View style={{ marginTop: 10, gap: 5 }}>
+    <Text style={{ color: t.muted, fontSize: 13, lineHeight: 19 }}>{manual ? 'Manual test overrides are active.' : 'Care uses your soil observations, care history and local weather to suggest useful checks.'}</Text>
+    {!manual && !!basis && <Text style={{ color: t.muted, fontSize: 12 }}>{basis}</Text>}
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+      {manual && <GrowPress accessibilityRole="button" accessibilityLabel="Use automatic care" onPress={() => { void automatic(); }} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Use automatic care</Text></GrowPress>}
+      {!manual && plant?.plantedIn === 'pot' && !plant.potSize && onEditSetup && <GrowPress accessibilityRole="button" onPress={onEditSetup} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Add pot size in plant details</Text></GrowPress>}
+      <GrowPress accessibilityRole="button" accessibilityLabel="Advanced care testing" accessibilityState={{ expanded: testing }} onPress={() => setTesting(!testing)} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.muted, fontSize: 12 }}>{testing ? 'Hide advanced testing' : 'Advanced testing'}</Text></GrowPress>
+    </View>
+    {!!error && <Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text>}
+    {testing && <ManualCareControls plantId={plantId} theme={t} />}
+  </View>;
+}
 
 const fields = [
   ['et0MmPerDay', 'Test ET0 rate (mm/day)'], ['rainMmPerDay', 'Test rain rate (mm/day)'],
@@ -15,7 +44,7 @@ const fields = [
 ] as const;
 type Field = typeof fields[number][0];
 const drafts = (value: LocalCareSettings) => Object.fromEntries(fields.map(([key]) => [key, String(value[key])])) as Record<Field, string>;
-export default function LocalCareControls({ plantId, theme: t }: { plantId: string; theme: PlantTheme }) {
+function ManualCareControls({ plantId, theme: t }: { plantId: string; theme: PlantTheme }) {
   const { user } = useSession(); const revision = useLocalCareRevision();
   const [settings, setSettings] = React.useState(() => defaultLocalCareSettings(Date.now() / 1000));
   const [values, setValues] = React.useState(() => drafts(settings));
@@ -32,10 +61,10 @@ export default function LocalCareControls({ plantId, theme: t }: { plantId: stri
     }).catch(() => { if (active) setError('Test settings could not be loaded. Choose a preset to reset them.'); });
     return () => { active = false; };
   }, [plantId, user?.uid, revision]);
-  const persist = async (value: LocalCareSettings) => {
+  const persist = async (value: LocalCareSettings, profileMode: 'automatic' | 'manual' = 'manual') => {
     if (busy) return;
     setBusy(true); setError('');
-    try { await saveLocalCareSettings(plantId, value); setSettings(value); setValues(drafts(value)); }
+    try { const override = { ...value, profileMode }; await saveLocalCareSettings(plantId, override); setSettings(override); setValues(drafts(override)); }
     catch (failure) { setError(failure instanceof Error ? failure.message : 'Test settings could not be saved.'); }
     finally { setBusy(false); }
   };
@@ -77,7 +106,7 @@ export default function LocalCareControls({ plantId, theme: t }: { plantId: stri
       <Text style={[s.note, { color: t.muted }]}>Test start: {new Date(settings.anchorUtc * 1000).toLocaleString()}. Current plant setup is assumed throughout the test window.</Text>
       <View style={s.buttons}>{button(advanced ? 'Hide profile parameters' : 'Edit profile parameters', () => setAdvanced(!advanced))}{button('Apply and recalculate', () => { void apply(); })}
         {button('Reset test start', () => { void persist({ ...settings, anchorUtc: Date.now() / 1000 - 86400 }); })}
-        {button('Clear test', () => { void persist(defaultLocalCareSettings(Date.now() / 1000)); })}</View>
+        {button('Clear test', () => { void persist(defaultLocalCareSettings(Date.now() / 1000), 'automatic'); })}</View>
     </View>}
     {!!error && <Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text>}
   </View>;

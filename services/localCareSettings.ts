@@ -19,7 +19,7 @@ export async function loadLocalCareSettings(plantId: string, nowUtc = Date.now()
       if (!raw) return defaultLocalCareSettings(nowUtc);
       const parsed: unknown = JSON.parse(raw);
       if (localCareSettingsError(parsed)) throw new Error('Saved algorithm test inputs are invalid. Reset the test inputs.');
-      return { ...(parsed as LocalCareSettings), weatherMode: (parsed as LocalCareSettings).weatherMode ?? 'open-meteo' };
+      return { ...(parsed as LocalCareSettings), profileMode: (parsed as LocalCareSettings).profileMode ?? 'automatic', weatherMode: (parsed as LocalCareSettings).weatherMode ?? 'open-meteo' };
     });
     settings.set(key, result);
     if (settings.size > 100) settings.delete(settings.keys().next().value!);

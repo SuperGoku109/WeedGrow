@@ -53,3 +53,20 @@ test('read-only plants retain explanations without offering logging', async () =
   act(() => button('Expand care notes').props.onPress()); act(() => button('Urgent: Mildew risk').props.onPress());
   expect(text()).toContain('Mildew risk explanation'); expect(button('Log observation')).toBeUndefined();
 });
+
+test('direct observation guidance remains valid and recordable without a weather location', async () => {
+  const soil = { ...card('Soil reported moist', 'info', 'watering'), metrics: { observationDriven: true, checkStatus: 'CHECK_LATER' } };
+  await act(async () => { renderer = create(React.createElement(DailyCareAdvice, { cards: [soil], loading: false, error: '', hasLocation: false, theme: plantThemes.grove, onRefresh: () => {}, onRecord: record })); });
+  expect(text()).toContain('Soil reported moist');
+  act(() => button('Expand care notes').props.onPress());
+  act(() => button('Care note: Soil reported moist').props.onPress());
+  expect(button('Record soil check')).toBeDefined();
+});
+
+test('dry-soil confirmation offers an explicit watering log action', async () => {
+  const dry = { ...card('Watering may be appropriate', 'watch', 'watering'), metrics: { observationDriven: true, action: 'CONFIRM_DRY_SOIL', checkStatus: 'CHECK_NOW' } };
+  await act(async () => { renderer = create(React.createElement(DailyCareAdvice, { cards: [dry], loading: false, error: '', hasLocation: false, theme: plantThemes.grove, onRefresh: () => {}, onRecord: record })); });
+  act(() => button('Expand care notes').props.onPress());
+  act(() => button('Watch: Watering may be appropriate').props.onPress());
+  act(() => button('Log watering').props.onPress()); expect(record).toHaveBeenCalledWith('watering');
+});

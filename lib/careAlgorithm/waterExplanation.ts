@@ -2,6 +2,7 @@ import type { WaterResult } from './types';
 import { careCodeMessage } from './careDiagnostics';
 
 export function waterExplanation(water: WaterResult): string {
+  if (water.estimate) return water.estimate.explanation;
   const effects = water.evidence?.effects;
   if (water.needsWater === true) return 'Estimated watering is due: available water is at or below the watering threshold across all supported scenarios.'
     + (effects?.weatherDemand === true ? ' Weather demand is included in the loss estimate.' : '')
@@ -12,7 +13,7 @@ export function waterExplanation(water: WaterResult): string {
     + ' New weather and watering records can change this estimate.';
   const backendIssue = water.reasonCodes.find(r => r.startsWith('server_'));
   if (backendIssue && careCodeMessage(backendIssue)) return careCodeMessage(backendIssue)!;
-  const precise = water.reasonCodes.map(careCodeMessage).find(m => m !== null);
+  const precise = water.reasonCodes.filter(code => !['open_meteo_model_estimate', 'partial_hour_conditional_model_bounds'].includes(code)).map(careCodeMessage).find(m => m !== null);
   if (precise) return precise;
   if (water.reasonCodes.some(r => /profile/.test(r))) return 'A supported hops watering profile is unavailable for this setup. Your logs and routine reminders remain available.';
   if (water.reasonCodes.some(r => /history|forcing|acquisition|backfill/.test(r))) return 'Recent weather or watering history is incomplete, so a current watering estimate is unavailable. Your logs and routine reminders remain available.';

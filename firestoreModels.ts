@@ -7,6 +7,7 @@ export interface ProgressPic { calendarDay?: string; timeZone?: string; id: stri
 // ================================
 export interface CareSummaryEntry { id: string; mutationId?: string; timestamp: Timestamp; calendarDay?: string; timeZone?: string }
 export interface CareSummary { version: 1; revision: number; watering: CareSummaryEntry | null; fertilizing: CareSummaryEntry | null }
+export interface PlantReminderSchedule { type: 'interval' | 'custom' | 'smart' | 'none'; intervalDays?: number; customDays?: string[]; timeOfDay?: string }
 export interface Plant {
     waterLedgerRevision?: number;
     setupLedgerRevision?: number;
@@ -47,6 +48,11 @@ export interface Plant {
     plantedIn: 'pot' | 'ground';
   
     potSize?: string | null;
+    potType?: typeof import('./lib/care/plantContext').POT_TYPES[number] | null;
+    growingSite?: typeof import('./lib/care/plantContext').GROWING_SITES[number] | null;
+    potDrainage?: typeof import('./lib/care/plantContext').DRAINAGE_TYPES[number] | null;
+    fertilizerForm?: typeof import('./lib/care/plantContext').FERTILIZER_FORMS[number] | null;
+    potMaterial?: typeof import('./lib/care/plantContext').POT_MATERIALS[number] | null;
     sunlightExposure?: string | null;
     wateringFrequency?: string | null;
     fertilizer?: string | null;
@@ -72,12 +78,8 @@ export interface Plant {
     // Link to sensor profile (optional)
     sensorProfileId?: string | null;
   
-    reminderSchedule?: {
-      type: 'interval' | 'custom' | 'none';
-      intervalDays?: number;
-      customDays?: string[];
-      timeOfDay?: string;
-    };
+    reminderSchedule?: PlantReminderSchedule;
+    feedingReminderSchedule?: PlantReminderSchedule;
   
     createdAt: Timestamp | null;
     updatedAt: Timestamp | null;
@@ -98,7 +100,13 @@ export interface Plant {
     nutrientMlPerL?: number;
     ph?: number;
     heightCm?: number;
+    /** Legacy numeric measurement; never converted to inferred categories. */
     soilMoisture?: number;
+    moistureState?: 'DRY' | 'MOIST' | 'WET';
+    moistureConfiguration?: string;
+    /** Rain explicitly reported by the user; never a watering event. */
+    rainfallObservation?: 'LIGHT' | 'MODERATE' | 'HEAVY';
+    inspectionFeedback?: 'useful' | 'too_early' | 'too_late';
     category?: 'watering' | 'feeding' | 'pests' | 'training' | 'health' | 'notes';
     timestamp: Timestamp;
     type: 'watering' | 'fertilizing' | 'note' | 'photo' | 'training' | 'stage_change' | 'harvest';

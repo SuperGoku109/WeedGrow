@@ -1,0 +1,96 @@
+FAIL features/plants/__tests__/localCareControls.test.ts
+  ● presets activate the test and reveal assumptions and parameters
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected substring: "Choose Open-Meteo weather"
+    Received string:    "Care uses plant details, local weather and your watering history automatically. Advanced testing"
+
+      21 | afterEach(() => act(() => renderer.unmount()));
+      22 | test('presets activate the test and reveal assumptions and parameters', async () => {
+    > 23 |   expect(text()).toContain('Choose Open-Meteo weather');
+         |                  ^
+      24 |   await act(async () => button('Dry test').props.onPress());
+      25 |   expect(saveLocalCareSettings).toHaveBeenCalledWith('p', expect.objectContaining({ enabled: true, et0MmPerDay: 8, rainMmPerDay: 0 }));
+      26 |   expect(text()).toContain('not measured weather history');
+
+      at Object.toContain (features/plants/__tests__/localCareControls.test.ts:23:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● blank numeric input is rejected instead of becoming zero
+
+    TypeError: Cannot read properties of undefined (reading 'props')
+
+      29 | });
+      30 | test('blank numeric input is rejected instead of becoming zero', async () => {
+    > 31 |   await act(async () => button('Dry test').props.onPress());
+         |                                           ^
+      32 |   jest.mocked(saveLocalCareSettings).mockClear();
+      33 |   const input = renderer.root.findAllByType(TextInput).find((node: any) => node.props.accessibilityLabel === 'Test ET0 rate (mm/day)');
+      34 |   act(() => input.props.onChangeText(''));
+
+      at features/plants/__tests__/localCareControls.test.ts:31:43
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:789:22)
+      at Object.<anonymous> (features/plants/__tests__/localCareControls.test.ts:31:12)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● live weather mode hides manual forcing and saves the model selection
+
+    TypeError: Cannot read properties of undefined (reading 'props')
+
+      37 | });
+      38 | test('live weather mode hides manual forcing and saves the model selection', async () => {
+    > 39 |   await act(async () => button('Use Open-Meteo weather').props.onPress());
+         |                                                         ^
+      40 |   expect(saveLocalCareSettings).toHaveBeenCalledWith('p', expect.objectContaining({ enabled: true, weatherMode: 'open-meteo' }));
+      41 |   expect(renderer.root.findAllByType(TextInput).some((node: any) => node.props.accessibilityLabel === 'Test ET0 rate (mm/day)')).toBe(false);
+      42 |   expect(text()).toContain('conditional zero-to-full model amounts');
+
+      at features/plants/__tests__/localCareControls.test.ts:39:57
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12
+      at Object.<anonymous>.process.env.NODE_ENV.exports.act (node_modules/react/cjs/react.development.js:789:22)
+      at Object.<anonymous> (features/plants/__tests__/localCareControls.test.ts:39:12)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+FAIL services/__tests__/localPlantCare.test.ts
+  ● disabled or journal-excluded tests avoid all journal queries
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: "local_test_inputs_required"
+    Received array: ["local_meteo_unavailable"]
+
+      46 | });
+      47 | test('disabled or journal-excluded tests avoid all journal queries', async () => {
+    > 48 |   expect((await readLocalPlantCare(plant.id, plant, now)).evaluation?.water.reasonCodes).toContain('local_test_inputs_required');
+         |                                                                                          ^
+      49 |   expect(fetchLogsAndWeatherForRange).not.toHaveBeenCalled();
+      50 |   await saveLocalCareSettings(plant.id, { ...localCarePreset('dry', now.getTime() / 1000), includeJournal: false });
+      51 |   expect((await readLocalPlantCare(plant.id, plant, now)).evaluation?.water.needsWater).toBe(true);
+
+      at Object.toContain (services/__tests__/localPlantCare.test.ts:48:90)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS lib/careAlgorithm/__tests__/localCare.test.ts
+
+Test Suites: 2 failed, 1 passed, 3 total
+Tests:       4 failed, 22 passed, 26 total
+Snapshots:   0 total
+Time:        3.1 s

@@ -29,6 +29,7 @@ beforeEach(async () => {
   mockUid = 'demoUser'; resetLiveStores(); await AsyncStorage.clear();
   jest.useFakeTimers(); jest.setSystemTime(now);
   jest.mocked(fetchLogsAndWeatherForRange).mockResolvedValue({});
+  jest.mocked(fetchWeather).mockResolvedValue(openMeteoWeatherResponse(meteoFixture(), Date.now()));
 });
 afterEach(() => jest.useRealTimers());
 test('real interactive path runs the model without backend snapshots, provider requests or weather-cache queries', async () => {
@@ -44,12 +45,22 @@ test('real interactive path runs the model without backend snapshots, provider r
   expect(card.diagnostics?.some(row => /On-device experiment/.test(row.value))).toBe(true);
   expect(decodeCareSnapshot({ evaluation: insight.careEvaluation }, plant, now.getTime() / 1000)).toBeNull();
 });
-test('disabled or journal-excluded tests avoid all journal queries', async () => {
+test('disabled manual or journal-excluded tests avoid all journal queries', async () => {
+  await saveLocalCareSettings(plant.id, { ...localCarePreset('dry', now.getTime() / 1000), enabled: false });
   expect((await readLocalPlantCare(plant.id, plant, now)).evaluation?.water.reasonCodes).toContain('local_test_inputs_required');
   expect(fetchLogsAndWeatherForRange).not.toHaveBeenCalled();
   await saveLocalCareSettings(plant.id, { ...localCarePreset('dry', now.getTime() / 1000), includeJournal: false });
   expect((await readLocalPlantCare(plant.id, plant, now)).evaluation?.water.needsWater).toBe(true);
   expect(fetchLogsAndWeatherForRange).not.toHaveBeenCalled();
+});
+test('no saved test configuration is required for automatic care', async () => {
+  const result = await readLocalPlantCare(plant.id, plant, now);
+  expect(result.evaluation?.localInputs?.profileMode).toBe('automatic');
+  expect(result.evaluation?.profileVersion).toBe('observation-rules-v1');
+  expect(result.evaluation?.policyVersion).toBe('outdoor-observation-v1');
+  expect(result.evaluation?.outdoor?.recommendations.every(r => r.plantId === plant.id)).toBe(true);
+  expect(result.evaluation?.water.reasonCodes).not.toContain('local_test_inputs_required');
+  expect(fetchWeather).toHaveBeenCalled(); expect(fetchLogsAndWeatherForRange).toHaveBeenCalled();
 });
 test('failed journal reads are visible and cannot produce a watering or watering-dependent warning', async () => {
   await saveLocalCareSettings(plant.id, localCarePreset('dry', now.getTime() / 1000));

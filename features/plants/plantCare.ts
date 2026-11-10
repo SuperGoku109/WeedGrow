@@ -40,6 +40,7 @@ export function relevantCareGaps(plant: Plant) {
   return fields;
 }
 export function presentCareCard(card: SuggestionCard, wateredToday: boolean, stale: boolean, now = new Date()): SuggestionCard {
+  if (card.metrics.observationDriven) return typeof card.metrics.expiresAtUtc === 'number' && card.metrics.expiresAtUtc > now.getTime() / 1000 ? card : { ...card, active: false };
   const annotation = card.kind === 'watering' && wateredToday ? { ...card, summary: 'Watering recorded today. ' + card.summary } : card;
   if (card.algorithmVersion.startsWith('hops-')) {
     const expires = card.metrics.expiresAtUtc;

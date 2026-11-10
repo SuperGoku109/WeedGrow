@@ -9,8 +9,10 @@ import { evaluateWarnings, type WarningWindow } from './warnings';
 import { meteoCareSamples, evaluateMeteoWater } from './meteoCare';
 import type { WeatherResponse } from '@/lib/weather/weatherResponse';
 import { openWeatherStormConditions, meteoStormConditions } from './stormConditions';
+import { evaluateOutdoorCare } from './outdoorIntelligence';
 
 export interface LocalCareSettings {
+  profileMode?: 'automatic' | 'manual';
   weatherMode?: 'manual' | 'open-meteo';
   version: 1; enabled: boolean; anchorUtc: number; capacityL: number; thresholdL: number; initialReserveL: number;
   effectiveLossM2: number; catchmentM2: number; retainedFraction: number; et0MmPerDay: number; rainMmPerDay: number;
@@ -18,15 +20,16 @@ export interface LocalCareSettings {
 }
 /** Illustrative engineering inputs, not calibrated hops coefficients. Disabled until explicitly chosen. */
 export function defaultLocalCareSettings(nowUtc: number): LocalCareSettings {
-  return { version: 1, weatherMode: 'open-meteo', enabled: false, anchorUtc: nowUtc - 86400, capacityL: 2, thresholdL: .8, initialReserveL: 1,
+  return { version: 1, profileMode: 'automatic', weatherMode: 'open-meteo', enabled: false, anchorUtc: nowUtc - 86400, capacityL: 2, thresholdL: .8, initialReserveL: 1,
     effectiveLossM2: .2, catchmentM2: .08, retainedFraction: .8, et0MmPerDay: 4, rainMmPerDay: 0, extraWaterL: 0, includeJournal: true };
 }
 export function localCarePreset(kind: 'dry' | 'rainy', nowUtc: number): LocalCareSettings {
-  return { ...defaultLocalCareSettings(nowUtc), weatherMode: 'manual', enabled: true, et0MmPerDay: kind === 'dry' ? 8 : 3, rainMmPerDay: kind === 'rainy' ? 30 : 0 };
+  return { ...defaultLocalCareSettings(nowUtc), profileMode: 'manual', weatherMode: 'manual', enabled: true, et0MmPerDay: kind === 'dry' ? 8 : 3, rainMmPerDay: kind === 'rainy' ? 30 : 0 };
 }
 export function localCareSettingsError(value: unknown): string | null {
   if (!value || typeof value !== 'object') return 'Invalid local test settings.';
   const s = value as LocalCareSettings;
+  if (s.profileMode !== undefined && !['automatic', 'manual'].includes(s.profileMode)) return 'Invalid profile mode.';
   if (s.weatherMode !== undefined && !['manual', 'open-meteo'].includes(s.weatherMode)) return 'Invalid weather mode.';
   if (s.version !== 1 || typeof s.enabled !== 'boolean' || typeof s.includeJournal !== 'boolean') return 'Invalid local test settings.';
   for (const key of ['anchorUtc', 'capacityL', 'thresholdL', 'initialReserveL', 'effectiveLossM2', 'catchmentM2', 'retainedFraction', 'et0MmPerDay', 'rainMmPerDay', 'extraWaterL'] as const) {
@@ -46,9 +49,32 @@ const timestamp = (value: unknown): number | null => {
 };
 /** All water forcing here is explicitly user-assumed test forcing, never claimed as API observations. */
 export function evaluateLocalCare(plant: Plant, logs: readonly PlantLog[], settings: LocalCareSettings, nowUtc: number,
-  rawWeather?: unknown, weatherRetrievedUtc?: number, inputIssues: readonly string[] = []): Evaluation {
+  rawWeather?: unknown, weatherRetrievedUtc?: number, inputIssues: readonly string[] = [], automatic?: { profile?: Profile; basis: string[] }): Evaluation {
   if (!Number.isFinite(nowUtc)) throw new Error('invalid_evaluation_time');
   const setup = plantSetup(plant); const issues: string[] = [...inputIssues];
+  if (automatic) {
+    const native = (rawWeather as WeatherResponse | undefined)?._weedgrowMeteo;
+    let samples: WeatherSample[] = [];
+    if (rawWeather && typeof weatherRetrievedUtc === 'number') {
+      try {
+        samples = native ? meteoCareSamples(native, setup.locationRevision, weatherRetrievedUtc).map(s => s.kind === 'forecast' && s.valid_end_utc <= weatherRetrievedUtc
+          ? { ...s, kind: 'occurred_estimate' as const, reason_codes: [...s.reason_codes, 'past_model_estimate_not_observed'] } : s)
+          : normalizeOpenWeather(rawWeather, 'onecall_metric', { retrievedUtc: weatherRetrievedUtc, firstAvailableUtc: weatherRetrievedUtc, locationRevision: setup.locationRevision,
+            sourceRevision: `local-weather-${weatherRetrievedUtc}`, modelSelection: 'onecall_metric' }).samples;
+      } catch { /* Missing provider data never invalidates a direct soil observation. */ }
+    }
+    const outdoor = evaluateOutdoorCare({ plantId: (plant as Plant & { id?: string }).id ?? 'plant', plant, logs, samples, nowUtc,
+      historyReliable: !inputIssues.includes('local_journal_read_failed') });
+    const nextEvaluationUtc = Math.min(nowUtc + 300, ...(outdoor.nextCheckUtc !== null && outdoor.nextCheckUtc > nowUtc ? [outdoor.nextCheckUtc] : []), ...samples.map(s => s.retrieved_at_utc + 3600).filter(t => t > nowUtc));
+    for (const r of outdoor.recommendations) r.expiresAt = Math.min(r.expiresAt, nextEvaluationUtc);
+    outdoor.water.reasonCodes.push(...inputIssues.filter(code => code !== 'local_meteo_unavailable'));
+    return { execution: 'local-experimental', outdoor, engineVersion: ENGINE_VERSION, policyVersion: 'outdoor-observation-v1', profileVersion: 'observation-rules-v1',
+      evaluationUtc: nowUtc, locationRevision: setup.locationRevision, dataRevisionFingerprint: revisionFingerprint({ logs, configuration: outdoor.learning.configuration, weatherRetrievedUtc }),
+      nextEvaluationUtc, water: outdoor.water, warnings: [], weatherPreparationEnabled: outdoor.recommendations.some(r => r.type === 'weather'),
+      localInputs: { profileMode: 'automatic', weatherMode: settings.weatherMode, weatherRetrievedUtc, anchorUtc: settings.anchorUtc,
+        includeJournal: true, journalEntries: logs.length } };
+  }
+
   if (localCareSettingsError(settings)) issues.push('local_test_settings_invalid');
   if (!settings.enabled) issues.push('local_test_inputs_required');
   if (settings.anchorUtc > nowUtc) issues.push('local_test_anchor_future');
@@ -90,7 +116,7 @@ export function evaluateLocalCare(plant: Plant, logs: readonly PlantLog[], setti
   let water: WaterResult = { decision: 'uncertain', needsWater: null, reasonCodes: issues };
   const native = (rawWeather as WeatherResponse | undefined)?._weedgrowMeteo;
   if (!issues.length && settings.weatherMode === 'open-meteo') {
-    water = native && typeof weatherRetrievedUtc === 'number' ? evaluateMeteoWater({ setup, profile, anchorUtc: settings.anchorUtc, anchored: true, evaluationUtc: nowUtc, events }, native, weatherRetrievedUtc)
+    water = native && typeof weatherRetrievedUtc === 'number' ? evaluateMeteoWater({ setup, profile, anchorUtc: settings.anchorUtc, anchored: !automatic, evaluationUtc: nowUtc, events }, native, weatherRetrievedUtc)
       : { decision: 'uncertain', needsWater: null, reasonCodes: ['local_meteo_unavailable'] };
   } else if (!issues.length) {
     const result = evaluateShadow({ setup, profile, anchorUtc: settings.anchorUtc, anchored: true, evaluationUtc: nowUtc, weather, et0Source: source, rainSource: source, events });
@@ -109,7 +135,7 @@ export function evaluateLocalCare(plant: Plant, logs: readonly PlantLog[], setti
       if (forecast.length) windows.push({ phase: 'forecast24h', startUtc: nowUtc, endUtc: nowUtc + 86400, completeVariables: [], samples: forecast });
     } catch { /* Invalid API data cannot turn into weather warnings. */ }
   }
-  return { execution: 'local-experimental', localInputs: { weatherMode: settings.weatherMode ?? 'manual', weatherRetrievedUtc, anchorUtc: settings.anchorUtc, et0MmPerDay: settings.et0MmPerDay, rainMmPerDay: settings.rainMmPerDay,
+  return { execution: 'local-experimental', localInputs: { profileMode: 'manual', weatherMode: settings.weatherMode ?? 'manual', weatherRetrievedUtc, anchorUtc: settings.anchorUtc, et0MmPerDay: settings.et0MmPerDay, rainMmPerDay: settings.rainMmPerDay,
     initialReserveL: settings.initialReserveL, extraWaterL: settings.extraWaterL, includeJournal: settings.includeJournal, journalEntries: ids.size },
     engineVersion: ENGINE_VERSION, policyVersion: 'on-device-testing-v1', profileVersion: profile.version, evaluationUtc: nowUtc,
     locationRevision: setup.locationRevision, dataRevisionFingerprint: revisionFingerprint({ settings, events, weatherRetrievedUtc }), nextEvaluationUtc: nowUtc + 300,

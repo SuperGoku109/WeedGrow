@@ -1,6 +1,6 @@
 import type { WateringInsight } from '@/lib/suggestions/wateringSuggestions';
 
-export type SuggestionKind = 'watering' | 'powderyMildew' | 'rootRot' | 'weather' | 'weatherContext';
+export type SuggestionKind = 'watering' | 'powderyMildew' | 'rootRot' | 'weather' | 'weatherContext' | 'health';
 export type SuggestionSeverity = 'info' | 'watch' | 'warn' | 'critical';
 export type SuggestionConfidence = 'low' | 'medium' | 'high';
 

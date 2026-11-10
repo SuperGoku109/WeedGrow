@@ -6,12 +6,12 @@ jest.mock('firebase/firestore', () => ({
   collection: jest.fn(() => 'logs'), doc: jest.fn((_db, ...parts) => ({ id: parts.at(-1) || 'request', path: parts.join('/') })),
   serverTimestamp: jest.fn(() => 'server-time'), query: jest.fn(), where: jest.fn(), getDoc: jest.fn(), getDocs: jest.fn(), runTransaction: jest.fn(), Timestamp: { fromDate: (date: Date) => date },
 }));
-const set = jest.fn(); const remove = jest.fn(); const get = jest.fn();
+const update = jest.fn(); const set = jest.fn(); const remove = jest.fn(); const get = jest.fn();
 beforeEach(() => {
   jest.mocked(getDoc).mockImplementation(async ref => get(ref));
   jest.mocked(getDocs).mockResolvedValue({ docs: [], empty: true } as never);
   get.mockImplementation(async ref => ref.path === 'plants/p' ? { exists: () => true, data: () => ({ owners: ['user-a'], status: 'active' }) } : { exists: () => false });
-  jest.mocked(runTransaction).mockImplementation(async (_db, callback) => callback({ get, set, update: jest.fn(), delete: remove } as never));
+  jest.mocked(runTransaction).mockImplementation(async (_db, callback) => callback({ get, set, update, delete: remove } as never));
 });
 it('uses the same watering document for competing devices on the same local date', async () => {
   await saveJournalEntry('p', { type: 'watering', updatedBy: '' }, '2026-09-10', undefined, 'request-a');
@@ -62,4 +62,15 @@ it('detects legacy edits without a revision id by comparing the full opened base
 it('marks newly backdated entries as date-only and records their submission separately', async () => {
   await saveJournalEntry('p', { type: 'note', category: 'notes', description: 'Earlier observation', updatedBy: '' }, '2026-09-10', undefined, 'backfill');
   expect(set).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ occurrencePrecision: 'date', recordedAt: 'server-time' }));
+});
+
+it('observation saves preserve category and advance the care invalidation revision', async () => {
+  await saveJournalEntry('p', { type: 'note', category: 'health', moistureState: 'MOIST', moistureConfiguration: 'setup-1', inspectionFeedback: 'useful', updatedBy: '' }, '2026-09-10', undefined, 'soil-check');
+  expect(set).toHaveBeenCalledWith(expect.anything(), expect.objectContaining({ moistureState: 'MOIST', moistureConfiguration: 'setup-1', inspectionFeedback: 'useful', occurrencePrecision: 'date' }));
+  expect(update).toHaveBeenCalledWith(expect.objectContaining({ path: 'plants/p' }), { careSummary: null, careRevision: 1 });
+});
+it('observation deletion also advances care invalidation', async () => {
+  get.mockImplementation(async ref => ref.path === 'plants/p' ? { exists: () => true, data: () => ({ owners: ['user-a'], careRevision: 3 }) } : { exists: () => true, data: () => ({ type: 'note', moistureState: 'WET', mutationId: 'observation' }) });
+  await deleteJournalEntry('p', 'soil-check', 'observation');
+  expect(update).toHaveBeenCalledWith(expect.objectContaining({ path: 'plants/p' }), { careSummary: null, careRevision: 4 });
 });

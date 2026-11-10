@@ -1,0 +1,6 @@
+PASS features/home/__tests__/useWateringSuggestions.test.ts
+
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+Time:        2.17 s

@@ -43,6 +43,7 @@ export interface Profile {
 }
 export interface WaterResult {
   decision: Decision; needsWater: boolean | null; reasonCodes: string[];
+    estimate?: { method: 'weather-history-rule'; rule: string; explanation: string; lookbackHours: number };
   coverageIssue?: { variable: 'et0_mm' | 'liquid_rain_mm'; cause: 'gap' | 'missing_value' | 'invalid_value' | 'overlap' | 'unsupported_support'; fromUtc: number; toUtc: number };
   evidence?: {
     historyStartUtc: number; historyEndUtc: number;
@@ -53,7 +54,8 @@ export interface WaterResult {
 export interface Evaluation {
   /** Client experiments are never authenticated production releases. */
   execution?: 'local-experimental';
-  localInputs?: { weatherMode?: 'manual' | 'open-meteo'; weatherRetrievedUtc?: number; anchorUtc: number; et0MmPerDay: number; rainMmPerDay: number; initialReserveL: number; extraWaterL: number; includeJournal: boolean; journalEntries: number };
+  localInputs?: { profileMode?: 'automatic' | 'manual'; automaticBasis?: string[]; weatherMode?: 'manual' | 'open-meteo'; weatherRetrievedUtc?: number; anchorUtc: number; et0MmPerDay?: number; rainMmPerDay?: number; initialReserveL?: number; extraWaterL?: number; includeJournal: boolean; journalEntries: number };
+  outdoor?: import('./outdoorIntelligence').OutdoorIntelligence;
   stormConditions?: import('./stormConditions').StormCondition[];
   waterRelease?: { approvalRecordId: string; profileId: string; profileVersion: string };
   weatherPreparationEnabled?: boolean;

@@ -20,6 +20,7 @@ beforeEach(async () => {
 });
 afterEach(() => act(() => renderer.unmount()));
 test('presets activate the test and reveal assumptions and parameters', async () => {
+  await act(async () => button('Advanced care testing').props.onPress());
   expect(text()).toContain('Choose Open-Meteo weather');
   await act(async () => button('Dry test').props.onPress());
   expect(saveLocalCareSettings).toHaveBeenCalledWith('p', expect.objectContaining({ enabled: true, et0MmPerDay: 8, rainMmPerDay: 0 }));
@@ -28,6 +29,7 @@ test('presets activate the test and reveal assumptions and parameters', async ()
   expect(saveLocalCareSettings).toHaveBeenLastCalledWith('p', expect.objectContaining({ rainMmPerDay: 30 }));
 });
 test('blank numeric input is rejected instead of becoming zero', async () => {
+  await act(async () => button('Advanced care testing').props.onPress());
   await act(async () => button('Dry test').props.onPress());
   jest.mocked(saveLocalCareSettings).mockClear();
   const input = renderer.root.findAllByType(TextInput).find((node: any) => node.props.accessibilityLabel === 'Test ET0 rate (mm/day)');
@@ -36,8 +38,14 @@ test('blank numeric input is rejected instead of becoming zero', async () => {
   expect(saveLocalCareSettings).not.toHaveBeenCalled(); expect(text()).toContain('Blank values are not zero');
 });
 test('live weather mode hides manual forcing and saves the model selection', async () => {
+  await act(async () => button('Advanced care testing').props.onPress());
   await act(async () => button('Use Open-Meteo weather').props.onPress());
   expect(saveLocalCareSettings).toHaveBeenCalledWith('p', expect.objectContaining({ enabled: true, weatherMode: 'open-meteo' }));
   expect(renderer.root.findAllByType(TextInput).some((node: any) => node.props.accessibilityLabel === 'Test ET0 rate (mm/day)')).toBe(false);
   expect(text()).toContain('conditional zero-to-full model amounts');
+});
+test('normal care needs no technical inputs, presets or enable button', () => {
+  expect(renderer.root.findAllByType(TextInput)).toHaveLength(0);
+  expect(button('Dry test')).toBeUndefined(); expect(button('Use Open-Meteo weather')).toBeUndefined();
+  expect(text()).toContain('soil observations'); expect(saveLocalCareSettings).not.toHaveBeenCalled();
 });

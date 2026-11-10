@@ -52,6 +52,13 @@ export function useWateringSuggestions(plants: PlantWithId[], enabled = true): W
     }, 100);
     return () => { clearTimeout(timer); controller.abort(); };
   }, [enabled, uid, inputKey, requestKey, activity.loading, ids.length]);
+  useEffect(() => {
+    if (!enabled || result.loading || result.key !== requestKey || result.error) return;
+    const due = Math.min(...result.insights.flatMap(i => i.careEvaluation?.outdoor && typeof i.careEvaluation.nextEvaluationUtc === 'number' ? [i.careEvaluation.nextEvaluationUtc] : []));
+    if (!Number.isFinite(due)) return;
+    const timer = setTimeout(retry, Math.max(1000, due * 1000 - Date.now() + 25));
+    return () => clearTimeout(timer);
+  }, [enabled, result, requestKey]);
   const insights = useMemo(() => enabled && result.key === requestKey ? result.insights : [], [enabled, result.key, result.insights, requestKey]);
   const loading = enabled && !!uid && ids.length > 0 && (activity.loading || result.key !== requestKey || result.loading);
   const error = activity.error || (result.key === requestKey ? result.error : null);
@@ -59,10 +66,15 @@ export function useWateringSuggestions(plants: PlantWithId[], enabled = true): W
   const freshnessUtc = Date.now() / 1000;
   const isFresh = useCallback((insight: WateringInsight) => evaluationValidAt(insight.careEvaluation, freshnessUtc), [freshnessUtc]);
   const stale = enabled && ids.length > 0 && !loading && (!insights.length || insights.some(insight => !isFresh(insight)));
-  const plantsNeedingWater = useMemo(() => insights.filter(insight => waterDecisionAt(insight.careEvaluation, freshnessUtc) === true), [insights, freshnessUtc]);
+  const plantsNeedingWater = useMemo(() => insights.filter(insight => isFresh(insight) && (insight.careEvaluation?.outdoor ? ['CHECK_NOW', 'CHECK_SOON'].includes(insight.careEvaluation.outdoor.checkStatus) : waterDecisionAt(insight.careEvaluation, freshnessUtc) === true)), [insights, freshnessUtc, isFresh]);
 
   const suggestions = useMemo<Suggestion[]>(() => {
-    if (!plantsNeedingWater.length) return [];
+    const rank = { HIGH: 0, MEDIUM: 1, LOW: 2 };
+    const conditions: Suggestion[] = insights.filter(isFresh).flatMap(insight => (insight.careEvaluation?.outdoor?.recommendations ?? [])
+      .filter(r => r.type !== 'watering' && r.expiresAt > freshnessUtc).map(r => ({ recommendation: r, plantName: insight.plantName, plantId: insight.plantId })))
+      .sort((a, b) => rank[a.recommendation.priority] - rank[b.recommendation.priority]).slice(0, 3)
+      .map(({ recommendation: r, plantName, plantId }) => ({ key: `${plantId}:${r.category}`, icon: r.type === 'weather' ? '🌦️' : '🌿', title: r.title, description: r.description, affected: [plantName] }));
+    if (!plantsNeedingWater.length) return conditions;
 
     const uniqueNames = Array.from(
       new Set(plantsNeedingWater.map((insight) => insight.plantName))
@@ -73,16 +85,16 @@ export function useWateringSuggestions(plants: PlantWithId[], enabled = true): W
         ? plantsNeedingWater[0].reason
         : `${plantsNeedingWater.length} plants flagged. ${plantsNeedingWater[0].reason}`;
 
-    return [
+    return [...conditions,
       {
         key: 'watering',
         icon: '💧',
         title: 'Plants to check for watering',
-        description: 'Experimental on-device estimates use your selected weather mode and test profile. Check soil moisture before acting. ' + description,
+        description: (plantsNeedingWater.every(insight => insight.careEvaluation?.localInputs?.profileMode === 'automatic') ? 'Based on soil observations, weather and care records. ' : 'Manual test overrides are included. ') + 'Check soil moisture before watering. ' + description,
         affected: uniqueNames,
       },
     ];
-  }, [plantsNeedingWater]);
+  }, [plantsNeedingWater, insights, isFresh, freshnessUtc]);
 
   return {
     stale, refresh,

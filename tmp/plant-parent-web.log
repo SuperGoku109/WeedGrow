@@ -1,0 +1,51 @@
+Starting Metro Bundler
+Static rendering is enabled. Learn more: https://docs.expo.dev/router/reference/static-rendering/
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓░░░░░░░░░ 47.9% ( 731/1111)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓░░░░░░░░ 55.5% ( 864/1220)
+| (node:33220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 85.5% (1672/1808)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 84.2% (1797/1965)
+| (node:4352) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+λ Bundled 10252ms node_modules\expo-router\node\render.js (2270 modules)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (2131/2132)
+Web Bundled 13278ms node_modules\expo-router\entry.js (2139 modules)
+
+› web bundles (7):
+_expo/static/css/accessibilityStyles-563c84b77ca5f3cc902be14a2d98d43b.css (230 B)
+_expo/static/css/leaflet-0a73d6787c8f1a38d8aeeeff6d84fadd.css (10.5 kB)
+_expo/static/css/mapPicker-dc485c8d51c73e8068d4de147eec6cb7.css (299 B)
+_expo/static/css/modal.module-33361d5c796745334f151cac6c469469.css (2.27 kB)
+_expo/static/js/web/entry-796957a02e88aa72b4d536b18aab74dc.js (4.99 MB)
+_expo/static/js/web/leaflet-src-00c663218324ebbd6fef03f8a0fbcbc8.js (149 kB)
+_expo/static/js/web/plantCareEvaluation-5edf3e0cc910750be1dba46135d4d470.js (4.22 kB)
+
+› Static routes (23):
+/care (40.8 kB)
+/more (57.7 kB)
+/ (index) (38.8 kB)
+/account (42.3 kB)
+/journal (47.7 kB)
+/_sitemap (38.6 kB)
+/profiles (48.5 kB)
+/add-group (50.9 kB)
+/locations (40.2 kB)
+/+not-found (39.2 kB)
+/setup-gaps (39.6 kB)
+/group/[id] (40.2 kB)
+/plant/[id] (40.7 kB)
+/(tabs)/more (57.7 kB)
+/(tabs) (49.3 kB)
+/(tabs)/profiles (48.5 kB)
+/add-plant (39.9 kB)
+/plant/[id]/edit (39.3 kB)
+/add-sensor-profile (53.9 kB)
+/group/[id]/add-plants (50.9 kB)
+/plant/ProgressGallery (39.6 kB)
+/manage-sensor-profiles (43.4 kB)
+/plant/LogHistoryCalendar (39.3 kB)
+
+Exported: tmp/plant-parent-web

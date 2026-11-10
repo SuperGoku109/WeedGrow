@@ -87,3 +87,7 @@ it('keeps unknown age separate from when the plant was added', async () => {
   expect(set).toHaveBeenCalledWith(expect.objectContaining({ path: 'plants/minimal' }), expect.objectContaining({ createdAt: 'server-time', startedOn: null, imageUri: null, location: null, ageKnown: false }));
   expect(preparePhotoRecord).not.toHaveBeenCalled();
 });
+it('persists independent reminder modes and optional container/site details', async () => {
+  await savePlantToFirestore({ ...form, potMaterial: 'fabric', potType: 'grow_bag', potDrainage: 'holes', growingSite: 'balcony', fertilizerForm: 'liquid', rainExposure: 'sheltered', careMedium: 'soil', reminderSchedule: { type: 'smart' }, feedingReminderSchedule: { type: 'custom', customDays: ['fri'], timeOfDay: '10:00' } }, 'plant-a');
+  expect(set).toHaveBeenCalledWith(expect.objectContaining({ path: 'plants/plant-a' }), expect.objectContaining({ potMaterial: 'fabric', potType: 'grow_bag', growingSite: 'balcony', potDrainage: 'holes', fertilizerForm: 'liquid', rainReception: { soil: 'no', canopy: 'no' }, reminderSchedule: { type: 'smart' }, feedingReminderSchedule: { type: 'custom', customDays: ['fri'], timeOfDay: '10:00' } }));
+});

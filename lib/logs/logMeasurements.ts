@@ -13,6 +13,9 @@ export function measurementError(key: MeasurementKey, value: number) {
   return !Number.isFinite(value) || value < 0 || value > field.max ? `Enter ${key === 'ph' ? 'pH' : field.label.toLowerCase()} between 0 and ${field.max.toLocaleString('en-GB')}${key === 'ph' ? '' : ' ' + field.unit}.` : '';
 }
 export function validateMeasurements(log: Partial<PlantLog>) {
+  if (log.rainfallObservation != null && !['LIGHT', 'MODERATE', 'HEAVY'].includes(log.rainfallObservation)) throw new Error('Choose light, moderate or heavy rainfall.');
+  if (log.inspectionFeedback != null && !['useful', 'too_early', 'too_late'].includes(log.inspectionFeedback)) throw new Error('Invalid inspection feedback.');
+  if (log.moistureState != null && !['DRY', 'MOIST', 'WET'].includes(log.moistureState)) throw new Error('Choose dry, moist or wet soil.');
   for (const key of measurementKeys) {
     if (log[key] != null && measurementError(key, log[key]!)) throw new Error(measurementError(key, log[key]!));
   }

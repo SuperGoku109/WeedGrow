@@ -1,3 +1,4 @@
+import { rainReception } from '@/lib/careAlgorithm/setupFacts';
 import { arrayUnion, collection, doc, runTransaction, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import { requireUserId } from '@/services/session';
@@ -31,6 +32,9 @@ export async function savePlantToFirestore(input: PlantForm, plantId = createPla
     name: form.name, strain: form.strain, strainType: form.strainType || 'unknown', owners: [uid],
     growthStage: form.growthStage, ageDays: ageNum, ageKnown: !!form.ageDays,
     status: 'active', environment: form.environment, plantedIn: form.plantedIn,
+    rainReception: rainReception(form.rainExposure || 'unknown'), careMedium: form.careMedium || null,
+    potMaterial: form.plantedIn === 'pot' ? form.potMaterial || null : null, potType: form.plantedIn === 'pot' ? form.potType || null : null, potDrainage: form.plantedIn === 'pot' ? form.potDrainage || null : null, growingSite: form.growingSite || null, fertilizerForm: form.fertilizerForm || null,
+    ...(form.reminderSchedule ? { reminderSchedule: form.reminderSchedule } : {}), ...(form.feedingReminderSchedule ? { feedingReminderSchedule: form.feedingReminderSchedule } : {}),
     potSize: form.potSize || null, sunlightExposure: form.sunlightExposure || null,
     wateringFrequency: form.wateringFrequency || null, fertilizer: form.fertilizer || null,
     feedingFrequency: form.feedingFrequency || null,

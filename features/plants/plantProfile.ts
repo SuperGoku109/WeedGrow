@@ -1,3 +1,5 @@
+import { contextLabel } from '@/lib/care/plantContext';
+import { effectiveSchedule } from '@/lib/care/reminderSchedules';
 import type { Plant } from '@/firestoreModels';
 import { isCalendarDay } from '@/lib/dates/plantDay';
 import { plantAgeLabel } from '@/lib/plants/plantAge';
@@ -19,6 +21,7 @@ function fields(values: [string, unknown, boolean?][]): ProfileField[] {
 }
 export function reminderLabel(schedule: Plant['reminderSchedule']) {
   if (!schedule) return undefined;
+  if (schedule.type === 'smart') return 'Smart schedule' + (schedule.intervalDays ? ` · review interval ${schedule.intervalDays} days` : ' · soil checks');
   if (schedule.type === 'none') return 'Reminders off';
   const days = schedule.type === 'interval' ? schedule.intervalDays === 1 ? 'Every day' : schedule.intervalDays ? `Every ${schedule.intervalDays} days` : 'Interval reminder' : schedule.customDays?.map(day => words(day)).join(', ') || 'Custom reminder';
   return days + (schedule.timeOfDay ? ` at ${schedule.timeOfDay}` : '');
@@ -27,8 +30,8 @@ export function plantProfile(plant: Plant) {
   const age = plantAgeLabel(plant);
   return {
     basics: fields([['Growth stage', words(plant.growthStage)], ['Status', words(plant.status)], ['Strain', plant.strain, true], ['Strain type', words(plant.strainType)], ['Growing for', age === 'Unknown' ? undefined : age], ['Started growing', profileDate(plant.startedOn)], ['Height', plant.height != null ? `${plant.height} cm` : undefined]]),
-    setup: fields([['Environment', words(plant.environment)], ['Planted in', plant.plantedIn === 'ground' ? 'In the ground' : plant.plantedIn === 'pot' ? 'Pot' : words(plant.plantedIn)], ['Pot size', plant.potSize], ['Soil', words(plant.soilType === 'native' ? 'Native soil' : plant.soilType === 'raised' ? 'Raised bed soil' : plant.soilType === 'store' ? 'Potting soil' : plant.soilType)], ['Soil pH', plant.soilPh], ['Sunlight', plant.sunlightExposure, true], ['Protection', words(plant.permanentProtection), true], ['Companion plants', plant.companionPlants?.join(', '), true]]),
-    care: fields([['Watering', plant.wateringFrequency], ['Feeding', plant.feedingFrequency], ['Fertilizer', plant.fertilizer], ['Reminders', reminderLabel(plant.reminderSchedule)]]),
+    setup: fields([['Environment', words(plant.environment)], ['Planted in', plant.plantedIn === 'ground' ? 'In the ground' : plant.plantedIn === 'pot' ? 'Pot' : words(plant.plantedIn)], ['Pot size', plant.potSize], ['Pot material', plant.potMaterial ? contextLabel(plant.potMaterial) : undefined], ['Pot type', plant.potType ? contextLabel(plant.potType) : undefined], ['Drainage', plant.potDrainage ? contextLabel(plant.potDrainage) : undefined], ['Site', plant.growingSite ? contextLabel(plant.growingSite) : undefined], ['Soil', words(plant.soilType === 'native' ? 'Native soil' : plant.soilType === 'raised' ? 'Raised bed soil' : plant.soilType === 'store' ? 'Potting soil' : plant.soilType)], ['Soil pH', plant.soilPh], ['Sunlight', plant.sunlightExposure, true], ['Protection', words(plant.permanentProtection), true], ['Companion plants', plant.companionPlants?.join(', '), true]]),
+    care: fields([['Watering', plant.wateringFrequency], ['Feeding', plant.feedingFrequency], ['Fertilizer', plant.fertilizer], ['Fertilizer type', plant.fertilizerForm ? contextLabel(plant.fertilizerForm) : undefined], ['Watering reminders', reminderLabel(effectiveSchedule(plant, 'watering'))], ['Fertilizing reminders', reminderLabel(effectiveSchedule(plant, 'feeding'))]]),
     technical: fields([['Coordinates', plant.location ? `${plant.location.lat.toFixed(4)}, ${plant.location.lng.toFixed(4)}` : undefined, true], ['Sensor profile', plant.sensorProfileId, true], ['Time zone', plant.locationTimeZone, true]]),
     notes: fields([['Plant notes', plant.notes, true], ['Growing notes', plant.environmentNotes, true], ['Training', plant.trainingTags?.join(', '), true], ['Pests recorded', plant.pests?.join(', '), true]]),
     record: fields([['Added to garden', recordDate(plant.createdAt, plant.locationTimeZone)], ['Last updated', recordDate(plant.updatedAt, plant.locationTimeZone)]]),

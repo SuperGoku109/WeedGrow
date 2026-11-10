@@ -1,3 +1,4 @@
+import { RAIN_EXPOSURES } from '@/lib/careAlgorithm/setupFacts';
 import type { PlantForm } from '@/features/plants/form/PlantForm';
 import { localDateKey, validateLogDate } from '@/lib/logs/plantJournal';
 import { validatePlantFields, MAX_PLANT_AGE_DAYS, PLANT_ENVIRONMENTS } from '@/lib/plants/plantValidation';
@@ -23,7 +24,8 @@ export const protectionOptions = [
 export type FormErrors = Partial<Record<keyof PlantForm, string>>;
 
 export function validatePlantForm(form: PlantForm, today = localDateKey()): FormErrors {
-  const errors = validatePlantFields({ name: form.name, strainType: form.strainType || 'unknown', growthStage: form.growthStage, environment: form.environment, plantedIn: form.plantedIn, ageDays: form.ageDays.trim() ? Number(form.ageDays) : null, soilPh: form.soilPh, location: form.location }) as FormErrors;
+  const errors = validatePlantFields({ careMedium: form.careMedium, potMaterial: form.potMaterial, potType: form.potType, growingSite: form.growingSite, potDrainage: form.potDrainage, fertilizerForm: form.fertilizerForm, reminderSchedule: form.reminderSchedule, feedingReminderSchedule: form.feedingReminderSchedule, name: form.name, strainType: form.strainType || 'unknown', growthStage: form.growthStage, environment: form.environment, plantedIn: form.plantedIn, ageDays: form.ageDays.trim() ? Number(form.ageDays) : null, soilPh: form.soilPh, location: form.location }) as FormErrors;
+  if (form.rainExposure && !RAIN_EXPOSURES.includes(form.rainExposure as typeof RAIN_EXPOSURES[number])) errors.rainExposure = 'Choose a valid rain exposure.';
   if (form.ageDays.trim() && (!/^\d+$/.test(form.ageDays.trim()) || Number(form.ageDays) > MAX_PLANT_AGE_DAYS)) {
     errors.ageDays = 'Enter a whole number from 0 to 36,500 days.';
   }

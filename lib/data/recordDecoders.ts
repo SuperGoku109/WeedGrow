@@ -1,3 +1,5 @@
+import { contextChoices } from '@/lib/care/plantContext';
+import { validatePlantDatesAndReminders } from '@/lib/plants/plantRules';
 import type { Plant, Group, PlantLog, WeatherCacheEntry, ProgressPic } from '@/firestoreModels';
 import type { Timestamp } from 'firebase/firestore';
 import { isCalendarDay } from '@/lib/dates/plantDay';
@@ -30,7 +32,9 @@ export function decodePlant(value: unknown, path: string): Plant {
   optional(data, ['pests', 'trainingTags', 'companionPlants'], strings, path); optional(data, ['location'], point, path); clocks(data, path);
   if (data.locationMode != null) check(['custom', 'space'].includes(String(data.locationMode)), path, 'locationMode');
   for (const field of ['careSnoozes', 'careSkips']) if (data[field] != null) { const entries = record(data[field], path); check(Object.values(entries).every(field === 'careSnoozes' ? finite : value => text(value) && isCalendarDay(value)), path, field); }
-  if (data.reminderSchedule != null) { const schedule = record(data.reminderSchedule, path); check(['none', 'interval', 'custom'].includes(String(schedule.type)), path, 'reminderSchedule'); optional(schedule, ['intervalDays'], finite, path); optional(schedule, ['customDays'], strings, path); optional(schedule, ['timeOfDay'], text, path); }
+  for (const [key, choices] of Object.entries(contextChoices)) if (data[key] != null) check((choices as readonly unknown[]).includes(data[key]), path, key);
+  if (data.feedingReminderSchedule != null) check(!validatePlantDatesAndReminders({ feedingReminderSchedule: data.feedingReminderSchedule }).feedingReminderSchedule, path, 'feedingReminderSchedule');
+  if (data.reminderSchedule != null) { const schedule = record(data.reminderSchedule, path); check(['none', 'interval', 'custom', 'smart'].includes(String(schedule.type)), path, 'reminderSchedule'); optional(schedule, ['intervalDays'], finite, path); optional(schedule, ['customDays'], strings, path); optional(schedule, ['timeOfDay'], text, path); }
   if (data.currentWeather != null) decodeWeather(data.currentWeather, `${path}/currentWeather`);
   if (data.harvest != null) { const harvest = record(data.harvest, path); check(text(harvest.date) && text(harvest.recordId) && text(harvest.notes), path, 'harvest'); optional(harvest, ['weightGrams'], finite, path); }
   optional(data, ['careMedium', 'careEvaluationRevision'], text, path);
@@ -51,6 +55,10 @@ export function decodeLog(value: unknown, path: string): PlantLog {
   const data = record(value, path); check(['watering', 'fertilizing', 'note', 'photo', 'training', 'stage_change', 'harvest'].includes(String(data.type)), path, 'type'); check(timestamp(data.timestamp), path, 'timestamp');
   optional(data, ['description', 'updatedBy', 'photoUri', 'calendarDay', 'timeZone', 'mutationId'], text, path);
   optional(data, ['waterMl', 'nutrientMlPerL', 'ph', 'heightCm', 'soilMoisture'], finite, path); clocks(data, path);
+  optional(data, ['moistureConfiguration'], text, path);
+  if (data.rainfallObservation != null) check(['LIGHT', 'MODERATE', 'HEAVY'].includes(String(data.rainfallObservation)), path, 'rainfallObservation');
+  if (data.inspectionFeedback != null) check(['useful', 'too_early', 'too_late'].includes(String(data.inspectionFeedback)), path, 'inspectionFeedback');
+  if (data.moistureState != null) check(['DRY', 'MOIST', 'WET'].includes(String(data.moistureState)), path, 'moistureState');
   if (data.occurrencePrecision != null) check(['date', 'time'].includes(String(data.occurrencePrecision)), path, 'occurrencePrecision');
   if (data.category != null) check(['watering', 'feeding', 'pests', 'training', 'health', 'notes'].includes(String(data.category)), path, 'category');
   if (data.movement != null) { const movement = record(data.movement, path); optional(movement, ['from', 'to'], point, path); optional(movement, ['fromLabel', 'toLabel'], text, path); check(finite(movement.revision), path, 'movement'); }

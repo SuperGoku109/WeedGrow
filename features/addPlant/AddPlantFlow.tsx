@@ -20,7 +20,7 @@ const steps = [
   { label: 'Details', title: 'The little things matter.', subtitle: 'A photo, a routine, a few notes. Make this plant your own.', note: 'Make it personal', caption: 'Keep the details you know. Discover the rest along the way.' },
   { label: 'Review', title: 'Ready to put down roots?', subtitle: 'One last look. You can edit any section before adding your plant.', note: 'The story starts here', caption: 'A little care today. A growing collection of memories tomorrow.' },
 ];
-const stepFields = [['name', 'growthStage', 'strainType', 'startedOn', 'ageDays'], ['groupId', 'environment', 'plantedIn', 'soilPh'], ['location'], ['lastWateredOn', 'lastFedOn']] as const;
+const stepFields = [['name', 'growthStage', 'strainType', 'startedOn', 'ageDays'], ['groupId', 'environment', 'plantedIn', 'soilPh', 'rainExposure', 'careMedium', 'potMaterial', 'potType', 'potDrainage', 'growingSite'], ['location'], ['lastWateredOn', 'lastFedOn', 'reminderSchedule', 'feedingReminderSchedule', 'fertilizerForm']] as const;
 
 export default function AddPlantFlow() {
   const router = useRouter();

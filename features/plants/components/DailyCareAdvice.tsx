@@ -9,13 +9,20 @@ import { InsightPanel } from './PlantDetailPanels';
 export default function DailyCareAdvice({ cards, loading, error, hasLocation, theme: t, onRefresh, onRecord, canRecord = true }: { cards: SuggestionCard[]; loading: boolean; error: string; hasLocation: boolean; theme: PlantTheme; onRefresh(): void; onRecord?(category: import('@/lib/logs/plantJournal').JournalCategory, context?: 'soil-check'): void; canRecord?: boolean }) {
   const [expanded, setExpanded] = React.useState(false);
   const [openNote, setOpenNote] = React.useState<string | null>(null);
-  if (!hasLocation && !loading && !cards.some(card => card.metrics.experimental === true)) return <Text style={{ color: t.muted, fontSize: 14, lineHeight: 21 }}>Add a location in Details for weather-based care advice.</Text>;
+  if (!hasLocation && !loading && !cards.some(card => card.metrics.experimental === true || card.metrics.observationDriven === true)) return <Text style={{ color: t.muted, fontSize: 14, lineHeight: 21 }}>Add a location in Details for weather-based care advice.</Text>;
   if (loading) return <View accessibilityLiveRegion="polite" style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 12 }}><ActivityIndicator size="small" color={t.accent} /><Text style={{ color: t.muted, fontSize: 14 }}>Checking today’s care advice…</Text></View>;
   if (error) return <View style={{ gap: 10 }}><Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 14 }}>{error}</Text><PlantActionButton label="Retry care advice" icon="refresh" theme={t} onPress={onRefresh} /></View>;
-  if (!cards.length) return <Text style={{ color: t.muted, fontSize: 14, paddingVertical: 8 }}>Care estimates are unavailable.</Text>;
+  if (!cards.length) return <View style={{ gap: 8 }}><Text style={{ color: t.muted, fontSize: 14, paddingVertical: 8 }}>Care advice is unavailable. Refresh to check current conditions.</Text><PlantActionButton label="Refresh care advice" icon="refresh" theme={t} onPress={onRefresh} /></View>;
   const priority = { critical: 0, warn: 1, watch: 2, info: 3 };
   const ordered = [...cards].sort((a, b) => priority[a.severity] - priority[b.severity]);
   const lead = ordered[0];
+  const soil = cards.find(card => card.kind === 'watering' && card.metrics.observationDriven);
+  const localStamp = (value: unknown, timeKnown = true) => {
+    if (typeof value !== 'number') return 'Not found in loaded history';
+    try { return new Date(value * 1000).toLocaleString('en-GB', { timeZone: typeof soil?.metrics.timeZone === 'string' ? soil.metrics.timeZone : 'UTC', day: 'numeric', month: 'short', ...(timeKnown ? { hour: '2-digit', minute: '2-digit' } : {}) }); }
+    catch { return new Date(value * 1000).toISOString(); }
+  };
+
   const color = lead.severity === 'critical' ? t.danger : lead.severity === 'info' ? t.accent : t.warm;
   const severity = { critical: 'Urgent', warn: 'Needs attention', watch: 'Watch', info: 'Care note' }[lead.severity];
   const count = `${ordered.length} ${ordered.length === 1 ? 'note' : 'notes'}`;
@@ -30,8 +37,13 @@ export default function DailyCareAdvice({ cards, loading, error, hasLocation, th
       </View>
       <MaterialCommunityIcons name={expanded ? 'chevron-up' : 'chevron-down'} size={22} color={t.muted} />
     </GrowPress>
+    {soil && <View style={{ paddingHorizontal: 14, paddingBottom: 12, gap: 4 }}>
+      <Text style={{ color: t.muted, fontSize: 12 }}>Last watering: {localStamp(soil.metrics.lastWateringUtc, soil.metrics.lastWateringTimeKnown === true)}</Text>
+      <Text style={{ color: t.muted, fontSize: 12 }}>Last soil check: {soil.metrics.lastMoistureState ? `${String(soil.metrics.lastMoistureState).toLowerCase()} · ${localStamp(soil.metrics.lastObservationUtc)} (user-reported)` : 'Not found in loaded history'}</Text>
+      <Text style={{ color: t.muted, fontSize: 12 }}>Check status: {({ CHECK_NOW: 'Check now', CHECK_SOON: 'Check soon', CHECK_LATER: 'Check later', INSUFFICIENT_DATA: 'Check directly; information incomplete' } as Record<string, string>)[String(soil.metrics.checkStatus)]}</Text>
+    </View>}
     {expanded && <View>
-      {ordered.map(card => <View key={card.id} style={{ borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: t.border }}><InsightPanel theme={t} card={card} expanded={openNote === card.id} onToggle={() => setOpenNote(openNote === card.id ? null : card.id)} onRecord={canRecord && onRecord && !['weather', 'weatherContext'].includes(card.kind) && !(card.algorithmVersion.startsWith('hops-') && card.metrics.needsWater === null) ? () => onRecord('health', card.kind === 'watering' ? 'soil-check' : undefined) : undefined} /></View>)}
+      {ordered.map(card => <View key={card.id} style={{ borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: t.border }}><InsightPanel theme={t} card={card} expanded={openNote === card.id} onToggle={() => setOpenNote(openNote === card.id ? null : card.id)} onWater={canRecord && onRecord && card.metrics.action === 'CONFIRM_DRY_SOIL' ? () => onRecord('watering') : undefined} onRecord={canRecord && onRecord && !['weather', 'weatherContext'].includes(card.kind) && !(card.algorithmVersion.startsWith('hops-') && card.metrics.needsWater === null) ? () => onRecord('health', card.kind === 'watering' ? 'soil-check' : undefined) : undefined} /></View>)}
       <View style={[s.footer, { borderTopColor: t.border }]}><PlantActionButton label="Refresh care advice" icon="refresh" theme={t} onPress={onRefresh} /></View>
     </View>}
   </View>;

@@ -1,0 +1,133 @@
+Starting Metro Bundler
+Static rendering is enabled. Learn more: https://docs.expo.dev/router/reference/static-rendering/
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+| (node:30228) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:28236) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+Web node_modules\expo-router\entry.js ▓▓▓░░░░░░░░░░░░░ 23.0% (12/25)
+λ node_modules\expo-router\node\render.js ▓░░░░░░░░░░░░░░░ 12.2% ( 84/240)
+Web node_modules\expo-router\entry.js ▓▓▓░░░░░░░░░░░░░ 23.0% ( 92/212)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓░░░░░░░░░░ 38.9% (310/509)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓░░░░░░░░░░ 37.5% (265/452)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓░░░░░░░░ 53.2% (431/591)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓░░░░░░░░░ 45.6% (360/533)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓░░░░░░░ 59.0% (536/831)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 50.8% (465/792)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓░░░░░░░ 59.0% ( 691/1015)
+| Browserslist: browsers data (caniuse-lite) is 14 months old. Please run:
+|   npx update-browserslist-db@latest
+|   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 50.8% (587/879)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓░░░░░░░ 59.0% ( 830/1202)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 50.8% ( 790/1174)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓░░░░░░░ 59.0% ( 911/1253)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓░░░░░░░░ 50.8% ( 790/1174)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓░░░░░░ 65.9% (1099/1356)
+| Importing local resources in CSS is not supported yet. (node_modules\leaflet\dist\leaflet.css:359:24):
+|   357 | 	}
+|   358 | .leaflet-control-layers-toggle {
+| > 359 | 	background-image: url(images/layers.png);
+|       | 	                      ^
+|   360 | 	width: 36px;
+|   361 | 	height: 36px;
+|   362 | 	}
+| Importing local resources in CSS is not supported yet. (node_modules\leaflet\dist\leaflet.css:364:24):
+|   362 | 	}
+|   363 | .leaflet-retina .leaflet-control-layers-toggle {
+| > 364 | 	background-image: url(images/layers-2x.png);
+|       | 	                      ^
+|   365 | 	background-size: 26px 26px;
+|   366 | 	}
+|   367 | .leaflet-touch .leaflet-control-layers-toggle {
+| Importing local resources in CSS is not supported yet. (node_modules\leaflet\dist\leaflet.css:407:24):
+|   405 | /* Default icon URLs */
+|   406 | .leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
+| > 407 | 	background-image: url(images/marker-icon.png);
+|       | 	                      ^
+|   408 | 	}
+|   409 |
+|   410 |
+| (node:30228) DeprecationWarning: Passing lineNumber and colNumber is deprecated to @babel/code-frame. Please use `codeFrameColumns`.
+| Browserslist: browsers data (caniuse-lite) is 14 months old. Please run:
+|   npx update-browserslist-db@latest
+|   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓░░░░░░░ 56.9% ( 937/1242)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 70.7% (1211/1441)
+| Importing local resources in CSS is not supported yet. (node_modules\leaflet\dist\leaflet.css:359:24):
+|   357 | 	}
+|   358 | .leaflet-control-layers-toggle {
+| > 359 | 	background-image: url(images/layers.png);
+|       | 	                      ^
+|   360 | 	width: 36px;
+|   361 | 	height: 36px;
+|   362 | 	}
+| Importing local resources in CSS is not supported yet. (node_modules\leaflet\dist\leaflet.css:364:24):
+|   362 | 	}
+|   363 | .leaflet-retina .leaflet-control-layers-toggle {
+| > 364 | 	background-image: url(images/layers-2x.png);
+|       | 	                      ^
+|   365 | 	background-size: 26px 26px;
+|   366 | 	}
+|   367 | .leaflet-touch .leaflet-control-layers-toggle {
+| Importing local resources in CSS is not supported yet. (node_modules\leaflet\dist\leaflet.css:407:24):
+|   405 | /* Default icon URLs */
+|   406 | .leaflet-default-icon-path { /* used only in path-guessing heuristic, see L.Icon.Default */
+| > 407 | 	background-image: url(images/marker-icon.png);
+|       | 	                      ^
+|   408 | 	}
+|   409 |
+|   410 |
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 70.1% (1159/1384)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 70.7% (1211/1441)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓░░░░░ 70.1% (1176/1412)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 79.5% (1391/1560)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 79.5% (1340/1503)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 81.7% (1436/1630)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 83.8% (1408/1578)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 81.7% (1580/1778)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 83.8% (1581/1746)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 81.7% (1679/1860)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓░░░ 87.0% (1743/1869)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 88.0% (1880/2021)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 91.6% (1985/2074)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓░░ 93.0% (2139/2218)
+λ Bundled 58084ms node_modules\expo-router\node\render.js (2270 modules)
+Web Bundled 59426ms node_modules\expo-router\entry.js (2114 modules)
+
+› web bundles (7):
+_expo/static/css/accessibilityStyles-563c84b77ca5f3cc902be14a2d98d43b.css (230 B)
+_expo/static/css/leaflet-0a73d6787c8f1a38d8aeeeff6d84fadd.css (10.5 kB)
+_expo/static/css/mapPicker-dc485c8d51c73e8068d4de147eec6cb7.css (299 B)
+_expo/static/css/modal.module-33361d5c796745334f151cac6c469469.css (2.27 kB)
+_expo/static/js/web/entry-2e794cbf5b2d39a6ee1d50bd62bbec43.js (4.97 MB)
+_expo/static/js/web/leaflet-src-249d1fa58744954d078b204dc6d0f37f.js (149 kB)
+_expo/static/js/web/plantCareEvaluation-54f108f78f57d3fe46add73f9215ec5c.js (4.22 kB)
+
+› Static routes (23):
+/care (40.8 kB)
+/more (57.7 kB)
+/ (index) (38.8 kB)
+/account (42.3 kB)
+/journal (47.7 kB)
+/_sitemap (38.6 kB)
+/profiles (48.5 kB)
+/add-group (50.9 kB)
+/locations (40.2 kB)
+/+not-found (39.2 kB)
+/setup-gaps (39.6 kB)
+/group/[id] (40.2 kB)
+/plant/[id] (40.7 kB)
+/(tabs)/more (57.7 kB)
+/(tabs) (49.3 kB)
+/(tabs)/profiles (48.5 kB)
+/add-plant (39.9 kB)
+/plant/[id]/edit (39.3 kB)
+/add-sensor-profile (53.9 kB)
+/group/[id]/add-plants (50.9 kB)
+/plant/ProgressGallery (39.6 kB)
+/manage-sensor-profiles (43.4 kB)
+/plant/LogHistoryCalendar (39.3 kB)
+
+Exported: tmp/outdoor-spec-web

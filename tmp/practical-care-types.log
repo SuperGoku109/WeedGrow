@@ -1,0 +1,19 @@
+lib/careAlgorithm/__tests__/practicalWatering.test.ts(33,40): error TS2322: Type 'string' is not assignable to type '"yes" | "no" | "partial" | "unknown"'.
+lib/careAlgorithm/__tests__/practicalWatering.test.ts(47,44): error TS2322: Type '{ startUtc: number; endUtc: number; id: string; revision: number; deleted?: false | undefined; appliedL: number | null; availableUtc?: number | undefined; } | { startUtc: number; endUtc: number; id: string; revision: number; deleted: true; availableUtc?: number | undefined; }' is not assignable to type 'WaterEvent'.
+  Object literal may only specify known properties, and 'startUtc' does not exist in type 'DeletedWaterEvent'.
+lib/careAlgorithm/__tests__/practicalWatering.test.ts(117,72): error TS2345: Argument of type '{ plantedIn: string; potSize: null; waterLedgerRevision?: number | undefined; setupLedgerRevision?: number | undefined; careEvaluationRevision?: string | null | undefined; careNextEvaluationUtc?: number | ... 1 more ... | undefined; ... 50 more ...; id: string; } | { ...; }' is not assignable to parameter of type 'Plant'.
+  Type '{ plantedIn: string; potSize: null; waterLedgerRevision?: number; setupLedgerRevision?: number; careEvaluationRevision?: string | null; careNextEvaluationUtc?: number | null; careEventProtocol?: 1; ... 49 more ...; id: string; }' is not assignable to type 'Plant'.
+    Types of property 'plantedIn' are incompatible.
+      Type 'string' is not assignable to type '"pot" | "ground"'.
+lib/careAlgorithm/__tests__/practicalWatering.test.ts(118,36): error TS2345: Argument of type '{ plantedIn: string; potSize: null; waterLedgerRevision?: number | undefined; setupLedgerRevision?: number | undefined; careEvaluationRevision?: string | null | undefined; careNextEvaluationUtc?: number | ... 1 more ... | undefined; ... 50 more ...; id: string; } | { ...; }' is not assignable to parameter of type 'Plant'.
+  Type '{ plantedIn: string; potSize: null; waterLedgerRevision?: number; setupLedgerRevision?: number; careEvaluationRevision?: string | null; careNextEvaluationUtc?: number | null; careEventProtocol?: 1; ... 49 more ...; id: string; }' is not assignable to type 'Plant'.
+    Types of property 'plantedIn' are incompatible.
+      Type 'string' is not assignable to type '"pot" | "ground"'.
+lib/careAlgorithm/__tests__/practicalWatering.test.ts(121,28): error TS2345: Argument of type '{ plantedIn: string; potSize: null; waterLedgerRevision?: number | undefined; setupLedgerRevision?: number | undefined; careEvaluationRevision?: string | null | undefined; careNextEvaluationUtc?: number | ... 1 more ... | undefined; ... 50 more ...; id: string; } | { ...; }' is not assignable to parameter of type 'Plant'.
+  Type '{ plantedIn: string; potSize: null; waterLedgerRevision?: number; setupLedgerRevision?: number; careEvaluationRevision?: string | null; careNextEvaluationUtc?: number | null; careEventProtocol?: 1; ... 49 more ...; id: string; }' is not assignable to type 'Plant'.
+    Types of property 'plantedIn' are incompatible.
+      Type 'string' is not assignable to type '"pot" | "ground"'.
+lib/careAlgorithm/__tests__/practicalWatering.test.ts(122,28): error TS2345: Argument of type '{ plantedIn: string; potSize: null; waterLedgerRevision?: number | undefined; setupLedgerRevision?: number | undefined; careEvaluationRevision?: string | null | undefined; careNextEvaluationUtc?: number | ... 1 more ... | undefined; ... 50 more ...; id: string; } | { ...; }' is not assignable to parameter of type 'Plant'.
+  Type '{ plantedIn: string; potSize: null; waterLedgerRevision?: number; setupLedgerRevision?: number; careEvaluationRevision?: string | null; careNextEvaluationUtc?: number | null; careEventProtocol?: 1; ... 49 more ...; id: string; }' is not assignable to type 'Plant'.
+    Types of property 'plantedIn' are incompatible.
+      Type 'string' is not assignable to type '"pot" | "ground"'.

@@ -32,3 +32,13 @@ it('exports date-only occurrences without inventing a clock time and keeps the s
   const backup = validateBackup(JSON.stringify({ ...file, records: [...file.records, { path: 'plants/p/logs/date-only', data: { type: 'note', timestamp: { $timestamp: 0 }, calendarDay: '1970-01-01', occurrencePrecision: 'date', recordedAt: { $timestamp: 1000 } } }] }));
   const csv = journalCsv(backup); expect(csv).toContain('Date precision'); expect(csv).toContain('"1970-01-01"'); expect(csv).toContain('"1970-01-01T00:00:01.000Z"'); expect(csv).not.toContain('"1970-01-01T00:00:00.000Z"');
 });
+
+it('preserves qualitative observations, feedback and rainfall through backup validation and CSV export', () => {
+  const data = { type: 'note', timestamp: { $timestamp: 0 }, moistureState: 'MOIST', moistureConfiguration: 'setup-1', inspectionFeedback: 'useful', rainfallObservation: 'LIGHT' };
+  const backup = validateBackup(JSON.stringify({ ...file, records: [...file.records, { path: 'plants/p/logs/soil', data }] }));
+  expect(backup.records.at(-1)?.data).toEqual(data);
+  const csv = journalCsv(backup); expect(csv).toContain('Reported soil state'); expect(csv).toContain('MOIST'); expect(csv).toContain('LIGHT'); expect(csv).toContain('useful');
+  for (const changes of [{ moistureState: '75%' }, { rainfallObservation: 'forecast' }, { inspectionFeedback: 'unknown' }]) {
+    expect(() => validateBackup(JSON.stringify({ ...file, records: [...file.records, { path: 'plants/p/logs/soil', data: { ...data, ...changes } }] }))).toThrow('invalid');
+  }
+});

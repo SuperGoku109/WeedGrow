@@ -1,0 +1,7 @@
+PASS lib/careAlgorithm/__tests__/outdoorSpecCompliance.test.ts
+PASS features/plants/__tests__/careAdviceDisclosure.test.ts
+
+Test Suites: 2 passed, 2 total
+Tests:       34 passed, 34 total
+Snapshots:   0 total
+Time:        2.966 s

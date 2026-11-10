@@ -4,6 +4,8 @@ WeedGrow is a grow/plant tracking mobile app built with Expo (React Native).
 Data and compact photos are stored in Firebase Firestore, with optional weather lookups via
 OpenWeatherMap.
 
+Outdoor care uses soil observations and qualitative weather to suggest checks and independent inspections. See the [refactor audit, rules, data fields and limits](docs/outdoor-intelligence-refactor.md) and the [specification compliance review and verification results](docs/outdoor-spec-compliance.md).
+
 ## Domain Overview
 
 The mobile app's core data model (see `firestoreModels.ts`) centers around "plants" and grow

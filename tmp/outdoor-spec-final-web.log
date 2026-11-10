@@ -1,0 +1,47 @@
+Starting Metro Bundler
+Static rendering is enabled. Learn more: https://docs.expo.dev/router/reference/static-rendering/
+Web node_modules\expo-router\entry.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+λ node_modules\expo-router\node\render.js ░░░░░░░░░░░░░░░░  0.0% (0/1)
+| (node:2972) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:5184) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+λ Bundled 2881ms node_modules\expo-router\node\render.js (2260 modules)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (2132/2132)
+Web Bundled 4440ms node_modules\expo-router\entry.js (2132 modules)
+
+› web bundles (7):
+_expo/static/css/accessibilityStyles-563c84b77ca5f3cc902be14a2d98d43b.css (230 B)
+_expo/static/css/leaflet-0a73d6787c8f1a38d8aeeeff6d84fadd.css (10.5 kB)
+_expo/static/css/mapPicker-dc485c8d51c73e8068d4de147eec6cb7.css (299 B)
+_expo/static/css/modal.module-33361d5c796745334f151cac6c469469.css (2.27 kB)
+_expo/static/js/web/entry-9d108e554e7b06831736a0803035c227.js (4.97 MB)
+_expo/static/js/web/leaflet-src-48610266ca79a1030c6a9dc6080d0b24.js (149 kB)
+_expo/static/js/web/plantCareEvaluation-b5c309980fd774bf0d1502a5ccbe31a5.js (4.22 kB)
+
+› Static routes (23):
+/care (40.8 kB)
+/more (57.7 kB)
+/ (index) (38.8 kB)
+/account (42.3 kB)
+/journal (47.7 kB)
+/_sitemap (38.6 kB)
+/profiles (48.5 kB)
+/add-group (50.9 kB)
+/locations (40.2 kB)
+/+not-found (39.2 kB)
+/setup-gaps (39.6 kB)
+/group/[id] (40.2 kB)
+/plant/[id] (40.7 kB)
+/(tabs)/more (57.7 kB)
+/(tabs) (49.3 kB)
+/(tabs)/profiles (48.5 kB)
+/add-plant (39.9 kB)
+/plant/[id]/edit (39.3 kB)
+/add-sensor-profile (53.9 kB)
+/group/[id]/add-plants (50.9 kB)
+/plant/ProgressGallery (39.6 kB)
+/manage-sensor-profiles (43.4 kB)
+/plant/LogHistoryCalendar (39.3 kB)
+
+Exported: tmp/outdoor-spec-web

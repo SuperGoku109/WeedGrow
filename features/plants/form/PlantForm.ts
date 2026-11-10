@@ -26,6 +26,15 @@ export interface PlantForm {
   environment: string;
   plantedIn: string;
   potSize?: string;
+  rainExposure?: string;
+  careMedium?: string;
+  potMaterial?: string;
+  potType?: string;
+  potDrainage?: string;
+  growingSite?: string;
+  fertilizerForm?: string;
+  reminderSchedule?: import('@/firestoreModels').PlantReminderSchedule;
+  feedingReminderSchedule?: import('@/firestoreModels').PlantReminderSchedule;
   sunlightExposure?: string;
   wateringFrequency?: string;
   fertilizer?: string;

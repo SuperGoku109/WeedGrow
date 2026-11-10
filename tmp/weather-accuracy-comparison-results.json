@@ -1,0 +1,141 @@
+{
+  "checkedAt": "2026-11-09T12:30:14.757Z",
+  "plantToTownCentreKm": 6.098498912501828,
+  "results": [
+    {
+      "name": "saved-plant-pin",
+      "status": 200,
+      "grid": {
+        "latitude": -34.059753,
+        "longitude": 18.7875,
+        "elevation": 24
+      },
+      "current": {
+        "time": "2026-11-09T14:30",
+        "interval": 900,
+        "temperature_2m": 23.4,
+        "relative_humidity_2m": 49,
+        "wind_speed_10m": 12.3
+      },
+      "daily": {
+        "time": [
+          "2026-11-09"
+        ],
+        "temperature_2m_max": [
+          28.2
+        ],
+        "temperature_2m_min": [
+          15.8
+        ]
+      }
+    },
+    {
+      "name": "Somerset-West-centre",
+      "status": 200,
+      "grid": {
+        "latitude": -34.059753,
+        "longitude": 18.7875,
+        "elevation": 59
+      },
+      "current": {
+        "time": "2026-11-09T14:30",
+        "interval": 900,
+        "temperature_2m": 23.4,
+        "relative_humidity_2m": 49,
+        "wind_speed_10m": 12.3
+      },
+      "daily": {
+        "time": [
+          "2026-11-09"
+        ],
+        "temperature_2m_max": [
+          28.2
+        ],
+        "temperature_2m_min": [
+          15.8
+        ]
+      }
+    },
+    {
+      "name": "ecmwf_ifs025",
+      "status": 200,
+      "grid": {
+        "latitude": -34,
+        "longitude": 18.75,
+        "elevation": 24
+      },
+      "current": {
+        "time": "2026-11-09T14:30",
+        "interval": 900,
+        "temperature_2m": 25.5,
+        "relative_humidity_2m": 39,
+        "wind_speed_10m": 18.5
+      },
+      "daily": {
+        "time": [
+          "2026-11-09"
+        ],
+        "temperature_2m_max": [
+          31.3
+        ],
+        "temperature_2m_min": [
+          13.5
+        ]
+      }
+    },
+    {
+      "name": "gfs_seamless",
+      "status": 200,
+      "grid": {
+        "latitude": -34.031883,
+        "longitude": 18.75,
+        "elevation": 24
+      },
+      "current": {
+        "time": "2026-11-09T14:30",
+        "interval": 900,
+        "temperature_2m": 25.9,
+        "relative_humidity_2m": 38,
+        "wind_speed_10m": 24.3
+      },
+      "daily": {
+        "time": [
+          "2026-11-09"
+        ],
+        "temperature_2m_max": [
+          31.4
+        ],
+        "temperature_2m_min": [
+          15.7
+        ]
+      }
+    },
+    {
+      "name": "icon_seamless",
+      "status": 200,
+      "grid": {
+        "latitude": -34,
+        "longitude": 18.75,
+        "elevation": 24
+      },
+      "current": {
+        "time": "2026-11-09T14:30",
+        "interval": 900,
+        "temperature_2m": 28.5,
+        "relative_humidity_2m": 35,
+        "wind_speed_10m": 16.9
+      },
+      "daily": {
+        "time": [
+          "2026-11-09"
+        ],
+        "temperature_2m_max": [
+          32
+        ],
+        "temperature_2m_min": [
+          14.7
+        ]
+      }
+    }
+  ]
+}

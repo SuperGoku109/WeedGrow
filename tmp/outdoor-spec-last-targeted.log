@@ -1,0 +1,7 @@
+PASS services/__tests__/localPlantCare.test.ts
+PASS lib/careAlgorithm/__tests__/outdoorSpecCompliance.test.ts
+
+Test Suites: 2 passed, 2 total
+Tests:       38 passed, 38 total
+Snapshots:   0 total
+Time:        2.904 s

@@ -10,3 +10,11 @@ it.each([null, 'bad json', '{}', JSON.stringify({ ...draft, version: 2 }), JSON.
 it('does not restore expired device-only or browser object URLs', () => {
   expect(decodeDraft(JSON.stringify({ ...draft, form: { ...draft.form, imageUri: 'blob:expired' } }))?.form.imageUri).toBe('');
 });
+
+it('restores unfinished reminder choices without treating them as a saved schedule', () => {
+  const form = { ...draft.form, reminderSchedule: { type: 'custom', customDays: [] }, feedingReminderSchedule: { type: 'smart' } };
+  expect(decodeDraft(JSON.stringify({ ...draft, form }))?.form).toMatchObject(form);
+});
+it('rejects malformed reminder draft shapes', () => {
+  expect(decodeDraft(JSON.stringify({ ...draft, form: { ...draft.form, feedingReminderSchedule: { type: 'smart', customDays: 'mon' } } }))).toBeNull();
+});

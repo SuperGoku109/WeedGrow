@@ -17,10 +17,18 @@ export function decodeDraft(raw: string | null): PlantDraft | null {
     const value = JSON.parse(raw) as PlantDraft;
     if (value.version !== 1 || !value.form || typeof value.form.name !== 'string' || typeof value.plantId !== 'string' || !/^[A-Za-z0-9_-]+$/.test(value.plantId) || !Number.isInteger(value.step) || value.step < 0 || value.step > 4) return null;
     const form = { ...INITIAL_PLANT_FORM, ...value.form };
-    const textFields = ['locationMode', 'name', 'strain', 'strainType', 'growthStage', 'ageDays', 'ageMode', 'startedOn', 'environment', 'plantedIn', 'potSize', 'sunlightExposure', 'soilType', 'soilPh', 'permanentProtection', 'environmentNotes', 'wateringFrequency', 'feedingFrequency', 'fertilizer', 'notes', 'imageUri', 'locationNickname', 'locationLabel', 'groupId', 'groupName', 'lastWateredOn', 'lastFedOn', 'latitudeInput', 'longitudeInput'] as const;
+    const textFields = ['locationMode', 'name', 'strain', 'strainType', 'growthStage', 'ageDays', 'ageMode', 'startedOn', 'environment', 'plantedIn', 'potSize', 'rainExposure', 'careMedium', 'potMaterial', 'potType', 'potDrainage', 'growingSite', 'fertilizerForm', 'sunlightExposure', 'soilType', 'soilPh', 'permanentProtection', 'environmentNotes', 'wateringFrequency', 'feedingFrequency', 'fertilizer', 'notes', 'imageUri', 'locationNickname', 'locationLabel', 'groupId', 'groupName', 'lastWateredOn', 'lastFedOn', 'latitudeInput', 'longitudeInput'] as const;
     if (textFields.some(key => form[key] != null && typeof form[key] !== 'string')) return null;
     for (const key of ['pests', 'trainingTags', 'companionPlants'] as const) if (form[key] && (!Array.isArray(form[key]) || form[key]!.some(item => typeof item !== 'string'))) return null;
     if (form.location && (!Number.isFinite(form.location.lat) || !Number.isFinite(form.location.lng))) form.location = null;
+    // Drafts may be incomplete; enforce shape here and full schedule rules on save.
+    for (const schedule of [form.reminderSchedule, form.feedingReminderSchedule]) {
+      if (schedule == null) continue;
+      if (typeof schedule !== 'object' || Array.isArray(schedule) || !['none', 'smart', 'interval', 'custom'].includes(schedule.type)) return null;
+      if (schedule.intervalDays != null && typeof schedule.intervalDays !== 'number') return null;
+      if (schedule.timeOfDay != null && typeof schedule.timeOfDay !== 'string') return null;
+      if (schedule.customDays != null && (!Array.isArray(schedule.customDays) || schedule.customDays.some(day => typeof day !== 'string'))) return null;
+    }
     // Object URLs and device temp files cannot survive reload/restart. New photo
     // selections are encoded before being put in a draft.
     if (form.imageUri && !/^(data:image\/jpeg;base64,|https?:\/\/|firestore-photo:)/.test(form.imageUri)) form.imageUri = '';

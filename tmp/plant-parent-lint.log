@@ -1,0 +1,17 @@
+
+> weedgrowapp@1.0.0 lint
+> eslint . --ext .ts,.tsx --max-warnings=0
+
+
+C:\Users\Zane\dev\WeedGrow\features\plants\components\PlantSectionEditor.tsx
+  4:44  warning  'C:\Users\Zane\dev\WeedGrow\firestoreModels.ts' imported multiple times  import/no-duplicates
+  8:28  warning  'C:\Users\Zane\dev\WeedGrow\firestoreModels.ts' imported multiple times  import/no-duplicates
+
+C:\Users\Zane\dev\WeedGrow\lib\care\careTasks.ts
+  3:1  warning  Import in body of module; reorder to top  import/first
+  4:1  warning  Import in body of module; reorder to top  import/first
+
+✖ 4 problems (0 errors, 4 warnings)
+  0 errors and 3 warnings potentially fixable with the `--fix` option.
+
+ESLint found too many warnings (maximum: 0).

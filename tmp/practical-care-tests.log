@@ -1,0 +1,8 @@
+PASS lib/careAlgorithm/__tests__/practicalWatering.test.ts
+PASS lib/careAlgorithm/__tests__/automaticProfile.test.ts
+PASS services/__tests__/localPlantCare.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       42 passed, 42 total
+Snapshots:   0 total
+Time:        3.922 s

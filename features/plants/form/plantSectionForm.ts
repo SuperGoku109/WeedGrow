@@ -1,3 +1,4 @@
+import { contextChoices } from '@/lib/care/plantContext';
 import type { Plant } from '@/firestoreModels';
 import { plantDay, addDays } from '@/lib/dates/plantDay';
 import { validateLogDate } from '@/lib/logs/plantJournal';
@@ -13,6 +14,9 @@ export const sections: Record<string, Field[]> = {
 };
 sections['Growing setup'].push({ key: 'rainExposure', label: 'Rain reaching this plant', options: [...RAIN_EXPOSURES] },
   { key: 'careMedium', label: 'Growing medium (optional)', options: [...MEDIUMS] });
+for (const [key, options] of Object.entries(contextChoices)) sections[key === 'fertilizerForm' ? 'Care plan' : 'Growing setup'].push({ key, label: ({ potMaterial: 'Pot material', potType: 'Pot type', growingSite: 'Site', potDrainage: 'Drainage', fertilizerForm: 'Fertilizer type' } as Record<string, string>)[key], options: [...options] });
+sections['Care plan'].push({ key: 'feedingReminderType', label: 'Fertilizing reminder', options: ['none', 'smart', 'interval', 'custom'] }, { key: 'feedingIntervalDays', label: 'Fertilizing interval (days)', number: true }, { key: 'feedingCustomDays', label: 'Fertilizing weekdays' }, { key: 'feedingTimeOfDay', label: 'Fertilizing reminder time' });
+sections['Care plan'].find(field => field.key === 'reminderType')!.options = ['none', 'smart', 'interval', 'custom'];
 sections.Basics.find(field => field.key === 'growthStage')!.options = [...PLANT_STAGES];
 /** Validate changed sections before issuing one atomic plant update. */
 export function buildAllSectionUpdates(values: Record<string, string>, initial: { values: Record<string, string>; ageMode: string; locationMode: 'custom' | 'space' }, locationMode: 'custom' | 'space', plant: Plant, today: string, ageMode: 'date' | 'estimate') {
@@ -46,7 +50,7 @@ export function buildSectionUpdates(section: string, values: Record<string, stri
       updates.locationLabel = values.locationLabel.trim();
       updates.locationMode = locationMode;
     } else {
-      for (const field of fields.filter(item => !['reminderType', 'intervalDays', 'customDays', 'timeOfDay', 'rainExposure'].includes(item.key))) {
+      for (const field of fields.filter(item => !['reminderType', 'intervalDays', 'customDays', 'timeOfDay', 'rainExposure', 'feedingReminderType', 'feedingIntervalDays', 'feedingCustomDays', 'feedingTimeOfDay'].includes(item.key))) {
         const value = (values[field.key] || '').trim();
         updates[field.key] = field.list ? value.split(',').map(part => part.trim()).filter(Boolean) : field.number ? value ? Number(value) : null : value;
       }
@@ -79,13 +83,19 @@ export function buildSectionUpdates(section: string, values: Record<string, stri
       }
       if (section === 'Care plan') {
         const type = values.reminderType;
-        const days = values.customDays.split(',').map(day => day.trim().slice(0, 3).toLowerCase()).filter(Boolean);
+        const days = (values.customDays || '').split(',').map(day => day.trim().slice(0, 3).toLowerCase()).filter(Boolean);
         if (type === 'interval' && (!Number.isInteger(Number(values.intervalDays)) || Number(values.intervalDays) < 1)) return fail('Reminder interval must be a whole number of at least one day.');
         if (type === 'custom' && (!days.length || days.some(day => !['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'].includes(day)))) return fail('Choose valid reminder days, for example Mon, Wed, Fri.');
         if (type !== 'none' && values.timeOfDay && !/^([01]\d|2[0-3]):[0-5]\d$/.test(values.timeOfDay)) return fail('Use HH:MM for reminder time.');
-        updates.reminderSchedule = { type, ...(type === 'interval' ? { intervalDays: Number(values.intervalDays) } : {}), ...(type === 'custom' ? { customDays: [...new Set(days)] } : {}), ...(type !== 'none' && values.timeOfDay ? { timeOfDay: values.timeOfDay } : {}) };
+        if (!['none', 'smart', 'interval', 'custom'].includes(type)) return fail('Choose a watering reminder mode.');
+        updates.reminderSchedule = { type, ...(type === 'interval' ? { intervalDays: Number(values.intervalDays) } : {}), ...(type === 'custom' ? { customDays: [...new Set(days)] } : {}), ...(['interval', 'custom'].includes(type) && values.timeOfDay ? { timeOfDay: values.timeOfDay } : {}) };
+        if (values.feedingReminderType) {
+          const feedType = values.feedingReminderType; const feedDays = (values.feedingCustomDays || '').split(',').map(v => v.trim().slice(0, 3).toLowerCase()).filter(Boolean);
+          updates.feedingReminderSchedule = { type: feedType, ...(['interval', 'smart'].includes(feedType) ? { intervalDays: Number(values.feedingIntervalDays) } : {}), ...(feedType === 'custom' ? { customDays: [...new Set(feedDays)] } : {}), ...(feedType !== 'none' ? { timeOfDay: values.feedingTimeOfDay || '09:00' } : {}) };
+        }
       }
     }
+    for (const key of Object.keys(contextChoices)) if (updates[key] === '') updates[key] = null;
     const fieldErrors = validatePlantFields(updates, today);
     if (Object.keys(fieldErrors).length) return fail(Object.values(fieldErrors)[0]);
   return updates;

@@ -1,3 +1,4 @@
+import { contextChoices } from '@/lib/care/plantContext';
 import { validatePlantDatesAndReminders } from './plantRules';
 import { MEDIUMS } from '@/lib/careAlgorithm/setupFacts';
 /** Field policies shared by forms and the write boundary. Only supplied fields
@@ -8,6 +9,7 @@ export const MAX_PLANT_AGE_DAYS = 36500;
 
 export function validatePlantFields(fields: Record<string, unknown>, today?: string): Record<string, string> {
   const errors: Record<string, string> = validatePlantDatesAndReminders(fields, today);
+  for (const [key, choices] of Object.entries(contextChoices)) if (fields[key] != null && fields[key] !== '' && !(choices as readonly unknown[]).includes(fields[key])) errors[key] = `Choose a supported ${key.replace(/[A-Z]/g, letter => ' ' + letter.toLowerCase())}.`;
   if (fields.careMedium != null && !MEDIUMS.includes(fields.careMedium as typeof MEDIUMS[number])) errors.careMedium = 'Choose a supported growing medium or leave it unknown.';
   if (fields.rainReception != null) {
     const rain = fields.rainReception as { soil?: unknown; canopy?: unknown };

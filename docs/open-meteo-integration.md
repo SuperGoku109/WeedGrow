@@ -1,5 +1,9 @@
 # Open-Meteo integration
 
+**Automatic care:** the normal interactive path now derives an experimental profile from saved plant details and includes journal watering automatically. Technical inputs are optional under **Advanced testing**. See [automatic care estimates](automatic-care-estimates.md) for the uncalibrated assumptions and missing-data behavior.
+
+**Accuracy follow-up:** a same-time local comparison found substantial temperature spread between the default and other models. Functional integration is verified; local meteorological accuracy is not. See [the 9 November comparison](weather-accuracy-comparison-2026-11-09.md). No model was changed solely to match a single reading.
+
 Implemented 9 November 2026 for the confirmed non-commercial hobby/community app. The app now requests Open-Meteo directly, without a provider key, paid subscription or hosted worker. Firebase remains the data backend. No cloud deployment or billing change was made.
 
 ## Weather data and accuracy

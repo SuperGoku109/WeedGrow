@@ -23,3 +23,9 @@ it('rejects malformed precision and submission metadata', () => {
   expect(() => validateBackup(JSON.stringify({ ...backup, records: [...backup.records, { path: 'plants/p/logs/log', data: { type: 'note', timestamp: { $timestamp: 0 }, occurrencePrecision: 'guessed' } }] }))).toThrow('precision');
   expect(() => validateBackup(JSON.stringify({ ...backup, records: [...backup.records, { path: 'plants/p/logs/log', data: { type: 'note', timestamp: { $timestamp: 0 }, recordedAt: 'not a timestamp' } }] }))).toThrow('submission');
 });
+
+it('preserves independent schedules and container/site context', () => {
+  const context = { potMaterial: 'terracotta', potType: 'hanging', potDrainage: 'holes', growingSite: 'balcony', fertilizerForm: 'slow_release', reminderSchedule: { type: 'smart' }, feedingReminderSchedule: { type: 'interval', intervalDays: 21, timeOfDay: '09:30' } };
+  const result = validateBackup(JSON.stringify({ ...backup, records: [{ path: 'plants/p', data: { ...plant, ...context } }] }));
+  expect(result.records[0].data).toMatchObject(context);
+});

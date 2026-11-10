@@ -1,0 +1,349 @@
+FAIL features/plants/__tests__/dailyJournalFlow.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    C:\Users\Zane\dev\WeedGrow\node_modules\firebase\firestore\dist\esm\index.esm.js:1
+    ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,jest){export * from '@firebase/firestore';
+                                                                                      ^^^^^^
+
+    SyntaxError: Unexpected token 'export'
+
+    > 1 | import { collection, documentId, getDocs, limit, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
+        | ^
+      2 | import { db } from './firebase';
+      3 | import type { PlantLog, WeatherCacheEntry } from '@/firestoreModels';
+      4 | import { addDays, plantDay, zonedTime } from '@/lib/dates/plantDay';
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (services/plantJournalData.ts:1:1)
+      at Object.require (features/plants/hooks/useWateringChartHistory.ts:4:1)
+      at Object.require (features/plants/components/WateringCareCard.tsx:9:1)
+      at Object.require (features/plants/screens/PlantDetailScreen.tsx:1:1)
+      at Object.require (features/plants/__tests__/dailyJournalFlow.test.ts:5:1)
+
+PASS features/plants/__tests__/plantEditorDelete.test.ts
+PASS lib/careAlgorithm/__tests__/meteoCare.test.ts
+PASS lib/careAlgorithm/__tests__/practicalWatering.test.ts
+PASS features/groups/__tests__/managePlants.test.ts
+PASS services/__tests__/localPlantCare.test.ts
+PASS lib/careAlgorithm/__tests__/waterBank.test.ts
+PASS features/plants/__tests__/PlantLogComposer.test.ts
+PASS lib/careAlgorithm/__tests__/automaticProfile.test.ts
+PASS lib/careAlgorithm/__tests__/outdoorSpecCompliance.test.ts
+PASS features/plants/__tests__/editorControls.test.ts
+PASS features/plants/__tests__/journalCalendar.test.ts
+PASS lib/careAlgorithm/__tests__/wateringScenarios.test.ts
+PASS features/plants/__tests__/localCareControls.test.ts
+PASS ui/__tests__/anchoredActionMenu.test.ts
+PASS features/groups/__tests__/EditGroupModal.test.ts
+PASS lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts
+PASS lib/weather/__tests__/fetchWeather.test.ts
+PASS features/plants/__tests__/careAdviceDisclosure.test.ts
+PASS lib/weather/__tests__/openMeteo.test.ts
+PASS features/plants/__tests__/quickWatering.test.ts
+PASS lib/careAlgorithm/__tests__/stormDiseaseScenarios.test.ts
+PASS lib/careAlgorithm/__tests__/weather.test.ts
+PASS lib/careAlgorithm/__tests__/warningNoise.test.ts
+PASS features/plants/__tests__/plantProfileView.test.ts
+PASS features/plants/__tests__/journalTimeline.test.ts
+PASS lib/suggestions/__tests__/wateringSuggestions.test.ts
+PASS lib/careAlgorithm/__tests__/waterTimeline.test.ts
+PASS features/home/__tests__/createGarden.test.ts
+PASS lib/careAlgorithm/__tests__/localCare.test.ts
+PASS lib/weather/__tests__/refreshGardenWeather.test.ts
+PASS features/care/__tests__/useCareTasks.test.ts
+PASS lib/logs/__tests__/journalRepository.test.ts
+PASS lib/backup/__tests__/backupFormat.test.ts
+PASS features/addPlant/__tests__/savePlant.test.ts
+PASS features/plants/__tests__/useProgressGallery.test.ts
+PASS lib/backup/__tests__/backupSafety.test.ts
+PASS lib/suggestions/__tests__/hopsIntegration.test.ts
+PASS lib/weather/__tests__/weatherResponse.test.ts
+PASS lib/suggestions/__tests__/suggestionCards.test.ts
+PASS features/plants/__tests__/usePlantJournalData.test.ts
+PASS features/addPlant/__tests__/gardenDraft.test.ts
+PASS services/__tests__/plantCareEvaluation.test.ts
+PASS lib/suggestions/__tests__/wateringSuggestions.intentScenarios.test.ts
+PASS lib/careAlgorithm/__tests__/productionSnapshot.test.ts
+PASS services/__tests__/session.test.ts
+FAIL features/plants/__tests__/plantForms.test.ts
+  ● combines profile and routine changes without rewriting the untouched location
+
+    Care plan: Choose a valid reminder type.
+
+      28 |     if (section === 'Care plan' && scoped.reminderType !== 'none') scoped.timeOfDay ||= '09:00';
+      29 |     try { Object.assign(updates, buildSectionUpdates(section, scoped, locationMode, plant, today, ageMode)); }
+    > 30 |     catch (error) { throw new Error(`${section}: ${error instanceof Error ? error.message : 'Review these fields.'}`); }
+         |                           ^
+      31 |   }
+      32 |   return updates;
+      33 | }
+
+      at buildAllSectionUpdates (features/plants/form/plantSectionForm.ts:30:27)
+      at Object.<anonymous> (features/plants/__tests__/plantForms.test.ts:50:41)
+
+PASS features/home/__tests__/useWateringSuggestions.test.ts
+PASS services/__tests__/careRecommendations.test.ts
+PASS features/plants/__tests__/plantHistorySearch.test.ts
+PASS lib/plants/__tests__/photoRepository.test.ts
+PASS lib/careAlgorithm/__tests__/replay.test.ts
+PASS lib/careAlgorithm/__tests__/correctnessAudit.test.ts
+PASS features/location/__tests__/deviceLocationNative.test.ts
+PASS hooks/__tests__/journalSearch.test.ts
+PASS lib/careAlgorithm/__tests__/careDiagnostics.test.ts
+PASS lib/logs/__tests__/journalRecovery.test.ts
+PASS ui/__tests__/useDiscardGuard.test.ts
+PASS services/__tests__/careSnooze.test.ts
+PASS lib/data/__tests__/recordDecoders.test.ts
+PASS features/plants/__tests__/plantEditorMutations.test.ts
+PASS services/__tests__/reminders.test.ts
+PASS features/location/__tests__/useLocationPicker.test.ts
+PASS features/addPlant/__tests__/plantFlow.test.ts
+PASS features/location/__tests__/locationService.test.ts
+PASS lib/weather/__tests__/weatherQuality.test.ts
+PASS lib/plants/__tests__/plantRules.test.ts
+PASS features/care/__tests__/usePlantActivity.test.ts
+PASS lib/logs/__tests__/fetchLogsAndWeatherForRange.test.ts
+PASS lib/plants/__tests__/plantValidation.test.ts
+PASS lib/plants/__tests__/editConflict.test.ts
+PASS features/location/__tests__/deviceLocationWeb.test.ts
+PASS features/home/__tests__/HomeRedirect.test.ts
+PASS hooks/__tests__/asyncLifecycle.test.ts
+PASS lib/data/__tests__/pagedLiveQuery.test.ts
+PASS lib/progressPics/__tests__/uploadProgressPic.test.ts
+PASS ui/__tests__/useEditDraft.test.ts
+PASS lib/suggestions/__tests__/hopsSuggestions.test.ts
+PASS lib/data/__tests__/deleteCollectionInBatches.test.ts
+PASS lib/careAlgorithm/__tests__/warnings.test.ts
+PASS lib/careAlgorithm/__tests__/checkpoint.test.ts
+PASS features/plants/__tests__/plantLifecycle.test.ts
+PASS features/plants/__tests__/journalDay.test.ts
+PASS features/groups/__tests__/useGroupWeather.test.ts
+PASS features/groups/__tests__/useGroupDetail.test.ts
+PASS lib/weather/__tests__/parseWeatherData.test.ts
+PASS lib/careAlgorithm/__tests__/historySelection.test.ts
+PASS lib/careAlgorithm/__tests__/evaluationValidity.test.ts
+PASS services/__tests__/errorReporting.test.ts
+PASS lib/plants/__tests__/preparePlantPhoto.test.ts
+PASS lib/dates/__tests__/plantDay.test.ts
+PASS lib/careAlgorithm/__tests__/forecastWater.test.ts
+FAIL lib/care/__tests__/careTasks.test.ts
+  ● sets the next routine from completed care and preserves the local calendar date
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: 2026-10-21T07:00:00.000Z
+    Received: 2026-10-21T09:00:00.000Z
+
+       6 | it('sets the next routine from completed care and preserves the local calendar date', () => {
+       7 |   const tasks = buildCareTasks(plant, [{ type: 'watering', updatedBy: 'user-a', timestamp: timestamp('2026-10-19T16:00:00') } as PlantLog], now);
+    >  8 |   expect(tasks.find(task => task.kind === 'watering')?.due).toEqual(new Date('2026-10-21T09:00:00'));
+         |                                                             ^
+       9 | });
+      10 | it('keeps archived and harvested plants out of the checklist', () => {
+      11 |   expect(buildCareTasks({ ...plant, status: 'harvested' }, [], now)).toEqual([]);
+
+      at Object.toEqual (lib/care/__tests__/careTasks.test.ts:8:61)
+
+  ● advances a custom weekday schedule after completion today
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: 2026-10-23T06:30:00.000Z
+    Received: 2026-10-23T08:30:00.000Z
+
+      26 | it('advances a custom weekday schedule after completion today', () => {
+      27 |   const task = buildCareTasks({ ...plant, reminderSchedule: { type: 'custom', customDays: ['tue', 'fri'], timeOfDay: '08:30' } }, [{ type: 'watering', updatedBy: 'user-a', timestamp: timestamp('2026-10-20T10:00:00') } as PlantLog], now)[0];
+    > 28 |   expect(task.due).toEqual(new Date('2026-10-23T08:30:00')); expect(task.completedToday).toBe(true);
+         |                    ^
+      29 | });
+      30 | it('keeps a skipped check separate from completed care and resumes on a permitted day', () => {
+      31 |   const skipped = { ...plant, careSkips: { watering: '2026-10-20' }, reminderSchedule: { type: 'custom' as const, customDays: ['tue', 'fri'], timeOfDay: '08:30' } };
+
+      at Object.toEqual (lib/care/__tests__/careTasks.test.ts:28:20)
+
+  ● keeps a skipped check separate from completed care and resumes on a permitted day
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: 2026-10-23T06:30:00.000Z
+    Received: 2026-10-23T08:30:00.000Z
+
+      32 |   const task = buildCareTasks(skipped, [], now)[0];
+      33 |   expect(task.skippedToday).toBe(true); expect(task.completedToday).toBe(false);
+    > 34 |   expect(reminderDue(task, 0, now)).toEqual(new Date('2026-10-23T08:30:00'));
+         |                                     ^
+      35 |   expect(buildCareTasks(skipped, [], new Date('2026-10-21T12:00:00'))[0].skippedToday).toBe(false);
+      36 | });
+      37 | it('snoozing changes the reminder time without completing the task', () => {
+
+      at Object.toEqual (lib/care/__tests__/careTasks.test.ts:34:37)
+
+PASS features/plants/__tests__/careSetup.test.ts
+PASS hooks/__tests__/motionPreference.test.ts
+PASS features/plants/__tests__/plantListPresentation.test.ts
+PASS features/groups/__tests__/groupCollection.test.ts
+PASS lib/suggestions/__tests__/wateringEngine.test.ts
+PASS features/plants/__tests__/activityForm.test.ts
+PASS lib/careAlgorithm/__tests__/logAdapter.test.ts
+PASS lib/data/__tests__/liveStore.test.ts
+PASS features/addPlant/__tests__/draftStorage.test.ts
+PASS lib/weather/__tests__/weatherReadings.test.ts
+PASS lib/suggestions/__tests__/adviceInputs.test.ts
+PASS features/plants/__tests__/plantProfile.test.ts
+PASS lib/weather/__tests__/refreshPlantWeather.test.ts
+PASS lib/logs/__tests__/addPlantLog.test.ts
+PASS lib/data/__tests__/mapConcurrent.test.ts
+PASS lib/logs/__tests__/plantJournal.test.ts
+PASS lib/errors/__tests__/saveFeedback.test.ts
+PASS features/home/__tests__/gardenSelection.test.ts
+PASS lib/diagnostics/__tests__/reportError.test.ts
+PASS lib/careAlgorithm/__tests__/sourceEvents.test.ts
+PASS design-system/tokens/__tests__/garden.test.ts
+PASS lib/weather/__tests__/powderyMildewRisk.test.ts
+PASS services/__tests__/homeGardenView.test.ts
+PASS lib/plants/__tests__/plantAge.test.ts
+PASS features/plants/__tests__/journalPresentation.test.ts
+PASS features/plants/__tests__/carePresentation.test.ts
+PASS services/__tests__/careSummaries.test.ts
+PASS features/location/__tests__/locationState.test.ts
+
+Summary of all failing tests
+FAIL features/plants/__tests__/dailyJournalFlow.test.ts
+  ● Test suite failed to run
+
+    Jest encountered an unexpected token
+
+    Jest failed to parse a file. This happens e.g. when your code or its dependencies use non-standard JavaScript syntax, or when Jest is not configured to support such syntax.
+
+    Out of the box Jest supports Babel, which will be used to transform your files into valid JS based on your Babel configuration.
+
+    By default "node_modules" folder is ignored by transformers.
+
+    Here's what you can do:
+     • If you are trying to use ECMAScript Modules, see https://jestjs.io/docs/ecmascript-modules for how to enable it.
+     • If you are trying to use TypeScript, see https://jestjs.io/docs/getting-started#using-typescript
+     • To have some of your "node_modules" files transformed, you can specify a custom "transformIgnorePatterns" in your config.
+     • If you need a custom transformation specify a "transform" option in your config.
+     • If you simply want to mock your non-JS modules (e.g. binary assets) you can stub them out with the "moduleNameMapper" config option.
+
+    You'll find more details and examples of these config options in the docs:
+    https://jestjs.io/docs/configuration
+    For information about custom transformations, see:
+    https://jestjs.io/docs/code-transformation
+
+    Details:
+
+    C:\Users\Zane\dev\WeedGrow\node_modules\firebase\firestore\dist\esm\index.esm.js:1
+    ({"Object.<anonymous>":function(module,exports,require,__dirname,__filename,jest){export * from '@firebase/firestore';
+                                                                                      ^^^^^^
+
+    SyntaxError: Unexpected token 'export'
+
+    > 1 | import { collection, documentId, getDocs, limit, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
+        | ^
+      2 | import { db } from './firebase';
+      3 | import type { PlantLog, WeatherCacheEntry } from '@/firestoreModels';
+      4 | import { addDays, plantDay, zonedTime } from '@/lib/dates/plantDay';
+
+      at Runtime.createScriptFromCode (node_modules/jest-runtime/build/index.js:1505:14)
+      at Object.require (services/plantJournalData.ts:1:1)
+      at Object.require (features/plants/hooks/useWateringChartHistory.ts:4:1)
+      at Object.require (features/plants/components/WateringCareCard.tsx:9:1)
+      at Object.require (features/plants/screens/PlantDetailScreen.tsx:1:1)
+      at Object.require (features/plants/__tests__/dailyJournalFlow.test.ts:5:1)
+
+FAIL features/plants/__tests__/plantForms.test.ts
+  ● combines profile and routine changes without rewriting the untouched location
+
+    Care plan: Choose a valid reminder type.
+
+      28 |     if (section === 'Care plan' && scoped.reminderType !== 'none') scoped.timeOfDay ||= '09:00';
+      29 |     try { Object.assign(updates, buildSectionUpdates(section, scoped, locationMode, plant, today, ageMode)); }
+    > 30 |     catch (error) { throw new Error(`${section}: ${error instanceof Error ? error.message : 'Review these fields.'}`); }
+         |                           ^
+      31 |   }
+      32 |   return updates;
+      33 | }
+
+      at buildAllSectionUpdates (features/plants/form/plantSectionForm.ts:30:27)
+      at Object.<anonymous> (features/plants/__tests__/plantForms.test.ts:50:41)
+
+FAIL lib/care/__tests__/careTasks.test.ts
+  ● sets the next routine from completed care and preserves the local calendar date
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: 2026-10-21T07:00:00.000Z
+    Received: 2026-10-21T09:00:00.000Z
+
+       6 | it('sets the next routine from completed care and preserves the local calendar date', () => {
+       7 |   const tasks = buildCareTasks(plant, [{ type: 'watering', updatedBy: 'user-a', timestamp: timestamp('2026-10-19T16:00:00') } as PlantLog], now);
+    >  8 |   expect(tasks.find(task => task.kind === 'watering')?.due).toEqual(new Date('2026-10-21T09:00:00'));
+         |                                                             ^
+       9 | });
+      10 | it('keeps archived and harvested plants out of the checklist', () => {
+      11 |   expect(buildCareTasks({ ...plant, status: 'harvested' }, [], now)).toEqual([]);
+
+      at Object.toEqual (lib/care/__tests__/careTasks.test.ts:8:61)
+
+  ● advances a custom weekday schedule after completion today
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: 2026-10-23T06:30:00.000Z
+    Received: 2026-10-23T08:30:00.000Z
+
+      26 | it('advances a custom weekday schedule after completion today', () => {
+      27 |   const task = buildCareTasks({ ...plant, reminderSchedule: { type: 'custom', customDays: ['tue', 'fri'], timeOfDay: '08:30' } }, [{ type: 'watering', updatedBy: 'user-a', timestamp: timestamp('2026-10-20T10:00:00') } as PlantLog], now)[0];
+    > 28 |   expect(task.due).toEqual(new Date('2026-10-23T08:30:00')); expect(task.completedToday).toBe(true);
+         |                    ^
+      29 | });
+      30 | it('keeps a skipped check separate from completed care and resumes on a permitted day', () => {
+      31 |   const skipped = { ...plant, careSkips: { watering: '2026-10-20' }, reminderSchedule: { type: 'custom' as const, customDays: ['tue', 'fri'], timeOfDay: '08:30' } };
+
+      at Object.toEqual (lib/care/__tests__/careTasks.test.ts:28:20)
+
+  ● keeps a skipped check separate from completed care and resumes on a permitted day
+
+    expect(received).toEqual(expected) // deep equality
+
+    Expected: 2026-10-23T06:30:00.000Z
+    Received: 2026-10-23T08:30:00.000Z
+
+      32 |   const task = buildCareTasks(skipped, [], now)[0];
+      33 |   expect(task.skippedToday).toBe(true); expect(task.completedToday).toBe(false);
+    > 34 |   expect(reminderDue(task, 0, now)).toEqual(new Date('2026-10-23T08:30:00'));
+         |                                     ^
+      35 |   expect(buildCareTasks(skipped, [], new Date('2026-10-21T12:00:00'))[0].skippedToday).toBe(false);
+      36 | });
+      37 | it('snoozing changes the reminder time without completing the task', () => {
+
+      at Object.toEqual (lib/care/__tests__/careTasks.test.ts:34:37)
+
+
+Test Suites: 3 failed, 118 passed, 121 total
+Tests:       4 failed, 1039 passed, 1043 total
+Snapshots:   0 total
+Time:        76.809 s

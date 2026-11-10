@@ -42,3 +42,22 @@ it('does not refetch for notes or clock ticks, and exposes an explicit refresh f
   expect(evaluateWateringInsights).toHaveBeenCalledTimes(2);
   act(() => renderer.unmount()); jest.useRealTimers();
 });
+
+it('automatically refreshes observation advice when its validity ends', async () => {
+  jest.useFakeTimers().setSystemTime(new Date('2026-11-10T12:00:00Z'));
+  mockClock = new Date();
+  jest.mocked(evaluateWateringInsights).mockImplementation(async () => [{ plantId: 'p', plantName: 'Plant', reason: 'Check soil', careEvaluation: {
+    engineVersion: 'hops-8.4.0', policyVersion: 'outdoor-observation-v1', profileVersion: 'observation-rules-v1', locationRevision: 0, dataRevisionFingerprint: 'test',
+    evaluationUtc: Date.now() / 1000, nextEvaluationUtc: Date.now() / 1000 + 300, water: { needsWater: null, decision: 'uncertain', reasonCodes: [] },
+    outdoor: { checkStatus: 'CHECK_NOW', recommendations: [] },
+  } }] as any);
+  function Probe() { useWateringSuggestions([{ id: 'p', owners: ['owner'], name: 'Plant', status: 'active' } as any]); return null; }
+  let renderer: any;
+  await act(async () => { renderer = create(React.createElement(Probe)); });
+  await act(async () => { jest.advanceTimersByTime(100); });
+  expect(evaluateWateringInsights).toHaveBeenCalledTimes(1);
+  await act(async () => { jest.advanceTimersByTime(300100); });
+  await act(async () => { jest.advanceTimersByTime(100); });
+  expect(evaluateWateringInsights).toHaveBeenCalledTimes(2);
+  act(() => renderer.unmount()); jest.useRealTimers();
+});

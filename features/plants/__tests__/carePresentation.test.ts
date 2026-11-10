@@ -14,3 +14,11 @@ it('expired local experiments request recalculation on the device', () => {
   expect(expired.title).toBe('Local test: refresh needed');
   expect(expired.summary).toContain('on this device'); expect(expired.metrics.needsWater).toBeNull();
 });
+
+it('expires all observation-based recommendations, including health inspections', () => {
+  const now = new Date('2026-11-10T12:00:00Z');
+  for (const kind of ['watering', 'health', 'powderyMildew', 'weather'] as const) {
+    const expired = presentCareCard({ ...card, kind, algorithmVersion: 'hops-8.4.0', metrics: { observationDriven: true, expiresAtUtc: now.getTime() / 1000 - 1 } }, false, false, now);
+    expect(expired.active).toBe(false);
+  }
+});

@@ -1,0 +1,92 @@
+FAIL lib/careAlgorithm/__tests__/outdoorSpecCompliance.test.ts
+  ● qualified learning actually advances the next check while soil guidance remains moist
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "CHECK_LATER"
+    Received: "CHECK_SOON"
+
+      23 |   const latest = observation('MOIST', 20);
+      24 |   const history = [100, 70, 40].flatMap(h => [observation('MOIST', h), observation('DRY', h - 8)]);
+    > 25 |   expect(evaluate([latest]).checkStatus).toBe('CHECK_LATER');
+         |                                          ^
+      26 |   const learned = evaluate([...history, latest]);
+      27 |   expect(learned.learning.adjustment).toBe('EARLIER'); expect(learned.checkStatus).toBe('CHECK_NOW'); expect(learned.water.needsWater).toBe(false);
+      28 |   expect(learned.water.estimate?.explanation).toContain('previous');
+
+      at Object.toBe (lib/careAlgorithm/__tests__/outdoorSpecCompliance.test.ts:25:42)
+
+  ● material wind escalation is a meaningful notification change
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 1
+    Received length: 0
+    Received array:  []
+
+      55 |   const first = evaluate([], [row('wind_gust_ms', 16, 3)]).recommendations;
+      56 |   const previous = planCareNotifications(first, {}, now).signatures;
+    > 57 |   expect(planCareNotifications(evaluate([], [row('wind_gust_ms', 30, 3)]).recommendations, previous, now).send).toHaveLength(1);
+         |                                                                                                                 ^
+      58 | });
+      59 | test('notification rate limits do not mark unsent recommendations as delivered', () => {
+      60 |   const recs = Array.from({ length: 5 }, (_, i) => ({ ...evaluate([], [row('wind_gust_ms', 20, 3)]).recommendations[0], id: `plant-${i}:wind`, plantId: `plant-${i}` }));
+
+      at Object.toHaveLength (lib/careAlgorithm/__tests__/outdoorSpecCompliance.test.ts:57:113)
+
+  ● notification rate limits do not mark unsent recommendations as delivered
+
+    expect(received).toHaveLength(expected)
+
+    Expected length: 2
+    Received length: 0
+    Received array:  []
+
+      60 |   const recs = Array.from({ length: 5 }, (_, i) => ({ ...evaluate([], [row('wind_gust_ms', 20, 3)]).recommendations[0], id: `plant-${i}:wind`, plantId: `plant-${i}` }));
+      61 |   const first = planCareNotifications(recs, {}, now); expect(first.send).toHaveLength(3);
+    > 62 |   expect(planCareNotifications(recs, first.signatures, now).send).toHaveLength(2);
+         |                                                                   ^
+      63 | });
+      64 |
+
+      at Object.toHaveLength (lib/careAlgorithm/__tests__/outdoorSpecCompliance.test.ts:62:67)
+
+FAIL lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts
+  ● light rainfall invalidates prior dry evidence without proving hydration
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "CHECK_SOON"
+    Received: "CHECK_LATER"
+
+      57 | });
+      58 | test('light rainfall invalidates prior dry evidence without proving hydration', () => {
+    > 59 |   const r = evaluate([observation('DRY', 2)], [...weather(), sample('liquid_rain_mm', .3, .5)]); expect(r.water.needsWater).toBeNull(); expect(r.checkStatus).toBe('CHECK_SOON');
+         |                                                                                                                                                               ^
+      60 | });
+      61 | test('forecast rain neither invalidates dry observation nor creates completed watering', () => {
+      62 |   const r = evaluate([observation('DRY')], [...weather(), sample('liquid_rain_mm', 25, 3, true)]); expect(r.water.needsWater).toBe(true);
+
+      at Object.toBe (lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts:59:159)
+
+  ● extreme wind forecast functions without usable watering data
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "INSUFFICIENT_DATA"
+    Received: "CHECK_SOON"
+
+      81 | });
+      82 | test('extreme wind forecast functions without usable watering data', () => {
+    > 83 |   const r = evaluate([], [sample('wind_gust_ms', 24, 4, true)]); expect(r.checkStatus).toBe('INSUFFICIENT_DATA');
+         |                                                                                        ^
+      84 |   expect(r.recommendations[0].category).toBe('wind'); expect(r.recommendations[0].description).toContain('Forecast');
+      85 | });
+      86 | test('hazards disappear when inputs no longer support them', () => {
+
+      at Object.toBe (lib/careAlgorithm/__tests__/outdoorIntelligence.test.ts:83:88)
+
+Test Suites: 2 failed, 2 total
+Tests:       5 failed, 56 passed, 61 total
+Snapshots:   0 total
+Time:        2.391 s, estimated 3 s
