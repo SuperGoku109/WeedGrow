@@ -1,0 +1,9 @@
+PASS features/plants/__tests__/careAdviceDisclosure.test.ts
+PASS features/plants/__tests__/dailyJournalFlow.test.ts
+PASS features/plants/__tests__/carePresentation.test.ts
+PASS lib/suggestions/__tests__/hopsIntegration.test.ts
+
+Test Suites: 4 passed, 4 total
+Tests:       24 passed, 24 total
+Snapshots:   0 total
+Time:        5.387 s

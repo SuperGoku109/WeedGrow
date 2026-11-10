@@ -1,61 +1,48 @@
-import PlantActionButton from './PlantActionButton';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GrowPress } from '@/ui/GrowMotion';
 import type { SuggestionCard } from '@/lib/suggestions/suggestionCards';
+import type { JournalCategory } from '@/lib/logs/plantJournal';
 import type { PlantTheme } from './plantDetailTheme';
-import { InsightPanel } from './PlantDetailPanels';
-export default function DailyCareAdvice({ cards, loading, error, hasLocation, theme: t, onRefresh, onRecord, canRecord = true }: { cards: SuggestionCard[]; loading: boolean; error: string; hasLocation: boolean; theme: PlantTheme; onRefresh(): void; onRecord?(category: import('@/lib/logs/plantJournal').JournalCategory, context?: 'soil-check'): void; canRecord?: boolean }) {
-  const [expanded, setExpanded] = React.useState(false);
-  const [openNote, setOpenNote] = React.useState<string | null>(null);
-  if (!hasLocation && !loading && !cards.some(card => card.metrics.experimental === true || card.metrics.observationDriven === true)) return <Text style={{ color: t.muted, fontSize: 14, lineHeight: 21 }}>Add a location in Details for weather-based care advice.</Text>;
-  if (loading) return <View accessibilityLiveRegion="polite" style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 12 }}><ActivityIndicator size="small" color={t.accent} /><Text style={{ color: t.muted, fontSize: 14 }}>Checking today’s care advice…</Text></View>;
-  if (error) return <View style={{ gap: 10 }}><Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 14 }}>{error}</Text><PlantActionButton label="Retry care advice" icon="refresh" theme={t} onPress={onRefresh} /></View>;
-  if (!cards.length) return <View style={{ gap: 8 }}><Text style={{ color: t.muted, fontSize: 14, paddingVertical: 8 }}>Care advice is unavailable. Refresh to check current conditions.</Text><PlantActionButton label="Refresh care advice" icon="refresh" theme={t} onPress={onRefresh} /></View>;
+import { careAction, careFacts } from '../careSuggestionPresentation';
+
+export default function DailyCareAdvice({ cards, loading, error, hasLocation, theme: t, onRefresh, onRecord, canRecord = true }: {
+  cards: SuggestionCard[]; loading: boolean; error: string; hasLocation: boolean; theme: PlantTheme; onRefresh(): void;
+  onRecord?(category: JournalCategory, context?: 'soil-check'): void; canRecord?: boolean;
+}) {
+  const [open, setOpen] = React.useState<Record<string, boolean>>({});
+  const retry = (label: string) => <GrowPress accessibilityRole="button" accessibilityLabel={label} onPress={onRefresh} style={{ minHeight: 44, justifyContent: 'center', alignSelf: 'flex-start' }}><Text style={{ color: t.accent, fontSize: 14 }}>{label}</Text></GrowPress>;
+  if (!hasLocation && !loading && !cards.some(card => card.metrics.experimental === true || card.metrics.observationDriven === true)) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text style={{ color: t.muted, fontSize: 14, lineHeight: 22 }}>Add a location in Plant info for local care advice.</Text></View>;
+  if (loading) return <View accessibilityLiveRegion="polite" style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 20 }}><ActivityIndicator size="small" color={t.accent} /><Text style={{ color: t.muted, fontSize: 14 }}>Checking today’s care…</Text></View>;
+  if (error) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 14, lineHeight: 22 }}>{error}</Text>{retry('Retry care advice')}</View>;
+  if (!cards.length) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text style={{ color: t.muted, fontSize: 14 }}>Care advice is unavailable.</Text>{retry('Refresh care advice')}</View>;
   const priority = { critical: 0, warn: 1, watch: 2, info: 3 };
   const ordered = [...cards].sort((a, b) => priority[a.severity] - priority[b.severity]);
-  const lead = ordered[0];
-  const soil = cards.find(card => card.kind === 'watering' && card.metrics.observationDriven);
-  const localStamp = (value: unknown, timeKnown = true) => {
-    if (typeof value !== 'number') return 'Not found in loaded history';
-    try { return new Date(value * 1000).toLocaleString('en-GB', { timeZone: typeof soil?.metrics.timeZone === 'string' ? soil.metrics.timeZone : 'UTC', day: 'numeric', month: 'short', ...(timeKnown ? { hour: '2-digit', minute: '2-digit' } : {}) }); }
-    catch { return new Date(value * 1000).toISOString(); }
-  };
-
-  const color = lead.severity === 'critical' ? t.danger : lead.severity === 'info' ? t.accent : t.warm;
-  const severity = { critical: 'Urgent', warn: 'Needs attention', watch: 'Watch', info: 'Care note' }[lead.severity];
-  const count = `${ordered.length} ${ordered.length === 1 ? 'note' : 'notes'}`;
-  return <View style={[s.card, { backgroundColor: t.surface, borderColor: t.border }]}>
-    <GrowPress accessibilityRole="button" accessibilityLabel={`${expanded ? 'Minimize' : 'Expand'} care notes. ${count}. ${severity}: ${lead.title}`} accessibilityState={{ expanded }} onPress={() => { setExpanded(!expanded); setOpenNote(null); }} style={s.header}>
-      <View style={[s.icon, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name="leaf" size={22} color={color} /></View>
-      <View style={s.copy}>
-        <View style={s.heading}><Text style={[s.title, { color: t.text }]}>Care today</Text><Text style={[s.count, { color: t.muted }]}>{count}</Text></View>
-        {!expanded && <Text style={[s.summary, { color: t.text }]}><Text style={{ color, fontWeight: '600' }}>{severity} · </Text>{lead.title}</Text>}
-        {!expanded && lead.kind === 'watering' && lead.metrics.needsWater === null && !!lead.diagnostics?.length
-          && <Text numberOfLines={2} style={[s.summary, { color: t.muted }]}>{lead.summary}</Text>}
-      </View>
-      <MaterialCommunityIcons name={expanded ? 'chevron-up' : 'chevron-down'} size={22} color={t.muted} />
-    </GrowPress>
-    {soil && <View style={{ paddingHorizontal: 14, paddingBottom: 12, gap: 4 }}>
-      <Text style={{ color: t.muted, fontSize: 12 }}>Last watering: {localStamp(soil.metrics.lastWateringUtc, soil.metrics.lastWateringTimeKnown === true)}</Text>
-      <Text style={{ color: t.muted, fontSize: 12 }}>Last soil check: {soil.metrics.lastMoistureState ? `${String(soil.metrics.lastMoistureState).toLowerCase()} · ${localStamp(soil.metrics.lastObservationUtc)} (user-reported)` : 'Not found in loaded history'}</Text>
-      <Text style={{ color: t.muted, fontSize: 12 }}>Check status: {({ CHECK_NOW: 'Check now', CHECK_SOON: 'Check soon', CHECK_LATER: 'Check later', INSUFFICIENT_DATA: 'Check directly; information incomplete' } as Record<string, string>)[String(soil.metrics.checkStatus)]}</Text>
-    </View>}
-    {expanded && <View>
-      {ordered.map(card => <View key={card.id} style={{ borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: t.border }}><InsightPanel theme={t} card={card} expanded={openNote === card.id} onToggle={() => setOpenNote(openNote === card.id ? null : card.id)} onWater={canRecord && onRecord && card.metrics.action === 'CONFIRM_DRY_SOIL' ? () => onRecord('watering') : undefined} onRecord={canRecord && onRecord && !['weather', 'weatherContext'].includes(card.kind) && !(card.algorithmVersion.startsWith('hops-') && card.metrics.needsWater === null) ? () => onRecord('health', card.kind === 'watering' ? 'soil-check' : undefined) : undefined} /></View>)}
-      <View style={[s.footer, { borderTopColor: t.border }]}><PlantActionButton label="Refresh care advice" icon="refresh" theme={t} onPress={onRefresh} /></View>
-    </View>}
+  return <View style={[s.panel, { backgroundColor: t.surface }]}>
+    <Text accessibilityRole="header" style={{ color: t.muted, fontSize: 13, fontWeight: '500' }}>Care today</Text>
+    {ordered.map((card, index) => {
+      const title = card.kind === 'watering' && card.metrics.observationDriven ? ({ CHECK_LATER: 'Check again later', CHECK_SOON: 'Soil check coming up' } as Record<string, string>)[String(card.metrics.checkStatus)] || card.title : card.title;
+      const color = card.severity === 'critical' ? t.danger : card.severity === 'info' ? t.text : t.warm;
+      const action = careAction(card), facts = careFacts(card);
+      const reasons = [...new Set(card.reasons)].filter(reason => reason && !card.summary.includes(reason));
+      return <View key={card.id} style={{ gap: 9, ...(index ? { borderTopWidth: StyleSheet.hairlineWidth, borderColor: t.border, paddingTop: 18 } : {}) }}>
+        <Text accessibilityRole={card.severity === 'critical' ? 'alert' : 'header'} style={{ color, fontSize: 17, lineHeight: 24, fontWeight: '600' }}>{card.severity === 'critical' ? 'Urgent: ' : ''}{title}</Text>
+        {!!card.summary && <Text style={{ color: t.muted, fontSize: 14, lineHeight: 22 }}>{card.summary}</Text>}
+        <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', columnGap: 18, rowGap: 4, marginTop: 2 }}>
+          {action && canRecord && onRecord && <GrowPress accessibilityRole="button" accessibilityLabel={action.label + ': ' + card.title} onPress={() => onRecord(action.category, action.context)} style={{ minHeight: 44, paddingHorizontal: 12, borderRadius: 10, backgroundColor: t.elevated, flexDirection: 'row', alignItems: 'center', gap: 7 }}><MaterialCommunityIcons name={action.icon} size={17} color={card.kind === 'watering' ? t.water : t.accent} /><Text style={{ color: card.kind === 'watering' ? t.water : t.accent, fontSize: 13, fontWeight: '600' }}>{action.label}</Text></GrowPress>}
+          <GrowPress accessibilityRole="button" accessibilityLabel={(open[card.id] ? 'Hide why: ' : 'Learn why: ') + card.title} accessibilityState={{ expanded: !!open[card.id] }} onPress={() => setOpen(previous => ({ ...previous, [card.id]: !previous[card.id] }))} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.accent, fontSize: 13 }}>{open[card.id] ? 'Hide explanation' : 'Learn why'}</Text></GrowPress>
+        </View>
+        {open[card.id] && <View testID={'care-evidence-' + card.id} style={{ backgroundColor: t.elevated, borderRadius: 12, padding: 14, gap: 14 }}>
+          <Text style={{ color: t.text, fontSize: 14, fontWeight: '600' }}>Why this suggestion</Text>
+          {reasons.map(reason => <Text key={reason} style={{ color: t.text, fontSize: 13, lineHeight: 21 }}>{reason}</Text>)}
+          {facts.map((fact, i) => <View key={fact.label + i} style={{ gap: 4 }}><Text style={{ color: t.muted, fontSize: 12 }}>{fact.label}</Text><Text style={{ color: t.text, fontSize: 13, lineHeight: 21 }}>{fact.value}</Text></View>)}
+          {!facts.length && !reasons.length && <Text style={{ color: t.muted, fontSize: 13, lineHeight: 21 }}>The explanation above is available, but detailed input values were not supplied with this suggestion.</Text>}
+        </View>}
+      </View>;
+    })}
   </View>;
 }
 const s = StyleSheet.create({
-  card: { marginTop: 8, borderWidth: 1, borderRadius: 18, overflow: 'hidden' },
-  header: { minHeight: 72, padding: 14, flexDirection: 'row', alignItems: 'center', gap: 10 },
-  icon: { width: 36, height: 36, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
-  copy: { flex: 1, minWidth: 0, gap: 5 },
-  heading: { flexDirection: 'row', alignItems: 'baseline', flexWrap: 'wrap', columnGap: 8 },
-  title: { fontSize: 15, lineHeight: 21, fontWeight: '600' },
-  count: { fontSize: 12, lineHeight: 18 },
-  summary: { fontSize: 13, lineHeight: 19 },
-  footer: { padding: 12, borderTopWidth: StyleSheet.hairlineWidth, alignItems: 'flex-start' },
+  panel: { marginTop: 12, marginBottom: 8, padding: 18, borderRadius: 18, gap: 14 },
 });

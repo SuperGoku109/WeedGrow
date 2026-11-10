@@ -3,7 +3,7 @@ import { effectiveSchedule } from '@/lib/care/reminderSchedules';
 import { contextLabel, contextChoices } from '@/lib/care/plantContext';
 import { useEditDraft, DraftRecovery } from '@/ui/useEditDraft';
 import React from 'react';
-import { ActivityIndicator, Text, View } from 'react-native';
+import { ActivityIndicator, Text, View, useWindowDimensions } from 'react-native';
 import type { Plant, PlantReminderSchedule } from '@/firestoreModels';
 import { type UpdatePlantFields } from '../api/plantService';
 import { usePlantEditorMutations } from '../hooks/usePlantEditorMutations';
@@ -18,16 +18,22 @@ import PlantLocationEditor from '@/features/location/PlantLocationEditor';
 import { useDiscardGuard } from '@/ui/useDiscardGuard';
 import { validCoordinates } from '@/features/location/locationService';
 import PlantEditorSheet from './PlantEditorSheet';
+import PlantEditorPage from './PlantEditorPage';
 import PlantDateField, { displayDay } from './PlantDateField';
 import { plantDay, addDays, isCalendarDay } from '@/lib/dates/plantDay';
 import EditorGroup from './EditorGroup';
 import EditorRow from './EditorRow';
 import EditorPotSize from './EditorPotSize';
+import EditorHeight from './EditorHeight';
 import { sections, buildSectionUpdates, buildAllSectionUpdates } from '../form/plantSectionForm';
 import { rainExposure } from '@/lib/careAlgorithm/setupFacts';
 
-export default function PlantSectionEditor({ plantId, plant, section, onClose, onSaved, onDeleted, theme }: { plantId: string; plant: Plant; section: string; onClose: () => void; onSaved: () => void; onDeleted?: () => void; theme?: PlantTheme }) {
+export default function PlantSectionEditor({ plantId, plant, section, onClose, onSaved, onDeleted, theme, presentation = 'sheet', portrait }: { plantId: string; plant: Plant; section: string; onClose: () => void; onSaved: () => void; onDeleted?: () => void; theme?: PlantTheme; presentation?: 'sheet' | 'page'; portrait?: React.ReactNode }) {
   const t = theme || plantThemes.grove;
+  const page = presentation === 'page';
+  const { width, fontScale } = useWindowDimensions();
+  const stackPortrait = width < 360 || fontScale > 1.2;
+  const Shell = page ? PlantEditorPage : PlantEditorSheet;
   const title = ({ 'Basics': 'Plant profile', 'Care plan': 'Care routine', 'Location and weather': 'Location', 'Notes and history': 'Profile notes' } as Record<string, string>)[section] || section;
   const [ageMode, setAgeMode] = React.useState(plant.startedOn && !plant.ageEstimated ? 'date' : 'estimate');
   const all = section === 'All';
@@ -76,6 +82,7 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
   const renderField = (key: string) => {
     const field = fieldsByKey.get(key);
     if (!field || key === 'potSize' && values.plantedIn === 'ground' || key === 'sensorProfileId' && values.environment === 'outdoor' || key === 'sunlightExposure' && values.environment === 'indoor') return null;
+    if (key === 'height') return <EditorHeight key={key} value={values.height || ''} disabled={disabled} theme={t} onChange={value => change('height', value)} />;
     if (key === 'potSize') return <EditorPotSize key={key} value={values.potSize} disabled={disabled} onChange={value => change(key, value)} />;
     const label = ({ ageDays: 'Estimated age', height: 'Height', environment: 'Growing environment', trainingTags: 'Training methods', pests: 'Pests recorded', companionPlants: 'Companion plants', soilPh: 'Soil pH', intervalDays: 'Repeat every', permanentProtection: 'Cover or protection', locationNickname: locationMode === 'space' ? 'Spot within this garden' : 'Location label' } as Record<string, string>)[key] || field.label;
     if (field.options) {
@@ -85,57 +92,72 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
     }
     return <EditorField key={key} testID={`plant-editor-${key}`} label={label} value={values[key]} editable={!disabled} multiline={field.multiline} style={field.multiline ? { minHeight: 88, textAlignVertical: 'top' } : undefined} suffix={key === 'height' ? 'cm' : ['ageDays', 'intervalDays'].includes(key) ? 'days' : undefined} placeholder={field.number || key === 'soilPh' ? '—' : ({ strain: 'Unknown strain', permanentProtection: 'e.g. Shade cloth', companionPlants: 'Names, separated by commas', fertilizer: 'Product or feed mix', notes: 'Anything to remember about this plant', environmentNotes: 'Details about light, soil or setup', trainingTags: 'Methods, separated by commas', pests: 'Names, separated by commas', locationNickname: 'e.g. Back patio' } as Record<string, string>)[key]} maxLength={key === 'name' ? 100 : field.multiline ? 4000 : undefined} keyboardType={['ageDays', 'intervalDays'].includes(key) ? 'number-pad' : field.number || key === 'soilPh' ? 'decimal-pad' : 'default'} onChangeText={value => change(key, value)} />;
   };
-  return <PlantEditorSheet title={all ? 'Edit plant' : `Edit ${title.toLowerCase()}`} subtitle={plant.name} contentGap={12} theme={t} busy={busy || deleteOpen} pending={busy} onClose={() => guard.requestClose(close)} footer={<View style={{ gap: 12 }}>
-    {!!error && <Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text>}
+  return <Shell title={all ? 'Edit plant' : 'Edit ' + title.toLowerCase()} subtitle={plant.name} contentGap={16} theme={t} busy={busy || deleteOpen} pending={busy} onClose={() => guard.requestClose(close)} footer={<View style={{ gap: 12 }}>
+    {!!error && <Text accessibilityRole="alert" style={{ color: t.danger, lineHeight: 21 }}>{error}</Text>}
     <GrowPress accessibilityRole="button" accessibilityLabel="Save section changes" disabled={disabled} onPress={save} style={[ds.button, { backgroundColor: t.accent, opacity: disabled ? 0.5 : 1 }]}>{busy && <ActivityIndicator color={t.onAccent} />}<Text style={{ color: t.onAccent, fontWeight: '700' }}>{busy ? 'Saving…' : 'Save changes'}</Text></GrowPress>
   </View>}>
     <DraftRecovery theme={t} draft={draft} apply={value => { setValues(previous => ({ ...previous, ...value.values })); setLocationMode(value.locationMode); setAgeMode(value.ageMode || (value.values.startedOn ? 'date' : 'estimate')); }} />
     {!!profileError && <Text style={{ color: t.danger }}>{profileError}</Text>}
-    {includes('Basics') && <>
-      {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700' }}>Plant profile</Text>}
-      {renderField('name')}<EditorRow>{renderField('growthStage')}{renderField('height')}</EditorRow>
-      <EditorRow>{renderField('strain')}{renderField('strainType')}</EditorRow>
-      <EditorGroup title="Plant age" hint="Since sprouting or rooting. Leave blank if unknown.">
+    {includes('Basics') && <EditPanel title="Plant details" theme={t} page={page}>
+      {page && portrait ? <View style={{ flexDirection: stackPortrait ? 'column' : 'row', alignItems: 'flex-start', gap: 14 }}>
+        <View style={{ width: stackPortrait ? '100%' : 100, height: stackPortrait ? 180 : 148, borderRadius: 14, overflow: 'hidden', backgroundColor: t.elevated }}>{portrait}</View>
+        <View style={{ flex: stackPortrait ? undefined : 1, width: stackPortrait ? '100%' : undefined, minWidth: 0, gap: 12 }}>{renderField('name')}{renderField('growthStage')}</View>
+      </View> : <>{renderField('name')}{renderField('growthStage')}</>}
+      <EditorRow>{renderField('height')}{renderField('strainType')}</EditorRow>
+      {renderField('strain')}
+      <EditorGroup title="Age and timeline" hint="Since sprouting or rooting. Leave blank if unknown.">
         <EditorRow>
-        <EditorSelect label="Age based on" value={ageMode} disabled={disabled} options={[{ value: 'date', label: 'Start date' }, { value: 'estimate', label: 'Estimate' }]} onSelect={setAgeMode} />
-        {ageMode === 'estimate' && renderField('ageDays')}
+          <EditorSelect label="Age based on" value={ageMode} disabled={disabled} options={[{ value: 'date', label: 'Start date' }, { value: 'estimate', label: 'Estimate' }]} onSelect={setAgeMode} />
+          {ageMode === 'estimate' && renderField('ageDays')}
         </EditorRow>
         {ageMode === 'date' && <PlantDateField label="Sprouted or rooted on" value={values.startedOn || ''} onChange={value => change('startedOn', value)} today={today} optional disabled={disabled} />}
-    {includes('Basics') && ageMode === 'date' && isCalendarDay(values.startedOn || '') && <Text style={{ color: t.muted }}>Growing for {Math.max(0, Math.floor((Date.parse(today + 'T12:00:00Z') - Date.parse(values.startedOn + 'T12:00:00Z')) / 86400000))} days.</Text>}
-    {includes('Basics') && ageMode === 'estimate' && values.ageDays?.trim() && Number.isInteger(Number(values.ageDays)) && Number(values.ageDays) >= 0 && Number(values.ageDays) <= 36500 && <Text style={{ color: t.muted }}>{!plant.startedOn && values.ageDays === String(plant.ageDays) ? `Recorded age: ${values.ageDays} days. Start date unknown.` : 'Estimated start: ' + displayDay(plant.ageEstimated && values.ageDays === String(plant.ageDays) && plant.startedOn ? plant.startedOn : addDays(today, -Number(values.ageDays)))}</Text>}
+        {ageMode === 'date' && isCalendarDay(values.startedOn || '') && <Text style={{ color: t.muted, fontSize: 13 }}>Growing for {Math.max(0, Math.floor((Date.parse(today + 'T12:00:00Z') - Date.parse(values.startedOn + 'T12:00:00Z')) / 86400000))} days.</Text>}
+        {ageMode === 'estimate' && values.ageDays?.trim() && Number.isInteger(Number(values.ageDays)) && Number(values.ageDays) >= 0 && Number(values.ageDays) <= 36500 && <Text style={{ color: t.muted, fontSize: 13 }}>{!plant.startedOn && values.ageDays === String(plant.ageDays) ? 'Recorded age: ' + values.ageDays + ' days. Start date unknown.' : 'Estimated start: ' + displayDay(plant.ageEstimated && values.ageDays === String(plant.ageDays) && plant.startedOn ? plant.startedOn : addDays(today, -Number(values.ageDays)))}</Text>}
       </EditorGroup>
-    </>}
-    {includes('Growing setup') && <>
-      {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700', marginTop: 12 }}>Growing setup</Text>}
-      <EditorRow>{renderField('environment')}{renderField('plantedIn')}</EditorRow>
-      <EditorRow>{renderField('potSize')}{renderField('sunlightExposure')}{renderField('sensorProfileId')}</EditorRow>
-      {renderField('growingSite')}{values.plantedIn === 'pot' && <><EditorRow>{renderField('potMaterial')}{renderField('potType')}</EditorRow>{renderField('potDrainage')}</>}
-      {renderField('rainExposure')}{renderField('careMedium')}
-      <Text style={{ color: t.muted, fontSize: 13, lineHeight: 20 }}>These optional setup facts describe direct rain and growing medium. Unknown is fine; no daily measurements are needed.</Text>
-      <EditorGroup title="Soil & extras" flat={all} collapsible={!all}><EditorRow>{renderField('soilType')}{renderField('soilPh')}</EditorRow>{renderField('permanentProtection')}{renderField('companionPlants')}</EditorGroup>
-    </>}
-    {includes('Care plan') && <>
-      {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700', marginTop: 12 }}>Care routine</Text>}
-      <EditorRow>{renderField('wateringFrequency')}{renderField('feedingFrequency')}</EditorRow>{renderField('fertilizer')}{renderField('fertilizerForm')}
-      <EditorGroup title="Reminders" flat={all}>
-        <CareScheduleEditor kind="watering" value={careSchedule('watering')} onChange={value => changeSchedule('watering', value)} allowSmart={(values.environment || plant.environment) === 'outdoor'} disabled={disabled} theme={t} />
-        <CareScheduleEditor kind="feeding" value={careSchedule('feeding')} onChange={value => changeSchedule('feeding', value)} disabled={disabled} theme={t} />
+    </EditPanel>}
+    {includes('Growing setup') && <EditPanel title="Container and soil" theme={t} page={page}>
+      <EditorRow>{renderField('plantedIn')}{renderField('potSize')}</EditorRow>
+      {values.plantedIn === 'pot' && <><EditorRow>{renderField('potMaterial')}{renderField('potType')}</EditorRow>{renderField('potDrainage')}</>}
+      {renderField('careMedium')}
+      <EditorRow>{renderField('soilType')}{renderField('soilPh')}</EditorRow>
+      {!all && renderField('companionPlants')}
+    </EditPanel>}
+    {(includes('Growing setup') || includes('Location and weather')) && <EditPanel title="Location and site" theme={t} page={page}>
+      {includes('Growing setup') && <>
+        <EditorRow>{renderField('environment')}{renderField('growingSite')}</EditorRow>
+        <EditorRow>{renderField('sunlightExposure')}{renderField('sensorProfileId')}</EditorRow>
+        {renderField('rainExposure')}{renderField('permanentProtection')}
+      </>}
+      {includes('Location and weather') && <>
+        <PlantLocationEditor displayName={values.locationNickname} theme={t} groupId={plant.groupId} mode={locationMode} onModeChange={setLocationMode} location={values.lat?.trim() && values.lng?.trim() && validCoordinates({ lat: Number(values.lat), lng: Number(values.lng) }) ? { lat: Number(values.lat), lng: Number(values.lng) } : null} label={values.locationLabel} disabled={disabled} onBusyChange={setLocating} onChange={(coords, name) => setValues(previous => ({ ...previous, lat: coords ? String(coords.lat) : '', lng: coords ? String(coords.lng) : '', locationLabel: name }))} />
+        {renderField('locationNickname')}
+      </>}
+    </EditPanel>}
+    {includes('Care plan') && <EditPanel title="Care and reminders" theme={t} page={page}>
+      <CareScheduleEditor kind="watering" value={careSchedule('watering')} onChange={value => changeSchedule('watering', value)} allowSmart={(values.environment || plant.environment) === 'outdoor'} disabled={disabled} theme={t} />
+      <View style={{ height: 1, backgroundColor: t.border, marginVertical: 4 }} />
+      <CareScheduleEditor kind="feeding" value={careSchedule('feeding')} onChange={value => changeSchedule('feeding', value)} disabled={disabled} theme={t} />
+      <EditorRow>{renderField('fertilizer')}{renderField('fertilizerForm')}</EditorRow>
+      <EditorGroup title="Saved routines" hint="Optional routine notes. Reminder settings above control alerts." collapsible>
+        <EditorRow>{renderField('wateringFrequency')}{renderField('feedingFrequency')}</EditorRow>
       </EditorGroup>
-    </>}
-    {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700', marginTop: 12 }}>Location</Text>}
-    {includes('Location and weather') && <PlantLocationEditor displayName={values.locationNickname} theme={t} groupId={plant.groupId} mode={locationMode} onModeChange={setLocationMode} location={values.lat?.trim() && values.lng?.trim() && validCoordinates({ lat: Number(values.lat), lng: Number(values.lng) }) ? { lat: Number(values.lat), lng: Number(values.lng) } : null} label={values.locationLabel} disabled={busy || !draft.ready || !!draft.saved} onBusyChange={setLocating} onChange={(coords, name) => setValues(previous => ({ ...previous, lat: coords ? String(coords.lat) : '', lng: coords ? String(coords.lng) : '', locationLabel: name }))} />}
-    {includes('Location and weather') && <EditorGroup flat={all} title="Place label" hint={values.locationNickname || 'Optional name for this spot'} collapsible={!all}>{renderField('locationNickname')}</EditorGroup>}
-    {includes('Notes and history') && <>
-      {all && <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '700', marginTop: 12 }}>Profile notes</Text>}
-      <Text style={{ color: t.muted, fontSize: 13, lineHeight: 20 }}>Keep lasting information here. Add dated observations in the Journal.</Text>
+    </EditPanel>}
+    {includes('Notes and history') && <EditPanel title="Notes and history" theme={t} page={page}>
       {renderField('notes')}{renderField('environmentNotes')}
-      <EditorGroup title="Training & pest history" flat={all} collapsible={!all}>{renderField('trainingTags')}{renderField('pests')}</EditorGroup>
-    </>}
-    {all && onDeleted && <View style={{ borderTopWidth: 1, borderColor: t.border, marginTop: 12, paddingTop: 16, gap: 8 }}>
+      {all && renderField('companionPlants')}
+      <EditorRow>{renderField('trainingTags')}{renderField('pests')}</EditorRow>
+    </EditPanel>}
+    {all && onDeleted && <EditPanel title="Manage plant" theme={t} page={page}>
       <PlantActionButton label="Delete plant" icon="trash-can-outline" theme={t} danger disabled={disabled} onPress={() => setDeleteOpen(true)} />
-      <Text style={{ color: t.muted, fontSize: 13, lineHeight: 20 }}>Permanently removes this plant and its history.</Text>
-    </View>}
-    {deleteOpen && <ActionDialog danger title="Delete this plant?" description={`Permanently delete ${plant.name}, including its journal, photos and saved conditions. This cannot be undone.${dirty ? ' Your unsaved edits will also be discarded.' : ''}`} confirmLabel="Delete permanently" onClose={() => setDeleteOpen(false)} onConfirm={deletePlant} />}
+      <Text style={{ color: t.muted, fontSize: 12, lineHeight: 19 }}>Permanently removes this plant and its history.</Text>
+    </EditPanel>}
+    {deleteOpen && <ActionDialog danger title="Delete this plant?" description={'Permanently delete ' + plant.name + ', including its journal, photos and saved conditions. This cannot be undone.' + (dirty ? ' Your unsaved edits will also be discarded.' : '')} confirmLabel="Delete permanently" onClose={() => setDeleteOpen(false)} onConfirm={deletePlant} />}
     {guard.dialog}
-  </PlantEditorSheet>;
+  </Shell>;
+}
+function EditPanel({ title, theme: t, page, children }: { title: string; theme: PlantTheme; page: boolean; children: React.ReactNode }) {
+  return <View style={{ backgroundColor: page ? t.surface : 'transparent', borderRadius: page ? 20 : 0, padding: page ? 18 : 0, gap: 16 }}>
+    <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '600', lineHeight: 25 }}>{title}</Text>
+    {children}
+  </View>;
 }

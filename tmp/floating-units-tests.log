@@ -1,0 +1,8 @@
+PASS features/plants/__tests__/heightUnits.test.ts
+PASS features/plants/__tests__/plantEditorPage.test.ts
+PASS ui/__tests__/anchoredActionMenu.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       11 passed, 11 total
+Snapshots:   0 total
+Time:        3.663 s, estimated 4 s

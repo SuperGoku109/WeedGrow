@@ -16,6 +16,7 @@ export interface SuggestionCard {
   confidence: SuggestionConfidence;
   algorithmVersion: string;
   diagnostics?: import('@/lib/careAlgorithm/careDiagnostics').DiagnosticEntry[];
+  evidence?: Record<string, unknown>;
 }
 
 export interface SuggestionAlgorithmContext {

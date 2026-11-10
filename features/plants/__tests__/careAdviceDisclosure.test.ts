@@ -1,72 +1,70 @@
 import React from 'react';
 // @ts-expect-error Expo includes the renderer without declarations.
 import { act, create } from 'react-test-renderer';
-import { Text } from 'react-native';
+import { Modal, Text } from 'react-native';
 import DailyCareAdvice from '../components/DailyCareAdvice';
 import { plantThemes } from '../components/plantDetailTheme';
+import { careAction, careFacts } from '../careSuggestionPresentation';
 import type { SuggestionCard } from '@/lib/suggestions/suggestionCards';
 jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
-jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable, GrowReveal: jest.requireActual('react-native').View }));
-const card = (id: string, severity: SuggestionCard['severity'], kind: SuggestionCard['kind']): SuggestionCard => ({ id, severity, kind, title: id, summary: `${id} explanation`, reasons: [], active: true, metrics: {}, confidence: 'high', algorithmVersion: '1' });
-const cards = [card('Watering recorded', 'info', 'watering'), card('Mildew risk', 'critical', 'powderyMildew'), card('Root rot risk', 'warn', 'rootRot')];
+jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable }));
+const card = (id: string, severity: SuggestionCard['severity'], kind: SuggestionCard['kind']): SuggestionCard => ({ id, severity, kind, title: id, summary: id + ' explanation', reasons: [], active: true, metrics: {}, confidence: 'high', algorithmVersion: '1' });
 let renderer: any;
-const record = jest.fn();
-function button(prefix: string) { return renderer.root.findAll((node: any) => typeof node.props.onPress === 'function' && node.props.accessibilityLabel?.startsWith(prefix))[0]; }
+const refresh = jest.fn(), record = jest.fn();
 function text() { return renderer.root.findAllByType(Text).map((node: any) => node.props.children).flat().filter((value: unknown) => typeof value === 'string').join(' '); }
-async function mount(canRecord = true) { await act(async () => { renderer = create(React.createElement(DailyCareAdvice, { cards, loading: false, error: '', hasLocation: true, theme: plantThemes.grove, onRefresh: () => {}, onRecord: record, canRecord })); }); }
-afterEach(() => { act(() => renderer?.unmount()); record.mockClear(); });
-test('minimized advice retains the urgent warning and count without explanations or logging actions', async () => {
-  await mount();
-  expect(text()).toContain('Mildew risk'); expect(text()).toContain('3 notes');
-  expect(text()).not.toContain('Mildew risk explanation'); expect(button('Log observation')).toBeUndefined();
-  expect(button('Expand care notes').props.accessibilityState.expanded).toBe(false);
+function button(prefix: string) { return renderer.root.findAll((node: any) => typeof node.props.onPress === 'function' && node.props.accessibilityLabel?.startsWith(prefix))[0]; }
+async function mount(cards: SuggestionCard[], extra = {}) { await act(async () => { renderer = create(React.createElement(DailyCareAdvice, { cards, loading: false, error: '', hasLocation: true, theme: plantThemes.grove, onRefresh: refresh, onRecord: record, ...extra })); }); }
+afterEach(() => { act(() => renderer?.unmount()); refresh.mockClear(); record.mockClear(); });
+
+test('offers the matching soil-check action and expands real evidence inline', async () => {
+  const soil = { ...card('Check soil moisture', 'watch', 'watering'), metrics: { observationDriven: true, action: 'CHECK_SOIL', lastWateringUtc: 1794311640, lastWateringTimeKnown: true, timeZone: 'UTC' }, evidence: { drying: 'FAST', rainfallMm: 0, rainExposure: 'no' } };
+  await mount([soil]);
+  expect(text()).toContain('Care today'); expect(text()).not.toContain('faster drying');
+  expect(button('Water:')).toBeUndefined();
+  act(() => button('Check soil:').props.onPress());
+  expect(record).toHaveBeenCalledWith('health', 'soil-check');
+  act(() => button('Learn why:').props.onPress());
+  expect(text()).toContain('faster drying'); expect(text()).toContain('Last watering recorded');
+  expect(text()).toContain('0 mm'); expect(text()).toContain('sheltered from rain');
+  expect(renderer.root.findAllByType(Modal)).toHaveLength(0);
+  act(() => button('Hide why:').props.onPress()); expect(text()).not.toContain('faster drying');
 });
 
-test('unavailable care shows a specific cause and opt-in selectable diagnostics without requesting a soil check', async () => {
-  const unavailable: SuggestionCard = { ...card('Watering estimate unavailable', 'info', 'watering'), algorithmVersion: 'hops-8.4.0',
-    summary: 'No backend watering evaluation has been published for this plant.', metrics: { needsWater: null },
-    diagnostics: [{ label: 'Reason codes', value: 'server_evaluation_missing' }, { label: 'Journal weather entries', value: '8 dates present' }] };
-  await act(async () => { renderer = create(React.createElement(DailyCareAdvice, { cards: [unavailable], loading: false, error: '', hasLocation: true,
-    theme: plantThemes.grove, onRefresh: () => {}, onRecord: record })); });
-  expect(text()).toContain('No backend watering evaluation');
-  act(() => button('Expand care notes').props.onPress());
-  act(() => button('Care note: Watering estimate unavailable').props.onPress());
-  expect(text()).not.toContain('server_evaluation_missing');
-  act(() => button('Show watering diagnostics').props.onPress());
-  expect(text()).toContain('server_evaluation_missing'); expect(text()).toContain('8 dates present');
-  expect(button('Record soil check')).toBeUndefined();
-  expect(renderer.root.findAllByType(Text).some((node: any) => node.props.selectable === true && node.props.children === 'server_evaluation_missing')).toBe(true);
-});
-test('only one explanation opens at a time, preserves logging context, and minimizing closes details', async () => {
-  await mount();
-  act(() => button('Expand care notes').props.onPress());
-  act(() => button('Urgent: Mildew risk').props.onPress());
-  expect(text()).toContain('Mildew risk explanation');
-  act(() => button('Care note: Watering recorded').props.onPress());
-  expect(text()).not.toContain('Mildew risk explanation'); expect(text()).toContain('Watering recorded explanation');
-  act(() => button('Record soil check').props.onPress()); expect(record).toHaveBeenCalledWith('health', 'soil-check');
-  act(() => button('Minimize care notes').props.onPress()); act(() => button('Expand care notes').props.onPress());
-  expect(text()).not.toContain('Watering recorded explanation');
-});
-test('read-only plants retain explanations without offering logging', async () => {
-  await mount(false);
-  act(() => button('Expand care notes').props.onPress()); act(() => button('Urgent: Mildew risk').props.onPress());
-  expect(text()).toContain('Mildew risk explanation'); expect(button('Log observation')).toBeUndefined();
+test('water and other care actions open the appropriate journal flow without marking care complete', async () => {
+  const water = { ...card('Watering may be appropriate', 'watch', 'watering'), metrics: { action: 'CONFIRM_DRY_SOIL', observationDriven: true } };
+  const weather = card('Wind warning', 'warn', 'weather');
+  const pest = { ...card('Pest follow-up', 'watch', 'health'), metrics: { category: 'pests' } };
+  await mount([water, weather, pest]);
+  act(() => button('Water:').props.onPress()); expect(record).toHaveBeenLastCalledWith('watering', undefined);
+  act(() => button('Log check:').props.onPress()); expect(record).toHaveBeenLastCalledWith('health', undefined);
+  act(() => button('Log inspection:').props.onPress()); expect(record).toHaveBeenLastCalledWith('pests', undefined);
+  expect(text()).toContain('Watering may be appropriate');
+  expect(careAction({ ...water, metrics: { needsWater: null } })).toBeNull();
 });
 
-test('direct observation guidance remains valid and recordable without a weather location', async () => {
-  const soil = { ...card('Soil reported moist', 'info', 'watering'), metrics: { observationDriven: true, checkStatus: 'CHECK_LATER' } };
-  await act(async () => { renderer = create(React.createElement(DailyCareAdvice, { cards: [soil], loading: false, error: '', hasLocation: false, theme: plantThemes.grove, onRefresh: () => {}, onRecord: record })); });
-  expect(text()).toContain('Soil reported moist');
-  act(() => button('Expand care notes').props.onPress());
-  act(() => button('Care note: Soil reported moist').props.onPress());
-  expect(button('Record soil check')).toBeDefined();
+test('read-only plants keep explanations without offering recording actions', async () => {
+  await mount([{ ...card('Soil check', 'watch', 'watering'), metrics: { observationDriven: true } }], { canRecord: false });
+  expect(button('Check soil:')).toBeUndefined(); expect(button('Learn why:')).toBeDefined();
 });
 
-test('dry-soil confirmation offers an explicit watering log action', async () => {
-  const dry = { ...card('Watering may be appropriate', 'watch', 'watering'), metrics: { observationDriven: true, action: 'CONFIRM_DRY_SOIL', checkStatus: 'CHECK_NOW' } };
-  await act(async () => { renderer = create(React.createElement(DailyCareAdvice, { cards: [dry], loading: false, error: '', hasLocation: false, theme: plantThemes.grove, onRefresh: () => {}, onRecord: record })); });
-  act(() => button('Expand care notes').props.onPress());
-  act(() => button('Watch: Watering may be appropriate').props.onPress());
-  act(() => button('Log watering').props.onPress()); expect(record).toHaveBeenCalledWith('watering');
+test('keeps each explanation independent and prioritizes important warnings', async () => {
+  const soil = { ...card('Soil check', 'info', 'watering'), reasons: ['A soil report is missing.'] };
+  const wind = { ...card('Wind warning', 'critical', 'weather'), evidence: { variable: 'wind_gust_ms', value: 15, phase: 'forecast', provider: 'Example weather service' } };
+  await mount([soil, wind]);
+  expect(text().indexOf('Wind warning')).toBeLessThan(text().indexOf('Soil check'));
+  act(() => button('Learn why: Wind').props.onPress()); expect(text()).toContain('15 m/s'); expect(text()).not.toContain('A soil report is missing.');
+  act(() => button('Learn why: Soil').props.onPress()); expect(text()).toContain('A soil report is missing.'); expect(text()).toContain('15 m/s');
+});
+
+test('does not invent weather, soil readings, or complete history when evidence is absent', () => {
+  expect(careFacts(card('Unavailable', 'info', 'watering'))).toEqual([]);
+  const facts = careFacts({ ...card('Check', 'watch', 'watering'), metrics: { observationDriven: true }, evidence: { drying: 'UNKNOWN', rainfallMm: null, value: NaN } });
+  expect(facts.map(f => f.value).join(' ')).toContain('incomplete or stale');
+  expect(facts.map(f => f.value).join(' ')).not.toContain('0 mm');
+});
+
+test('preserves loading and failure feedback', async () => {
+  await mount([], { loading: true }); expect(text()).toContain('Checking today'); expect(button('Learn why:')).toBeUndefined();
+  await act(async () => renderer.update(React.createElement(DailyCareAdvice, { cards: [], loading: false, error: 'Connection unavailable', hasLocation: true, theme: plantThemes.grove, onRefresh: refresh })));
+  expect(text()).toContain('Connection unavailable'); act(() => button('Retry care advice').props.onPress()); expect(refresh).toHaveBeenCalledTimes(1);
 });

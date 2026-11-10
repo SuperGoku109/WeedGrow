@@ -1,13 +1,15 @@
 import React from 'react';
-import { Animated, BackHandler, Keyboard, Pressable, ScrollView, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
+import { Animated, Keyboard, Pressable, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import AnchoredSelectMenu from '@/ui/AnchoredSelectMenu';
+import type { MenuAnchor } from '@/ui/AnchoredActionMenu';
 import { useReducedMotion } from '@/ui/GrowMotion';
 import { plantThemes, type PlantTheme } from './plantDetailTheme';
 
 const t = plantThemes.grove;
 export const EditorTheme = React.createContext<PlantTheme>(t);
 
-export function EditorField({ label, error, helper, suffix, inputRef, ...props }: TextInputProps & { label: string; error?: string; helper?: string; suffix?: string; inputRef?: React.Ref<TextInput> }) {
+export function EditorField({ label, error, helper, suffix, suffixControl, inputRef, ...props }: TextInputProps & { label: string; error?: string; helper?: string; suffix?: string; suffixControl?: React.ReactNode; inputRef?: React.Ref<TextInput> }) {
   const t = React.useContext(EditorTheme);
   const reduced = useReducedMotion();
   const inputId = React.useId();
@@ -22,7 +24,7 @@ export function EditorField({ label, error, helper, suffix, inputRef, ...props }
     <Animated.View style={[s.inputFrame, { backgroundColor: t.surface, opacity: props.editable === false ? 0.55 : 1, borderColor: focus.interpolate({ inputRange: [0, 1], outputRange: [error ? t.danger : t.border, error ? t.danger : t.accent] }) }]}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}><TextInput {...props} nativeID={props.nativeID || `editor-input-${inputId}`} underlineColorAndroid="transparent" ref={inputRef} accessibilityLabel={label} accessibilityHint={error || helper || (suffix ? `Value in ${suffix}.` : undefined)} aria-invalid={!!error} placeholderTextColor={t.muted} selectionColor={t.accent}
         onFocus={event => { animate(1); props.onFocus?.(event); }}
-        onBlur={event => { animate(0); props.onBlur?.(event); }} style={[s.input, { color: t.text, flex: 1, width: undefined }, props.style]} />{suffix && <View style={[s.unit, { backgroundColor: t.elevated }]}><Text style={{ color: t.muted, fontSize: 12, fontWeight: '600' }}>{suffix}</Text></View>}</View>
+        onBlur={event => { animate(0); props.onBlur?.(event); }} style={[s.input, { color: t.text, flex: 1, width: undefined }, props.style]} />{suffixControl || (suffix && <View style={[s.unit, { backgroundColor: t.elevated }]}><Text style={{ color: t.muted, fontSize: 12, fontWeight: '600' }}>{suffix}</Text></View>)}</View>
     </Animated.View>
     {!!(error || helper) && <Text accessibilityRole={error ? "alert" : undefined} style={{ color: error ? t.danger : t.muted, fontSize: 13, lineHeight: 19 }}>{error || helper}</Text>}
   </View>;
@@ -31,30 +33,29 @@ export function EditorField({ label, error, helper, suffix, inputRef, ...props }
 export function EditorSelect({ label, value, options, onSelect, placeholder, disabled = false }: {
   label: string; value: string; options: { label: string; value: string }[]; onSelect: (value: string) => void; placeholder?: string; disabled?: boolean;
 }) {
-  const [open, setOpen] = React.useState(false);
-  const [search, setSearch] = React.useState('');
+  const [anchor, setAnchor] = React.useState<MenuAnchor | null>(null);
+  const trigger = React.useRef<View>(null);
+  const measuring = React.useRef(0);
   const t = React.useContext(EditorTheme);
-  React.useEffect(() => {
-    if (!open) return;
-    const listener = BackHandler.addEventListener('hardwareBackPress', () => { setOpen(false); return true; });
-    return () => listener.remove();
-  }, [open]);
-  React.useEffect(() => { if (disabled) setOpen(false); }, [disabled]);
+  const close = React.useCallback(() => { measuring.current++; setAnchor(null); trigger.current?.focus?.(); }, []);
+  React.useEffect(() => { if (disabled) { measuring.current++; setAnchor(null); } }, [disabled]);
+  React.useEffect(() => () => { measuring.current++; }, []);
   const selected = options.find(option => option.value === value);
-  const shown = options.filter(option => option.label.toLowerCase().includes(search.trim().toLowerCase()));
+  const show = () => {
+    if (disabled) return;
+    Keyboard.dismiss();
+    const request = ++measuring.current;
+    trigger.current?.measureInWindow((x, y, width, height) => {
+      if (request === measuring.current && width > 0 && height > 0) setAnchor({ x, y, width, height });
+    });
+  };
   return <View style={s.field}>
     <Text style={[s.label, { color: t.muted }]}>{label}</Text>
-    <View>
-      <Pressable accessibilityRole="button" accessibilityLabel={`${label}: ${selected?.label || value || placeholder || 'Not set'}`} disabled={disabled} accessibilityState={{ expanded: open, disabled }} onPress={() => { Keyboard.dismiss(); setSearch(''); setOpen(!open); }}
-        style={({ pressed }) => [s.select, { backgroundColor: t.surface, borderColor: open ? t.accent : t.border, borderBottomLeftRadius: open ? 0 : 12, borderBottomRightRadius: open ? 0 : 12, opacity: disabled ? 0.5 : pressed ? 0.75 : 1 }]}>
-        <Text style={[s.value, { color: value ? t.text : t.muted }]}>{selected?.label || value || placeholder || 'Not set'}</Text><Feather name={open ? 'chevron-up' : 'chevron-down'} size={18} color={t.muted} />
-      </Pressable>
-      {open && <View style={{ borderWidth: 1, borderTopWidth: 0, borderColor: t.accent, borderBottomLeftRadius: 12, borderBottomRightRadius: 12, backgroundColor: t.surface, overflow: 'hidden' }}>
-        {options.length > 7 && <TextInput accessibilityLabel={`Search ${label.toLowerCase()}`} value={search} onChangeText={setSearch} placeholder="Search options…" placeholderTextColor={t.muted} style={{ margin: 8, padding: 12, minHeight: 48, borderRadius: 10, backgroundColor: t.background, color: t.text, fontSize: 16 }} />}
-        <ScrollView nestedScrollEnabled keyboardShouldPersistTaps="handled" style={{ maxHeight: 260 }}><View accessibilityRole="radiogroup" accessibilityLabel={label} style={{ padding: 4 }}>{shown.map(option => <Pressable key={option.value} accessibilityRole="radio" aria-checked={value === option.value} accessibilityLabel={option.label} accessibilityState={{ checked: value === option.value }} onPress={() => { onSelect(option.value); setOpen(false); }} style={({ pressed }) => ({ minHeight: 48, paddingHorizontal: 12, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: 8, backgroundColor: value === option.value ? t.elevated : 'transparent', opacity: pressed ? 0.7 : 1 })}><Text style={[s.value, { color: value === option.value ? t.accent : t.text }]}>{option.label}</Text>{value === option.value && <Feather name="check" size={19} color={t.accent} />}</Pressable>)}</View></ScrollView>
-        {!shown.length && <Text style={{ color: t.muted, padding: 14 }}>No matching options.</Text>}
-      </View>}
-    </View>
+    <Pressable ref={trigger} collapsable={false} accessibilityRole="button" accessibilityLabel={label + ': ' + (selected?.label || value || placeholder || 'Not set')} disabled={disabled} accessibilityState={{ expanded: !!anchor, disabled }} onPress={show}
+      style={({ pressed }) => [s.select, { backgroundColor: t.surface, borderColor: anchor ? t.accent : t.border, opacity: disabled ? .5 : pressed ? .75 : 1 }]}>
+      <Text style={[s.value, { color: value ? t.text : t.muted }]}>{selected?.label || value || placeholder || 'Not set'}</Text><Feather name={anchor ? 'chevron-up' : 'chevron-down'} size={18} color={t.muted} />
+    </Pressable>
+    {anchor && <AnchoredSelectMenu anchor={anchor} label={label} value={value} options={options} theme={t} onClose={close} onSelect={onSelect} />}
   </View>;
 }
 

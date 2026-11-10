@@ -14,7 +14,7 @@ export function buildSuggestionCardsFromInsight(insight: WateringInsight, now = 
     return evaluation.outdoor.recommendations.filter(r => r.status === 'active' && r.expiresAt > now.getTime() / 1000).map(r => ({
       id: `${insight.plantId}:${r.type}:${r.category}`, kind: r.type === 'watering' ? 'watering' as const : r.category === 'powderyMildew' ? 'powderyMildew' as const : r.type === 'health' ? 'health' as const : 'weather' as const,
       active: true, severity: r.priority === 'HIGH' ? 'warn' as const : r.priority === 'MEDIUM' ? 'watch' as const : 'info' as const, title: r.title, summary: r.description,
-      reasons: [], confidence: r.dataQuality === 'GOOD' ? 'medium' as const : 'low' as const,
+      reasons: [], evidence: r.evidence, confidence: r.dataQuality === 'GOOD' ? 'medium' as const : 'low' as const,
       metrics: { observationDriven: true, checkStatus: evaluation.outdoor!.checkStatus, nextCheckUtc: evaluation.outdoor!.nextCheckUtc, lastWateringUtc: evaluation.outdoor!.lastWateringUtc, lastWateringTimeKnown: evaluation.outdoor!.lastWateringTimeKnown, lastObservationUtc: evaluation.outdoor!.latestObservation?.at ?? null, lastMoistureState: evaluation.outdoor!.latestObservation?.state ?? null, timeZone: evaluation.outdoor!.timeZone, action: r.action, category: r.category, reasonCodes: r.reasonCodes.join(','), evaluatedAtUtc: r.generatedAt, expiresAtUtc: r.expiresAt }, algorithmVersion: ENGINE_VERSION,
     }));
   }

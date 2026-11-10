@@ -47,5 +47,11 @@ test('live weather mode hides manual forcing and saves the model selection', asy
 test('normal care needs no technical inputs, presets or enable button', () => {
   expect(renderer.root.findAllByType(TextInput)).toHaveLength(0);
   expect(button('Dry test')).toBeUndefined(); expect(button('Use Open-Meteo weather')).toBeUndefined();
-  expect(text()).toContain('soil observations'); expect(saveLocalCareSettings).not.toHaveBeenCalled();
+  expect(text()).not.toContain('medium not specified'); expect(saveLocalCareSettings).not.toHaveBeenCalled();
+});
+
+test('keeps automatic testing controls off the journal in compact mode', async () => {
+  act(() => renderer.unmount());
+  await act(async () => { renderer = create(React.createElement(LocalCareControls, { plantId: 'p', theme: plantThemes.grove, compact: true })); });
+  expect(renderer.toJSON()).toBeNull();
 });

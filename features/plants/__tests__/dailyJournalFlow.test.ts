@@ -108,7 +108,8 @@ it('opens the complete editor from the persistent Edit plant action', async () =
   await mount();
   expect(renderer.root.findAllByType(PlantSectionEditor)).toHaveLength(0);
   act(() => button('Edit plant').props.onPress());
-  expect(renderer.root.findByType(PlantSectionEditor).props.section).toBe('All');
+  expect(mockRouter.push).toHaveBeenCalledWith({ pathname: '/plant/[id]/edit', params: { id: 'plant', theme: 'grove' } });
+  expect(renderer.root.findAllByType(PlantSectionEditor)).toHaveLength(0);
 });
 
 it('refreshes current observation advice at its expiry while the plant screen stays open', async () => {

@@ -14,9 +14,9 @@ const triggerColors = (tone: TriggerTone, active: boolean) => tone === 'hero'
   ? { background: active ? '#c8d7a8' : '#dce6c4', border: active ? '#90a471' : 'transparent', ink: t.heroText }
   : { background: active ? t.elevated : 'transparent', border: active ? t.accent : 'transparent', ink: active ? t.accent : t.muted };
 
-export function menuPosition(anchor: MenuAnchor, width: number, height: number, wantedHeight: number, topInset = 0, bottomInset = 0) {
+export function menuPosition(anchor: MenuAnchor, width: number, height: number, wantedHeight: number, topInset = 0, bottomInset = 0, preferredWidth = 272) {
   const margin = 12;
-  const menuWidth = Math.min(272, width - margin * 2);
+  const menuWidth = Math.min(preferredWidth, width - margin * 2);
   const top = Math.max(margin, topInset + 8);
   const bottom = height - Math.max(margin, bottomInset + 8);
   const below = bottom - anchor.y - anchor.height - 10;
