@@ -8,7 +8,7 @@ import { PlantImage } from '@/ui/PlantImage';
 import type { Plant } from '@/firestoreModels';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 import { gardenThemes } from '@/design-system/tokens/garden';
-import { plantCardMeta } from '../plantListPresentation';
+import { plantCardMeta, plantCardStage } from '../plantListPresentation';
 
 export interface PlantCardProps {
   plant: Plant & { id: string };
@@ -38,7 +38,7 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
       </View>
       <Text style={s.name} numberOfLines={2}>{plant.name}</Text>
       <Text style={s.meta} numberOfLines={2}>{plantCardMeta(plant, showEnvironment)}</Text>
-      <Text style={s.stage} numberOfLines={2}>{plant.status === 'active' ? plant.growthStage : plant.status}</Text>
+      <Text accessibilityLabel={plantCardStage(plant, false)} style={s.stage} numberOfLines={2}>{plantCardStage(plant)}</Text>
     </Pressable>
     {!!onAddLog && <Pressable accessibilityRole="button" accessibilityLabel={`${plant.name}: ${waterDisabled ? 'Checking watering history' : wateredToday ? 'Watering recorded today' : waterLoading ? 'Saving watering' : 'Log watering'}`} accessibilityState={{ disabled: wateredToday || waterLoading || waterDisabled, busy: waterLoading }} disabled={wateredToday || waterLoading || waterDisabled} onPress={() => onAddLog('watering')} style={({ pressed }) => [s.water, onMore && { top: undefined, marginTop: 0, bottom: 8 }, wateredToday && { backgroundColor: colors.elevated }, pressed && { opacity: 0.75 }]}>
       {waterLoading ? <ActivityIndicator size={18} color={colors.water} /> : <MaterialCommunityIcons name={wateredToday ? 'check-circle-outline' : 'water-outline'} size={19} color={wateredToday ? colors.accent : colors.water} />}
@@ -54,7 +54,7 @@ const s = StyleSheet.create({
   placeholder: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   name: { color: colors.text, fontSize: 18, lineHeight: 24, fontWeight: '700', letterSpacing: -0.2 },
   meta: { color: colors.muted, fontSize: 13, lineHeight: 19 },
-  stage: { color: colors.accent, fontSize: 12, lineHeight: 17, fontWeight: '500', textTransform: 'capitalize' },
+  stage: { color: colors.accent, fontSize: 12, lineHeight: 17, fontWeight: '500' },
   water: { position: 'absolute', right: 10, top: '50%', marginTop: -24, height: 48, width: 48, alignItems: 'center', justifyContent: 'center', borderRadius: 14, backgroundColor: colors.background },
   more: { position: 'absolute', right: 6, top: 6 },
 });

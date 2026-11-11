@@ -11,10 +11,11 @@ export function plantAgeDays(plant: Plant, today = plantDay(new Date(), plant.lo
   const elapsed = Math.max(0, Math.round((Date.parse(today) - Date.parse(ageReferenceDay(plant, today))) / 86400000));
   return recordedAge + elapsed;
 }
-export function plantAgeLabel(plant: Plant, today?: string) {
+export function plantAgeLabel(plant: Plant, today?: string, compact = false) {
   const days = plantAgeDays(plant, today);
   const validStart = plant.startedOn && isCalendarDay(plant.startedOn) && plant.startedOn <= (today || plantDay(new Date(), plant.locationTimeZone));
-  if ((plant.ageEstimateSource === 'stage' || plant.ageKnown === false || !validStart && plant.ageDays == null) && stageAgeDefault(plant.growthStage).trackingOnly) return `${days} ${days === 1 ? 'day' : 'days'} tracked (age not supplied)`;
-  if (plant.ageEstimateSource === 'stage' || plant.ageKnown === false || (!validStart && !(Number.isInteger(plant.ageDays) && plant.ageDays! >= 0))) return `About ${days} ${days === 1 ? 'day' : 'days'} (stage estimate)`;
+  if ((plant.ageEstimateSource === 'stage' || plant.ageKnown === false || !validStart && plant.ageDays == null) && stageAgeDefault(plant.growthStage).trackingOnly) return compact ? `${days} ${days === 1 ? 'day' : 'days'} tracked` : `${days} ${days === 1 ? 'day' : 'days'} tracked (age not supplied)`;
+  if (plant.ageEstimateSource === 'stage' || plant.ageKnown === false || (!validStart && !(Number.isInteger(plant.ageDays) && plant.ageDays! >= 0))) return compact ? `~${days} ${days === 1 ? 'day' : 'days'}` : `About ${days} ${days === 1 ? 'day' : 'days'} (stage estimate)`;
+  if (compact) return `${validStart && plant.ageEstimated ? '~' : ''}${days} ${days === 1 ? 'day' : 'days'}`;
   return validStart ? `${plant.ageEstimated ? 'About ' : ''}${days} ${days === 1 ? 'day' : 'days'}` : `${days} ${days === 1 ? 'day' : 'days'} (recorded)`;
 }

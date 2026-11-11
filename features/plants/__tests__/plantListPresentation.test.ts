@@ -1,4 +1,4 @@
-import { matchesPlantStatus, plantCardMeta } from '../plantListPresentation';
+import { matchesPlantStatus, plantCardMeta, plantCardStage } from '../plantListPresentation';
 import type { Plant } from '@/firestoreModels';
 it('keeps active and historical plants distinct while retaining the detailed filters', () => {
   for (const status of ['active', 'archived', 'harvested', 'dead'] as const) {
@@ -8,8 +8,10 @@ it('keeps active and historical plants distinct while retaining the detailed fil
   }
 });
 it('labels a stage-based age estimate when an individual plant has no user age', () => {
-  const plant = { environment: 'outdoor', growthStage: 'seedling', strain: 'Blue Dream', ageKnown: false, ageDays: 0, plantedIn: 'pot' } as Plant;
-  expect(plantCardMeta(plant, false)).toBe('Blue Dream · About 25 days (stage estimate)');
-  expect(plantCardMeta(plant, true)).toBe('Outdoor · Blue Dream · About 25 days (stage estimate)');
-  expect(plantCardMeta({ ...plant, ageKnown: true }, false)).toContain('0 days');
+  const plant = { status: 'active', environment: 'outdoor', growthStage: 'seedling', strain: 'Blue Dream', ageKnown: false, ageDays: 0, plantedIn: 'pot' } as Plant;
+  expect(plantCardMeta(plant, false)).toBe('Blue Dream');
+  expect(plantCardMeta(plant, true)).toBe('Outdoor · Blue Dream');
+  expect(plantCardStage(plant)).toBe('Seedling · ~25 days');
+  expect(plantCardStage(plant, false)).toBe('Seedling · Plant age: About 25 days (stage estimate)');
+  expect(plantCardStage({ ...plant, ageKnown: true })).toContain('0 days');
 });

@@ -101,10 +101,10 @@ it('acknowledges the original payload before saving revised values with a new mu
   save.mockRejectedValueOnce(new Error('Lost response')).mockResolvedValueOnce({ id: 'entry', mutationId: 'original' }).mockResolvedValueOnce({ id: 'entry', mutationId: 'corrected' });
   jest.mocked(readJournalEntry).mockResolvedValue(currentEntry);
   await mount({ initialCategory: 'notes' });
-  await act(async () => field('Observation').props.onChangeText('First'));
-  await act(async () => button('Save observation').props.onPress());
-  await act(async () => field('Observation').props.onChangeText('Revised'));
-  await act(async () => button('Save observation').props.onPress());
+  await act(async () => field('Note').props.onChangeText('First'));
+  await act(async () => button('Save note').props.onPress());
+  await act(async () => field('Note').props.onChangeText('Revised'));
+  await act(async () => button('Save note').props.onPress());
   expect(save.mock.calls[1][1]).toBe('First'); expect(save.mock.calls[1][4]).toBe('original');
   expect(save.mock.calls[2][1]).toBe('Revised'); expect(save.mock.calls[2][4]).toBe('corrected');
   expect(save.mock.calls[2][5]).toEqual({ entry: currentEntry, baseline: journalRevision(currentEntry) });
@@ -143,4 +143,30 @@ it('saves user-confirmed rain as a health observation rather than watering', asy
   await act(async () => button('Reported heavy rain').props.onPress());
   await act(async () => button('Save health check').props.onPress());
   expect(save).toHaveBeenCalledWith('health', expect.any(String), expect.any(String), { rainfallObservation: 'HEAVY' }, expect.any(String), expect.any(Object));
+});
+
+it('keeps watering free of note inputs and saves notes separately for the selected date', async () => {
+  await mount();
+  expect(field('Observation (optional)')).toBeUndefined();
+  expect(field('Note')).toBeUndefined();
+  await act(async () => button('Change activity type').props.onPress());
+  await act(async () => button('Log Note').props.onPress());
+  await act(async () => field('Note').props.onChangeText('New leaves today'));
+  await act(async () => button('Save note').props.onPress());
+  expect(save).toHaveBeenCalledWith('notes', 'New leaves today', '2026-10-27', {}, 'request', expect.anything());
+});
+it('does not attach a separate note when switching to watering', async () => {
+  await mount({ initialCategory: 'notes' });
+  await act(async () => field('Note').props.onChangeText('Keep this as a note'));
+  await act(async () => button('Change activity type').props.onPress());
+  await act(async () => button('Log Watering').props.onPress());
+  await act(async () => button('Save watering').props.onPress());
+  expect(save).toHaveBeenCalledWith('watering', '', '2026-10-27', {}, 'request', expect.anything());
+});
+it('preserves legacy watering descriptions when correcting the amount', async () => {
+  await mount({ entry: { id: 'old', type: 'watering', description: 'Previously saved note', waterMl: 250 } });
+  expect(field('Observation (optional)')).toBeUndefined();
+  await act(async () => field('Water amount').props.onChangeText('500'));
+  await act(async () => button('Save activity changes').props.onPress());
+  expect(save).toHaveBeenCalledWith('watering', 'Previously saved note', '2026-10-27', expect.objectContaining({ waterMl: 500 }), 'request', expect.anything());
 });
