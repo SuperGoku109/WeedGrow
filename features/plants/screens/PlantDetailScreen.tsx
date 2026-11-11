@@ -32,7 +32,7 @@ import NotFoundView from '../components/NotFoundView';
 import { plantThemes } from '../components/plantDetailTheme';
 import { detailStyles as ds, PlantDetails, SectionTitle } from '../components/PlantDetailPanels';
 import PlantBanner from '../components/PlantBanner';
-import { JournalTimeline } from '../components/PlantJournal';
+import { JournalTimeline, JournalSectionTitle } from '../components/PlantJournal';
 import JournalDateNavigator from '../components/JournalDateNavigator';
 import DailyCareAdvice from '../components/DailyCareAdvice';
 import LocalCareControls from '../components/LocalCareControls';
@@ -232,7 +232,7 @@ export default function PlantDetailScreen() {
           {returnToSearch && <GrowPress accessibilityRole="button" onPress={() => setSearchOpen(true)} style={{ minHeight: 48, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Back to search results</Text></GrowPress>}
           <JournalDateNavigator today={today} selected={selected} dates={dates} logs={data.logs} historyStatus={data.loading ? 'loading' : data.error ? 'error' : 'ready'} theme={t} minimum={day.minimum} canGoBack={day.canGoBack} onSelect={day.select} onJump={day.jump} onMove={day.moveWeek} onToday={day.backToToday} onSearch={() => setSearchOpen(true)} />
           {isToday && <><DailyCareAdvice key={id} cards={displayCards} loading={insightLoading || data.loading || data.weatherLoading} error={insightError} hasLocation={hasLocation} theme={t} onRecord={(category, context) => openLog(category, context)} canRecord={plant.status === 'active'} onRefresh={() => setRefresh(value => value + 1)} /></>}
-          <SectionTitle title={isToday ? 'Recorded today' : dayLabel} theme={t} caption={isFuture ? 'FORECAST' : data.loading ? undefined : data.error ? 'Unavailable' : selectedLogs.length ? selectedLogs.length + (selectedLogs.length === 1 ? ' entry' : ' entries') : undefined} />
+          <JournalSectionTitle title={isToday ? 'Recorded today' : dayLabel} theme={t} caption={isFuture ? 'FORECAST' : data.loading ? undefined : data.error ? 'Unavailable' : selectedLogs.length ? selectedLogs.length + (selectedLogs.length === 1 ? ' entry' : ' entries') : undefined} />
           {!isFuture && <View onLayout={event => { timelineTop.current = event.nativeEvent.layout.y; }}><JournalTimeline key={'activity:' + selected} compactEmpty emptyMessage={isToday ? 'Nothing recorded today.' : 'No activity recorded on this day.'} logs={selectedLogs} loading={data.loading} error={data.error} theme={t} timeZone={plant.locationTimeZone} onEdit={editEntry} onDelete={setDeletingEntry} highlightedId={focusedEntry} highlightLabel={highlightLabel} onRetry={data.retry} onViewPhoto={entry => { const photoId = entry.id.startsWith('photo_') ? entry.id.slice(6) : entry.id === 'setup-photo' ? entry.id : ''; setNewPhotoId(photoId); switchSection('Photos'); pendingAnchor.current = photoId; }} onEntryLayout={(entryId, y) => rememberAnchor(entryId, journalTop.current + timelineTop.current + y)} /></View>}
           {isFuture && <Text style={[ds.body, { color: t.muted }]}>Forecast only. Choose today or an earlier date to record completed activities.</Text>}
           {isToday && <><View style={{ marginTop: 24 }}><GrowthStageSummary key={'growth:' + id} plant={plant} theme={t} now={clock} onPress={openGrowth} /></View><LocalCareControls compact key={'local:' + id} plantId={id} plant={plant} theme={t} onEditSetup={editPlant} /></>}
