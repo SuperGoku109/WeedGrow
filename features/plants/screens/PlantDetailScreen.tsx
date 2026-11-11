@@ -41,7 +41,7 @@ import PlantLogComposer, { logChoices, type ActivitySaveOptions, type ActivitySa
 import { PhotoComposer, PlantPhotoGallery, pickProgressPhoto } from '../components/PlantPhotoGallery';
 import { presentCareCard, weatherFreshness } from '../plantCare';
 import PlantLifecycle from '../components/PlantLifecycle';
-import GrowthStageCard from '../components/GrowthStageCard';
+import GrowthStageSummary from '../components/GrowthStageSummary';
 import PlantWeather from '../components/PlantWeather';
 import PlantEditorSheet from '../components/PlantEditorSheet';
 
@@ -49,7 +49,7 @@ type Section = 'Journal' | 'Photos' | 'Details';
 const SECTIONS: Section[] = ['Journal', 'Photos', 'Details'];
 const THEME_KEY = 'weedgrow.plant-theme';
 export default function PlantDetailScreen() {
-  const params = useLocalSearchParams<{ id: string; section?: string; fromGroupId?: string; welcome?: string; editSection?: string; journalDate?: string; returnToPlants?: string }>();
+  const params = useLocalSearchParams<{ id: string; section?: string; fromGroupId?: string; welcome?: string; editSection?: string; journalDate?: string; managePlant?: string; returnToPlants?: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const groupId = Array.isArray(params.fromGroupId) ? params.fromGroupId[0] : params.fromGroupId;
   const router = useRouter();
@@ -113,6 +113,7 @@ export default function PlantDetailScreen() {
   React.useEffect(() => { setShowWelcome(params.welcome === '1'); }, [id, params.welcome]);
   const [message, setMessage] = React.useState('');
   React.useEffect(() => { setNewPhotoId(''); setFocusedEntry(''); setReturnToSearch(false); setPhotoOpen(false); setComposer(null); anchors.current = {}; pendingAnchor.current = ''; }, [id]);
+  React.useEffect(() => { if (params.managePlant === '1' && plant) { setSection('Details'); setManageOpen(true); pendingAnchor.current = 'Manage plant'; router.setParams({ managePlant: undefined }); } }, [params.managePlant, plant, router]);
   const [refresh, setRefresh] = React.useState(0);
   const localCareRevision = useLocalCareRevision();
   const [cards, setCards] = React.useState<SuggestionCard[]>([]);
@@ -175,7 +176,7 @@ export default function PlantDetailScreen() {
     const timer = setTimeout(() => setRefresh(value => value + 1), Math.max(1000, due * 1000 - Date.now() + 25));
     return () => clearTimeout(timer);
   }, [cards, section, isToday, insightLoading]);
-  const reviewHarvest = () => { switchSection('Details'); setManageOpen(true); pendingAnchor.current = 'Manage plant'; setTimeout(() => scrollToAnchor('Manage plant'), 0); };
+  const openGrowth = () => router.push({ pathname: '/plant/[id]/growth', params: { id, theme: themeName } });
   const editPlant = () => router.push({ pathname: '/plant/[id]/edit', params: { id, theme: themeName } });
   const switchSection = (next: Section) => {
     setFocusedEntry('');
@@ -230,7 +231,7 @@ export default function PlantDetailScreen() {
         {section === 'Journal' && <View onLayout={event => { journalTop.current = event.nativeEvent.layout.y; }}>
           {returnToSearch && <GrowPress accessibilityRole="button" onPress={() => setSearchOpen(true)} style={{ minHeight: 48, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Back to search results</Text></GrowPress>}
           <JournalDateNavigator today={today} selected={selected} dates={dates} logs={data.logs} historyStatus={data.loading ? 'loading' : data.error ? 'error' : 'ready'} theme={t} minimum={day.minimum} canGoBack={day.canGoBack} onSelect={day.select} onJump={day.jump} onMove={day.moveWeek} onToday={day.backToToday} onSearch={() => setSearchOpen(true)} />
-          {isToday && <><GrowthStageCard key={'growth:' + id} plantId={id} plant={plant} theme={t} onHarvest={reviewHarvest} onSaved={setMessage} onEditPlant={editPlant} /><DailyCareAdvice key={id} cards={displayCards} loading={insightLoading || data.loading || data.weatherLoading} error={insightError} hasLocation={hasLocation} theme={t} onRecord={(category, context) => openLog(category, context)} canRecord={plant.status === 'active'} onRefresh={() => setRefresh(value => value + 1)} /><LocalCareControls compact key={'local:' + id} plantId={id} plant={plant} theme={t} onEditSetup={editPlant} /></>}
+          {isToday && <><GrowthStageSummary key={'growth:' + id} plant={plant} theme={t} now={clock} onPress={openGrowth} /><DailyCareAdvice key={id} cards={displayCards} loading={insightLoading || data.loading || data.weatherLoading} error={insightError} hasLocation={hasLocation} theme={t} onRecord={(category, context) => openLog(category, context)} canRecord={plant.status === 'active'} onRefresh={() => setRefresh(value => value + 1)} /><LocalCareControls compact key={'local:' + id} plantId={id} plant={plant} theme={t} onEditSetup={editPlant} /></>}
           <SectionTitle title={isToday ? 'Recorded today' : dayLabel} theme={t} caption={isFuture ? 'FORECAST' : data.loading ? undefined : data.error ? 'Unavailable' : selectedLogs.length ? selectedLogs.length + (selectedLogs.length === 1 ? ' entry' : ' entries') : undefined} />
           {!isFuture && <View onLayout={event => { timelineTop.current = event.nativeEvent.layout.y; }}><JournalTimeline key={'activity:' + selected} compactEmpty emptyMessage={isToday ? 'Nothing recorded today.' : 'No activity recorded on this day.'} logs={selectedLogs} loading={data.loading} error={data.error} theme={t} timeZone={plant.locationTimeZone} onEdit={editEntry} onDelete={setDeletingEntry} highlightedId={focusedEntry} highlightLabel={highlightLabel} onRetry={data.retry} onViewPhoto={entry => { const photoId = entry.id.startsWith('photo_') ? entry.id.slice(6) : entry.id === 'setup-photo' ? entry.id : ''; setNewPhotoId(photoId); switchSection('Photos'); pendingAnchor.current = photoId; }} onEntryLayout={(entryId, y) => rememberAnchor(entryId, journalTop.current + timelineTop.current + y)} /></View>}
           {isFuture && <Text style={[ds.body, { color: t.muted }]}>Forecast only. Choose today or an earlier date to record completed activities.</Text>}
@@ -238,7 +239,7 @@ export default function PlantDetailScreen() {
           <PlantWeather key={'conditions:' + selected} compact={isToday} theme={t} plantId={id} plant={plant} date={selected} weather={data.weather[selected]} savedError={data.weatherDayErrors?.[selected]} savedLoading={data.weatherLoading} />
         </View>}
         {section === 'Photos' && <PlantPhotoGallery plantId={id} hasMore={gallery.hasMore} onMore={() => void gallery.loadMore()} onRefresh={gallery.refresh} pics={gallery.pics} loading={gallery.loading} error={gallery.error} theme={t} onAdd={() => void addPhoto()} timeZone={plant.locationTimeZone} highlightId={newPhotoId} onPhotoLayout={(photoId, y) => rememberAnchor(photoId, y)} />}
-        <View key={'profile:' + id} style={{ display: section === 'Details' ? 'flex' : 'none' }}>{section === 'Details' && <GrowthStageCard key={'growth-details:' + id} plantId={id} plant={plant} theme={t} onHarvest={reviewHarvest} onSaved={setMessage} onEditPlant={editPlant} />}{section === 'Details' && <WateringCareCard key={'water-chart:' + id} plant={plant} theme={t} />}<PlantDetails plant={plant} theme={t} onSectionLayout={rememberAnchor} highlightedSection={focusedEntry} locationHistory={<PlantMovementHistory plantId={id} theme={t} active={section === 'Details'} />} />{section === 'Details' && <LocalCareControls plantId={id} plant={plant} theme={t} onEditSetup={editPlant} />}<View onLayout={event => rememberAnchor("Manage plant", event.nativeEvent.layout.y)}><PlantLifecycle plantId={id} plant={plant} theme={t} open={manageOpen} onClose={() => setManageOpen(false)} onDeleted={goBack} onSaved={value => { setMessage(value); setRefresh(previous => previous + 1); }} /></View></View>
+        <View key={'profile:' + id} style={{ display: section === 'Details' ? 'flex' : 'none' }}>{section === 'Details' && <GrowthStageSummary key={'growth-details:' + id} plant={plant} theme={t} now={clock} onPress={openGrowth} />}{section === 'Details' && <WateringCareCard key={'water-chart:' + id} plant={plant} theme={t} />}<PlantDetails plant={plant} theme={t} onSectionLayout={rememberAnchor} highlightedSection={focusedEntry} locationHistory={<PlantMovementHistory plantId={id} theme={t} active={section === 'Details'} />} />{section === 'Details' && <LocalCareControls plantId={id} plant={plant} theme={t} onEditSetup={editPlant} />}<View onLayout={event => rememberAnchor("Manage plant", event.nativeEvent.layout.y)}><PlantLifecycle plantId={id} plant={plant} theme={t} open={manageOpen} onClose={() => setManageOpen(false)} onDeleted={goBack} onSaved={value => { setMessage(value); setRefresh(previous => previous + 1); }} /></View></View>
       </View>
     </ScrollView>
     {section !== 'Details' && <View style={{ backgroundColor: t.background, borderTopWidth: 1, borderColor: t.border, paddingBottom: Math.max(12, insets.bottom), paddingTop: 10, paddingHorizontal: 18 }}><View style={{ width: '100%', maxWidth: 724, alignSelf: 'center', gap: 8 }}>

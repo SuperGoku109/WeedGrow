@@ -9,6 +9,7 @@ import JournalDateNavigator from '../components/JournalDateNavigator';
 import DailyCareAdvice from '../components/DailyCareAdvice';
 import PlantSectionEditor from '../components/PlantSectionEditor';
 import PlantWeather from '../components/PlantWeather';
+import GrowthStageSummary from '../components/GrowthStageSummary';
 import { saveJournalEntry } from '@/lib/logs/journalRepository';
 import type { PlantLog } from '@/firestoreModels';
 let mockNow = new Date('2026-10-26T12:00:00Z');
@@ -35,7 +36,7 @@ jest.mock('@/features/plants/components/WateringCareCard', () => () => null);
 jest.mock('@/features/plants/components/PlantBanner', () => () => null);
 jest.mock('@/features/plants/components/PlantMovementHistory', () => () => null);
 jest.mock('@/features/plants/components/PlantLifecycle', () => () => null);
-jest.mock('@/features/plants/components/GrowthStageCard', () => () => null);
+jest.mock('@/features/plants/components/GrowthStageSummary', () => () => null);
 jest.mock('@/features/plants/components/PlantWeather', () => () => null);
 jest.mock('@/features/plants/components/PlantSectionEditor', () => () => null);
 jest.mock('@/features/plants/components/JournalSearch', () => () => null);
@@ -118,4 +119,10 @@ it('refreshes current observation advice at its expiry while the plant screen st
   await mount(); const initialCalls = jest.mocked(evaluateSuggestionCardsForPlant).mock.calls.length;
   await act(async () => { jest.advanceTimersByTime(300100); });
   expect(jest.mocked(evaluateSuggestionCardsForPlant).mock.calls.length).toBeGreaterThan(initialCalls);
+});
+
+it('opens the stage guide from the quiet Journal summary', async () => {
+  await mount();
+  act(() => renderer.root.findByType(GrowthStageSummary).props.onPress());
+  expect(mockRouter.push).toHaveBeenCalledWith({ pathname: '/plant/[id]/growth', params: { id: 'plant', theme: 'grove' } });
 });
