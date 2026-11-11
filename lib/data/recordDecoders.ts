@@ -3,6 +3,7 @@ import { validatePlantDatesAndReminders } from '@/lib/plants/plantRules';
 import type { Plant, Group, PlantLog, WeatherCacheEntry, ProgressPic } from '@/firestoreModels';
 import type { Timestamp } from 'firebase/firestore';
 import { isCalendarDay } from '@/lib/dates/plantDay';
+import { PLANT_STAGES, validatePlantFields } from '@/lib/plants/plantValidation';
 export function isRecord(value: unknown): value is Record<string, unknown> { return !!value && typeof value === 'object' && !Array.isArray(value); }
 export function publishDecoded<T>(read: () => T, publish: (data: T) => void, fail: (reason: unknown) => void) { try { publish(read()); } catch (error) { fail(error); } }
 export class RecordDecodeError extends Error {
@@ -20,7 +21,12 @@ function clocks(data: Record<string, unknown>, path: string) { optional(data, ['
 export function decodePlant(value: unknown, path: string): Plant {
   const data = record(value, path);
   check(text(data.name) && !!data.name.trim(), path, 'name'); check(strings(data.owners) && data.owners.length, path, 'owners');
-  check(['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone'].includes(String(data.growthStage)), path, 'growthStage');
+  check((PLANT_STAGES as readonly string[]).includes(String(data.growthStage)), path, 'growthStage');
+  optional(data, ['stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn'], value => text(value) && isCalendarDay(value), path);
+  optional(data, ['stageStartedOnEstimated'], value => typeof value === 'boolean', path);
+  optional(data, ['ageEstimateSource'], value => value === 'stage', path);
+  const trackingErrors = validatePlantFields(Object.fromEntries(['stageRevision', 'stageReview', 'stagePush', 'growthProfile', 'stageReminders', 'postHarvestTracking'].filter(key => data[key] != null).map(key => [key, data[key]])));
+  check(!Object.keys(trackingErrors).length, path, Object.keys(trackingErrors)[0] || 'stageTracking');
   check(['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)), path, 'environment'); check(['pot', 'ground'].includes(String(data.plantedIn)), path, 'plantedIn');
   check(['active', 'archived', 'harvested', 'dead'].includes(String(data.status)), path, 'status');
   optional(data, ['strain', 'strainType', 'startedOn', 'groupId', 'locationLabel', 'locationTimeZone', 'locationNickname', 'sensorProfileId', 'potSize', 'sunlightExposure', 'wateringFrequency', 'feedingFrequency', 'fertilizer', 'notes', 'imageUri', 'soilType', 'soilPh', 'permanentProtection', 'environmentNotes'], text, path);

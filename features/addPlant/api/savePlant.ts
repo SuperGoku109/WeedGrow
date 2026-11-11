@@ -10,6 +10,10 @@ import { invalidatePlantCache } from '@/services/gardenData';
 import { assertSpaceCapacity } from '@/features/groups/groupPolicy';
 import type { PlantForm } from '@/features/plants/form/PlantForm';
 import { normalizePlantForm, validatePlantForm } from '../plantFlowModel';
+import { stageAgeDefault } from '@/lib/plants/stageAgeDefaults';
+import { addDays, plantDay } from '@/lib/dates/plantDay';
+import { recordedStageReview } from '@/lib/plants/growthTracking';
+import type { Plant } from '@/firestoreModels';
 
 export const createPlantId = () => doc(collection(db, 'plants')).id;
 export class PlantSaveError extends Error {
@@ -31,6 +35,13 @@ export async function savePlantToFirestore(input: PlantForm, plantId = createPla
   const data = {
     name: form.name, strain: form.strain, strainType: form.strainType || 'unknown', owners: [uid],
     growthStage: form.growthStage, ageDays: ageNum, ageKnown: !!form.ageDays,
+    ageEstimateSource: form.ageMode === 'unknown' ? 'stage' : null,
+    stageStartedOn: form.stageStartedOn || addDays(plantDay(), -Math.min(ageNum, stageAgeDefault(form.growthStage).stageDays)),
+    stageStartedOnEstimated: !form.stageStartedOn, stageTrackingVersion: 1, stageRevision: 0,
+    ...(form.stageStartedOn && form.growthStage === 'germination' ? { germinationStartedOn: form.stageStartedOn } : {}),
+    ...(form.stageStartedOn && form.growthStage === 'seedling' ? { emergedOn: form.stageStartedOn } : {}),
+    ...(form.stageStartedOn && form.growthStage === 'flowering' ? { floweringStartedOn: form.stageStartedOn } : {}),
+    lastStageReviewedOn: plantDay(),
     status: 'active', environment: form.environment, plantedIn: form.plantedIn,
     rainReception: rainReception(form.rainExposure || 'unknown'), careMedium: form.careMedium || null,
     potMaterial: form.plantedIn === 'pot' ? form.potMaterial || null : null, potType: form.plantedIn === 'pot' ? form.potType || null : null, potDrainage: form.plantedIn === 'pot' ? form.potDrainage || null : null, growingSite: form.growingSite || null, fertilizerForm: form.fertilizerForm || null,
@@ -52,6 +63,8 @@ export async function savePlantToFirestore(input: PlantForm, plantId = createPla
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
   };
+  const stageReview = recordedStageReview(data as unknown as Plant, data.lastStageReviewedOn);
+  const stageDescription = form.stageStartedOn ? `Stage began on ${form.stageStartedOn} (user recorded).` : 'Current stage start is estimated.';
   try {
     // A stable ID makes double taps and retries safe. Transactions fail offline
     // instead of silently queueing a new plant after the user has left the flow.
@@ -77,9 +90,9 @@ export async function savePlantToFirestore(input: PlantForm, plantId = createPla
       }
       if (!existing.exists()) {
         for (const write of photo?.writes || []) transaction.set(write.ref, write.data);
-        transaction.set(plantRef, data);
+        transaction.set(plantRef, { ...data, stageReview });
         if (groupRef) transaction.update(groupRef, { plantIds: arrayUnion(plantId), updatedAt: serverTimestamp() });
-        transaction.set(doc(db, 'plants', plantId, 'logs', 'setup-created'), { type: 'note', category: 'notes', description: 'Plant added to garden.', timestamp: serverTimestamp(), updatedBy: uid });
+        transaction.set(doc(db, 'plants', plantId, 'logs', 'setup-created'), { type: 'note', category: 'notes', description: form.ageMode === 'unknown' ? stageAgeDefault(form.growthStage).trackingOnly ? 'Plant added to garden. Age not supplied; tracking starts today.' : `Plant added to garden. Planning age estimated from ${form.growthStage}: about ${ageNum} days. ${stageDescription}` : `Plant added to garden. ${stageDescription}`, timestamp: serverTimestamp(), updatedBy: uid });
         for (const [field, type, category] of [['lastWateredOn', 'watering', 'watering'], ['lastFedOn', 'fertilizing', 'feeding']] as const) {
           if (form[field]) transaction.set(doc(db, 'plants', plantId, 'logs', type === 'watering' ? `watering_${form[field]}` : `setup-${category}`), {
             type, category, description: 'Recorded during plant setup.', updatedBy: uid, calendarDay: form[field],

@@ -9,9 +9,11 @@ import { useWateringSuggestions } from '@/features/home/hooks/useWateringSuggest
 import { syncCareRecommendations, syncReminders } from '@/services/reminders';
 import { reminderDue } from '@/lib/care/careTasks';
 import { useCareTasks } from './useCareTasks';
+import { syncStageReminders } from '@/services/stageReminders';
 export default function ReminderCoordinator() {
   const { user } = useSession();
   const { preferences } = usePreferences(user?.uid);
+  React.useEffect(() => { if (!user || !preferences.reminders) void syncStageReminders(undefined, [], false).catch(() => {}); }, [user, preferences.reminders]);
   React.useEffect(() => { if (!user || !preferences.reminders) { void syncReminders(undefined, [], false).catch(() => {}); void syncCareRecommendations(undefined, [], false).catch(() => {}); } }, [user, preferences.reminders]);
   return user && preferences.reminders && Platform.OS !== 'web' ? <ActiveReminders /> : null;
 }
@@ -19,7 +21,7 @@ function ActiveReminders() {
   const { user } = useSession();
   const { preferences } = usePreferences(user?.uid);
   const { snoozes } = useCareSnoozes(user?.uid);
-  const { tasks, plants, loading, error } = useCareTasks();
+  const { tasks, plants, loading, error, plantLoading, plantError } = useCareTasks();
   const intelligence = useWateringSuggestions(plants);
   const [intelligenceMessage, setIntelligenceMessage] = React.useState('');
   const resolvedKey = JSON.stringify(intelligence.insights.flatMap(i => i.careEvaluation?.outdoor?.resolvedRecommendationIds ?? []));
@@ -29,6 +31,16 @@ function ActiveReminders() {
     void syncCareRecommendations(user?.uid, JSON.parse(recommendationKey), preferences.reminders, JSON.parse(resolvedKey)).then(() => setIntelligenceMessage('')).catch(() => setIntelligenceMessage('Device care alerts could not be updated. Retry from care advice or check notification permissions.'));
   }, [user?.uid, recommendationKey, resolvedKey, preferences.reminders, intelligence.loading, intelligence.error, intelligence.stale]);
   const [message, setMessage] = React.useState('');
+  const [stageMessage, setStageMessage] = React.useState('');
+  const stageKey = JSON.stringify(plants);
+  const stageMinute = Math.floor(Date.now() / 60000);
+  const weatherAlerts = intelligence.insights.flatMap(i => i.careEvaluation?.outdoor?.recommendations ?? []).filter(r => r.status === 'active' && r.priority === 'HIGH');
+  const weatherBusyUntil = weatherAlerts.length ? stageMinute * 60000 + 3600000 : 0;
+  // Re-evaluate reservations from the live plant records; completed/harvested plants remain eligible.
+  React.useEffect(() => {
+    if (plantLoading && !plantError) return;
+    void syncStageReminders(user?.uid, plantError ? [] : JSON.parse(stageKey), preferences.reminders, weatherBusyUntil).then(() => setStageMessage('')).catch(() => setStageMessage('Stage reminders could not be updated. Check notification permissions and connection.'));
+  }, [user?.uid, stageKey, preferences.reminders, plantLoading, plantError, stageMinute, weatherBusyUntil]);
   // Serialize only meaningful task changes, not the once-per-minute clock.
   const evaluated = new Map(intelligence.insights.flatMap(i => i.careEvaluation ? [[i.plantId, i.careEvaluation] as const] : []));
   const smartTasks = contextualCareTasks(tasks, evaluated, Date.now() / 1000);
@@ -40,6 +52,6 @@ function ActiveReminders() {
     void syncReminders(user?.uid, error ? [] : adjusted, preferences.reminders).then(() => { if (active) setMessage(''); }).catch(() => { if (active) setMessage('Device reminders could not be updated. Open Settings to check permissions.'); });
     return () => { active = false; };
   }, [user, preferences.reminders, loading, error, signature]);
-  const feedback = message || intelligenceMessage;
+  const feedback = message || intelligenceMessage || stageMessage;
   return feedback ? <View style={{ backgroundColor: '#392b1e', padding: 10 }}><Text accessibilityRole="alert" style={{ color: '#ffe0a3' }}>{feedback}</Text></View> : null;
 }

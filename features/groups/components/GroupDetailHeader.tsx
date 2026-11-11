@@ -28,7 +28,7 @@ export default function GroupDetailHeader({ name, environment, weather, totalPla
         <SpaceArtwork environment={environment} />
       </View>
       <View style={styles.stats}>
-        {typeof avgAgeDays === 'number' && <Text style={styles.stat}>Avg age {Math.round(avgAgeDays)}d</Text>}
+        {typeof avgAgeDays === 'number' && <Text style={styles.stat}>Avg age ~{Math.round(avgAgeDays)}d</Text>}
         {typeof wateredTodayCount === 'number' && <Text style={styles.stat}>{wateredTodayCount} watered today</Text>}
         {weather && <Text style={styles.stat}>{weather.temperature}°C · {weather.humidity}% humidity · {weather.rain} mm rain</Text>}
       </View>

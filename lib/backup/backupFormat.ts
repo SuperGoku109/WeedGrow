@@ -1,5 +1,6 @@
-import { validatePlantFields } from '@/lib/plants/plantValidation';
+import { PLANT_STAGES, validatePlantFields } from '@/lib/plants/plantValidation';
 import { isRecord } from '@/lib/data/recordDecoders';
+import { isCalendarDay } from '@/lib/dates/plantDay';
 import { MAX_BACKUP_BYTES, MAX_BACKUP_RECORDS, utf8Bytes } from './backupLimits';
 export interface BackupRecord { path: string; data: Record<string, unknown> }
 export interface GardenBackup { format: 'weedgrow'; version: 1; backupId: string; exportedAt: string; records: BackupRecord[]; warnings?: string[] }
@@ -15,6 +16,9 @@ const allowed: Record<string, string[]> = {
 };
 allowed.plants.push('rainReception', 'careMedium', 'potMaterial', 'potType', 'growingSite', 'potDrainage', 'fertilizerForm', 'feedingReminderSchedule');
 allowed.logs.push('moistureState', 'moistureConfiguration', 'inspectionFeedback', 'rainfallObservation');
+allowed.plants.push('stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn', 'stageTrackingVersion', 'stageRevision', 'growthProfile', 'stageReview', 'stagePush', 'stageReminders', 'postHarvestTracking');
+allowed.logs.push('fromStage', 'toStage', 'stageRevision', 'stageReview');
+allowed.plants.push('stageStartedOnEstimated', 'ageEstimateSource');
 export function validateBackup(raw: string): GardenBackup {
   if (raw.length > MAX_BACKUP_BYTES || utf8Bytes(raw) > MAX_BACKUP_BYTES) throw new Error('Choose a backup under 30 MB.');
   let parsed: unknown;
@@ -32,12 +36,18 @@ export function validateBackup(raw: string): GardenBackup {
     const kind = parts.length === 4 ? parts[2] : parts[0];
     if (Object.keys(record.data).some(key => !allowed[kind]?.includes(key))) throw new Error(`Unsupported fields in ${record.path}.`);
     const data = record.data;
+    if (kind === 'plants') {
+      const tracking = ['stageStartedOn', 'stageStartedOnEstimated', 'ageEstimateSource', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn', 'stageRevision', 'growthProfile', 'stageReview', 'stagePush', 'stageReminders', 'postHarvestTracking'];
+      const errors = validatePlantFields(Object.fromEntries(tracking.filter(key => !key.endsWith('On') && data[key] != null).map(key => [key, data[key]])));
+      for (const key of tracking.filter(key => key.endsWith('On'))) if (data[key] != null && (typeof data[key] !== 'string' || !isCalendarDay(data[key] as string))) errors[key] = 'Invalid saved stage date.';
+      if (Object.keys(errors).length) throw new Error(Object.values(errors)[0]);
+    }
     if (kind === 'plants') { const errors = validatePlantFields(Object.fromEntries(['potMaterial', 'potType', 'growingSite', 'potDrainage', 'fertilizerForm', 'reminderSchedule', 'feedingReminderSchedule'].filter(key => data[key] != null).map(key => [key, data[key]]))); if (Object.keys(errors).length) throw new Error(Object.values(errors)[0]); }
     for (const key of ['description', 'caption', 'notes', 'wateringFrequency', 'feedingFrequency', 'strain']) if (data[key] != null && typeof data[key] !== 'string') throw new Error(`The ${key} field must be text.`);
     if (kind === 'logs') for (const [key, max] of [['waterMl', 1000000], ['nutrientMlPerL', 1000], ['ph', 14], ['heightCm', 10000], ['soilMoisture', 100]] as const) {
       if (data[key] != null && (typeof data[key] !== 'number' || !Number.isFinite(data[key]) || (data[key] as number) < 0 || (data[key] as number) > max)) throw new Error(`The ${key} measurement is invalid.`);
     }
-    if (kind === 'plants' && (typeof data.name !== 'string' || !data.name.trim() || data.name.length > 100 || !['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone'].includes(String(data.growthStage)) || !['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)) || !['pot', 'ground'].includes(String(data.plantedIn)) || !['active', 'archived', 'harvested', 'dead'].includes(String(data.status)))) throw new Error('A plant has invalid required fields.');
+    if (kind === 'plants' && (typeof data.name !== 'string' || !data.name.trim() || data.name.length > 100 || !(PLANT_STAGES as readonly string[]).includes(String(data.growthStage)) || !['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)) || !['pot', 'ground'].includes(String(data.plantedIn)) || !['active', 'archived', 'harvested', 'dead'].includes(String(data.status)))) throw new Error('A plant has invalid required fields.');
     if (kind === 'groups' && (typeof data.name !== 'string' || !data.name.trim() || !['outdoor', 'indoor', 'greenhouse'].includes(String(data.environment)))) throw new Error('A space has invalid required fields.');
     if (kind === 'photoAssets' && (typeof data.dataUri !== 'string' || !/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(data.dataUri) || data.dataUri.length > (parts[3].endsWith('_thumb') ? 20480 : 184320))) throw new Error('An image is invalid or too large.');
     if ((kind === 'logs' || kind === 'progressPics') && data.occurrencePrecision != null && !['date', 'time'].includes(String(data.occurrencePrecision))) throw new Error('A record has invalid date precision.');

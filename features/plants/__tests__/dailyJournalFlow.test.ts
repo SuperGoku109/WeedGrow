@@ -35,6 +35,7 @@ jest.mock('@/features/plants/components/WateringCareCard', () => () => null);
 jest.mock('@/features/plants/components/PlantBanner', () => () => null);
 jest.mock('@/features/plants/components/PlantMovementHistory', () => () => null);
 jest.mock('@/features/plants/components/PlantLifecycle', () => () => null);
+jest.mock('@/features/plants/components/GrowthStageCard', () => () => null);
 jest.mock('@/features/plants/components/PlantWeather', () => () => null);
 jest.mock('@/features/plants/components/PlantSectionEditor', () => () => null);
 jest.mock('@/features/plants/components/JournalSearch', () => () => null);

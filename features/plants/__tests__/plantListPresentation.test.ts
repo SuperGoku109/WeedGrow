@@ -7,9 +7,9 @@ it('keeps active and historical plants distinct while retaining the detailed fil
     expect(matchesPlantStatus({ status }, null)).toBe(true);
   }
 });
-it('uses individual facts within a garden without inventing an unknown age', () => {
-  const plant = { environment: 'outdoor', strain: 'Blue Dream', ageKnown: false, ageDays: 0, plantedIn: 'pot' } as Plant;
-  expect(plantCardMeta(plant, false)).toBe('Blue Dream');
-  expect(plantCardMeta(plant, true)).toBe('Outdoor · Blue Dream');
+it('labels a stage-based age estimate when an individual plant has no user age', () => {
+  const plant = { environment: 'outdoor', growthStage: 'seedling', strain: 'Blue Dream', ageKnown: false, ageDays: 0, plantedIn: 'pot' } as Plant;
+  expect(plantCardMeta(plant, false)).toBe('Blue Dream · About 25 days (stage estimate)');
+  expect(plantCardMeta(plant, true)).toBe('Outdoor · Blue Dream · About 25 days (stage estimate)');
   expect(plantCardMeta({ ...plant, ageKnown: true }, false)).toContain('0 days');
 });

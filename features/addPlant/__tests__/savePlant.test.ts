@@ -4,6 +4,8 @@ import { preparePhotoRecord } from '@/lib/plants/photoRepository';
 import { requireUserId } from '@/services/session';
 import { fetchWeather } from '@/lib/weather/fetchWeather';
 import type { PlantForm } from '@/features/plants/form/PlantForm';
+import { daysBetween } from '@/lib/plants/growthTracking';
+import { addDays, plantDay } from '@/lib/dates/plantDay';
 jest.mock('@/services/session', () => ({ requireUserId: jest.fn(() => 'user-a') }));
 jest.mock('@/services/firebase', () => ({ db: {} }));
 jest.mock('firebase/firestore', () => ({
@@ -82,10 +84,31 @@ it('requires an account and rejects invalid input before preparing a photo', asy
   await expect(savePlantToFirestore({ ...form, name: ' ' }, 'plant-a')).rejects.toThrow('name');
   expect(preparePhotoRecord).not.toHaveBeenCalled();
 });
-it('keeps unknown age separate from when the plant was added', async () => {
+it('keeps total age separate from time spent in the selected stage', async () => {
+  await savePlantToFirestore({ ...form, growthStage: 'vegetative', ageMode: 'unknown', imageUri: '' }, 'estimated');
+  const saved = set.mock.calls.find(([ref]) => ref.path === 'plants/estimated')![1];
+  expect(saved.ageDays).toBe(130);
+  expect(daysBetween(saved.startedOn, saved.stageStartedOn)).toBe(25);
+  expect(saved.stageStartedOnEstimated).toBe(true);
+});
+it('stores a labelled stage age and a separate estimated stage start when age is unknown', async () => {
   await savePlantToFirestore({ name: 'Minimal', strain: '', growthStage: 'seedling', ageDays: '', ageMode: 'unknown', environment: 'outdoor', plantedIn: 'ground' }, 'minimal');
-  expect(set).toHaveBeenCalledWith(expect.objectContaining({ path: 'plants/minimal' }), expect.objectContaining({ createdAt: 'server-time', startedOn: null, imageUri: null, location: null, ageKnown: false }));
+  expect(set).toHaveBeenCalledWith(expect.objectContaining({ path: 'plants/minimal' }), expect.objectContaining({ createdAt: 'server-time', startedOn: expect.any(String), ageDays: 25, ageEstimated: true, ageEstimateSource: 'stage', stageStartedOn: expect.any(String), stageStartedOnEstimated: true, imageUri: null, location: null, ageKnown: true }));
   expect(preparePhotoRecord).not.toHaveBeenCalled();
+});
+it('records setup as a stage review and schedules the next milestone without claiming an observed start', async () => {
+  const today = plantDay();
+  await savePlantToFirestore({ ...form, growthStage: 'seedling', ageMode: 'unknown', imageUri: '' }, 'setup-review');
+  const saved = set.mock.calls.find(([ref]) => ref.path === 'plants/setup-review')![1];
+  expect(saved.lastStageReviewedOn).toBe(today);
+  expect(saved.stageStartedOnEstimated).toBe(true);
+  expect(saved.stageReview).toMatchObject({ action: 'stage_recorded', nextCheckOn: addDays(today, 3) });
+});
+it('stores a supplied emergence date as observed and derives only the unknown total age', async () => {
+  const emergence = addDays(plantDay(), -3);
+  await savePlantToFirestore({ ...form, growthStage: 'seedling', stageStartedOn: emergence, ageMode: 'unknown', imageUri: '' }, 'actual-emergence');
+  const saved = set.mock.calls.find(([ref]) => ref.path === 'plants/actual-emergence')![1];
+  expect(saved).toMatchObject({ emergedOn: emergence, stageStartedOn: emergence, stageStartedOnEstimated: false, ageDays: 10, ageEstimated: true });
 });
 it('persists independent reminder modes and optional container/site details', async () => {
   await savePlantToFirestore({ ...form, potMaterial: 'fabric', potType: 'grow_bag', potDrainage: 'holes', growingSite: 'balcony', fertilizerForm: 'liquid', rainExposure: 'sheltered', careMedium: 'soil', reminderSchedule: { type: 'smart' }, feedingReminderSchedule: { type: 'custom', customDays: ['fri'], timeOfDay: '10:00' } }, 'plant-a');

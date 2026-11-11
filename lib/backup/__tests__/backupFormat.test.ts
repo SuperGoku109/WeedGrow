@@ -2,6 +2,15 @@ import { validateBackup, escapeCsv } from '../backupFormat';
 const plant = { name: 'Test', growthStage: 'seedling', environment: 'outdoor', plantedIn: 'pot', status: 'active' };
 const backup = { format: 'weedgrow', version: 1, backupId: 'backup-a', exportedAt: '2026-10-20', records: [{ path: 'plants/p', data: plant }] };
 it('accepts a valid versioned backup', () => { expect(validateBackup(JSON.stringify(backup)).records).toHaveLength(1); });
+it('preserves post-harvest tracking and stage history through backup validation', () => {
+  const tracking = { growthStage: 'drying', status: 'harvested', stageStartedOn: '2026-01-15', stageStartedOnEstimated: true, ageEstimateSource: 'stage', harvestedOn: '2026-01-14', stageTrackingVersion: 1, stageRevision: 3, postHarvestTracking: true, growthProfile: { flowering: 'photoperiod' }, stagePush: { key: 'drying:2026-01-15:3:0', dueAt: 1769428800000 } };
+  const result = validateBackup(JSON.stringify({ ...backup, records: [{ path: 'plants/p', data: { ...plant, ...tracking } }, { path: 'plants/p/logs/stage_3', data: { type: 'stage_change', fromStage: 'harvested', toStage: 'drying', stageRevision: 3, calendarDay: '2026-01-15', timestamp: { $timestamp: 1768478400000 } } }] }));
+  expect(result.records[0].data).toMatchObject(tracking);
+  expect(result.records[1].data.toStage).toBe('drying');
+});
+it('rejects corrupted tracking data before a restore can affect scheduling', () => {
+  expect(() => validateBackup(JSON.stringify({ ...backup, records: [{ path: 'plants/p', data: { ...plant, stageReview: { action: 'snooze', suggestionId: 'stage', snoozes: -1, nextCheckOn: 'bad-date' } } }] }))).toThrow('stage review');
+});
 it('rejects paths outside the supported garden collections', () => { expect(() => validateBackup(JSON.stringify({ ...backup, records: [{ path: 'users/admin', data: {} }] }))).toThrow(); });
 it('rejects duplicate records instead of silently overwriting them', () => { expect(() => validateBackup(JSON.stringify({ ...backup, records: [backup.records[0], backup.records[0]] }))).toThrow('duplicate'); });
 it('rejects malformed or cross-plant photo references before writing', () => { expect(() => validateBackup(JSON.stringify({ ...backup, records: [{ path: 'plants/p', data: { ...plant, imageUri: 'firestore-photo:plants/other/photoAssets/a' } }] }))).toThrow('reference'); });

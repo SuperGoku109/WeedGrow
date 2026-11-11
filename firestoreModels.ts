@@ -9,6 +9,23 @@ export interface CareSummaryEntry { id: string; mutationId?: string; timestamp: 
 export interface CareSummary { version: 1; revision: number; watering: CareSummaryEntry | null; fertilizing: CareSummaryEntry | null }
 export interface PlantReminderSchedule { type: 'interval' | 'custom' | 'smart' | 'none'; intervalDays?: number; customDays?: string[]; timeOfDay?: string }
 export interface Plant {
+    /** Confirmed calendar dates use the same YYYY-MM-DD convention as startedOn. */
+    stageStartedOn?: string | null;
+    stageStartedOnEstimated?: boolean;
+    ageEstimateSource?: 'stage' | null;
+    germinationStartedOn?: string | null;
+    emergedOn?: string | null;
+    preflowerObservedOn?: string | null;
+    floweringStartedOn?: string | null;
+    harvestedOn?: string | null;
+    lastStageReviewedOn?: string | null;
+    stageTrackingVersion?: 1;
+    stageRevision?: number;
+    growthProfile?: import('./lib/plants/growthTracking').GrowthProfile;
+    stageReview?: import('./lib/plants/growthTracking').StageReview | null;
+    stagePush?: import('./lib/plants/growthTracking').StagePush | null;
+    stageReminders?: { enabled: boolean; quietStartHour?: number; quietEndHour?: number };
+    postHarvestTracking?: boolean;
     waterLedgerRevision?: number;
     setupLedgerRevision?: number;
     /** Server-owned pointer; clients cannot write or restore it. */
@@ -40,7 +57,7 @@ export interface Plant {
     deleting?: boolean;
     harvest?: { date: string; weightGrams?: number; notes: string; recordId: string };
     owners: string[];
-    growthStage: 'unknown' | 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone';
+    growthStage: 'unknown' | 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone' | 'harvested' | 'drying' | 'curing' | 'completed';
     ageDays?: number | null;
     ageKnown?: boolean;
     status: 'active' | 'archived' | 'harvested' | 'dead';
@@ -89,6 +106,10 @@ export interface Plant {
   // 📁 Subcollection: /plants/{plantId}/logs/{logId}
   // ================================
   export interface PlantLog {
+    fromStage?: Plant['growthStage'];
+    toStage?: Plant['growthStage'];
+    stageRevision?: number;
+    stageReview?: import('./lib/plants/growthTracking').StageReview;
     occurrencePrecision?: 'date' | 'time';
     recordedAt?: Timestamp;
     calendarDay?: string;

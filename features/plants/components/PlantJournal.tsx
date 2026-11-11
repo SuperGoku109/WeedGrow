@@ -20,7 +20,7 @@ export function JournalTimeline({ logs, theme: t, loading, error, onEdit, onDele
     {!logs.length && !loading && !error && <View style={{ flexDirection: 'row', gap: 12, paddingVertical: 18, alignItems: 'center' }}><View style={{ backgroundColor: t.surface, borderRadius: 14, width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name="notebook-outline" size={22} color={t.muted} /></View><View style={{ flex: 1 }}><Text style={{ color: t.text, fontSize: 15 }}>{emptyMessage}</Text><Text style={{ color: t.muted, lineHeight: 20, fontSize: 13, marginTop: 5 }}>Use Add activity to keep a record of your care.</Text></View></View>}
     {logs.map(log => {
       const kind = journalKind(log); const time = journalEntryTime(log, timeZone); const category = journalCategory(log);
-      const manual = !log.movement && ['watering', 'feeding', 'pests', 'training', 'health', 'notes'].includes(category);
+      const manual = !log.movement && !log.stageReview && ['watering', 'feeding', 'pests', 'training', 'health', 'notes'].includes(category);
       const editable = !!onEdit && manual; const deletable = !!onDelete && manual;
       const selected = highlightedId === log.id;
       const long = (log.description?.length || 0) > 240 || (log.description?.split('\n').length || 0) > 5;

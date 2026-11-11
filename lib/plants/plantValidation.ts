@@ -1,14 +1,44 @@
 import { contextChoices } from '@/lib/care/plantContext';
 import { validatePlantDatesAndReminders } from './plantRules';
 import { MEDIUMS } from '@/lib/careAlgorithm/setupFacts';
+import { isCalendarDay } from '@/lib/dates/plantDay';
 /** Field policies shared by forms and the write boundary. Only supplied fields
  * are checked, so an unrelated edit can still repair a legacy record. */
-export const PLANT_STAGES = ['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone'] as const;
+export const PLANT_STAGES = ['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone', 'harvested', 'drying', 'curing', 'completed'] as const;
 export const PLANT_ENVIRONMENTS = ['outdoor', 'indoor', 'greenhouse'] as const;
 export const MAX_PLANT_AGE_DAYS = 36500;
 
 export function validatePlantFields(fields: Record<string, unknown>, today?: string): Record<string, string> {
   const errors: Record<string, string> = validatePlantDatesAndReminders(fields, today);
+  if (fields.stageStartedOnEstimated != null && typeof fields.stageStartedOnEstimated !== 'boolean') errors.stageStartedOnEstimated = 'Choose a valid stage timing source.';
+  if (fields.ageEstimateSource != null && fields.ageEstimateSource !== 'stage') errors.ageEstimateSource = 'Choose a valid age estimate source.';
+  for (const field of ['stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn']) {
+    if (fields[field] != null) {
+      if (typeof fields[field] !== 'string' || !isCalendarDay(fields[field] as string)) errors[field] = 'Use a valid calendar date.';
+      Object.assign(errors, Object.fromEntries(Object.entries(validatePlantDatesAndReminders({ startedOn: fields[field] }, today)).map(([, message]) => [field, message])));
+    }
+  }
+  for (const field of ['stageRevision'] as const) if (fields[field] != null && (!Number.isSafeInteger(fields[field]) || Number(fields[field]) < 0)) errors[field] = 'Use a valid stage revision.';
+  if (fields.postHarvestTracking != null && typeof fields.postHarvestTracking !== 'boolean') errors.postHarvestTracking = 'Choose whether to track processing.';
+  if (fields.stagePush != null) {
+    const push = fields.stagePush as NonNullable<import('@/firestoreModels').Plant['stagePush']>;
+    if (typeof push.key !== 'string' || typeof push.dueAt !== 'number' || !Number.isFinite(push.dueAt) || push.dueAt < 0 || push.dueAt > 253402300799999) errors.stagePush = 'Invalid saved stage reminder.';
+  }
+  if (fields.stageReview != null) {
+    const review = fields.stageReview as NonNullable<import('@/firestoreModels').Plant['stageReview']>;
+    if (typeof review.suggestionId !== 'string' || !['not_yet', 'snooze', 'dismiss', 'early_signs', 'stage_recorded'].includes(review.action) || !Number.isSafeInteger(review.snoozes) || review.snoozes < 0 || (review.nextCheckOn != null && (typeof review.nextCheckOn !== 'string' || !isCalendarDay(review.nextCheckOn)))) errors.stageReview = 'Invalid saved stage review.';
+  }
+  if (fields.growthProfile != null) {
+    const profile = fields.growthProfile as NonNullable<import('@/firestoreModels').Plant['growthProfile']>;
+    if (!['unknown', 'photoperiod', 'age_based'].includes(profile.flowering)) errors.growthProfile = 'Choose a supported flowering profile.';
+    for (const key of ['ageCheckDays', 'agePushDays', 'establishedDays', 'harvestCheckDays'] as const) if (profile[key] != null && (!Number.isInteger(profile[key]) || profile[key]! < 1 || profile[key]! > 730)) errors.growthProfile = 'Profile milestone days must be whole numbers from 1 to 730.';
+    if ((profile.agePushDays ?? 35) < (profile.ageCheckDays ?? 28)) errors.growthProfile = 'The flowering reminder must follow the first check.';
+    if (profile.floweringMonths != null && (!Array.isArray(profile.floweringMonths) || profile.floweringMonths.some(m => !Number.isInteger(m) || m < 1 || m > 12))) errors.growthProfile = 'Use calendar months from 1 to 12.';
+  }
+  if (fields.stageReminders != null) {
+    const settings = fields.stageReminders as NonNullable<import('@/firestoreModels').Plant['stageReminders']>;
+    if (typeof settings.enabled !== 'boolean' || [settings.quietStartHour, settings.quietEndHour].some(h => h != null && (!Number.isInteger(h) || h < 0 || h > 23))) errors.stageReminders = 'Use valid notification settings and quiet hours from 0 to 23.';
+  }
   for (const [key, choices] of Object.entries(contextChoices)) if (fields[key] != null && fields[key] !== '' && !(choices as readonly unknown[]).includes(fields[key])) errors[key] = `Choose a supported ${key.replace(/[A-Z]/g, letter => ' ' + letter.toLowerCase())}.`;
   if (fields.careMedium != null && !MEDIUMS.includes(fields.careMedium as typeof MEDIUMS[number])) errors.careMedium = 'Choose a supported growing medium or leave it unknown.';
   if (fields.rainReception != null) {

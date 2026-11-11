@@ -3,9 +3,9 @@ import type { PlantForm } from '@/features/plants/form/PlantForm';
 import { localDateKey, validateLogDate } from '@/lib/logs/plantJournal';
 import { validatePlantFields, MAX_PLANT_AGE_DAYS, PLANT_ENVIRONMENTS } from '@/lib/plants/plantValidation';
 import { normalizePlantSetup } from '@/lib/plants/plantRules';
+import { estimatedAgeFields } from '@/lib/plants/stageAgeDefaults';
 
 export const stages = [
-  { value: 'unknown', label: 'Not sure', detail: 'Keep the growth stage unknown', icon: 'help-circle-outline' },
   { value: 'germination', label: 'Germination', detail: 'Starting from a seed', icon: 'seed-outline' },
   { value: 'seedling', label: 'Seedling', detail: 'A small, young plant', icon: 'sprout-outline' },
   { value: 'vegetative', label: 'Vegetative', detail: 'Established leafy growth', icon: 'leaf' },
@@ -25,6 +25,9 @@ export type FormErrors = Partial<Record<keyof PlantForm, string>>;
 
 export function validatePlantForm(form: PlantForm, today = localDateKey()): FormErrors {
   const errors = validatePlantFields({ careMedium: form.careMedium, potMaterial: form.potMaterial, potType: form.potType, growingSite: form.growingSite, potDrainage: form.potDrainage, fertilizerForm: form.fertilizerForm, reminderSchedule: form.reminderSchedule, feedingReminderSchedule: form.feedingReminderSchedule, name: form.name, strainType: form.strainType || 'unknown', growthStage: form.growthStage, environment: form.environment, plantedIn: form.plantedIn, ageDays: form.ageDays.trim() ? Number(form.ageDays) : null, soilPh: form.soilPh, location: form.location }) as FormErrors;
+  if (!stages.some(stage => stage.value === form.growthStage)) errors.growthStage = 'Choose the plant’s current growth stage.';
+  if (form.stageStartedOn && validateLogDate(form.stageStartedOn, today)) errors.stageStartedOn = 'Enter a valid stage start date, today or earlier (YYYY-MM-DD).';
+  if (form.stageStartedOn && form.ageMode === 'date' && form.startedOn && form.growthStage !== 'germination' && form.stageStartedOn < form.startedOn) errors.stageStartedOn = 'The stage cannot begin before the plant’s start date.';
   if (form.rainExposure && !RAIN_EXPOSURES.includes(form.rainExposure as typeof RAIN_EXPOSURES[number])) errors.rainExposure = 'Choose a valid rain exposure.';
   if (form.ageDays.trim() && (!/^\d+$/.test(form.ageDays.trim()) || Number(form.ageDays) > MAX_PLANT_AGE_DAYS)) {
     errors.ageDays = 'Enter a whole number from 0 to 36,500 days.';
@@ -54,8 +57,11 @@ export function normalizePlantForm(form: PlantForm, today = localDateKey()): Pla
   normalized.companionPlants = [...new Set((normalized.companionPlants || []).map(value => value.trim()).filter(Boolean))];
   const mode = normalized.ageMode || (normalized.ageDays ? 'estimate' : 'unknown');
   normalized.ageMode = mode;
-  normalized.ageEstimated = mode === 'estimate';
-  if (mode === 'unknown') { normalized.ageDays = ''; normalized.startedOn = ''; }
+  normalized.ageEstimated = mode !== 'date';
+  if (mode === 'unknown') {
+    const estimate = estimatedAgeFields(normalized.growthStage, today, normalized.stageStartedOn);
+    normalized.ageDays = String(estimate.ageDays); normalized.startedOn = estimate.startedOn;
+  }
   else if (mode === 'date' && normalized.startedOn && !validateLogDate(normalized.startedOn, today)) {
     const day = (value: string) => Date.parse(value + 'T00:00:00Z') / 86400000;
     normalized.ageDays = String(day(today) - day(normalized.startedOn));
@@ -63,6 +69,10 @@ export function normalizePlantForm(form: PlantForm, today = localDateKey()): Pla
     const started = new Date(today + 'T12:00:00');
     started.setDate(started.getDate() - Number(normalized.ageDays));
     normalized.startedOn = localDateKey(started);
+    if (normalized.stageStartedOn && !validateLogDate(normalized.stageStartedOn, today) && normalized.stageStartedOn < normalized.startedOn) {
+      normalized.startedOn = normalized.stageStartedOn;
+      normalized.ageDays = String(Math.round((Date.parse(today) - Date.parse(normalized.stageStartedOn)) / 86400000));
+    }
   }
   return normalized;
 }

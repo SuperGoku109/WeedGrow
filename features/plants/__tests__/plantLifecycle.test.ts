@@ -21,6 +21,11 @@ it('rejects a date in the future at the plant location before writing', async ()
   await expect(recordHarvest('p', '2026-10-25', undefined, '')).rejects.toThrow('earlier');
   expect(set).not.toHaveBeenCalled(); expect(update).not.toHaveBeenCalled();
 });
+it('rejects harvest before confirmed flowering without creating partial history', async () => {
+  plant = { ...plant, growthStage: 'flowering', stageStartedOn: '2026-10-20', floweringStartedOn: '2026-10-20' };
+  await expect(recordHarvest('p', '2026-10-19', undefined, '')).rejects.toThrow('Harvest cannot be before flowering');
+  expect(set).not.toHaveBeenCalled(); expect(update).not.toHaveBeenCalled();
+});
 it('keeps a committed retry idempotent when the plant status has already changed', async () => {
   plant = { ...plant, status: 'harvested', harvest: { recordId: 'request' } };
   await recordHarvest('p', '2026-10-25', 10, 'Harvest');

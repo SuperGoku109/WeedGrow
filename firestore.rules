@@ -11,7 +11,7 @@ service cloud.firestore {
     }
     function validPlant() {
       return request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 100
-        && request.resource.data.growthStage in ['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone']
+        && request.resource.data.growthStage in ['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone', 'harvested', 'drying', 'curing', 'completed']
         && request.resource.data.environment in ['outdoor', 'indoor', 'greenhouse']
         && request.resource.data.plantedIn in ['pot', 'ground']
         && (request.resource.data.get('careMedium', null) == null || request.resource.data.careMedium in ['', 'soil', 'soilless_mix', 'coco', 'other'])
@@ -19,6 +19,10 @@ service cloud.firestore {
           && request.resource.data.rainReception.keys().hasOnly(['soil', 'canopy'])
           && request.resource.data.rainReception.soil in ['yes', 'no', 'partial', 'unknown']
           && request.resource.data.rainReception.canopy in ['yes', 'no', 'partial', 'unknown']));
+    }
+    function growthEnded(data) {
+      return data.get('status', '') == 'harvested' || data.get('harvest', null) != null || data.get('harvestedOn', null) != null
+        || data.get('growthStage', '') in ['harvested', 'drying', 'curing', 'completed'];
     }
     function advancesCareRevision(id) {
       return !exists(/databases/$(database)/documents/plants/$(id))
@@ -55,6 +59,8 @@ service cloud.firestore {
         && request.resource.data.get('careSummary', null) == null
         && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
       allow update: if signedIn() && request.auth.uid in resource.data.owners && validPlant()
+        && (!growthEnded(resource.data) || (request.resource.data.get('status', '') != 'active'
+          && (request.resource.data.growthStage == resource.data.growthStage || request.resource.data.growthStage in ['harvested', 'drying', 'curing', 'completed'])))
         && request.resource.data.get('careEvaluationRevision', null) == resource.data.get('careEvaluationRevision', null)
         && request.resource.data.get('careNextEvaluationUtc', null) == resource.data.get('careNextEvaluationUtc', null)
         && request.resource.data.get('careEventProtocol', 0) == resource.data.get('careEventProtocol', 0)

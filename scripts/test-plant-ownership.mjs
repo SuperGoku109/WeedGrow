@@ -53,6 +53,21 @@ try {
   await denied(getDoc(doc(bob.db, 'plants', plantId)));
   await denied(getDoc(doc(bob.db, 'plants', plantId, 'photoAssets', 'cover')));
   await denied(updateDoc(doc(bob.db, 'plants', plantId), { name: 'Stolen' }));
+  // Growth tracking extends the existing plant and journal, including optional post-harvest stages.
+  const growthRef = doc(alice.db, 'plants', plantId + '-growth');
+  await setDoc(growthRef, { ...plant, status: 'active', stageStartedOn: '2026-01-01', stageTrackingVersion: 1, stageRevision: 0 });
+  for (const [index, stage] of ['flowering', 'harvested', 'drying', 'curing', 'completed'].entries()) {
+    await runTransaction(alice.db, async transaction => {
+      const prior = (await transaction.get(growthRef)).data();
+      transaction.update(growthRef, { growthStage: stage, status: index ? 'harvested' : 'active', stageRevision: index + 1, stageStartedOn: '2026-02-01', updatedAt: serverTimestamp() });
+      transaction.set(doc(alice.db, 'plants', growthRef.id, 'logs', `stage_${index}`), { type: 'stage_change', fromStage: prior.growthStage, toStage: stage, timestamp: serverTimestamp(), updatedBy: alice.uid });
+    });
+    assert.equal((await getDoc(growthRef)).data().growthStage, stage);
+  }
+  assert.equal((await getDocs(collection(alice.db, 'plants', growthRef.id, 'logs'))).size, 5);
+  await denied(updateDoc(growthRef, { status: 'active' }));
+  await denied(updateDoc(growthRef, { growthStage: 'vegetative', status: 'active' }));
+  await denied(updateDoc(doc(bob.db, 'plants', growthRef.id), { growthStage: 'vegetative' }));
   await denied(updateDoc(doc(alice.db, 'plants', plantId), { owners: [bob.uid] }));
   await denied(setDoc(doc(bob.db, 'plants', 'spoofed'), { ...plant, owners: [alice.uid] }));
   await denied(setDoc(doc(alice.db, 'plants', plantId, 'photoAssets', 'oversized'), { dataUri: 'data:image/jpeg;base64,' + 'A'.repeat(184320) }));

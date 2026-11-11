@@ -22,5 +22,5 @@ it('formats reminders and calendar dates without interpreting an added date as p
   expect(reminderLabel({ type: 'interval', intervalDays: 1 })).toBe('Every day');
   expect(profileDate('2026-02-31')).toBeUndefined();
   expect(profileDate('2026-10-01')).toBe('1 Oct 2026');
-  expect(plantProfile(plant).basics.find(field => field.label === 'Growing for')).toBeUndefined();
+  expect(plantProfile(plant).basics.find(field => field.label === 'Growing for')?.value).toBe('About 25 days (stage estimate)');
 });

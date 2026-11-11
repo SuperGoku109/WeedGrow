@@ -11,6 +11,7 @@ export interface PlantForm {
   strainType?: string;
   ageMode?: 'unknown' | 'estimate' | 'date';
   startedOn?: string;
+  stageStartedOn?: string;
   ageEstimated?: boolean;
   groupId?: string;
   groupName?: string;
