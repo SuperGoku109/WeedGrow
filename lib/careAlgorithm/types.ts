@@ -1,5 +1,5 @@
 /** Hops v8.4. All times are UTC epoch seconds; volumes are litres. */
-export const ENGINE_VERSION = 'hops-8.4.0';
+export const ENGINE_VERSION = 'hops-8.4.2';
 export type Decision = 'water' | 'not_due' | 'uncertain';
 export type WarningId = 'W01' | 'W02' | 'W03' | 'W04' | 'W05' | 'W06' | 'W07' | 'W08' | 'W09' | 'W10' | 'W11' | 'W12' | 'W13' | 'W14';
 export type WarningState = 'triggered' | 'not_triggered' | 'unknown' | 'not_applicable' | 'disabled' | 'context_only' | 'review_requested';
@@ -21,6 +21,7 @@ export interface Warning {
   applicable: boolean | null; reasonCodes: string[]; evidence: Record<string, unknown>;
 }
 export interface Setup {
+  windPlant?: import('./windPolicy').WindPlantContext;
   status: string; deleting?: boolean; environment: string; plantedIn: string | null;
   stage: string | null; sun: string | null; medium: string | null;
   potVolumeL: number | null; soilRain: 'yes' | 'no' | 'partial' | 'unknown';

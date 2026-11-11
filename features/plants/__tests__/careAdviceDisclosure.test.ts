@@ -49,11 +49,11 @@ test('read-only plants keep explanations without offering recording actions', as
 
 test('keeps each explanation independent and prioritizes important warnings', async () => {
   const soil = { ...card('Soil check', 'info', 'watering'), reasons: ['A soil report is missing.'] };
-  const wind = { ...card('Wind warning', 'critical', 'weather'), evidence: { variable: 'wind_gust_ms', value: 15, phase: 'forecast', provider: 'Example weather service' } };
+  const wind = { ...card('Wind warning', 'critical', 'weather'), evidence: { variable: 'wind_gust_ms', value: 20, phase: 'forecast', provider: 'Example weather service' } };
   await mount([soil, wind]);
   expect(text().indexOf('Wind warning')).toBeLessThan(text().indexOf('Soil check'));
-  act(() => button('Learn why: Wind').props.onPress()); expect(text()).toContain('15 m/s'); expect(text()).not.toContain('A soil report is missing.');
-  act(() => button('Learn why: Soil').props.onPress()); expect(text()).toContain('A soil report is missing.'); expect(text()).toContain('15 m/s');
+  act(() => button('Learn why: Wind').props.onPress()); expect(text()).toContain('72 km/h'); expect(text()).not.toContain('A soil report is missing.');
+  act(() => button('Learn why: Soil').props.onPress()); expect(text()).toContain('A soil report is missing.'); expect(text()).toContain('72 km/h');
 });
 
 test('does not invent weather, soil readings, or complete history when evidence is absent', () => {

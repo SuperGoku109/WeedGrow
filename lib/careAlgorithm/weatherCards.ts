@@ -33,11 +33,14 @@ export function weatherCards(plantId: string, e: Evaluation | undefined, nowUtc:
   for (const id of ['W01', 'W02', 'W03', 'W04']) {
     const flag = flags.find(f => f.id === id && f.state === 'triggered'); if (!flag) continue;
     const future = flag.phase === 'forecast24h';
+    const windScreen = flag.evidence.windScreen as { sustainedMs?: number; gustMs?: number; explanation?: string } | undefined;
+    const windLimits = windScreen && finite(windScreen.sustainedMs) && finite(windScreen.gustMs)
+      ? `${Math.round(windScreen.sustainedMs * 3.6)} km/h, or gusts reach at least ${Math.round(windScreen.gustMs * 3.6)} km/h` : '40 km/h, or gusts reach at least 60 km/h';
     const title = { W01: future ? 'Hot weather expected' : 'High air temperature', W02: future ? 'Cold weather expected' : 'Low air temperature',
       W03: future ? 'Prepare for forecast wind' : 'Wind preparation', W04: future ? 'Heavy rain expected' : 'Heavy rain reported' }[id]!;
     const summary = { W01: 'Air temperature crosses the 32°C preparation screen. Consider shade and ventilation where appropriate.',
       W02: 'Air temperature crosses the 5°C preparation screen. Consider suitable protection from cold conditions.',
-      W03: 'Reported wind reaches at least 36 km/h, or gusts reach at least 54 km/h. Check supports and secure loose containers when safe.',
+      W03: `${future ? 'Forecast' : 'Reported'} sustained wind reaches at least ${windLimits}. ${typeof windScreen?.explanation === 'string' ? windScreen.explanation + ' ' : ''}Check supports and secure loose containers when safe.`,
       W04: 'Reported rain rate or known amount crosses the rain preparation screen. Keep drainage routes clear.' }[id]!;
     const merged = id === 'W01' ? flags.filter(f => f.id === 'W08' && f.state === 'context_only') : [];
     push(id, [flag, ...merged], title, `${future ? 'Forecast conditions. ' : 'Recent/current conditions. '}${summary} These are weather screens, not a prediction of plant damage or water need.${merged.length ? ' The plant is in a container; this does not measure root temperature.' : ''}`);

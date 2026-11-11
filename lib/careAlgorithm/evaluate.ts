@@ -44,7 +44,7 @@ export function evaluateCare(input: EvaluationInput): Evaluation {
   return { engineVersion: ENGINE_VERSION, policyVersion: input.policyVersion, profileVersion: typeof input.profile?.version === 'string' ? input.profile.version : null,
     evaluationUtc: input.evaluationUtc, locationRevision: input.setup.locationRevision,
     dataRevisionFingerprint: revisionFingerprint({ engine: ENGINE_VERSION, ...input }), nextEvaluationUtc: input.nextEvaluationUtc,
-    water, warnings: evaluateWarnings(input.setup, asOfWindows(input.warningWindows, input.evaluationUtc), water, input.problemTopic) };
+    water, warnings: evaluateWarnings(input.setup, asOfWindows(input.warningWindows, input.evaluationUtc), water, input.problemTopic, input.evaluationUtc) };
 }
 /** Explicit engineering entry point. Its outputs are never accepted by production consumers. */
 export function evaluateShadow(input: WaterModelInput) {

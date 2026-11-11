@@ -22,6 +22,29 @@ const observation = (state: 'DRY' | 'MOIST' | 'WET', hours: number, id = String(
   occurrencePrecision: 'time', moistureConfiguration: careConfiguration(plant), timestamp: makeTimestamp(new Date((now - hours * 3600) * 1000)), updatedBy: 'owner' }) as PlantLog;
 const evaluate = (logs: PlantLog[] = [], samples = weather(), overrides: Partial<Parameters<typeof evaluateOutdoorCare>[0]> = {}) => evaluateOutdoorCare({ plantId: plant.id, plant, logs, samples, nowUtc: now, ...overrides });
 
+describe.each([-1, 3])('wind preparation with signal offset %s hours', hours => {
+  test.each([
+    [10, 20, false], [25, 40, false], [36, 54, false],
+    [39.999, 59.999, false], [40, 0, true], [0, 60, true], [45, 65, true],
+  ])('sustained %s km/h and gust %s km/h => warning %s', (speed, gust, expected) => {
+    const result = evaluate([], [row('wind_speed_ms', speed / 3.6, hours), row('wind_gust_ms', gust / 3.6, hours)]);
+    expect(result.recommendations.some(r => r.category === 'wind')).toBe(expected);
+  });
+});
+test('a light breeze now can coexist with an explicitly labelled stronger forecast', () => {
+  const result = evaluate([], [row('wind_speed_ms', 2), row('wind_gust_ms', 60 / 3.6, 3)]);
+  const wind = result.recommendations.find(r => r.category === 'wind')!;
+  expect(wind.description).toContain('Forecast gusts of 60 km/h within the next 24 hours');
+  expect(wind.evidence.startUtc).toBe(now + 3 * 3600);
+});
+test('recent wind is labelled as reported, while stale, wrong-location and distant forecasts stay silent', () => {
+  expect(evaluate([], [row('wind_speed_ms', 40 / 3.6)]).recommendations.find(r => r.category === 'wind')?.description).toContain('Recently reported sustained wind of 40 km/h');
+  const badSignals = [row('wind_gust_ms', 30, 25), row('wind_gust_ms', 30, -7),
+    { ...row('wind_gust_ms', 30, 3), retrieved_at_utc: now - 3600 },
+    { ...row('wind_gust_ms', 30, 3), location_revision: 99 }];
+  for (const signal of badSignals) expect(evaluate([], [signal]).recommendations.some(r => r.category === 'wind')).toBe(false);
+});
+
 test('qualified learning actually advances the next check while soil guidance remains moist', () => {
   const latest = observation('MOIST', 20);
   const history = [100, 70, 40].flatMap(h => [observation('MOIST', h), observation('DRY', h - 8)]);
@@ -55,7 +78,7 @@ test('date-only watering cannot pretend to have occurred at its placeholder noon
   const r = evaluate([observation('DRY', 1), log]); expect(r.water.needsWater).toBeNull();
 });
 test('material wind escalation is a meaningful notification change', () => {
-  const first = evaluate([], [row('wind_gust_ms', 16, 3)]).recommendations;
+  const first = evaluate([], [row('wind_gust_ms', 18, 3)]).recommendations;
   const previous = planCareNotifications(first, {}, now).signatures;
   expect(planCareNotifications(evaluate([], [row('wind_gust_ms', 30, 3)]).recommendations, previous, now).send).toHaveLength(1);
 });
@@ -111,7 +134,7 @@ test('notification memory survives unknown weather and clears only a confirmed r
   expect(planCareNotifications(recs, cleared.signatures, now + 2, []).send).toHaveLength(1);
 });
 test('the strongest credible forecast is not hidden behind a weaker observed wind signal', () => {
-  const r = evaluate([], [row('wind_gust_ms', 16), row('wind_gust_ms', 30, 3)]);
+  const r = evaluate([], [row('wind_gust_ms', 18), row('wind_gust_ms', 30, 3)]);
   expect(r.recommendations[0].evidence.value).toBe(30); expect(r.recommendations[0].reasonCodes).toEqual(['forecast_wind']);
 });
 

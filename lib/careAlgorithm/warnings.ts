@@ -1,5 +1,6 @@
 import { finite, type Phase, type Setup, type Warning, type WarningId, type WarningState, type WeatherSample, type WaterResult } from './types';
 import { warningEvidence } from './warningEvidence';
+import { windThresholds } from './windPolicy';
 
 export interface WarningWindow {
   phase: Phase; startUtc: number; endUtc: number;
@@ -18,7 +19,7 @@ function flag(id: WarningId, state: WarningState, phase: Phase = 'current', comp
   return { id, state, phase, coverage: complete ? 'complete' : Object.keys(evidence).length ? 'partial' : 'none',
     applicable: state === 'not_applicable' ? false : state === 'unknown' ? null : true, evidence, reasonCodes };
 }
-export function evaluateWarnings(setup: Setup, windows: readonly WarningWindow[], water: WaterResult, problemTopic?: 'excess_root_water' | 'establishment' | 'root_wilt') {
+export function evaluateWarnings(setup: Setup, windows: readonly WarningWindow[], water: WaterResult, problemTopic?: 'excess_root_water' | 'establishment' | 'root_wilt', evaluationUtc = NaN) {
   if (setup.status !== 'active' || setup.deleting) return Array.from({ length: 14 }, (_, i) => flag(`W${String(i + 1).padStart(2, '0')}` as WarningId, 'not_applicable', 'current', true, {}, ['inactive_plant']));
   if (setup.environment !== 'outdoor') windows = [];
   const current = windows.filter(w => ['current', 'forecast24h'].includes(w.phase) && finite(w.startUtc) && finite(w.endUtc)
@@ -36,7 +37,9 @@ export function evaluateWarnings(setup: Setup, windows: readonly WarningWindow[]
   }
   const heat = screen('W01', [['air_temperature_c', v => v >= 32, ['point']]]);
   const cold = screen('W02', [['air_temperature_c', v => v <= 5, ['point']]]);
-  const wind = screen('W03', [['wind_speed_ms', v => v >= 10, ['point']], ['wind_gust_ms', v => v >= 15, ['point', 'interval_maximum']]]);
+  const windScreen = windThresholds(setup.windPlant ?? { growthStage: setup.stage }, evaluationUtc);
+  const wind = screen('W03', [['wind_speed_ms', v => v >= windScreen.sustainedMs, ['point']], ['wind_gust_ms', v => v >= windScreen.gustMs, ['point', 'interval_maximum']]]);
+  wind.evidence.windScreen = windScreen;
   const rainPhases = current.map(w => {
     const rate = evidence(w, 'rain_rate_mm_h', ['rate']); const amount = evidence(w, 'liquid_rain_mm', ['interval_sum'], true);
     return { phase: w.phase, positive: rate.rows.some(s => s.value! >= 10) || amount.rows.reduce((sum, s) => sum + s.value!, 0) >= 25,

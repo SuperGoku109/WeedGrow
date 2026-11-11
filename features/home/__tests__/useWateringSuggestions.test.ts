@@ -1,4 +1,5 @@
 import React from 'react';
+import { ENGINE_VERSION } from '@/lib/careAlgorithm/types';
 // @ts-expect-error Expo ships the renderer without declarations.
 import { act, create } from 'react-test-renderer';
 import { evaluateWateringInsights } from '@/lib/suggestions/wateringSuggestions';
@@ -15,7 +16,7 @@ it('does not refetch for notes or clock ticks, and exposes an explicit refresh f
   mockClock = new Date('2026-10-24T12:00:00Z');
   jest.setSystemTime(mockClock);
   jest.mocked(evaluateWateringInsights).mockResolvedValue([{ plantId: 'p', plantName: 'Plant', needsWater: true, reason: 'Check soil', weatherFetchedAtMs: mockClock.getTime(),
-    careEvaluation: { engineVersion: 'hops-8.4.0', policyVersion: 'test', profileVersion: 'test', locationRevision: 1,
+    careEvaluation: { engineVersion: ENGINE_VERSION, policyVersion: 'test', profileVersion: 'test', locationRevision: 1,
       dataRevisionFingerprint: 'test', evaluationUtc: mockClock.getTime() / 1000 + 1, nextEvaluationUtc: mockClock.getTime() / 1000 + 6 * 3600,
       water: { decision: 'water', needsWater: true, reasonCodes: [] } } }] as any);
   const plant = { id: 'p', name: 'Plant', status: 'active', location: { lat: 1, lng: 2 }, locationTimeZone: 'Africa/Johannesburg' } as any;
@@ -47,7 +48,7 @@ it('automatically refreshes observation advice when its validity ends', async ()
   jest.useFakeTimers().setSystemTime(new Date('2026-11-10T12:00:00Z'));
   mockClock = new Date();
   jest.mocked(evaluateWateringInsights).mockImplementation(async () => [{ plantId: 'p', plantName: 'Plant', reason: 'Check soil', careEvaluation: {
-    engineVersion: 'hops-8.4.0', policyVersion: 'outdoor-observation-v1', profileVersion: 'observation-rules-v1', locationRevision: 0, dataRevisionFingerprint: 'test',
+    engineVersion: ENGINE_VERSION, policyVersion: 'outdoor-observation-v1', profileVersion: 'observation-rules-v1', locationRevision: 0, dataRevisionFingerprint: 'test',
     evaluationUtc: Date.now() / 1000, nextEvaluationUtc: Date.now() / 1000 + 300, water: { needsWater: null, decision: 'uncertain', reasonCodes: [] },
     outdoor: { checkStatus: 'CHECK_NOW', recommendations: [] },
   } }] as any);

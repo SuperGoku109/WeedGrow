@@ -1,11 +1,12 @@
 import type { SuggestionAlgorithmContext, SuggestionCard } from '@/lib/suggestions/types';
+import { ENGINE_VERSION } from '@/lib/careAlgorithm/types';
 
 // The weather assessment already combines temperature, humidity, airflow and
 // night cycles. Do not add these factors a second time at presentation level.
 export function evaluatePowderyMildewAlgorithm({ insight }: SuggestionAlgorithmContext): SuggestionCard {
   if (insight.mildewRiskLevel === 'unknown') return { id: insight.plantId + ':powderyMildew', kind: 'powderyMildew', active: false,
     severity: 'info', title: 'Powdery mildew assessment unavailable', summary: 'Weather alone does not establish infection or absence of powdery mildew.',
-    reasons: [], metrics: { mildewRiskLevel: 'unknown' }, confidence: 'low', algorithmVersion: 'hops-8.4.0' };
+    reasons: [], metrics: { mildewRiskLevel: 'unknown' }, confidence: 'low', algorithmVersion: ENGINE_VERSION };
   const severity = ({ low: 'info', watch: 'watch', high: 'warn', very_high: 'critical' } as const)[insight.mildewRiskLevel];
   const reasons = Array.from(new Set(insight.mildewReasons));
   const mixed = reasons.some(reason => /suppress|lowers|below risk|reduces/i.test(reason));

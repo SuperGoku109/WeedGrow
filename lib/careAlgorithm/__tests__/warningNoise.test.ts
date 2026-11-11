@@ -14,11 +14,11 @@ function evaluate(rows: WeatherSample[], windows?: WarningWindow[]) {
     warningWindows: windows ?? [{ phase: 'current', startUtc: 3600, endUtc: now, completeVariables: [], samples: rows }] });
   e.weatherPreparationEnabled = true; return e;
 }
-const windCases = [0, 3, 5, 7, 9.999, 10, 10.001, 14].flatMap(speed => [0, 5, 10, 14.999, 15, 15.001].map(gust => ({ speed, gust })));
+const windCases = [0, 3, 5, 7, 10, 39.999 / 3.6, 40 / 3.6, 40.001 / 3.6, 14].flatMap(speed => [0, 5, 10, 15, 59.999 / 3.6, 60 / 3.6, 60.001 / 3.6].map(gust => ({ speed, gust })));
 test.each(windCases)('wind $speed m/s and gust $gust m/s cannot invent a thunderstorm or unnecessary wind card', ({ speed, gust }) => {
   const e = evaluate([sample('wind_speed_ms', speed, point), sample('wind_gust_ms', gust, point)]);
   const cards = weatherCards('plant', e, now);
-  const crosses = speed >= 10 || gust >= 15;
+  const crosses = speed >= 40 / 3.6 || gust >= 60 / 3.6;
   expect(e.warnings.find(w => w.id === 'W03')?.state === 'triggered').toBe(crosses);
   expect(cards).toHaveLength(crosses ? 1 : 0);
   expect(cards.some(c => c.metrics.hazard === 'thunderstorm')).toBe(false);
@@ -76,7 +76,7 @@ test.each([60, 70, 89.999, 90, 90.001])('RH %s percent produces only supported i
   expect(e.warnings.find(w => w.id === 'W10')?.state).toBe('disabled');
 });
 test('current evidence takes precedence over a forecast regardless of input-window order', () => {
-  const rows = [sample('wind_speed_ms', 10, point)];
+  const rows = [sample('wind_speed_ms', 12, point)];
   const forecast: WarningWindow = { phase: 'forecast24h', startUtc: now, endUtc: now + 3600, completeVariables: [],
     samples: [sample('wind_speed_ms', 20, { kind: 'forecast', time_support: 'point', valid_start_utc: now + 3600, valid_end_utc: now + 3600 })] };
   const current: WarningWindow = { phase: 'current', startUtc: 3600, endUtc: now, completeVariables: [], samples: rows };

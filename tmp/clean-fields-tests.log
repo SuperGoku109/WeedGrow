@@ -1,0 +1,10 @@
+PASS features/plants/__tests__/editorListField.test.ts
+PASS features/plants/__tests__/plantEditorPage.test.ts
+PASS features/plants/__tests__/plantEditorDelete.test.ts
+PASS features/plants/__tests__/editorControls.test.ts
+PASS features/plants/__tests__/plantForms.test.ts
+
+Test Suites: 5 passed, 5 total
+Tests:       23 passed, 23 total
+Snapshots:   0 total
+Time:        6.331 s

@@ -48,6 +48,7 @@ test('saves edits from separate panels through the existing combined update flow
   await mount();
   act(() => input('Plant name').props.onChangeText('Renamed'));
   act(() => input('Height').props.onChangeText('65'));
+  act(() => input('Pests recorded').props.onChangeText('Aphids'));
   const material = renderer.root.findAllByType(EditorSelect).find((node: any) => node.props.label === 'Pot material');
   act(() => material.props.onSelect('fabric'));
   const site = renderer.root.findAllByType(EditorSelect).find((node: any) => node.props.label === 'Site');
@@ -57,6 +58,6 @@ test('saves edits from separate panels through the existing combined update flow
   expect(mockGuard).toHaveBeenLastCalledWith(true);
   expect(updatePlant).not.toHaveBeenCalled();
   await act(async () => { await button('Save section changes').props.onPress(); });
-  expect(updatePlant).toHaveBeenCalledWith('p', expect.objectContaining({ name: 'Renamed', height: 65, potMaterial: 'fabric', growingSite: 'balcony', feedingReminderSchedule: { type: 'interval', intervalDays: 14, timeOfDay: '10:00' } }), {});
+  expect(updatePlant).toHaveBeenCalledWith('p', expect.objectContaining({ name: 'Renamed', height: 65, pests: ['Aphids'], potMaterial: 'fabric', growingSite: 'balcony', feedingReminderSchedule: { type: 'interval', intervalDays: 14, timeOfDay: '10:00' } }), {});
   expect(mockSaved).toHaveBeenCalledTimes(1); expect(mockClear).toHaveBeenCalledTimes(1);
 });

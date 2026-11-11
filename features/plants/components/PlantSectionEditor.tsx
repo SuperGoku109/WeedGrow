@@ -25,6 +25,7 @@ import EditorGroup from './EditorGroup';
 import EditorRow from './EditorRow';
 import EditorPotSize from './EditorPotSize';
 import EditorHeight from './EditorHeight';
+import EditorListField from './EditorListField';
 import { sections, buildSectionUpdates, buildAllSectionUpdates } from '../form/plantSectionForm';
 import { rainExposure } from '@/lib/careAlgorithm/setupFacts';
 
@@ -85,12 +86,13 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
     if (key === 'height') return <EditorHeight key={key} value={values.height || ''} disabled={disabled} theme={t} onChange={value => change('height', value)} />;
     if (key === 'potSize') return <EditorPotSize key={key} value={values.potSize} disabled={disabled} onChange={value => change(key, value)} />;
     const label = ({ ageDays: 'Estimated age', height: 'Height', environment: 'Growing environment', trainingTags: 'Training methods', pests: 'Pests recorded', companionPlants: 'Companion plants', soilPh: 'Soil pH', intervalDays: 'Repeat every', permanentProtection: 'Cover or protection', locationNickname: locationMode === 'space' ? 'Spot within this garden' : 'Location label' } as Record<string, string>)[key] || field.label;
+    if (field.list) return <EditorListField key={key} label={label} value={values[key] || ''} disabled={disabled} theme={t} onChange={value => change(key, value)} />;
     if (field.options) {
       const options = key === 'sensorProfileId' ? [{ value: '', label: 'No sensor profile' }, ...profiles.map(profile => ({ value: profile.id, label: profile.name })), ...(!profiles.some(profile => profile.id === values.sensorProfileId) && values.sensorProfileId ? [{ value: values.sensorProfileId, label: 'Current profile' }] : [])] : field.options.map(value => ({ value, label: key in contextChoices ? contextLabel(value) : value === 'custom' ? key === 'soilType' ? 'Custom mix' : 'Selected weekdays' : !value ? 'Not set' : friendly(value) }));
       if (values[key] && !options.some(option => option.value === values[key])) options.push({ value: values[key], label: values[key] });
       return <EditorSelect key={key} disabled={disabled} label={label} value={values[key]} options={options} onSelect={value => change(key, value)} />;
     }
-    return <EditorField key={key} testID={`plant-editor-${key}`} label={label} value={values[key]} editable={!disabled} multiline={field.multiline} style={field.multiline ? { minHeight: 88, textAlignVertical: 'top' } : undefined} suffix={key === 'height' ? 'cm' : ['ageDays', 'intervalDays'].includes(key) ? 'days' : undefined} placeholder={field.number || key === 'soilPh' ? '—' : ({ strain: 'Unknown strain', permanentProtection: 'e.g. Shade cloth', companionPlants: 'Names, separated by commas', fertilizer: 'Product or feed mix', notes: 'Anything to remember about this plant', environmentNotes: 'Details about light, soil or setup', trainingTags: 'Methods, separated by commas', pests: 'Names, separated by commas', locationNickname: 'e.g. Back patio' } as Record<string, string>)[key]} maxLength={key === 'name' ? 100 : field.multiline ? 4000 : undefined} keyboardType={['ageDays', 'intervalDays'].includes(key) ? 'number-pad' : field.number || key === 'soilPh' ? 'decimal-pad' : 'default'} onChangeText={value => change(key, value)} />;
+    return <EditorField key={key} testID={`plant-editor-${key}`} label={label} value={values[key]} editable={!disabled} multiline={field.multiline} style={field.multiline ? { minHeight: values[key]?.trim() ? 88 : 48, height: values[key]?.trim() ? undefined : 48, textAlignVertical: 'top' } : undefined} suffix={key === 'height' ? 'cm' : ['ageDays', 'intervalDays'].includes(key) ? 'days' : undefined} maxLength={key === 'name' ? 100 : field.multiline ? 4000 : undefined} keyboardType={['ageDays', 'intervalDays'].includes(key) ? 'number-pad' : field.number || key === 'soilPh' ? 'decimal-pad' : 'default'} onChangeText={value => change(key, value)} />;
   };
   return <Shell title={all ? 'Edit plant' : 'Edit ' + title.toLowerCase()} subtitle={plant.name} contentGap={16} theme={t} busy={busy || deleteOpen} pending={busy} onClose={() => guard.requestClose(close)} footer={<View style={{ gap: 12 }}>
     {!!error && <Text accessibilityRole="alert" style={{ color: t.danger, lineHeight: 21 }}>{error}</Text>}
@@ -145,7 +147,7 @@ export default function PlantSectionEditor({ plantId, plant, section, onClose, o
     {includes('Notes and history') && <EditPanel title="Notes and history" theme={t} page={page}>
       {renderField('notes')}{renderField('environmentNotes')}
       {all && renderField('companionPlants')}
-      <EditorRow>{renderField('trainingTags')}{renderField('pests')}</EditorRow>
+      {renderField('trainingTags')}{renderField('pests')}
     </EditPanel>}
     {all && onDeleted && <EditPanel title="Manage plant" theme={t} page={page}>
       <PlantActionButton label="Delete plant" icon="trash-can-outline" theme={t} danger disabled={disabled} onPress={() => setDeleteOpen(true)} />

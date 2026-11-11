@@ -3,13 +3,14 @@ import { occurrenceWindow } from './events';
 import type { Plant, PlantLog } from '@/firestoreModels';
 import type { WeatherSample } from './types';
 import { revisionFingerprint } from './revisions';
+import { WIND_POLICY } from './windPolicy';
 export type Moisture = 'DRY' | 'MOIST' | 'WET';
 export type Drying = 'SLOW' | 'NORMAL' | 'FAST' | 'UNKNOWN';
 export const OUTDOOR_POLICY = {
   freshnessHours: 24, fastFreshnessHours: 12, wateringPauseHours: 12,
   checkHours: 24, fastCheckHours: 12, slowCheckHours: 36,
   warmC: 28, coolC: 18, hotC: 35, coldC: 4, anomalyC: 6, severeChangeC: 12,
-  lowHumidity: 45, highHumidity: 85, windMs: 6, severeWindMs: 15,
+  lowHumidity: 45, highHumidity: 85, windMs: 6, severeWindMs: WIND_POLICY.gustMs, severeSustainedWindMs: WIND_POLICY.sustainedMs,
   moderateRainMm: 5, heavyRainMm: 20, trendHours: 6, wetSpanHours: 24,
   learningTransitions: 3, learningWindowDays: 14, maxWeatherAgeHours: 1,
   learningStepHours: 6, soonHours: 6, signalFreshHours: 6, humidTrendWindowHours: 24,

@@ -1,4 +1,5 @@
 import { parseVolumeL } from './profiles';
+import { windPlantContext, windThresholds } from './windPolicy';
 import type { Plant, PlantLog } from '@/firestoreModels';
 import type { WaterResult, WeatherSample } from './types';
 import { careConfiguration, dryingConditions, normalizeObservations, normalizeOutdoorWeather, OUTDOOR_POLICY, utcSeconds, careEventWindow, localTemperatureBaseline,
@@ -22,6 +23,9 @@ export function evaluateOutdoorCare(input: { plantId: string; plant: Plant; logs
   nowUtc: number; historyReliable?: boolean; policy?: OutdoorPolicy }): OutdoorIntelligence {
   const { plantId, plant, nowUtc: now } = input;
   const logs = input.historyReliable === false ? [] : input.logs; const p = input.policy ?? OUTDOOR_POLICY;
+  const windScreen = windThresholds(windPlantContext(plant), now);
+  const windGustMs = input.policy ? p.severeWindMs : windScreen.gustMs;
+  const windSustainedMs = input.policy ? p.severeSustainedWindMs : windScreen.sustainedMs;
   if (!Number.isFinite(now)) throw new Error('invalid_evaluation_time');
   const configuration = careConfiguration(plant);
   const weather = normalizeOutdoorWeather(input.samples, now, p).filter(s => s.location_revision === (plant.locationRevision ?? 0));
@@ -146,14 +150,15 @@ export function evaluateOutdoorCare(input: { plantId: string; plant: Plant; logs
   const weatherRules = [
     ['heat', 'air_temperature_c', (v: number) => v >= p.hotC, 'Prepare for heat', 'Check exposed leaves and provide suitable temporary shade.', 'HIGH'],
     ['cold', 'air_temperature_c', (v: number) => v <= p.coldC, 'Prepare for cold', 'Check vulnerable growth and consider temporary protection.', 'HIGH'],
-    ['wind', 'wind_gust_ms', (v: number) => v >= p.severeWindMs, 'Secure plants against wind', 'Secure containers and supports; inspect exposed growth for damage.', 'HIGH'],
+    ['wind', 'wind_gust_ms', (v: number) => v >= windGustMs, 'Secure plants against wind', 'Secure containers and supports; inspect exposed growth for damage.', 'HIGH'],
     ['heavy-rain', 'liquid_rain_mm', (v: number) => v >= p.heavyRainMm, 'Prepare for heavy rain', 'Check drainage and exposed containers.', 'HIGH'],
   ] as const;
   for (const [category, variable, matches, heading, advice, priority] of weatherRules) {
-    const signals = weather.filter(s => (s.variable === variable || category === 'wind' && s.variable === 'wind_speed_ms') && matches(s.value!) && s.valid_end_utc > now - p.signalFreshHours * 3600);
+    const signals = weather.filter(s => (s.variable === variable || category === 'wind' && s.variable === 'wind_speed_ms') && (category === 'wind' && s.variable === 'wind_speed_ms' ? s.value! >= windSustainedMs : matches(s.value!)) && s.valid_end_utc > now - p.signalFreshHours * 3600);
     const signal = signals.sort((a, b) => (category === 'cold' ? a.value! - b.value! : b.value! - a.value!) || Number(a.kind === 'forecast') - Number(b.kind === 'forecast') || a.valid_start_utc - b.valid_start_utc)[0];
-    if (signal) add('weather', category, 'PREPARE_AND_INSPECT', heading, `${signal.kind === 'forecast' ? 'Forecast conditions' : 'Recent API-reported conditions'} may affect this plant. ${advice}`, `${signal.kind === 'forecast' ? 'forecast' : 'observed_estimate'}_${category}`, priority,
-      { phase: signal.kind, value: signal.value, startUtc: signal.valid_start_utc, endUtc: signal.valid_end_utc, provider: signal.provider, variable: signal.variable, notificationBand: category === 'wind' ? signal.value! >= p.extremeWindMs ? 'EXTREME' : 'STRONG' : category === 'heat' ? signal.value! >= p.extremeHeatC ? 'EXTREME' : 'HOT' : category === 'cold' ? signal.value! <= p.freezingC ? 'FROST' : 'COLD' : signal.value! >= p.extremeRainMm ? 'EXTREME' : 'HEAVY' });
+    const windContext = signal && category === 'wind' ? `${signal.kind === 'forecast' ? 'Forecast' : 'Recently reported'} ${signal.variable === 'wind_gust_ms' ? 'gusts' : 'sustained wind'} of ${Math.round(signal.value! * 3.6)} km/h${signal.kind === 'forecast' ? ' within the next 24 hours' : ''}. ` : '';
+    if (signal) add('weather', category, 'PREPARE_AND_INSPECT', heading, `${windContext || `${signal.kind === 'forecast' ? 'Forecast conditions' : 'Recent API-reported conditions'} may affect this plant. `}${advice}`, `${signal.kind === 'forecast' ? 'forecast' : 'observed_estimate'}_${category}`, priority,
+      { ...(category === 'wind' ? { windScreen: { ...windScreen, sustainedMs: windSustainedMs, gustMs: windGustMs, ...(input.policy ? { basis: 'custom_policy', explanation: 'A custom test policy supplied these wind thresholds.' } : {}) } } : {}), phase: signal.kind, value: signal.value, startUtc: signal.valid_start_utc, endUtc: signal.valid_end_utc, provider: signal.provider, variable: signal.variable, notificationBand: category === 'wind' ? signal.value! >= p.extremeWindMs ? 'EXTREME' : 'STRONG' : category === 'heat' ? signal.value! >= p.extremeHeatC ? 'EXTREME' : 'HOT' : category === 'cold' ? signal.value! <= p.freezingC ? 'FROST' : 'COLD' : signal.value! >= p.extremeRainMm ? 'EXTREME' : 'HEAVY' });
   }
   const relativeWarm = weather.filter(s => s.variable === 'air_temperature_c' && s.valid_end_utc > now - p.signalFreshHours * 3600 && s.value! < p.hotC).find(s => {
     const baseline = localTemperatureBaseline(weather, plant, s.valid_end_utc, p);

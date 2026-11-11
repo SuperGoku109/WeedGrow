@@ -28,10 +28,16 @@ export function careFacts(card: SuggestionCard): CareFact[] {
   if (number(e.rainfallMm)) facts.push({ label: 'Rain estimate', value: e.rainfallMm.toLocaleString() + ' mm in the recent modelled weather history. This is not a watering log.' });
   if (Array.isArray(e.userConfirmedRain) && e.userConfirmedRain.length) facts.push({ label: 'Rain reports', value: e.userConfirmedRain.length + ' recent rainfall reports were recorded in your journal.' });
   if (e.rainExposure === 'yes' || e.rainExposure === 'no' || e.rainExposure === 'partial') facts.push({ label: 'Rain exposure', value: e.rainExposure === 'yes' ? 'The soil is recorded as exposed to rain.' : e.rainExposure === 'no' ? 'The soil is recorded as sheltered from rain.' : 'The soil is recorded as partly sheltered from rain.' });
-  const variable = { air_temperature_c: ['Temperature', '°C'], wind_gust_ms: ['Wind gust', ' m/s'], wind_speed_ms: ['Wind speed', ' m/s'], liquid_rain_mm: ['Rain', ' mm'] } as Record<string, string[]>;
+  const variable = { air_temperature_c: ['Temperature', '°C'], wind_gust_ms: ['Wind gust', ' km/h'], wind_speed_ms: ['Sustained wind', ' km/h'], liquid_rain_mm: ['Rain', ' mm'] } as Record<string, string[]>;
+  if (e.windScreen && typeof e.windScreen === 'object') {
+    const screen = e.windScreen as Record<string, unknown>;
+    if (typeof screen.explanation === 'string' && number(screen.sustainedMs) && number(screen.gustMs)) facts.push({ label: 'Wind sensitivity',
+      value: screen.explanation + ` Preparation threshold: ${Math.round(screen.sustainedMs * 3.6)} km/h sustained or ${Math.round(screen.gustMs * 3.6)} km/h gusts.` });
+  }
   if (typeof e.variable === 'string' && variable[e.variable] && number(e.value)) {
     const [label, unit] = variable[e.variable];
-    facts.push({ label: e.phase === 'forecast' ? 'Forecast' : 'Weather report', value: label + ': ' + e.value + unit + (typeof e.provider === 'string' ? ' from ' + e.provider : '') + (stamp(e.startUtc) ? ' at ' + stamp(e.startUtc) : '') + '.' });
+    const value = e.variable === 'wind_gust_ms' || e.variable === 'wind_speed_ms' ? Math.round(e.value * 3.6) : e.value;
+    facts.push({ label: e.phase === 'forecast' ? 'Forecast' : 'Weather report', value: label + ': ' + value + unit + (typeof e.provider === 'string' ? ' from ' + e.provider : '') + (stamp(e.startUtc) ? ' at ' + stamp(e.startUtc) : '') + '.' });
   }
   for (const [key, label] of [['temperatureC', 'Temperature'], ['baselineC', 'Recent local baseline'], ['recentC', 'Recent temperature'], ['forecastC', 'Forecast temperature']] as const) if (number(e[key])) facts.push({ label, value: e[key] + '°C' });
   if (number(e.humidityThreshold) && number(e.minimumConsecutiveHours)) facts.push({ label: 'Weather pattern', value: 'The rule found at least ' + e.minimumConsecutiveHours + ' consecutive hours meeting its ' + e.humidityThreshold + '% humidity screen.' });
