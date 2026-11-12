@@ -54,11 +54,11 @@ export function Choices({ options, value, onChange, multiple = false }: { option
   })}</View>;
 }
 
-export function Disclosure({ title, subtitle, children, initiallyOpen = false, forceOpen = false }: { title: string; subtitle?: string; children: React.ReactNode; initiallyOpen?: boolean; forceOpen?: boolean }) {
+export function Disclosure({ title, subtitle, children, initiallyOpen = false, forceOpen = false, compact = false }: { title: string; subtitle?: string; children: React.ReactNode; initiallyOpen?: boolean; forceOpen?: boolean; compact?: boolean }) {
   const [open, setOpen] = useState(initiallyOpen);
   const { revision } = useContext(ValidationContext);
   useEffect(() => { if (forceOpen) setOpen(true); }, [forceOpen, revision]);
-  return <View style={s.disclosure}><Press label={title} expanded={open} onPress={() => setOpen(!open)} style={s.disclosureHeader}><View style={{ flex: 1, gap: 5 }}><Text style={s.label}>{title}</Text>{subtitle && <Text style={s.hint}>{subtitle}</Text>}</View><Icon name={open ? 'minus' : 'plus'} size={20} /></Press>{open && <View style={{ padding: 18, paddingTop: 0, gap: 22 }}>{children}</View>}</View>;
+  return <View style={[s.disclosure, compact && { borderWidth: 0, borderRadius: 0 }]}><Press label={title} expanded={open} onPress={() => setOpen(!open)} style={[s.disclosureHeader, compact ? { padding: 14, minHeight: 48 } : {}]}><View style={[{ flex: 1, gap: 5 }, compact && { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }]}><Text style={[s.label, compact && { flexShrink: 1 }]}>{title}</Text>{subtitle && <Text style={[s.hint, compact && { fontSize: 12, lineHeight: 18 }]}>{subtitle}</Text>}</View><Icon name={compact ? open ? 'chevron-up' : 'chevron-down' : open ? 'minus' : 'plus'} size={20} /></Press>{open && <View style={{ padding: compact ? 14 : 18, paddingTop: 0, gap: compact ? 14 : 22 }}>{children}</View>}</View>;
 }
 
 export function PlantIllustration({ stage = 'seedling' }: { stage?: string }) {

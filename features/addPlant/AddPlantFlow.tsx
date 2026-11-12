@@ -14,7 +14,7 @@ import AccountPanel from '@/features/account/AccountPanel';
 import { useSession } from '@/services/session';
 
 const steps = [
-  { label: 'Your plant', title: 'Every plant has a story.', subtitle: 'Let’s start with a name and where yours is today.', note: 'A new beginning', caption: 'From the first little leaf to all the moments that follow.' },
+  { label: 'Your plant', title: 'Let’s meet your plant.', subtitle: 'Give it a name and choose its growth stage.', note: 'A new beginning', caption: 'From the first little leaf to all the moments that follow.' },
   { label: 'Setup', title: 'Make room for growth.', subtitle: 'Tell us about its home. Add as much detail as you know.', note: 'A place to thrive', caption: 'One plant. Its own little corner of the world.' },
   { label: 'Location', title: 'Plant location', subtitle: 'Used for local outdoor weather.', note: 'Rooted somewhere', caption: 'A sunny windowsill, a quiet patio, a place to call home.' },
   { label: 'Details', title: 'The little things matter.', subtitle: 'A photo, a routine, a few notes. Make this plant your own.', note: 'Make it personal', caption: 'Keep the details you know. Discover the rest along the way.' },
@@ -138,8 +138,8 @@ export default function AddPlantFlow() {
         <View style={styles.progressTrack}><Animated.View style={[styles.progressFill, { width: progress.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }]} /></View>
         <ScrollView ref={scroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 28 }}>
           <View ref={contentRoot} collapsable={false}><ValidationContext.Provider value={validationContext}><Animated.View style={{ opacity: transition, transform: [{ translateY: transition.interpolate({ inputRange: [0, 1], outputRange: [14, 0] }) }] }}>
-            <View style={styles.intro}><Text accessibilityRole="header" style={[styles.title, !wide && { fontSize: 30 }]}>{current.title}</Text><Text style={styles.subtitle}>{current.subtitle}</Text></View>
-            <View style={[styles.formPanel, !wide && { padding: 0, borderWidth: 0, backgroundColor: 'transparent' }]} pointerEvents={saving ? 'none' : 'auto'}>
+            <View style={[styles.intro, step === 0 && { paddingVertical: 18, gap: 6 }]}><Text accessibilityRole="header" style={[styles.title, !wide && { fontSize: 30 }, step === 0 && { fontSize: 26, lineHeight: 32, letterSpacing: -0.7 }]}>{current.title}</Text><Text style={styles.subtitle}>{current.subtitle}</Text></View>
+            <View style={[styles.formPanel, (!wide || step === 0) && { padding: 0, borderWidth: 0, backgroundColor: 'transparent' }]} pointerEvents={saving ? 'none' : 'auto'}>
               {step === 0 && <IdentityStep form={form} setField={setField} errors={errors} />}
               {step === 1 && <SetupStep form={form} setField={setField} errors={errors} onSignIn={() => setAccountOpen(true)} />}
               {step === 2 && <LocationStep form={form} setField={setField} errors={errors} onBusyChange={setInputBusy} />}

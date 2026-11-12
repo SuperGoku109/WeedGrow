@@ -3,7 +3,7 @@ import { effectiveSchedule, scheduleLabel } from '@/lib/care/reminderSchedules';
 import CareScheduleEditor from '@/features/plants/components/CareScheduleEditor';
 import { contextChoices, contextLabel } from '@/lib/care/plantContext';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, Platform, Text, View } from 'react-native';
+import { ActivityIndicator, Image, Platform, StyleSheet, Text, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import type { PlantForm } from '@/features/plants/form/PlantForm';
 import { fetchSensorProfiles, sunlightOptions } from '../api/environmentApi';
@@ -23,24 +23,54 @@ import { plantDay } from '@/lib/dates/plantDay';
 export type StepProps = { form: PlantForm; setField<K extends keyof PlantForm>(key: K, value: PlantForm[K]): void; errors: FormErrors; onSignIn?: () => void; onBusyChange?: (busy: boolean) => void };
 
 export function IdentityStep({ form, setField, errors }: StepProps) {
-  return <View style={{ gap: 24 }}>
-    <Field fieldKey="name" label="Plant name" placeholder="e.g. Olive, Sunday, Little one" value={form.name} onChangeText={v => setField('name', v)} error={errors.name} maxLength={100} autoCapitalize="words" />
-    <View style={{ zIndex: 1000 }}><ValidationTarget name="growthStage"><Section title="Current growth stage"><GrowthStageDropdown value={form.growthStage} onChange={v => { if (v !== form.growthStage) { setField('growthStage', v); setField('stageStartedOn', ''); } }} />{!!errors.growthStage && <Text accessibilityRole="alert" style={s.error}>{errors.growthStage}</Text>}</Section></ValidationTarget></View>
-    <Section title="How old is this plant?" subtitle="Optional · count from when the seed sprouted or the cutting rooted.">
-      <FlowSegmented label="Plant age" options={[{ value: 'unknown', label: 'Unknown' }, { value: 'date', label: 'Known date' }, { value: 'estimate', label: 'Estimate' }]} value={form.ageMode || (form.ageDays ? 'estimate' : 'unknown')} onChange={value => { setField('ageMode', value as PlantForm['ageMode']); setField('ageDays', ''); setField('startedOn', ''); }} />
-      {form.ageMode === 'date' && <Field fieldKey="startedOn" label="Sprouted or rooted on" placeholder="YYYY-MM-DD" value={form.startedOn || ''} onChangeText={v => setField('startedOn', v)} error={errors.startedOn} maxLength={10} hint="This sets its total age. Growth-stage changes are tracked separately." />}
-      {(form.ageMode === 'estimate' || !form.ageMode && !!form.ageDays) && <Field fieldKey="ageDays" label="Estimated age in days" placeholder="e.g. 21" value={form.ageDays} onChangeText={v => setField('ageDays', v)} keyboardType="number-pad" error={errors.ageDays} hint="An estimate is fine. It will be labelled as approximate." maxLength={5} />}
-      {(form.ageMode === 'unknown' || !form.ageMode && !form.ageDays) && !!form.growthStage && <Text style={s.hint}>We’ll estimate about {estimatedAgeFields(form.growthStage, plantDay(), form.stageStartedOn).ageDays} days total{form.growthStage === 'clone' ? ' since cutting' : ''}. Stage duration: {stageDurationLabel(form.growthStage)}. You can correct this estimate later.</Text>}
-    </Section>
-    <Disclosure title="Know when this stage began?" subtitle="Optional" initiallyOpen={!!form.stageStartedOn}>
-      <Field fieldKey="stageStartedOn" label="Current stage began on" placeholder="YYYY-MM-DD" value={form.stageStartedOn || ''} onChangeText={value => setField('stageStartedOn', value)} error={errors.stageStartedOn} maxLength={10} hint="For seedlings, use emergence. A known stage date takes priority over an age estimate. Leave blank to estimate." />
-    </Disclosure>
-    <Disclosure title="Strain" subtitle="Optional" initiallyOpen={!!form.strain || !!form.strainType && form.strainType !== 'unknown'}>
-      <Section title="Strain type"><FlowDropdown label="Strain type" placeholder="Unknown" options={[{ value: 'unknown', label: 'Unknown' }, { value: 'sativa', label: 'Sativa' }, { value: 'indica', label: 'Indica' }, { value: 'hybrid', label: 'Hybrid' }]} value={form.strainType || 'unknown'} onChange={v => setField('strainType', v)} /></Section>
-      <Field label="Strain name" placeholder="e.g. Blue Dream" value={form.strain} onChangeText={v => setField('strain', v)} maxLength={120} />
-    </Disclosure>
+  const ageMode = form.ageMode || (form.ageDays ? 'estimate' : 'unknown');
+  const estimatedDays = form.growthStage ? estimatedAgeFields(form.growthStage, plantDay(), form.stageStartedOn).ageDays : null;
+  return <View style={{ gap: 12 }}>
+    <View style={identityStyles.panel}>
+      <Field fieldKey="name" label="Plant name" placeholder="e.g. Olive, Sunday, Little one" value={form.name} onChangeText={v => setField('name', v)} error={errors.name} maxLength={100} autoCapitalize="words" />
+      <ValidationTarget name="growthStage"><View style={{ gap: 8 }}>
+        <Text style={s.label}>Current growth stage</Text>
+        <GrowthStageDropdown compact value={form.growthStage} onChange={v => { if (v !== form.growthStage) { setField('growthStage', v); setField('stageStartedOn', ''); } }} />
+        {!!errors.growthStage && <Text accessibilityRole="alert" style={s.error}>{errors.growthStage}</Text>}
+      </View></ValidationTarget>
+    </View>
+    <View style={identityStyles.panel}>
+      <View style={identityStyles.headingRow}><Text style={s.label}>How old is your plant?</Text><Text style={identityStyles.optional}>Optional</Text></View>
+      <FlowSegmented compact label="Plant age" options={[{ value: 'unknown', label: 'Not sure' }, { value: 'date', label: 'Known date' }, { value: 'estimate', label: 'Estimate' }]} value={ageMode} onChange={value => { setField('ageMode', value as PlantForm['ageMode']); setField('ageDays', ''); setField('startedOn', ''); }} />
+      {ageMode === 'date' && <Field fieldKey="startedOn" label="Sprouted or rooted on" placeholder="YYYY-MM-DD" value={form.startedOn || ''} onChangeText={v => setField('startedOn', v)} error={errors.startedOn} maxLength={10} hint="This sets its total age. Growth-stage changes are tracked separately." />}
+      {ageMode === 'estimate' && <Field fieldKey="ageDays" label="Estimated age in days" placeholder="e.g. 21" value={form.ageDays} onChangeText={v => setField('ageDays', v)} keyboardType="number-pad" error={errors.ageDays} hint="An estimate is fine. It will be labelled as approximate." maxLength={5} />}
+      {ageMode === 'unknown' && <View style={identityStyles.estimateRow}>
+        <Icon name="calendar-outline" size={18} color={palette.muted} />
+        <View style={{ flex: 1, gap: 4 }}>
+          <Text style={identityStyles.estimateTitle}>{estimatedDays === null ? 'We can estimate it for you' : `About ${estimatedDays} days old · estimated`}</Text>
+          <Text style={identityStyles.caption}>{estimatedDays === null ? 'Choose a growth stage to get a starting estimate.' : `Stage duration: ${stageDurationLabel(form.growthStage)}. You can correct this later.`}</Text>
+        </View>
+      </View>}
+      <Text style={identityStyles.caption}>Count from sprouting or rooting.</Text>
+    </View>
+    <View style={identityStyles.extras}>
+      <Disclosure compact title="Stage start date" subtitle="Optional" initiallyOpen={!!form.stageStartedOn} forceOpen={!!errors.stageStartedOn}>
+        <Field fieldKey="stageStartedOn" label="Current stage began on" placeholder="YYYY-MM-DD" value={form.stageStartedOn || ''} onChangeText={value => setField('stageStartedOn', value)} error={errors.stageStartedOn} maxLength={10} hint="For seedlings, use emergence. A known stage date takes priority over an age estimate. Leave blank to estimate." />
+      </Disclosure>
+      <View style={identityStyles.divider} />
+      <Disclosure compact title="Strain" subtitle="Optional" initiallyOpen={!!form.strain || !!form.strainType && form.strainType !== 'unknown'}>
+        <View style={{ gap: 8 }}><Text style={s.label}>Strain type</Text><FlowDropdown compact label="Strain type" placeholder="Unknown" options={[{ value: 'unknown', label: 'Unknown' }, { value: 'sativa', label: 'Sativa' }, { value: 'indica', label: 'Indica' }, { value: 'hybrid', label: 'Hybrid' }]} value={form.strainType || 'unknown'} onChange={v => setField('strainType', v)} /></View>
+        <Field label="Strain name" placeholder="e.g. Blue Dream" value={form.strain} onChangeText={v => setField('strain', v)} maxLength={120} />
+      </Disclosure>
+    </View>
   </View>;
 }
+
+const identityStyles = StyleSheet.create({
+  panel: { backgroundColor: palette.panel, borderRadius: 18, borderWidth: 1, borderColor: '#344735', padding: 14, gap: 16 },
+  headingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
+  optional: { color: palette.muted, fontSize: 12 },
+  caption: { color: palette.muted, fontSize: 13, lineHeight: 19 },
+  estimateRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
+  estimateTitle: { color: palette.ink, fontSize: 14, fontWeight: '500', lineHeight: 20 },
+  extras: { backgroundColor: palette.panel, borderRadius: 18, borderWidth: 1, borderColor: '#344735', overflow: 'hidden' },
+  divider: { height: 1, backgroundColor: '#344735', marginHorizontal: 14 },
+});
 
 export function SetupStep({ form, setField, errors, onSignIn }: StepProps) {
   const { user } = useSession();

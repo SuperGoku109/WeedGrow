@@ -3,8 +3,8 @@ import { BackHandler, Keyboard, Pressable, ScrollView, Text, TextInput, View } f
 import { Icon, palette, type IconName } from './FlowUI';
 
 type Option = { value: string; label: string; icon?: IconName; detail?: string };
-export default function FlowDropdown({ value, onChange, options, label, placeholder, disabled = false }: {
-  value: string; onChange(value: string): void; label: string; placeholder: string; disabled?: boolean;
+export default function FlowDropdown({ value, onChange, options, label, placeholder, disabled = false, compact = false }: {
+  value: string; onChange(value: string): void; label: string; placeholder: string; disabled?: boolean; compact?: boolean;
   options: readonly Option[];
 }) {
   const [open, setOpen] = React.useState(false);
@@ -20,7 +20,7 @@ export default function FlowDropdown({ value, onChange, options, label, placehol
   return <View>
     <Pressable accessibilityRole="button" accessibilityLabel={`${label}${selected ? `, ${selected.label}` : ''}`} accessibilityState={{ expanded: open, disabled }} disabled={disabled}
       onPress={() => { Keyboard.dismiss(); setQuery(''); setOpen(previous => !previous); }}
-      style={({ pressed }) => ({ minHeight: 52, paddingHorizontal: 14, paddingVertical: 12, borderWidth: 1, borderRadius: 12, borderBottomLeftRadius: open ? 0 : 12, borderBottomRightRadius: open ? 0 : 12, borderColor: open ? palette.accent : palette.border, backgroundColor: palette.input, flexDirection: 'row', alignItems: 'center', gap: 10, opacity: disabled ? 0.5 : pressed ? 0.75 : 1 })}>
+      style={({ pressed }) => ({ minHeight: compact ? 44 : 52, paddingHorizontal: 12, paddingVertical: compact ? 10 : 12, borderWidth: 1, borderRadius: 12, borderBottomLeftRadius: open ? 0 : 12, borderBottomRightRadius: open ? 0 : 12, borderColor: open ? palette.accent : palette.border, backgroundColor: palette.input, flexDirection: 'row', alignItems: 'center', gap: 10, opacity: disabled ? 0.5 : pressed ? 0.75 : 1 })}>
       {!!selected?.icon && <Icon name={selected.icon} size={21} />}
       <Text style={{ flex: 1, color: selected ? palette.ink : palette.muted, fontSize: 16 }}>{selected?.label || placeholder}</Text><Icon name={open ? "chevron-up" : "chevron-down"} size={22} color={palette.muted} />
     </Pressable>
