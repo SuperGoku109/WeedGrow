@@ -12,11 +12,12 @@ const mockPlant = { name: 'Plant', growthStage: 'vegetative', status: 'active', 
 const mockRouter = { push: jest.fn(), back: jest.fn(), canGoBack: () => true };
 jest.mock('expo-router', () => ({ useLocalSearchParams: () => ({ id: 'p', theme: 'grove' }), useRouter: () => mockRouter, useFocusEffect: () => {} }));
 jest.mock('../hooks/usePlant', () => ({ usePlant: () => ({ plant: mockPlant, loading: false }) }));
+jest.mock('@/hooks/useReducedMotion', () => ({ useReducedMotion: () => true }));
 jest.mock('@/hooks/useMinuteClock', () => ({ useMinuteClock: () => new Date('2026-11-11T12:00:00Z') }));
 jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: jest.requireActual('react-native').View }));
 jest.mock('react-native-paper', () => ({ Snackbar: () => null }));
-jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable }));
+jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable, GrowReveal: jest.requireActual('react-native').View }));
 jest.mock('../components/GrowthStageCard', () => () => null);
 jest.mock('../components/PlantEditorSheet', () => ({ children }: { children: React.ReactNode }) => children);
 let renderer: any;
@@ -27,11 +28,12 @@ afterEach(() => { act(() => renderer?.unmount()); jest.clearAllMocks(); });
 it('browses stage tabs without changing the plant and returns to the current stage', async () => {
   await mount();
   act(() => control('Flowering').props.onPress());
-  expect(JSON.stringify(renderer.toJSON())).toContain('Plant remains in vegetative.');
+  expect(JSON.stringify(renderer.toJSON())).toContain('Browsing the guide doesn’t change your plant’s recorded stage.');
   expect(renderer.root.findAllByType(Controls)).toHaveLength(0);
   expect(mockPlant.growthStage).toBe('vegetative');
   act(() => control('Back to current stage').props.onPress());
-  expect(JSON.stringify(renderer.toJSON())).toContain('YOUR CURRENT STAGE');
+  expect(JSON.stringify(renderer.toJSON())).toContain('Time in this stage');
+  expect(JSON.stringify(renderer.toJSON())).not.toContain('YOUR CURRENT STAGE');
   expect(JSON.stringify(renderer.toJSON())).toContain('These sections are placeholders.');
   expect(mockRouter.push).not.toHaveBeenCalled();
 });
