@@ -1,5 +1,6 @@
+import { PlantListSkeleton } from '@/ui/LoadingFeedback';
 import React from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -119,7 +120,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
         {!!uid && status === 'active' && (due > 0 || !!care.error) && <Pressable accessibilityRole="button" accessibilityLabel="Open garden care checklist" onPress={() => router.push({ pathname: '/care', params: selected ? { gardenId: selected.id } : {} })} style={s.careSummary}><MaterialCommunityIcons name={care.error ? 'alert-circle-outline' : 'clock-outline'} size={17} color={due ? t.warm : t.muted} /><Text style={[s.hint, { flex: 1 }]}>{care.error ? 'Care status unavailable · Open checklist' : `${due} ${due === 1 ? 'check' : 'checks'} due`}</Text><MaterialCommunityIcons name="chevron-right" size={18} color={t.muted} /></Pressable>}
         <View style={s.search}><MaterialCommunityIcons name="magnify" color={t.muted} size={21} /><TextInput accessibilityLabel="Search plants by name or strain" placeholder={selected ? 'Search this garden…' : 'Search your plants…'} placeholderTextColor={t.muted} value={query} onChangeText={changeQuery} returnKeyType="search" style={s.input} />{!!query && <Pressable accessibilityRole="button" accessibilityLabel="Clear plant search" onPress={() => changeQuery('')} style={s.clear}><MaterialCommunityIcons name="close" size={20} color={t.muted} /></Pressable>}</View>
       </View>
-      {!ready ? <View style={s.loading}><ActivityIndicator color={t.accent} /><Text style={s.hint}>Opening your garden…</Text></View> : <PlantListScreen key={listKey}
+      {!ready ? <View style={{ paddingHorizontal: 18, paddingTop: 12 }}><PlantListSkeleton label="Opening your garden…" /></View> : <PlantListScreen key={listKey}
         garden={selected} searchQuery={query} setSearchQuery={changeQuery} statusFilter={status} setStatusFilter={changeStatus}
         initialOffset={readGardenListView(uid, listKey).offset} onOffsetChange={value => saveGardenScrollOffset(uid, listKey, value)}
         footer={<View style={s.footer}>

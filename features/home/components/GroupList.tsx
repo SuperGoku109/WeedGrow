@@ -1,3 +1,4 @@
+import { PendingStatus } from '@/ui/LoadingFeedback';
 import React, { memo, useMemo, useState } from 'react';
 import { FlatList, View, Pressable, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -87,7 +88,7 @@ export default memo(function GroupList({ groups, groupPlantsMap, loading, error,
       </View>}
       {!!error && <View style={styles.error}><Text accessibilityRole="alert" style={{ color: '#f0b5a0' }}>{error}</Text><CollectionButton label="Try again" onPress={onRefresh} /></View>}
     </View>}
-    ListEmptyComponent={loading ? <View style={styles.empty}><ActivityIndicator color={ink.lime} /><Text style={styles.description}>Opening your gardens…</Text></View> : error ? null : <CollectionReveal style={styles.empty}>
+    ListEmptyComponent={loading ? <PendingStatus label="Opening your gardens…" /> : error ? null : <CollectionReveal style={styles.empty}>
       <View style={styles.emptyIcon}><MaterialCommunityIcons name={filtered ? 'magnify' : 'view-grid-outline'} size={32} color={ink.lime} /></View>
       <Text style={styles.emptyTitle}>{filtered ? 'No matching spaces' : 'Your first garden starts here'}</Text>
       <Text style={styles.emptyCopy}>{filtered ? 'Try a different name or explore all your spaces.' : 'Create a garden for a room, a corner, or a collection that belongs together.'}</Text>

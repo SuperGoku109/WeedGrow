@@ -1,9 +1,9 @@
 import { gardenControls, gardenFlowPalette as palette } from '@/design-system/tokens/garden';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import { Animated, Platform, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions, type TextInputProps, type ViewStyle } from 'react-native';
+import { Animated, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions, type TextInputProps, type ViewStyle } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Circle, Ellipse, Path } from 'react-native-svg';
-import { useReducedMotion } from '@/ui/GrowMotion';
+import { GrowCollapse, GrowRotate, usePressMotion } from '@/ui/GrowMotion';
 
 export { gardenFlowPalette as palette } from '@/design-system/tokens/garden';
 export type IconName = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
@@ -23,11 +23,9 @@ export function ValidationTarget({ name, children, focus }: { name?: string; chi
 export const Icon = ({ name, size = 22, color = palette.accent }: { name: IconName; size?: number; color?: string }) => <MaterialCommunityIcons name={name} size={size} color={color} />;
 
 export function Press({ children, onPress, label, selected, expanded, disabled, style, containerStyle }: { children: React.ReactNode; onPress(): void; label: string; selected?: boolean; expanded?: boolean; disabled?: boolean; style?: ViewStyle | ViewStyle[]; containerStyle?: ViewStyle }) {
-  const scale = useRef(new Animated.Value(1)).current;
-  const reduced = useReducedMotion();
+  const motion = usePressMotion(!!disabled);
   const [hovered, setHovered] = useState(false);
-  const animate = (toValue: number) => { if (!reduced) Animated.spring(scale, { toValue, speed: 35, bounciness: 3, useNativeDriver: Platform.OS !== 'web' }).start(); };
-  return <Animated.View style={[{ transform: [{ scale }], flexShrink: 1 }, containerStyle]}><Pressable hitSlop={gardenControls.hitSlop} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, expanded, disabled }} disabled={disabled} onPress={onPress} onPressIn={() => animate(0.975)} onPressOut={() => animate(1)} onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} style={({ pressed }) => [{ minWidth: gardenControls.height, minHeight: gardenControls.height }, style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
+  return <Animated.View style={[{ ...motion.style, flexShrink: 1 }, containerStyle]}><Pressable hitSlop={gardenControls.hitSlop} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, expanded, disabled }} disabled={disabled} onPress={onPress} onPressIn={motion.pressIn} onPressOut={motion.pressOut} onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} style={({ pressed }) => [{ minWidth: gardenControls.height, minHeight: gardenControls.height }, style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
 }
 
 export function Field({ label, hint, error, optional, fieldKey, ...props }: TextInputProps & { label: string; hint?: string; error?: string; optional?: boolean; fieldKey?: string }) {
@@ -58,7 +56,7 @@ export function Disclosure({ title, subtitle, children, initiallyOpen = false, f
   const [open, setOpen] = useState(initiallyOpen);
   const { revision } = useContext(ValidationContext);
   useEffect(() => { if (forceOpen) setOpen(true); }, [forceOpen, revision]);
-  return <View style={[s.disclosure, compact && { borderWidth: 0, borderRadius: 0 }]}><Press label={title} expanded={open} onPress={() => setOpen(!open)} style={[s.disclosureHeader, compact ? { padding: 14, minHeight: 48 } : {}]}><View style={[{ flex: 1, gap: 5 }, compact && { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }]}><Text style={[s.label, compact && { flexShrink: 1 }]}>{title}</Text>{subtitle && <Text style={[s.hint, compact && { fontSize: 12, lineHeight: 18 }]}>{subtitle}</Text>}</View><Icon name={compact ? open ? 'chevron-up' : 'chevron-down' : open ? 'minus' : 'plus'} size={20} /></Press>{open && <View style={{ padding: compact ? 14 : 18, paddingTop: 0, gap: compact ? 14 : 22 }}>{children}</View>}</View>;
+  return <View style={[s.disclosure, compact && { borderWidth: 0, borderRadius: 0 }]}><Press label={title} expanded={open} onPress={() => setOpen(!open)} style={[s.disclosureHeader, compact ? { padding: 14, minHeight: 48 } : {}]}><View style={[{ flex: 1, gap: 5 }, compact && { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }]}><Text style={[s.label, compact && { flexShrink: 1 }]}>{title}</Text>{subtitle && <Text style={[s.hint, compact && { fontSize: 12, lineHeight: 18 }]}>{subtitle}</Text>}</View><GrowRotate expanded={open}><Icon name="chevron-down" size={20} /></GrowRotate></Press><GrowCollapse open={open}><View style={{ padding: compact ? 14 : 18, paddingTop: 0, gap: compact ? 14 : 22 }}>{children}</View></GrowCollapse></View>;
 }
 
 export function PlantIllustration({ stage = 'seedling' }: { stage?: string }) {

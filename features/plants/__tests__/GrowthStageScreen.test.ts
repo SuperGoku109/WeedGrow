@@ -16,7 +16,7 @@ jest.mock('@/hooks/useReducedMotion', () => ({ useReducedMotion: () => true }));
 jest.mock('@/hooks/useMinuteClock', () => ({ useMinuteClock: () => new Date('2026-11-11T12:00:00Z') }));
 jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: jest.requireActual('react-native').View }));
-jest.mock('react-native-paper', () => ({ Snackbar: () => null }));
+jest.mock('@/ui/AppNotice', () => () => null);
 jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable, GrowReveal: jest.requireActual('react-native').View }));
 jest.mock('../components/GrowthStageCard', () => () => null);
 jest.mock('../components/PlantEditorSheet', () => ({ children }: { children: React.ReactNode }) => children);

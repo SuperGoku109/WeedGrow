@@ -2,9 +2,10 @@
 // This component renders the Final Touches step of the Add Plant flow.
 // It allows the user to add a photo and notes for the plant before finishing the process.
 
+import AppNotice from '@/ui/AppNotice';
 import React from 'react';
 import { View, ScrollView, Image } from 'react-native';
-import { Button, Snackbar } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import { ThemedText } from '@/ui/ThemedText';
 import { WeedGrowCard } from '@/ui/WeedGrowCard';
 import { WeedGrowFormSection } from '@/ui/WeedGrowFormSection';
@@ -84,9 +85,9 @@ export function MediaForm({ form, logic, next, back }: MediaFormProps) {
         <NotesSection form={form} logic={logic} />
 
         {/* Snackbar to show feedback when a photo is selected */}
-        <Snackbar visible={logic.snackVisible} onDismiss={() => logic.setSnackVisible(false)}>
+        <AppNotice visible={logic.snackVisible} onDismiss={() => logic.setSnackVisible(false)}>
           Photo selected
-        </Snackbar>
+        </AppNotice>
 
         {/* Navigation buttons: Back and Next */}
         <WeedGrowButtonRow>

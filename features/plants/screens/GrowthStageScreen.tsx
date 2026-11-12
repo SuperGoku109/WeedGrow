@@ -3,7 +3,7 @@ import { BackHandler, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Snackbar } from 'react-native-paper';
+import AppNotice from '@/ui/AppNotice';
 import { GrowPress, GrowReveal } from '@/ui/GrowMotion';
 import LoadError from '@/ui/LoadError';
 import { useMinuteClock } from '@/hooks/useMinuteClock';
@@ -90,6 +90,6 @@ export default function GrowthStageScreen() {
     </ScrollView>
     {(mutable || !isCurrent) && <View style={{ borderTopWidth: 1, borderColor: t.elevated, paddingHorizontal: 20, paddingTop: 8, paddingBottom: 8 }}><View style={{ width: '100%', maxWidth: 720, alignSelf: 'center' }}><PlantActionButton label={!isCurrent ? 'Back to current stage' : due ? ['profile', 'location'].includes(due.kind) ? 'Set up stage checks' : 'Review stage' : 'Update stage'} icon={!isCurrent ? 'arrow-left' : 'sprout-outline'} theme={t} primary={isCurrent} onPress={() => isCurrent ? setReviewOpen(true) : select(current.key)} /></View></View>}
     {reviewOpen && <PlantEditorSheet title="Stage check-in" subtitle={`${plant.name} · ${current.title}`} theme={t} busy={reviewBusy} onClose={() => setReviewOpen(false)}><GrowthStageCard controlsOnly plantId={id} plant={plant} theme={t} onBusyChange={setReviewBusy} onHarvest={harvest} onEditPlant={edit} onSaved={value => { setMessage(value); setReviewOpen(false); setChosen(null); }} /></PlantEditorSheet>}
-    <Snackbar visible={!!message} onDismiss={() => setMessage('')} duration={4500}>{message}</Snackbar>
+    <AppNotice visible={!!message} onDismiss={() => setMessage('')} duration={4500}>{message}</AppNotice>
   </SafeAreaView>;
 }

@@ -4,15 +4,20 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { IconSymbol } from '@/ui/IconSymbol';
+import { GrowTabIcon, useReducedMotion } from '@/ui/GrowMotion';
 
 
 
 export default function TabLayout() {
   const insets = useSafeAreaInsets();
+  const reduced = useReducedMotion();
 
   return (
     <Tabs
       screenOptions={{
+        sceneStyle: { backgroundColor: '#15231c' },
+        animation: reduced ? 'none' : 'fade',
+        transitionSpec: { animation: 'timing', config: { duration: reduced ? 0 : 180 } },
         tabBarActiveTintColor: '#c8e78b',
         headerShown: false,
         tabBarInactiveTintColor: '#bac8b3',
@@ -30,8 +35,8 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={24} name="house.fill" color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <GrowTabIcon focused={focused}><IconSymbol size={24} name="house.fill" color={color} /></GrowTabIcon>
           ),
         }}
       />
@@ -39,8 +44,8 @@ export default function TabLayout() {
         name="profiles"
         options={{
           title: 'Profiles',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account-cog" color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <GrowTabIcon focused={focused}><MaterialCommunityIcons name="account-cog" color={color} size={size} /></GrowTabIcon>
           ),
         }}
       />
@@ -48,8 +53,8 @@ export default function TabLayout() {
         name="more"
         options={{
           title: 'More',
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={24} name="ellipsis.circle" color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <GrowTabIcon focused={focused}><IconSymbol size={24} name="ellipsis.circle" color={color} /></GrowTabIcon>
           ),
         }}
       />

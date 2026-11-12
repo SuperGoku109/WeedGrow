@@ -6,7 +6,7 @@ import EditGroupModal from '../components/EditGroupModal';
 import LocationPicker from '@/features/location/LocationPicker';
 jest.mock('react-native/Libraries/Modal/Modal', () => ({ __esModule: true, default: 'Modal' }));
 jest.mock('@/features/location/LocationPicker', () => ({ __esModule: true, default: () => null }));
-jest.mock('@/ui/GrowMotion', () => ({ useReducedMotion: () => true }));
+jest.mock('@/ui/GrowMotion', () => ({ ...jest.requireActual('@/ui/GrowMotion'), useReducedMotion: () => true }));
 jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
 jest.mock('@/ui/useDiscardGuard', () => ({ useDiscardGuard: () => ({ dialog: null, finish: (action: () => void) => action(), requestClose: (action: () => void) => action() }) }));
 jest.mock('../components/CollectionUI', () => ({ ink: {}, CollectionButton: () => null }));

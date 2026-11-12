@@ -1,7 +1,8 @@
 import AnchoredActionMenu, { type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import PlantActionButton from './PlantActionButton';
+import { PendingStatus } from '@/ui/LoadingFeedback';
 import React from 'react';
-import { ActivityIndicator, Pressable, Text, View, type GestureResponderEvent } from 'react-native';
+import { Pressable, Text, View, type GestureResponderEvent } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PlantLog } from '@/firestoreModels';
 import { GrowPress } from '@/ui/GrowMotion';
@@ -40,7 +41,7 @@ export function JournalTimeline({ logs, theme: t, loading, error, onEdit, onDele
   const [expanded, setExpanded] = React.useState<Record<string, boolean>>({});
   const action = (label: string, handler: () => void, danger = false) => <PlantActionButton label={label.startsWith('Edit ') ? 'Edit entry' : label.startsWith('Delete ') ? 'Delete entry' : label} accessibilityLabel={label} icon={danger ? 'trash-can-outline' : label.startsWith('Edit ') ? 'pencil-outline' : label === 'Show less' ? 'chevron-up' : label.startsWith('Read ') ? 'chevron-down' : label === 'View in Photos' ? 'image-outline' : 'refresh'} theme={t} danger={danger} onPress={handler} />;
   return <View style={{ gap: 12 }}>
-    {loading && <View accessibilityLiveRegion="polite" style={{ flexDirection: 'row', gap: 8, alignItems: 'center', paddingVertical: 10 }}><ActivityIndicator color={t.accent} size="small" /><Text style={{ color: t.muted }}>{logs.length ? 'Updating journal…' : 'Loading activities…'}</Text></View>}
+    {loading && <PendingStatus label={logs.length ? 'Updating journal…' : 'Loading activities…'} theme={t} />}
     {!!error && <View style={{ gap: 6, padding: 14, borderRadius: 14, backgroundColor: t.surface }}><Text accessibilityRole="alert" style={{ color: t.danger }}>Activity could not be refreshed.</Text><Text style={{ color: t.muted, lineHeight: 21 }}>{logs.length ? 'The entries below may be out of date.' : 'Your saved activities are kept. Try loading this day again.'}</Text>{onRetry && action('Retry activities', onRetry)}</View>}
     {!logs.length && !loading && !error && <View style={{ flexDirection: 'row', gap: 12, paddingVertical: 18, alignItems: 'center' }}><View style={{ backgroundColor: t.surface, borderRadius: 14, width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name="notebook-outline" size={22} color={t.muted} /></View><View style={{ flex: 1 }}><Text style={{ color: t.text, fontSize: 15 }}>{emptyMessage}</Text><Text style={{ color: t.muted, lineHeight: 20, fontSize: 13, marginTop: 5 }}>Use Add activity to keep a record of your care.</Text></View></View>}
     {!!logs.length && <View onLayout={event => { entriesTop.current = event.nativeEvent.layout.y; }} style={{ backgroundColor: t.surface, borderRadius: 20, overflow: 'hidden' }}>{logs.map((log, index) => {

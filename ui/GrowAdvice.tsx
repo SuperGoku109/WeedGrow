@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { GrowPress, GrowReveal } from './GrowMotion';
+import { GrowCollapse, GrowPress, GrowReveal, GrowRotate } from './GrowMotion';
 export interface Suggestion { key: string; icon: string; title: string; description?: string; affected: string[]; onExpand?: () => void }
 function AdviceCard({ item }: { item: Suggestion }) {
   const [open, setOpen] = React.useState(false);
@@ -9,9 +9,9 @@ function AdviceCard({ item }: { item: Suggestion }) {
     <GrowPress accessibilityRole="button" accessibilityLabel={`${item.title}. ${open ? 'Hide' : 'Show'} details`} accessibilityState={{ expanded: open }} onPress={() => setOpen(!open)} style={s.row}>
       <View style={s.icon}><Text style={{ fontSize: 20 }}>{item.icon}</Text></View>
       <View style={{ flex: 1 }}><Text style={s.label}>GROW NOTES</Text><Text style={s.title}>{item.title}</Text><Text style={s.names} numberOfLines={1}>{item.affected.join(' · ')}</Text></View>
-      <MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={20} color="#b9c7ab" />
+      <GrowRotate expanded={open}><MaterialCommunityIcons name="chevron-down" size={20} color="#b9c7ab" /></GrowRotate>
     </GrowPress>
-    {open && <GrowReveal><Text style={s.description}>{item.description}</Text>{item.onExpand && <GrowPress accessibilityRole="button" onPress={item.onExpand}><Text style={s.link}>View affected plants →</Text></GrowPress>}</GrowReveal>}
+    <GrowCollapse open={open}><Text style={s.description}>{item.description}</Text>{item.onExpand && <GrowPress accessibilityRole="button" onPress={item.onExpand}><Text style={s.link}>View affected plants →</Text></GrowPress>}</GrowCollapse>
   </View>;
 }
 export function SuggestionCatalog({ suggestions }: { suggestions: Suggestion[] }) {

@@ -1,5 +1,6 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { PendingStatus } from '@/ui/LoadingFeedback';
+import { StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GrowPress } from '@/ui/GrowMotion';
 import type { SuggestionCard } from '@/lib/suggestions/suggestionCards';
@@ -14,7 +15,7 @@ export default function DailyCareAdvice({ cards, loading, error, hasLocation, th
   const [open, setOpen] = React.useState<Record<string, boolean>>({});
   const retry = (label: string) => <GrowPress accessibilityRole="button" accessibilityLabel={label} onPress={onRefresh} style={{ minHeight: 44, justifyContent: 'center', alignSelf: 'flex-start' }}><Text style={{ color: t.accent, fontSize: 14 }}>{label}</Text></GrowPress>;
   if (!hasLocation && !loading && !cards.some(card => card.metrics.experimental === true || card.metrics.observationDriven === true)) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text style={{ color: t.muted, fontSize: 14, lineHeight: 22 }}>Add a location in Plant info for local care advice.</Text></View>;
-  if (loading) return <View accessibilityLiveRegion="polite" style={{ flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 20 }}><ActivityIndicator size="small" color={t.accent} /><Text style={{ color: t.muted, fontSize: 14 }}>Checking today’s care…</Text></View>;
+  if (loading) return <PendingStatus label="Checking today’s care…" theme={t} />;
   if (error) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 14, lineHeight: 22 }}>{error}</Text>{retry('Retry care advice')}</View>;
   if (!cards.length) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text style={{ color: t.muted, fontSize: 14 }}>Care advice is unavailable.</Text>{retry('Refresh care advice')}</View>;
   const priority = { critical: 0, warn: 1, watch: 2, info: 3 };

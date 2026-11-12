@@ -1,7 +1,7 @@
 import React from 'react';
 import { ActivityIndicator, Linking, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { GrowPress } from '@/ui/GrowMotion';
+import { GrowCollapse, GrowPress, GrowRotate } from '@/ui/GrowMotion';
 import type { WeatherCacheEntry } from '@/firestoreModels';
 import type { PlantTheme } from './plantDetailTheme';
 
@@ -44,13 +44,13 @@ export default function WeatherPanel({ weather, theme: t, label, loading, error,
         {weather.qualityNotes?.map((value, index) => <Text key={index} selectable style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>{value}</Text>)}
       </View>}
 
-      {expanded && <View style={{ borderTopWidth: 1, borderColor: t.elevated, paddingBottom: 16 }}>
+      <GrowCollapse open={expanded}><View style={{ borderTopWidth: 1, borderColor: t.elevated, paddingBottom: 16 }}>
         {!!weather.weatherSummary && <Text style={{ color: t.text, fontSize: 14, lineHeight: 20, paddingVertical: 14 }}>{weather.weatherSummary}</Text>}
         <View style={{ flexDirection: 'row', flexWrap: 'wrap', columnGap: 16 }}>{details.map(([key, value]) => <View key={key} style={{ flexBasis: '45%', flexGrow: 1, minWidth: 100, justifyContent: 'space-between', gap: 4, paddingVertical: 10, borderTopWidth: 1, borderColor: t.elevated }}><Text style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>{key}</Text><Text style={{ color: t.text, fontSize: 15, lineHeight: 22, fontWeight: '500' }}>{value}</Text></View>)}</View>
         {!!weather.source && weather.source !== 'Open-Meteo' && <Text style={{ color: t.muted, fontSize: 12, lineHeight: 18, marginTop: 12 }}>Source: {weather.source}</Text>}
         {weather.source === 'Open-Meteo' && <GrowPress accessibilityRole="link" accessibilityLabel="Source: Open-Meteo. Weather licence and attribution" onPress={() => { void Linking.openURL('https://open-meteo.com/en/licence'); }} style={{ minHeight: 48, justifyContent: 'center', marginTop: 8 }}><Text style={{ color: t.muted, fontSize: 12, lineHeight: 18, textDecorationLine: 'underline' }}>Source: Open-Meteo</Text></GrowPress>}
-      </View>}
-      <View style={{ borderTopWidth: 1, borderColor: t.elevated }}><GrowPress accessibilityRole="button" accessibilityLabel={expanded ? 'Hide weather details' : 'View weather details'} accessibilityState={{ expanded }} onPress={() => setExpanded(!expanded)} style={{ minHeight: 52, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}><Text style={{ color: t.accent, fontSize: 13, fontWeight: '500' }}>{expanded ? 'Less detail' : 'More detail'}</Text><MaterialCommunityIcons name={expanded ? 'chevron-up' : 'chevron-down'} size={20} color={t.muted} /></GrowPress></View>
+      </View></GrowCollapse>
+      <View style={{ borderTopWidth: 1, borderColor: t.elevated }}><GrowPress accessibilityRole="button" accessibilityLabel={expanded ? 'Hide weather details' : 'View weather details'} accessibilityState={{ expanded }} onPress={() => setExpanded(!expanded)} style={{ minHeight: 52, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}><Text style={{ color: t.accent, fontSize: 13, fontWeight: '500' }}>{expanded ? 'Less detail' : 'More detail'}</Text><GrowRotate expanded={expanded}><MaterialCommunityIcons name="chevron-down" size={20} color={t.muted} /></GrowRotate></GrowPress></View>
     </>}
   </View>;
 }

@@ -1,8 +1,8 @@
 import { gardenControls } from '@/design-system/tokens/garden';
 import * as React from 'react';
-import { View, StyleSheet, useWindowDimensions, Text, Pressable } from 'react-native';
+import { Animated, View, StyleSheet, useWindowDimensions, Text, Pressable } from 'react-native';
 import { TabView } from 'react-native-tab-view';
-import { useReducedMotion } from './GrowMotion';
+import { useReducedMotion, useSelectionIndicator } from './GrowMotion';
 interface SwipeTabsProps {
   tabs: { key: string; title: string; render: () => React.ReactNode }[];
   initialKey?: string; index?: number; onIndexChange?: (idx: number) => void;
@@ -13,12 +13,14 @@ export default function SwipeTabs({ tabs, initialKey, index: controlledIndex, on
   const index = controlledIndex ?? uncontrolledIndex;
   const setIndex = onIndexChange || setUncontrolledIndex;
   const reduced = useReducedMotion();
+  const selection = useSelectionIndicator(index);
   const routes = tabs.map(({ key, title }) => ({ key, title }));
   return <TabView navigationState={{ index, routes }}
     renderScene={({ route }) => tabs.find(tab => tab.key === route.key)?.render() ?? null}
     lazy lazyPreloadDistance={0} onIndexChange={setIndex} initialLayout={{ width: layout.width }} swipeEnabled animationEnabled={!reduced}
     renderTabBar={() => <View style={s.bar}>
-      {routes.map((route, i) => <Pressable key={route.key} hitSlop={gardenControls.hitSlop} accessibilityRole="tab" accessibilityState={{ selected: index === i }} onPress={() => setIndex(i)} style={[s.tab, index === i && { backgroundColor: '#c8e78b', borderRadius: 13 }]}>
+      <Animated.View pointerEvents="none" style={[selection.indicatorStyle, { backgroundColor: '#c8e78b', borderRadius: 13 }]} />
+      {routes.map((route, i) => <Pressable key={route.key} onLayout={event => selection.onItemLayout(i, event)} hitSlop={gardenControls.hitSlop} accessibilityRole="tab" accessibilityState={{ selected: index === i }} onPress={() => setIndex(i)} style={s.tab}>
         <Text style={[s.label, index === i && s.active]}>{route.title}</Text>
       </Pressable>)}
     </View>} />;

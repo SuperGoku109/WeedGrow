@@ -1,9 +1,9 @@
 import { gardenCollectionInk as ink } from '@/design-system/tokens/garden';
+import { GrowPress, useReducedMotion } from '@/ui/GrowMotion';
 import React from 'react';
-import { Animated, Easing, Platform, Pressable, StyleSheet, Text, View, type ViewProps } from 'react-native';
+import { Animated, Easing, Platform, StyleSheet, Text, View, type ViewProps } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Path, Circle, Rect } from 'react-native-svg';
-import { useReducedMotion } from '@/ui/GrowMotion';
 
 export { gardenCollectionInk as ink } from '@/design-system/tokens/garden';
 export const environments = {
@@ -28,11 +28,11 @@ export function CollectionReveal({ children, style, delay = 0 }: ViewProps & { d
 export function CollectionButton({ label, icon, onPress, primary = false, disabled = false }: {
   label: string; icon?: React.ComponentProps<typeof MaterialCommunityIcons>['name']; onPress: () => void; primary?: boolean; disabled?: boolean;
 }) {
-  return <Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled }} disabled={disabled} onPress={onPress}
+  return <GrowPress accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled }} disabled={disabled} onPress={onPress}
     style={({ pressed }) => [styles.button, primary && styles.primary, { opacity: disabled ? 0.5 : pressed ? 0.78 : 1 }]}>
     {icon && <MaterialCommunityIcons name={icon} size={18} color={primary ? ink.dark : ink.text} />}
     <Text style={[styles.buttonText, primary && { color: ink.dark }]}>{label}</Text>
-  </Pressable>;
+  </GrowPress>;
 }
 
 /** Lightweight architectural illustration; no raster downloads or looping effects. */

@@ -1,6 +1,7 @@
 import { OverflowMenuButton, type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import React from 'react';
-import { Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { GrowPress, GrowConfirm } from '@/ui/GrowMotion';
+import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { ActivityIndicator } from 'react-native-paper';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -32,17 +33,17 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
   const [imageFailed, setImageFailed] = React.useState(false);
   React.useEffect(() => setImageFailed(false), [uri]);
   return <View onLayout={event => setPhotoSize(event.nativeEvent.layout.width < 310 ? 72 : 80)} style={s.card}>
-    <Pressable accessibilityRole="button" accessibilityLabel={`Open ${plant.name}`} onPress={onPress ?? (() => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } }))} style={({ pressed }) => [s.details, { minHeight: photoSize + 24, paddingLeft: photoSize + 24, paddingRight: onAddLog || onMore ? 68 : 12 }, pressed && { opacity: 0.82 }]}>
+    <GrowPress accessibilityRole="button" accessibilityLabel={`Open ${plant.name}`} onPress={onPress ?? (() => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } }))} style={({ pressed }) => [s.details, { minHeight: photoSize + 24, paddingLeft: photoSize + 24, paddingRight: onAddLog || onMore ? 68 : 12 }, pressed && { opacity: 0.82 }]}>
       <View style={[s.photo, { width: photoSize, height: photoSize }]}>
         {uri && !imageFailed ? <PlantImage accessibilityLabel={`${plant.name} photo`} source={{ uri }} resizeMode="cover" onError={() => setImageFailed(true)} style={StyleSheet.absoluteFillObject} /> : <View style={s.placeholder}><MaterialCommunityIcons name="sprout" size={42} color={colors.accent} /></View>}
       </View>
       <Text style={s.name} numberOfLines={2}>{plant.name}</Text>
       <Text style={s.meta} numberOfLines={2}>{plantCardMeta(plant, showEnvironment)}</Text>
       <Text accessibilityLabel={plantCardStage(plant, false)} style={s.stage} numberOfLines={2}>{plantCardStage(plant)}</Text>
-    </Pressable>
-    {!!onAddLog && <Pressable hitSlop={4} accessibilityRole="button" accessibilityLabel={`${plant.name}: ${waterDisabled ? 'Checking watering history' : wateredToday ? 'Watering recorded today' : waterLoading ? 'Saving watering' : 'Log watering'}`} accessibilityState={{ disabled: wateredToday || waterLoading || waterDisabled, busy: waterLoading }} disabled={wateredToday || waterLoading || waterDisabled} onPress={() => onAddLog('watering')} style={({ pressed }) => [s.water, onMore && { top: undefined, marginTop: 0, bottom: 8 }, wateredToday && { backgroundColor: colors.elevated }, pressed && { opacity: 0.75 }]}>
-      {waterLoading ? <ActivityIndicator size={18} color={colors.water} /> : <MaterialCommunityIcons name={wateredToday ? 'check-circle-outline' : 'water-outline'} size={18} color={wateredToday ? colors.accent : colors.water} />}
-    </Pressable>}
+    </GrowPress>
+    {!!onAddLog && <GrowPress containerStyle={[s.water, onMore && { top: undefined, marginTop: 0, bottom: 8 }]} hitSlop={4} accessibilityRole="button" accessibilityLabel={`${plant.name}: ${waterDisabled ? 'Checking watering history' : wateredToday ? 'Watering recorded today' : waterLoading ? 'Saving watering' : 'Log watering'}`} accessibilityState={{ disabled: wateredToday || waterLoading || waterDisabled, busy: waterLoading }} disabled={wateredToday || waterLoading || waterDisabled} onPress={() => onAddLog('watering')} style={({ pressed }) => [{ height: 40, width: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 14 }, wateredToday && { backgroundColor: colors.elevated }, pressed && { opacity: 0.75 }]}>
+      <GrowConfirm confirmed={wateredToday}>{waterLoading ? <ActivityIndicator size={18} color={colors.water} /> : <MaterialCommunityIcons name={wateredToday ? 'check-circle-outline' : 'water-outline'} size={18} color={wateredToday ? colors.accent : colors.water} />}</GrowConfirm>
+    </GrowPress>}
     {!!onMore && <View style={s.more}><OverflowMenuButton label={moreLabel || `More options for ${plant.name}`} onOpen={onMore} expanded={moreOpen} /></View>}
   </View>;
 }

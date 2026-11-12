@@ -27,9 +27,9 @@ jest.mock('@/lib/suggestions/suggestionCards', () => ({ evaluateSuggestionCardsF
 jest.mock('@react-native-async-storage/async-storage', () => ({ getItem: jest.fn().mockResolvedValue('grove') }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: jest.requireActual('react-native').View, useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }) }));
 jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
-jest.mock('react-native-paper', () => ({ Snackbar: () => null }));
+jest.mock('@/ui/AppNotice', () => () => null);
 jest.mock('react-native-calendars', () => ({ Calendar: () => null }));
-jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable, GrowReveal: jest.requireActual('react-native').View, useReducedMotion: () => true }));
+jest.mock('@/ui/GrowMotion', () => ({ ...jest.requireActual('@/ui/GrowMotion'), GrowPress: jest.requireActual('react-native').Pressable, GrowReveal: jest.requireActual('react-native').View, useReducedMotion: () => true }));
 jest.mock('@/ui/PlantImage', () => ({ PlantImage: () => null }));
 jest.mock('@/ui/ActionDialog', () => () => null);
 jest.mock('@/features/plants/components/WateringCareCard', () => () => null);

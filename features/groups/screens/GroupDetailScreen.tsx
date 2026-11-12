@@ -1,9 +1,10 @@
+import { PlantListSkeleton } from '@/ui/LoadingFeedback';
 import React from 'react';
-import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Snackbar } from 'react-native-paper';
+import AppNotice from '@/ui/AppNotice';
 import { gardenThemes } from '@/design-system/tokens/garden';
 import { usePlantList } from '@/features/plants/hooks/usePlantList';
 import { useOwnedGroups } from '@/hooks/useGardenData';
@@ -49,7 +50,7 @@ export default function GroupDetailScreen() {
         <Text accessibilityRole="header" style={s.screenTitle}>Manage plants</Text>
         {group && <OverflowMenuButton label={`Garden actions for ${group.name}`} horizontal expanded={!!menu} onOpen={setMenu} />}
       </View>
-      {!group ? <View style={s.empty}>{loading ? <ActivityIndicator color={t.accent} /> : <MaterialCommunityIcons name="sprout-outline" size={30} color={t.accent} />}<Text style={s.emptyTitle}>{loading ? 'Opening your garden…' : error || 'Garden not found'}</Text>{!!error && <PlantActionButton label="Try again" icon="refresh" theme={t} onPress={refreshGroup} />}</View> : <>
+      {!group && loading ? <View style={{ padding: 18 }}><PlantListSkeleton label="Opening your garden…" /></View> : !group ? <View style={s.empty}><MaterialCommunityIcons name="sprout-outline" size={30} color={t.accent} /><Text style={s.emptyTitle}>{error || 'Garden not found'}</Text>{!!error && <PlantActionButton label="Try again" icon="refresh" theme={t} onPress={refreshGroup} />}</View> : <>
         {!!error && <Pressable accessibilityRole="button" accessibilityLabel="Retry loading garden plants" onPress={refreshGroup} style={s.error}><Text style={{ color: t.danger, lineHeight: 20 }}>{error} · Tap to retry</Text></Pressable>}
         <FlatList data={shown} keyExtractor={plant => plant.id} showsVerticalScrollIndicator={false} refreshing={loading} onRefresh={refreshGroup} contentContainerStyle={s.list}
           ListHeaderComponent={<View style={{ gap: 14, marginBottom: 12 }}>
@@ -74,7 +75,7 @@ export default function GroupDetailScreen() {
         <EditGroupModal settingsOnly visible={editVisible} group={group} allPlants={collection.plants} onClose={() => setEditVisible(false)} onSave={async (updated, baseline) => { await updateGroup(updated.id, groupEditValues(updated), baseline as unknown as Record<string, unknown>); setEditVisible(false); setMessage('Garden settings saved.'); }} />
         <ConfirmDeleteModal loading={deleting} error={deleteError} visible={confirmDeleteVisible} onCancel={cancelDeleteGroup} onConfirm={confirmDeleteGroup} title="Delete garden" subtitle="This will remove the garden but keep your plants safe." />
       </>}
-      <Snackbar visible={!!message} onDismiss={() => setMessage('')} duration={6000}>{message}</Snackbar>
+      <AppNotice bottom={20} visible={!!message} onDismiss={() => setMessage('')} duration={6000}>{message}</AppNotice>
     </View>
   </SafeAreaView>;
 }

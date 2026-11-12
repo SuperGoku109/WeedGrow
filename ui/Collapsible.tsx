@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, LayoutAnimation, Platform, UIManager } from 'react-native';
+import { GrowCollapse, GrowPress, GrowRotate } from './GrowMotion';
+import { View, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from './ThemedText';
-
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 
 interface CollapsibleProps {
   title: string;
@@ -16,21 +13,20 @@ export function Collapsible({ title, children }: CollapsibleProps) {
   const [open, setOpen] = useState(false);
 
   const toggle = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setOpen((o) => !o);
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={toggle} style={styles.header} accessibilityRole="button">
+      <GrowPress onPress={toggle} style={styles.header} accessibilityRole="button" accessibilityState={{ expanded: open }}>
         <ThemedText style={styles.title}>{title}</ThemedText>
-        <MaterialCommunityIcons
-          name={open ? 'chevron-up' : 'chevron-down'}
+        <GrowRotate expanded={open}><MaterialCommunityIcons
+          name="chevron-down"
           size={24}
           color="#aaa"
-        />
-      </TouchableOpacity>
-      {open && <View style={styles.content}>{children}</View>}
+        /></GrowRotate>
+      </GrowPress>
+      <GrowCollapse open={open}><View style={styles.content}>{children}</View></GrowCollapse>
     </View>
   );
 }
