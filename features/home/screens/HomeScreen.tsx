@@ -8,7 +8,7 @@ import { useSession } from '@/services/session';
 import { useOwnedGroups } from '@/hooks/useGardenData';
 import { usePlantList } from '@/features/plants/hooks/usePlantList';
 import PlantListScreen from '@/features/plants/screens/PlantListScreen';
-import { gardenThemes } from '@/design-system/tokens/garden';
+import { gardenControls, gardenThemes } from '@/design-system/tokens/garden';
 import { AppHeader } from '@/ui/AppHeader';
 import ActionDialog from '@/ui/ActionDialog';
 import { GrowPress } from '@/ui/GrowMotion';
@@ -147,16 +147,16 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
 
 const s = StyleSheet.create({
   safeArea: { flex: 1, width: '100%', maxWidth: 760, alignSelf: 'center' },
-  top: { paddingHorizontal: 18, paddingTop: 8, gap: 10 },
+  top: { paddingHorizontal: 18, paddingTop: 6, gap: 8 },
   listHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8, paddingTop: 4 },
   section: { color: t.text, fontSize: 20, fontWeight: '700', letterSpacing: -0.3 },
   count: { minWidth: 26, paddingHorizontal: 7, minHeight: 26, borderRadius: 9, backgroundColor: t.elevated, alignItems: 'center', justifyContent: 'center' },
   countText: { color: t.accent, fontSize: 12, fontWeight: '700' },
-  add: { borderRadius: 14, backgroundColor: t.accent, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14, gap: 6 },
-  addText: { color: t.onAccent, fontWeight: '700', fontSize: 14 },
-  search: { flexDirection: 'row', alignItems: 'center', borderRadius: 15, backgroundColor: t.surface, paddingLeft: 14, marginBottom: 12 },
-  input: { flex: 1, minWidth: 0, minHeight: 48, paddingHorizontal: 10, color: t.text, fontSize: 15 },
-  clear: { width: 44, height: 48, justifyContent: 'center', alignItems: 'center' },
+  add: { minHeight: gardenControls.height, borderRadius: gardenControls.radius, backgroundColor: t.accent, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 14, gap: 6 },
+  addText: { color: t.onAccent, fontWeight: '600', fontSize: gardenControls.labelSize },
+  search: { flexDirection: 'row', alignItems: 'center', borderRadius: 15, backgroundColor: t.surface, paddingLeft: 12, marginBottom: 8 },
+  input: { flex: 1, minWidth: 0, minHeight: gardenControls.fieldHeight, paddingHorizontal: 10, color: t.text, fontSize: 16 },
+  clear: { width: 40, height: 44, justifyContent: 'center', alignItems: 'center' },
   loading: { padding: 28, alignItems: 'center', gap: 12 },
   hint: { fontSize: 13, color: t.muted, lineHeight: 20 },
   link: { fontSize: 14, color: t.accent, fontWeight: '600' },

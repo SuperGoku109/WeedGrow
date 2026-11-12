@@ -16,14 +16,14 @@ export default function TabLayout() {
         tabBarActiveTintColor: '#c8e78b',
         headerShown: false,
         tabBarInactiveTintColor: '#bac8b3',
-        tabBarLabelStyle: { fontSize: 13, lineHeight: 18, fontWeight: '600' },
+        tabBarLabelStyle: { fontSize: 12, lineHeight: 16, fontWeight: '600' },
         tabBarIconStyle: { height: 26 },
         tabBarItemStyle: { paddingVertical: 0, borderRadius: 16, marginHorizontal: 8 },
         tabBarActiveBackgroundColor: '#2e4434',
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: '#18261e',
-          borderTopWidth: 1, borderTopColor: '#40523a', height: 72 + insets.bottom, paddingTop: 8, paddingBottom: Math.max(8, insets.bottom),
+          borderTopWidth: 1, borderTopColor: '#40523a', height: 64 + insets.bottom, paddingTop: 4, paddingBottom: Math.max(4, insets.bottom),
         },
       }}>
       <Tabs.Screen
@@ -31,7 +31,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <IconSymbol size={24} name="house.fill" color={color} />
           ),
         }}
       />
@@ -49,7 +49,7 @@ export default function TabLayout() {
         options={{
           title: 'More',
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="ellipsis.circle" color={color} />
+            <IconSymbol size={24} name="ellipsis.circle" color={color} />
           ),
         }}
       />

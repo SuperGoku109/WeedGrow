@@ -57,7 +57,7 @@ export function SpaceArtwork({ environment }: { environment: string }) {
 }
 
 const styles = StyleSheet.create({
-  button: { minHeight: 48, paddingHorizontal: 14, borderRadius: 14, borderWidth: 1, borderColor: ink.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
+  button: { minHeight: 40, paddingHorizontal: 12, borderRadius: 14, borderWidth: 1, borderColor: ink.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
   primary: { backgroundColor: ink.lime, borderColor: ink.lime },
   buttonText: { color: ink.text, fontSize: 14, fontWeight: '700' },
 });

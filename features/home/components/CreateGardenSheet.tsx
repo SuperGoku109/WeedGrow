@@ -3,7 +3,7 @@ import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native';
 import PlantEditorSheet from '@/features/plants/components/PlantEditorSheet';
 import LocationPicker from '@/features/location/LocationPicker';
 import { validCoordinates, type Coordinates } from '@/features/location/locationService';
-import { gardenThemes } from '@/design-system/tokens/garden';
+import { gardenControls, gardenThemes } from '@/design-system/tokens/garden';
 import { GrowPress } from '@/ui/GrowMotion';
 import type { Group } from '@/firestoreModels';
 import { createGarden, newGardenId } from '../api/createGarden';
@@ -38,7 +38,7 @@ export default function CreateGardenSheet({ onClose, onCreated }: { onClose(): v
 const s = StyleSheet.create({
   field: { gap: 8 }, label: { color: t.text, fontSize: 14, fontWeight: '600' },
   hint: { color: t.muted, fontSize: 13, lineHeight: 19 },
-  input: { minHeight: 52, paddingHorizontal: 14, borderWidth: 1, borderColor: t.border, borderRadius: 12, color: t.text, fontSize: 16, backgroundColor: t.surface },
-  create: { minHeight: 52, borderRadius: 14, backgroundColor: t.accent, justifyContent: 'center', alignItems: 'center' },
-  createText: { color: t.onAccent, fontSize: 16, fontWeight: '700' },
+  input: { minHeight: gardenControls.fieldHeight, paddingHorizontal: 14, borderWidth: 1, borderColor: t.border, borderRadius: 12, color: t.text, fontSize: 16, backgroundColor: t.surface },
+  create: { minHeight: gardenControls.height, borderRadius: gardenControls.radius, backgroundColor: t.accent, justifyContent: 'center', alignItems: 'center' },
+  createText: { color: t.onAccent, fontSize: gardenControls.labelSize, fontWeight: '700' },
 });

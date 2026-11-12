@@ -62,19 +62,19 @@ export default function GardenDropdown({ gardens, selection, counts, total, coun
 }
 
 const s = StyleSheet.create({
-  trigger: { backgroundColor: t.hero, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 4 },
+  trigger: { backgroundColor: t.hero, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 4 },
   eyebrow: { fontSize: 11, letterSpacing: 1.8, fontWeight: '700', color: '#596b45' },
-  title: { fontSize: 26, lineHeight: 31, fontWeight: '700', letterSpacing: -0.8, color: t.heroText },
+  title: { fontSize: 24, lineHeight: 29, fontWeight: '700', letterSpacing: -0.8, color: t.heroText },
   subtitle: { fontSize: 13, lineHeight: 19, color: '#526344' },
-  chevron: { width: 44, height: 44, backgroundColor: '#dce6c4', borderRadius: 15, justifyContent: 'center', alignItems: 'center' },
+  chevron: { width: 40, height: 40, backgroundColor: '#dce6c4', borderRadius: 15, justifyContent: 'center', alignItems: 'center' },
   actionButton: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   menu: { backgroundColor: t.surface, borderRadius: 22, borderWidth: 1, borderColor: '#52684b', padding: 8, boxShadow: '0px 12px 36px rgba(0,0,0,0.3)' },
   menuHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 12 },
   menuTitle: { color: t.muted, fontSize: 13, fontWeight: '600' },
-  option: { minHeight: 72, flexDirection: 'row', alignItems: 'center', padding: 12, gap: 12, borderRadius: 14 },
+  option: { minHeight: 60, flexDirection: 'row', alignItems: 'center', padding: 10, gap: 10, borderRadius: 12 },
   selected: { backgroundColor: t.elevated },
   optionIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: t.background, alignItems: 'center', justifyContent: 'center' },
-  optionName: { fontSize: 16, fontWeight: '600', color: t.text },
+  optionName: { fontSize: 14, fontWeight: '600', color: t.text },
   optionMeta: { fontSize: 12, color: t.muted, lineHeight: 18 },
-  create: { minHeight: 52, marginTop: 6, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 10, borderTopWidth: 1, borderTopColor: '#40523a' },
+  create: { minHeight: 44, marginTop: 6, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 10, borderTopWidth: 1, borderTopColor: '#40523a' },
 });

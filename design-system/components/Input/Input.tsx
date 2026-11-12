@@ -4,6 +4,7 @@
  * Provides consistent input styling and behavior
  */
 
+import { gardenControls } from '@/design-system/tokens/garden';
 import React, { forwardRef } from 'react';
 import {
   TextInput,
@@ -55,8 +56,8 @@ export const Input = forwardRef<TextInput, InputProps>(({
       alignItems: 'center',
       borderRadius: BorderRadius.input,
       paddingHorizontal: Spacing.inputPadding.horizontal,
-      paddingVertical: Spacing.inputPadding.vertical,
-      minHeight: 48,
+      paddingVertical: 10,
+      minHeight: gardenControls.fieldHeight,
     };
 
     if (variant === 'outlined') {

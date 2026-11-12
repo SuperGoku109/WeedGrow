@@ -24,15 +24,15 @@ export default function GardenEnvironmentDropdown({ value, onChange, disabled }:
       disabled={disabled} listMode="SCROLLVIEW" dropDownDirection="BOTTOM"
       props={{ accessibilityLabel: `Growing environment, ${options.find(option => option.value === value)?.label}`, accessibilityRole: 'button', accessibilityState: { expanded: open, disabled } }}
       itemProps={{ accessible: true, accessibilityRole: 'button' }}
-      style={{ minHeight: 52, borderRadius: 12, borderColor: open ? t.accent : t.border, backgroundColor: t.surface, paddingHorizontal: 14 }}
+      style={{ minHeight: 44, borderRadius: 12, borderColor: open ? t.accent : t.border, backgroundColor: t.surface, paddingHorizontal: 14 }}
       textStyle={{ color: t.text, fontSize: 15 }}
       dropDownContainerStyle={{ backgroundColor: t.surface, borderColor: t.accent, borderRadius: 12 }}
-      listItemContainerStyle={{ minHeight: 48 }}
+      listItemContainerStyle={{ minHeight: 44 }}
       selectedItemContainerStyle={{ backgroundColor: t.elevated }}
       selectedItemLabelStyle={{ color: t.accent, fontWeight: '600' }}
       disabledStyle={{ opacity: 0.6 }}
-      ArrowDownIconComponent={() => <MaterialCommunityIcons name="chevron-down" size={22} color={t.muted} />}
-      ArrowUpIconComponent={() => <MaterialCommunityIcons name="chevron-up" size={22} color={t.accent} />}
+      ArrowDownIconComponent={() => <MaterialCommunityIcons name="chevron-down" size={18} color={t.muted} />}
+      ArrowUpIconComponent={() => <MaterialCommunityIcons name="chevron-up" size={18} color={t.accent} />}
       TickIconComponent={() => <MaterialCommunityIcons name="check" size={20} color={t.accent} />}
     />
   </View>;

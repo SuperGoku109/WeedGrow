@@ -1,4 +1,4 @@
-import { gardenFlowPalette as palette } from '@/design-system/tokens/garden';
+import { gardenControls, gardenFlowPalette as palette } from '@/design-system/tokens/garden';
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { Animated, Platform, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions, type TextInputProps, type ViewStyle } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -27,7 +27,7 @@ export function Press({ children, onPress, label, selected, expanded, disabled, 
   const reduced = useReducedMotion();
   const [hovered, setHovered] = useState(false);
   const animate = (toValue: number) => { if (!reduced) Animated.spring(scale, { toValue, speed: 35, bounciness: 3, useNativeDriver: Platform.OS !== 'web' }).start(); };
-  return <Animated.View style={[{ transform: [{ scale }], flexShrink: 1 }, containerStyle]}><Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, expanded, disabled }} disabled={disabled} onPress={onPress} onPressIn={() => animate(0.975)} onPressOut={() => animate(1)} onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} style={({ pressed }) => [{ minWidth: 48, minHeight: 48 }, style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
+  return <Animated.View style={[{ transform: [{ scale }], flexShrink: 1 }, containerStyle]}><Pressable hitSlop={gardenControls.hitSlop} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected, expanded, disabled }} disabled={disabled} onPress={onPress} onPressIn={() => animate(0.975)} onPressOut={() => animate(1)} onHoverIn={() => setHovered(true)} onHoverOut={() => setHovered(false)} style={({ pressed }) => [{ minWidth: gardenControls.height, minHeight: gardenControls.height }, style, hovered && !disabled && { borderColor: palette.accent }, pressed && { opacity: 0.85 }, disabled && !selected && { opacity: 0.5 }]}>{children}</Pressable></Animated.View>;
 }
 
 export function Field({ label, hint, error, optional, fieldKey, ...props }: TextInputProps & { label: string; hint?: string; error?: string; optional?: boolean; fieldKey?: string }) {
@@ -80,11 +80,11 @@ export function PlantIllustration({ stage = 'seedling' }: { stage?: string }) {
 
 export const s = StyleSheet.create({
   field: { gap: 8 }, labelRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 12 }, label: { color: palette.ink, fontSize: 15, fontWeight: '600' }, optional: { fontSize: 13, color: palette.muted },
-  input: { borderWidth: 1, borderColor: palette.border, borderRadius: 13, color: palette.ink, paddingHorizontal: 15, paddingVertical: 14, minHeight: 52, fontSize: 16, backgroundColor: palette.input },
+  input: { borderWidth: 1, borderColor: palette.border, borderRadius: 13, color: palette.ink, paddingHorizontal: 15, paddingVertical: 10, minHeight: gardenControls.fieldHeight, fontSize: 16, backgroundColor: palette.input },
   hint: { color: palette.muted, fontSize: 14, lineHeight: 21 }, section: { gap: 16 }, sectionTitle: { color: palette.ink, fontSize: 18, fontWeight: '600', letterSpacing: -0.4 },
-  choices: { flexDirection: 'row', flexWrap: 'wrap', gap: 9 }, choice: { flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: palette.border, borderRadius: 12, paddingVertical: 13, paddingHorizontal: 15, minHeight: 48, backgroundColor: palette.input },
-  detailedChoice: { minWidth: 220, flexGrow: 1, padding: 15 }, choiceSelected: { backgroundColor: '#2c402b', borderColor: '#b6ce88' }, choiceLabel: { color: palette.ink, fontSize: 14, fontWeight: '500' }, choiceIcon: { width: 44, height: 44, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: '#2c4030' },
+  choices: { flexDirection: 'row', flexWrap: 'wrap', gap: 9 }, choice: { flexDirection: 'row', alignItems: 'center', gap: 9, borderWidth: 1, borderColor: palette.border, borderRadius: 12, paddingVertical: gardenControls.paddingVertical, paddingHorizontal: gardenControls.paddingHorizontal, minHeight: gardenControls.height, backgroundColor: palette.input },
+  detailedChoice: { minWidth: 220, flexGrow: 1, padding: 12 }, choiceSelected: { backgroundColor: '#2c402b', borderColor: '#b6ce88' }, choiceLabel: { color: palette.ink, fontSize: 14, fontWeight: '500' }, choiceIcon: { width: 44, height: 44, borderRadius: 13, alignItems: 'center', justifyContent: 'center', backgroundColor: '#2c4030' },
   disclosure: { borderWidth: 1, borderColor: palette.border, borderRadius: 16, overflow: 'hidden' }, disclosureHeader: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 18 },
-  button: { minHeight: 52, borderRadius: 14, backgroundColor: palette.accent, paddingHorizontal: 24, paddingVertical: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, borderWidth: 1, borderColor: palette.accent }, buttonText: { color: palette.dark, fontSize: 15, fontWeight: '700' },
+  button: { minHeight: gardenControls.height, borderRadius: gardenControls.radius, backgroundColor: palette.accent, paddingHorizontal: gardenControls.paddingHorizontal, paddingVertical: gardenControls.paddingVertical, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 10, borderWidth: 1, borderColor: palette.accent }, buttonText: { color: palette.dark, fontSize: gardenControls.labelSize, fontWeight: '700' },
   secondary: { backgroundColor: 'transparent', borderColor: palette.border }, secondaryText: { color: palette.ink }, error: { color: palette.error, fontSize: 14, lineHeight: 21 },
 });

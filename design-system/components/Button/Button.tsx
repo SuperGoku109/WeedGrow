@@ -4,6 +4,7 @@
  * Provides consistent button styles and variants
  */
 
+import { gardenControls } from '@/design-system/tokens/garden';
 import React from 'react';
 import {
   TouchableOpacity,
@@ -11,7 +12,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Text } from '../Text/Text';
-import { ColorTokens, Spacing, BorderRadius, Shadows } from '../../tokens';
+import { ColorTokens, Spacing, Shadows } from '../../tokens';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
@@ -42,26 +43,26 @@ export const Button: React.FC<ButtonProps> = ({
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'center',
-      borderRadius: BorderRadius.button,
+      borderRadius: gardenControls.radius,
       ...Shadows.button,
     };
 
     // Size variations
     switch (size) {
       case 'sm':
-        baseStyle.paddingVertical = Spacing.sm;
+        baseStyle.paddingVertical = gardenControls.paddingVertical;
         baseStyle.paddingHorizontal = Spacing.md;
-        baseStyle.minHeight = 36;
+        baseStyle.minHeight = gardenControls.height;
         break;
       case 'lg':
-        baseStyle.paddingVertical = Spacing.md;
+        baseStyle.paddingVertical = 10;
         baseStyle.paddingHorizontal = Spacing.xl;
-        baseStyle.minHeight = 56;
+        baseStyle.minHeight = gardenControls.fieldHeight;
         break;
       default: // md
-        baseStyle.paddingVertical = Spacing.buttonPadding.vertical;
-        baseStyle.paddingHorizontal = Spacing.buttonPadding.horizontal;
-        baseStyle.minHeight = 48;
+        baseStyle.paddingVertical = gardenControls.paddingVertical;
+        baseStyle.paddingHorizontal = gardenControls.paddingHorizontal;
+        baseStyle.minHeight = gardenControls.height;
         break;
     }
 
@@ -113,9 +114,9 @@ export const Button: React.FC<ButtonProps> = ({
       case 'sm':
         return 16;
       case 'lg':
-        return 24;
-      default:
         return 20;
+      default:
+        return gardenControls.iconSize;
     }
   }, [size]);
 
@@ -127,7 +128,7 @@ export const Button: React.FC<ButtonProps> = ({
     const textElement = (
       <Text
         variant="button"
-        style={{ color: textColor, fontSize: size === 'sm' ? 14 : size === 'lg' ? 18 : 16 }}
+        style={{ color: textColor, fontSize: size === 'lg' ? 14 : gardenControls.labelSize }}
       >
         {children}
       </Text>
@@ -161,6 +162,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <TouchableOpacity
+      hitSlop={gardenControls.hitSlop}
       style={buttonStyle}
       disabled={disabled || loading}
       activeOpacity={0.8}

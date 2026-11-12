@@ -5,6 +5,8 @@ export const gardenThemes = {
 };
 export type GardenTheme = { [K in keyof typeof gardenThemes.grove]: string };
 export const gardenLayout = { contentWidth: 760, touchTarget: 48, screenPadding: 20, controlGap: 12, cardRadius: 18 } as const;
+/** Compact visuals with extra touch space; fields retain readable mobile input text. */
+export const gardenControls = { height: 40, fieldHeight: 44, radius: 12, labelSize: 13, iconSize: 18, paddingHorizontal: 12, paddingVertical: 8, hitSlop: { top: 4, bottom: 4, left: 4, right: 4 } } as const;
 export const gardenType = { title: 28, section: 20, body: 16, label: 14, caption: 13 } as const;
 const theme = gardenThemes.grove;
 export const gardenFlowPalette = { bg: theme.background, panel: theme.surface, input: theme.background, border: theme.border, ink: theme.text, muted: theme.muted, accent: theme.accent, dark: theme.onAccent, soft: theme.hero, error: theme.danger };

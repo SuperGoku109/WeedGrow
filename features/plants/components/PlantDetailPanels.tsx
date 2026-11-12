@@ -1,3 +1,4 @@
+import { gardenControls } from '@/design-system/tokens/garden';
 import PlantActionButton from './PlantActionButton';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -14,7 +15,7 @@ export const detailStyles = StyleSheet.create({
   body: { fontSize: 14, lineHeight: 22 },
   card: { borderWidth: 1, borderRadius: 16, padding: 16 },
   row: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  button: { minHeight: 48, borderRadius: 12, paddingHorizontal: 16, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
+  button: { minHeight: gardenControls.height, borderRadius: gardenControls.radius, paddingHorizontal: gardenControls.paddingHorizontal, paddingVertical: gardenControls.paddingVertical, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
 });
 export function SectionTitle({ title, caption, theme }: { title: string; caption?: string; theme: PlantTheme }) {
   return <View style={[detailStyles.section, { flexWrap: 'wrap' }]}><Text style={[detailStyles.title, { color: theme.text }]}>{title}</Text>{!!caption && <Text style={{ color: theme.muted, fontSize: 13 }}>{caption}</Text>}</View>;

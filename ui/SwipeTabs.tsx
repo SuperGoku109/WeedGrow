@@ -1,3 +1,4 @@
+import { gardenControls } from '@/design-system/tokens/garden';
 import * as React from 'react';
 import { View, StyleSheet, useWindowDimensions, Text, Pressable } from 'react-native';
 import { TabView } from 'react-native-tab-view';
@@ -17,7 +18,7 @@ export default function SwipeTabs({ tabs, initialKey, index: controlledIndex, on
     renderScene={({ route }) => tabs.find(tab => tab.key === route.key)?.render() ?? null}
     lazy lazyPreloadDistance={0} onIndexChange={setIndex} initialLayout={{ width: layout.width }} swipeEnabled animationEnabled={!reduced}
     renderTabBar={() => <View style={s.bar}>
-      {routes.map((route, i) => <Pressable key={route.key} accessibilityRole="tab" accessibilityState={{ selected: index === i }} onPress={() => setIndex(i)} style={[s.tab, index === i && { backgroundColor: '#c8e78b', borderRadius: 13 }]}>
+      {routes.map((route, i) => <Pressable key={route.key} hitSlop={gardenControls.hitSlop} accessibilityRole="tab" accessibilityState={{ selected: index === i }} onPress={() => setIndex(i)} style={[s.tab, index === i && { backgroundColor: '#c8e78b', borderRadius: 13 }]}>
         <Text style={[s.label, index === i && s.active]}>{route.title}</Text>
       </Pressable>)}
     </View>} />;
@@ -26,7 +27,7 @@ const s = StyleSheet.create({
   bar: {
     flexDirection: 'row',
     position: 'relative',
-    minHeight: 56,
+    minHeight: 50,
     marginHorizontal: 18,
     marginBottom: 10,
     padding: 4,
@@ -39,12 +40,13 @@ const s = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
+    minHeight: gardenControls.height,
+    paddingVertical: gardenControls.paddingVertical,
   },
   label: {
     color: '#9eae96',
     fontWeight: '700',
-    fontSize: 15,
+    fontSize: gardenControls.labelSize,
     letterSpacing: 0.2,
   },
   active: { color: '#243420' },

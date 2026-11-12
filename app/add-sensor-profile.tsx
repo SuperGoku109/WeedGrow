@@ -47,7 +47,7 @@ export default function AddSensorProfileScreen() {
         <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.heading}>Add Sensor Profile</Text>
           {!!error && <Text accessibilityRole="alert" style={{ color: '#ffb8a8' }}>{error}</Text>}
-          <TextInput
+          <TextInput dense mode="outlined"
             label="Profile Name"
             value={name}
             onChangeText={setName}
@@ -56,7 +56,7 @@ export default function AddSensorProfileScreen() {
             autoFocus
           />
           <Text style={styles.label}>Environment Type</Text>
-          <SegmentedButtons
+          <SegmentedButtons density="small"
             value={environmentType}
             onValueChange={v => setEnvironmentType(v as 'indoor' | 'greenhouse')}
             buttons={[
@@ -66,7 +66,7 @@ export default function AddSensorProfileScreen() {
             style={{ marginBottom: 8 }}
           />
           <Text style={styles.label}>Sensor Data Source</Text>
-          <SegmentedButtons
+          <SegmentedButtons density="small"
             value={entryType}
             onValueChange={v => setEntryType(v as 'manual' | 'hardware')}
             buttons={[
@@ -78,7 +78,7 @@ export default function AddSensorProfileScreen() {
           {entryType === 'manual' && (
             <>
               <Text style={styles.label}>Default Readings (Optional)</Text>
-              <TextInput
+              <TextInput dense mode="outlined"
                 label="Default Temperature (°C)"
                 value={defaultTemp}
                 onChangeText={setDefaultTemp}
@@ -86,7 +86,7 @@ export default function AddSensorProfileScreen() {
                 style={styles.input}
                 placeholder="e.g. 24"
               />
-              <TextInput
+              <TextInput dense mode="outlined"
                 label="Default Humidity (%)"
                 value={defaultHumidity}
                 onChangeText={setDefaultHumidity}
@@ -101,12 +101,12 @@ export default function AddSensorProfileScreen() {
               Hardware integration coming soon. You can edit this profile later.
             </Text>
           )}
-          <Button
+          <Button contentStyle={{ minHeight: 40 }} labelStyle={{ fontSize: 13 }}
             mode="contained"
             onPress={handleSave}
             loading={saving}
             disabled={!name.trim() || saving}
-            style={{ marginTop: 24 }}
+            style={{ marginTop: 12, borderRadius: 12 }}
           >
             Save Profile
           </Button>

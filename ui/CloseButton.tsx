@@ -1,3 +1,4 @@
+import { gardenControls } from '@/design-system/tokens/garden';
 import React from 'react';
 import { Pressable, type StyleProp, type ViewStyle } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,7 +9,7 @@ export default function CloseButton({ label, onPress, disabled = false, color = 
 }) {
   return <Pressable accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled }}
     disabled={disabled} onPress={onPress} hitSlop={4}
-    style={({ pressed }) => [{ width: 48, height: 48, flexShrink: 0, borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ffffff0a', opacity: disabled ? 0.4 : pressed ? 0.65 : 1 }, style]}>
-    <MaterialCommunityIcons name="close" size={23} color={color} accessible={false} />
+    style={({ pressed }) => [{ width: gardenControls.height, height: gardenControls.height, flexShrink: 0, borderRadius: 20, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ffffff0a', opacity: disabled ? 0.4 : pressed ? 0.65 : 1 }, style]}>
+    <MaterialCommunityIcons name="close" size={20} color={color} accessible={false} />
   </Pressable>;
 }

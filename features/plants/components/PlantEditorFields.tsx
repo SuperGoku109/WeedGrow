@@ -1,3 +1,4 @@
+import { gardenControls } from '@/design-system/tokens/garden';
 import React from 'react';
 import { Animated, Keyboard, Pressable, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 import { Feather } from '@expo/vector-icons';
@@ -63,8 +64,8 @@ const s = StyleSheet.create({
   field: { gap: 5, minWidth: 0 },
   label: { color: t.muted, fontSize: 12, fontWeight: '600', letterSpacing: 0.2 },
   inputFrame: { borderWidth: 1, borderRadius: 12, backgroundColor: t.background, overflow: 'hidden' },
-  input: { color: t.text, fontSize: 16, minHeight: 48, paddingHorizontal: 12, paddingVertical: 11, minWidth: 0, borderWidth: 0, backgroundColor: 'transparent', width: '100%' },
+  input: { color: t.text, fontSize: 16, minHeight: gardenControls.fieldHeight, paddingHorizontal: 12, paddingVertical: 10, minWidth: 0, borderWidth: 0, backgroundColor: 'transparent', width: '100%' },
   unit: { minHeight: 28, minWidth: 30, paddingHorizontal: 7, marginRight: 8, borderRadius: 7, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  select: { borderWidth: 1, borderRadius: 12, backgroundColor: t.background, minHeight: 48, flexDirection: 'row', alignItems: 'center', padding: 12, gap: 8 },
+  select: { borderWidth: 1, borderRadius: 12, backgroundColor: t.background, minHeight: gardenControls.fieldHeight, flexDirection: 'row', alignItems: 'center', padding: 10, gap: 8 },
   value: { color: t.text, fontSize: 15, lineHeight: 22, flex: 1 },
 });

@@ -105,7 +105,7 @@ export function WeedGrowDropdownInput({
 
 const styles = StyleSheet.create({
   dropdown: {
-    height: 52,
+    height: 44,
     borderRadius: BorderRadius.md,
     paddingHorizontal: Spacing.sm,
   },
