@@ -12,15 +12,15 @@ import QuickWateringDialog from '../components/QuickWateringDialog';
 import PlantEditorSheet from '../components/PlantEditorSheet';
 import { deleteJournalEntry } from '@/lib/logs/journalRepository';
 import { plantsInGarden, type HomeGarden } from '@/features/home/gardenSelection';
-import { matchesPlantStatus } from '../plantListPresentation';
+import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, selectPlantList, type PlantListOptions } from '@/lib/plants/plantListOptions';
 import type { Plant } from '@/firestoreModels';
 
 type ListedPlant = Plant & { id: string };
 const t = gardenThemes.grove;
 const pastOptions = [{ value: 'past', label: 'All past plants' }, { value: 'archived', label: 'Archived' }, { value: 'harvested', label: 'Harvested' }, { value: 'dead', label: 'Dead' }];
-export default function PlantListScreen({ garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, footer, initialOffset = 0, onOffsetChange }: {
+export default function PlantListScreen({ garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, footer, initialOffset = 0, onOffsetChange, options = DEFAULT_PLANT_LIST_OPTIONS, onResetFilters }: {
   garden?: HomeGarden | null; searchQuery: string; setSearchQuery(value: string): void; statusFilter: string | null; setStatusFilter(value: string | null): void;
-  footer?: React.ReactElement; initialOffset?: number; onOffsetChange(offset: number): void;
+  options?: PlantListOptions; onResetFilters?(): void; footer?: React.ReactElement; initialOffset?: number; onOffsetChange(offset: number): void;
 }) {
   const router = useRouter();
   const collection = usePlantList();
@@ -37,9 +37,9 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
   const list = React.useRef<FlatList<ListedPlant>>(null);
   const restored = React.useRef(false);
   const initialPosition = React.useRef(initialOffset);
-  React.useEffect(() => { if (restored.current) list.current?.scrollToOffset({ offset: 0, animated: false }); }, [searchQuery, statusFilter]);
-  const normalizedSearch = searchQuery.trim().toLowerCase();
-  const filtered = React.useMemo(() => plants.filter(plant => matchesPlantStatus(plant, statusFilter || 'past') && `${plant.name} ${plant.strain || ''}`.toLowerCase().includes(normalizedSearch)), [plants, statusFilter, normalizedSearch]);
+  React.useEffect(() => { if (restored.current) list.current?.scrollToOffset({ offset: 0, animated: false }); }, [searchQuery, statusFilter, options]);
+  const hasFilters = plantFilterValues(options.stage).length > 0 || plantFilterValues(options.environment).length > 0;
+  const filtered = React.useMemo(() => selectPlantList(plants, searchQuery, statusFilter, options), [plants, statusFilter, searchQuery, options]);
   const openPlant = (plant: ListedPlant) => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } });
   const setStatus = (value: string | null) => { setStatusFilter(value); list.current?.scrollToOffset({ offset: 0, animated: false }); onOffsetChange(0); };
   const active = statusFilter === 'active';
@@ -55,9 +55,10 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
       onScroll={event => { if (restored.current) onOffsetChange(event.nativeEvent.contentOffset.y); }}
       onContentSizeChange={() => { if (!restored.current && !collection.loading) { restored.current = true; list.current?.scrollToOffset({ offset: initialPosition.current, animated: false }); } }}
       ListEmptyComponent={collection.loading ? <PlantListSkeleton /> : !collection.error ? <View style={s.empty}>
-        <MaterialCommunityIcons name={searchQuery ? 'magnify' : active ? 'sprout-outline' : 'archive-outline'} size={30} color={t.accent} />
-        <Text style={s.emptyTitle}>{searchQuery ? 'No matching plants' : active ? 'Room for something new' : 'No past plants here yet'}</Text>
-        <Text style={[s.hint, { textAlign: 'center' }]}>{searchQuery ? 'Try a different name or strain.' : active ? 'Add a plant to start its story in this garden.' : 'Archived, harvested and dead plants stay here with their history.'}</Text>
+        <MaterialCommunityIcons name={searchQuery || hasFilters ? 'magnify' : active ? 'sprout-outline' : 'archive-outline'} size={30} color={t.accent} />
+        <Text style={s.emptyTitle}>{searchQuery || hasFilters ? 'No matching plants' : active ? 'Room for something new' : 'No past plants here yet'}</Text>
+        <Text style={[s.hint, { textAlign: 'center' }]}>{searchQuery || hasFilters ? 'Try a different search or reset your filters.' : active ? 'Add a plant to start its story in this garden.' : 'Archived, harvested and dead plants stay here with their history.'}</Text>
+        {hasFilters && onResetFilters && <Pressable accessibilityRole="button" onPress={onResetFilters} style={s.action}><Text style={{ color: t.accent }}>Reset filters</Text></Pressable>}
         {!!searchQuery && <Pressable accessibilityRole="button" onPress={() => setSearchQuery('')} style={s.action}><Text style={{ color: t.accent }}>Clear search</Text></Pressable>}
       </View> : null}
       ListFooterComponent={footer}

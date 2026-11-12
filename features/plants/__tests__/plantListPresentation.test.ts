@@ -15,3 +15,18 @@ it('labels a stage-based age estimate when an individual plant has no user age',
   expect(plantCardStage(plant, false)).toBe('Seedling · Plant age: About 25 days (stage estimate)');
   expect(plantCardStage({ ...plant, ageKnown: true })).toContain('0 days');
 });
+
+it.each(['indica', 'sativa', 'hybrid'])('uses the selected %s type when the strain name is blank', strainType => {
+  const plant = { environment: 'outdoor', strain: '   ', strainType } as Plant;
+  const label = strainType[0].toUpperCase() + strainType.slice(1);
+  expect(plantCardMeta(plant)).toBe(`Outdoor · ${label}`);
+  expect(plantCardMeta(plant, false)).toBe(label);
+});
+
+it('keeps a supplied strain name and labels unknown strains honestly', () => {
+  const plant = { environment: 'indoor', strain: ' Blue Dream ', strainType: 'sativa' } as Plant;
+  expect(plantCardMeta(plant)).toBe('Indoor · Blue Dream');
+  expect(plantCardMeta({ ...plant, strain: '', strainType: 'unknown' })).toBe('Indoor · Strain unknown');
+  expect(plantCardMeta({ ...plant, strain: '', strainType: undefined }, false)).toBe('Strain unknown');
+  expect(plantCardMeta({ ...plant, strain: '', strainType: ' Indica ' })).toBe('Indoor · Indica');
+});

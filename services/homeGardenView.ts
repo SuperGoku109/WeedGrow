@@ -1,4 +1,5 @@
-export interface GardenListView { query: string; status: string | null; offset: number }
+import type { PlantListOptions } from '@/lib/plants/plantListOptions';
+export interface GardenListView { query: string; status: string | null; offset: number; options?: PlantListOptions }
 const views = new Map<string, GardenListView>();
 const key = (uid: string | undefined, gardenId: string) => JSON.stringify([uid || 'device', gardenId]);
 export function readGardenListView(uid: string | undefined, gardenId: string): GardenListView {

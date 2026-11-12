@@ -5,8 +5,9 @@ export function matchesPlantStatus(plant: Pick<Plant, 'status'>, status: string 
   return status === 'past' ? plant.status !== 'active' : !status || plant.status === status;
 }
 export function plantCardMeta(plant: Plant, showEnvironment = true) {
-  const facts = [showEnvironment ? plant.environment.charAt(0).toUpperCase() + plant.environment.slice(1) : '', plant.strain];
-  if (!facts.some(Boolean)) facts.push(plant.plantedIn === 'ground' ? 'In the ground' : plant.potSize ? `${plant.potSize} pot` : 'Potted plant');
+  const strainTypes: Record<string, string> = { indica: 'Indica', sativa: 'Sativa', hybrid: 'Hybrid' };
+  const strain = plant.strain?.trim() || strainTypes[plant.strainType?.trim().toLowerCase() || ''] || 'Strain unknown';
+  const facts = [showEnvironment ? plant.environment.charAt(0).toUpperCase() + plant.environment.slice(1) : '', strain];
   return facts.filter(Boolean).join(' · ');
 }
 export function plantCardStage(plant: Plant, compact = true) {
