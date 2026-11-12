@@ -1,6 +1,6 @@
-﻿# WeedGrow
+﻿# BudBuddy
 
-WeedGrow is a grow/plant tracking mobile app built with Expo (React Native).
+BudBuddy is a grow/plant tracking mobile app built with Expo (React Native).
 Data and compact photos are stored in Firebase Firestore, with optional weather lookups via
 OpenWeatherMap.
 

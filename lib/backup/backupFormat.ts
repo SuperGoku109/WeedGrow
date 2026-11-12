@@ -22,8 +22,8 @@ allowed.plants.push('stageStartedOnEstimated', 'ageEstimateSource');
 export function validateBackup(raw: string): GardenBackup {
   if (raw.length > MAX_BACKUP_BYTES || utf8Bytes(raw) > MAX_BACKUP_BYTES) throw new Error('Choose a backup under 30 MB.');
   let parsed: unknown;
-  try { parsed = JSON.parse(raw); } catch { throw new Error('This file is not valid JSON. Choose a WeedGrow backup.'); }
-  if (!isRecord(parsed) || parsed.format !== 'weedgrow' || parsed.version !== 1 || typeof parsed.backupId !== 'string' || !/^[A-Za-z0-9_-]{1,40}$/.test(parsed.backupId) || !Array.isArray(parsed.records) || !parsed.records.length) throw new Error('This is not a supported WeedGrow backup.');
+  try { parsed = JSON.parse(raw); } catch { throw new Error('This file is not valid JSON. Choose a BudBuddy backup.'); }
+  if (!isRecord(parsed) || parsed.format !== 'weedgrow' || parsed.version !== 1 || typeof parsed.backupId !== 'string' || !/^[A-Za-z0-9_-]{1,40}$/.test(parsed.backupId) || !Array.isArray(parsed.records) || !parsed.records.length) throw new Error('This is not a supported BudBuddy backup.');
   if (parsed.records.length > MAX_BACKUP_RECORDS) throw new Error('Choose a backup with at most 50,000 records.');
   const records: BackupRecord[] = parsed.records.map((entry: unknown) => { if (!isRecord(entry) || typeof entry.path !== 'string' || !isRecord(entry.data)) throw new Error('The backup contains invalid records.'); return { path: entry.path, data: entry.data }; });
   const value: GardenBackup = { format: 'weedgrow', version: 1, backupId: parsed.backupId, exportedAt: typeof parsed.exportedAt === 'string' ? parsed.exportedAt : '', records };

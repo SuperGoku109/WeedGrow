@@ -3,12 +3,12 @@ import "dotenv/config"; // loads .env into process.env
 
 export default {
   expo: {
-    name: "WeedGrowApp",
-    slug: "WeedGrowApp",
+    name: "BudBuddy",
+    slug: "budbuddy",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
-    scheme: "weedgrowapp",
+    scheme: ["budbuddy", "weedgrowapp"],
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
     ios: {
@@ -24,6 +24,7 @@ export default {
       edgeToEdgeEnabled: true
     },
     web: {
+      name: "BudBuddy",
       bundler: "metro",
       output: "static",
       favicon: "./assets/images/favicon.png"

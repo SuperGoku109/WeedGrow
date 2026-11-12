@@ -63,3 +63,18 @@ it('offers one summary action without management buttons or raw start-date prose
   expect(tree).not.toContain('Stage window:');
   expect(tree).not.toContain('Estimated start');
 });
+
+it('shows continuation arrows only on edges with hidden stages', async () => {
+  await mount();
+  const rail = renderer.root.findAll((node: any) => node.props.horizontal && node.props.onContentSizeChange)[0];
+  act(() => { rail.props.onLayout({ nativeEvent: { layout: { width: 300 } } }); rail.props.onContentSizeChange(600); });
+  expect(control('Show earlier growth stages')).toBeUndefined();
+  expect(control('Show later growth stages')).toBeDefined();
+  act(() => rail.props.onScroll({ nativeEvent: { contentOffset: { x: 300 } } }));
+  expect(control('Show earlier growth stages')).toBeDefined();
+  expect(control('Show later growth stages')).toBeUndefined();
+  act(() => rail.props.onLayout({ nativeEvent: { layout: { width: 700 } } }));
+  act(() => rail.props.onScroll({ nativeEvent: { contentOffset: { x: 0 } } }));
+  expect(control('Show earlier growth stages')).toBeUndefined();
+  expect(control('Show later growth stages')).toBeUndefined();
+});

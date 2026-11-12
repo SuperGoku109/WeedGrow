@@ -8,7 +8,7 @@ export function AppHeader() {
   const { user } = useSession();
   return <View style={s.row}>
     <View style={s.logo}><MaterialCommunityIcons name="sprout" size={22} color="#c8e78b" /></View>
-    <Text style={s.name}>weedgrow<Text style={{ color: '#c8e78b' }}>.</Text></Text>
+    <Text style={s.name}>BudBuddy<Text style={{ color: '#c8e78b' }}>.</Text></Text>
     <View style={{ flex: 1 }} />
     <Text style={s.date}>{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).toUpperCase()}</Text>
     <Pressable accessibilityRole="button" accessibilityLabel={user ? 'Manage garden account' : 'Sign in to your garden'} onPress={() => router.push('/account')} style={[s.badge, { width: 44, height: 44 }]}><MaterialCommunityIcons name={user ? 'account-check-outline' : 'account-outline'} size={22} color="#c8e78b" /></Pressable>

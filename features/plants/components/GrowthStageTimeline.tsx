@@ -12,6 +12,8 @@ export default function GrowthStageTimeline({ plant, selectedStage, onSelect, th
   const reduced = useReducedMotion();
   const scroll = React.useRef<ScrollView>(null);
   const [width, setWidth] = React.useState(0);
+  const [contentWidth, setContentWidth] = React.useState(0);
+  const [offset, setOffset] = React.useState(0);
   const stages = guideTabs(plant);
   const currentIndex = stages.findIndex(item => item.key === plant.growthStage);
   const selectedIndex = stages.findIndex(item => item.key === selectedStage);
@@ -31,13 +33,18 @@ export default function GrowthStageTimeline({ plant, selectedStage, onSelect, th
     }
   }, [selectedIndex, width, reduced]);
   React.useEffect(centreSelection, [centreSelection]);
+  const maximumOffset = Math.max(0, contentWidth - width);
+  const canGoBack = width > 0 && maximumOffset > 2 && offset > 2;
+  const canGoForward = width > 0 && offset < maximumOffset - 2;
+  const move = (direction: -1 | 1) => scroll.current?.scrollTo({ x: Math.max(0, Math.min(maximumOffset, offset + direction * Math.max(STEP_WIDTH, width * .65))), animated: !reduced });
   return <View style={{ backgroundColor: t.surface, borderRadius: 22, borderWidth: 1, borderColor: t.elevated, overflow: 'hidden' }}>
     <View style={{ paddingHorizontal: 16, paddingTop: 16, flexDirection: 'row', alignItems: 'center', gap: 10 }}>
       <MaterialCommunityIcons name="leaf" size={20} color={t.accent} accessible={false} />
       <Text style={{ flex: 1, color: t.text, fontSize: 14, fontWeight: '600' }}>Growth stage</Text>
       <Text accessibilityLabel={`Plant age: ${plantAgeLabel(plant)}`} style={{ color: t.muted, fontSize: 12 }}>{plantAgeLabel(plant, undefined, true)} old</Text>
     </View>
-    <ScrollView horizontal ref={scroll} accessibilityRole="tablist" showsHorizontalScrollIndicator={false} onLayout={event => setWidth(event.nativeEvent.layout.width)} onContentSizeChange={centreSelection} contentContainerStyle={{ paddingVertical: 12, paddingHorizontal: 8 }}>
+    <View>
+    <ScrollView horizontal ref={scroll} accessibilityRole="tablist" showsHorizontalScrollIndicator={false} onLayout={event => setWidth(event.nativeEvent.layout.width)} onContentSizeChange={value => { setContentWidth(value); centreSelection(); }} onScroll={event => setOffset(event.nativeEvent.contentOffset.x)} scrollEventThrottle={32} contentContainerStyle={{ paddingVertical: 12, paddingHorizontal: 8 }}>
       <Animated.View pointerEvents="none" accessible={false} style={{ position: 'absolute', left: 18, top: 12, width: 44, height: 44, borderRadius: 24, backgroundColor: t.elevated, transform: [{ translateX: selectionX }] }} />
       <Animated.View pointerEvents="none" accessible={false} style={{ position: 'absolute', left: 26, bottom: 9, width: 28, height: 2, borderRadius: 2, backgroundColor: t.accent, transform: [{ translateX: selectionX }] }} />
       {stages.map((item, index) => {
@@ -57,5 +64,8 @@ export default function GrowthStageTimeline({ plant, selectedStage, onSelect, th
         </View>;
       })}
     </ScrollView>
+    {canGoBack && <Pressable accessibilityRole="button" accessibilityLabel="Show earlier growth stages" onPress={() => move(-1)} hitSlop={10} style={({ pressed }) => ({ position: 'absolute', left: 0, top: 12, width: 28, height: 44, backgroundColor: t.surface, alignItems: 'center', justifyContent: 'center', opacity: pressed ? .7 : 1 })}><MaterialCommunityIcons name="chevron-left" size={21} color={t.accent} /></Pressable>}
+    {canGoForward && <Pressable accessibilityRole="button" accessibilityLabel="Show later growth stages" onPress={() => move(1)} hitSlop={10} style={({ pressed }) => ({ position: 'absolute', right: 0, top: 12, width: 28, height: 44, backgroundColor: t.surface, alignItems: 'center', justifyContent: 'center', opacity: pressed ? .7 : 1 })}><MaterialCommunityIcons name="chevron-right" size={21} color={t.accent} /></Pressable>}
+    </View>
   </View>;
 }

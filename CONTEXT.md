@@ -1,6 +1,6 @@
-# WeedGrow Firebase Firestore Schema
+# BudBuddy Firebase Firestore Schema
 
-This document describes the structure of the Firestore database used in the WeedGrow app.
+This document describes the structure of the Firestore database used in the BudBuddy app.
 It helps Codex and other AI agents understand how your app stores and interacts with data.
 
 ---

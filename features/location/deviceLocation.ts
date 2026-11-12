@@ -18,7 +18,7 @@ export function getDeviceLocation(signal: AbortSignal, onStage: (stage: Location
       onStage('permission');
       const permission = await Location.requestForegroundPermissionsAsync();
       if (finished) return;
-      if (!permission.granted) throw new Error('Location access is off. Allow location for WeedGrow in device settings, then retry or choose a map pin.');
+      if (!permission.granted) throw new Error('Location access is off. Allow location for BudBuddy in device settings, then retry or choose a map pin.');
       if (!(await Location.hasServicesEnabledAsync())) throw new Error('Device location services are off. Turn them on in device settings or choose a map pin.');
       if (finished) return;
       onStage('position');

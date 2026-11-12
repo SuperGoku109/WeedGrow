@@ -6,6 +6,7 @@ import NotificationNavigation from '@/features/care/NotificationNavigation';
 import '@/ui/accessibilityStyles';
 import ReminderCoordinator from '@/features/care/ReminderCoordinator';
 import { Slot } from 'expo-router';
+import Head from 'expo-router/head';
 import { PaperProvider, MD3DarkTheme } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/Colors';
@@ -35,6 +36,7 @@ export default function RootLayout() {
 
   return (
     <AppErrorBoundary><GestureHandlerRootView style={{ flex: 1 }}>
+      <Head><title>BudBuddy</title></Head>
       <SafeAreaProvider>
         <PaperProvider theme={theme}>
             <GardenWeatherProvider><NotificationNavigation />
