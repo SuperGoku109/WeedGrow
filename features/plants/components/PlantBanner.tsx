@@ -20,10 +20,10 @@ function BotanicalCover({ theme }: { theme: PlantTheme }) {
   </Svg>;
 }
 
-/** Full-width cover and a single identity block share the section rail's card. */
+/** Photo, identity and compact facts share the section rail's card. */
 export default function PlantBanner({ plant, theme: t, onCover }: { plant: Plant; theme: PlantTheme; onCover(): void }) {
   const { width } = useWindowDimensions();
-  const coverHeight = Math.min(240, Math.max(170, (width - 36) * 0.52));
+  const coverHeight = Math.min(200, Math.max(156, (width - 36) * 0.48));
   const uri = getRenderablePlantImageUri(plant.imageUri);
   const photo = usePhotoUri(uri, true);
   const [broken, setBroken] = React.useState(false);
@@ -33,39 +33,37 @@ export default function PlantBanner({ plant, theme: t, onCover }: { plant: Plant
   const environment = plant.environment || 'outdoor';
   const place = plant.locationNickname?.trim() || (plant.plantedIn === 'pot' ? 'Potted plant' : plant.plantedIn === 'ground' ? 'In the ground' : '');
   const hasPhoto = !!photo.uri && !broken && !photo.failed;
+  const strain = plant.strain?.trim() || plant.strainType?.trim();
   return <View style={[s.banner, { backgroundColor: t.surface, borderColor: t.border }]}>
-    <Pressable accessibilityRole="button" accessibilityLabel="Change plant cover photo" onPress={onCover} style={({ pressed }) => [s.cover, { height: coverHeight, backgroundColor: t.hero, opacity: pressed ? 0.9 : 1 }]}>
-      {hasPhoto ? <Image accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri! }} resizeMode="cover" onError={() => setBroken(true)} style={StyleSheet.absoluteFillObject} /> : <View accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
-      {hasPhoto && <LinearGradient pointerEvents="none" colors={['transparent', t.surface]} style={s.fade} />}
-      <View pointerEvents="none" style={[s.photoAction, { backgroundColor: t.surface }]}><MaterialCommunityIcons name="camera-outline" size={22} color={t.text} aria-hidden={true} /></View>
-      {photo.stored && !photo.uri && !photo.failed && <View style={s.photoLoading}><ActivityIndicator size="small" color={t.heroText} accessibilityLabel="Loading plant cover" /></View>}
+    <Pressable accessibilityRole="button" accessibilityLabel={`Change cover photo for ${plant.name}`} onPress={onCover} style={({ pressed }) => [s.cover, { minHeight: coverHeight, backgroundColor: t.hero, opacity: pressed ? 0.9 : 1 }]}>
+      {hasPhoto ? <Image accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri! }} resizeMode="cover" onError={() => setBroken(true)} style={StyleSheet.absoluteFillObject} /> : <View style={s.botanical} accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
+      <LinearGradient pointerEvents="none" colors={['rgba(9,22,14,0.05)', 'rgba(9,22,14,0.35)', 'rgba(9,22,14,0.92)']} locations={[0, 0.4, 1]} style={StyleSheet.absoluteFillObject} />
+      <LinearGradient pointerEvents="none" colors={['transparent', t.surface]} style={s.bottomFade} />
+      <View pointerEvents="none" accessibilityLabel={`Plant status: ${status}`} style={s.status}><View style={[s.statusDot, { backgroundColor: status === 'active' ? '#c8e78b' : '#d5ddd0' }]} /><Text style={s.statusText}>{status}</Text></View>
+      <View pointerEvents="none" style={s.photoAction}>{photo.stored && !photo.uri && !photo.failed ? <ActivityIndicator size="small" color="#edf0e3" accessibilityLabel="Loading plant cover" /> : <MaterialCommunityIcons name="camera-outline" size={19} color="#edf0e3" aria-hidden={true} />}</View>
+      <View pointerEvents="none" style={s.identity}><Text accessibilityRole="header" style={s.name}>{plant.name}</Text>{!!strain && <Text style={s.strain}>{strain}</Text>}</View>
     </Pressable>
-    <View style={s.identity}>
-      <View style={s.titleRow}><View style={s.copy}><Text accessibilityRole="header" style={[s.name, { color: t.text }]}>{plant.name}</Text>{!!plant.strain?.trim() && <Text style={[s.strain, { color: t.muted }]}>{plant.strain}</Text>}</View></View>
-      <View style={s.details}>
+    <View style={s.details}>
         <View accessibilityLabel={`Growth stage: ${stage}`} style={[s.stage, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={t.accent} aria-hidden={true} /><Text style={[s.badgeText, { color: t.accent }]}>{stage}</Text></View>
-        <View accessibilityLabel={`Plant status: ${status}`} style={s.status}><View style={[s.statusDot, { backgroundColor: status === 'active' ? t.accent : t.muted }]} /><Text style={[s.badgeText, { color: t.muted }]}>{status}</Text></View>
-      </View>
-      <View style={s.context}><MaterialCommunityIcons name={environmentIcons[environment]} size={17} color={t.muted} aria-hidden={true} /><Text style={[s.environment, { color: t.muted }]}>{environment}{place ? ` · ${place}` : ''}</Text></View>
+        <View style={s.context}><MaterialCommunityIcons name={environmentIcons[environment]} size={16} color={t.muted} aria-hidden={true} /><Text style={[s.environment, { color: t.muted }]}>{environment}{place ? ` · ${place}` : ''}</Text></View>
     </View>
   </View>;
 }
 const s = StyleSheet.create({
   banner: { borderWidth: 1, borderBottomWidth: 0, borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: 'hidden' },
-  cover: { width: '100%', alignItems: 'center', justifyContent: 'center' },
-  fade: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 44 },
-  photoAction: { position: 'absolute', right: 12, top: 12, width: 48, height: 48, borderRadius: 16, justifyContent: 'center', alignItems: 'center', opacity: 0.94 },
-  photoLoading: { position: 'absolute', bottom: 14, right: 14 },
-  identity: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 10, gap: 10 },
-  titleRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12 },
-  copy: { flex: 1, minWidth: 0, gap: 4 },
-  name: { fontSize: 26, lineHeight: 32, fontWeight: '700', letterSpacing: -0.6 },
-  strain: { fontSize: 14, lineHeight: 20 },
-  details: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', columnGap: 14, rowGap: 8 },
-  stage: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10, paddingVertical: 6, borderRadius: 10 },
-  status: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  cover: { width: '100%', minHeight: 156, paddingTop: 58, paddingBottom: 24, paddingHorizontal: 16, alignItems: 'flex-start', justifyContent: 'flex-end' },
+  bottomFade: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 28 },
+  botanical: { position: 'absolute', right: 24, top: 0 },
+  photoAction: { position: 'absolute', right: 10, top: 10, width: 40, height: 40, borderRadius: 13, backgroundColor: 'rgba(14,30,20,0.78)', justifyContent: 'center', alignItems: 'center' },
+  identity: { alignSelf: 'stretch', gap: 2 },
+  name: { fontSize: 25, lineHeight: 30, fontWeight: '700', letterSpacing: -0.5, color: '#f5f7ed' },
+  strain: { fontSize: 13, lineHeight: 18, color: '#dde5d7', textTransform: 'capitalize' },
+  details: { paddingHorizontal: 12, paddingTop: 8, paddingBottom: 6, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', columnGap: 10, rowGap: 6 },
+  stage: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 9 },
+  status: { position: 'absolute', top: 13, left: 12, flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 10, backgroundColor: 'rgba(14,30,20,0.78)' },
+  statusText: { fontSize: 12, lineHeight: 16, fontWeight: '500', color: '#edf0e3', textTransform: 'capitalize' },
   statusDot: { width: 6, height: 6, borderRadius: 3 },
   badgeText: { fontSize: 13, lineHeight: 18, fontWeight: '500', textTransform: 'capitalize' },
-  context: { flexDirection: 'row', alignItems: 'center', gap: 7 },
+  context: { flexDirection: 'row', alignItems: 'center', gap: 5, flexGrow: 1, flexShrink: 1, flexBasis: 130 },
   environment: { flex: 1, fontSize: 13, lineHeight: 19, textTransform: 'capitalize' },
 });
