@@ -15,6 +15,7 @@ afterEach(() => jest.useRealTimers());
 it('accepts the plant local day and saves its explicit date, zone and matching timestamp', async () => {
   await recordHarvest('p', '2026-10-25', 10, 'Harvest');
   expect(set).toHaveBeenCalledWith('plants/p/logs/harvest_request', expect.objectContaining({ calendarDay: '2026-10-25', timeZone: 'Asia/Tokyo', timestamp: new Date('2026-10-25T03:00:00Z') }));
+  expect(update).toHaveBeenCalledWith('plants/p', expect.objectContaining({ status: 'harvested', wateringRepeat: null, postHarvestTracking: false }));
 });
 it('rejects a date in the future at the plant location before writing', async () => {
   plant.locationTimeZone = 'America/Los_Angeles';

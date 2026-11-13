@@ -26,7 +26,7 @@ export async function recordHarvest(plantId: string, date: string, weightGrams: 
     const harvest = { date, ...(weightGrams != null ? { weightGrams } : {}), notes: notes.trim(), recordId: requestId };
     const fields = stageChangeFields(current.data() as Plant, 'harvested', date, plantDay(new Date(), zone));
     assertGrowthDates(current.data() as Plant, fields, plantDay(new Date(), zone));
-    tx.update(ref, { ...fields, status: 'harvested', postHarvestTracking: false, harvest, updatedAt: serverTimestamp() });
+    tx.update(ref, { ...fields, status: 'harvested', wateringRepeat: null, postHarvestTracking: false, harvest, updatedAt: serverTimestamp() });
     tx.set(doc(db, 'plants', plantId, 'logs', `harvest_${requestId}`), { type: 'harvest', harvest, fromStage: current.data().growthStage || 'unknown', toStage: 'harvested', occurrencePrecision: 'date', recordedAt: serverTimestamp(), calendarDay: date, ...(zone ? { timeZone: zone } : {}), description: `${weightGrams != null ? `${weightGrams} g harvested. ` : ''}${notes.trim()}`, timestamp: Timestamp.fromDate(zonedTime(date, '12:00', zone)), updatedBy: uid });
   });
 }

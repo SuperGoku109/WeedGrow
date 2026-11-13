@@ -58,7 +58,7 @@ export default memo(function GroupList({ groups, groupPlantsMap, loading, error,
           {loading ? <ActivityIndicator size={16} color={ink.lime} /> : <MaterialCommunityIcons name="refresh" size={19} color={ink.muted} />}
         </Pressable>
       </View>
-      <View style={styles.search}>
+      <View testID="input-focus-frame" style={styles.search}>
         <MaterialCommunityIcons name="magnify" size={21} color={ink.muted} />
         <TextInput accessibilityLabel="Search gardens or plants" placeholder="Find a garden or plant…" placeholderTextColor={ink.muted} value={query} onChangeText={setQuery} style={styles.input} />
         {!!query && <Pressable accessibilityRole="button" accessibilityLabel="Clear group search" onPress={() => setQuery('')} style={styles.clear}><MaterialCommunityIcons name="close" size={18} color={ink.text} /></Pressable>}

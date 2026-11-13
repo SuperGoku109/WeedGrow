@@ -66,7 +66,7 @@ export function decodeLog(value: unknown, path: string): PlantLog {
   if (data.inspectionFeedback != null) check(['useful', 'too_early', 'too_late'].includes(String(data.inspectionFeedback)), path, 'inspectionFeedback');
   if (data.moistureState != null) check(['DRY', 'MOIST', 'WET'].includes(String(data.moistureState)), path, 'moistureState');
   if (data.occurrencePrecision != null) check(['date', 'time'].includes(String(data.occurrencePrecision)), path, 'occurrencePrecision');
-  if (data.category != null) check(['watering', 'feeding', 'pests', 'training', 'health', 'notes'].includes(String(data.category)), path, 'category');
+  if (data.category != null) check(['watering', 'feeding', 'pests', 'training', 'health', 'measurements', 'repotting', 'flushing', 'notes'].includes(String(data.category)), path, 'category');
   if (data.movement != null) { const movement = record(data.movement, path); optional(movement, ['from', 'to'], point, path); optional(movement, ['fromLabel', 'toLabel'], text, path); check(finite(movement.revision), path, 'movement'); }
   return { ...data, updatedBy: data.updatedBy ?? '' } as unknown as PlantLog;
 }

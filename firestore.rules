@@ -24,6 +24,18 @@ service cloud.firestore {
       return data.get('status', '') == 'harvested' || data.get('harvest', null) != null || data.get('harvestedOn', null) != null
         || data.get('growthStage', '') in ['harvested', 'drying', 'curing', 'completed'];
     }
+    function validWateringRepeat() {
+      let repeat = request.resource.data.get('wateringRepeat', null);
+      return repeat == null || repeat == resource.data.get('wateringRepeat', null)
+        || (!growthEnded(request.resource.data) && request.resource.data.status == 'active'
+          && repeat is map && repeat.keys().hasOnly(['enabled', 'everyDays', 'time', 'waterMl', 'timeZone', 'startOn', 'nextAt'])
+          && repeat.enabled == true && repeat.everyDays is int && repeat.everyDays >= 1 && repeat.everyDays <= 365
+          && repeat.waterMl is number && repeat.waterMl > 0 && repeat.waterMl <= 1000000
+          && repeat.time is string && repeat.time.matches('([01][0-9]|2[0-3]):[0-5][0-9]')
+          && repeat.timeZone is string && repeat.timeZone.size() > 0 && repeat.timeZone.size() <= 100
+          && repeat.startOn is string && repeat.startOn.matches('[0-9]{4}-[0-9]{2}-[0-9]{2}')
+          && repeat.nextAt is number && repeat.nextAt > 0);
+    }
     function advancesCareRevision(id) {
       return !exists(/databases/$(database)/documents/plants/$(id))
         || get(/databases/$(database)/documents/plants/$(id)).data.get('careEventProtocol', 0) != 1
@@ -51,6 +63,7 @@ service cloud.firestore {
       allow get: if signedIn() && (!exists(/databases/$(database)/documents/plants/$(plantId)) || request.auth.uid in resource.data.owners);
       allow list: if signedIn() && request.auth.uid in resource.data.owners;
       allow create: if signedIn() && request.resource.data.owners == [request.auth.uid] && validPlant()
+        && request.resource.data.get('wateringRepeat', null) == null
         && request.resource.data.get('careEvaluationRevision', null) == null
         && request.resource.data.get('careNextEvaluationUtc', null) == null
         && request.resource.data.get('careEventProtocol', 0) == 0
@@ -58,7 +71,7 @@ service cloud.firestore {
         && request.resource.data.get('setupLedgerRevision', 0) == 0
         && request.resource.data.get('careSummary', null) == null
         && request.resource.data.createdAt == request.time && request.resource.data.updatedAt == request.time;
-      allow update: if signedIn() && request.auth.uid in resource.data.owners && validPlant()
+      allow update: if signedIn() && request.auth.uid in resource.data.owners && validPlant() && validWateringRepeat()
         && (!growthEnded(resource.data) || (request.resource.data.get('status', '') != 'active'
           && (request.resource.data.growthStage == resource.data.growthStage || request.resource.data.growthStage in ['harvested', 'drying', 'curing', 'completed'])))
         && request.resource.data.get('careEvaluationRevision', null) == resource.data.get('careEvaluationRevision', null)

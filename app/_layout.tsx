@@ -1,4 +1,5 @@
 import GardenWeatherProvider from '@/features/home/GardenWeatherProvider';
+import WateringRoutineCoordinator from '@/features/plants/WateringRoutineCoordinator';
 import { useEffect } from 'react';
 import { installErrorReporting } from '@/services/errorReporting';
 import AppErrorBoundary from '@/ui/AppErrorBoundary';
@@ -52,6 +53,7 @@ export default function RootLayout() {
         <PaperProvider theme={theme}>
             <GardenWeatherProvider><NotificationNavigation />
             <ReminderCoordinator />
+            <WateringRoutineCoordinator />
             <NavigationThemeProvider value={navigationTheme}><RouteTransition><Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#15231c' }, animation: reduced ? 'none' : 'fade_from_bottom', animationDuration: 260, gestureEnabled: false }}>
               <Stack.Screen name="add-plant" options={{ animation: reduced ? 'none' : 'slide_from_bottom' }} />
             </Stack></RouteTransition></NavigationThemeProvider>

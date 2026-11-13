@@ -26,7 +26,7 @@ export async function restoreGarden(raw: string, inputPlan?: RestorePlan, onProg
   const prepare = (record: BackupRecord) => {
     const data = decodeBackupRecord(record.data); const parts = record.path.split('/');
     if (parts.length === 2) {
-      if (parts[0] === 'plants') data.owners = [uid]; else data.createdBy = uid;
+      if (parts[0] === 'plants') { data.owners = [uid]; data.wateringRepeat = null; } else data.createdBy = uid;
       data.createdAt = serverTimestamp(); data.updatedAt = serverTimestamp(); data.restoreOperationId = plan.operationId;
       if (typeof data.groupId === 'string' && data.groupId) data.groupId = mapping.get(`groups/${data.groupId}`)?.split('/')[1] || null;
       if (typeof data.sensorProfileId === 'string' && data.sensorProfileId) data.sensorProfileId = mapping.get(`sensorProfiles/${data.sensorProfileId}`)?.split('/')[1] || null;

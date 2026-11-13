@@ -7,15 +7,18 @@ import { EditorField } from '../components/PlantEditorFields';
 import PlantDateField from '../components/PlantDateField';
 import { plantThemes } from '../components/plantDetailTheme';
 import { journalRevision } from '@/lib/logs/journalMutation';
-import { inspectJournalDraft } from '@/lib/logs/journalRecovery';
 import { newLogId, readJournalEntry } from '@/lib/logs/journalRepository';
 import { readJournalDraft, writeJournalDraft, clearJournalDraft } from '@/lib/logs/journalDraft';
+import { rememberWateringAmount } from '@/services/wateringAmount';
+let mockRememberedAmount = '';
+jest.mock('@/hooks/useRememberedWateringAmount', () => ({ useRememberedWateringAmount: () => mockRememberedAmount }));
+jest.mock('@/services/wateringAmount', () => ({ rememberWateringAmount: jest.fn().mockResolvedValue(undefined) }));
 jest.mock('@/services/session', () => ({ useSession: () => ({ user: { uid: 'owner' } }) }));
 jest.mock('@/lib/logs/journalRepository', () => ({ newLogId: jest.fn(() => 'request'), readJournalEntry: jest.fn() }));
-jest.mock('@/lib/logs/journalRecovery', () => ({ inspectJournalDraft: jest.fn().mockResolvedValue({ kind: 'ready' }) }));
 jest.mock('@/lib/logs/journalDraft', () => ({ journalDraftKey: () => 'draft', readJournalDraft: jest.fn(), writeJournalDraft: jest.fn().mockResolvedValue(undefined), clearJournalDraft: jest.fn().mockResolvedValue(undefined) }));
 jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
-jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable }));
+jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable, GrowCollapse: ({ open, children }: any) => open ? children : null, GrowRotate: ({ children }: any) => children }));
+jest.mock('@/services/wateringRoutine', () => ({ stopWateringRoutine: jest.fn().mockResolvedValue(undefined) }));
 jest.mock('@/ui/ActionDialog', () => () => null);
 jest.mock('../components/PlantEditorSheet', () => ({ __esModule: true, default: ({ children, footer }: any) => { const React = jest.requireActual('react'); const { View } = jest.requireActual('react-native'); return React.createElement(View, null, children, footer); } }));
 jest.mock('../components/PlantEditorFields', () => ({ EditorField: () => null }));
@@ -26,27 +29,115 @@ const props = { plantId: 'plant', name: 'Plant', initialDate: '2026-10-27', init
 const button = (label: string) => renderer.root.findAll((node: any) => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0];
 const field = (label: string) => renderer.root.findAllByType(EditorField).find((node: any) => node.props.label === label);
 async function mount(extra = {}) { await act(async () => { renderer = create(React.createElement(Composer, { ...props, ...extra })); }); }
-beforeEach(() => { jest.clearAllMocks(); jest.mocked(readJournalDraft).mockResolvedValue(null); save.mockResolvedValue({ id: 'entry', mutationId: 'request' }); jest.mocked(inspectJournalDraft).mockResolvedValue({ kind: 'ready' }); jest.mocked(writeJournalDraft).mockResolvedValue(undefined); jest.mocked(clearJournalDraft).mockResolvedValue(undefined); jest.mocked(newLogId).mockReturnValue('request'); jest.mocked(readJournalEntry).mockReset(); });
+beforeEach(() => { mockRememberedAmount = ''; jest.clearAllMocks(); jest.mocked(readJournalDraft).mockResolvedValue(null); save.mockResolvedValue({ id: 'entry', mutationId: 'request' }); jest.mocked(writeJournalDraft).mockResolvedValue(undefined); jest.mocked(clearJournalDraft).mockResolvedValue(undefined); jest.mocked(newLogId).mockReturnValue('request'); jest.mocked(readJournalEntry).mockReset(); });
 afterEach(() => act(() => renderer?.unmount()));
-it('shows only draft recovery until the user chooses, then restores only filled measurements', async () => {
-  jest.mocked(readJournalDraft).mockResolvedValue({ version: 1, requestId: 'restored', category: 'watering', date: '2026-10-26', description: '', measurements: { waterMl: '500' } });
-  await mount(); expect(button('Log Watering')).toBeUndefined(); expect(button('Save watering')).toBeUndefined();
-  const resume = renderer.root.findAll((node: any) => node.props.children?.props?.children === 'Resume activity' && node.props.onPress)[0];
-  await act(async () => resume.props.onPress());
-  expect(field('Water amount').props.value).toBe('500'); expect(field('pH')).toBeUndefined();
-  expect(renderer.root.findByType(PlantDateField).props.value).toBe('2026-10-26');
+it('ignores old activity drafts and opens immediately', async () => {
+  jest.mocked(readJournalDraft).mockResolvedValue({ version: 1, requestId: 'old', category: 'watering', date: '2026-10-26', description: '', measurements: { waterMl: '500' } });
+  await mount();
+  expect(button('Save watering')).toBeDefined(); expect(field('Water amount')).toBeUndefined();
+  expect(readJournalDraft).not.toHaveBeenCalled();
+  expect(JSON.stringify(renderer.toJSON())).not.toMatch(/draft|Resume activity|Checking saved/i);
+});
+it.each(['watering', 'feeding', 'pests', 'health', 'training', 'measurements', 'repotting', 'flushing', 'notes'] as const)('discards unfinished %s immediately on close without saving or prompting', async initialCategory => {
+  await mount({ initialCategory });
+  if (initialCategory === 'watering') {
+    await act(async () => button('Water amount').props.onPress());
+    await act(async () => field('Water amount').props.onChangeText('500'));
+  } else {
+    const observation = renderer.root.findAllByType(EditorField).find((node: any) => /Observation|Note/.test(node.props.label));
+    await act(async () => observation.props.onChangeText('Unfinished activity'));
+  }
+  await act(async () => renderer.root.findByType(Sheet).props.onClose());
+  expect(close).toHaveBeenCalledTimes(1); expect(save).not.toHaveBeenCalled();
+  expect(readJournalDraft).not.toHaveBeenCalled(); expect(writeJournalDraft).not.toHaveBeenCalled(); expect(clearJournalDraft).not.toHaveBeenCalled();
+  act(() => renderer.unmount()); await mount({ initialCategory });
+  expect(JSON.stringify(renderer.toJSON())).not.toContain('Unfinished activity');
+  if (initialCategory === 'watering') expect(field('Water amount')).toBeUndefined();
+});
+it('keeps watering minimal and puts readings in a separate activity', async () => {
+  await mount();
+  expect(field('Water amount')).toBeUndefined(); expect(field('pH')).toBeUndefined(); expect(button('Additional measurements')).toBeUndefined();
+  await act(async () => button('Save watering').props.onPress());
+  expect(save).toHaveBeenCalledWith('watering', '', '2026-10-27', {}, 'request', expect.anything());
+});
+it('quietly reuses the last amount without opening inputs or creating a draft', async () => {
+  mockRememberedAmount = '250';
+  await mount();
+  expect(JSON.stringify(renderer.toJSON())).toContain('Using last amount');
+  expect(field('Water amount')).toBeUndefined(); expect(writeJournalDraft).not.toHaveBeenCalled();
+  await act(async () => button('Save watering').props.onPress());
+  expect(save).toHaveBeenCalledWith('watering', '', '2026-10-27', { waterMl: 250 }, 'request', expect.anything());
+  expect(rememberWateringAmount).toHaveBeenCalledWith('owner', 'plant', 250);
+});
+it('can clear a reused amount and does not replace it again', async () => {
+  mockRememberedAmount = '250'; await mount();
+  await act(async () => button('Water amount').props.onPress());
+  await act(async () => button('Remove water amount').props.onPress());
+  expect(button('Water amount').props.accessibilityState.expanded).toBe(true);
+  expect(field('Water amount').props.value).toBe('');
+  await act(async () => button('Save watering').props.onPress());
+  expect(save).toHaveBeenCalledWith('watering', '', '2026-10-27', {}, 'request', expect.anything());
+});
+it('uses the heading to collapse and reopen without clearing the amount', async () => {
+  await mount();
+  await act(async () => button('Water amount').props.onPress());
+  await act(async () => field('Water amount').props.onChangeText('250'));
+  await act(async () => button('Water amount').props.onPress());
+  expect(button('Water amount').props.accessibilityState.expanded).toBe(false);
+  expect(field('Water amount')).toBeUndefined();
+  expect(JSON.stringify(renderer.toJSON())).toContain('250 ml');
+  await act(async () => button('Water amount').props.onPress());
+  expect(field('Water amount').props.value).toBe('250');
+});
+it('does not replace an existing activity amount with the remembered default', async () => {
+  mockRememberedAmount = '250';
+  await mount({ entry: { id: 'old', type: 'watering', waterMl: 100 } });
+  expect(field('Water amount').props.value).toBe('100');
+});
+it('offers measurements directly in their own activity', async () => {
+  await mount({ initialCategory: 'measurements' });
+  expect(field('pH')).toBeDefined(); expect(field('Height')).toBeDefined(); expect(field('Soil moisture')).toBeDefined();
+  await act(async () => field('Height').props.onChangeText('30'));
+  await act(async () => button('Save measurements').props.onPress());
+  expect(save).toHaveBeenCalledWith('measurements', 'Measurements recorded.', '2026-10-27', { heightCm: 30 }, 'request', expect.anything());
+});
+it.each(['repotting', 'flushing'] as const)('saves %s with only a date and optional observation', async initialCategory => {
+  await mount({ initialCategory });
+  expect(field('Observation (optional)')).toBeDefined();
+  for (const label of ['pH', 'Height', 'Soil moisture', 'Water amount']) expect(field(label)).toBeUndefined();
+  await act(async () => button(`Save ${initialCategory}`).props.onPress());
+  expect(save).toHaveBeenCalledWith(initialCategory, '', '2026-10-27', {}, 'request', expect.anything());
+});
+it('opens the dedicated harvest flow with the chosen date instead of saving a generic log', async () => {
+  const harvest = jest.fn();
+  await mount({ initialCategory: undefined, onHarvest: harvest });
+  await act(async () => button('Log Harvesting').props.onPress());
+  expect(harvest).toHaveBeenCalledWith('2026-10-27'); expect(save).not.toHaveBeenCalled();
+});
+it.each(['feeding', 'pests', 'training', 'health', 'notes'] as const)('keeps general measurements out of %s', async initialCategory => {
+  await mount({ initialCategory });
+  expect(button('Additional measurements')).toBeUndefined();
+  for (const label of ['pH', 'Height', 'Soil moisture']) expect(field(label)).toBeUndefined();
+  if (initialCategory === 'feeding') expect(field('Nutrient dose')).toBeDefined();
+});
+it('does not attach measurement values when switching to another activity', async () => {
+  await mount({ initialCategory: 'measurements' });
+  await act(async () => field('pH').props.onChangeText('6.5'));
+  await act(async () => button('Change activity type').props.onPress());
+  await act(async () => button('Log Feeding').props.onPress());
+  await act(async () => button('Save feeding').props.onPress());
+  expect(save).toHaveBeenCalledWith('feeding', '', '2026-10-27', {}, 'request', expect.anything());
 });
 it('returns from the type chooser with the activity and entered details intact', async () => {
-  await mount(); await act(async () => field('Water amount').props.onChangeText('500'));
+  await mount(); await act(async () => button('Water amount').props.onPress()); await act(async () => field('Water amount').props.onChangeText('500'));
   await act(async () => button('Change activity type').props.onPress());
   expect(button('Save watering')).toBeUndefined();
-  expect(writeJournalDraft).toHaveBeenLastCalledWith('draft', expect.objectContaining({ category: 'watering', measurements: expect.objectContaining({ waterMl: '500' }) }));
   await act(async () => button('Back to activity details').props.onPress());
   expect(field('Water amount').props.value).toBe('500');
   expect(button('Save watering')).toBeDefined();
 });
 it('shows field validation without attempting a save', async () => {
-  await mount(); await act(async () => field('Water amount').props.onChangeText('-1'));
+  await mount(); await act(async () => button('Water amount').props.onPress()); await act(async () => field('Water amount').props.onChangeText('-1'));
   await act(async () => button('Save watering').props.onPress());
   expect(save).not.toHaveBeenCalled(); expect(field('Water amount').props.error).toContain('between');
 });
@@ -58,44 +149,20 @@ it('prevents double submission and keeps inputs locked while saving', async () =
 });
 it('keeps values and the retry identifier after a failed save', async () => {
   save.mockRejectedValueOnce(new Error('Offline'));
-  await mount(); await act(async () => field('Water amount').props.onChangeText('250'));
+  await mount(); await act(async () => button('Water amount').props.onPress()); await act(async () => field('Water amount').props.onChangeText('250'));
   await act(async () => button('Save watering').props.onPress());
   expect(JSON.stringify(renderer.toJSON())).toContain('Activity wasn’t saved'); expect(field('Water amount').props.value).toBe('250');
   await act(async () => button('Save watering').props.onPress());
   expect(save).toHaveBeenNthCalledWith(2, 'watering', '', '2026-10-27', expect.objectContaining({ waterMl: 250 }), 'request', expect.anything());
 });
-it('disables unchanged edits and preserves a changed date as a draft', async () => {
+it('disables unchanged edits and keeps a changed date only while open', async () => {
   await mount({ entry: { id: 'entry', description: '', type: 'watering' } });
   expect(button('Save activity changes').props.disabled).toBe(true);
   await act(async () => renderer.root.findByType(PlantDateField).props.onChange('2026-10-26'));
   expect(button('Save activity changes').props.disabled).toBe(false);
-  expect(writeJournalDraft).toHaveBeenLastCalledWith('draft', expect.objectContaining({ date: '2026-10-26' }));
 });
 
-const byText = (label: string) => renderer.root.findAll((node: any) => node.props.children?.props?.children === label && typeof node.props.onPress === 'function')[0];
 const currentEntry = { id: 'entry', type: 'note', category: 'notes', description: 'First', calendarDay: '2026-10-27', updatedBy: 'owner', mutationId: 'original', timestamp: { toDate: () => new Date('2026-10-27T12:00:00Z') } } as any;
-it('does not clear or overwrite a draft when recovery fails', async () => {
-  jest.mocked(readJournalDraft).mockRejectedValue(new Error('Storage read failed'));
-  await mount();
-  expect(clearJournalDraft).not.toHaveBeenCalled(); expect(writeJournalDraft).not.toHaveBeenCalled();
-  expect(button('Retry draft recovery')).toBeDefined(); expect(button('Save watering')).toBeUndefined();
-});
-it('retries failed recovery before enabling editing', async () => {
-  jest.mocked(readJournalDraft).mockRejectedValueOnce(new Error('Offline')).mockResolvedValueOnce(null);
-  await mount(); await act(async () => button('Retry draft recovery').props.onPress());
-  expect(button('Save watering')).toBeDefined();
-});
-it('requires explicit review before applying a stale edit draft', async () => {
-  jest.mocked(readJournalDraft).mockResolvedValue({ version: 1, requestId: 'old', entryId: 'entry', entryBaseline: 'stale', category: 'notes', date: '2026-10-27', description: 'Old draft', measurements: {} });
-  jest.mocked(inspectJournalDraft).mockResolvedValue({ kind: 'conflict', entry: currentEntry });
-  await mount({ entry: currentEntry, initialCategory: 'notes' });
-  expect(byText('Resume activity')).toBeUndefined();
-  await act(async () => byText('Review changes').props.onPress());
-  expect(JSON.stringify(renderer.toJSON())).toContain('Current saved activity');
-  await act(async () => byText('Use draft on current version').props.onPress());
-  await act(async () => button('Save activity changes').props.onPress());
-  expect(save).toHaveBeenCalledWith('notes', 'Old draft', '2026-10-27', {}, 'request', { entry: currentEntry, baseline: journalRevision(currentEntry) });
-});
 it('acknowledges the original payload before saving revised values with a new mutation id', async () => {
   jest.mocked(newLogId).mockReturnValueOnce('original').mockReturnValue('corrected');
   save.mockRejectedValueOnce(new Error('Lost response')).mockResolvedValueOnce({ id: 'entry', mutationId: 'original' }).mockResolvedValueOnce({ id: 'entry', mutationId: 'corrected' });
@@ -109,17 +176,6 @@ it('acknowledges the original payload before saving revised values with a new mu
   expect(save.mock.calls[2][1]).toBe('Revised'); expect(save.mock.calls[2][4]).toBe('corrected');
   expect(save.mock.calls[2][5]).toEqual({ entry: currentEntry, baseline: journalRevision(currentEntry) });
   expect(saved).toHaveBeenCalledTimes(1);
-});
-it('reports a successful commit separately from failed local draft cleanup', async () => {
-  await mount(); jest.mocked(clearJournalDraft).mockRejectedValue(new Error('Storage unavailable'));
-  await act(async () => button('Save watering').props.onPress());
-  expect(saved).toHaveBeenCalledWith({ id: 'entry', mutationId: 'request' }, 'watering', '2026-10-27', false, true);
-});
-it('does not offer a committed draft as unfinished when cleanup is unavailable', async () => {
-  jest.mocked(readJournalDraft).mockResolvedValue({ version: 1, requestId: 'original', category: 'notes', date: '2026-10-27', description: 'First', measurements: {} });
-  jest.mocked(inspectJournalDraft).mockResolvedValue({ kind: 'saved', entry: currentEntry });
-  jest.mocked(clearJournalDraft).mockRejectedValue(new Error('Storage unavailable'));
-  await mount(); expect(byText('Resume activity')).toBeUndefined(); expect(byText('View saved activity')).toBeDefined();
 });
 it('opens soil checking directly on moisture input without recording watering', async () => {
   await mount({ initialCategory: 'health', initialContext: 'soil-check' });

@@ -1,23 +1,22 @@
-/* A two-tone focus ring remains visible on both garden themes and images. */
-:is([role="button"], [role="tab"], [role="radio"], a, input, textarea):focus-visible {
+/* Keyboard navigation stays visible on actions, tabs and links. */
+:is([role="button"], [role="tab"], [role="radio"], a):focus-visible {
   outline: 3px solid #c8e78b;
   outline-offset: 3px;
   box-shadow: 0 0 0 6px #243420;
 }
 
-/* Editor inputs have a shared, animated frame that includes their unit badge.
-   Keep keyboard focus visible on that frame instead of outlining its inner text area. */
-:is(input, textarea)[id^="editor-input-"]:focus-visible {
-  outline: none;
+/* Text editing uses the field's own rounded border, not an extra square ring.
+   Apply to all inputs, including search, multiline notes and library controls. */
+:is(input, textarea):focus {
+  outline: 0;
   box-shadow: none;
 }
 
-/* Search uses its rounded outer field for focus feedback. */
-input#plant-search-input:focus-visible {
-  outline: none;
-  box-shadow: none;
+:is(input, textarea):focus:not([aria-invalid="true"]) {
+  border-color: #c8e78b;
 }
 
-#plant-search-field:focus-within {
+/* Compound fields highlight the whole rounded frame, including icons/units. */
+[data-testid="input-focus-frame"]:focus-within {
   box-shadow: inset 0 0 0 1px #c8e78b;
 }

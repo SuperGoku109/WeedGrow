@@ -49,6 +49,31 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
     const serverDb = admin('firebase-admin/firestore').getFirestore();
     for (const pid of ids) await serverDb.doc(`plants/${pid}`).update({ careEventProtocol: 1 });
     const id = ids[0];
+    // Repeating watering uses real owner rules, atomic schedule saves and catch-up.
+    const repeats = require('../services/wateringRoutine.ts');
+    const repeatRef = f.doc(db, 'plants', `${prefix}-repeat`);
+    await f.setDoc(repeatRef, plant);
+    await serverDb.doc(repeatRef.path).update({ careEventProtocol: 1 });
+    const { plantDay: repeatDay, addDays: repeatAddDays, zonedTime: repeatZonedTime } = require('../lib/dates/plantDay.ts');
+    const repeatToday = repeatDay(new Date(), 'UTC');
+    await journal.saveJournalEntry(repeatRef.id, { type: 'watering', category: 'watering', updatedBy: '', wateringRepeatChange: { enabled: true, everyDays: 1, time: '08:00', waterMl: 450, timeZone: 'UTC', startOn: repeatToday } }, repeatToday, undefined, 'repeat-setup');
+    let savedRoutine = (await f.getDoc(repeatRef)).data().wateringRepeat;
+    assert(savedRoutine.nextAt > Date.now());
+    const twoDaysAgo = repeatZonedTime(repeatAddDays(repeatToday, -2), '08:00', 'UTC').getTime();
+    await serverDb.doc(repeatRef.path).update({ 'wateringRepeat.nextAt': twoDaysAgo, 'wateringRepeat.startOn': repeatAddDays(repeatToday, -3) });
+    await Promise.all([repeats.recordDueWateringRoutine(repeatRef.id), repeats.recordDueWateringRoutine(repeatRef.id)]);
+    assert.equal((await f.getDocs(f.collection(repeatRef, 'logs'))).size, 2);
+    for (let i = 0; i < 3; i++) await repeats.recordDueWateringRoutine(repeatRef.id);
+    const repeatLogs = await f.getDocs(f.collection(repeatRef, 'logs'));
+    assert.equal(repeatLogs.size, 3, 'Catch-up fills two past days without overwriting today');
+    assert.equal(repeatLogs.docs.filter(item => item.data().recordingSource === 'schedule').length, 2);
+    await assert.rejects(f.updateDoc(repeatRef, { 'wateringRepeat.everyDays': 0 }));
+    await repeats.stopWateringRoutine(repeatRef.id);
+    assert.equal((await f.getDoc(repeatRef)).data().wateringRepeat, null);
+    for (const item of repeatLogs.docs) await f.deleteDoc(item.ref).catch(() => {});
+    await serverDb.recursiveDelete(serverDb.doc(repeatRef.path));
+    console.log('PASS: owner-rule repeat setup, foreground concurrency/catch-up, preserved daily logs, invalid settings and stopping.');
+
     // Persist, correct, delete and export the actual observation/rain schema,
     // then feed the saved Firestore timestamps back into the pure engine.
     const observationId = `${prefix}-outdoor-observation`;

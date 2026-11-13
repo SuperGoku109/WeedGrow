@@ -16,7 +16,7 @@ export function decodeJournalDraft(raw: string | null): JournalDraft | null {
   try {
     const value = JSON.parse(raw || 'null');
     if (value?.version !== 1 || typeof value.requestId !== 'string' || typeof value.description !== 'string' || typeof value.date !== 'string' || !value.measurements || typeof value.measurements !== 'object' || Array.isArray(value.measurements)) return null;
-    if (value.category && !['watering', 'feeding', 'pests', 'health', 'training', 'notes'].includes(value.category)) return null;
+    if (value.category && !['watering', 'feeding', 'pests', 'health', 'measurements', 'repotting', 'flushing', 'training', 'notes'].includes(value.category)) return null;
     if (value.entryId != null && typeof value.entryId !== 'string' || value.entryBaseline != null && typeof value.entryBaseline !== 'string') return null;
     if (value.attempt && (typeof value.attempt.requestId !== 'string' || typeof value.attempt.targetId !== 'string' || typeof value.attempt.date !== 'string' || !value.attempt.input || typeof value.attempt.input.type !== 'string')) return null;
     if (Object.values(value.measurements).some(item => typeof item !== 'string')) return null;

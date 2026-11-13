@@ -1,7 +1,7 @@
 import type { PlantLog } from '@/firestoreModels';
 import { isCalendarDay } from '@/lib/dates/plantDay';
 
-export type JournalCategory = 'watering' | 'feeding' | 'pests' | 'training' | 'health' | 'notes';
+export type JournalCategory = 'watering' | 'feeding' | 'pests' | 'training' | 'health' | 'measurements' | 'repotting' | 'flushing' | 'notes';
 export function localDateKey(date = new Date()): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
 }
@@ -13,7 +13,7 @@ export function validateLogDate(value: string, today = localDateKey()): string |
 }
 export function buildManualPlantLog(category: JournalCategory, description: string, updatedBy = ''): Omit<PlantLog, 'timestamp'> {
   const types: Record<JournalCategory, PlantLog['type']> = {
-    watering: 'watering', feeding: 'fertilizing', pests: 'note', training: 'training', health: 'note', notes: 'note',
+    watering: 'watering', feeding: 'fertilizing', pests: 'note', training: 'training', health: 'note', measurements: 'note', repotting: 'note', flushing: 'note', notes: 'note',
   };
   return { type: types[category], category, description: description.trim(), updatedBy };
 }

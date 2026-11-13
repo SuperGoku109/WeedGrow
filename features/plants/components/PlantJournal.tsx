@@ -36,7 +36,7 @@ export function JournalTimeline({ logs, theme: t, loading, error, onEdit, onDele
     if (event && row?.measureInWindow) row.measureInWindow((x, y, width, height) => open({ x, y, width, height }));
     else open({ x: event?.nativeEvent.pageX || 12, y: event?.nativeEvent.pageY || 12, width: 0, height: 0 });
   };
-  const menuEntry = menu && logs.find(log => log.id === menu.id && !log.movement && !log.stageReview && ['watering', 'feeding', 'pests', 'training', 'health', 'notes'].includes(journalCategory(log)));
+  const menuEntry = menu && logs.find(log => log.id === menu.id && !log.movement && !log.stageReview && ['watering', 'feeding', 'pests', 'training', 'health', 'measurements', 'repotting', 'flushing', 'notes'].includes(journalCategory(log)));
   React.useEffect(() => { if (menu && !menuEntry) setMenu(null); }, [menu, menuEntry]);
   const [expanded, setExpanded] = React.useState<Record<string, boolean>>({});
   const action = (label: string, handler: () => void, danger = false) => <PlantActionButton label={label.startsWith('Edit ') ? 'Edit entry' : label.startsWith('Delete ') ? 'Delete entry' : label} accessibilityLabel={label} icon={danger ? 'trash-can-outline' : label.startsWith('Edit ') ? 'pencil-outline' : label === 'Show less' ? 'chevron-up' : label.startsWith('Read ') ? 'chevron-down' : label === 'View in Photos' ? 'image-outline' : 'refresh'} theme={t} danger={danger} onPress={handler} />;
@@ -46,11 +46,11 @@ export function JournalTimeline({ logs, theme: t, loading, error, onEdit, onDele
     {!logs.length && !loading && !error && <View style={{ flexDirection: 'row', gap: 12, paddingVertical: 18, alignItems: 'center' }}><View style={{ backgroundColor: t.surface, borderRadius: 14, width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name="notebook-outline" size={22} color={t.muted} /></View><View style={{ flex: 1 }}><Text style={{ color: t.text, fontSize: 15 }}>{emptyMessage}</Text><Text style={{ color: t.muted, lineHeight: 20, fontSize: 13, marginTop: 5 }}>Use Add activity to keep a record of your care.</Text></View></View>}
     {!!logs.length && <View onLayout={event => { entriesTop.current = event.nativeEvent.layout.y; }} style={{ backgroundColor: t.surface, borderRadius: 20, overflow: 'hidden' }}>{logs.map((log, index) => {
       const kind = journalKind(log); const time = journalEntryTime(log, timeZone); const category = journalCategory(log);
-      const manual = !log.movement && !log.stageReview && ['watering', 'feeding', 'pests', 'training', 'health', 'notes'].includes(category);
+      const manual = !log.movement && !log.stageReview && ['watering', 'feeding', 'pests', 'training', 'health', 'measurements', 'repotting', 'flushing', 'notes'].includes(category);
       const editable = !!onEdit && manual; const deletable = !!onDelete && manual;
       const selected = highlightedId === log.id;
       const structured = !!log.moistureState || !!log.rainfallObservation || measurementKeys.some(key => log[key] != null);
-      const description = (category === 'health' && structured && log.description === 'Health measurements recorded.') || (category === 'watering' && log.description === 'Watering recorded.') ? '' : log.description;
+      const description = (['health', 'measurements'].includes(category) && structured && ['Health measurements recorded.', 'Measurements recorded.'].includes(log.description || '')) || (category === 'watering' && log.description === 'Watering recorded.') ? '' : log.description;
       const long = (description?.length || 0) > 240 || (description?.split('\n').length || 0) > 5;
       const spokenDetails = [description, log.moistureState && `Soil reported ${log.moistureState.toLowerCase()}`, log.rainfallObservation && `Rain reported ${log.rainfallObservation.toLowerCase()}`, ...measurementKeys.filter(key => log[key] != null).map(key => `${measurementFields[key].label}: ${log[key]} ${key === 'ph' ? '' : measurementFields[key].unit}`)].filter(Boolean).join('. ');
       const Row = editable || deletable ? Pressable : View;
@@ -63,6 +63,7 @@ export function JournalTimeline({ logs, theme: t, loading, error, onEdit, onDele
           <Text style={{ flex: 1, minWidth: 0, color: t.text, fontSize: 15, lineHeight: 20, fontWeight: '600' }}>{kind.label}</Text>
           <Text accessibilityLabel={time === 'Time not recorded' ? time : `Logged at ${time}`} style={{ color: t.muted, fontSize: 12, lineHeight: 20, fontVariant: ['tabular-nums'] }}>{time === 'Time not recorded' ? 'No time' : time}</Text>
         </View>
+        {log.recordingSource === 'schedule' && <Text style={{ color: t.muted, fontSize: 12, marginLeft: 30, marginTop: 4 }}>Automatically recorded</Text>}
         {category === 'photo' && log.photoUri && <GrowPress accessibilityRole="button" accessibilityLabel="View progress photo" onPress={() => onViewPhoto?.(log)} disabled={!onViewPhoto} style={{ marginTop: 14 }}><PlantImage source={{ uri: log.photoUri }} style={{ width: '100%', height: 160, borderRadius: 12, backgroundColor: t.elevated }} /></GrowPress>}
         {!!description && <Text selectable numberOfLines={long && !expanded[log.id] ? 4 : undefined} style={{ color: t.text, fontSize: 14, lineHeight: 22, marginTop: 8, marginLeft: 30 }}>{description}</Text>}
         {log.rainfallObservation && <ObservationRow label="Rainfall" value={log.rainfallObservation[0] + log.rainfallObservation.slice(1).toLowerCase()} color={t.water} theme={t} accessibilityLabel={`Rain reported ${log.rainfallObservation.toLowerCase()} · user-confirmed rainfall`} />}

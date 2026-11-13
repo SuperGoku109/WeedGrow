@@ -5,12 +5,14 @@ import { rebuildCareSummary, runMaintenance } from './operations';
 import { refreshPlantCare } from './careOperations';
 import { captureWaterEvent } from './careEventLedger';
 import { captureSetupTransition } from './careStateLedger';
+import { runRepeatingWatering } from './repeatingWatering';
 import { careInputKey } from '../../lib/careAlgorithm/snapshot';
 import type { Plant } from '../../firestoreModels';
 initializeApp();
 // Match the existing Firestore database's Johannesburg location.
 const region = 'africa-south1';
 export const collectGardenWeather = onSchedule({ region, schedule: 'every 15 minutes', timeZone: 'UTC', timeoutSeconds: 540, maxInstances: 1, retryCount: 2 }, async () => runMaintenance(''));
+export const recordRepeatingWatering = onSchedule({ region, schedule: 'every 15 minutes', timeZone: 'UTC', timeoutSeconds: 540, maxInstances: 1, retryCount: 2 }, async () => runRepeatingWatering());
 export const summarizePlantCare = onDocumentWritten({ region, document: 'plants/{plantId}/logs/{logId}', retry: true, maxInstances: 4 }, async event => {
   const kinds = [event.data?.before.data()?.type, event.data?.after.data()?.type];
   if (kinds.some(k => k === 'watering' || k === 'fertilizing')) {

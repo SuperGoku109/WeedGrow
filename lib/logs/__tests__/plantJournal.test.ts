@@ -3,7 +3,7 @@ import type { PlantLog } from '@/firestoreModels';
 
 describe('manual journal entries', () => {
   it('preserves pest and health categories while remaining compatible with note storage', () => {
-    for (const category of ['pests', 'health'] as const) {
+    for (const category of ['pests', 'health', 'repotting', 'flushing'] as const) {
       const entry = buildManualPlantLog(category, '  checked leaves  ');
       expect(entry).toMatchObject({ type: 'note', category, description: 'checked leaves' });
       expect(journalCategory(entry as PlantLog)).toBe(category);

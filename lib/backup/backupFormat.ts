@@ -15,6 +15,8 @@ const allowed: Record<string, string[]> = {
   sensorProfiles: ['name', 'createdBy', 'createdAt', 'updatedAt', 'temperature', 'humidity', 'soilMoisture', 'light', 'source', 'readings', 'environment', 'description', 'type', 'settings', 'environmentType', 'isManual', 'defaultTemp', 'defaultHumidity', 'restoreOperationId'],
 };
 allowed.plants.push('rainReception', 'careMedium', 'potMaterial', 'potType', 'growingSite', 'potDrainage', 'fertilizerForm', 'feedingReminderSchedule');
+allowed.plants.push('wateringRepeat');
+allowed.logs.push('recordingSource', 'wateringRepeatChange');
 allowed.logs.push('moistureState', 'moistureConfiguration', 'inspectionFeedback', 'rainfallObservation');
 allowed.plants.push('stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn', 'stageTrackingVersion', 'stageRevision', 'growthProfile', 'stageReview', 'stagePush', 'stageReminders', 'postHarvestTracking');
 allowed.logs.push('fromStage', 'toStage', 'stageRevision', 'stageReview');

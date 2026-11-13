@@ -55,6 +55,7 @@ export interface Plant {
     careSnoozes?: { watering?: number; feeding?: number };
     careSkips?: { watering?: string; feeding?: string };
     deleting?: boolean;
+    wateringRepeat?: import('./lib/logs/wateringRepeat').WateringRepeat | null;
     harvest?: { date: string; weightGrams?: number; notes: string; recordId: string };
     owners: string[];
     growthStage: 'unknown' | 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone' | 'harvested' | 'drying' | 'curing' | 'completed';
@@ -128,7 +129,9 @@ export interface Plant {
     /** Rain explicitly reported by the user; never a watering event. */
     rainfallObservation?: 'LIGHT' | 'MODERATE' | 'HEAVY';
     inspectionFeedback?: 'useful' | 'too_early' | 'too_late';
-    category?: 'watering' | 'feeding' | 'pests' | 'training' | 'health' | 'notes';
+    wateringRepeatChange?: import('./lib/logs/wateringRepeat').WateringRepeatChange;
+    recordingSource?: 'schedule';
+    category?: 'watering' | 'feeding' | 'pests' | 'training' | 'health' | 'measurements' | 'repotting' | 'flushing' | 'notes';
     timestamp: Timestamp;
     type: 'watering' | 'fertilizing' | 'note' | 'photo' | 'training' | 'stage_change' | 'harvest';
     description?: string;

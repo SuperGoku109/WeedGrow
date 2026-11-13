@@ -1,7 +1,8 @@
 import { journalEntryPayload, journalPayload, journalRevision, journalTargetId } from './journalMutation';
+import { nextWateringRepeat, validWateringRepeat } from './wateringRepeat';
 import { validateMeasurements } from './logMeasurements';
 import { plantDay, zonedTime, addDays } from '@/lib/dates/plantDay';
-import { collection, doc, getDoc, getDocs, query, runTransaction, serverTimestamp, Timestamp, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, runTransaction, serverTimestamp, Timestamp, where } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import { requireUserId } from '@/services/session';
 import type { PlantLog } from '@/firestoreModels';
@@ -14,6 +15,13 @@ export type LogInput = Omit<PlantLog, 'timestamp'>;
 const affectsCare = (log: Partial<PlantLog>) => !!log.moistureState || !!log.rainfallObservation || !!log.careCheck || log.category === 'pests' || ['watering', 'fertilizing'].includes(log.type ?? '');
 export const wateringId = (date: string) => `watering_${date}`;
 export const newLogId = () => doc(collection(db, 'journalIds')).id;
+export async function readLastWateringAmount(plantId: string): Promise<{ hasEntry: boolean; amount?: number }> {
+  requireUserId();
+  const snapshot = await getDocs(query(collection(db, 'plants', plantId, 'logs'), where('type', '==', 'watering'), orderBy('timestamp', 'desc'), limit(1)));
+  const log = snapshot.docs[0]?.data();
+  const amount = log?.waterMl;
+  return { hasEntry: !!log, ...(typeof amount === 'number' && Number.isFinite(amount) && amount >= 0 && amount <= 1000000 ? { amount } : {}) };
+}
 export async function legacyWaterings(plantId: string, day: string, zone?: string | null) {
   return getDocs(query(collection(db, 'plants', plantId, 'logs'), where('type', '==', 'watering'),
     where('timestamp', '>=', Timestamp.fromDate(zonedTime(day, '00:00', zone))),
@@ -30,6 +38,7 @@ export async function saveJournalEntry(plantId: string, input: LogInput, date: s
   const dateError = validateLogDate(date, plantDay(new Date(), zone));
   if (dateError) throw new Error(dateError);
   validateMeasurements(input);
+  if (input.wateringRepeatChange && (input.type !== 'watering' || !validWateringRepeat(input.wateringRepeatChange))) throw new Error('Invalid repeating watering settings.');
   const id = journalTargetId(input, date, requestId, existing);
   if (input.type === 'watering') {
     const legacy = await legacyWaterings(plantId, date, zone);
@@ -50,6 +59,11 @@ export async function saveJournalEntry(plantId: string, input: LogInput, date: s
     if (existing && (!old?.exists() || journalRevision(old.data()) !== (baseline || journalRevision(existing)))) throw new Error('This entry changed. Reload it before editing.');
     if (target.exists() && existing?.id !== id) throw new Error('Watering already logged for this day.');
     if (!existing && plant.data().status !== 'active') throw new Error('Restore this plant before recording new activities.');
+    if (input.wateringRepeatChange) {
+      const change = input.wateringRepeatChange;
+      if (change.enabled && (plant.data().status !== 'active' || plant.data().harvest || ['harvested', 'drying', 'curing', 'completed'].includes(plant.data().growthStage))) throw new Error('Repeating watering is only available for living, active plants.');
+      transaction.update(doc(db, 'plants', plantId), { wateringRepeat: change.enabled ? { ...change, nextAt: nextWateringRepeat(change, Date.now()) } : null });
+    }
     if (oldRef && existing?.id !== id) transaction.delete(oldRef);
     if ((plant.data().locationTimeZone || null) !== (zone || null)) throw new Error('The plant location changed. Reopen this entry before saving.');
     if (date === plantDay(new Date(), zone) && ['watering', 'fertilizing'].includes(input.type)) {
@@ -60,7 +74,7 @@ export async function saveJournalEntry(plantId: string, input: LogInput, date: s
     const sameDay = !!existing && (existing.calendarDay || plantDay(existing.timestamp.toDate(), existing.timeZone || zone)) === date;
     const eventZone = sameDay ? existing.timeZone || zone : zone;
     const precision = sameDay ? existing.occurrencePrecision || 'time' : date === plantDay(new Date(), zone) ? 'time' : 'date';
-    transaction.set(ref, { ...input, calendarDay: date, ...(eventZone ? { timeZone: eventZone } : {}), occurrencePrecision: precision, updatedBy: uid, mutationId: requestId,
+    transaction.set(ref, { ...input, ...(existing?.recordingSource ? { recordingSource: existing.recordingSource } : {}), calendarDay: date, ...(eventZone ? { timeZone: eventZone } : {}), occurrencePrecision: precision, updatedBy: uid, mutationId: requestId,
       timestamp: sameDay ? existing!.timestamp : date === plantDay(new Date(), zone) ? serverTimestamp() : Timestamp.fromDate(zonedTime(date!, '12:00', zone)),
       ...(existing ? existing.recordedAt ? { recordedAt: existing.recordedAt } : {} : { recordedAt: serverTimestamp() }), editedAt: serverTimestamp() });
   });

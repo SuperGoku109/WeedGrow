@@ -1,10 +1,10 @@
 import { getDoc, getDocs, runTransaction } from 'firebase/firestore';
-import { saveJournalEntry, deleteJournalEntry, validateMeasurements } from '../journalRepository';
+import { saveJournalEntry, deleteJournalEntry, validateMeasurements, readLastWateringAmount } from '../journalRepository';
 jest.mock('@/services/session', () => ({ requireUserId: jest.fn(() => 'user-a') }));
 jest.mock('@/services/firebase', () => ({ db: {} }));
 jest.mock('firebase/firestore', () => ({
   collection: jest.fn(() => 'logs'), doc: jest.fn((_db, ...parts) => ({ id: parts.at(-1) || 'request', path: parts.join('/') })),
-  serverTimestamp: jest.fn(() => 'server-time'), query: jest.fn(), where: jest.fn(), getDoc: jest.fn(), getDocs: jest.fn(), runTransaction: jest.fn(), Timestamp: { fromDate: (date: Date) => date },
+  serverTimestamp: jest.fn(() => 'server-time'), query: jest.fn(), where: jest.fn(), orderBy: jest.fn(), limit: jest.fn(), getDoc: jest.fn(), getDocs: jest.fn(), runTransaction: jest.fn(), Timestamp: { fromDate: (date: Date) => date },
 }));
 const update = jest.fn(); const set = jest.fn(); const remove = jest.fn(); const get = jest.fn();
 beforeEach(() => {
@@ -12,6 +12,13 @@ beforeEach(() => {
   jest.mocked(getDocs).mockResolvedValue({ docs: [], empty: true } as never);
   get.mockImplementation(async ref => ref.path === 'plants/p' ? { exists: () => true, data: () => ({ owners: ['user-a'], status: 'active' }) } : { exists: () => false });
   jest.mocked(runTransaction).mockImplementation(async (_db, callback) => callback({ get, set, update, delete: remove } as never));
+});
+it('reads the latest watering amount and leaves unmeasured watering unknown', async () => {
+  jest.mocked(getDocs).mockResolvedValueOnce({ docs: [{ data: () => ({ waterMl: 250 }) }] } as never);
+  expect(await readLastWateringAmount('p')).toEqual({ hasEntry: true, amount: 250 });
+  jest.mocked(getDocs).mockResolvedValueOnce({ docs: [{ data: () => ({}) }] } as never);
+  expect(await readLastWateringAmount('p')).toEqual({ hasEntry: true });
+  expect(await readLastWateringAmount('p')).toEqual({ hasEntry: false });
 });
 it('uses the same watering document for competing devices on the same local date', async () => {
   await saveJournalEntry('p', { type: 'watering', updatedBy: '' }, '2026-09-10', undefined, 'request-a');

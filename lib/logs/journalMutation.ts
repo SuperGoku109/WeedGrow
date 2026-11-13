@@ -14,7 +14,7 @@ function normalized(value: unknown): unknown {
 }
 export function journalRevision(entry: Partial<PlantLog>) { return JSON.stringify(normalized({ ...entry, updatedBy: entry.updatedBy || '' })); }
 export function journalPayload(input: Partial<PlantLog>, date: string) {
-  const keys = ['type', 'category', 'description', ...measurementKeys, 'rainfallObservation', 'moistureState', 'moistureConfiguration', 'inspectionFeedback', 'careCheck', 'inspectionResult', 'photoUri'] as const;
+  const keys = ['type', 'category', 'description', 'wateringRepeatChange', ...measurementKeys, 'rainfallObservation', 'moistureState', 'moistureConfiguration', 'inspectionFeedback', 'careCheck', 'inspectionResult', 'photoUri'] as const;
   return JSON.stringify(normalized({ date, ...Object.fromEntries(keys.map(key => [key, key === 'description' ? input[key] || '' : input[key] ?? null])) }));
 }
 export function journalEntryPayload(entry: PlantLog) { return journalPayload(entry, entry.calendarDay || plantDay(entry.timestamp.toDate(), entry.timeZone)); }

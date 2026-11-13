@@ -10,7 +10,7 @@ import { plantThemes, type PlantTheme } from './plantDetailTheme';
 const t = plantThemes.grove;
 export const EditorTheme = React.createContext<PlantTheme>(t);
 
-export function EditorField({ label, error, helper, suffix, suffixControl, inputRef, ...props }: TextInputProps & { label: string; error?: string; helper?: string; suffix?: string; suffixControl?: React.ReactNode; inputRef?: React.Ref<TextInput> }) {
+export function EditorField({ label, error, helper, suffix, suffixControl, inputRef, hideLabel = false, ...props }: TextInputProps & { label: string; error?: string; helper?: string; suffix?: string; suffixControl?: React.ReactNode; inputRef?: React.Ref<TextInput>; hideLabel?: boolean }) {
   const t = React.useContext(EditorTheme);
   const reduced = useReducedMotion();
   const inputId = React.useId();
@@ -21,7 +21,7 @@ export function EditorField({ label, error, helper, suffix, suffixControl, input
   };
   React.useEffect(() => () => focus.stopAnimation(), [focus]);
   return <View style={s.field}>
-    <Text style={[s.label, { color: t.muted }]}>{label}</Text>
+    {!hideLabel && <Text style={[s.label, { color: t.muted }]}>{label}</Text>}
     <Animated.View style={[s.inputFrame, { backgroundColor: t.surface, opacity: props.editable === false ? 0.55 : 1, borderColor: focus.interpolate({ inputRange: [0, 1], outputRange: [error ? t.danger : t.border, error ? t.danger : t.accent] }) }]}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}><TextInput {...props} nativeID={props.nativeID || `editor-input-${inputId}`} underlineColorAndroid="transparent" ref={inputRef} accessibilityLabel={label} accessibilityHint={error || helper || (suffix ? `Value in ${suffix}.` : undefined)} aria-invalid={!!error} placeholderTextColor={t.muted} selectionColor={t.accent}
         onFocus={event => { animate(1); props.onFocus?.(event); }}

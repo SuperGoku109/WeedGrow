@@ -1,5 +1,7 @@
 import { evaluateSuggestionCardsForPlant } from '@/lib/suggestions/suggestionCards';
 import React from 'react';
+import PlantBanner from '../components/PlantBanner';
+import PlantLifecycle from '../components/PlantLifecycle';
 // @ts-expect-error Expo includes the renderer without declarations.
 import { act, create } from 'react-test-renderer';
 import PlantDetailScreen from '../screens/PlantDetailScreen';
@@ -52,6 +54,15 @@ function selectedTab() { return renderer.root.findAll((node: any) => node.props.
 beforeEach(() => { jest.useFakeTimers(); mockNow = new Date('2026-10-26T12:00:00Z'); jest.setSystemTime(mockNow); mockParams = { id: 'plant' }; mockLogs = []; jest.mocked(saveJournalEntry).mockClear(); });
 afterEach(() => { act(() => renderer?.unmount()); jest.useRealTimers(); });
 function dates() { return renderer.root.findByType(JournalDateNavigator); }
+it('opens the existing harvest flow from Add activity with its selected date', async () => {
+  await mount();
+  act(() => button('Add activity').props.onPress());
+  act(() => renderer.root.findByType(Composer).props.onHarvest('2026-10-25'));
+  expect(renderer.root.findAllByType(Composer)).toHaveLength(0);
+  const harvest = renderer.root.findAllByType(PlantLifecycle).find((node: any) => node.props.harvestOnly);
+  expect(harvest.props.initialDate).toBe('2026-10-25');
+  expect(saveJournalEntry).not.toHaveBeenCalled();
+});
 function tab(name: string) { return renderer.root.findAll((node: any) => node.props.accessibilityRole === 'tab' && node.props.children?.props?.children === name && typeof node.props.onPress === 'function')[0]; }
 
 it('opens one quiet daily Journal with three tabs and fixed creation actions', async () => {
@@ -70,14 +81,14 @@ it('shows all actual records once and keeps management behind an entry menu', as
 });
 it.each(['2026-10-26', '2026-10-25'])('after saving %s, selects that day in the same Journal', async day => {
   await mount(); act(() => button('Add activity').props.onPress());
-  await act(async () => { const props = renderer.root.findByType(Composer).props; const result = await props.onSave('notes', 'Checked the leaves', day, {}, 'request'); props.onSaved(result, 'notes', day, false, false); });
+  await act(async () => { const props = renderer.root.findByType(Composer).props; const result = await props.onSave('notes', 'Checked the leaves', day, {}, 'request'); props.onSaved(result, 'notes', day, false); });
   expect(saveJournalEntry).toHaveBeenCalledTimes(1); expect(selectedTab()).toBe('Journal'); expect(dates().props.selected).toBe(day);
   expect(renderer.root.findAllByType(Composer)).toHaveLength(0);
 });
 it('keeps a saved day historical after midnight rather than following today away from it', async () => {
   await mount(); act(() => button('Add activity').props.onPress());
   mockNow = new Date('2026-10-27T12:00:00Z'); jest.setSystemTime(mockNow);
-  await act(async () => { const props = renderer.root.findByType(Composer).props; const result = await props.onSave('notes', 'Late entry', '2026-10-26', {}, 'midnight'); props.onSaved(result, 'notes', '2026-10-26', false, false); });
+  await act(async () => { const props = renderer.root.findByType(Composer).props; const result = await props.onSave('notes', 'Late entry', '2026-10-26', {}, 'midnight'); props.onSaved(result, 'notes', '2026-10-26', false); });
   expect(dates().props.selected).toBe('2026-10-26'); expect(renderer.root.findAllByType(DailyCareAdvice)).toHaveLength(0);
 });
 it('retains the browsed date across tabs and never shows live advice or refreshable current weather for that day', async () => {
@@ -106,10 +117,10 @@ it('maps old Today links to the daily Journal and preserves a valid history deep
   expect(selectedTab()).toBe('Journal'); expect(dates().props.selected).toBe('2026-10-25');
 });
 
-it('opens the complete editor from the persistent Edit plant action', async () => {
+it('opens the complete editor from the photo edit action', async () => {
   await mount();
   expect(renderer.root.findAllByType(PlantSectionEditor)).toHaveLength(0);
-  act(() => button('Edit plant').props.onPress());
+  act(() => renderer.root.findByType(PlantBanner).props.onEdit());
   expect(mockRouter.push).toHaveBeenCalledWith({ pathname: '/plant/[id]/edit', params: { id: 'plant', theme: 'grove' } });
   expect(renderer.root.findAllByType(PlantSectionEditor)).toHaveLength(0);
 });
