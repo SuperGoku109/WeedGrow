@@ -9,21 +9,22 @@ import { useRouter } from 'expo-router';
 import { useSession } from '@/services/session';
 import { savePreferences } from '@/services/preferences';
 import { usePreferences } from '@/hooks/usePreferences';
-import { usePlantAppearance } from '@/hooks/usePlantAppearance';
-import { savePlantAppearance } from '@/services/plantAppearance';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { requestReminderPermission } from '@/services/reminders';
 import { savePortableFile, chooseBackupFile } from '@/services/portableFiles';
 import { prepareRestore, exportGarden, exportJournalCsv, restoreGarden, type RestorePlan } from '@/lib/backup/gardenBackup';
 import { validateBackup } from '@/lib/backup/backupFormat';
 import { GrowPress } from '@/ui/GrowMotion';
 import ActionDialog from '@/ui/ActionDialog';
-import { palette, s } from '@/features/addPlant/components/FlowUI';
+import { palette as basePalette, s as baseStyles } from '@/features/addPlant/components/FlowUI';
+import { useAppTheme } from '@/hooks/useAppTheme';
+import ThemePicker from '../components/ThemePicker';
 function MoreContent() {
   const router = useRouter();
   const { user } = useSession();
   const { preferences, error } = usePreferences(user?.uid);
-  const appearance = usePlantAppearance();
+  const t = useAppTheme();
+  const palette = { ...basePalette, bg: t.background, panel: t.surface, input: t.elevated, ink: t.text, muted: t.muted, accent: t.accent, dark: t.onAccent, border: t.border, error: t.danger };
+  const s = { ...baseStyles, sectionTitle: [baseStyles.sectionTitle, { color: t.text }], hint: [baseStyles.hint, { color: t.muted }] };
   const operation = useAsyncTask(user?.uid || 'device');
   const busy = operation.status === 'running';
   const [message, setMessage] = React.useState('');
@@ -40,12 +41,8 @@ function MoreContent() {
     {button('Daily care checklist', () => router.push('/care'))}
     {button('Search garden journal', () => router.push('/journal'))}
     {button('Manage sensor profiles', () => router.push('/manage-sensor-profiles'))}
+    <ThemePicker />
     <View style={{ backgroundColor: palette.panel, padding: 16, borderRadius: 18, gap: 14, marginTop: 12 }}><Text accessibilityRole="header" style={s.sectionTitle}>Device preferences</Text><Text style={s.hint}>Saved on this device for your account.</Text>
-    <View style={{ gap: 8 }}><Text style={{ color: palette.ink, fontSize: 16 }}>Plant screen appearance</Text>
-    <View accessibilityRole="radiogroup" accessibilityLabel="Plant screen appearance" style={{ flexDirection: 'row', gap: 8 }}>{([{ value: 'daylight', label: 'Light', icon: 'weather-sunny' }, { value: 'grove', label: 'Dark', icon: 'weather-night' }] as const).map(option => {
-      const selected = appearance.themeName === option.value;
-      return <GrowPress key={option.value} containerStyle={{ flex: 1 }} accessibilityRole="radio" accessibilityLabel={`${option.label} appearance`} aria-checked={selected} accessibilityState={{ checked: selected }} disabled={busy || appearance.status === 'loading'} onPress={() => { if (!selected) void run(async () => { await savePlantAppearance(option.value); }); }} style={{ minHeight: 40, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, borderRadius: 12, backgroundColor: selected ? palette.accent : palette.bg }}><MaterialCommunityIcons name={option.icon} size={18} color={selected ? palette.dark : palette.muted} /><Text style={{ color: selected ? palette.dark : palette.ink, fontSize: 14, fontWeight: '600' }}>{option.label}</Text>{selected && <MaterialCommunityIcons name="check" size={16} color={palette.dark} />}</GrowPress>;
-    })}</View>{!!appearance.error && <Text accessibilityRole="alert" style={s.error}>{appearance.error}</Text>}</View>
     <Text style={s.hint}>Default growing environment for new plants</Text>
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{(['outdoor', 'indoor', 'greenhouse'] as const).map(environment => <Pressable key={environment} accessibilityRole="radio" accessibilityState={{ checked: preferences.defaultEnvironment === environment, disabled: busy }} disabled={busy} onPress={() => void run(async () => { await savePreferences({ ...preferences, defaultEnvironment: environment }, user?.uid); })} hitSlop={4} style={{ minHeight: 40, justifyContent: 'center', paddingHorizontal: 14, borderWidth: 1, borderColor: palette.border, borderRadius: 24, backgroundColor: preferences.defaultEnvironment === environment ? palette.accent : palette.bg }}><Text style={{ fontSize: 14, textTransform: 'capitalize', color: preferences.defaultEnvironment === environment ? palette.dark : palette.ink }}>{preferences.defaultEnvironment === environment ? '✓ ' : ''}{environment}</Text></Pressable>)}</View>
     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}><View style={{ flex: 1 }}><Text style={{ color: palette.ink, fontSize: 16 }}>Device care reminders</Text><Text style={s.hint}>{Platform.OS === 'web' ? 'Use the care checklist in this browser. Scheduled reminders require the installed mobile app.' : 'Schedules up to 50 checks over the next 30 days on this device. Open the app regularly to refresh the schedule.'}</Text></View><Switch accessibilityLabel="Enable device care reminders" value={preferences.reminders} disabled={busy || !user || Platform.OS === 'web'} onValueChange={enabled => void run(async () => { if (enabled) await requestReminderPermission(); await savePreferences({ ...preferences, reminders: enabled }, user?.uid); })} /></View>

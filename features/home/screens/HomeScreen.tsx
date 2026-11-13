@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { PlantListSkeleton } from '@/ui/LoadingFeedback';
 import CountBadge from '@/ui/CountBadge';
 import React from 'react';
@@ -31,7 +32,6 @@ import { waterGrowingSpace } from '@/lib/logs/groupWatering';
 import { useGardenWeather } from '../GardenWeatherProvider';
 import { MAX_ATOMIC_WATERING_PLANTS } from '@/features/groups/groupPolicy';
 
-const t = gardenThemes.grove;
 export default function HomeScreen(_props: { initialTabIndex?: number }) {
   const { user, loading } = useSession();
   // Reset viewing preferences synchronously when the account changes.
@@ -39,6 +39,8 @@ export default function HomeScreen(_props: { initialTabIndex?: number }) {
 }
 
 function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boolean }) {
+  const t = useAppTheme();
+  const s = makeStyles(t);
   const router = useRouter();
   const spaces = useOwnedGroups();
   const collection = usePlantList();
@@ -161,7 +163,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
   </View>;
 }
 
-const s = StyleSheet.create({
+const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   safeArea: { flex: 1, width: '100%', maxWidth: 760, alignSelf: 'center' },
   top: { paddingHorizontal: 18, paddingTop: 6, gap: 8 },
   listHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8, paddingTop: 4 },

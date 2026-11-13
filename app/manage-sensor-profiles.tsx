@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import CloseButton from '@/ui/CloseButton';
 import Feedback from '@/ui/Feedback';
 import { gardenThemes } from '@/design-system/tokens/garden';
@@ -20,9 +21,9 @@ function GrowPress({ style, ...props }: React.ComponentProps<typeof Pressable>) 
   return <Pressable {...props} hitSlop={4} style={state => [typeof style === 'function' ? style(state) : style, { opacity: props.disabled ? 0.5 : state.pressed ? 0.76 : 1 }]} />;
 }
 
-const palette = gardenThemes.grove;
 
 function ProfileHeroArt({ compact }: { compact: boolean }) {
+  const styles = makeStyles(useAppTheme());
   return (
     <View
       pointerEvents="none"
@@ -41,6 +42,8 @@ function ProfileHeroArt({ compact }: { compact: boolean }) {
 }
 
 function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string } = {}) {
+  const palette = useAppTheme();
+  const styles = makeStyles(palette);
   const router = useRouter();
   const { user } = useSession();
   const { width, height } = useWindowDimensions();
@@ -223,7 +226,7 @@ function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string }
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (palette: typeof gardenThemes.grove) => StyleSheet.create({
   safeArea: { flex: 1, backgroundColor: palette.background },
   page: { flex: 1, width: '100%', maxWidth: 760, alignSelf: 'center' },
   container: { paddingHorizontal: 18, paddingTop: 14, paddingBottom: 36 },

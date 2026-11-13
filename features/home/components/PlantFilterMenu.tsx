@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { Animated, Easing, Keyboard, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,11 +10,12 @@ import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, plantSortOptions, select
 import { GROWTH_GUIDE_STAGES } from '@/features/plants/growthStagePresentation';
 import type { Plant } from '@/firestoreModels';
 
-const t = gardenThemes.grove;
 export default function PlantFilterMenu({ anchor, options, status, plants, query, showEnvironment, onApply, onClose }: {
   anchor: MenuAnchor; options: PlantListOptions; status: string | null; plants: (Plant & { id: string })[]; query: string; showEnvironment: boolean;
   onApply(options: PlantListOptions, status: string): void; onClose(): void;
 }) {
+  const t = useAppTheme();
+  const s = makeStyles(t);
   const [draft, setDraft] = React.useState(options);
   const [draftStatus, setDraftStatus] = React.useState(status || 'past');
   const [measuredHeight, setMeasuredHeight] = React.useState(0);
@@ -65,7 +67,7 @@ export default function PlantFilterMenu({ anchor, options, status, plants, query
     </View>
   </Modal>;
 }
-const s = StyleSheet.create({
+const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   menu: { position: 'absolute', backgroundColor: t.surface, borderWidth: 1, borderColor: '#52674a', borderRadius: 18, overflow: 'hidden', boxShadow: '0px 10px 32px rgba(0,0,0,0.32)' },
   header: { flexDirection: 'row', alignItems: 'center', paddingLeft: 12, paddingRight: 4, paddingVertical: 3, borderBottomWidth: 1, borderColor: t.elevated }, title: { flex: 1, color: t.text, fontSize: 14, fontWeight: '600' },
   reset: { minHeight: 32, paddingHorizontal: 10, justifyContent: 'center' },

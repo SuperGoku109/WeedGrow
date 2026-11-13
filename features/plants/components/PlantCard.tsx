@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { OverflowMenuButton, type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import React from 'react';
 import { GrowPress, GrowConfirm } from '@/ui/GrowMotion';
@@ -23,9 +24,10 @@ export interface PlantCardProps {
   showEnvironment?: boolean;
   moreLabel?: string;
 }
-const colors = gardenThemes.grove;
 /** Detail navigation and quick care are sibling targets, avoiding nested actions. */
 export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading = false, waterDisabled = false, onPress, onMore, showEnvironment = true, moreLabel, moreOpen }: PlantCardProps) {
+  const colors = useAppTheme();
+  const s = makeStyles(colors);
   const router = useRouter();
   const { width } = useWindowDimensions();
   const [photoSize, setPhotoSize] = React.useState(() => Math.min(width, 760) - 36 < 310 ? 64 : 72);
@@ -48,7 +50,7 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
   </View>;
 }
 
-const s = StyleSheet.create({
+const makeStyles = (colors: typeof gardenThemes.grove) => StyleSheet.create({
   card: { marginBottom: 10, borderRadius: 20, backgroundColor: colors.surface, borderWidth: 1, borderColor: '#40523a', overflow: 'hidden' },
   details: { paddingVertical: 8, justifyContent: 'center', gap: 4 },
   photo: { position: 'absolute', left: 10, top: '50%', borderRadius: 12, overflow: 'hidden', backgroundColor: colors.elevated },

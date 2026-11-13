@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { PlantListSkeleton } from '@/ui/LoadingFeedback';
 import { FlatList, RefreshControl, Pressable, StyleSheet, Text, View } from 'react-native';
@@ -16,12 +17,13 @@ import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, selectPlantList, type Pl
 import type { Plant } from '@/firestoreModels';
 
 type ListedPlant = Plant & { id: string };
-const t = gardenThemes.grove;
 const pastOptions = [{ value: 'past', label: 'All past plants' }, { value: 'archived', label: 'Archived' }, { value: 'harvested', label: 'Harvested' }, { value: 'dead', label: 'Dead' }];
 export default function PlantListScreen({ garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, footer, initialOffset = 0, onOffsetChange, options = DEFAULT_PLANT_LIST_OPTIONS, onResetFilters }: {
   garden?: HomeGarden | null; searchQuery: string; setSearchQuery(value: string): void; statusFilter: string | null; setStatusFilter(value: string | null): void;
   options?: PlantListOptions; onResetFilters?(): void; footer?: React.ReactElement; initialOffset?: number; onOffsetChange(offset: number): void;
 }) {
+  const t = useAppTheme();
+  const s = makeStyles(t);
   const router = useRouter();
   const collection = usePlantList();
   const plants = React.useMemo(() => plantsInGarden(collection.plants, garden || null), [collection.plants, garden]);
@@ -69,7 +71,7 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
     <AppNotice detail={noticeDetail} tone={noticeTone} visible={!!message} onDismiss={() => setMessage('')} duration={6000} action={undo ? { label: noticeTone === 'error' ? 'Retry' : 'Undo', onPress: async () => { try { await deleteJournalEntry(undo.plantId, undo.id, undo.mutationId); setNoticeTone('success'); setNoticeDetail(''); setMessage('Watering undone.'); setUndo(null); care.refresh(); } catch (error) { setNoticeTone('error'); setNoticeDetail(''); setMessage(error instanceof Error ? error.message : 'Could not undo watering.'); } } } : undefined}>{message}</AppNotice>
   </View>;
 }
-const s = StyleSheet.create({
+const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   hint: { color: t.muted, fontSize: 13, lineHeight: 21 },
   historyContext: { marginHorizontal: 18, paddingBottom: 6, borderBottomWidth: 1, borderColor: '#344735', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 4 },
   historyFilter: { flexDirection: 'row', alignItems: 'center', gap: 6, minHeight: 44 },

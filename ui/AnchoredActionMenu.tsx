@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { Animated, Easing, Modal, Pressable, ScrollView, Text, View, useWindowDimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -8,10 +9,9 @@ import { gardenThemes } from '@/design-system/tokens/garden';
 export type MenuAnchor = { x: number; y: number; width: number; height: number };
 type Icon = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 export type MenuAction = { label: string; icon: Icon; onPress(): void; separate?: boolean; danger?: boolean; accessibilityLabel?: string };
-const t = gardenThemes.grove;
 type TriggerTone = 'surface' | 'hero';
-const triggerColors = (tone: TriggerTone, active: boolean) => tone === 'hero'
-  ? { background: active ? '#c8d7a8' : '#dce6c4', border: active ? '#90a471' : 'transparent', ink: t.heroText }
+const triggerColors = (tone: TriggerTone, active: boolean, t: typeof gardenThemes.grove) => tone === 'hero'
+  ? { background: active ? t.hero : t.hero, border: active ? '#90a471' : 'transparent', ink: t.heroText }
   : { background: active ? t.elevated : 'transparent', border: active ? t.accent : 'transparent', ink: active ? t.accent : t.muted };
 
 export function menuPosition(anchor: MenuAnchor, width: number, height: number, wantedHeight: number, topInset = 0, bottomInset = 0, preferredWidth = 272) {
@@ -29,11 +29,13 @@ export function menuPosition(anchor: MenuAnchor, width: number, height: number, 
 }
 
 export function OverflowMenuButton({ label, onOpen, expanded = false, disabled = false, horizontal = false, tone = 'surface' }: { label: string; onOpen(anchor: MenuAnchor): void; expanded?: boolean; disabled?: boolean; horizontal?: boolean; tone?: TriggerTone }) {
+  const t = useAppTheme();
   const ref = React.useRef<View>(null);
-  return <View ref={ref} collapsable={false} style={{ width: 40, height: 40, alignSelf: 'center', flexShrink: 0 }}><GrowPress accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ expanded, disabled }} disabled={disabled} onPress={() => ref.current?.measureInWindow((x, y, width, height) => onOpen({ x, y, width, height }))} style={({ pressed }) => ({ width: 40, height: 40, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: triggerColors(tone, expanded || pressed).background, borderWidth: 1, borderColor: triggerColors(tone, expanded).border, opacity: disabled ? 0.5 : 1 })}><MaterialCommunityIcons name={horizontal ? 'dots-horizontal' : 'dots-vertical'} size={20} color={triggerColors(tone, expanded).ink} /></GrowPress></View>;
+  return <View ref={ref} collapsable={false} style={{ width: 40, height: 40, alignSelf: 'center', flexShrink: 0 }}><GrowPress accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ expanded, disabled }} disabled={disabled} onPress={() => ref.current?.measureInWindow((x, y, width, height) => onOpen({ x, y, width, height }))} style={({ pressed }) => ({ width: 40, height: 40, borderRadius: 15, alignItems: 'center', justifyContent: 'center', backgroundColor: triggerColors(tone, expanded || pressed, t).background, borderWidth: 1, borderColor: triggerColors(tone, expanded, t).border, opacity: disabled ? 0.5 : 1 })}><MaterialCommunityIcons name={horizontal ? 'dots-horizontal' : 'dots-vertical'} size={20} color={triggerColors(tone, expanded, t).ink} /></GrowPress></View>;
 }
 
 export default function AnchoredActionMenu({ anchor, title, actions, onClose, horizontal = false, tone = 'surface', showTrigger = true }: { anchor: MenuAnchor; title: string; actions: MenuAction[]; onClose(): void; horizontal?: boolean; tone?: TriggerTone; showTrigger?: boolean }) {
+  const t = useAppTheme();
   const { width, height, fontScale } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const reduced = useReducedMotion();
@@ -52,7 +54,7 @@ export default function AnchoredActionMenu({ anchor, title, actions, onClose, ho
   return <Modal transparent visible animationType="none" statusBarTranslucent onRequestClose={onClose}>
     <View style={{ flex: 1 }}>
       <Pressable accessibilityRole="button" accessibilityLabel="Dismiss options" onPress={onClose} style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#07110c33' }} />
-      {showTrigger && <Pressable accessibilityRole="button" accessibilityLabel={`Close ${title} options`} onPress={onClose} style={{ position: 'absolute', left: anchor.x, top: anchor.y, width: anchor.width, height: anchor.height, borderRadius: 15, backgroundColor: triggerColors(tone, true).background, borderWidth: 1, borderColor: triggerColors(tone, true).border, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name={horizontal ? 'dots-horizontal' : 'dots-vertical'} size={20} color={triggerColors(tone, true).ink} /></Pressable>}
+      {showTrigger && <Pressable accessibilityRole="button" accessibilityLabel={`Close ${title} options`} onPress={onClose} style={{ position: 'absolute', left: anchor.x, top: anchor.y, width: anchor.width, height: anchor.height, borderRadius: 15, backgroundColor: triggerColors(tone, true, t).background, borderWidth: 1, borderColor: triggerColors(tone, true, t).border, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name={horizontal ? 'dots-horizontal' : 'dots-vertical'} size={20} color={triggerColors(tone, true, t).ink} /></Pressable>}
       <Animated.View accessibilityViewIsModal onAccessibilityEscape={onClose} style={{ position: 'absolute', left: position.left, top: position.top, width: position.width, maxHeight: position.maxHeight, opacity: progress, transform: [{ translateY: progress.interpolate({ inputRange: [0, 1], outputRange: [position.opensBelow ? -6 : 6, 0] }) }, { scale: progress.interpolate({ inputRange: [0, 1], outputRange: [0.97, 1] }) }], backgroundColor: t.surface, borderRadius: 18, borderWidth: 1, borderColor: t.border, boxShadow: '0px 12px 30px rgba(0,0,0,0.3)' }}>
         <View pointerEvents="none" style={{ position: 'absolute', left: position.pointer - 5, ...(position.opensBelow ? { top: -6 } : { bottom: -6 }), width: 10, height: 10, backgroundColor: t.surface, borderColor: t.border, borderTopWidth: 1, borderLeftWidth: 1, transform: [{ rotate: position.opensBelow ? '45deg' : '225deg' }] }} />
         <ScrollView style={{ flexShrink: 1 }} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" onContentSizeChange={(_, contentHeight) => setMeasuredHeight(contentHeight)}><View accessibilityRole="menu" accessibilityLabel={`${title} options`} style={{ padding: 6 }}>

@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -9,26 +10,27 @@ import { GrowTabIcon, useReducedMotion } from '@/ui/GrowMotion';
 
 
 export default function TabLayout() {
+  const t = useAppTheme();
   const insets = useSafeAreaInsets();
   const reduced = useReducedMotion();
 
   return (
     <Tabs
       screenOptions={{
-        sceneStyle: { backgroundColor: '#15231c' },
+        sceneStyle: { backgroundColor: t.background },
         animation: reduced ? 'none' : 'fade',
         transitionSpec: { animation: 'timing', config: { duration: reduced ? 0 : 180 } },
-        tabBarActiveTintColor: '#c8e78b',
+        tabBarActiveTintColor: t.accent,
         headerShown: false,
-        tabBarInactiveTintColor: '#bac8b3',
+        tabBarInactiveTintColor: t.muted,
         tabBarLabelStyle: { fontSize: 12, lineHeight: 16, fontWeight: '600' },
         tabBarIconStyle: { height: 26 },
         tabBarItemStyle: { paddingVertical: 0, borderRadius: 16, marginHorizontal: 8 },
-        tabBarActiveBackgroundColor: '#2e4434',
+        tabBarActiveBackgroundColor: t.elevated,
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          backgroundColor: '#18261e',
-          borderTopWidth: 1, borderTopColor: '#40523a', height: 64 + insets.bottom, paddingTop: 4, paddingBottom: Math.max(4, insets.bottom),
+          backgroundColor: t.surface,
+          borderTopWidth: 1, borderTopColor: t.elevated, height: 64 + insets.bottom, paddingTop: 4, paddingBottom: Math.max(4, insets.bottom),
         },
       }}>
       <Tabs.Screen

@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text, TextInput, View } from 'react-native';
@@ -10,13 +11,13 @@ import { newLogId, saveJournalEntry } from '@/lib/logs/journalRepository';
 import { measurementError } from '@/lib/logs/logMeasurements';
 import { plantDay } from '@/lib/dates/plantDay';
 import { useSession } from '@/services/session';
-import { gardenThemes } from '@/design-system/tokens/garden';
 import type { Plant } from '@/firestoreModels';
 
-const t = { ...gardenThemes.grove, surface: '#29413b', elevated: '#36534a', border: '#6c8b7c', accent: '#b4dee3', onAccent: '#17363a', water: '#b4dee3', muted: '#b6ccc4' };
 export default function QuickWateringDialog({ plant, onClose, onSaved }: {
   plant: Plant & { id: string }; onClose(): void; onSaved(result: { plantId: string; id: string; mutationId: string }): void;
 }) {
+  const base = useAppTheme();
+  const t = { ...base, accent: base.water };
   const { user } = useSession();
   const [amount, setAmount] = React.useState('');
   const lastAmount = useRememberedWateringAmount(plant.id, user?.uid);

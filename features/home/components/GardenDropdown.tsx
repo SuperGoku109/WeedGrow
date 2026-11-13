@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { OverflowMenuButton, type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import CloseButton from '@/ui/CloseButton';
 import CountBadge from '@/ui/CountBadge';
@@ -8,12 +9,13 @@ import { gardenThemes } from '@/design-system/tokens/garden';
 import { useReducedMotion } from '@/ui/GrowMotion';
 import type { GardenSelection, HomeGarden } from '../gardenSelection';
 
-const t = gardenThemes.grove;
 const icons = { outdoor: 'weather-sunny', indoor: 'home-outline', greenhouse: 'greenhouse' } as const;
 export default function GardenDropdown({ gardens, selection, counts, total, countsReady, onSelect, onCreate, onActions, actionsOpen, disabled }: {
   gardens: HomeGarden[]; selection: GardenSelection; counts: Record<string, number>; total: number;
   onSelect(value: GardenSelection): void; onCreate(): void; onActions?(anchor: MenuAnchor): void; actionsOpen?: boolean; disabled?: boolean; countsReady: boolean;
 }) {
+  const t = useAppTheme();
+  const s = makeStyles(t);
   const [open, setOpen] = React.useState(false);
   const [anchor, setAnchor] = React.useState({ x: 18, y: 150, width: 340 });
   const trigger = React.useRef<View>(null);
@@ -62,7 +64,7 @@ export default function GardenDropdown({ gardens, selection, counts, total, coun
   </>;
 }
 
-const s = StyleSheet.create({
+const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   trigger: { backgroundColor: t.hero, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 4 },
   eyebrow: { fontSize: 10, lineHeight: 14, letterSpacing: 1.4, fontWeight: '700', color: '#596b45' },
   title: { fontSize: 22, lineHeight: 26, fontWeight: '700', letterSpacing: -0.8, color: t.heroText },

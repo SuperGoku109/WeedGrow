@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { Animated, Easing, Platform, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import { Portal } from 'react-native-paper';
@@ -8,10 +9,11 @@ import { GrowPress, useReducedMotion } from './GrowMotion';
 
 type Action = { label: string; onPress(): void | Promise<void> };
 type Props = { visible: boolean; onDismiss(): void; children?: React.ReactNode; detail?: string; action?: Action; duration?: number; bottom?: number; tone?: 'info' | 'success' | 'error'; style?: StyleProp<ViewStyle> };
-const t = gardenThemes.grove;
 
 /** Non-blocking feedback above navigation, with a real exit and an accessible Undo. */
 export default function AppNotice({ visible, onDismiss, children, detail, action, duration = 4500, bottom = 88, tone = 'info', style }: Props) {
+  const t = useAppTheme();
+  const s = makeStyles(t);
   const reduced = useReducedMotion();
   const insets = useSafeAreaInsets();
   const [mounted, setMounted] = React.useState(visible);
@@ -54,7 +56,7 @@ export default function AppNotice({ visible, onDismiss, children, detail, action
     </Animated.View>
   </View></Portal>;
 }
-const s = StyleSheet.create({
+const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   anchor: { position: 'absolute', left: 16, right: 16, alignItems: 'center' },
   notice: { width: '100%', maxWidth: 520, minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: 10, paddingLeft: 16, paddingRight: 6, paddingVertical: 8, borderRadius: 20, backgroundColor: '#263d30', borderWidth: 1, borderColor: '#577050', boxShadow: '0px 10px 32px rgba(4,15,9,0.32)' },
   message: { color: t.text, fontSize: 14, lineHeight: 20 },

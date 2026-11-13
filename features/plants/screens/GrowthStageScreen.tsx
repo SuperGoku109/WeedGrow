@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { BackHandler, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,7 +12,6 @@ import { plantDay } from '@/lib/dates/plantDay';
 import { stageTiming } from '@/lib/plants/stageAgeDefaults';
 import { usePlant } from '../hooks/usePlant';
 import { guideStage, growthDate, growthDuration, GUIDE_PLACEHOLDERS, type GrowthGuideStage } from '../growthStagePresentation';
-import { plantThemes } from '../components/plantDetailTheme';
 import LoadingView from '../components/LoadingView';
 import NotFoundView from '../components/NotFoundView';
 import GrowthPhaseSheet from '../components/GrowthPhaseSheet';
@@ -25,7 +25,7 @@ export default function GrowthStageScreen() {
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const router = useRouter();
   const { plant, loading, error, refresh } = usePlant(id);
-  const t = params.theme === 'daylight' ? plantThemes.daylight : plantThemes.grove;
+  const t = useAppTheme();
   const now = useMinuteClock();
   const [chosen, setChosen] = React.useState<GrowthGuideStage | null>(null);
   const [reviewOpen, setReviewOpen] = React.useState(false);
