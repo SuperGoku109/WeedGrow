@@ -1,4 +1,5 @@
 import React from 'react';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text, TextInput, View } from 'react-native';
 import { useRememberedWateringAmount } from '@/hooks/useRememberedWateringAmount';
 import { rememberWateringAmount } from '@/services/wateringAmount';
@@ -12,7 +13,7 @@ import { useSession } from '@/services/session';
 import { gardenThemes } from '@/design-system/tokens/garden';
 import type { Plant } from '@/firestoreModels';
 
-const t = gardenThemes.grove;
+const t = { ...gardenThemes.grove, surface: '#29413b', elevated: '#36534a', border: '#6c8b7c', accent: '#b4dee3', onAccent: '#17363a', water: '#b4dee3', muted: '#b6ccc4' };
 export default function QuickWateringDialog({ plant, onClose, onSaved }: {
   plant: Plant & { id: string }; onClose(): void; onSaved(result: { plantId: string; id: string; mutationId: string }): void;
 }) {
@@ -26,10 +27,10 @@ export default function QuickWateringDialog({ plant, onClose, onSaved }: {
   React.useEffect(() => { if (lastAmount && !touched.current) setAmount(lastAmount); }, [lastAmount]);
   const changeAmount = (value: string) => { touched.current = true; setAmount(value); };
   const numericAmount = Number(amount.trim().replace(',', '.'));
-  return <ActionDialog title="Log watering" singleAction description={
-    <View style={{ flexDirection: 'row', alignItems: 'baseline', gap: 12 }}>
-      <Text numberOfLines={1} style={{ flex: 1, color: t.text, fontSize: 14, fontWeight: '500' }}>{plant.name}</Text>
-      <Text style={{ color: t.muted, fontSize: 13 }}>{new Date(date + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</Text>
+  return <ActionDialog title="Log watering" tone="water" singleAction description={
+    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+      <Text numberOfLines={1} style={{ flex: 1, color: t.text, fontSize: 16, fontWeight: '600' }}>{plant.name}</Text>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 8, paddingVertical: 5, borderRadius: 9, backgroundColor: '#b4dee30c' }}><MaterialCommunityIcons name="calendar-blank-outline" size={13} color={t.muted} /><Text style={{ color: t.muted, fontSize: 12 }}>{new Date(date + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</Text></View>
     </View>
   } confirmLabel="Save watering" onClose={onClose} onConfirm={async () => {
     if (amount.trim()) {
