@@ -59,25 +59,22 @@ export default function GrowthStageScreen() {
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ width: '100%', maxWidth: 760, alignSelf: 'center', padding: 20, paddingBottom: 28, gap: 26 }}>
       <GrowthStageTimeline plant={plant} selectedStage={selected.key} onSelect={select} theme={t} />
       <GrowReveal key={selected.key} style={{ gap: 26 }}>
-      <View style={{ gap: 18, padding: 20, backgroundColor: t.surface, borderRadius: 22 }}>
-        <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '600' }}>Timing</Text>
-        {isCurrent && <GrowthPhaseProgress plant={plant} theme={t} now={now} />}
-        <View style={{ flexDirection: 'row', gap: 20 }}>
-          <View style={{ flex: 1, gap: 6 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'baseline', flexWrap: 'wrap', columnGap: 10, rowGap: 2 }}>
-              <Text style={{ color: t.text, fontSize: 24, lineHeight: 32, fontWeight: '500', letterSpacing: -.5 }}>{phaseWindowLabel(selected.key) || duration?.value || (selected.key === 'harvested' ? 'Growth ends' : selected.key === 'completed' ? 'Finished' : '—')}</Text>
-              {!!phaseDayWindowLabel(selected.key) && <Text style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>{phaseDayWindowLabel(selected.key)}</Text>}
-            </View>
-            {!phaseWindowLabel(selected.key) && <Text style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>{duration ? `Duration (${duration.unit})` : 'Living growth cycle'}</Text>}
+      <View style={{ gap: 16, padding: 16, backgroundColor: t.surface, borderRadius: 20 }}>
+        <View style={{ gap: 7 }}>
+          <Text accessibilityRole="header" style={{ color: t.text, fontSize: 17, fontWeight: '600' }}>Timing</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'baseline', flexWrap: 'wrap', columnGap: 8, rowGap: 3 }}>
+            <Text style={{ color: t.text, fontSize: 13, fontWeight: '500' }}>{phaseWindowLabel(selected.key) || duration?.value || (selected.key === 'completed' ? 'Finished' : '—')}</Text>
+            {!!phaseDayWindowLabel(selected.key) && <Text style={{ color: t.muted, fontSize: 12 }}>· {phaseDayWindowLabel(selected.key)}</Text>}
+            {!phaseWindowLabel(selected.key) && duration && <Text style={{ color: t.muted, fontSize: 12 }}>({duration.unit})</Text>}
           </View>
         </View>
-        {isCurrent ? <View style={{ borderTopWidth: 1, borderColor: t.elevated }}>
-          <View style={{ minHeight: 44, paddingVertical: 10, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}><Text style={{ color: t.muted, fontSize: 13 }}>Started{timing.estimated ? ' · estimated' : ''}</Text><Text style={{ color: t.text, fontSize: 14 }}>{growthDate(timing.startedOn)}</Text></View>
-          <View style={{ minHeight: 44, paddingVertical: 10, flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}><Text style={{ color: t.muted, fontSize: 13 }}>Next check-in</Text><Text style={{ color: t.text, fontSize: 14 }}>{due ? ['profile', 'location'].includes(due.kind) ? 'Setup needed' : 'Ready to review' : next ? growthDate(next.checkOn) : 'Based on plant signs'}</Text></View>
+        {isCurrent && <GrowthPhaseProgress plant={plant} theme={t} now={now} />}
+        {isCurrent ? <View style={{ borderTopWidth: 1, borderColor: t.elevated, paddingTop: 12, flexDirection: 'row' }}>
+          <View style={{ flex: 1, gap: 5, paddingRight: 12 }}><Text style={{ color: t.muted, fontSize: 11 }}>Started{timing.estimated ? ' · estimated' : ''}</Text><Text style={{ color: t.text, fontSize: 13, fontWeight: '500' }}>{growthDate(timing.startedOn)}</Text></View>
+          <View style={{ flex: 1, gap: 5, paddingLeft: 12, borderLeftWidth: 1, borderColor: t.elevated }}><Text style={{ color: t.muted, fontSize: 11 }}>Next check-in</Text><Text style={{ color: due ? t.warm : t.text, fontSize: 13, fontWeight: '500' }}>{due ? 'Ready to review' : next ? growthDate(next.checkOn) : 'Based on plant signs'}</Text></View>
         </View> : <Text style={{ color: t.muted, fontSize: 13, lineHeight: 20 }}>{selected.key === 'preflower' ? 'A transition within vegetative growth. It does not replace the confirmed plant stage.' : 'Browsing the guide doesn’t change your plant’s recorded stage.'}</Text>}
       </View>
       {isCurrent && plant.growthStage === 'vegetative' && plant.preflowerObservedOn && <Text style={{ color: t.muted, lineHeight: 21 }}>Early flowering signs recorded · {growthDate(plant.preflowerObservedOn)}</Text>}
-      {isCurrent && due && !['profile', 'location'].includes(due.kind) && <View style={{ padding: 20, backgroundColor: t.surface, borderRadius: 22, gap: 7 }}><Text style={{ color: t.accent, fontSize: 12, fontWeight: '600' }}>A moment to check in</Text><Text style={{ color: t.text, fontSize: 15, lineHeight: 23 }}>{due.prompt}</Text></View>}
       <View style={{ padding: 20, backgroundColor: t.surface, borderRadius: 22, gap: 20 }}>
       <View style={{ gap: 8 }}><Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '600' }}>Guide preview</Text><Text style={{ color: t.muted, fontSize: 13, lineHeight: 20 }}>Detailed guidance will be added here. These sections are placeholders.</Text></View>
       {GUIDE_PLACEHOLDERS.map(section => <View key={section.title} style={{ gap: 13, paddingTop: 18, borderTopWidth: 1, borderColor: t.elevated }}>
