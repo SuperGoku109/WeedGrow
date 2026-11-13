@@ -62,7 +62,7 @@ export default function GrowthStageTimeline({ plant, selectedStage, onSelect, th
                 <MaterialCommunityIcons name={item.icon} size={isCurrent ? 22 : 16} color={stageColor} accessible={false} />
               </View>
             </View>
-            <View style={{ width: STEP_WIDTH + 8, paddingHorizontal: 2, paddingVertical: 4, borderRadius: 12, backgroundColor: isCurrent ? `${stageColor}20` : 'transparent' }}><Text style={{ color: stageColor, fontSize: 10.5, lineHeight: 14, fontWeight: isCurrent || isSelected ? '700' : '500', textAlign: 'center', wordBreak: 'keep-all' }}>{item.key === 'preflower' ? 'Pre-\nflowering' : item.title}</Text></View>
+            <View style={{ width: STEP_WIDTH + 8, paddingHorizontal: 2, paddingVertical: 4, borderRadius: 12, backgroundColor: isCurrent ? `${stageColor}20` : 'transparent' }}><Text style={{ color: stageColor, fontSize: 10.5, lineHeight: 14, fontWeight: isCurrent || isSelected ? '700' : '500', textAlign: 'center' }}>{item.key === 'preflower' ? 'Pre-\nflowering' : item.title}</Text></View>
           </Pressable>
         </View>;
       })}
