@@ -175,7 +175,7 @@ export function stagePushPlan(plant: Plant, now = new Date()): { key: string; du
 }
 
 export function stageChangeFields(plant: Plant, stage: Plant['growthStage'], date: string, reviewedOn = date): Partial<Plant> {
-  const fields: Partial<Plant> = { growthStage: stage, stageStartedOn: date, stageStartedOnEstimated: false, stageTrackingVersion: 1, stageRevision: (plant.stageRevision || 0) + 1,
+  const fields: Partial<Plant> = { growthStage: stage, ...(!['harvested', 'drying', 'curing', 'completed'].includes(stage) ? { floweringPhase: null, lateFloweringStartedOn: null } : {}), stageStartedOn: date, stageStartedOnEstimated: false, stageTrackingVersion: 1, stageRevision: (plant.stageRevision || 0) + 1,
     ...(stage === plant.growthStage && plant.ageEstimateSource === 'stage' ? estimatedAgeFields(stage, reviewedOn, date) : {}),
     ...(plant.ageEstimated && plant.ageEstimateSource !== 'stage' && plant.startedOn && date < plant.startedOn ? { startedOn: date, ageDays: Math.max(0, daysBetween(date, reviewedOn)), ageKnown: true } : {}),
     ...(stage === 'germination' ? { germinationStartedOn: date } : {}), ...(stage === 'seedling' ? { emergedOn: date } : {}),

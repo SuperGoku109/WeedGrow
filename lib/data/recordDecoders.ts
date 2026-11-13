@@ -22,7 +22,7 @@ export function decodePlant(value: unknown, path: string): Plant {
   const data = record(value, path);
   check(text(data.name) && !!data.name.trim(), path, 'name'); check(strings(data.owners) && data.owners.length, path, 'owners');
   check((PLANT_STAGES as readonly string[]).includes(String(data.growthStage)), path, 'growthStage');
-  optional(data, ['stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn'], value => text(value) && isCalendarDay(value), path);
+  optional(data, ['stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'lateFloweringStartedOn', 'harvestedOn', 'lastStageReviewedOn'], value => text(value) && isCalendarDay(value), path);
   optional(data, ['stageStartedOnEstimated'], value => typeof value === 'boolean', path);
   optional(data, ['ageEstimateSource'], value => value === 'stage', path);
   const trackingErrors = validatePlantFields(Object.fromEntries(['stageRevision', 'stageReview', 'stagePush', 'growthProfile', 'stageReminders', 'postHarvestTracking'].filter(key => data[key] != null).map(key => [key, data[key]])));

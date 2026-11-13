@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import type { Plant } from '@/firestoreModels';
 import { usePhotoUri } from '@/ui/PlantImage';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
+import { growthPhase, phaseWindow } from '@/lib/plants/growthPhase';
 import type { PlantTheme } from './plantDetailTheme';
 
 const stageIcons = { unknown: 'help-circle-outline', germination: 'seed-outline', seedling: 'sprout', vegetative: 'leaf', flowering: 'flower-outline', clone: 'content-cut', harvested: 'basket-outline', drying: 'weather-windy', curing: 'archive-outline', completed: 'check-circle-outline' } as const;
@@ -45,7 +46,7 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
       <View pointerEvents="none" style={s.identity}><Text accessibilityRole="header" style={s.name}>{plant.name}</Text>{!!strain && <Text style={s.strain}>{strain}</Text>}</View>
     </View>
     <View style={s.details}>
-        <View accessibilityLabel={`Growth stage: ${stage}`} style={[s.stage, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={t.accent} aria-hidden={true} /><Text style={[s.badgeText, { color: t.accent }]}>{stage}</Text></View>
+        <View accessibilityLabel={`Growth stage: ${stage}`} style={[s.stage, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={t.accent} aria-hidden={true} /><Text style={[s.badgeText, { color: t.accent }]}>{phaseWindow(growthPhase(plant))?.label || stage}</Text></View>
         <View style={s.context}><MaterialCommunityIcons name={environmentIcons[environment]} size={16} color={t.muted} aria-hidden={true} /><Text style={[s.environment, { color: t.muted }]}>{environment}{place ? ` · ${place}` : ''}</Text></View>
     </View>
   </View>;

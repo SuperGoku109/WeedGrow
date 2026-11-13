@@ -12,12 +12,13 @@ export function validatePlantFields(fields: Record<string, unknown>, today?: str
   const errors: Record<string, string> = validatePlantDatesAndReminders(fields, today);
   if (fields.stageStartedOnEstimated != null && typeof fields.stageStartedOnEstimated !== 'boolean') errors.stageStartedOnEstimated = 'Choose a valid stage timing source.';
   if (fields.ageEstimateSource != null && fields.ageEstimateSource !== 'stage') errors.ageEstimateSource = 'Choose a valid age estimate source.';
-  for (const field of ['stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn']) {
+  for (const field of ['stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'lateFloweringStartedOn', 'harvestedOn', 'lastStageReviewedOn']) {
     if (fields[field] != null) {
       if (typeof fields[field] !== 'string' || !isCalendarDay(fields[field] as string)) errors[field] = 'Use a valid calendar date.';
       Object.assign(errors, Object.fromEntries(Object.entries(validatePlantDatesAndReminders({ startedOn: fields[field] }, today)).map(([, message]) => [field, message])));
     }
   }
+  if (fields.floweringPhase != null && fields.floweringPhase !== 'late') errors.floweringPhase = 'Choose a valid flowering phase.';
   for (const field of ['stageRevision'] as const) if (fields[field] != null && (!Number.isSafeInteger(fields[field]) || Number(fields[field]) < 0)) errors[field] = 'Use a valid stage revision.';
   if (fields.postHarvestTracking != null && typeof fields.postHarvestTracking !== 'boolean') errors.postHarvestTracking = 'Choose whether to track processing.';
   if (fields.stagePush != null) {

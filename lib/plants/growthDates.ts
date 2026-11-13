@@ -13,6 +13,7 @@ export function assertGrowthDates(previous: Partial<Plant>, updates: Partial<Pla
     ['Germination', plant.germinationStartedOn],
     ['Emergence', plant.emergedOn],
     ...(rank >= 3 ? [['Flowering', plant.floweringStartedOn] as [string, string | null | undefined]] : []),
+    ...(rank >= 3 ? [['Late flowering', plant.lateFloweringStartedOn] as [string, string | null | undefined]] : []),
     ...(rank >= 4 ? [['Harvest', plant.harvestedOn || plant.harvest?.date] as [string, string | null | undefined]] : []),
   ];
   const confirmed = milestones.filter((entry): entry is [string, string] => day(entry[1]));

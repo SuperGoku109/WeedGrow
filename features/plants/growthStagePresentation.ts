@@ -8,6 +8,7 @@ export const GROWTH_GUIDE_STAGES = [
   { key: 'vegetative', title: 'Vegetative', icon: 'leaf' },
   { key: 'preflower', title: 'Pre-flowering', icon: 'flower-outline' },
   { key: 'flowering', title: 'Flowering', icon: 'flower' },
+  { key: 'late_flowering', title: 'Late flowering', icon: 'flower-tulip' },
   { key: 'harvested', title: 'Harvest', icon: 'basket-outline' },
   { key: 'drying', title: 'Drying', icon: 'weather-windy' },
   { key: 'curing', title: 'Curing', icon: 'archive-outline' },

@@ -8,16 +8,16 @@ import { GrowPress, GrowReveal } from '@/ui/GrowMotion';
 import LoadError from '@/ui/LoadError';
 import { useMinuteClock } from '@/hooks/useMinuteClock';
 import { plantDay } from '@/lib/dates/plantDay';
-import { daysInStage, stageSuggestion, stageReminderSuggestion } from '@/lib/plants/growthTracking';
 import { stageTiming } from '@/lib/plants/stageAgeDefaults';
 import { usePlant } from '../hooks/usePlant';
 import { guideStage, growthDate, growthDuration, GUIDE_PLACEHOLDERS, type GrowthGuideStage } from '../growthStagePresentation';
 import { plantThemes } from '../components/plantDetailTheme';
 import LoadingView from '../components/LoadingView';
 import NotFoundView from '../components/NotFoundView';
-import PlantEditorSheet from '../components/PlantEditorSheet';
-import GrowthStageCard from '../components/GrowthStageCard';
+import GrowthPhaseSheet from '../components/GrowthPhaseSheet';
+import { growthPhase, growthPhaseProgress, phaseWindowLabel, phaseDayWindowLabel } from '@/lib/plants/growthPhase';
 import GrowthStageTimeline from '../components/GrowthStageTimeline';
+import GrowthPhaseProgress from '../components/GrowthPhaseProgress';
 import PlantActionButton from '../components/PlantActionButton';
 
 export default function GrowthStageScreen() {
@@ -37,20 +37,20 @@ export default function GrowthStageScreen() {
   if (loading) return <LoadingView onBack={back} />;
   if (!plant && error) return <LoadError message={error} onRetry={refresh} onBack={back} />;
   if (!plant) return <NotFoundView />;
-  const current = guideStage(plant.growthStage);
+  const current = guideStage(growthPhase(plant));
   const selected = guideStage(chosen || current.key);
   const isCurrent = selected.key === current.key;
   const duration = growthDuration(selected.key);
-  const timing = stageTiming(plant, now);
-  const elapsed = daysInStage(plant, now);
+  const baseTiming = stageTiming(plant, now);
+  const timing = current.key === 'late_flowering' && plant.lateFloweringStartedOn
+    ? { ...baseTiming, startedOn: plant.lateFloweringStartedOn, estimated: false }
+    : baseTiming;
   const today = plantDay(now, plant.locationTimeZone);
-  const due = stageSuggestion(plant, now);
-  const next = [stageSuggestion(plant, now, true), plant.growthStage === 'flowering' ? stageReminderSuggestion(plant, now) : null]
-    .filter(item => item && item.checkOn > today).sort((a, b) => a!.checkOn.localeCompare(b!.checkOn))[0];
+  const progress = growthPhaseProgress(plant, now);
+  const due = progress.attention ? { kind: 'transition', prompt: 'This phase is nearing the end of its timing guide. Review what you see before confirming the next phase.' } : null;
+  const next = progress.checkOn && progress.checkOn > today ? { checkOn: progress.checkOn } : null;
   const mutable = !plant.deleting && ['active', 'harvested'].includes(plant.status);
   const select = (key: GrowthGuideStage) => setChosen(key);
-  const edit = () => { setReviewOpen(false); router.push({ pathname: '/plant/[id]/edit', params: { id, theme: params.theme || 'grove' } }); };
-  const harvest = () => { setReviewOpen(false); router.push({ pathname: '/plant/[id]', params: { id, section: 'Details', managePlant: '1' } }); };
   return <SafeAreaView edges={['top', 'left', 'right', 'bottom']} style={{ flex: 1, backgroundColor: t.background }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 8, gap: 12 }}>
       <GrowPress accessibilityRole="button" accessibilityLabel="Back to plant" disabled={reviewBusy} onPress={back} style={{ minHeight: 40, minWidth: 40, justifyContent: 'center' }}><MaterialCommunityIcons name="arrow-left" size={22} color={t.text} /></GrowPress>
@@ -61,14 +61,14 @@ export default function GrowthStageScreen() {
       <GrowReveal key={selected.key} style={{ gap: 26 }}>
       <View style={{ gap: 18, padding: 20, backgroundColor: t.surface, borderRadius: 22 }}>
         <Text accessibilityRole="header" style={{ color: t.text, fontSize: 18, fontWeight: '600' }}>Timing</Text>
+        {isCurrent && <GrowthPhaseProgress plant={plant} theme={t} now={now} />}
         <View style={{ flexDirection: 'row', gap: 20 }}>
-          {isCurrent && <View style={{ flex: 1, gap: 6 }}>
-            <Text style={{ color: t.text, fontSize: 24, lineHeight: 32, fontWeight: '500', letterSpacing: -.5 }}>{timing.estimated ? '~' : ''}{elapsed}<Text style={{ fontSize: 14, color: t.muted }}> days</Text></Text>
-            <Text style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>Time in this stage</Text>
-          </View>}
           <View style={{ flex: 1, gap: 6 }}>
-            <Text style={{ color: t.text, fontSize: 24, lineHeight: 32, fontWeight: '500', letterSpacing: -.5 }}>{duration?.value || (selected.key === 'harvested' ? 'Growth ends' : selected.key === 'completed' ? 'Finished' : '—')}</Text>
-            <Text style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>{duration ? `Duration (${duration.unit})` : 'Living growth cycle'}</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'baseline', flexWrap: 'wrap', columnGap: 10, rowGap: 2 }}>
+              <Text style={{ color: t.text, fontSize: 24, lineHeight: 32, fontWeight: '500', letterSpacing: -.5 }}>{phaseWindowLabel(selected.key) || duration?.value || (selected.key === 'harvested' ? 'Growth ends' : selected.key === 'completed' ? 'Finished' : '—')}</Text>
+              {!!phaseDayWindowLabel(selected.key) && <Text style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>{phaseDayWindowLabel(selected.key)}</Text>}
+            </View>
+            {!phaseWindowLabel(selected.key) && <Text style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>{duration ? `Duration (${duration.unit})` : 'Living growth cycle'}</Text>}
           </View>
         </View>
         {isCurrent ? <View style={{ borderTopWidth: 1, borderColor: t.elevated }}>
@@ -89,7 +89,7 @@ export default function GrowthStageScreen() {
       </GrowReveal>
     </ScrollView>
     {(mutable || !isCurrent) && <View style={{ borderTopWidth: 1, borderColor: t.elevated, paddingHorizontal: 20, paddingTop: 8, paddingBottom: 8 }}><View style={{ width: '100%', maxWidth: 720, alignSelf: 'center' }}><PlantActionButton label={!isCurrent ? 'Back to current stage' : due ? ['profile', 'location'].includes(due.kind) ? 'Set up stage checks' : 'Review stage' : 'Update stage'} icon={!isCurrent ? 'arrow-left' : 'sprout-outline'} theme={t} primary={isCurrent} onPress={() => isCurrent ? setReviewOpen(true) : select(current.key)} /></View></View>}
-    {reviewOpen && <PlantEditorSheet title="Stage check-in" subtitle={`${plant.name} · ${current.title}`} theme={t} busy={reviewBusy} onClose={() => setReviewOpen(false)}><GrowthStageCard controlsOnly plantId={id} plant={plant} theme={t} onBusyChange={setReviewBusy} onHarvest={harvest} onEditPlant={edit} onSaved={value => { setMessage(value); setReviewOpen(false); setChosen(null); }} /></PlantEditorSheet>}
+    {reviewOpen && <GrowthPhaseSheet plantId={id} plant={plant} theme={t} onBusyChange={setReviewBusy} onClose={() => setReviewOpen(false)} onSaved={value => { setMessage(value); setReviewOpen(false); setChosen(null); }} />}
     <AppNotice visible={!!message} onDismiss={() => setMessage('')} duration={4500}>{message}</AppNotice>
   </SafeAreaView>;
 }

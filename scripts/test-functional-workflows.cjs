@@ -410,6 +410,29 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
     assert.equal(observedStage.growthStage, 'vegetative', 'Observations never automatically advance the stage');
     assert.equal(stageSuggestion(observedStage, zonedTime(addDays(stageDay, 6), '12:00', observedStage.locationTimeZone)), null);
     assert.equal(stageSuggestion(observedStage, zonedTime(addDays(stageDay, 7), '12:00', observedStage.locationTimeZone)).target, 'flowering', 'Observed early signs produce a check without a known profile or due seasonal prompt');
+
+    // The phase sheet saves setup/readings with the phase, including terminal harvest.
+    await confirmGrowthStage(stagePlantId, 'flowering', stageDay, observedStage.stageRevision, 'phase-flowering', { setup: { potSize: '20 L' }, measurements: { heightCm: 35 }, baseline: observedStage });
+    const phaseGarden = await saveGrowingSpace(undefined, { name: 'Phase garden', environment: 'outdoor', plantIds: [stagePlantId] });
+    const floweringPhase = (await f.getDoc(f.doc(db, 'plants', stagePlantId))).data();
+    await confirmGrowthStage(stagePlantId, 'flowering', stageDay, floweringPhase.stageRevision, 'phase-late', { lateFlowering: true, setup: { environment: 'indoor' }, measurements: { ph: 6.3 }, baseline: floweringPhase });
+    const latePhase = (await f.getDoc(f.doc(db, 'plants', stagePlantId))).data();
+    assert.equal(latePhase.floweringPhase, 'late'); assert.equal(latePhase.floweringStartedOn, floweringPhase.floweringStartedOn);
+    assert.equal(latePhase.environment, 'indoor'); assert.equal(latePhase.groupId, null);
+    assert.equal((await f.getDoc(f.doc(db, 'groups', phaseGarden))).data().plantIds.includes(stagePlantId), false);
+    assert.equal((await f.getDoc(f.doc(db, 'plants', stagePlantId, 'logs', 'phase_measurements_phase-late'))).data().ph, 6.3);
+    await assert.rejects(confirmGrowthStage(stagePlantId, 'flowering', stageDay, latePhase.stageRevision, 'phase-invalid', { lateFlowering: true, measurements: { soilMoisture: 101 } }));
+    assert.equal((await f.getDoc(f.doc(db, 'plants', stagePlantId))).data().stageRevision, latePhase.stageRevision);
+    const harvestDetails = { harvest: true, measurements: { heightCm: 36 }, baseline: latePhase };
+    await confirmGrowthStage(stagePlantId, 'harvested', stageDay, latePhase.stageRevision, 'phase-harvest', harvestDetails);
+    await confirmGrowthStage(stagePlantId, 'harvested', stageDay, latePhase.stageRevision, 'phase-harvest', harvestDetails);
+    const finishedPhase = (await f.getDoc(f.doc(db, 'plants', stagePlantId))).data();
+    assert.equal(finishedPhase.status, 'harvested'); assert.equal(finishedPhase.wateringRepeat, null);
+    assert.equal((await f.getDoc(f.doc(db, 'plants', stagePlantId, 'logs', 'harvest_phase-harvest'))).data().type, 'harvest');
+    assert.equal((await f.getDoc(f.doc(db, 'plants', stagePlantId, 'logs', 'stage_phase-harvest'))).exists(), false);
+    await assert.rejects(confirmGrowthStage(stagePlantId, 'vegetative', stageDay, finishedPhase.stageRevision, 'phase-revive'), /Harvest ended/);
+    await confirmGrowthStage(stagePlantId, 'drying', stageDay, finishedPhase.stageRevision, 'phase-drying', { baseline: finishedPhase });
+    console.log('PASS: atomic phase/setup/readings, late flowering, garden detachment, invalid-reading rollback, harvest/retry and post-harvest-only progression.');
     console.log('PASS: setup milestone review, stage confirmation, direct physical observations and calculated pre-flowering follow-up.');
     console.log('PASS: runtime-domain checks, paged export/CSV, profile deletion barriers and concurrent membership/profile integrity.');
     console.log('PASS: concurrent watering, date corrections, safe undo, 8-plant atomic watering/retry, space moves/deletion, backup restore/retry, photo caption/cover/deletion, terminal harvest/retry/date correction and post-harvest processing, pending-deletion guards, historical weather preservation, same-day move snapshots, inheritance/overrides skipped-care semantics, interrupted large restore/resume, conflicting edits, synced snoozes, photo lost-response reconciliation and westward repeated-date weather protection.');

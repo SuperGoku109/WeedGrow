@@ -17,6 +17,8 @@ export interface Plant {
     emergedOn?: string | null;
     preflowerObservedOn?: string | null;
     floweringStartedOn?: string | null;
+    floweringPhase?: 'late' | null;
+    lateFloweringStartedOn?: string | null;
     harvestedOn?: string | null;
     lastStageReviewedOn?: string | null;
     stageTrackingVersion?: 1;

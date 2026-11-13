@@ -3,8 +3,7 @@ import React from 'react';
 import { act, create } from 'react-test-renderer';
 import Screen from '../screens/GrowthStageScreen';
 import Summary from '../components/GrowthStageSummary';
-import Controls from '../components/GrowthStageCard';
-import Sheet from '../components/PlantEditorSheet';
+import Controls from '../components/GrowthPhaseSheet';
 import { plantThemes } from '../components/plantDetailTheme';
 import type { Plant } from '@/firestoreModels';
 
@@ -18,7 +17,7 @@ jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
 jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: jest.requireActual('react-native').View }));
 jest.mock('@/ui/AppNotice', () => () => null);
 jest.mock('@/ui/GrowMotion', () => ({ GrowPress: jest.requireActual('react-native').Pressable, GrowReveal: jest.requireActual('react-native').View }));
-jest.mock('../components/GrowthStageCard', () => () => null);
+jest.mock('../components/GrowthPhaseSheet', () => () => null);
 jest.mock('../components/PlantEditorSheet', () => ({ children }: { children: React.ReactNode }) => children);
 let renderer: any;
 function control(label: string) { return renderer.root.findAll((node: any) => node.props.accessibilityLabel === label && typeof node.props.onPress === 'function')[0]; }
@@ -32,21 +31,21 @@ it('browses stage tabs without changing the plant and returns to the current sta
   expect(renderer.root.findAllByType(Controls)).toHaveLength(0);
   expect(mockPlant.growthStage).toBe('vegetative');
   act(() => control('Back to current stage').props.onPress());
-  expect(JSON.stringify(renderer.toJSON())).toContain('Time in this stage');
+  expect(renderer.root.findAll((node: any) => node.props.accessibilityRole === 'progressbar').length).toBeGreaterThan(0);
   expect(JSON.stringify(renderer.toJSON())).not.toContain('YOUR CURRENT STAGE');
   expect(JSON.stringify(renderer.toJSON())).toContain('These sections are placeholders.');
   expect(mockRouter.push).not.toHaveBeenCalled();
 });
 
-it('keeps management in a dismissible sheet and routes harvest to existing lifecycle management', async () => {
+it('opens the shared phase editor and keeps dismissal locked only while saving', async () => {
   await mount();
-  act(() => control('Set up stage checks').props.onPress());
-  expect(renderer.root.findByType(Controls).props.controlsOnly).toBe(true);
+  act(() => control('Review stage').props.onPress());
+  expect(renderer.root.findByType(Controls).props.plant).toBe(mockPlant);
   act(() => renderer.root.findByType(Controls).props.onBusyChange(true));
-  expect(renderer.root.findByType(Sheet).props.busy).toBe(true);
+  expect(control('Back to plant').props.disabled).toBe(true);
   act(() => renderer.root.findByType(Controls).props.onBusyChange(false));
-  act(() => renderer.root.findByType(Controls).props.onHarvest());
-  expect(mockRouter.push).toHaveBeenCalledWith({ pathname: '/plant/[id]', params: { id: 'p', section: 'Details', managePlant: '1' } });
+  act(() => renderer.root.findByType(Controls).props.onClose());
+  expect(renderer.root.findAllByType(Controls)).toHaveLength(0);
 });
 
 it('offers one summary action without management buttons or raw start-date prose', async () => {
@@ -58,7 +57,7 @@ it('offers one summary action without management buttons or raw start-date prose
   act(() => summary.props.onPress());
   expect(onPress).toHaveBeenCalledTimes(1);
   const tree = JSON.stringify(renderer.toJSON());
-  expect(tree).toContain('60–150+');
+  expect(tree).toContain('Weeks 4–9');
   expect(tree).not.toContain('Stage options');
   expect(tree).not.toContain('Stage window:');
   expect(tree).not.toContain('Estimated start');

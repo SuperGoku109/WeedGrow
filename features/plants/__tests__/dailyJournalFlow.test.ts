@@ -38,6 +38,7 @@ jest.mock('@/features/plants/components/WateringCareCard', () => () => null);
 jest.mock('@/features/plants/components/PlantBanner', () => () => null);
 jest.mock('@/features/plants/components/PlantMovementHistory', () => () => null);
 jest.mock('@/features/plants/components/PlantLifecycle', () => () => null);
+jest.mock('@/features/plants/components/GrowthPhaseSheet', () => () => null);
 jest.mock('@/features/plants/components/GrowthStageSummary', () => () => null);
 jest.mock('@/features/plants/components/PlantWeather', () => () => null);
 jest.mock('@/features/plants/components/PlantSectionEditor', () => () => null);
@@ -132,7 +133,7 @@ it('refreshes current observation advice at its expiry while the plant screen st
   expect(jest.mocked(evaluateSuggestionCardsForPlant).mock.calls.length).toBeGreaterThan(initialCalls);
 });
 
-it('opens the stage guide from the quiet Journal summary', async () => {
+it('opens the full stage guide directly from the Journal summary', async () => {
   await mount();
   act(() => renderer.root.findByType(GrowthStageSummary).props.onPress());
   expect(mockRouter.push).toHaveBeenCalledWith({ pathname: '/plant/[id]/growth', params: { id: 'plant', theme: 'grove' } });

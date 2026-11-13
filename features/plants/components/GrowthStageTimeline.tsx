@@ -3,6 +3,7 @@ import { Animated, Pressable, ScrollView, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { Plant } from '@/firestoreModels';
+import { growthPhase } from '@/lib/plants/growthPhase';
 import { plantAgeLabel } from '@/lib/plants/plantAge';
 import { guideTabs, type GrowthGuideStage } from '../growthStagePresentation';
 import type { PlantTheme } from './plantDetailTheme';
@@ -15,7 +16,7 @@ export default function GrowthStageTimeline({ plant, selectedStage, onSelect, th
   const [contentWidth, setContentWidth] = React.useState(0);
   const [offset, setOffset] = React.useState(0);
   const stages = guideTabs(plant);
-  const currentIndex = stages.findIndex(item => item.key === plant.growthStage);
+  const currentIndex = stages.findIndex(item => item.key === growthPhase(plant));
   const selectedIndex = stages.findIndex(item => item.key === selectedStage);
   const selectionX = React.useRef(new Animated.Value(selectedIndex * STEP_WIDTH)).current;
   const previousIndex = React.useRef(selectedIndex);
@@ -48,7 +49,7 @@ export default function GrowthStageTimeline({ plant, selectedStage, onSelect, th
       <Animated.View pointerEvents="none" accessible={false} style={{ position: 'absolute', left: 18, top: 12, width: 44, height: 44, borderRadius: 24, backgroundColor: t.elevated, transform: [{ translateX: selectionX }] }} />
       <Animated.View pointerEvents="none" accessible={false} style={{ position: 'absolute', left: 26, bottom: 9, width: 28, height: 2, borderRadius: 2, backgroundColor: t.accent, transform: [{ translateX: selectionX }] }} />
       {stages.map((item, index) => {
-        const isCurrent = item.key === plant.growthStage;
+        const isCurrent = item.key === growthPhase(plant);
         const isSelected = item.key === selectedStage;
         return <View key={item.key} style={{ width: STEP_WIDTH }}>
           {index > 0 && <View pointerEvents="none" style={{ position: 'absolute', top: 21, left: 0, width: STEP_WIDTH / 2, height: 1, backgroundColor: index <= currentIndex ? t.accent : t.border, opacity: index <= currentIndex ? .65 : .4 }} />}

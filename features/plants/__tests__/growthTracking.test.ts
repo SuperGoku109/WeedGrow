@@ -20,6 +20,22 @@ it('atomically records a dated user-confirmed transition and history', async () 
   expect(update).toHaveBeenCalledWith('plants/p', expect.objectContaining({ growthStage: 'vegetative', stageStartedOn: '2026-02-05', stageRevision: 3, stageReview: expect.objectContaining({ action: 'stage_recorded', nextCheckOn: '2026-03-03' }) }));
   expect(set).toHaveBeenCalledWith('plants/p/logs/stage_request', expect.objectContaining({ type: 'stage_change', fromStage: 'seedling', toStage: 'vegetative', calendarDay: '2026-02-05', timestamp: new Date('2026-02-05T10:00:00Z') }));
 });
+it('saves a phase, setup changes and measurements in the same transaction', async () => {
+  await confirmGrowthStage('p', 'vegetative', '2026-02-05', 2, 'phase-details', { setup: { potSize: '20 L' }, measurements: { heightCm: 35, ph: 6.4 }, baseline: plant });
+  expect(update).toHaveBeenCalledWith('plants/p', expect.objectContaining({ growthStage: 'vegetative', potSize: '20 L' }));
+  expect(set).toHaveBeenCalledWith('plants/p/logs/phase_measurements_phase-details', expect.objectContaining({ category: 'measurements', heightCm: 35, ph: 6.4 }));
+});
+it('records late flowering without resetting the plant age or flowering start', async () => {
+  plant = { ...plant, growthStage: 'flowering', startedOn: '2025-10-01', ageEstimateSource: 'stage', floweringStartedOn: '2026-01-01' };
+  await confirmGrowthStage('p', 'flowering', '2026-02-05', 2, 'late', { lateFlowering: true });
+  const fields = update.mock.calls[0][1];
+  expect(fields).toMatchObject({ floweringPhase: 'late', lateFloweringStartedOn: '2026-02-05', floweringStartedOn: '2026-01-01', stageStartedOn: '2026-01-01' });
+  expect(fields).not.toHaveProperty('startedOn'); expect(fields).not.toHaveProperty('ageDays');
+});
+it('rejects invalid readings before saving any phase or setup changes', async () => {
+  await expect(confirmGrowthStage('p', 'vegetative', '2026-02-05', 2, 'invalid', { measurements: { ph: 15 } })).rejects.toThrow('pH');
+  expect(update).not.toHaveBeenCalled(); expect(set).not.toHaveBeenCalled();
+});
 it('accepts dated physical observations even without a due seasonal suggestion or flowering profile', async () => {
   plant = { ...plant, growthStage: 'vegetative', stageStartedOn: '2026-02-01', emergedOn: '2026-01-20', growthProfile: undefined };
   await recordPreflowerObservation('p', '2026-02-08', 2);

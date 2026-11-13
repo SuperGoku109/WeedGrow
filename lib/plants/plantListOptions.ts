@@ -1,9 +1,10 @@
 import type { Plant } from '@/firestoreModels';
+import { growthPhase } from './growthPhase';
 import { isCalendarDay, plantDay } from '@/lib/dates/plantDay';
 
 // Single values remain readable for existing in-memory garden preferences.
 export type PlantFilterSelection<T extends string> = 'all' | T | T[];
-export type PlantListStage = Plant['growthStage'] | 'preflower';
+export type PlantListStage = Plant['growthStage'] | 'preflower' | 'late_flowering';
 export type PlantListOptions = { sort: 'newest' | 'oldest' | 'nameAsc' | 'nameDesc'; stage: PlantFilterSelection<PlantListStage>; environment: PlantFilterSelection<Plant['environment']> };
 export function plantFilterValues<T extends string>(selection: PlantFilterSelection<T>): T[] {
   return selection === 'all' ? [] : Array.isArray(selection) ? [...new Set(selection)] : [selection as T];
@@ -27,7 +28,7 @@ export function selectPlantList<T extends Plant & { id: string }>(plants: readon
   };
   return plants.filter(plant => (
     (status === 'past' || !status ? plant.status !== 'active' : plant.status === status)
-    && (!stages.length || stages.includes(plant.growthStage)
+    && (!stages.length || stages.includes(growthPhase(plant))
       // Pre-flowering is an observed phase within vegetative growth, not a stored plant stage.
       || stages.includes('preflower') && plant.growthStage === 'vegetative' && isCalendarDay(plant.preflowerObservedOn || '') && plant.preflowerObservedOn! <= plantDay(new Date(), plant.locationTimeZone))
     && (!environments.length || environments.includes(plant.environment))
