@@ -27,12 +27,12 @@ export default function GardenDropdown({ gardens, selection, counts, total, coun
       <Pressable accessibilityRole="button" accessibilityLabel={`Select garden, current: ${name}`} accessibilityState={{ expanded: open, disabled }} disabled={disabled}
         onPress={() => trigger.current?.measureInWindow((x, y, measuredWidth, measuredHeight) => { setAnchor({ x, y: y + measuredHeight + 8, width: measuredWidth }); setOpen(true); })}
         style={({ pressed }) => [{ flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 8 }, pressed && { opacity: 0.88 }]}>
-        <View style={{ flex: 1, minWidth: 0, gap: 5 }}>
+        <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
           <Text style={s.eyebrow}>{garden ? 'YOUR GARDEN' : gardens.length ? 'YOUR COLLECTION' : 'ROOM TO GROW'}</Text>
-          <Text accessibilityRole="header" numberOfLines={2} style={s.title}>{name}</Text>
-          <Text style={s.subtitle}>{disabled ? 'Opening your garden…' : garden ? `${garden.environment.charAt(0).toUpperCase() + garden.environment.slice(1)} · ${countsReady ? counts[garden.id] || 0 : '—'} active plants` : `${countsReady ? total : '—'} plants · ${gardens.length ? 'Across your gardens' : 'Make yourself at home'}`}</Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text accessibilityRole="header" numberOfLines={garden ? 2 : 1} style={[s.title, { flexShrink: 1 }]}>{name}</Text>{!garden && <Text accessibilityLabel={countsReady ? `${total} plants` : 'Plant count loading'} style={s.plantCount}>{countsReady ? total : '—'}</Text>}</View>
+          {(disabled || garden) && <Text numberOfLines={1} style={s.subtitle}>{disabled ? 'Opening your garden…' : garden ? `${garden.environment.charAt(0).toUpperCase() + garden.environment.slice(1)} · ${countsReady ? counts[garden.id] || 0 : '—'} active` : ''}</Text>}
         </View>
-        <View style={s.chevron}><MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={24} color={t.heroText} /></View>
+        <View style={s.chevron}><MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={20} color={t.heroText} /></View>
       </Pressable>
       {onActions && <OverflowMenuButton label={garden ? `Garden actions for ${name}` : 'Plant collection options'} onOpen={onActions} expanded={actionsOpen} disabled={disabled} horizontal tone="hero" />}
     </View>
@@ -62,9 +62,10 @@ export default function GardenDropdown({ gardens, selection, counts, total, coun
 }
 
 const s = StyleSheet.create({
-  trigger: { backgroundColor: t.hero, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 10, flexDirection: 'row', alignItems: 'center', gap: 4 },
-  eyebrow: { fontSize: 11, letterSpacing: 1.8, fontWeight: '700', color: '#596b45' },
-  title: { fontSize: 24, lineHeight: 29, fontWeight: '700', letterSpacing: -0.8, color: t.heroText },
+  trigger: { backgroundColor: t.hero, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 4 },
+  eyebrow: { fontSize: 10, lineHeight: 14, letterSpacing: 1.4, fontWeight: '700', color: '#596b45' },
+  title: { fontSize: 22, lineHeight: 26, fontWeight: '700', letterSpacing: -0.8, color: t.heroText },
+  plantCount: { color: t.heroText, backgroundColor: '#dce6c4', borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2, fontSize: 11, lineHeight: 16, fontWeight: '600', flexShrink: 0 },
   subtitle: { fontSize: 13, lineHeight: 19, color: '#526344' },
   chevron: { width: 40, height: 40, backgroundColor: '#dce6c4', borderRadius: 15, justifyContent: 'center', alignItems: 'center' },
   actionButton: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
