@@ -52,7 +52,7 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
     </View>}
     {!!care.error && <Pressable accessibilityRole="button" onPress={care.refresh} style={s.notice}><Text style={{ color: t.danger }}>Watering status unavailable · Retry</Text></Pressable>}
     {!!collection.error && <Pressable accessibilityRole="button" onPress={collection.refresh} style={s.notice}><Text style={{ color: t.danger }}>{collection.error} · Retry</Text></Pressable>}
-    <FlatList ref={list} testID="home-plants-list" data={filtered} keyExtractor={plant => plant.id} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 18, paddingTop: 12, paddingBottom: 20 }}
+    <FlatList ref={list} testID="home-plants-list" data={filtered} keyExtractor={plant => plant.id} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 18, paddingTop: 16, paddingBottom: 20 }}
       refreshControl={<RefreshControl tintColor={t.accent} colors={[t.accent]} progressBackgroundColor={t.surface} refreshing={collection.loading && !!plants.length} onRefresh={collection.refresh} />} scrollEventThrottle={32}
       onScroll={event => { if (restored.current) onOffsetChange(event.nativeEvent.contentOffset.y); }}
       onContentSizeChange={() => { if (!restored.current && !collection.loading) { restored.current = true; list.current?.scrollToOffset({ offset: initialPosition.current, animated: false }); } }}

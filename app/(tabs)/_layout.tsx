@@ -30,7 +30,7 @@ export default function TabLayout() {
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
           backgroundColor: t.surface,
-          borderTopWidth: 1, borderTopColor: t.elevated, height: 64 + insets.bottom, paddingTop: 4, paddingBottom: Math.max(4, insets.bottom),
+          borderTopWidth: 1, borderTopColor: t.elevated, height: 56 + insets.bottom, paddingTop: 3, paddingBottom: Math.max(3, insets.bottom),
         },
       }}>
       <Tabs.Screen

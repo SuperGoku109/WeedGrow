@@ -1,7 +1,6 @@
 import { useAppTheme } from '@/hooks/useAppTheme';
 import { OverflowMenuButton, type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import CloseButton from '@/ui/CloseButton';
-import CountBadge from '@/ui/CountBadge';
 import React from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -10,8 +9,8 @@ import { useReducedMotion } from '@/ui/GrowMotion';
 import type { GardenSelection, HomeGarden } from '../gardenSelection';
 
 const icons = { outdoor: 'weather-sunny', indoor: 'home-outline', greenhouse: 'greenhouse' } as const;
-export default function GardenDropdown({ gardens, selection, counts, total, countsReady, onSelect, onCreate, onActions, actionsOpen, disabled }: {
-  gardens: HomeGarden[]; selection: GardenSelection; counts: Record<string, number>; total: number;
+export default function GardenDropdown({ gardens, selection, counts, countsReady, onSelect, onCreate, onActions, actionsOpen, disabled }: {
+  gardens: HomeGarden[]; selection: GardenSelection; counts: Record<string, number>;
   onSelect(value: GardenSelection): void; onCreate(): void; onActions?(anchor: MenuAnchor): void; actionsOpen?: boolean; disabled?: boolean; countsReady: boolean;
 }) {
   const t = useAppTheme();
@@ -32,7 +31,7 @@ export default function GardenDropdown({ gardens, selection, counts, total, coun
         style={({ pressed }) => [{ flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 8 }, pressed && { opacity: 0.88 }]}>
         <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
           <Text style={s.eyebrow}>{garden ? 'YOUR GARDEN' : gardens.length ? 'YOUR COLLECTION' : 'ROOM TO GROW'}</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text accessibilityRole="header" numberOfLines={garden ? 2 : 1} style={[s.title, { flexShrink: 1 }]}>{name}</Text>{!garden && <CountBadge value={countsReady ? total : '—'} label={countsReady ? `${total} plants` : 'Plant count loading'} color={t.heroText} backgroundColor="#dce6c4" size={22} fontSize={11} />}</View>
+          <Text accessibilityRole="header" numberOfLines={garden ? 2 : 1} style={s.title}>{name}</Text>
           {(disabled || garden) && <Text numberOfLines={1} style={s.subtitle}>{disabled ? 'Opening your garden…' : garden ? `${garden.environment.charAt(0).toUpperCase() + garden.environment.slice(1)} · ${countsReady ? counts[garden.id] || 0 : '—'} active` : ''}</Text>}
         </View>
         <View style={s.chevron}><MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={20} color={t.heroText} /></View>

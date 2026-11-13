@@ -5,6 +5,7 @@ import React from 'react';
 import { Keyboard, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useSession } from '@/services/session';
@@ -123,7 +124,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
     <SafeAreaView edges={['top', 'left', 'right']} style={s.safeArea}>
       <AppHeader />
       <View style={s.top}>
-        <GardenDropdown gardens={gardens} selection={resolved} counts={counts} total={collection.plants.length} countsReady={!collection.loading && !collection.error} onSelect={choose} onCreate={openCreate} onActions={setActionsAnchor} actionsOpen={!!actionsAnchor} disabled={!ready} />
+        <GardenDropdown gardens={gardens} selection={resolved} counts={counts} countsReady={!collection.loading && !collection.error} onSelect={choose} onCreate={openCreate} onActions={setActionsAnchor} actionsOpen={!!actionsAnchor} disabled={!ready} />
         {!uid && !accountLoading && <View style={s.notice}><Text style={s.hint}>Sign in to see your plants, or start a plant draft.</Text><Pressable accessibilityRole="button" onPress={() => router.push('/account')} style={s.textButton}><Text style={s.link}>Sign in or create an account →</Text></Pressable></View>}
         {!!spaces.error && <Pressable accessibilityRole="button" onPress={refresh} style={s.notice}><Text style={{ color: t.danger }}>{spaces.error} Tap to retry.</Text></Pressable>}
         {!!selected && !!weatherCollection.errors[selected.id] && <Pressable accessibilityRole="button" accessibilityLabel="Retry garden weather collection" onPress={() => void weatherCollection.retry(selected.id)} style={s.notice}><Text style={s.hint}>Weather collection needs attention. {weatherCollection.errors[selected.id]} <Text style={s.link}>Retry →</Text></Text></Pressable>}
@@ -136,14 +137,14 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
         <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}><View testID="input-focus-frame" nativeID="plant-search-field" style={[s.search, { flex: 1, marginBottom: 0 }]}><MaterialCommunityIcons name="magnify" color={t.muted} size={20} /><TextInput nativeID="plant-search-input" accessibilityLabel="Search plants by name or strain" placeholder="Search plants…" placeholderTextColor={t.muted} value={query} onChangeText={changeQuery} returnKeyType="search" style={s.input} />{!!query && <Pressable accessibilityRole="button" accessibilityLabel="Clear plant search" onPress={() => changeQuery('')} style={s.clear}><MaterialCommunityIcons name="close" size={20} color={t.muted} /></Pressable>}</View><View ref={filterTrigger} collapsable={false} style={{ width: 40, height: 40 }}><GrowPress accessibilityRole="button" accessibilityLabel={`Filter and sort plants${choiceCount ? `, ${choiceCount} active ${choiceCount === 1 ? 'choice' : 'choices'}` : ''}`} accessibilityState={{ expanded: !!filterAnchor }} disabled={!ready || collection.loading && !scopedPlants.length} onPress={() => { Keyboard.dismiss(); filterTrigger.current?.measureInWindow((x, y, width, height) => { if (width > 0 && height > 0) setFilterAnchor({ x, y, width, height }); }); }} style={{ width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: choiceCount ? t.accent : t.elevated, backgroundColor: choiceCount ? t.elevated : t.surface }}><MaterialCommunityIcons name="tune-variant" size={21} color={choiceCount ? t.accent : t.muted} />{choiceCount > 0 && <View style={{ position: 'absolute', top: -4, right: -3, alignItems: 'center', justifyContent: 'center' }}><CountBadge value={choiceCount} label={`${choiceCount} active filters`} color={t.onAccent} backgroundColor={t.accent} size={18} fontSize={10} /></View>}</GrowPress></View></View>
         {!!choiceCount && <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text numberOfLines={2} style={[s.hint, { flex: 1, fontSize: 12 }]}>{summary}</Text><GrowPress accessibilityRole="button" accessibilityLabel="Reset plant filters and sorting" onPress={resetOptions} style={{ minHeight: 32, paddingHorizontal: 8, justifyContent: 'center' }}><Text style={{ color: t.accent, fontSize: 12 }}>Reset</Text></GrowPress></View>}
       </View>
-      {!ready ? <View style={{ paddingHorizontal: 18, paddingTop: 12 }}><PlantListSkeleton label="Opening your garden…" /></View> : <PlantListScreen key={listKey}
+      {!ready ? <View style={{ paddingHorizontal: 18, paddingTop: 12 }}><PlantListSkeleton label="Opening your garden…" /></View> : <View style={{ flex: 1, position: 'relative', marginTop: 6 }}><PlantListScreen key={listKey}
         options={options} onResetFilters={resetOptions} garden={selected} searchQuery={query} setSearchQuery={changeQuery} statusFilter={status} setStatusFilter={changeStatus}
         initialOffset={readGardenListView(uid, listKey).offset} onOffsetChange={value => saveGardenScrollOffset(uid, listKey, value)}
         footer={<View style={s.footer}>
           {!gardens.length && <Pressable accessibilityRole="button" onPress={openCreate} style={s.tool}><MaterialCommunityIcons name="sprout-outline" size={22} color={t.accent} /><View style={{ flex: 1, gap: 4 }}><Text style={s.link}>Make a home for your plants</Text><Text style={s.hint}>Create a garden for your patio, tent or greenhouse.</Text></View><MaterialCommunityIcons name="plus" size={20} color={t.accent} /></Pressable>}
           {!!selected && unassigned > 0 && <Pressable accessibilityRole="button" onPress={() => choose({ kind: 'all' })} style={s.textButton}><Text style={s.hint}>{unassigned} {unassigned === 1 ? 'plant is' : 'plants are'} outside a garden. <Text style={s.link}>View all plants →</Text></Text></Pressable>}
         </View>}
-      />}
+      /><LinearGradient pointerEvents="none" colors={[t.background, `${t.background}00`]} locations={[0, 1]} style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 16, zIndex: 1 }} /></View>}
       {filterAnchor && <PlantFilterMenu anchor={filterAnchor} key={listKey} options={options} status={status} plants={scopedPlants} query={query} showEnvironment={!selected} onApply={applyOptions} onClose={() => { setFilterAnchor(null); filterTrigger.current?.focus?.(); }} />}
       {actionsAnchor && <AnchoredActionMenu anchor={actionsAnchor} title={selected?.name || 'Your plants'} horizontal tone="hero" onClose={() => setActionsAnchor(null)} actions={[
         ...(selected ? [
