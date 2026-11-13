@@ -5,6 +5,7 @@ import LoadError from '@/ui/LoadError';
 import { useSession } from '@/services/session';
 import { adviceInput } from '@/lib/suggestions/adviceInputs';
 import { useMinuteClock } from '@/hooks/useMinuteClock';
+import { usePlantAppearance } from '@/hooks/usePlantAppearance';
 import PlantMovementHistory from '../components/PlantMovementHistory';
 import { isCalendarDay, plantDay } from '@/lib/dates/plantDay';
 import type { JournalSearchFilters } from '../components/JournalSearch';
@@ -47,7 +48,6 @@ import PlantEditorSheet from '../components/PlantEditorSheet';
 
 type Section = 'Journal' | 'Photos' | 'Details';
 const SECTIONS: Section[] = ['Journal', 'Photos', 'Details'];
-const THEME_KEY = 'weedgrow.plant-theme';
 export default function PlantDetailScreen() {
   const params = useLocalSearchParams<{ id: string; section?: string; fromGroupId?: string; welcome?: string; editSection?: string; journalDate?: string; managePlant?: string; returnToPlants?: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -59,7 +59,7 @@ export default function PlantDetailScreen() {
   const { plant, loading, error: plantError, refresh: retryPlant } = usePlant(id);
   const { user } = useSession();
   const uid = user?.uid;
-  const [themeName, setThemeName] = React.useState<keyof typeof plantThemes>('grove');
+  const { themeName } = usePlantAppearance();
   const t = plantThemes[themeName];
   const clock = useMinuteClock();
   const day = useJournalDay(id, plant?.locationTimeZone, clock, undefined);
@@ -142,11 +142,6 @@ export default function PlantDetailScreen() {
   const adviceWeatherTime = data.weather[today]?.fetchedAt?.toMillis?.();
 
   const hasLocation = typeof plant?.location?.lat === 'number' && typeof plant?.location?.lng === 'number';
-  React.useEffect(() => {
-    let active = true;
-    AsyncStorage.getItem(THEME_KEY).then(saved => { if (active && (saved === 'grove' || saved === 'daylight')) setThemeName(saved); }).catch(() => {});
-    return () => { active = false; };
-  }, []);
   React.useEffect(() => { if (typeof params.journalDate === 'string' && plant) { if (isCalendarDay(params.journalDate)) { setSection('Journal'); jump(params.journalDate); } router.setParams({ journalDate: undefined }); } }, [params.journalDate, plant, router, jump]);
   const goBack = React.useCallback(() => {
     if (params.returnToPlants === '1') { router.dismissTo({ pathname: '/(tabs)', params: { tabIndex: '1' } }); return; }
@@ -205,10 +200,6 @@ export default function PlantDetailScreen() {
     if (!keepPosition) { positions.current.Journal = 0; scroll.current?.scrollTo({ y: 0, animated: !reduced }); }
   };
   const editEntry = (entry: JournalEntry) => { const category = journalCategory(entry); if (['watering', 'feeding', 'pests', 'training', 'health', 'notes'].includes(category)) setComposer({ entry, category: category as JournalCategory, date: entry.calendarDay || plantDay(entry.timestamp.toDate(), entry.timeZone || plant?.locationTimeZone), origin: 'Journal' }); };
-  const toggleTheme = () => {
-    const next = themeName === 'grove' ? 'daylight' : 'grove'; setThemeName(next);
-    AsyncStorage.setItem(THEME_KEY, next).catch(() => setMessage('Theme changed for this session. Could not save the preference.'));
-  };
   if (loading) return <LoadingView onBack={goBack} />;
   if (!plant && plantError) return <LoadError message={plantError} onRetry={retryPlant} onBack={goBack} />;
   if (!plant) return <NotFoundView />;
@@ -220,11 +211,9 @@ export default function PlantDetailScreen() {
     <View style={[s.toolbar, { borderBottomColor: t.border }]}>
       <GrowPress accessibilityRole="button" accessibilityLabel={backLabel} onPress={goBack} style={[s.iconButton, { width: 'auto', paddingHorizontal: 4, flexDirection: 'row', alignItems: 'center', gap: 8 }]}><MaterialCommunityIcons name="arrow-left" size={22} color={t.text} /><Text style={{ color: t.text, fontSize: 15 }}>{groupId && params.returnToPlants !== '1' ? 'Garden' : 'Plants'}</Text></GrowPress>
       <View style={{ flex: 1, minWidth: 0 }}>{railPinned && width >= 400 && <Text numberOfLines={1} style={{ color: t.text, fontSize: 15, fontWeight: '600' }}>{plant.name}</Text>}</View>
-      <GrowPress accessibilityRole="button" accessibilityLabel="Edit plant" onPress={editPlant} hitSlop={{ top: 4, bottom: 4 }} style={{ minHeight: 40, paddingHorizontal: 12, paddingVertical: 8, borderRadius: 11, borderWidth: 1, borderColor: t.border, backgroundColor: t.elevated, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 }}><MaterialCommunityIcons name="pencil-outline" size={18} color={t.accent} accessible={false} /><Text style={{ color: t.accent, fontSize: 13, fontWeight: '600' }}>Edit plant</Text></GrowPress>
-      <GrowPress accessibilityRole="button" accessibilityLabel={`Switch to ${themeName === 'grove' ? 'Daylight' : 'Grove'} theme`} onPress={toggleTheme} style={[s.iconButton, { backgroundColor: t.surface, borderRadius: 14 }]}><MaterialCommunityIcons name={themeName === 'grove' ? 'weather-sunny' : 'weather-night'} size={22} color={t.accent} style={{ width: 24, height: 24, lineHeight: 24, textAlign: 'center', includeFontPadding: false }} /></GrowPress>
     </View>
     <ScrollView ref={scroll} stickyHeaderIndices={[1]} showsVerticalScrollIndicator={false} scrollEventThrottle={16} onScrollBeginDrag={() => { restoring.current = false; tabFocusPosition.current = null; }} onContentSizeChange={() => { if (restoring.current && (section !== 'Journal' || (!data.loading && !insightLoading)) && (section !== 'Photos' || !gallery.loading)) scroll.current?.scrollTo({ y: positions.current[section], animated: false }); }} onScroll={event => { if (restoring.current && Math.abs(event.nativeEvent.contentOffset.y - positions.current[section]) < 1) restoring.current = false; if (!restoring.current) positions.current[section] = event.nativeEvent.contentOffset.y; const next = bannerHeight > 0 && event.nativeEvent.contentOffset.y >= bannerHeight; if (next !== pinned.current) { pinned.current = next; setRailPinned(next); } }} contentContainerStyle={{ width: '100%', maxWidth: 760, alignSelf: 'center', paddingBottom: 26 }}>
-      <View onLayout={event => setBannerHeight(event.nativeEvent.layout.height)} style={{ paddingHorizontal: 18, paddingTop: 4 }}><PlantBanner plant={plant} theme={t} onCover={() => { switchSection('Photos'); setMessage('Choose a photo, then Photo actions → Use as cover.'); }} /></View>
+      <View onLayout={event => setBannerHeight(event.nativeEvent.layout.height)} style={{ paddingHorizontal: 18, paddingTop: 4 }}><PlantBanner plant={plant} theme={t} onEdit={editPlant} /></View>
       <View onLayout={event => { railHeight.current = event.nativeEvent.layout.height; }} style={{ paddingHorizontal: 18, paddingBottom: 8, backgroundColor: t.background }}><View accessibilityRole="tablist" style={{ flexDirection: 'row', backgroundColor: t.surface, borderWidth: 1, borderTopWidth: railPinned ? 1 : 0, borderColor: t.border, borderTopLeftRadius: railPinned ? 20 : 0, borderTopRightRadius: railPinned ? 20 : 0, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 4, paddingTop: 4 }}><Animated.View pointerEvents="none" style={[tabSelection.indicatorStyle, { backgroundColor: t.accent, borderRadius: 12 }]} />{SECTIONS.map(item => <View key={item} onLayout={event => tabSelection.onItemLayout(item, event)} style={{ flex: 1, minWidth: 0 }}><GrowPress accessibilityRole="tab" hitSlop={{ top: 4, bottom: 4 }} onFocus={() => { if (item !== section) tabFocusPosition.current = { section, y: positions.current[section] }; }} aria-selected={section === item} accessibilityState={{ selected: section === item }} onPress={() => switchSection(item)} style={{ alignItems: 'center', minHeight: 40, justifyContent: 'center', paddingVertical: 8, borderRadius: 12, backgroundColor: 'transparent' }}><Text style={{ color: section === item ? t.onAccent : t.muted, fontSize: 13, fontWeight: '700' }}>{item === 'Details' ? 'Plant info' : item}</Text></GrowPress></View>)}</View></View>
       <View onLayout={event => { bodyTop.current = event.nativeEvent.layout.y; }} style={{ paddingHorizontal: 18, paddingBottom: 20 }}>
         {section === 'Journal' && !!data.weatherError && <GrowPress accessibilityRole="button" onPress={data.retry} style={{ minHeight: 48, justifyContent: 'center', marginTop: 12 }}><Text accessibilityRole="alert" style={{ color: t.danger }}>{data.weatherError} Tap to retry.</Text></GrowPress>}
@@ -233,7 +222,7 @@ export default function PlantDetailScreen() {
           {returnToSearch && <GrowPress accessibilityRole="button" onPress={() => setSearchOpen(true)} style={{ minHeight: 48, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Back to search results</Text></GrowPress>}
           <JournalDateNavigator today={today} selected={selected} dates={dates} logs={data.logs} historyStatus={data.loading ? 'loading' : data.error ? 'error' : 'ready'} theme={t} minimum={day.minimum} canGoBack={day.canGoBack} onSelect={day.select} onJump={day.jump} onMove={day.moveWeek} onToday={day.backToToday} onSearch={() => setSearchOpen(true)} />
           {isToday && <><DailyCareAdvice key={id} cards={displayCards} loading={insightLoading || data.loading || data.weatherLoading} error={insightError} hasLocation={hasLocation} theme={t} onRecord={(category, context) => openLog(category, context)} canRecord={plant.status === 'active'} onRefresh={() => setRefresh(value => value + 1)} /></>}
-          <JournalSectionTitle title={isToday ? 'Recorded today' : dayLabel} theme={t} caption={isFuture ? 'FORECAST' : data.loading ? undefined : data.error ? 'Unavailable' : selectedLogs.length ? selectedLogs.length + (selectedLogs.length === 1 ? ' entry' : ' entries') : undefined} />
+          <JournalSectionTitle title={isToday ? 'Recorded today' : isFuture ? dayLabel : 'Recorded'} theme={t} caption={isFuture ? 'FORECAST' : data.loading ? undefined : data.error ? 'Unavailable' : selectedLogs.length ? selectedLogs.length + (selectedLogs.length === 1 ? ' entry' : ' entries') : undefined} />
           {!isFuture && <View onLayout={event => { timelineTop.current = event.nativeEvent.layout.y; }}><JournalTimeline key={'activity:' + selected} compactEmpty emptyMessage={isToday ? 'Nothing recorded today.' : 'No activity recorded on this day.'} logs={selectedLogs} loading={data.loading} error={data.error} theme={t} timeZone={plant.locationTimeZone} onEdit={editEntry} onDelete={setDeletingEntry} highlightedId={focusedEntry} highlightLabel={highlightLabel} onRetry={data.retry} onViewPhoto={entry => { const photoId = entry.id.startsWith('photo_') ? entry.id.slice(6) : entry.id === 'setup-photo' ? entry.id : ''; setNewPhotoId(photoId); switchSection('Photos'); pendingAnchor.current = photoId; }} onEntryLayout={(entryId, y) => rememberAnchor(entryId, journalTop.current + timelineTop.current + y)} /></View>}
           {isFuture && <Text style={[ds.body, { color: t.muted }]}>Forecast only. Choose today or an earlier date to record completed activities.</Text>}
           {isToday && <><View style={{ marginTop: 24 }}><GrowthStageSummary key={'growth:' + id} plant={plant} theme={t} now={clock} onPress={openGrowth} /></View><LocalCareControls compact key={'local:' + id} plantId={id} plant={plant} theme={t} onEditSetup={editPlant} /></>}

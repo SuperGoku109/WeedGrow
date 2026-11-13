@@ -11,3 +11,13 @@
   outline: none;
   box-shadow: none;
 }
+
+/* Search uses its rounded outer field for focus feedback. */
+input#plant-search-input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+#plant-search-field:focus-within {
+  box-shadow: inset 0 0 0 1px #c8e78b;
+}

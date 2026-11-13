@@ -21,7 +21,7 @@ function BotanicalCover({ theme }: { theme: PlantTheme }) {
 }
 
 /** Photo, identity and compact facts share the section rail's card. */
-export default function PlantBanner({ plant, theme: t, onCover }: { plant: Plant; theme: PlantTheme; onCover(): void }) {
+export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant; theme: PlantTheme; onEdit(): void }) {
   const { width } = useWindowDimensions();
   const coverHeight = Math.min(200, Math.max(156, (width - 36) * 0.48));
   const uri = getRenderablePlantImageUri(plant.imageUri);
@@ -35,14 +35,15 @@ export default function PlantBanner({ plant, theme: t, onCover }: { plant: Plant
   const hasPhoto = !!photo.uri && !broken && !photo.failed;
   const strain = plant.strain?.trim() || plant.strainType?.trim();
   return <View style={[s.banner, { backgroundColor: t.surface, borderColor: t.border }]}>
-    <Pressable accessibilityRole="button" accessibilityLabel={`Change cover photo for ${plant.name}`} onPress={onCover} style={({ pressed }) => [s.cover, { minHeight: coverHeight, backgroundColor: t.hero, opacity: pressed ? 0.9 : 1 }]}>
+    <View style={[s.cover, { minHeight: coverHeight, backgroundColor: t.hero }]}>
       {hasPhoto ? <Image accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri! }} resizeMode="cover" onError={() => setBroken(true)} style={StyleSheet.absoluteFillObject} /> : <View style={s.botanical} accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
       <LinearGradient pointerEvents="none" colors={['rgba(9,22,14,0.05)', 'rgba(9,22,14,0.35)', 'rgba(9,22,14,0.92)']} locations={[0, 0.4, 1]} style={StyleSheet.absoluteFillObject} />
       <LinearGradient pointerEvents="none" colors={['transparent', t.surface]} style={s.bottomFade} />
       <View pointerEvents="none" accessibilityLabel={`Plant status: ${status}`} style={s.status}><View style={[s.statusDot, { backgroundColor: status === 'active' ? '#c8e78b' : '#d5ddd0' }]} /><Text style={s.statusText}>{status}</Text></View>
-      <View pointerEvents="none" style={s.photoAction}>{photo.stored && !photo.uri && !photo.failed ? <ActivityIndicator size="small" color="#edf0e3" accessibilityLabel="Loading plant cover" /> : <MaterialCommunityIcons name="camera-outline" size={19} color="#edf0e3" aria-hidden={true} />}</View>
+      <Pressable accessibilityRole="button" accessibilityLabel={`Edit ${plant.name}`} onPress={onEdit} hitSlop={4} style={({ pressed }) => [s.photoAction, { opacity: pressed ? 0.7 : 1 }]}><MaterialCommunityIcons name="pencil-outline" size={19} color="#edf0e3" aria-hidden={true} /></Pressable>
+      {photo.stored && !photo.uri && !photo.failed && <View pointerEvents="none" style={StyleSheet.absoluteFillObject}><ActivityIndicator style={{ flex: 1 }} size="small" color={t.heroText} accessibilityLabel="Loading plant cover" /></View>}
       <View pointerEvents="none" style={s.identity}><Text accessibilityRole="header" style={s.name}>{plant.name}</Text>{!!strain && <Text style={s.strain}>{strain}</Text>}</View>
-    </Pressable>
+    </View>
     <View style={s.details}>
         <View accessibilityLabel={`Growth stage: ${stage}`} style={[s.stage, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={t.accent} aria-hidden={true} /><Text style={[s.badgeText, { color: t.accent }]}>{stage}</Text></View>
         <View style={s.context}><MaterialCommunityIcons name={environmentIcons[environment]} size={16} color={t.muted} aria-hidden={true} /><Text style={[s.environment, { color: t.muted }]}>{environment}{place ? ` · ${place}` : ''}</Text></View>
