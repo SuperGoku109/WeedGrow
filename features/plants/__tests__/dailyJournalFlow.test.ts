@@ -1,5 +1,6 @@
 import { evaluateSuggestionCardsForPlant } from '@/lib/suggestions/suggestionCards';
 import React from 'react';
+import { ScrollView } from 'react-native';
 import PlantBanner from '../components/PlantBanner';
 import PlantLifecycle from '../components/PlantLifecycle';
 // @ts-expect-error Expo includes the renderer without declarations.
@@ -11,6 +12,7 @@ import JournalDateNavigator from '../components/JournalDateNavigator';
 import DailyCareAdvice from '../components/DailyCareAdvice';
 import PlantSectionEditor from '../components/PlantSectionEditor';
 import PlantWeather from '../components/PlantWeather';
+import PlantHistory from '../components/PlantHistory';
 import GrowthStageSummary from '../components/GrowthStageSummary';
 import { saveJournalEntry } from '@/lib/logs/journalRepository';
 import type { PlantLog } from '@/firestoreModels';
@@ -41,6 +43,7 @@ jest.mock('@/features/plants/components/PlantLifecycle', () => () => null);
 jest.mock('@/features/plants/components/GrowthPhaseSheet', () => () => null);
 jest.mock('@/features/plants/components/GrowthStageSummary', () => () => null);
 jest.mock('@/features/plants/components/PlantWeather', () => () => null);
+jest.mock('@/features/plants/components/PlantHistory', () => () => null);
 jest.mock('@/features/plants/components/PlantSectionEditor', () => () => null);
 jest.mock('@/features/plants/components/JournalSearch', () => () => null);
 jest.mock('@/features/plants/components/LoadingView', () => () => null);
@@ -65,13 +68,48 @@ it('opens the existing harvest flow from Add activity with its selected date', a
   expect(saveJournalEntry).not.toHaveBeenCalled();
 });
 function tab(name: string) { return renderer.root.findAll((node: any) => node.props.accessibilityRole === 'tab' && node.props.children?.props?.children === name && typeof node.props.onPress === 'function')[0]; }
+it('keeps tabs pinned and ignores layout-driven scroll events while restoring Journal', async () => {
+  await mount();
+  const main = () => renderer.root.findByType(ScrollView);
+  act(() => {
+    main().props.onLayout({ nativeEvent: { layout: { height: 600 } } });
+    renderer.root.findByType(PlantBanner).parent.props.onLayout({ nativeEvent: { layout: { height: 240 } } });
+    main().props.onScrollBeginDrag();
+    main().props.onScroll({ nativeEvent: { contentOffset: { y: 360 } } });
+  });
+  act(() => tab('Info').props.onPress());
+  // A newly visited short tab still has room to keep the cover scrolled away.
+  expect(main().props.contentContainerStyle.minHeight).toBe(840);
+  act(() => {
+    main().props.onScrollBeginDrag();
+    main().props.onScroll({ nativeEvent: { contentOffset: { y: 700 } } });
+  });
+  act(() => tab('Journal').props.onPress());
+  expect(main().props.contentContainerStyle.minHeight).toBe(960);
+  // Browser clamping/focus during loading must not overwrite the saved 360px.
+  act(() => main().props.onScroll({ nativeEvent: { contentOffset: { y: 0 } } }));
+  act(() => tab('Info').props.onPress());
+  act(() => tab('Journal').props.onPress());
+  expect(main().props.contentContainerStyle.minHeight).toBe(960);
+});
 
-it('opens one quiet daily Journal with three tabs and fixed creation actions', async () => {
+it('opens the daily Journal with History, Photos, Info and fixed creation actions', async () => {
   await mount(); const tree = JSON.stringify(renderer.toJSON());
   expect(selectedTab()).toBe('Journal'); expect(dates().props.selected).toBe('2026-10-26');
-  expect(tab('Today')).toBeUndefined(); expect(tab('Photos')).toBeDefined(); expect(tab('Plant info')).toBeDefined();
+  expect(tab('Today')).toBeUndefined(); expect(tab('History')).toBeDefined(); expect(tab('Photos')).toBeDefined(); expect(tab('Info')).toBeDefined();
   expect(tree).toContain('Nothing recorded today.'); expect(tree).not.toContain('Not recorded today'); expect(tree).not.toContain('View full journal');
   expect(button('Add activity')).toBeDefined(); expect(button('Add photo')).toBeDefined();
+});
+it('opens plant-wide history and links an event back to its journal day', async () => {
+  await mount();
+  act(() => tab('History').props.onPress());
+  expect(selectedTab()).toBe('History');
+  expect(button('Add activity')).toBeUndefined();
+  const history = renderer.root.findByType(PlantHistory);
+  expect(history.props.plantId).toBe('plant');
+  act(() => history.props.onViewDay('2026-10-25', { id: 'old' }));
+  expect(selectedTab()).toBe('Journal');
+  expect(dates().props.selected).toBe('2026-10-25');
 });
 it('shows all actual records once and keeps management behind an entry menu', async () => {
   mockLogs = Array.from({ length: 4 }, (_, index) => ({ id: String(index), type: index === 0 ? 'watering' : 'note', description: 'Recorded ' + index, updatedBy: '', timestamp: { toDate: () => mockNow, toMillis: () => mockNow.getTime() } } as PlantLog & { id: string }));

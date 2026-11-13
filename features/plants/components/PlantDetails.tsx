@@ -27,7 +27,7 @@ export default function PlantDetails({ plant, theme: t, locationHistory, onSecti
   const [recordOpen, setRecordOpen] = React.useState(false);
   const location = plant.locationNickname?.trim() || plant.locationLabel?.trim();
   const anchor = (key: string) => ({ onLayout: (y: number) => onSectionLayout?.(key, y), highlighted: highlightedSection === key });
-  return <View style={{ gap: 14, paddingTop: 16 }}>
+  return <View style={{ gap: 16 }}>
     <ProfileCard {...anchor('Basics')} title="Basics" icon="sprout-outline" theme={t}><Facts fields={profile.basics} theme={t} /></ProfileCard>
     <ProfileCard {...anchor('Growing setup')} title="Growing setup" icon="flower-poppy" theme={t}><Facts fields={profile.setup} theme={t} /></ProfileCard>
     <ProfileCard {...anchor('Care plan')} title="Care routine" icon="watering-can-outline" theme={t}>

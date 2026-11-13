@@ -6,15 +6,16 @@ import { Pressable, Text, View, type GestureResponderEvent } from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { PlantLog } from '@/firestoreModels';
 import { GrowPress } from '@/ui/GrowMotion';
+import CountBadge from '@/ui/CountBadge';
 import { PlantImage } from '@/ui/PlantImage';
 import { journalCategory } from '@/lib/logs/plantJournal';
 import { measurementFields, measurementKeys } from '@/lib/logs/logMeasurements';
 import { journalEntryTime, journalKind } from '../journalPresentation';
 import type { PlantTheme } from './plantDetailTheme';
 export function JournalSectionTitle({ title, caption, theme: t }: { title: string; caption?: string; theme: PlantTheme }) {
-  return <View style={{ marginTop: 22, marginBottom: 14, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
+  return <View style={{ marginTop: 16, marginBottom: 12, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 10 }}>
     <Text accessibilityRole="header" style={{ color: t.text, fontSize: 20, fontWeight: '600', letterSpacing: -.4 }}>{title}</Text>
-    {!!caption && <View style={{ backgroundColor: t.elevated, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 5 }}><Text style={{ color: t.muted, fontSize: 12, fontWeight: '500' }}>{caption}</Text></View>}
+    {!!caption && (/^\d+ (?:entry|entries)$/.test(caption) ? <CountBadge value={caption.split(' ')[0]} label={caption} color={t.muted} backgroundColor={t.elevated} /> : <View style={{ backgroundColor: t.elevated, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 5 }}><Text style={{ color: t.muted, fontSize: 12, fontWeight: '500' }}>{caption}</Text></View>)}
   </View>;
 }
 
@@ -36,7 +37,7 @@ export function JournalTimeline({ logs, theme: t, loading, error, onEdit, onDele
     if (event && row?.measureInWindow) row.measureInWindow((x, y, width, height) => open({ x, y, width, height }));
     else open({ x: event?.nativeEvent.pageX || 12, y: event?.nativeEvent.pageY || 12, width: 0, height: 0 });
   };
-  const menuEntry = menu && logs.find(log => log.id === menu.id && !log.movement && !log.stageReview && ['watering', 'feeding', 'pests', 'training', 'health', 'measurements', 'repotting', 'flushing', 'notes'].includes(journalCategory(log)));
+  const menuEntry = menu && logs.find(log => log.id === menu.id && !log.movement && !log.stageReview && !log.historyEvent && ['watering', 'feeding', 'pests', 'training', 'health', 'measurements', 'repotting', 'flushing', 'notes'].includes(journalCategory(log)));
   React.useEffect(() => { if (menu && !menuEntry) setMenu(null); }, [menu, menuEntry]);
   const [expanded, setExpanded] = React.useState<Record<string, boolean>>({});
   const action = (label: string, handler: () => void, danger = false) => <PlantActionButton label={label.startsWith('Edit ') ? 'Edit entry' : label.startsWith('Delete ') ? 'Delete entry' : label} accessibilityLabel={label} icon={danger ? 'trash-can-outline' : label.startsWith('Edit ') ? 'pencil-outline' : label === 'Show less' ? 'chevron-up' : label.startsWith('Read ') ? 'chevron-down' : label === 'View in Photos' ? 'image-outline' : 'refresh'} theme={t} danger={danger} onPress={handler} />;
@@ -46,7 +47,7 @@ export function JournalTimeline({ logs, theme: t, loading, error, onEdit, onDele
     {!logs.length && !loading && !error && <View style={{ flexDirection: 'row', gap: 12, paddingVertical: 18, alignItems: 'center' }}><View style={{ backgroundColor: t.surface, borderRadius: 14, width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name="notebook-outline" size={22} color={t.muted} /></View><View style={{ flex: 1 }}><Text style={{ color: t.text, fontSize: 15 }}>{emptyMessage}</Text><Text style={{ color: t.muted, lineHeight: 20, fontSize: 13, marginTop: 5 }}>Use Add activity to keep a record of your care.</Text></View></View>}
     {!!logs.length && <View onLayout={event => { entriesTop.current = event.nativeEvent.layout.y; }} style={{ backgroundColor: t.surface, borderRadius: 20, overflow: 'hidden' }}>{logs.map((log, index) => {
       const kind = journalKind(log); const time = journalEntryTime(log, timeZone); const category = journalCategory(log);
-      const manual = !log.movement && !log.stageReview && ['watering', 'feeding', 'pests', 'training', 'health', 'measurements', 'repotting', 'flushing', 'notes'].includes(category);
+      const manual = !log.movement && !log.stageReview && !log.historyEvent && ['watering', 'feeding', 'pests', 'training', 'health', 'measurements', 'repotting', 'flushing', 'notes'].includes(category);
       const editable = !!onEdit && manual; const deletable = !!onDelete && manual;
       const selected = highlightedId === log.id;
       const structured = !!log.moistureState || !!log.rainfallObservation || measurementKeys.some(key => log[key] != null);
@@ -56,7 +57,7 @@ export function JournalTimeline({ logs, theme: t, loading, error, onEdit, onDele
       const Row = editable || deletable ? Pressable : View;
       return <View key={log.id} ref={node => { rowRefs.current[log.id] = node; }} collapsable={false} onLayout={event => onEntryLayout?.(log.id, entriesTop.current + event.nativeEvent.layout.y)}>
         {index > 0 && <View style={{ height: 1, backgroundColor: t.elevated, marginHorizontal: 16 }} />}
-        <Row accessibilityRole={editable || deletable ? 'button' : undefined} accessibilityLabel={editable || deletable ? `Manage ${kind.label} entry at ${time}${spokenDetails ? `. ${spokenDetails}` : ''}` : undefined} accessibilityHint={editable || deletable ? 'Opens edit and delete options.' : undefined} accessibilityState={editable || deletable ? { expanded: menu?.id === log.id } : undefined} onPress={editable || deletable ? event => openMenu(log, event) : undefined} style={{ padding: 16, minHeight: 64, justifyContent: 'center', backgroundColor: selected ? t.elevated : undefined }}>
+        <Row accessibilityRole={editable || deletable ? 'button' : undefined} accessibilityLabel={editable || deletable ? `Manage ${kind.label} entry at ${time}${spokenDetails ? `. ${spokenDetails}` : ''}` : undefined} accessibilityHint={editable || deletable ? 'Opens edit and delete options.' : undefined} accessibilityState={editable || deletable ? { expanded: menu?.id === log.id } : undefined} onPress={editable || deletable ? event => openMenu(log, event) : undefined} style={{ paddingHorizontal: 14, paddingVertical: 10, minHeight: 48, justifyContent: 'center', backgroundColor: selected ? t.elevated : undefined }}>
         {selected && <View accessibilityLiveRegion="polite" style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 12 }}><MaterialCommunityIcons name="check-circle-outline" color={t.accent} size={17} /><Text style={{ color: t.accent, fontSize: 13, fontWeight: '600' }}>{highlightLabel}</Text></View>}
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <MaterialCommunityIcons name={kind.icon} size={19} style={{ width: 20, textAlign: 'center' }} color={category === 'watering' ? t.water : t.accent} accessible={false} />

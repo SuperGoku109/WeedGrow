@@ -15,6 +15,7 @@ import { stageChangeFields } from '@/lib/plants/growthTracking';
 import { estimatedAgeFields } from '@/lib/plants/stageAgeDefaults';
 import { assertGrowthDates } from '@/lib/plants/growthDates';
 import { assertLivingGrowthChange } from '@/lib/plants/growthLifecycle';
+import { plantEditHistory } from '@/lib/plants/plantEditHistory';
 
 // Main delete function for entire plant + subcollections
 export async function deletePlantAndSubcollections(id: string) {
@@ -69,6 +70,8 @@ export async function updatePlant(id: string, updates: UpdatePlantFields, baseli
   try {
     const uid = requireUserId();
     const plantRef = doc(db, 'plants', id);
+    const historyRef = doc(collection(db, 'plants', id, 'logs'));
+    const statusHistoryRef = doc(collection(db, 'plants', id, 'logs'));
     await runTransaction(db, async transaction => {
       const current = await transaction.get(plantRef);
       if (!current.exists() || !current.data().owners?.includes(uid)) throw new Error('This plant is not available in your account.');
@@ -112,6 +115,9 @@ export async function updatePlant(id: string, updates: UpdatePlantFields, baseli
         description: `Moved from ${previous.locationLabel || (previous.location ? `${previous.location.lat}, ${previous.location.lng}` : 'no location')} to ${resolved.locationLabel || (resolved.location ? `${resolved.location.lat}, ${resolved.location.lng}` : 'no location')}.`,
         movement: { from: previous.location || null, to: resolved.location || null, fromLabel: previous.locationLabel || '', toLabel: resolved.locationLabel || '', revision: (previous.locationRevision || 0) + 1 },
       });
+      const historyDescription = plantEditHistory(previous, normalized);
+      if (historyDescription) transaction.set(historyRef, { type: 'note', historyEvent: 'setup', description: historyDescription, timestamp: serverTimestamp(), ...(previous.locationTimeZone ? { timeZone: previous.locationTimeZone } : {}), updatedBy: uid });
+      if (normalized.status && normalized.status !== previous.status) transaction.set(statusHistoryRef, { type: 'note', historyEvent: 'status', toStatus: normalized.status, description: `${previous.status} → ${normalized.status}`, timestamp: serverTimestamp(), ...(previous.locationTimeZone ? { timeZone: previous.locationTimeZone } : {}), updatedBy: uid });
       transaction.update(plantRef, { ...resolved, ...(moved ? { locationRevision: (previous.locationRevision || 0) + 1, locationChangedAt: serverTimestamp(), locationTimeZone: null, ...(previous.location || previous.weatherHistoryBefore ? { weatherHistoryBefore: [previous.weatherHistoryBefore || '', plantDay(new Date(), previous.locationTimeZone)].sort().pop() } : {}) } : {}), ...(normalized.ageDays != null ? { ageKnown: true, ageRecordedAt: serverTimestamp() } : {}), ...(changedSpace ? { groupId: null } : {}), updatedAt: serverTimestamp() });
     });
     invalidatePlantCache();

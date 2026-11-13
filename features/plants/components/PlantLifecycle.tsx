@@ -47,7 +47,7 @@ export default function PlantLifecycle({ plantId, plant, theme: t, onDeleted, on
     } finally { setBusy(false); }
   };
   const button = (label: string, handler: () => void, danger = false) => <View style={{ marginTop: 8 }}><PlantActionButton label={label} theme={t} disabled={busy} danger={danger} icon={danger ? 'trash-can-outline' : /harvest/i.test(label) ? 'basket-outline' : /restore/i.test(label) ? 'restore' : /archive/i.test(label) ? 'archive-outline' : 'leaf-off'} onPress={handler} /></View>;
-  return <View style={harvestOnly ? undefined : { marginVertical: 12, gap: 12 }}>
+  return <View style={harvestOnly ? undefined : { gap: 12 }}>
     {!harvestOnly && <>
     <GrowPress accessibilityRole="button" accessibilityLabel="Manage plant" accessibilityState={{ expanded }} onPress={() => { setExpanded(!expanded); onClose(); }} style={{ minHeight: 48, flexDirection: 'row', justifyContent: 'space-between' }}><Text style={{ color: t.text, fontSize: 16, fontWeight: '600' }}>Manage plant</Text><Text style={{ color: t.muted }}>{expanded ? '−' : '+'}</Text></GrowPress>
     {expanded && <><Text style={{ color: t.muted, lineHeight: 21 }}>Status: {plant.status}. Archiving or finishing a grow keeps its journal and photos.</Text>

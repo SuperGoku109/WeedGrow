@@ -7,6 +7,7 @@ import { validateLogDate } from '@/lib/logs/plantJournal';
 import { validateMeasurements } from '@/lib/logs/logMeasurements';
 import { assertUnchanged } from '@/lib/plants/editConflict';
 import { normalizePlantSetup } from '@/lib/plants/plantRules';
+import { plantEditHistory } from '@/lib/plants/plantEditHistory';
 import { growthPhase, phaseWindow } from '@/lib/plants/growthPhase';
 import { newLogId } from '@/lib/logs/journalRepository';
 import { stageChangeFields, stageSuggestion, preflowerSuggestionId, type StageReview, type StageReviewAction } from '@/lib/plants/growthTracking';
@@ -77,6 +78,8 @@ export async function confirmGrowthStage(plantId: string, stage: Plant['growthSt
       ...(stage === 'completed' ? { postHarvestTracking: false, status: 'harvested' } : {}), updatedAt: serverTimestamp() });
     if (changedGarden && groupRef && group?.exists()) tx.update(groupRef, { plantIds: arrayRemove(plantId), ...(group.data().weatherSourcePlantId === plantId ? { weatherSourcePlantId: null } : {}), updatedAt: serverTimestamp() });
     const phaseMutation = details ? JSON.stringify({ stage, date, late: !!details.lateFlowering, setup, measurements }) : undefined;
+    const setupDescription = plantEditHistory(plant, normalized);
+    if (setupDescription) tx.set(doc(db, 'plants', plantId, 'logs', `phase_setup_${requestId}`), { type: 'note', historyEvent: 'setup', description: setupDescription, calendarDay: date, occurrencePrecision: 'date', ...(plant.locationTimeZone ? { timeZone: plant.locationTimeZone } : {}), timestamp: Timestamp.fromDate(zonedTime(date, '12:00', plant.locationTimeZone)), recordedAt: serverTimestamp(), updatedBy: uid });
     if (stage === 'harvested' && fields.harvest) tx.set(doc(db, 'plants', plantId, 'logs', `harvest_${fields.harvest.recordId}`), {
       type: 'harvest', harvest: fields.harvest, ...(phaseMutation ? { phaseMutation } : {}), calendarDay: date, occurrencePrecision: 'date',
       ...(plant.locationTimeZone ? { timeZone: plant.locationTimeZone } : {}), timestamp: Timestamp.fromDate(zonedTime(date, '12:00', plant.locationTimeZone)), editedAt: serverTimestamp(), updatedBy: uid,

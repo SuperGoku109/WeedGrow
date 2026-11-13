@@ -31,7 +31,7 @@ export default function WateringCareCard({ plant, theme: t }: { plant: Plant; th
     ['Your growing setup', 'Information about the container, growing medium and exposure will appear here.'],
     ['Watering guidance', 'The detailed care guide will appear here.'],
   ];
-  return <View style={{ backgroundColor: t.surface, borderRadius: 20, padding: 22, gap: 12, marginTop: 12 }}>
+  return <View style={{ backgroundColor: t.surface, borderRadius: 20, padding: 16, gap: 12 }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 13 }}>
       <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: t.elevated, alignItems: 'center', justifyContent: 'center' }}><WaterIcon color={t.water} /></View>
       <View style={{ flex: 1, gap: 4 }}><Text style={{ color: t.text, fontSize: 20, fontWeight: '600' }}>Water</Text><Text style={{ color: t.muted, fontSize: 13 }}>Seasonal overview</Text></View>

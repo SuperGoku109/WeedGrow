@@ -22,7 +22,7 @@ export default function LocalCareControls({ plantId, plant, theme: t, onEditSetu
     catch { setError('Care settings could not be reset. Retry.'); }
   };
   if (compact && !manual && !error) return null;
-  return <View style={{ marginTop: 10, gap: 5 }}>
+  return <View style={{ marginTop: compact ? 10 : 0, gap: 5 }}>
     {manual && <Text style={{ color: t.warm, fontSize: 13, lineHeight: 19 }}>Manual test overrides are active.</Text>}
     <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
       {manual && <GrowPress accessibilityRole="button" accessibilityLabel="Use automatic care" onPress={() => { void automatic(); }} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Use automatic care</Text></GrowPress>}

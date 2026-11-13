@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AppNotice from '@/ui/AppNotice';
+import CountBadge from '@/ui/CountBadge';
 import { gardenThemes } from '@/design-system/tokens/garden';
 import { usePlantList } from '@/features/plants/hooks/usePlantList';
 import { useOwnedGroups } from '@/hooks/useGardenData';
@@ -57,7 +58,7 @@ export default function GroupDetailScreen() {
             <View style={s.garden}><View style={{ flex: 1, gap: 5 }}><Text accessibilityRole="header" style={s.gardenName}>{group.name}</Text><Text style={s.gardenMeta}>{group.environment.charAt(0).toUpperCase() + group.environment.slice(1)} · {plants.length} {plants.length === 1 ? 'plant' : 'plants'}</Text></View><View style={s.gardenIcon}><MaterialCommunityIcons name="sprout-outline" size={28} color={t.heroText} /></View></View>
             <View style={{ flexDirection: 'row', gap: 10 }}><View style={{ flex: 1 }}><PlantActionButton label="Add existing" compact primary icon="plus" theme={t} disabled={unavailable} onPress={() => setAdding(true)} /></View><View style={{ flex: 1 }}><PlantActionButton label="New plant" compact icon="sprout-outline" theme={t} disabled={unavailable} onPress={newPlant} /></View></View>
             <View testID="input-focus-frame" style={s.search}><MaterialCommunityIcons name="magnify" color={t.muted} size={21} /><TextInput accessibilityLabel="Search garden plants" placeholder="Search plants…" placeholderTextColor={t.muted} value={query} onChangeText={setQuery} style={s.input} />{!!query && <Pressable accessibilityRole="button" accessibilityLabel="Clear plant search" onPress={() => setQuery('')} style={s.clear}><MaterialCommunityIcons name="close" size={20} color={t.muted} /></Pressable>}</View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', gap: 10 }}><Text style={s.listTitle}>Plants in this garden</Text><Text style={s.hint}>{query ? `${shown.length} of ${plants.length}` : plants.length}</Text></View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}><Text style={s.listTitle}>Plants in this garden</Text><CountBadge value={query ? `${shown.length}/${plants.length}` : plants.length} label={query ? `${shown.length} of ${plants.length} plants` : `${plants.length} plants`} color={t.accent} backgroundColor={t.elevated} /></View>
           </View>}
           renderItem={({ item }) => <ManagePlantRow plant={item} disabled={unavailable} onOpen={() => router.push({ pathname: '/plant/[id]', params: { id: item.id, fromGroupId: id } })} onMove={unavailable ? undefined : () => setMoving(item)} onRemove={unavailable ? undefined : () => setRemoving({ plant: item, baseline: group })} />}
           ListEmptyComponent={<View style={s.empty}><MaterialCommunityIcons name={query ? 'magnify' : 'sprout-outline'} size={30} color={t.accent} /><Text style={s.emptyTitle}>{query ? 'No matching plants' : 'Ready for your plants'}</Text><Text style={[s.hint, { textAlign: 'center' }]}>{query ? 'Try another name or strain.' : 'Add an existing plant or start a new one above.'}</Text></View>}

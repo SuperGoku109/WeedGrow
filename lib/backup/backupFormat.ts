@@ -19,7 +19,7 @@ allowed.plants.push('wateringRepeat');
 allowed.logs.push('recordingSource', 'wateringRepeatChange');
 allowed.logs.push('moistureState', 'moistureConfiguration', 'inspectionFeedback', 'rainfallObservation');
 allowed.plants.push('stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn', 'stageTrackingVersion', 'stageRevision', 'growthProfile', 'stageReview', 'stagePush', 'stageReminders', 'postHarvestTracking');
-allowed.logs.push('fromStage', 'toStage', 'stageRevision', 'stageReview', 'fromPhase', 'toPhase', 'phaseMutation');
+allowed.logs.push('fromStage', 'toStage', 'stageRevision', 'stageReview', 'fromPhase', 'toPhase', 'phaseMutation', 'historyEvent', 'toStatus');
 allowed.plants.push('stageStartedOnEstimated', 'ageEstimateSource', 'floweringPhase', 'lateFloweringStartedOn');
 export function validateBackup(raw: string): GardenBackup {
   if (raw.length > MAX_BACKUP_BYTES || utf8Bytes(raw) > MAX_BACKUP_BYTES) throw new Error('Choose a backup under 30 MB.');

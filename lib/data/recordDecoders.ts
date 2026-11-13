@@ -60,6 +60,8 @@ export function decodeGroup(value: unknown, path: string): Group {
 export function decodeLog(value: unknown, path: string): PlantLog {
   const data = record(value, path); check(['watering', 'fertilizing', 'note', 'photo', 'training', 'stage_change', 'harvest'].includes(String(data.type)), path, 'type'); check(timestamp(data.timestamp), path, 'timestamp');
   optional(data, ['description', 'updatedBy', 'photoUri', 'calendarDay', 'timeZone', 'mutationId'], text, path);
+  optional(data, ['historyEvent'], value => value === 'setup' || value === 'status', path);
+  optional(data, ['toStatus'], value => ['active', 'archived', 'harvested', 'dead'].includes(String(value)), path);
   optional(data, ['waterMl', 'nutrientMlPerL', 'ph', 'heightCm', 'soilMoisture'], finite, path); clocks(data, path);
   optional(data, ['moistureConfiguration'], text, path);
   if (data.rainfallObservation != null) check(['LIGHT', 'MODERATE', 'HEAVY'].includes(String(data.rainfallObservation)), path, 'rainfallObservation');

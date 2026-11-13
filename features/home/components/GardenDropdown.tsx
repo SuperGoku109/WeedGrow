@@ -1,5 +1,6 @@
 import { OverflowMenuButton, type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import CloseButton from '@/ui/CloseButton';
+import CountBadge from '@/ui/CountBadge';
 import React from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -29,7 +30,7 @@ export default function GardenDropdown({ gardens, selection, counts, total, coun
         style={({ pressed }) => [{ flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 8 }, pressed && { opacity: 0.88 }]}>
         <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
           <Text style={s.eyebrow}>{garden ? 'YOUR GARDEN' : gardens.length ? 'YOUR COLLECTION' : 'ROOM TO GROW'}</Text>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text accessibilityRole="header" numberOfLines={garden ? 2 : 1} style={[s.title, { flexShrink: 1 }]}>{name}</Text>{!garden && <Text accessibilityLabel={countsReady ? `${total} plants` : 'Plant count loading'} style={s.plantCount}>{countsReady ? total : '—'}</Text>}</View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text accessibilityRole="header" numberOfLines={garden ? 2 : 1} style={[s.title, { flexShrink: 1 }]}>{name}</Text>{!garden && <CountBadge value={countsReady ? total : '—'} label={countsReady ? `${total} plants` : 'Plant count loading'} color={t.heroText} backgroundColor="#dce6c4" size={22} fontSize={11} />}</View>
           {(disabled || garden) && <Text numberOfLines={1} style={s.subtitle}>{disabled ? 'Opening your garden…' : garden ? `${garden.environment.charAt(0).toUpperCase() + garden.environment.slice(1)} · ${countsReady ? counts[garden.id] || 0 : '—'} active` : ''}</Text>}
         </View>
         <View style={s.chevron}><MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={20} color={t.heroText} /></View>
@@ -65,7 +66,6 @@ const s = StyleSheet.create({
   trigger: { backgroundColor: t.hero, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 4 },
   eyebrow: { fontSize: 10, lineHeight: 14, letterSpacing: 1.4, fontWeight: '700', color: '#596b45' },
   title: { fontSize: 22, lineHeight: 26, fontWeight: '700', letterSpacing: -0.8, color: t.heroText },
-  plantCount: { color: t.heroText, backgroundColor: '#dce6c4', borderRadius: 6, paddingHorizontal: 6, paddingVertical: 2, fontSize: 11, lineHeight: 16, fontWeight: '600', flexShrink: 0 },
   subtitle: { fontSize: 13, lineHeight: 19, color: '#526344' },
   chevron: { width: 40, height: 40, backgroundColor: '#dce6c4', borderRadius: 15, justifyContent: 'center', alignItems: 'center' },
   actionButton: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },

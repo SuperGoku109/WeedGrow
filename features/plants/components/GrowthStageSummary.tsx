@@ -9,12 +9,12 @@ import type { PlantTheme } from './plantDetailTheme';
 import GrowthPhaseProgress from './GrowthPhaseProgress';
 
 /** A quiet timeline estimate; the user always confirms physical phase changes. */
-export default function GrowthStageSummary({ plant, theme: t, onPress, now = new Date() }: { plant: Plant; theme: PlantTheme; onPress(): void; now?: Date }) {
+export default function GrowthStageSummary({ plant, theme: t, onPress, now = new Date(), flush = false }: { plant: Plant; theme: PlantTheme; onPress(): void; now?: Date; flush?: boolean }) {
   const progress = growthPhaseProgress(plant, now);
   const stage = guideStage(progress.phase);
   const weeks = Math.round(progress.age / 7 * 10) / 10;
   const age = `${weeks} ${weeks === 1 ? 'week' : 'weeks'} · ${progress.age} ${progress.age === 1 ? 'day' : 'days'} old`;
-  return <GrowPress accessibilityRole="button" accessibilityLabel={`Open stage guide. Current phase: ${stage.title}. ${age}${progress.estimated ? ', estimated' : ''}.${progress.attention ? ' Phase review suggested.' : ''}`} accessibilityHint="Explore all growth phases and update the current phase." onPress={onPress} style={{ backgroundColor: t.surface, borderRadius: 20, padding: 16, gap: 13, marginBottom: 14 }}>
+  return <GrowPress accessibilityRole="button" accessibilityLabel={`Open stage guide. Current phase: ${stage.title}. ${age}${progress.estimated ? ', estimated' : ''}.${progress.attention ? ' Phase review suggested.' : ''}`} accessibilityHint="Explore all growth phases and update the current phase." onPress={onPress} style={{ backgroundColor: t.surface, borderRadius: 20, padding: 16, gap: 13, marginBottom: flush ? 0 : 14 }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
       <View style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: t.elevated, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name={stage.icon} size={21} color={t.accent} accessible={false} /></View>
       <View style={{ flex: 1, gap: 4 }}>

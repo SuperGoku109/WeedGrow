@@ -1,15 +1,17 @@
 import { doc, getDoc, runTransaction, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { db } from './firebase';
 import { requireUserId } from './session';
-import { legacyWaterings } from '@/lib/logs/journalRepository';
+import { legacyWaterings, newLogId } from '@/lib/logs/journalRepository';
 import { nextWateringRepeat, validWateringRepeat, type WateringRepeat } from '@/lib/logs/wateringRepeat';
 import { plantDay } from '@/lib/dates/plantDay';
 
 export async function stopWateringRoutine(plantId: string) {
   const uid = requireUserId();
+  const historyId = newLogId();
   await runTransaction(db, async tx => {
     const ref = doc(db, 'plants', plantId), plant = await tx.get(ref);
     if (!plant.exists() || !plant.data().owners?.includes(uid) || plant.data().deleting) throw new Error('This plant is not available.');
+    if (plant.data().wateringRepeat) tx.set(doc(db, 'plants', plantId, 'logs', `routine_${historyId}`), { type: 'note', historyEvent: 'setup', wateringRepeatChange: { enabled: false }, description: '', timestamp: serverTimestamp(), ...(plant.data().locationTimeZone ? { timeZone: plant.data().locationTimeZone } : {}), updatedBy: uid });
     tx.update(ref, { wateringRepeat: null });
   });
 }

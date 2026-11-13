@@ -1,3 +1,4 @@
+import CountBadge from '@/ui/CountBadge';
 import { PendingStatus } from '@/ui/LoadingFeedback';
 import React, { memo, useMemo, useState } from 'react';
 import { FlatList, View, Pressable, StyleSheet, Text, TextInput, ScrollView } from 'react-native';
@@ -69,7 +70,7 @@ export default memo(function GroupList({ groups, groupPlantsMap, loading, error,
           const count = value === 'all' ? groups.length : groups.filter(g => g.environment === value).length;
           return <Pressable key={value} accessibilityRole="button" accessibilityLabel={value === 'all' ? 'All gardens' : environments[value].label + ' groups'} accessibilityState={{ selected }}
             onPress={() => setEnvironment(value)} style={[styles.chip, selected && styles.selectedChip]}>
-            <Text style={[styles.chipText, selected && { color: ink.dark }]}>{value === 'all' ? 'All spaces' : environments[value].label} <Text style={{ opacity: 0.65 }}> {count}</Text></Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text style={[styles.chipText, selected && { color: ink.dark }]}>{value === 'all' ? 'All spaces' : environments[value].label}</Text><CountBadge value={count} color={selected ? ink.dark : ink.lime} backgroundColor={selected ? '#dce6c4' : ink.surface} size={22} fontSize={11} /></View>
           </Pressable>;
         })}
       </ScrollView>

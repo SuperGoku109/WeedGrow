@@ -44,17 +44,18 @@ import { presentCareCard, weatherFreshness } from '../plantCare';
 import PlantLifecycle from '../components/PlantLifecycle';
 import GrowthStageSummary from '../components/GrowthStageSummary';
 import PlantWeather from '../components/PlantWeather';
+import PlantHistory from '../components/PlantHistory';
 import PlantEditorSheet from '../components/PlantEditorSheet';
 
-type Section = 'Journal' | 'Photos' | 'Details';
-const SECTIONS: Section[] = ['Journal', 'Photos', 'Details'];
+type Section = 'Journal' | 'History' | 'Photos' | 'Details';
+const SECTIONS: Section[] = ['Journal', 'Details', 'Photos', 'History'];
 export default function PlantDetailScreen() {
   const params = useLocalSearchParams<{ id: string; section?: string; fromGroupId?: string; welcome?: string; editSection?: string; journalDate?: string; managePlant?: string; returnToPlants?: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const groupId = Array.isArray(params.fromGroupId) ? params.fromGroupId[0] : params.fromGroupId;
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const reduced = useReducedMotion();
   const { plant, loading, error: plantError, refresh: retryPlant } = usePlant(id);
   const { user } = useSession();
@@ -64,8 +65,8 @@ export default function PlantDetailScreen() {
   const clock = useMinuteClock();
   const day = useJournalDay(id, plant?.locationTimeZone, clock, undefined);
   const { today, selected, dates, isToday, isFuture, backToToday, jump } = day;
-  const [section, setSection] = React.useState<Section>(params.section === 'Photos' || params.section === 'Details' ? params.section : 'Journal');
-  React.useEffect(() => { setSection(params.section === 'Photos' || params.section === 'Details' ? params.section : 'Journal'); if (params.section === 'Today') backToToday(); }, [id, params.section, backToToday]);
+  const [section, setSection] = React.useState<Section>(params.section === 'History' || params.section === 'Photos' || params.section === 'Details' ? params.section : 'Journal');
+  React.useEffect(() => { setSection(params.section === 'History' || params.section === 'Photos' || params.section === 'Details' ? params.section : 'Journal'); if (params.section === 'Today') backToToday(); }, [id, params.section, backToToday]);
   const [searchOpen, setSearchOpen] = React.useState(false);
   const [searchFilters, setSearchFilters] = React.useState<JournalSearchFilters>({ text: '', category: 'all', start: '', end: '', datesOpen: false });
   React.useEffect(() => setSearchFilters({ text: '', category: 'all', start: '', end: '', datesOpen: false }), [id]);
@@ -121,12 +122,18 @@ export default function PlantDetailScreen() {
   const [insightLoading, setInsightLoading] = React.useState(false);
   const [insightError, setInsightError] = React.useState('');
   const scroll = React.useRef<ScrollView>(null);
-  const positions = React.useRef<Record<Section, number>>({ Journal: 0, Photos: 0, Details: 0 });
+  const positions = React.useRef<Record<Section, number>>({ Journal: 0, History: 0, Photos: 0, Details: 0 });
   const tabSelection = useSelectionIndicator(section);
   const tabFocusPosition = React.useRef<{ section: Section; y: number } | null>(null);
-  React.useEffect(() => { positions.current = { Journal: 0, Photos: 0, Details: 0 }; }, [id]);
+  React.useEffect(() => { positions.current = { Journal: 0, History: 0, Photos: 0, Details: 0 }; }, [id]);
   const restoring = React.useRef(false);
-  React.useLayoutEffect(() => { restoring.current = true; }, [section, id]);
+  const restoreTarget = React.useRef(0);
+  const [scrollHeight, setScrollHeight] = React.useState(0);
+  React.useLayoutEffect(() => {
+    restoring.current = true;
+    restoreTarget.current = positions.current[section];
+    scroll.current?.scrollTo({ y: restoreTarget.current, animated: false });
+  }, [section, id]);
   const [bannerHeight, setBannerHeight] = React.useState(0);
   const [railPinned, setRailPinned] = React.useState(false);
   const pinned = React.useRef(false);
@@ -134,7 +141,7 @@ export default function PlantDetailScreen() {
   const gallery = useProgressGallery(id, section === 'Photos', newPhotoId || undefined);
   React.useEffect(() => {
     if (!restoring.current || (section === 'Journal' && (data.loading || insightLoading)) || (section === 'Photos' && gallery.loading)) return;
-    const timer = setTimeout(() => { scroll.current?.scrollTo({ y: positions.current[section], animated: false }); restoring.current = false; }, 0);
+    const timer = setTimeout(() => { scroll.current?.scrollTo({ y: restoreTarget.current, animated: false }); restoring.current = false; }, 0);
     return () => clearTimeout(timer);
   }, [section, data.loading, gallery.loading, insightLoading]);
   const todayLogs = data.logs[today] || [];
@@ -176,11 +183,16 @@ export default function PlantDetailScreen() {
   const openGrowth = () => router.push({ pathname: '/plant/[id]/growth', params: { id, theme: themeName } });
   const editPlant = () => router.push({ pathname: '/plant/[id]/edit', params: { id, theme: themeName } });
   const switchSection = (next: Section) => {
+    if (next === section) return;
     setFocusedEntry('');
     // Focusing a sticky tab can scroll its original layout box into view on web.
     // Keep that focus movement from replacing the outgoing reading position.
     if (tabFocusPosition.current?.section === section) positions.current[section] = tabFocusPosition.current.y;
     tabFocusPosition.current = null;
+    // Keep the rail pinned when changing tabs below the plant cover.
+    positions.current[next] = Math.max(positions.current[next], bannerHeight > 0 && positions.current[section] >= bannerHeight - 1 ? Math.ceil(bannerHeight) : 0);
+    restoreTarget.current = positions.current[next];
+    restoring.current = true;
     setSection(next);
     // Restore the destination's own position after its content mounts.
   };
@@ -213,9 +225,9 @@ export default function PlantDetailScreen() {
       <GrowPress accessibilityRole="button" accessibilityLabel={backLabel} onPress={goBack} style={[s.iconButton, { width: 'auto', paddingHorizontal: 4, flexDirection: 'row', alignItems: 'center', gap: 8 }]}><MaterialCommunityIcons name="arrow-left" size={22} color={t.text} /><Text style={{ color: t.text, fontSize: 15 }}>{groupId && params.returnToPlants !== '1' ? 'Garden' : 'Plants'}</Text></GrowPress>
       <View style={{ flex: 1, minWidth: 0 }}>{railPinned && width >= 400 && <Text numberOfLines={1} style={{ color: t.text, fontSize: 15, fontWeight: '600' }}>{plant.name}</Text>}</View>
     </View>
-    <ScrollView ref={scroll} stickyHeaderIndices={[1]} showsVerticalScrollIndicator={false} scrollEventThrottle={16} onScrollBeginDrag={() => { restoring.current = false; tabFocusPosition.current = null; }} onContentSizeChange={() => { if (restoring.current && (section !== 'Journal' || (!data.loading && !insightLoading)) && (section !== 'Photos' || !gallery.loading)) scroll.current?.scrollTo({ y: positions.current[section], animated: false }); }} onScroll={event => { if (restoring.current && Math.abs(event.nativeEvent.contentOffset.y - positions.current[section]) < 1) restoring.current = false; if (!restoring.current) positions.current[section] = event.nativeEvent.contentOffset.y; const next = bannerHeight > 0 && event.nativeEvent.contentOffset.y >= bannerHeight; if (next !== pinned.current) { pinned.current = next; setRailPinned(next); } }} contentContainerStyle={{ width: '100%', maxWidth: 760, alignSelf: 'center', paddingBottom: 26 }}>
+    <ScrollView ref={scroll} onLayout={event => setScrollHeight(event.nativeEvent.layout.height)} stickyHeaderIndices={[1]} showsVerticalScrollIndicator={false} scrollEventThrottle={16} onScrollBeginDrag={() => { restoring.current = false; tabFocusPosition.current = null; }} onContentSizeChange={() => { if (restoring.current && (section !== 'Journal' || (!data.loading && !insightLoading)) && (section !== 'Photos' || !gallery.loading)) scroll.current?.scrollTo({ y: restoreTarget.current, animated: false }); }} onScroll={event => { if (restoring.current) return; positions.current[section] = event.nativeEvent.contentOffset.y; const next = bannerHeight > 0 && event.nativeEvent.contentOffset.y >= bannerHeight - 1; if (next !== pinned.current) { pinned.current = next; setRailPinned(next); } }} contentContainerStyle={{ width: '100%', maxWidth: 760, alignSelf: 'center', paddingBottom: 26, minHeight: (scrollHeight || Math.max(0, height - insets.top - insets.bottom - 52 - (section === 'Journal' || section === 'Photos' ? 76 : 0))) + Math.max(Math.ceil(bannerHeight), restoring.current ? restoreTarget.current : 0) }}>
       <View onLayout={event => setBannerHeight(event.nativeEvent.layout.height)} style={{ paddingHorizontal: 18, paddingTop: 4 }}><PlantBanner plant={plant} theme={t} onEdit={editPlant} /></View>
-      <View onLayout={event => { railHeight.current = event.nativeEvent.layout.height; }} style={{ paddingHorizontal: 18, paddingBottom: 8, backgroundColor: t.background }}><View accessibilityRole="tablist" style={{ flexDirection: 'row', backgroundColor: t.surface, borderWidth: 1, borderTopWidth: railPinned ? 1 : 0, borderColor: t.border, borderTopLeftRadius: railPinned ? 20 : 0, borderTopRightRadius: railPinned ? 20 : 0, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 4, paddingTop: 4 }}><Animated.View pointerEvents="none" style={[tabSelection.indicatorStyle, { backgroundColor: t.accent, borderRadius: 12 }]} />{SECTIONS.map(item => <View key={item} onLayout={event => tabSelection.onItemLayout(item, event)} style={{ flex: 1, minWidth: 0 }}><GrowPress accessibilityRole="tab" hitSlop={{ top: 4, bottom: 4 }} onFocus={() => { if (item !== section) tabFocusPosition.current = { section, y: positions.current[section] }; }} aria-selected={section === item} accessibilityState={{ selected: section === item }} onPress={() => switchSection(item)} style={{ alignItems: 'center', minHeight: 40, justifyContent: 'center', paddingVertical: 8, borderRadius: 12, backgroundColor: 'transparent' }}><Text style={{ color: section === item ? t.onAccent : t.muted, fontSize: 13, fontWeight: '700' }}>{item === 'Details' ? 'Plant info' : item}</Text></GrowPress></View>)}</View></View>
+      <View onLayout={event => { railHeight.current = event.nativeEvent.layout.height; }} style={{ paddingHorizontal: 18, paddingBottom: 8, backgroundColor: t.background }}><View accessibilityRole="tablist" style={{ flexDirection: 'row', backgroundColor: t.surface, borderWidth: 1, borderTopWidth: railPinned ? 1 : 0, borderColor: t.border, borderTopLeftRadius: railPinned ? 20 : 0, borderTopRightRadius: railPinned ? 20 : 0, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 4, paddingTop: 4 }}><Animated.View pointerEvents="none" style={[tabSelection.indicatorStyle, { backgroundColor: t.accent, borderRadius: 12 }]} />{SECTIONS.map(item => <View key={item} onLayout={event => tabSelection.onItemLayout(item, event)} style={{ flex: 1, minWidth: 0 }}><GrowPress {...(Platform.OS === 'web' ? { onMouseDown: (event: { preventDefault(): void }) => event.preventDefault() } : {})} accessibilityRole="tab" hitSlop={{ top: 4, bottom: 4 }} onFocus={() => { if (item !== section) tabFocusPosition.current = { section, y: positions.current[section] }; }} aria-selected={section === item} accessibilityState={{ selected: section === item }} onPress={() => switchSection(item)} style={{ alignItems: 'center', minHeight: 40, justifyContent: 'center', paddingVertical: 8, borderRadius: 12, backgroundColor: 'transparent' }}><Text style={{ color: section === item ? t.onAccent : t.muted, fontSize: 13, fontWeight: '700' }}>{item === 'Details' ? 'Info' : item}</Text></GrowPress></View>)}</View></View>
       <View onLayout={event => { bodyTop.current = event.nativeEvent.layout.y; }} style={{ paddingHorizontal: 18, paddingBottom: 20 }}>
         {section === 'Journal' && !!data.weatherError && <GrowPress accessibilityRole="button" onPress={data.retry} style={{ minHeight: 48, justifyContent: 'center', marginTop: 12 }}><Text accessibilityRole="alert" style={{ color: t.danger }}>{data.weatherError} Tap to retry.</Text></GrowPress>}
         {showWelcome && <View style={{ marginTop: 16, paddingVertical: 12, borderBottomWidth: 1, borderColor: t.border, gap: 8 }}><Text style={{ color: t.text, fontWeight: '600' }}>Plant added. Your setup is saved.</Text><Text style={{ color: t.muted }}>Your journal is ready whenever you have something to record.</Text><PlantActionButton label="Got it" icon="check" theme={t} onPress={() => { setShowWelcome(false); router.setParams({ welcome: '' }); }} /></View>}
@@ -226,15 +238,16 @@ export default function PlantDetailScreen() {
           <JournalSectionTitle title={isToday ? 'Recorded today' : isFuture ? dayLabel : 'Recorded'} theme={t} caption={isFuture ? 'FORECAST' : data.loading ? undefined : data.error ? 'Unavailable' : selectedLogs.length ? selectedLogs.length + (selectedLogs.length === 1 ? ' entry' : ' entries') : undefined} />
           {!isFuture && <View onLayout={event => { timelineTop.current = event.nativeEvent.layout.y; }}><JournalTimeline key={'activity:' + selected} compactEmpty emptyMessage={isToday ? 'Nothing recorded today.' : 'No activity recorded on this day.'} logs={selectedLogs} loading={data.loading} error={data.error} theme={t} timeZone={plant.locationTimeZone} onEdit={editEntry} onDelete={setDeletingEntry} highlightedId={focusedEntry} highlightLabel={highlightLabel} onRetry={data.retry} onViewPhoto={entry => { const photoId = entry.id.startsWith('photo_') ? entry.id.slice(6) : entry.id === 'setup-photo' ? entry.id : ''; setNewPhotoId(photoId); switchSection('Photos'); pendingAnchor.current = photoId; }} onEntryLayout={(entryId, y) => rememberAnchor(entryId, journalTop.current + timelineTop.current + y)} /></View>}
           {isFuture && <Text style={[ds.body, { color: t.muted }]}>Forecast only. Choose today or an earlier date to record completed activities.</Text>}
-          {isToday && <><View style={{ marginTop: 24 }}><GrowthStageSummary key={'growth:' + id} plant={plant} theme={t} now={clock} onPress={openGrowth} /></View><LocalCareControls compact key={'local:' + id} plantId={id} plant={plant} theme={t} onEditSetup={editPlant} /></>}
+          {isToday && <><View style={{ marginTop: 16 }}><GrowthStageSummary flush key={'growth:' + id} plant={plant} theme={t} now={clock} onPress={openGrowth} /></View><LocalCareControls compact key={'local:' + id} plantId={id} plant={plant} theme={t} onEditSetup={editPlant} /></>}
           <SectionTitle title={isToday ? 'Conditions' : isFuture ? 'Forecast conditions' : 'Saved conditions'} theme={t} />
           <PlantWeather key={'conditions:' + selected} compact={isToday} theme={t} plantId={id} plant={plant} date={selected} weather={data.weather[selected]} savedError={data.weatherDayErrors?.[selected]} savedLoading={data.weatherLoading} />
         </View>}
+        {section === 'History' && <PlantHistory plantId={id} plant={plant} theme={t} onViewDay={(date, entry) => { jump(date); switchSection('Journal'); setFocusedEntry(entry.id); pendingAnchor.current = entry.id; }} onViewPhoto={entry => { const photoId = entry.id.startsWith('photo_') ? entry.id.slice(6) : entry.id === 'setup-photo' ? entry.id : ''; setNewPhotoId(photoId); switchSection('Photos'); pendingAnchor.current = photoId; }} />}
         {section === 'Photos' && <PlantPhotoGallery plantId={id} hasMore={gallery.hasMore} onMore={() => void gallery.loadMore()} onRefresh={gallery.refresh} pics={gallery.pics} loading={gallery.loading} error={gallery.error} theme={t} onAdd={() => void addPhoto()} timeZone={plant.locationTimeZone} highlightId={newPhotoId} onPhotoLayout={(photoId, y) => rememberAnchor(photoId, y)} />}
-        <View key={'profile:' + id} style={{ display: section === 'Details' ? 'flex' : 'none' }}>{section === 'Details' && <GrowthStageSummary key={'growth-details:' + id} plant={plant} theme={t} now={clock} onPress={openGrowth} />}{section === 'Details' && <WateringCareCard key={'water-chart:' + id} plant={plant} theme={t} />}<PlantDetails plant={plant} theme={t} onSectionLayout={rememberAnchor} highlightedSection={focusedEntry} locationHistory={<PlantMovementHistory plantId={id} theme={t} active={section === 'Details'} />} />{section === 'Details' && <LocalCareControls plantId={id} plant={plant} theme={t} onEditSetup={editPlant} />}<View onLayout={event => rememberAnchor("Manage plant", event.nativeEvent.layout.y)}><PlantLifecycle plantId={id} plant={plant} theme={t} open={manageOpen} onClose={() => setManageOpen(false)} onDeleted={goBack} onSaved={value => { setMessage(value); setRefresh(previous => previous + 1); }} /></View></View>
+        <View key={'profile:' + id} style={{ display: section === 'Details' ? 'flex' : 'none', gap: 16, paddingTop: 8 }}>{section === 'Details' && <GrowthStageSummary flush key={'growth-details:' + id} plant={plant} theme={t} now={clock} onPress={openGrowth} />}{section === 'Details' && <WateringCareCard key={'water-chart:' + id} plant={plant} theme={t} />}<PlantDetails plant={plant} theme={t} onSectionLayout={rememberAnchor} highlightedSection={focusedEntry} locationHistory={<PlantMovementHistory plantId={id} theme={t} active={section === 'Details'} />} />{section === 'Details' && <LocalCareControls plantId={id} plant={plant} theme={t} onEditSetup={editPlant} />}<View onLayout={event => rememberAnchor("Manage plant", event.nativeEvent.layout.y)}><PlantLifecycle plantId={id} plant={plant} theme={t} open={manageOpen} onClose={() => setManageOpen(false)} onDeleted={goBack} onSaved={value => { setMessage(value); setRefresh(previous => previous + 1); }} /></View></View>
       </View>
     </ScrollView>
-    {section !== 'Details' && <View style={{ backgroundColor: t.background, borderTopWidth: 1, borderColor: t.border, paddingBottom: Math.max(12, insets.bottom), paddingTop: 10, paddingHorizontal: 18 }}><View style={{ width: '100%', maxWidth: 724, alignSelf: 'center', gap: 8 }}>
+    {section !== 'Details' && section !== 'History' && <View style={{ backgroundColor: t.background, borderTopWidth: 1, borderColor: t.border, paddingBottom: Math.max(12, insets.bottom), paddingTop: 10, paddingHorizontal: 18 }}><View style={{ width: '100%', maxWidth: 724, alignSelf: 'center', gap: 8 }}>
       {plant.status !== 'active' && section === 'Journal' ? <GrowPress accessibilityRole="button" onPress={() => { switchSection('Details'); setManageOpen(true); pendingAnchor.current = 'Manage plant'; setTimeout(() => scrollToAnchor('Manage plant'), 0); }} style={[ds.button, { backgroundColor: t.surface }]}><Text style={{ color: t.accent }}>Manage {plant.status} plant</Text></GrowPress> : <View style={{ flexDirection: 'row', gap: 8 }}>
         {section === 'Journal' && <GrowPress accessibilityRole="button" accessibilityLabel="Add photo" disabled={pickingPhoto} onPress={() => void addPhoto()} style={[ds.button, { backgroundColor: t.surface, paddingHorizontal: 12 }]}><MaterialCommunityIcons name="camera-plus-outline" color={t.accent} size={20} /><Text style={{ color: t.accent }}>Photo</Text></GrowPress>}
         {section === 'Photos' && plant.status === 'active' && <GrowPress accessibilityRole="button" onPress={() => openLog()} style={[ds.button, { backgroundColor: t.surface, paddingHorizontal: 12 }]}><Text style={{ color: t.accent }}>Log today</Text></GrowPress>}

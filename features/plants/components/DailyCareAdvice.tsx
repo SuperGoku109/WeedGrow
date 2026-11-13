@@ -45,5 +45,5 @@ export default function DailyCareAdvice({ cards, loading, error, hasLocation, th
   </View>;
 }
 const s = StyleSheet.create({
-  panel: { marginTop: 12, marginBottom: 8, padding: 18, borderRadius: 18, gap: 14 },
+  panel: { marginTop: 16, padding: 16, borderRadius: 18, gap: 12 },
 });

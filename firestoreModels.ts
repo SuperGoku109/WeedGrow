@@ -109,6 +109,11 @@ export interface Plant {
   // 📁 Subcollection: /plants/{plantId}/logs/{logId}
   // ================================
   export interface PlantLog {
+      historyEvent?: 'setup' | 'status';
+      toStatus?: Plant['status'];
+      fromPhase?: string;
+      toPhase?: string;
+      harvest?: Plant['harvest'];
     fromStage?: Plant['growthStage'];
     toStage?: Plant['growthStage'];
     stageRevision?: number;

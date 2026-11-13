@@ -7,9 +7,10 @@ import { GrowPress, GrowReveal } from '@/ui/GrowMotion';
 import type { SuggestionCard } from '@/lib/suggestions/suggestionCards';
 import type { PlantTheme } from './plantDetailTheme';
 import CareDiagnosticDetails from './CareDiagnosticDetails';
+import CountBadge from '@/ui/CountBadge';
 
 export const detailStyles = StyleSheet.create({
-  section: { marginTop: 22, marginBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
+  section: { marginTop: 16, marginBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
   title: { fontSize: 20, fontWeight: '700', letterSpacing: -0.4 },
   eyebrow: { fontSize: 13, fontWeight: '600' },
   body: { fontSize: 14, lineHeight: 22 },
@@ -17,8 +18,8 @@ export const detailStyles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   button: { minHeight: gardenControls.height, borderRadius: gardenControls.radius, paddingHorizontal: gardenControls.paddingHorizontal, paddingVertical: gardenControls.paddingVertical, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 },
 });
-export function SectionTitle({ title, caption, theme }: { title: string; caption?: string; theme: PlantTheme }) {
-  return <View style={[detailStyles.section, { flexWrap: 'wrap' }]}><Text style={[detailStyles.title, { color: theme.text }]}>{title}</Text>{!!caption && <Text style={{ color: theme.muted, fontSize: 13 }}>{caption}</Text>}</View>;
+export function SectionTitle({ title, caption, theme, flush = false }: { title: string; caption?: string; theme: PlantTheme; flush?: boolean }) {
+  return <View style={[detailStyles.section, { flexWrap: 'wrap' }, flush && { marginTop: 0, marginBottom: 0 }]}><Text style={[detailStyles.title, { color: theme.text }]}>{title}</Text>{!!caption && (/^\d+\+? photos?$/.test(caption) ? <CountBadge value={caption.split(' ')[0]} label={caption} color={theme.muted} backgroundColor={theme.elevated} /> : <Text style={{ color: theme.muted, fontSize: 13 }}>{caption}</Text>)}</View>;
 }
 export function EmptyCard({ title, text, theme }: { title: string; text: string; theme: PlantTheme }) {
   return <View style={[detailStyles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}><Text style={{ color: theme.text, fontWeight: '600', marginBottom: 5 }}>{title}</Text><Text style={[detailStyles.body, { color: theme.muted }]}>{text}</Text></View>;
