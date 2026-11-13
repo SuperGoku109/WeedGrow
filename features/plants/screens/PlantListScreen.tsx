@@ -64,7 +64,7 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
         {!!searchQuery && <Pressable accessibilityRole="button" onPress={() => setSearchQuery('')} style={s.action}><Text style={{ color: t.accent }}>Clear search</Text></Pressable>}
       </View> : null}
       ListFooterComponent={footer}
-      renderItem={({ item }) => <PlantCard plant={item} showEnvironment={!garden} onPress={() => openPlant(item)} onAddLog={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} />}
+      renderItem={({ item }) => <PlantCard plant={item} showEnvironment={false} onPress={() => openPlant(item)} onAddLog={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} />}
     />
     {pastOpen && <PlantEditorSheet title="Past plants" subtitle="Keep every plant's story within reach." theme={t} onClose={() => setPastOpen(false)}>{pastOptions.map(option => <Pressable key={option.label} accessibilityRole="button" accessibilityState={{ selected: statusFilter === option.value }} onPress={() => { setStatus(option.value); setPastOpen(false); }} style={s.menuRow}><Text style={s.menuText}>{option.label}</Text>{statusFilter === option.value && <MaterialCommunityIcons name="check" color={t.accent} size={22} />}</Pressable>)}</PlantEditorSheet>}
     {waterPlant && <QuickWateringDialog plant={waterPlant} onClose={() => setWaterPlant(null)} onSaved={result => { setUndo(result); setNoticeTone('success'); setNoticeDetail(waterPlant.name); setMessage('Watering logged'); care.refresh(); }} />}

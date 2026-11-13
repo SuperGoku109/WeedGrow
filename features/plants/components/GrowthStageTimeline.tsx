@@ -5,7 +5,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { Plant } from '@/firestoreModels';
 import { growthPhase } from '@/lib/plants/growthPhase';
 import { plantAgeLabel } from '@/lib/plants/plantAge';
-import { guideTabs, type GrowthGuideStage } from '../growthStagePresentation';
+import { guideTabs, growthStageColor, type GrowthGuideStage } from '../growthStagePresentation';
 import type { PlantTheme } from './plantDetailTheme';
 
 const STEP_WIDTH = 64;
@@ -18,6 +18,7 @@ export default function GrowthStageTimeline({ plant, selectedStage, onSelect, th
   const stages = guideTabs(plant);
   const currentIndex = stages.findIndex(item => item.key === growthPhase(plant));
   const selectedIndex = stages.findIndex(item => item.key === selectedStage);
+  const selectedColor = growthStageColor(selectedStage, t.background);
   const selectionX = React.useRef(new Animated.Value(selectedIndex * STEP_WIDTH)).current;
   const previousIndex = React.useRef(selectedIndex);
   React.useEffect(() => {
@@ -46,21 +47,22 @@ export default function GrowthStageTimeline({ plant, selectedStage, onSelect, th
     </View>
     <View>
     <ScrollView horizontal ref={scroll} accessibilityRole="tablist" showsHorizontalScrollIndicator={false} onLayout={event => setWidth(event.nativeEvent.layout.width)} onContentSizeChange={value => { setContentWidth(value); centreSelection(); }} onScroll={event => setOffset(event.nativeEvent.contentOffset.x)} scrollEventThrottle={32} contentContainerStyle={{ paddingVertical: 12, paddingHorizontal: 8 }}>
-      <Animated.View pointerEvents="none" accessible={false} style={{ position: 'absolute', left: 18, top: 12, width: 44, height: 44, borderRadius: 24, backgroundColor: t.elevated, transform: [{ translateX: selectionX }] }} />
-      <Animated.View pointerEvents="none" accessible={false} style={{ position: 'absolute', left: 26, bottom: 9, width: 28, height: 2, borderRadius: 2, backgroundColor: t.accent, transform: [{ translateX: selectionX }] }} />
+    <Animated.View pointerEvents="none" accessible={false} style={{ position: 'absolute', left: 18, top: 12, width: 44, height: 44, borderRadius: 24, backgroundColor: `${selectedColor}20`, transform: [{ translateX: selectionX }] }} />
+      <Animated.View pointerEvents="none" accessible={false} style={{ position: 'absolute', left: 26, bottom: 9, width: 28, height: 2, borderRadius: 2, backgroundColor: selectedColor, transform: [{ translateX: selectionX }] }} />
       {stages.map((item, index) => {
         const isCurrent = item.key === growthPhase(plant);
         const isSelected = item.key === selectedStage;
+        const stageColor = growthStageColor(item.key, t.background);
         return <View key={item.key} style={{ width: STEP_WIDTH }}>
-          {index > 0 && <View pointerEvents="none" style={{ position: 'absolute', top: 21, left: 0, width: STEP_WIDTH / 2, height: 1, backgroundColor: index <= currentIndex ? t.accent : t.border, opacity: index <= currentIndex ? .65 : .4 }} />}
-          {index < stages.length - 1 && <View pointerEvents="none" style={{ position: 'absolute', top: 21, right: 0, width: STEP_WIDTH / 2, height: 1, backgroundColor: index < currentIndex ? t.accent : t.border, opacity: index < currentIndex ? .65 : .4 }} />}
+          {index > 0 && <View pointerEvents="none" style={{ position: 'absolute', top: 21, left: 0, width: STEP_WIDTH / 2, height: 1, backgroundColor: index <= currentIndex ? growthStageColor(stages[index - 1].key, t.background) : t.border, opacity: index <= currentIndex ? .7 : .4 }} />}
+          {index < stages.length - 1 && <View pointerEvents="none" style={{ position: 'absolute', top: 21, right: 0, width: STEP_WIDTH / 2, height: 1, backgroundColor: index < currentIndex ? stageColor : t.border, opacity: index < currentIndex ? .7 : .4 }} />}
           <Pressable accessibilityRole="tab" accessibilityLabel={`${item.title}${isCurrent ? ', current stage' : ''}`} accessibilityHint="Shows this stage’s guide. Your plant’s recorded stage stays the same." accessibilityState={{ selected: isSelected }} aria-selected={isSelected} onPress={() => onSelect(item.key)} style={({ pressed }) => ({ minHeight: 80, alignItems: 'center', gap: 4, opacity: pressed ? .7 : 1 })}>
             <View style={{ width: 44, height: 44, alignItems: 'center', justifyContent: 'center' }}>
-              <View style={{ width: isCurrent ? 36 : 28, height: isCurrent ? 36 : 28, borderRadius: 24, borderWidth: isCurrent || isSelected ? 2 : 1, borderColor: isCurrent || isSelected ? t.accent : t.border, backgroundColor: t.surface, alignItems: 'center', justifyContent: 'center', boxShadow: isCurrent ? `0px 0px 16px ${t.accent}55` : undefined }}>
-                <MaterialCommunityIcons name={item.icon} size={isCurrent ? 22 : 16} color={isCurrent || isSelected ? t.accent : t.muted} accessible={false} />
+              <View style={{ width: isCurrent ? 36 : 28, height: isCurrent ? 36 : 28, borderRadius: 24, borderWidth: isCurrent || isSelected ? 2 : 1, borderColor: isCurrent || isSelected ? stageColor : `${stageColor}88`, backgroundColor: t.surface, alignItems: 'center', justifyContent: 'center', boxShadow: isCurrent ? `0px 0px 16px ${stageColor}44` : undefined }}>
+                <MaterialCommunityIcons name={item.icon} size={isCurrent ? 22 : 16} color={stageColor} accessible={false} />
               </View>
             </View>
-            <View style={{ maxWidth: STEP_WIDTH, paddingHorizontal: 3, paddingVertical: 4, borderRadius: 12, backgroundColor: isCurrent ? t.accent : 'transparent' }}><Text style={{ color: isCurrent ? t.onAccent : isSelected ? t.accent : t.muted, fontSize: 10.5, lineHeight: 14, fontWeight: isCurrent || isSelected ? '600' : '400', textAlign: 'center' }}>{item.key === 'preflower' ? 'Pre-\nflowering' : item.title}</Text></View>
+            <View style={{ width: STEP_WIDTH + 8, paddingHorizontal: 2, paddingVertical: 4, borderRadius: 12, backgroundColor: isCurrent ? `${stageColor}20` : 'transparent' }}><Text style={{ color: stageColor, fontSize: 10.5, lineHeight: 14, fontWeight: isCurrent || isSelected ? '700' : '500', textAlign: 'center', wordBreak: 'keep-all' }}>{item.key === 'preflower' ? 'Pre-\nflowering' : item.title}</Text></View>
           </Pressable>
         </View>;
       })}

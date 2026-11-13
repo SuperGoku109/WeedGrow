@@ -7,9 +7,10 @@ import type { Plant } from '@/firestoreModels';
 import { usePhotoUri } from '@/ui/PlantImage';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 import { growthPhase, phaseWindow } from '@/lib/plants/growthPhase';
+import { growthStageColor } from '../growthStagePresentation';
 import type { PlantTheme } from './plantDetailTheme';
 
-const stageIcons = { unknown: 'help-circle-outline', germination: 'seed-outline', seedling: 'sprout', vegetative: 'leaf', flowering: 'flower-outline', clone: 'content-cut', harvested: 'basket-outline', drying: 'weather-windy', curing: 'archive-outline', completed: 'check-circle-outline' } as const;
+const stageIcons = { unknown: 'help-circle-outline', germination: 'seed-outline', seedling: 'sprout', vegetative: 'leaf', preflower: 'flower-outline', flowering: 'flower-outline', late_flowering: 'flower-tulip', clone: 'content-cut', harvested: 'basket-outline', drying: 'weather-windy', curing: 'archive-outline', completed: 'check-circle-outline' } as const;
 const environmentIcons = { outdoor: 'white-balance-sunny', indoor: 'home-outline', greenhouse: 'greenhouse' } as const;
 function BotanicalCover({ theme }: { theme: PlantTheme }) {
   return <Svg width="132" height="154" viewBox="0 0 96 112" aria-hidden={true}>
@@ -29,7 +30,8 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
   const photo = usePhotoUri(uri, true);
   const [broken, setBroken] = React.useState(false);
   React.useEffect(() => setBroken(false), [uri]);
-  const stage = plant.growthStage || 'unknown';
+  const stage = growthPhase(plant) || 'unknown';
+  const stageColor = growthStageColor(stage, t.background);
   const status = plant.status || 'active';
   const environment = plant.environment || 'outdoor';
   const place = plant.locationNickname?.trim() || (plant.plantedIn === 'pot' ? 'Potted plant' : plant.plantedIn === 'ground' ? 'In the ground' : '');
@@ -46,7 +48,7 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
       <View pointerEvents="none" style={s.identity}><Text accessibilityRole="header" style={s.name}>{plant.name}</Text>{!!strain && <Text style={s.strain}>{strain}</Text>}</View>
     </View>
     <View style={s.details}>
-        <View accessibilityLabel={`Growth stage: ${stage}`} style={[s.stage, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={t.accent} aria-hidden={true} /><Text style={[s.badgeText, { color: t.accent }]}>{phaseWindow(growthPhase(plant))?.label || stage}</Text></View>
+        <View accessibilityLabel={`Growth stage: ${phaseWindow(stage)?.label || stage}`} style={[s.stage, { backgroundColor: `${stageColor}20` }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={stageColor} aria-hidden={true} /><Text style={[s.badgeText, { color: stageColor }]}>{phaseWindow(stage)?.label || stage}</Text></View>
         <View style={s.context}><MaterialCommunityIcons name={environmentIcons[environment]} size={16} color={t.muted} aria-hidden={true} /><Text style={[s.environment, { color: t.muted }]}>{environment}{place ? ` · ${place}` : ''}</Text></View>
     </View>
   </View>;

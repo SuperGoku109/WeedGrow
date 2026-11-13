@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSession } from '@/services/session';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-export function AppHeader() {
+export function AppHeader({ showDate = true }: { showDate?: boolean }) {
   const t = useAppTheme();
   const s = makeStyles(t);
   const router = useRouter();
@@ -14,7 +14,7 @@ export function AppHeader() {
     <View style={s.logo}><MaterialCommunityIcons name="sprout" size={22} color={t.accent} /></View>
     <Text style={s.name}>BudBuddy<Text style={{ color: t.accent }}>.</Text></Text>
     <View style={{ flex: 1 }} />
-    <Text style={s.date}>{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).toUpperCase()}</Text>
+    {showDate && <Text style={s.date}>{new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }).toUpperCase()}</Text>}
     <Pressable accessibilityRole="button" accessibilityLabel={user ? 'Manage garden account' : 'Sign in to your garden'} onPress={() => router.push('/account')} hitSlop={4} style={[s.badge, { width: 40, height: 40 }]}><MaterialCommunityIcons name={user ? 'account-check-outline' : 'account-outline'} size={22} color={t.accent} /></Pressable>
   </View>;
 }

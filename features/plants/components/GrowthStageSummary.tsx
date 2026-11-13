@@ -4,7 +4,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { Plant } from '@/firestoreModels';
 import { GrowPress } from '@/ui/GrowMotion';
 import { growthPhaseProgress, phaseWindowLabel, phaseWindow } from '@/lib/plants/growthPhase';
-import { guideStage } from '../growthStagePresentation';
+import { guideStage, growthStageColor } from '../growthStagePresentation';
 import type { PlantTheme } from './plantDetailTheme';
 import GrowthPhaseProgress from './GrowthPhaseProgress';
 
@@ -12,15 +12,16 @@ import GrowthPhaseProgress from './GrowthPhaseProgress';
 export default function GrowthStageSummary({ plant, theme: t, onPress, now = new Date(), flush = false }: { plant: Plant; theme: PlantTheme; onPress(): void; now?: Date; flush?: boolean }) {
   const progress = growthPhaseProgress(plant, now);
   const stage = guideStage(progress.phase);
+  const stageColor = growthStageColor(stage.key, t.background);
   const weeks = Math.round(progress.age / 7 * 10) / 10;
   const age = `${weeks} ${weeks === 1 ? 'week' : 'weeks'} · ${progress.age} ${progress.age === 1 ? 'day' : 'days'} old`;
   return <GrowPress accessibilityRole="button" accessibilityLabel={`Open stage guide. Current phase: ${stage.title}. ${age}${progress.estimated ? ', estimated' : ''}.${progress.attention ? ' Phase review suggested.' : ''}`} accessibilityHint="Explore all growth phases and update the current phase." onPress={onPress} style={{ backgroundColor: t.surface, borderRadius: 20, padding: 16, gap: 13, marginBottom: flush ? 0 : 14 }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-      <View style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: t.elevated, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name={stage.icon} size={21} color={t.accent} accessible={false} /></View>
+      <View style={{ width: 38, height: 38, borderRadius: 12, backgroundColor: `${stageColor}20`, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name={stage.icon} size={21} color={stageColor} accessible={false} /></View>
       <View style={{ flex: 1, gap: 4 }}>
         <Text style={{ color: t.muted, fontSize: 10, letterSpacing: 1.2 }}>GROWTH PHASE</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 7 }}>
-          <Text style={{ color: t.text, fontSize: 20, fontWeight: '600' }}>{stage.title}</Text>
+          <Text style={{ color: stageColor, fontSize: 20, fontWeight: '700' }}>{stage.title}</Text>
           {!!phaseWindowLabel(progress.phase) && <View style={{ backgroundColor: t.elevated, borderRadius: 8, paddingHorizontal: 7, paddingVertical: 4 }}>
             <Text accessibilityLabel={`${stage.title} period: ${phaseWindowLabel(progress.phase)}`} style={{ color: t.muted, fontSize: 10, fontWeight: '600' }}>{phaseWindowLabel(progress.phase)}</Text>
           </View>}

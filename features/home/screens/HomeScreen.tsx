@@ -122,7 +122,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
   return <View style={{ flex: 1, backgroundColor: t.background }}>
     <HomeBackground />
     <SafeAreaView edges={['top', 'left', 'right']} style={s.safeArea}>
-      <AppHeader />
+      <AppHeader showDate={false} />
       <View style={s.top}>
         <GardenDropdown gardens={gardens} selection={resolved} counts={counts} countsReady={!collection.loading && !collection.error} onSelect={choose} onCreate={openCreate} onActions={setActionsAnchor} actionsOpen={!!actionsAnchor} disabled={!ready} />
         {!uid && !accountLoading && <View style={s.notice}><Text style={s.hint}>Sign in to see your plants, or start a plant draft.</Text><Pressable accessibilityRole="button" onPress={() => router.push('/account')} style={s.textButton}><Text style={s.link}>Sign in or create an account →</Text></Pressable></View>}

@@ -32,7 +32,11 @@ export default function GardenDropdown({ gardens, selection, counts, countsReady
         <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
           <Text style={s.eyebrow}>{garden ? 'YOUR GARDEN' : gardens.length ? 'YOUR COLLECTION' : 'ROOM TO GROW'}</Text>
           <Text accessibilityRole="header" numberOfLines={garden ? 2 : 1} style={s.title}>{name}</Text>
-          {(disabled || garden) && <Text numberOfLines={1} style={s.subtitle}>{disabled ? 'Opening your garden…' : garden ? `${garden.environment.charAt(0).toUpperCase() + garden.environment.slice(1)} · ${countsReady ? counts[garden.id] || 0 : '—'} active` : ''}</Text>}
+          {disabled && <Text numberOfLines={1} style={s.subtitle}>Opening your garden…</Text>}
+          {garden && <View accessible accessibilityLabel={`${garden.environment} · ${countsReady ? counts[garden.id] || 0 : '—'} active plants`} style={s.subtitleMeta}>
+            <View style={s.subtitleChip}><Text style={s.subtitleChipText}>{garden.environment}</Text></View>
+            <Text style={s.subtitleCount}>{countsReady ? counts[garden.id] || 0 : '—'} active</Text>
+          </View>}
         </View>
         <View style={s.chevron}><MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={20} color={t.heroText} /></View>
       </Pressable>
@@ -48,7 +52,13 @@ export default function GardenDropdown({ gardens, selection, counts, countsReady
               const selected = selection.kind === 'garden' && selection.id === item.id;
               return <Pressable key={item.id} accessibilityRole="button" accessibilityLabel={`Switch to ${item.name}`} accessibilityState={{ selected }} onPress={() => choose({ kind: 'garden', id: item.id })} style={({ pressed }) => [s.option, selected && s.selected, pressed && { opacity: 0.75 }]}>
                 <View style={s.optionIcon}><MaterialCommunityIcons name={icons[item.environment]} size={22} color={t.accent} /></View>
-                <View style={{ flex: 1, minWidth: 0, gap: 4 }}><Text style={s.optionName}>{item.name}</Text><Text style={s.optionMeta}>{item.environment.charAt(0).toUpperCase() + item.environment.slice(1)} · {countsReady ? counts[item.id] || 0 : '—'} active plants</Text></View>
+                <View style={{ flex: 1, minWidth: 0, gap: 5 }}>
+                  <Text style={s.optionName}>{item.name}</Text>
+                  <View style={s.optionMetaRow}>
+                    <View style={s.optionMetaChip}><Text style={s.optionMetaChipText}>{item.environment}</Text></View>
+                    <Text style={s.optionMetaCount}>{countsReady ? counts[item.id] || 0 : '—'} active plants</Text>
+                  </View>
+                </View>
                 {selected && <MaterialCommunityIcons name="check" color={t.accent} size={21} />}
               </Pressable>;
             })}
@@ -68,6 +78,10 @@ const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   eyebrow: { fontSize: 10, lineHeight: 14, letterSpacing: 1.4, fontWeight: '700', color: '#596b45' },
   title: { fontSize: 22, lineHeight: 26, fontWeight: '700', letterSpacing: -0.8, color: t.heroText },
   subtitle: { fontSize: 13, lineHeight: 19, color: '#526344' },
+  subtitleMeta: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 6, marginTop: 2 },
+  subtitleChip: { backgroundColor: t.heroText, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
+  subtitleChipText: { color: t.hero, fontSize: 10, lineHeight: 14, fontWeight: '700', textTransform: 'capitalize' },
+  subtitleCount: { color: t.heroText, fontSize: 11, lineHeight: 16, fontWeight: '600' },
   chevron: { width: 40, height: 40, backgroundColor: '#dce6c4', borderRadius: 15, justifyContent: 'center', alignItems: 'center' },
   actionButton: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   menu: { backgroundColor: t.surface, borderRadius: 22, borderWidth: 1, borderColor: '#52684b', padding: 8, boxShadow: '0px 12px 36px rgba(0,0,0,0.3)' },
@@ -78,5 +92,9 @@ const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   optionIcon: { width: 36, height: 36, borderRadius: 12, backgroundColor: t.background, alignItems: 'center', justifyContent: 'center' },
   optionName: { fontSize: 14, fontWeight: '600', color: t.text },
   optionMeta: { fontSize: 12, color: t.muted, lineHeight: 18 },
+  optionMetaRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 5 },
+  optionMetaChip: { backgroundColor: t.elevated, borderRadius: 7, paddingHorizontal: 7, paddingVertical: 2 },
+  optionMetaChipText: { fontSize: 10, lineHeight: 14, color: t.muted, fontWeight: '600', textTransform: 'capitalize' },
+  optionMetaCount: { fontSize: 11, lineHeight: 16, color: t.muted, fontWeight: '500' },
   create: { minHeight: 44, marginTop: 6, paddingHorizontal: 12, flexDirection: 'row', alignItems: 'center', gap: 10, borderTopWidth: 1, borderTopColor: '#40523a' },
 });
