@@ -34,15 +34,13 @@ Native dependency, permission, or SDK changes need a new APK build.
    Do not add `FIRESTORE_EMULATOR_HOST` or `FIREBASE_AUTH_EMULATOR_HOST`; those
    are only used in emulator mode. Firebase client settings are included in the
    app bundle and are not admin credentials.
-6. In the Expo dashboard, create an access token at
+6. Create an Expo access token at
    https://expo.dev/settings/access-tokens. In GitHub, open this repo's
    **Settings → Secrets and variables → Actions** and add:
    - Secret `EXPO_TOKEN`: the Expo access token.
    - Variable `EXPO_PROJECT_ID`: the EAS project ID.
-   - Secrets `FIREBASE_API_KEY`, `FIREBASE_AUTH_DOMAIN`, `FIREBASE_PROJECT_ID`,
-     `FIREBASE_STORAGE_BUCKET`, `FIREBASE_MESSAGING_SENDER_ID`, `FIREBASE_APP_ID`,
-     and `FIREBASE_MEASUREMENT_ID`: copy these values from the local `.env`.
-     Add secret `OPENWEATHERMAP_API_KEY` if you want weather lookups.
+   The GitHub Action reads Firebase and optional weather values from the Expo
+   `preview` environment, so those do not need duplicate GitHub secrets.
 7. Apply Expo Update settings to the existing Android project:
    `npx expo prebuild --platform android --no-install`. Review the Android file
    changes; do not use the `--clean` option.
@@ -60,7 +58,8 @@ After the first APK is installed, open GitHub's **Actions** tab and run
 succeeds, then open and restart BudBuddy while the phone has internet access.
 After that, each change merged to `main` publishes a compatible update to the
 `preview` channel. The app downloads it on launch and applies it after restart.
-If the workflow skips publishing, its notice lists missing GitHub values.
+If the workflow skips publishing, its notice lists whether `EXPO_TOKEN` or
+`EXPO_PROJECT_ID` is missing from GitHub.
 
 This project uses a manually managed runtime version because its Android native
 project is committed. For native dependency, permission, or SDK changes, change
