@@ -1,11 +1,23 @@
 // app.config.js
 import "dotenv/config"; // loads .env into process.env
 
+const easProjectId = process.env.EXPO_PROJECT_ID;
+
 export default {
   expo: {
     name: "BudBuddy",
     slug: "budbuddy",
     version: "1.0.0",
+    runtimeVersion: { policy: "appVersion" },
+    ...(easProjectId
+      ? {
+          updates: {
+            url: `https://u.expo.dev/${easProjectId}`,
+            checkAutomatically: "ON_LOAD",
+            fallbackToCacheTimeout: 0
+          }
+        }
+      : {}),
     orientation: "portrait",
     icon: "./assets/images/icon.png",
     scheme: ["budbuddy", "weedgrowapp"],
@@ -31,6 +43,7 @@ export default {
     },
     plugins: [
       "expo-router",
+      "expo-updates",
       "expo-notifications",
       "expo-document-picker",
       [
@@ -47,6 +60,7 @@ export default {
       typedRoutes: true
     },
     extra: {
+      ...(easProjectId ? { eas: { projectId: easProjectId } } : {}),
       USE_FIREBASE_EMULATORS: process.env.USE_FIREBASE_EMULATORS === 'true',
       FIRESTORE_EMULATOR_HOST: process.env.FIRESTORE_EMULATOR_HOST || '127.0.0.1:8080',
       FIREBASE_AUTH_EMULATOR_HOST: process.env.FIREBASE_AUTH_EMULATOR_HOST || '127.0.0.1:9099',
