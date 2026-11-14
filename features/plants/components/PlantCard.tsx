@@ -12,7 +12,7 @@ import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 import { gardenThemes } from '@/design-system/tokens/garden';
 import { plantCardAgeLabel, plantCardMeta, plantCardStage, plantCardStageLabel } from '../plantListPresentation';
 import { growthPhase } from '@/lib/plants/growthPhase';
-import { growthStageColor } from '../growthStagePresentation';
+import { growthStageColor, guideStage } from '../growthStagePresentation';
 
 export interface PlantCardProps {
   plant: Plant & { id: string };
@@ -30,7 +30,9 @@ export interface PlantCardProps {
 export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading = false, waterDisabled = false, onPress, onMore, showEnvironment = true, moreLabel, moreOpen }: PlantCardProps) {
   const colors = useAppTheme();
   const s = makeStyles(colors);
-  const stageColor = growthStageColor(growthPhase(plant), colors.background);
+  const stage = growthPhase(plant);
+  const stageColor = growthStageColor(stage, colors.background);
+  const stageIcon = guideStage(stage).icon;
   const router = useRouter();
   const { width } = useWindowDimensions();
   const [photoSize, setPhotoSize] = React.useState(() => Math.min(width, 760) - 36 < 310 ? 64 : 72);
@@ -45,7 +47,7 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
       <Text style={s.name} numberOfLines={2}>{plant.name}</Text>
       <Text style={s.meta} numberOfLines={1}>{plantCardMeta(plant, showEnvironment)}</Text>
       <View accessible accessibilityLabel={plantCardStage(plant, false)} style={s.chipRow}>
-        <View style={[s.chip, s.stageChip, { backgroundColor: `${stageColor}20` }]}><Text style={[s.stageChipText, { color: stageColor }]} numberOfLines={1}>{plantCardStageLabel(plant)}</Text></View>
+        <View style={[s.chip, s.stageChip, { backgroundColor: `${stageColor}20` }]}><MaterialCommunityIcons name={stageIcon} size={13} color={stageColor} accessible={false} /><Text style={[s.stageChipText, { color: stageColor }]} numberOfLines={1}>{plantCardStageLabel(plant)}</Text></View>
         <Text style={s.ageText} numberOfLines={1}>{plantCardAgeLabel(plant)}</Text>
       </View>
     </GrowPress>
@@ -65,7 +67,7 @@ const makeStyles = (colors: typeof gardenThemes.grove) => StyleSheet.create({
   chipRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 5 },
   chip: { maxWidth: '100%', borderRadius: 8, paddingHorizontal: 7, paddingVertical: 3 },
   meta: { color: colors.muted, fontSize: 12, lineHeight: 17 },
-  stageChip: { backgroundColor: colors.accent },
+  stageChip: { backgroundColor: colors.accent, flexDirection: 'row', alignItems: 'center', gap: 4 },
   stageChipText: { fontSize: 10, lineHeight: 14, fontWeight: '700' },
   ageText: { color: colors.muted, fontSize: 11, lineHeight: 16, fontWeight: '500' },
   water: { position: 'absolute', right: 10, top: '50%', marginTop: -20, height: 40, width: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 14, backgroundColor: colors.background },

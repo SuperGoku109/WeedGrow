@@ -9,6 +9,7 @@ import { gardenThemes } from '@/design-system/tokens/garden';
 import { usePlantList } from '../hooks/usePlantList';
 import { usePlantsWateredToday } from '../hooks/usePlantsWateredToday';
 import { PlantCard } from '../components/PlantCard';
+import PlantGridCard from '../components/PlantGridCard';
 import QuickWateringDialog from '../components/QuickWateringDialog';
 import PlantEditorSheet from '../components/PlantEditorSheet';
 import { deleteJournalEntry } from '@/lib/logs/journalRepository';
@@ -18,12 +19,13 @@ import type { Plant } from '@/firestoreModels';
 
 type ListedPlant = Plant & { id: string };
 const pastOptions = [{ value: 'past', label: 'All past plants' }, { value: 'archived', label: 'Archived' }, { value: 'harvested', label: 'Harvested' }, { value: 'dead', label: 'Dead' }];
-export default function PlantListScreen({ garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, footer, initialOffset = 0, onOffsetChange, options = DEFAULT_PLANT_LIST_OPTIONS, onResetFilters }: {
-  garden?: HomeGarden | null; searchQuery: string; setSearchQuery(value: string): void; statusFilter: string | null; setStatusFilter(value: string | null): void;
+export default function PlantListScreen({ viewMode = 'list', garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, footer, initialOffset = 0, onOffsetChange, options = DEFAULT_PLANT_LIST_OPTIONS, onResetFilters }: {
+  viewMode?: 'grid' | 'list'; garden?: HomeGarden | null; searchQuery: string; setSearchQuery(value: string): void; statusFilter: string | null; setStatusFilter(value: string | null): void;
   options?: PlantListOptions; onResetFilters?(): void; footer?: React.ReactElement; initialOffset?: number; onOffsetChange(offset: number): void;
 }) {
   const t = useAppTheme();
   const s = makeStyles(t);
+  const [layoutWidth, setLayoutWidth] = React.useState(0);
   const router = useRouter();
   const collection = usePlantList();
   const plants = React.useMemo(() => plantsInGarden(collection.plants, garden || null), [collection.plants, garden]);
@@ -45,14 +47,14 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
   const openPlant = (plant: ListedPlant) => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } });
   const setStatus = (value: string | null) => { setStatusFilter(value); list.current?.scrollToOffset({ offset: 0, animated: false }); onOffsetChange(0); };
   const active = statusFilter === 'active';
-  return <View style={{ flex: 1 }}>
+  return <View onLayout={event => setLayoutWidth(event.nativeEvent.layout.width)} style={{ flex: 1 }}>
     {!active && <View style={s.historyContext}>
       <Pressable accessibilityRole="button" accessibilityLabel="Filter past plants" onPress={() => setPastOpen(true)} style={s.historyFilter}><MaterialCommunityIcons name="archive-outline" color={t.muted} size={18} /><Text style={s.hint}>{pastOptions.find(option => option.value === statusFilter)?.label || 'All past plants'}</Text><MaterialCommunityIcons name="chevron-down" color={t.muted} size={17} /></Pressable>
       <Pressable accessibilityRole="button" accessibilityLabel="Back to active plants" onPress={() => setStatus('active')} style={s.backToPlants}><MaterialCommunityIcons name="arrow-left" color={t.accent} size={17} /><Text style={{ color: t.accent, fontSize: 13, fontWeight: '600' }}>Back to plants</Text></Pressable>
     </View>}
     {!!care.error && <Pressable accessibilityRole="button" onPress={care.refresh} style={s.notice}><Text style={{ color: t.danger }}>Watering status unavailable · Retry</Text></Pressable>}
     {!!collection.error && <Pressable accessibilityRole="button" onPress={collection.refresh} style={s.notice}><Text style={{ color: t.danger }}>{collection.error} · Retry</Text></Pressable>}
-    <FlatList ref={list} testID="home-plants-list" data={filtered} keyExtractor={plant => plant.id} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 18, paddingTop: 16, paddingBottom: 20 }}
+    <FlatList key={viewMode} numColumns={viewMode === 'grid' ? 2 : 1} columnWrapperStyle={viewMode === 'grid' ? { gap: 10 } : undefined} ref={list} testID="home-plants-list" data={filtered} keyExtractor={plant => plant.id} showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 18, paddingTop: 16, paddingBottom: 20 }}
       refreshControl={<RefreshControl tintColor={t.accent} colors={[t.accent]} progressBackgroundColor={t.surface} refreshing={collection.loading && !!plants.length} onRefresh={collection.refresh} />} scrollEventThrottle={32}
       onScroll={event => { if (restored.current) onOffsetChange(event.nativeEvent.contentOffset.y); }}
       onContentSizeChange={() => { if (!restored.current && !collection.loading) { restored.current = true; list.current?.scrollToOffset({ offset: initialPosition.current, animated: false }); } }}
@@ -64,7 +66,7 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
         {!!searchQuery && <Pressable accessibilityRole="button" onPress={() => setSearchQuery('')} style={s.action}><Text style={{ color: t.accent }}>Clear search</Text></Pressable>}
       </View> : null}
       ListFooterComponent={footer}
-      renderItem={({ item }) => <PlantCard plant={item} showEnvironment={false} onPress={() => openPlant(item)} onAddLog={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} />}
+      renderItem={({ item }) => viewMode === 'grid' ? <View style={{ width: Math.max(0, (layoutWidth - 46) / 2), marginBottom: 10 }}><PlantGridCard plant={item} onPress={() => openPlant(item)} onWater={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} /></View> : <PlantCard plant={item} showEnvironment={false} onPress={() => openPlant(item)} onAddLog={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} />}
     />
     {pastOpen && <PlantEditorSheet title="Past plants" subtitle="Keep every plant's story within reach." theme={t} onClose={() => setPastOpen(false)}>{pastOptions.map(option => <Pressable key={option.label} accessibilityRole="button" accessibilityState={{ selected: statusFilter === option.value }} onPress={() => { setStatus(option.value); setPastOpen(false); }} style={s.menuRow}><Text style={s.menuText}>{option.label}</Text>{statusFilter === option.value && <MaterialCommunityIcons name="check" color={t.accent} size={22} />}</Pressable>)}</PlantEditorSheet>}
     {waterPlant && <QuickWateringDialog plant={waterPlant} onClose={() => setWaterPlant(null)} onSaved={result => { setUndo(result); setNoticeTone('success'); setNoticeDetail(waterPlant.name); setMessage('Watering logged'); care.refresh(); }} />}
