@@ -8,7 +8,9 @@ export default {
     name: "BudBuddy",
     slug: "budbuddy",
     version: "1.0.0",
-    runtimeVersion: { policy: "appVersion" },
+    // This repo commits its native Android project, so runtime versions must be managed manually.
+    // Bump this value and rebuild the native app whenever native code/config changes.
+    runtimeVersion: "1.0.0",
     ...(easProjectId
       ? {
           updates: {
