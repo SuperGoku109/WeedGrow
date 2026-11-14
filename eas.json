@@ -7,6 +7,9 @@
     "preview": {
       "distribution": "internal",
       "channel": "preview",
+      "env": {
+        "USE_FIREBASE_EMULATORS": "false"
+      },
       "android": {
         "buildType": "apk"
       }

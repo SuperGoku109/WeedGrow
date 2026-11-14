@@ -54,6 +54,7 @@ jobs:
         run: eas update --channel preview --message "main $GITHUB_SHA" --non-interactive
         env:
           EXPO_PROJECT_ID: ${{ vars.EXPO_PROJECT_ID }}
+          USE_FIREBASE_EMULATORS: 'false'
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
