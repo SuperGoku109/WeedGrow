@@ -29,9 +29,9 @@ import AnchoredActionMenu, { type MenuAnchor, type MenuAction } from '@/ui/Ancho
 import EditGroupModal from '@/features/groups/components/EditGroupModal';
 import { updateGroup, type GroupWithId } from '@/features/groups/api/groupApi';
 import { groupEditValues } from '@/features/groups/groupCollection';
-import { waterGrowingSpace } from '@/lib/logs/groupWatering';
+import { waterPlants } from '@/lib/logs/bulkWatering';
+import type { Plant } from '@/firestoreModels';
 import { useGardenWeather } from '../GardenWeatherProvider';
-import { MAX_ATOMIC_WATERING_PLANTS } from '@/features/groups/groupPolicy';
 
 export default function HomeScreen(_props: { initialTabIndex?: number }) {
   const { user, loading } = useSession();
@@ -57,7 +57,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
   const [message, setMessage] = React.useState('');
   const [actionsAnchor, setActionsAnchor] = React.useState<MenuAnchor | null>(null);
   const [editing, setEditing] = React.useState<GroupWithId | null>(null);
-  const [watering, setWatering] = React.useState<GroupWithId | null>(null);
+  const [watering, setWatering] = React.useState<{ name: string; plants: (Plant & { id: string })[] } | null>(null);
   const offset = React.useRef(0);
   const lastScope = React.useRef('');
   const pendingGarden = React.useRef<string | null>(null);
@@ -94,6 +94,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
     const id = pendingGarden.current;
     if (id && gardens.some(garden => garden.id === id)) { pendingGarden.current = null; setSelection({ kind: 'garden', id }); }
   }, [gardens]);
+  const openWaterAll = () => setWatering({ name: selected?.name || 'All plants', plants: scopedPlants.filter(plant => plant.status === 'active' && !plant.deleting) });
   const addPlant = () => router.push({ pathname: '/add-plant', params: selected ? { gardenId: selected.id } : {} });
   const openCreate = () => {
     if (!uid) { router.push('/account'); return; }
@@ -123,9 +124,9 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
   return <View style={{ flex: 1, backgroundColor: t.background }}>
     <HomeBackground />
     <SafeAreaView edges={['top', 'left', 'right']} style={s.safeArea}>
-      <AppHeader showDate={false} />
+      <AppHeader showDate={false} onActions={setActionsAnchor} actionsOpen={!!actionsAnchor} />
       <View style={s.top}>
-        <GardenDropdown gardens={gardens} selection={resolved} counts={counts} countsReady={!collection.loading && !collection.error} onSelect={choose} onCreate={openCreate} onActions={setActionsAnchor} actionsOpen={!!actionsAnchor} disabled={!ready} />
+        <GardenDropdown gardens={gardens} selection={resolved} counts={counts} countsReady={!collection.loading && !collection.error} onSelect={choose} onCreate={openCreate} disabled={!ready} onWaterAll={openWaterAll} waterAllDisabled={!uid || collection.loading || !!collection.error || !scopedPlants.some(plant => plant.status === 'active' && !plant.deleting)} />
         {!uid && !accountLoading && <View style={s.notice}><Text style={s.hint}>Sign in to see your plants, or start a plant draft.</Text><Pressable accessibilityRole="button" onPress={() => router.push('/account')} style={s.textButton}><Text style={s.link}>Sign in or create an account →</Text></Pressable></View>}
         {!!spaces.error && <Pressable accessibilityRole="button" onPress={refresh} style={s.notice}><Text style={{ color: t.danger }}>{spaces.error} Tap to retry.</Text></Pressable>}
         {!!selected && !!weatherCollection.errors[selected.id] && <Pressable accessibilityRole="button" accessibilityLabel="Retry garden weather collection" onPress={() => void weatherCollection.retry(selected.id)} style={s.notice}><Text style={s.hint}>Weather collection needs attention. {weatherCollection.errors[selected.id]} <Text style={s.link}>Retry →</Text></Text></Pressable>}
@@ -138,7 +139,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
         </View>
         {!!uid && status === 'active' && (due > 0 || !!care.error) && <Pressable accessibilityRole="button" accessibilityLabel="Open garden care checklist" onPress={() => router.push({ pathname: '/care', params: selected ? { gardenId: selected.id } : {} })} style={s.careSummary}><MaterialCommunityIcons name={care.error ? 'alert-circle-outline' : 'clock-outline'} size={17} color={due ? t.warm : t.muted} /><Text style={[s.hint, { flex: 1 }]}>{care.error ? 'Care status unavailable · Open checklist' : `${due} ${due === 1 ? 'check' : 'checks'} due`}</Text><MaterialCommunityIcons name="chevron-right" size={18} color={t.muted} /></Pressable>}
       </View>
-      {!ready ? <View style={{ paddingHorizontal: 18, paddingTop: 12 }}><PlantListSkeleton label="Opening your garden…" /></View> : <View style={{ flex: 1, position: 'relative', marginTop: 6 }}><PlantListScreen key={listKey}
+      {!ready ? <View style={{ paddingHorizontal: 18, paddingTop: 12 }}><PlantListSkeleton label="Opening your garden…" /></View> : <View style={{ flex: 1, position: 'relative' }}><PlantListScreen key={listKey}
         viewMode={viewMode} options={options} onResetFilters={resetOptions} garden={selected} searchQuery={query} setSearchQuery={changeQuery} statusFilter={status} setStatusFilter={changeStatus}
         initialOffset={readGardenListView(uid, listKey).offset} onOffsetChange={value => saveGardenScrollOffset(uid, listKey, value)}
         footer={<View style={s.footer}>
@@ -151,12 +152,17 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
         ...(selected ? [
           { label: 'Garden settings', icon: 'tune-variant', onPress: () => setEditing(selected) },
           { label: 'Manage plants', icon: 'sprout-outline', onPress: () => router.push({ pathname: '/group/[id]', params: { id: selected.id } }) },
-          { label: 'Log garden watering', icon: 'water-outline', onPress: () => setWatering(selected) },
         ] satisfies MenuAction[] : []),
         { label: status === 'active' ? 'Past plants' : 'Back to active plants', accessibilityLabel: status === 'active' ? 'View past plants' : 'View active plants', icon: status === 'active' ? 'archive-outline' : 'sprout-outline', separate: !!selected, onPress: () => changeStatus(status === 'active' ? 'past' : 'active') },
       ]} />}
       <EditGroupModal visible={!!editing} settingsOnly group={editing} allPlants={collection.plants} onClose={() => setEditing(null)} onSave={async (updated, baseline) => { await updateGroup(updated.id, groupEditValues(updated), baseline as unknown as Record<string, unknown>); setMessage('Garden settings saved.'); }} />
-      {watering && <ActionDialog title="Log garden watering" description={`Record completed watering for active plants in ${watering.name}. Already-watered plants are skipped. This action supports gardens of up to ${MAX_ATOMIC_WATERING_PLANTS} plants; use individual watering forms for larger gardens.`} confirmLabel="Save garden watering" onClose={() => setWatering(null)} onConfirm={async () => { const result = await waterGrowingSpace(watering.id); setMessage(`${result.written.length} watering records saved · ${result.skipped} skipped.`); }} />}
+      {watering && <ActionDialog title="Water all plants" tone="water" description={`Log watering for ${watering.plants.length} active ${watering.plants.length === 1 ? 'plant' : 'plants'} in ${watering.name}. Plants already watered today are skipped. This records completed watering.`} confirmLabel="Save watering for all" onClose={() => setWatering(null)} onConfirm={async () => {
+        const result = await waterPlants(watering.plants);
+        collection.refresh();
+        if (result.failed) throw new Error(`${result.written} saved, ${result.skipped} already watered, ${result.failed} could not be saved. Try again to finish; saved waterings will be skipped.`);
+        setMessage(`${result.written} watering records saved � ${result.skipped} already watered today.`);
+      }} />}
+
       {creating && <CreateGardenSheet onClose={() => setCreating(false)} onCreated={id => {
         pendingGarden.current = id; setSelection({ kind: 'garden', id });
         preferenceWrites.current = preferenceWrites.current.catch(() => {}).then(() => AsyncStorage.setItem(storageKey, JSON.stringify({ kind: 'garden', id }))).catch(() => setMessage('Garden created. This device could not remember the selection.'));

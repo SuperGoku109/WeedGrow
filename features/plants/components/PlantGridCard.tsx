@@ -29,8 +29,8 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
       <Text numberOfLines={2} style={[s.name, { color: t.text }]}>{plant.name}</Text>
       <Text numberOfLines={1} style={[s.meta, { color: t.muted }]}>{plantCardMeta(plant, false)}</Text>
       <View style={s.facts}>
-        <View style={[s.chip, { backgroundColor: `${color}20` }]}><MaterialCommunityIcons name={stage.icon} size={12} color={color} accessible={false} /><Text numberOfLines={1} style={[s.stage, { color }]}>{plantCardStageLabel(plant)}</Text></View>
-        <Text style={[s.age, { color: t.muted }]}>{plantCardAgeLabel(plant)}</Text>
+        <View style={[s.chip, { backgroundColor: `${color}20` }]}><MaterialCommunityIcons name={stage.icon} size={12} color={color} accessible={false} /><Text numberOfLines={1} ellipsizeMode="tail" style={[s.stage, { color }]}>{plantCardStageLabel(plant)}</Text></View>
+        <Text numberOfLines={1} style={[s.age, { color: t.muted }]}>{plantCardAgeLabel(plant)}</Text>
       </View>
     </GrowPress>
     <View accessibilityRole="progressbar" accessibilityLabel={progress.fraction == null ? 'Phase progress not recorded' : `${stage.title} progress${progress.estimated ? ', estimated' : ''}`} accessibilityValue={progress.fraction == null ? { text: 'Not recorded' } : { min: 0, max: 100, now: Math.round(progress.fraction * 100) }} style={[s.track, { backgroundColor: t.elevated }]}>
@@ -48,10 +48,10 @@ const s = StyleSheet.create({
   photo: { width: 88, height: 88, borderRadius: 44, borderWidth: 2, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   name: { fontSize: 16, lineHeight: 20, fontWeight: '700', textAlign: 'center', marginTop: 2 },
   meta: { fontSize: 11, lineHeight: 16, textAlign: 'center' },
-  facts: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', gap: 4, marginTop: 2 },
-  chip: { flexDirection: 'row', alignItems: 'center', gap: 3, borderRadius: 7, paddingHorizontal: 5, paddingVertical: 3, maxWidth: '100%' },
-  stage: { fontSize: 9, lineHeight: 13, fontWeight: '700', flexShrink: 1 },
-  age: { fontSize: 10, lineHeight: 15 },
+  facts: { flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center', gap: 4, marginTop: 2, width: '100%' },
+  chip: { flexDirection: 'row', alignItems: 'center', gap: 3, borderRadius: 7, paddingHorizontal: 5, paddingVertical: 3, flexShrink: 1, minWidth: 0 },
+  stage: { fontSize: 9, lineHeight: 13, fontWeight: '700', flexShrink: 1, minWidth: 0 },
+  age: { fontSize: 10, lineHeight: 15, flexShrink: 0 },
   track: { height: 4, borderRadius: 3, overflow: 'hidden' },
   water: { minHeight: 36, borderRadius: 11, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5 },
 });

@@ -1,5 +1,4 @@
 import { useAppTheme } from '@/hooks/useAppTheme';
-import { OverflowMenuButton, type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import CloseButton from '@/ui/CloseButton';
 import React from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
@@ -9,9 +8,9 @@ import { useReducedMotion } from '@/ui/GrowMotion';
 import type { GardenSelection, HomeGarden } from '../gardenSelection';
 
 const icons = { outdoor: 'weather-sunny', indoor: 'home-outline', greenhouse: 'greenhouse' } as const;
-export default function GardenDropdown({ gardens, selection, counts, countsReady, onSelect, onCreate, onActions, actionsOpen, disabled }: {
-  gardens: HomeGarden[]; selection: GardenSelection; counts: Record<string, number>;
-  onSelect(value: GardenSelection): void; onCreate(): void; onActions?(anchor: MenuAnchor): void; actionsOpen?: boolean; disabled?: boolean; countsReady: boolean;
+export default function GardenDropdown({ gardens, selection, counts, countsReady, onSelect, onCreate, disabled, onWaterAll, waterAllDisabled }: {
+  onWaterAll?(): void; waterAllDisabled?: boolean; gardens: HomeGarden[]; selection: GardenSelection; counts: Record<string, number>;
+  onSelect(value: GardenSelection): void; onCreate(): void; disabled?: boolean; countsReady: boolean;
 }) {
   const t = useAppTheme();
   const s = makeStyles(t);
@@ -25,7 +24,7 @@ export default function GardenDropdown({ gardens, selection, counts, countsReady
   React.useEffect(() => setOpen(false), [width, height]);
   const choose = (value: GardenSelection) => { setOpen(false); onSelect(value); };
   return <>
-    <View ref={trigger} collapsable={false} style={s.trigger}>
+    <View ref={trigger} collapsable={false} style={s.panel}><View style={s.trigger}>
       <Pressable accessibilityRole="button" accessibilityLabel={`Select garden, current: ${name}`} accessibilityState={{ expanded: open, disabled }} disabled={disabled}
         onPress={() => trigger.current?.measureInWindow((x, y, measuredWidth, measuredHeight) => { setAnchor({ x, y: y + measuredHeight + 8, width: measuredWidth }); setOpen(true); })}
         style={({ pressed }) => [{ flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 8 }, pressed && { opacity: 0.88 }]}>
@@ -40,7 +39,8 @@ export default function GardenDropdown({ gardens, selection, counts, countsReady
         </View>
         <View style={s.chevron}><MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={20} color={t.heroText} /></View>
       </Pressable>
-      {onActions && <OverflowMenuButton label={garden ? `Garden actions for ${name}` : 'Plant collection options'} onOpen={onActions} expanded={actionsOpen} disabled={disabled} horizontal tone="hero" />}
+      {onWaterAll && <Pressable accessibilityRole="button" accessibilityLabel={garden ? `Water all plants in ${name}` : 'Water all plants'} disabled={disabled || waterAllDisabled} onPress={onWaterAll} style={({ pressed }) => [s.waterAll, { opacity: disabled || waterAllDisabled ? .5 : pressed ? .72 : 1 }]}><MaterialCommunityIcons name="water-outline" size={19} color={t.water} accessible={false} /></Pressable>}
+    </View>
     </View>
     <Modal visible={open} transparent animationType={reduced ? 'none' : 'fade'} onRequestClose={() => setOpen(false)}>
       <View style={{ flex: 1 }}>
@@ -74,6 +74,8 @@ export default function GardenDropdown({ gardens, selection, counts, countsReady
 }
 
 const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
+  panel: { backgroundColor: t.hero, borderRadius: 20 },
+  waterAll: { width: 40, height: 40, borderRadius: 14, backgroundColor: t.background, alignItems: 'center', justifyContent: 'center' },
   trigger: { backgroundColor: t.hero, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 4 },
   eyebrow: { fontSize: 10, lineHeight: 14, letterSpacing: 1.4, fontWeight: '700', color: '#596b45' },
   title: { fontSize: 22, lineHeight: 26, fontWeight: '700', letterSpacing: -0.8, color: t.heroText },
