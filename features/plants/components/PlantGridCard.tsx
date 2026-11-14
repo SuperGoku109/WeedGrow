@@ -17,6 +17,7 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
   const progress = growthPhaseProgress(plant);
   const color = growthStageColor(progress.phase, t.background);
   const stage = guideStage(progress.phase);
+  const progressPercent = progress.fraction == null ? 4 : Math.max(4, Math.round(progress.fraction * 100));
   const uri = getRenderablePlantImageUri(plant.imageUri);
   const [failed, setFailed] = React.useState(false);
   React.useEffect(() => setFailed(false), [uri]);
@@ -34,7 +35,7 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
       </View>
     </GrowPress>
     <View accessibilityRole="progressbar" accessibilityLabel={progress.fraction == null ? 'Phase progress not recorded' : `${stage.title} progress${progress.estimated ? ', estimated' : ''}`} accessibilityValue={progress.fraction == null ? { text: 'Not recorded' } : { min: 0, max: 100, now: Math.round(progress.fraction * 100) }} style={[s.track, { backgroundColor: t.elevated }]}>
-      <View style={{ height: '100%', width: `${(progress.fraction ?? 0) * 100}%`, backgroundColor: color, borderRadius: 3 }} />
+      <View style={{ height: '100%', width: `${progressPercent}%`, backgroundColor: color, borderRadius: 3 }} />
     </View>
     {onWater && <GrowPress accessibilityRole="button" accessibilityLabel={`${plant.name}: ${wateredToday ? 'Watering recorded today' : waterDisabled ? 'Checking watering history' : 'Log watering'}`} disabled={wateredToday || waterDisabled} onPress={onWater} style={[s.water, { backgroundColor: wateredToday ? t.elevated : t.accent, opacity: waterDisabled ? .55 : 1 }]}>
       <MaterialCommunityIcons name={wateredToday ? 'check-circle-outline' : 'water-outline'} size={16} color={wateredToday ? t.accent : t.onAccent} accessible={false} /><Text style={{ color: wateredToday ? t.accent : t.onAccent, fontSize: 12, fontWeight: '600' }}>{wateredToday ? 'Watered' : 'Water'}</Text>
@@ -44,11 +45,11 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
 const s = StyleSheet.create({
   card: { flex: 1, borderWidth: 1, borderRadius: 18, overflow: 'hidden', padding: 10, gap: 8 },
   decoration: { position: 'absolute', top: -14, left: -24, transform: [{ rotate: '-25deg' }] },
-  details: { alignItems: 'center', gap: 4, flex: 1 },
-  photo: { width: 88, height: 88, borderRadius: 44, borderWidth: 2, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
-  name: { fontSize: 16, lineHeight: 20, fontWeight: '700', textAlign: 'center', marginTop: 2 },
-  meta: { fontSize: 11, lineHeight: 16, textAlign: 'center' },
-  facts: { flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'center', alignItems: 'center', gap: 4, marginTop: 2, width: '100%' },
+  details: { alignItems: 'stretch', gap: 4, flex: 1 },
+  photo: { width: '100%', aspectRatio: 1.3, borderRadius: 13, borderWidth: 1, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
+  name: { fontSize: 16, lineHeight: 20, fontWeight: '700', textAlign: 'left', marginTop: 2 },
+  meta: { fontSize: 11, lineHeight: 16, textAlign: 'left' },
+  facts: { flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'center', gap: 4, marginTop: 2, width: '100%' },
   chip: { flexDirection: 'row', alignItems: 'center', gap: 3, borderRadius: 7, paddingHorizontal: 5, paddingVertical: 3, flexShrink: 1, minWidth: 0 },
   stage: { fontSize: 9, lineHeight: 13, fontWeight: '700', flexShrink: 1, minWidth: 0 },
   age: { fontSize: 10, lineHeight: 15, flexShrink: 0 },
