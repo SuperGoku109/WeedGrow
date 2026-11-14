@@ -10,7 +10,7 @@ export default function GrowthPhaseProgress({ plant, theme: t, now = new Date() 
   const stageColor = growthStageColor(progress.phase, t.background);
   if (progress.fraction == null || progress.phaseDay == null || progress.phaseDays == null) return null;
   const current = progress.phaseDay;
-  const percent = Math.min(100, Math.round(current / progress.phaseDays * 100));
+  const percent = Math.max(4, Math.min(100, Math.round(current / progress.phaseDays * 100)));
   const label = `${current} / ${progress.phaseDays} days`;
   return <View style={{ gap: 9 }}>
     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 8 }}>
