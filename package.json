@@ -8,6 +8,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web --max-workers 2",
+    "web:export": "expo export --platform web",
     "lint": "eslint . --ext .ts,.tsx --max-warnings=0",
     "typecheck": "tsc --noEmit",
     "check:architecture": "node scripts/test-architecture.cjs",

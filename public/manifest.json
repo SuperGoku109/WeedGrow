@@ -1,0 +1,15 @@
+{
+  "name": "BudBuddy",
+  "short_name": "BudBuddy",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#15231c",
+  "theme_color": "#15231c",
+  "icons": [
+    {
+      "src": "/assets/images/icon.png",
+      "sizes": "any",
+      "type": "image/png"
+    }
+  ]
+}
