@@ -68,6 +68,9 @@ project is committed. For native dependency, permission, or SDK changes, change
 install the APK over the existing app. JavaScript and asset changes that remain
 compatible can use the GitHub-triggered update.
 
+The preview profile selects the release APK explicitly so Expo's install link
+downloads an `.apk` directly rather than an archive containing multiple APKs.
+
 The app still uses Firebase Authentication and account-scoped Firestore rules.
 An installed app is not a substitute for backend access controls; never make
 Firestore rules public. Expo's free EAS plan has monthly build and update limits.

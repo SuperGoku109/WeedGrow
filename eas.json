@@ -11,7 +11,8 @@
         "USE_FIREBASE_EMULATORS": "false"
       },
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "applicationArchivePath": "android/app/build/outputs/apk/release/app-release.apk"
       }
     }
   }
