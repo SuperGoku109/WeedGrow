@@ -11,6 +11,7 @@ import '@/ui/accessibilityStyles';
 import ReminderCoordinator from '@/features/care/ReminderCoordinator';
 import { Stack } from 'expo-router';
 import { useReducedMotion } from '@/ui/GrowMotion';
+import PlantImageTransitionProvider, { usePlantImageTransition } from '@/ui/PlantImageTransition';
 import RouteTransition from '@/ui/RouteTransition';
 import Head from 'expo-router/head';
 import { PaperProvider } from 'react-native-paper';
@@ -45,12 +46,19 @@ export default function RootLayout() {
             <GardenWeatherProvider><NotificationNavigation />
             <ReminderCoordinator />
             <WateringRoutineCoordinator />
-            <NavigationThemeProvider value={navigationTheme}><RouteTransition><Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: t.background }, animation: reduced ? 'none' : 'fade_from_bottom', animationDuration: 260, gestureEnabled: false }}>
+            <NavigationThemeProvider value={navigationTheme}><PlantImageTransitionProvider><RouteTransition><PlantNavigation>
               <Stack.Screen name="add-plant" options={{ animation: reduced ? 'none' : 'slide_from_bottom' }} />
-            </Stack></RouteTransition></NavigationThemeProvider>
+            </PlantNavigation></RouteTransition></PlantImageTransitionProvider></NavigationThemeProvider>
             <StatusBar style={light ? "dark" : "light"} /></GardenWeatherProvider>
         </PaperProvider>
       </SafeAreaProvider></KeyboardProvider>
     </GestureHandlerRootView></AppErrorBoundary>
   );
+}
+
+function PlantNavigation({ children }: { children: React.ReactNode }) {
+  const t = useAppTheme();
+  const reduced = useReducedMotion();
+  const shared = usePlantImageTransition();
+  return <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: t.background }, animation: reduced || shared.active ? 'none' : 'fade_from_bottom', animationDuration: 260, gestureEnabled: false }}>{children}</Stack>;
 }

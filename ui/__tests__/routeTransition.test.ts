@@ -1,4 +1,5 @@
 import React from 'react';
+import { gardenThemes } from '@/design-system/tokens/garden';
 // @ts-expect-error Expo includes the renderer without declarations.
 import { act, create } from 'react-test-renderer';
 import { Animated, Platform, StyleSheet, Text } from 'react-native';
@@ -23,7 +24,7 @@ it('keeps an opaque backdrop while route content fades and survives an interrupt
   mockPath = '/plant/one';
   act(() => tree.update(render()));
   expect(contentOpacity().__getValue()).toBe(0);
-  expect(StyleSheet.flatten(backdrop().props.style)).toEqual({ flex: 1, backgroundColor: '#15231c' });
+  expect(StyleSheet.flatten(backdrop().props.style)).toEqual({ flex: 1, backgroundColor: gardenThemes.grove.background });
   mockPath = '/plant/one/growth';
   act(() => { jest.advanceTimersByTime(60); tree.update(render()); });
   expect(StyleSheet.flatten(backdrop().props.style).opacity).toBeUndefined();

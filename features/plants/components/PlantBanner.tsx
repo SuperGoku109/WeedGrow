@@ -1,8 +1,10 @@
 import React from 'react';
+import { useLocalSearchParams } from 'expo-router';
+import { usePlantImageTransition } from '@/ui/PlantImageTransition';
 import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Circle, Ellipse, Path } from 'react-native-svg';
-import { LinearGradient } from 'expo-linear-gradient';
+import PlantCoverFade from '@/ui/PlantCoverFade';
 import type { Plant } from '@/firestoreModels';
 import { usePhotoUri } from '@/ui/PlantImage';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
@@ -25,9 +27,21 @@ function BotanicalCover({ theme }: { theme: PlantTheme }) {
 /** Photo, identity and compact facts share the section rail's card. */
 export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant; theme: PlantTheme; onEdit(): void }) {
   const { width } = useWindowDimensions();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const transition = usePlantImageTransition();
+  const cover = React.useRef<View>(null);
+  const measureCover = React.useCallback(() => {
+    if (!transition.active) return;
+    cover.current?.measureInWindow((x, y, width, height) => {
+      if (width > 0 && height > 0) transition.arrive(id, { x, y, width, height });
+    });
+  }, [id, transition]);
+  React.useLayoutEffect(measureCover, [measureCover]);
   const coverHeight = Math.min(200, Math.max(156, (width - 36) * 0.48));
   const uri = getRenderablePlantImageUri(plant.imageUri);
-  const photo = usePhotoUri(uri, true);
+  const fullPhoto = usePhotoUri(transition.active ? null : uri, true);
+  const preview = usePhotoUri(uri);
+  const photo = transition.active && transition.previewUri ? { ...preview, uri: transition.previewUri, failed: false } : fullPhoto.uri ? fullPhoto : preview;
   const [broken, setBroken] = React.useState(false);
   React.useEffect(() => setBroken(false), [uri]);
   const stage = growthPhase(plant) || 'unknown';
@@ -38,10 +52,9 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
   const hasPhoto = !!photo.uri && !broken && !photo.failed;
   const strain = plant.strain?.trim() || plant.strainType?.trim();
   return <View style={[s.banner, { backgroundColor: t.surface, borderColor: t.border }]}>
-    <View style={[s.cover, { minHeight: coverHeight, backgroundColor: t.hero }]}>
+    <View ref={cover} onLayout={measureCover} collapsable={false} style={[s.cover, { minHeight: coverHeight, backgroundColor: t.hero }]}>
       {hasPhoto ? <Image accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri! }} resizeMode="cover" onError={() => setBroken(true)} style={StyleSheet.absoluteFillObject} /> : <View style={s.botanical} accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
-      <LinearGradient pointerEvents="none" colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0.35)', 'rgba(0,0,0,0.92)']} locations={[0, 0.4, 1]} style={StyleSheet.absoluteFillObject} />
-      <LinearGradient pointerEvents="none" colors={['transparent', t.surface]} style={s.bottomFade} />
+      <PlantCoverFade surface={t.surface} />
       <View pointerEvents="none" accessibilityLabel={`Plant status: ${status}`} style={s.status}><View style={[s.statusDot, { backgroundColor: status === 'active' ? '#c8e78b' : '#d5ddd0' }]} /><Text style={s.statusText}>{status}</Text></View>
       <Pressable accessibilityRole="button" accessibilityLabel={`Edit ${plant.name}`} onPress={onEdit} hitSlop={4} style={({ pressed }) => [s.photoAction, { opacity: pressed ? 0.7 : 1 }]}><MaterialCommunityIcons name="pencil-outline" size={19} color="#edf0e3" aria-hidden={true} /></Pressable>
       {photo.stored && !photo.uri && !photo.failed && <View pointerEvents="none" style={StyleSheet.absoluteFillObject}><ActivityIndicator style={{ flex: 1 }} size="small" color={t.heroText} accessibilityLabel="Loading plant cover" /></View>}
@@ -56,7 +69,6 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
 const s = StyleSheet.create({
   banner: { borderWidth: 1, borderBottomWidth: 0, borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: 'hidden' },
   cover: { width: '100%', minHeight: 156, paddingTop: 58, paddingBottom: 24, paddingHorizontal: 16, alignItems: 'flex-start', justifyContent: 'flex-end' },
-  bottomFade: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 28 },
   botanical: { position: 'absolute', right: 24, top: 0 },
   photoAction: { position: 'absolute', right: 10, top: 10, width: 40, height: 40, borderRadius: 13, backgroundColor: 'rgba(0,0,0,0.78)', justifyContent: 'center', alignItems: 'center' },
   identity: { alignSelf: 'stretch', gap: 2 },

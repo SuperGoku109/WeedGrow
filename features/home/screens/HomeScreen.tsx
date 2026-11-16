@@ -154,7 +154,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
 
       </View>
       {!ready ? <View style={{ paddingHorizontal: 18, paddingTop: 12 }}><PlantListSkeleton label="Opening your garden…" /></View> : <View style={{ flex: 1, position: 'relative' }}><PlantListScreen key={listKey}
-        header={<>{!!uid && status === 'active' && <GardenCareOverview key={listKey} plants={scopedPlants} tasks={care.tasks} now={care.now} loading={care.loading} error={care.error} onRetry={care.refresh} />}
+        header={<>{!!uid && status === 'active' && <GardenCareOverview cacheKey={JSON.stringify([uid, listKey])} key={listKey} plants={scopedPlants} tasks={care.tasks} now={care.now} loading={care.loading} error={care.error} onRetry={care.refresh} />}
         <View style={s.listHeading}>
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text accessibilityRole="header" style={s.section}>{status === 'active' ? 'Your plants' : 'Past plants'}</Text><CountBadge value={collection.loading ? '—' : visibleCount} label={collection.loading ? 'Plant count loading' : `${visibleCount} plants`} color={t.accent} backgroundColor={t.elevated} /></View>
           <View style={s.viewSwitch}>{(['grid', 'list'] as const).map(mode => <GrowPress key={mode} accessibilityRole="button" accessibilityLabel={`Show plants as ${mode}`} accessibilityState={{ selected: viewMode === mode }} onPress={() => setViewMode(mode)} style={s.viewButton}><View style={[s.viewButtonSurface, viewMode === mode && { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={mode === 'grid' ? 'view-grid-outline' : 'format-list-bulleted'} size={19} color={viewMode === mode ? t.accent : t.muted} /></View></GrowPress>)}</View>

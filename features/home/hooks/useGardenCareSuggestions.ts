@@ -9,6 +9,7 @@ import { evaluateSuggestionCardsForPlants, type PlantSuggestionResult } from '@/
 
 interface CareResult {
   key: string;
+  scope: string;
   results: PlantSuggestionResult[];
   loading: boolean;
   error: boolean;
@@ -22,24 +23,25 @@ export function useGardenCareSuggestions(plants: (Plant & { id: string })[], now
   const inputKey = useMemo(() => JSON.stringify(plants.filter(plant => plant.status === 'active' && !plant.deleting).map(adviceInput)), [plants]);
   const inputs = useMemo(() => JSON.parse(inputKey) as PlantSummary[], [inputKey]);
   const daysKey = useMemo(() => JSON.stringify(inputs.map(plant => plantDay(now, plant.locationTimeZone))), [inputs, now]);
+  const scope = JSON.stringify([inputKey, daysKey]);
   const requestKey = JSON.stringify([inputKey, daysKey, localRevision, revision]);
-  const [state, setState] = useState<CareResult>({ key: '', results: [], loading: false, error: false });
+  const [state, setState] = useState<CareResult>({ key: '', scope: '', results: [], loading: false, error: false });
 
   useFocusEffect(useCallback(() => { refresh(); }, []));
 
   useEffect(() => {
     if (!inputs.length) return;
     const controller = new AbortController();
-    setState({ key: requestKey, results: [], loading: true, error: false });
+    setState(previous => ({ key: requestKey, scope, results: previous.scope === scope ? previous.results : [], loading: true, error: false }));
     void evaluateSuggestionCardsForPlants(inputs, { execution: 'local' }, controller.signal)
       .then(results => {
-        if (!controller.signal.aborted) setState({ key: requestKey, results, loading: false, error: results.length < inputs.length });
+        if (!controller.signal.aborted) setState({ key: requestKey, scope, results, loading: false, error: results.length < inputs.length });
       })
       .catch(() => {
-        if (!controller.signal.aborted) setState({ key: requestKey, results: [], loading: false, error: true });
+        if (!controller.signal.aborted) setState(previous => ({ key: requestKey, scope, results: previous.scope === scope ? previous.results : [], loading: false, error: true }));
       });
     return () => controller.abort();
-  }, [inputs, requestKey]);
+  }, [inputs, requestKey, scope]);
 
   useEffect(() => {
     if (state.key !== requestKey || state.loading || state.error) return;
@@ -55,7 +57,7 @@ export function useGardenCareSuggestions(plants: (Plant & { id: string })[], now
 
   const current = state.key === requestKey;
   return {
-    results: current && inputs.length ? state.results : EMPTY_RESULTS,
+    results: state.scope === scope && inputs.length ? state.results : EMPTY_RESULTS,
     loading: inputs.length > 0 && (!current || state.loading),
     error: inputs.length > 0 && current && state.error,
     refresh,

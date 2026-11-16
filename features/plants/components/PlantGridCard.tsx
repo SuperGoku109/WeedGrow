@@ -4,7 +4,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { Plant } from '@/firestoreModels';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import { GrowPress } from '@/ui/GrowMotion';
-import { PlantImage } from '@/ui/PlantImage';
+import { usePlantImageTransition } from '@/ui/PlantImageTransition';
+import { PlantImage, usePhotoUri } from '@/ui/PlantImage';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 import { growthPhaseProgress } from '@/lib/plants/growthPhase';
 import { growthStageColor, guideStage } from '../growthStagePresentation';
@@ -14,18 +15,29 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
   plant: Plant & { id: string }; onPress(): void; onWater?: () => void; wateredToday: boolean; waterDisabled: boolean;
 }) {
   const t = useAppTheme();
+  const transition = usePlantImageTransition();
+  const imageFrame = React.useRef<View>(null);
+  const imageLoaded = React.useRef(false);
   const progress = growthPhaseProgress(plant);
   const color = growthStageColor(progress.phase, t.background);
   const stage = guideStage(progress.phase);
   const progressPercent = progress.fraction == null ? 4 : Math.max(4, Math.round(progress.fraction * 100));
   const uri = getRenderablePlantImageUri(plant.imageUri);
+  const photo = usePhotoUri(uri);
+  const open = () => {
+    if (!photo.uri || !imageLoaded.current || !imageFrame.current) { onPress(); return; }
+    imageFrame.current.measureInWindow((x, y, width, height) => {
+      if (width > 0 && height > 0) transition.start(plant.id, photo.uri!, { x, y, width, height });
+      onPress();
+    });
+  };
   const [failed, setFailed] = React.useState(false);
-  React.useEffect(() => setFailed(false), [uri]);
+  React.useEffect(() => { setFailed(false); imageLoaded.current = false; }, [uri]);
   return <View style={[s.card, { backgroundColor: t.surface }]}>
     <View pointerEvents="none" style={s.decoration}><MaterialCommunityIcons name="leaf" size={84} color={t.accent} style={{ opacity: .07 }} /></View>
-    <GrowPress accessibilityRole="button" accessibilityLabel={`Open ${plant.name}`} onPress={onPress} style={s.details}>
-      <View style={[s.photo, { backgroundColor: t.elevated }]}>
-        {uri && !failed ? <PlantImage accessibilityLabel={`${plant.name} photo`} source={{ uri }} resizeMode="cover" onError={() => setFailed(true)} style={StyleSheet.absoluteFillObject} /> : <MaterialCommunityIcons name="sprout" size={42} color={color} />}
+    <GrowPress accessibilityRole="button" accessibilityLabel={`Open ${plant.name}`} onPress={open} style={s.details}>
+      <View ref={imageFrame} collapsable={false} style={[s.photo, { backgroundColor: t.elevated }]}>
+        {uri && !failed ? <PlantImage accessibilityLabel={`${plant.name} photo`} source={{ uri }} resizeMode="cover" onLoad={() => { imageLoaded.current = true; }} onError={() => setFailed(true)} style={StyleSheet.absoluteFillObject} /> : <MaterialCommunityIcons name="sprout" size={42} color={color} />}
       </View>
       <Text numberOfLines={2} style={[s.name, { color: t.text }]}>{plant.name}</Text>
       <Text numberOfLines={1} style={[s.meta, { color: t.muted }]}>{plantCardMeta(plant, false)}</Text>

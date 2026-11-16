@@ -83,3 +83,12 @@ it('does not repeatedly retry already expired results', async () => {
   await act(async () => { jest.advanceTimersByTime(120000); });
   expect(evaluate).toHaveBeenCalledTimes(1);
 });
+
+it('retains completed advice during a focus or explicit refresh', async () => {
+  await act(async () => { tree = create(React.createElement(Probe)); });
+  const completed = advice.results;
+  evaluate.mockImplementation(() => new Promise(() => {}));
+  await act(async () => advice.refresh());
+  expect(advice.loading).toBe(true);
+  expect(advice.results).toBe(completed);
+});
