@@ -5,7 +5,6 @@ import React from 'react';
 import { Keyboard, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useSession } from '@/services/session';
@@ -32,6 +31,7 @@ import { groupEditValues } from '@/features/groups/groupCollection';
 import { waterPlants } from '@/lib/logs/bulkWatering';
 import type { Plant } from '@/firestoreModels';
 import { useGardenWeather } from '../GardenWeatherProvider';
+import GardenCareOverview from '../components/GardenCareOverview';
 
 export default function HomeScreen(_props: { initialTabIndex?: number }) {
   const { user, loading } = useSession();
@@ -81,7 +81,6 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
   const scopedPlants = React.useMemo(() => plantsInGarden(collection.plants, selected), [collection.plants, selected]);
   const scopedIds = React.useMemo(() => scopedPlants.map(plant => plant.id), [scopedPlants]);
   const care = useCareTasks(!!uid && preferenceReady, scopedIds);
-  const due = care.tasks.filter(task => !task.completedToday && !task.skippedToday && task.due <= care.now && !((scopedPlants.find(plant => plant.id === task.plantId)?.careSnoozes?.[task.kind] || 0) > care.now.getTime())).length;
   const counts = React.useMemo(() => Object.fromEntries(gardens.map(garden => [garden.id, plantsInGarden(collection.plants, garden).filter(plant => plant.status === 'active').length])), [gardens, collection.plants]);
   const ready = preferenceReady && !accountLoading && !spaces.loading;
   const choose = (value: GardenSelection) => {
@@ -133,20 +132,22 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
         {!!message && <Text accessibilityLiveRegion="polite" style={s.hint}>{message}</Text>}
         <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center' }}><View testID="input-focus-frame" nativeID="plant-search-field" style={[s.search, { flex: 1, marginBottom: 0 }]}><MaterialCommunityIcons name="magnify" color={t.muted} size={20} /><TextInput nativeID="plant-search-input" accessibilityLabel="Search plants by name or strain" placeholder="Search" placeholderTextColor={t.muted} value={query} onChangeText={changeQuery} returnKeyType="search" style={s.input} />{!!query && <Pressable accessibilityRole="button" accessibilityLabel="Clear plant search" onPress={() => changeQuery('')} style={s.clear}><MaterialCommunityIcons name="close" size={20} color={t.muted} /></Pressable>}</View><View ref={filterTrigger} collapsable={false} style={{ width: 40, height: 40 }}><GrowPress accessibilityRole="button" accessibilityLabel={`Filter and sort plants${choiceCount ? `, ${choiceCount} active ${choiceCount === 1 ? 'choice' : 'choices'}` : ''}`} accessibilityState={{ expanded: !!filterAnchor }} disabled={!ready || collection.loading && !scopedPlants.length} onPress={() => { Keyboard.dismiss(); filterTrigger.current?.measureInWindow((x, y, width, height) => { if (width > 0 && height > 0) setFilterAnchor({ x, y, width, height }); }); }} style={{ width: 40, height: 40, borderRadius: 12, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: choiceCount ? t.accent : t.elevated, backgroundColor: choiceCount ? t.elevated : t.surface }}><MaterialCommunityIcons name="tune-variant" size={21} color={choiceCount ? t.accent : t.muted} />{choiceCount > 0 && <View style={{ position: 'absolute', top: -4, right: -3, alignItems: 'center', justifyContent: 'center' }}><CountBadge value={choiceCount} label={`${choiceCount} active filters`} color={t.onAccent} backgroundColor={t.accent} size={18} fontSize={10} /></View>}</GrowPress></View><GrowPress accessibilityRole="button" accessibilityLabel={selected ? `Add plant to ${selected.name}` : 'Add plant'} disabled={!ready} onPress={addPlant} style={s.add}><MaterialCommunityIcons name="plus" size={19} color={t.onAccent} /><Text style={s.addText}>Add plant</Text></GrowPress></View>
         {!!choiceCount && <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text numberOfLines={2} style={[s.hint, { flex: 1, fontSize: 12 }]}>{summary}</Text><GrowPress accessibilityRole="button" accessibilityLabel="Reset plant filters and sorting" onPress={resetOptions} style={{ minHeight: 32, paddingHorizontal: 8, justifyContent: 'center' }}><Text style={{ color: t.accent, fontSize: 12 }}>Reset</Text></GrowPress></View>}
-        <View style={s.listHeading}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text accessibilityRole="header" style={s.section}>{status === 'active' ? 'Your plants' : 'Past plants'}</Text><CountBadge value={collection.loading ? '—' : visibleCount} label={collection.loading ? 'Plant count loading' : `${visibleCount} plants`} color={t.accent} backgroundColor={t.elevated} /></View>
-          <View style={s.viewSwitch}>{(['grid', 'list'] as const).map(mode => <GrowPress key={mode} accessibilityRole="button" accessibilityLabel={`Show plants as ${mode}`} accessibilityState={{ selected: viewMode === mode }} onPress={() => setViewMode(mode)} style={[s.viewButton, { backgroundColor: viewMode === mode ? t.elevated : 'transparent' }]}><MaterialCommunityIcons name={mode === 'grid' ? 'view-grid-outline' : 'format-list-bulleted'} size={19} color={viewMode === mode ? t.accent : t.muted} /></GrowPress>)}</View>
-        </View>
-        {!!uid && status === 'active' && (due > 0 || !!care.error) && <Pressable accessibilityRole="button" accessibilityLabel="Open garden care checklist" onPress={() => router.push({ pathname: '/care', params: selected ? { gardenId: selected.id } : {} })} style={s.careSummary}><MaterialCommunityIcons name={care.error ? 'alert-circle-outline' : 'clock-outline'} size={17} color={due ? t.warm : t.muted} /><Text style={[s.hint, { flex: 1 }]}>{care.error ? 'Care status unavailable · Open checklist' : `${due} ${due === 1 ? 'check' : 'checks'} due`}</Text><MaterialCommunityIcons name="chevron-right" size={18} color={t.muted} /></Pressable>}
+
       </View>
       {!ready ? <View style={{ paddingHorizontal: 18, paddingTop: 12 }}><PlantListSkeleton label="Opening your garden…" /></View> : <View style={{ flex: 1, position: 'relative' }}><PlantListScreen key={listKey}
+        header={<>{!!uid && status === 'active' && <GardenCareOverview key={listKey} plants={scopedPlants} tasks={care.tasks} now={care.now} loading={care.loading} error={care.error} onRetry={care.refresh} />}
+        <View style={s.listHeading}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text accessibilityRole="header" style={s.section}>{status === 'active' ? 'Your plants' : 'Past plants'}</Text><CountBadge value={collection.loading ? '—' : visibleCount} label={collection.loading ? 'Plant count loading' : `${visibleCount} plants`} color={t.accent} backgroundColor={t.elevated} /></View>
+          <View style={s.viewSwitch}>{(['grid', 'list'] as const).map(mode => <GrowPress key={mode} accessibilityRole="button" accessibilityLabel={`Show plants as ${mode}`} accessibilityState={{ selected: viewMode === mode }} onPress={() => setViewMode(mode)} style={s.viewButton}><View style={[s.viewButtonSurface, viewMode === mode && { backgroundColor: t.elevated }]}><MaterialCommunityIcons name={mode === 'grid' ? 'view-grid-outline' : 'format-list-bulleted'} size={19} color={viewMode === mode ? t.accent : t.muted} /></View></GrowPress>)}</View>
+        </View>
+        </>}
         viewMode={viewMode} options={options} onResetFilters={resetOptions} garden={selected} searchQuery={query} setSearchQuery={changeQuery} statusFilter={status} setStatusFilter={changeStatus}
         initialOffset={readGardenListView(uid, listKey).offset} onOffsetChange={value => saveGardenScrollOffset(uid, listKey, value)}
         footer={<View style={s.footer}>
           {!gardens.length && <Pressable accessibilityRole="button" onPress={openCreate} style={s.tool}><MaterialCommunityIcons name="sprout-outline" size={22} color={t.accent} /><View style={{ flex: 1, gap: 4 }}><Text style={s.link}>Make a home for your plants</Text><Text style={s.hint}>Create a garden for your patio, tent or greenhouse.</Text></View><MaterialCommunityIcons name="plus" size={20} color={t.accent} /></Pressable>}
           {!!selected && unassigned > 0 && <Pressable accessibilityRole="button" onPress={() => choose({ kind: 'all' })} style={s.textButton}><Text style={s.hint}>{unassigned} {unassigned === 1 ? 'plant is' : 'plants are'} outside a garden. <Text style={s.link}>View all plants →</Text></Text></Pressable>}
         </View>}
-      /><LinearGradient pointerEvents="none" colors={[t.background, `${t.background}00`]} locations={[0, 1]} style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 16, zIndex: 1 }} /></View>}
+      /></View>}
       {filterAnchor && <PlantFilterMenu anchor={filterAnchor} key={listKey} options={options} status={status} plants={scopedPlants} query={query} showEnvironment={!selected} onApply={applyOptions} onClose={() => { setFilterAnchor(null); filterTrigger.current?.focus?.(); }} />}
       {actionsAnchor && <AnchoredActionMenu anchor={actionsAnchor} title={selected?.name || 'Your plants'} horizontal tone="hero" onClose={() => setActionsAnchor(null)} actions={[
         ...(selected ? [
@@ -174,12 +175,13 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
 const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   safeArea: { flex: 1, width: '100%', maxWidth: 760, alignSelf: 'center' },
   top: { paddingHorizontal: 18, paddingTop: 6, gap: 8 },
-  listHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 },
+  listHeading: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8, paddingBottom: 8 },
   section: { color: t.text, fontSize: 20, fontWeight: '700', letterSpacing: -0.3 },
   add: { minHeight: gardenControls.height, borderRadius: gardenControls.radius, backgroundColor: t.accent, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', paddingHorizontal: 10, gap: 4 },
   addText: { color: t.onAccent, fontWeight: '600', fontSize: gardenControls.labelSize },
-  viewSwitch: { flexDirection: 'row', gap: 2, borderRadius: 10, padding: 2, backgroundColor: t.surface },
-  viewButton: { width: 34, height: 32, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
+  viewSwitch: { flexDirection: 'row', gap: 2, borderRadius: 14, padding: 2, backgroundColor: t.surface },
+  viewButton: { width: 44, height: 44, borderRadius: 12, alignItems: 'center', justifyContent: 'center' },
+  viewButtonSurface: { width: 34, height: 32, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   search: { flexDirection: 'row', alignItems: 'center', borderRadius: 12, backgroundColor: t.surface, paddingLeft: 10, marginBottom: 8 },
   input: { flex: 1, minWidth: 0, minHeight: gardenControls.height, paddingHorizontal: 8, color: t.text, fontSize: 16 },
   clear: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
@@ -190,5 +192,4 @@ const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   textButton: { minHeight: 48, justifyContent: 'center', paddingVertical: 10 },
   footer: { gap: 8, paddingTop: 8, paddingBottom: 16 },
   tool: { padding: 16, borderRadius: 18, borderWidth: 1, borderColor: '#40523a', flexDirection: 'row', alignItems: 'center', gap: 12 },
-  careSummary: { minHeight: 44, flexDirection: 'row', gap: 8, alignItems: 'center', marginVertical: -8 },
 });

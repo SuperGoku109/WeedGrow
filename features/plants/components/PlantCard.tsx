@@ -41,9 +41,9 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
   React.useEffect(() => setImageFailed(false), [uri]);
   return <View onLayout={event => setPhotoSize(event.nativeEvent.layout.width < 310 ? 64 : 72)} style={s.card}>
     <GrowPress accessibilityRole="button" accessibilityLabel={`Open ${plant.name}`} onPress={onPress ?? (() => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } }))} style={({ pressed }) => [s.details, { minHeight: Math.max(photoSize + 26, onMore && onAddLog ? 108 : 0), paddingLeft: photoSize + 22, paddingRight: onAddLog || onMore ? 68 : 12 }, pressed && { opacity: 0.82 }]}>
-      <View style={[s.photo, { width: photoSize, height: photoSize, marginTop: -photoSize / 2 }]}>
+      <View style={[s.photoSlot, { width: photoSize }]}><View style={[s.photo, { width: photoSize, height: photoSize }]}>
         {uri && !imageFailed ? <PlantImage accessibilityLabel={`${plant.name} photo`} source={{ uri }} resizeMode="cover" onError={() => setImageFailed(true)} style={StyleSheet.absoluteFillObject} /> : <View style={s.placeholder}><MaterialCommunityIcons name="sprout" size={42} color={colors.accent} /></View>}
-      </View>
+      </View></View>
       <Text style={s.name} numberOfLines={2}>{plant.name}</Text>
       <Text style={s.meta} numberOfLines={1}>{plantCardMeta(plant, showEnvironment)}</Text>
       <View accessible accessibilityLabel={plantCardStage(plant, false)} style={s.chipRow}>
@@ -61,7 +61,8 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
 const makeStyles = (colors: typeof gardenThemes.grove) => StyleSheet.create({
   card: { marginBottom: 10, borderRadius: 20, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
   details: { paddingVertical: 8, justifyContent: 'center', gap: 5 },
-  photo: { position: 'absolute', left: 10, top: '50%', borderRadius: 12, overflow: 'hidden', backgroundColor: colors.elevated },
+  photoSlot: { position: 'absolute', left: 10, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },
+  photo: { borderRadius: 12, overflow: 'hidden', backgroundColor: colors.elevated },
   placeholder: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   name: { color: colors.text, fontSize: 17, lineHeight: 22, fontWeight: '700', letterSpacing: -0.2 },
   chipRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },

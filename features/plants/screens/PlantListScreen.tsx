@@ -19,9 +19,9 @@ import type { Plant } from '@/firestoreModels';
 
 type ListedPlant = Plant & { id: string };
 const pastOptions = [{ value: 'past', label: 'All past plants' }, { value: 'archived', label: 'Archived' }, { value: 'harvested', label: 'Harvested' }, { value: 'dead', label: 'Dead' }];
-export default function PlantListScreen({ viewMode = 'list', garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, footer, initialOffset = 0, onOffsetChange, options = DEFAULT_PLANT_LIST_OPTIONS, onResetFilters }: {
+export default function PlantListScreen({ viewMode = 'list', garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, header, footer, initialOffset = 0, onOffsetChange, options = DEFAULT_PLANT_LIST_OPTIONS, onResetFilters }: {
   viewMode?: 'grid' | 'list'; garden?: HomeGarden | null; searchQuery: string; setSearchQuery(value: string): void; statusFilter: string | null; setStatusFilter(value: string | null): void;
-  options?: PlantListOptions; onResetFilters?(): void; footer?: React.ReactElement; initialOffset?: number; onOffsetChange(offset: number): void;
+  options?: PlantListOptions; onResetFilters?(): void; header?: React.ReactElement; footer?: React.ReactElement; initialOffset?: number; onOffsetChange(offset: number): void;
 }) {
   const t = useAppTheme();
   const s = makeStyles(t);
@@ -65,6 +65,7 @@ export default function PlantListScreen({ viewMode = 'list', garden, searchQuery
         {hasFilters && onResetFilters && <Pressable accessibilityRole="button" onPress={onResetFilters} style={s.action}><Text style={{ color: t.accent }}>Reset filters</Text></Pressable>}
         {!!searchQuery && <Pressable accessibilityRole="button" onPress={() => setSearchQuery('')} style={s.action}><Text style={{ color: t.accent }}>Clear search</Text></Pressable>}
       </View> : null}
+      ListHeaderComponent={header}
       ListFooterComponent={footer}
       renderItem={({ item }) => viewMode === 'grid' ? <View style={{ width: Math.max(0, (layoutWidth - 46) / 2), marginBottom: 10 }}><PlantGridCard plant={item} onPress={() => openPlant(item)} onWater={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} /></View> : <PlantCard plant={item} showEnvironment={false} onPress={() => openPlant(item)} onAddLog={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} />}
     />
