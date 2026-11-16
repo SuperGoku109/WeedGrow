@@ -21,10 +21,10 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
   const uri = getRenderablePlantImageUri(plant.imageUri);
   const [failed, setFailed] = React.useState(false);
   React.useEffect(() => setFailed(false), [uri]);
-  return <View style={[s.card, { backgroundColor: t.surface, borderColor: t.border }]}>
+  return <View style={[s.card, { backgroundColor: t.surface }]}>
     <View pointerEvents="none" style={s.decoration}><MaterialCommunityIcons name="leaf" size={84} color={t.accent} style={{ opacity: .07 }} /></View>
     <GrowPress accessibilityRole="button" accessibilityLabel={`Open ${plant.name}`} onPress={onPress} style={s.details}>
-      <View style={[s.photo, { backgroundColor: t.elevated, borderColor: `${color}80` }]}>
+      <View style={[s.photo, { backgroundColor: t.elevated }]}>
         {uri && !failed ? <PlantImage accessibilityLabel={`${plant.name} photo`} source={{ uri }} resizeMode="cover" onError={() => setFailed(true)} style={StyleSheet.absoluteFillObject} /> : <MaterialCommunityIcons name="sprout" size={42} color={color} />}
       </View>
       <Text numberOfLines={2} style={[s.name, { color: t.text }]}>{plant.name}</Text>
@@ -43,10 +43,10 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
   </View>;
 }
 const s = StyleSheet.create({
-  card: { flex: 1, borderWidth: 1, borderRadius: 18, overflow: 'hidden', padding: 10, gap: 8 },
+  card: { flex: 1, borderRadius: 18, overflow: 'hidden', padding: 10, gap: 8 },
   decoration: { position: 'absolute', top: -14, left: -24, transform: [{ rotate: '-25deg' }] },
   details: { alignItems: 'stretch', gap: 4, flex: 1 },
-  photo: { width: '100%', aspectRatio: 1.3, borderRadius: 13, borderWidth: 1, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
+  photo: { width: '100%', aspectRatio: 1.3, borderRadius: 13, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   name: { fontSize: 16, lineHeight: 20, fontWeight: '700', textAlign: 'left', marginTop: 2 },
   meta: { fontSize: 11, lineHeight: 16, textAlign: 'left' },
   facts: { flexDirection: 'row', flexWrap: 'nowrap', justifyContent: 'flex-start', alignItems: 'center', gap: 4, marginTop: 2, width: '100%' },

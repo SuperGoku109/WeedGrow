@@ -59,7 +59,7 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
 }
 
 const makeStyles = (colors: typeof gardenThemes.grove) => StyleSheet.create({
-  card: { marginBottom: 10, borderRadius: 20, backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, overflow: 'hidden' },
+  card: { marginBottom: 10, borderRadius: 20, backgroundColor: colors.surface, overflow: 'hidden' },
   details: { paddingVertical: 8, justifyContent: 'center', gap: 5 },
   photoSlot: { position: 'absolute', left: 10, top: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },
   photo: { borderRadius: 12, overflow: 'hidden', backgroundColor: colors.elevated },
