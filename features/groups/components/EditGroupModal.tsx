@@ -1,7 +1,8 @@
 import CloseButton from '@/ui/CloseButton';
 import { sameLocation } from '@/features/location/locationState';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { Modal, View, StyleSheet, TextInput, ScrollView, Pressable, Text, KeyboardAvoidingView, Platform } from 'react-native';
+import { Modal, View, StyleSheet, TextInput, Pressable, Text } from 'react-native';
+import { KeyboardAwareScrollView, KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { GroupWithId } from '../api/groupApi';
 import type { PlantWithId } from '../hooks/useGroupDetail';
@@ -76,7 +77,7 @@ export default function EditGroupModal({ visible, group, allPlants, onClose, onS
   };
   if (!visible || !group) return null;
   return <Modal visible transparent animationType={reduced ? 'none' : 'fade'} onRequestClose={() => { if (!saving) guard.requestClose(onClose); }}>
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.overlay}>
+    <KeyboardAvoidingView style={styles.overlay}>
       <View accessibilityViewIsModal style={styles.modal}>
         <View style={styles.header}>
           <View style={{ flex: 1 }}>
@@ -85,7 +86,7 @@ export default function EditGroupModal({ visible, group, allPlants, onClose, onS
           </View>
           <CloseButton label="Close garden settings" disabled={saving} onPress={() => guard.requestClose(onClose)} color={ink.text} />
         </View>
-        <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={styles.body}>
+        <KeyboardAwareScrollView bottomOffset={24} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.body}>
           <Text style={styles.label}>Garden name</Text>
           <TextInput accessibilityLabel="Garden name" value={name} onChangeText={setName} editable={!saving} maxLength={40} style={styles.input} placeholder="Give this space a name" placeholderTextColor={ink.muted} />
           {!settingsOnly && <><View style={styles.sectionRow}><Text style={styles.label}>Plants in this garden</Text><Text style={styles.count}>{plantIds.length} selected</Text></View>
@@ -115,7 +116,7 @@ export default function EditGroupModal({ visible, group, allPlants, onClose, onS
             </Pressable>
           )}
           {!!error && <Text accessibilityRole="alert" style={styles.error}>{error}</Text>}
-        </ScrollView>
+        </KeyboardAwareScrollView>
         <View style={styles.footer}>
           <CollectionButton label="Cancel" disabled={saving} onPress={() => guard.requestClose(onClose)} />
           <CollectionButton label={saving ? 'Saving…' : locating ? 'Finding location…' : 'Save changes'} primary disabled={saving || locating || !onSave} onPress={save} icon="check" />

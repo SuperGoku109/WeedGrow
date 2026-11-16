@@ -8,6 +8,7 @@ import { journalCategory, localDateKey } from '@/lib/logs/plantJournal';
 import { GrowPress } from '@/ui/GrowMotion';
 import { Field, useFlowTheme } from '@/features/addPlant/components/FlowUI';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 export default function GardenJournal() {
   const { palette, s } = useFlowTheme();
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function GardenJournal() {
   const [datesOpen, setDatesOpen] = React.useState(false);
   const { entries, more, busy, error, searched, search } = useJournalSearch(garden.plants, start, end, 25, !garden.loading);
   const results = entries.filter(entry => (category === 'all' || journalCategory(entry) === category) && `${entry.plantName} ${entry.description || ''}`.toLowerCase().includes(text.toLowerCase()));
-  return <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={{ flex: 1, backgroundColor: palette.bg }}><ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 20, gap: 16, width: '100%', maxWidth: 760, alignSelf: 'center' }}>
+  return <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={{ flex: 1, backgroundColor: palette.bg }}><KeyboardAwareScrollView bottomOffset={24} keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 20, gap: 16, width: '100%', maxWidth: 760, alignSelf: 'center' }}>
     <GrowPress accessibilityRole="button" onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)?tabIndex=1')} style={{ minHeight: 40, justifyContent: 'center' }}><Text style={{ color: palette.accent, fontSize: 15 }}>← Garden</Text></GrowPress><Text accessibilityRole="header" style={{ color: palette.ink, fontSize: 28, lineHeight: 34, fontWeight: '700' }}>Garden journal</Text>
     <Field label="Find an observation" value={text} onChangeText={setText} placeholder="Plant name or observation" returnKeyType="search" />
     <GrowPress accessibilityRole="button" accessibilityState={{ expanded: datesOpen }} onPress={() => setDatesOpen(value => !value)} style={{ minHeight: 40, justifyContent: 'center' }}><Text style={{ color: palette.accent, fontSize: 15 }}>{datesOpen ? 'Hide date range −' : 'Filter by date range +'}</Text></GrowPress>
@@ -32,5 +33,5 @@ export default function GardenJournal() {
     {results.map(entry => <GrowPress key={`${entry.plantId}/${entry.id}`} accessibilityRole="button" onPress={() => router.push({ pathname: '/plant/[id]', params: { id: entry.plantId } })} style={{ padding: 18, borderRadius: 16, backgroundColor: palette.panel }}><Text style={{ color: palette.ink, fontWeight: '700' }}>{entry.plantName} · {journalCategory(entry)}</Text><Text style={s.hint}>{entry.timestamp.toDate().toLocaleString()}</Text><Text style={s.hint}>{entry.description || 'Activity recorded.'}</Text></GrowPress>)}
     {more && <GrowPress accessibilityRole="button" disabled={busy} onPress={() => void search(true)} style={{ padding: 14 }}><Text style={{ color: palette.accent }}>Load older entries</Text></GrowPress>}
     {!busy && !!entries.length && !results.length && <Text style={s.hint}>No loaded observations match. Try another category or clear your search.</Text>}
-  </ScrollView></SafeAreaView>;
+  </KeyboardAwareScrollView></SafeAreaView>;
 }

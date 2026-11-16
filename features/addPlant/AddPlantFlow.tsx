@@ -1,6 +1,7 @@
 import CloseButton from '@/ui/CloseButton';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Animated, BackHandler, Easing, Keyboard, KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { ActivityIndicator, Animated, BackHandler, Easing, Keyboard, Modal, Platform, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { KeyboardAwareScrollView, KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
@@ -138,7 +139,7 @@ export default function AddPlantFlow() {
       <View style={styles.main}>
         <View style={styles.progressHeader}><Text style={styles.eyebrow}>STEP {String(step + 1).padStart(2, '0')} / 05</Text><Text style={s.hint}>{current.label}</Text></View>
         <View style={styles.progressTrack}><Animated.View style={[styles.progressFill, { width: progress.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }]} /></View>
-        <ScrollView ref={scroll} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 28 }}>
+        <KeyboardAwareScrollView ref={scroll} bottomOffset={24} keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 28 }}>
           <View ref={contentRoot} collapsable={false}><ValidationContext.Provider value={validationContext}><Animated.View style={{ opacity: transition, transform: [{ translateY: transition.interpolate({ inputRange: [0, 1], outputRange: [14, 0] }) }] }}>
             <View style={[styles.intro, step === 0 && { paddingVertical: 18, gap: 6 }]}><Text accessibilityRole="header" style={[styles.title, !wide && { fontSize: 30 }, step === 0 && { fontSize: 26, lineHeight: 32, letterSpacing: -0.7 }]}>{current.title}</Text><Text style={styles.subtitle}>{current.subtitle}</Text></View>
             <View style={[styles.formPanel, (!wide || step === 0) && { padding: 0, borderWidth: 0, backgroundColor: 'transparent' }]} pointerEvents={saving ? 'none' : 'auto'}>
@@ -149,7 +150,7 @@ export default function AddPlantFlow() {
               {step === 4 && <><View style={{ marginBottom: 20, gap: 8 }}><Text style={s.label}>{user ? `Saving to ${user.email || 'your garden account'}` : 'Sign in when you’re ready to save'}</Text><Text style={s.hint}>{user ? 'This plant will belong to your account.' : 'You can review and edit everything first. Your draft is kept on this device.'}</Text></View><ReviewStep form={normalizePlantForm(form)} edit={target => { if (!savingRef.current) { setEditing(true); go(target); } }} /></>}
             </View>
           </Animated.View></ValidationContext.Provider></View>
-        </ScrollView>
+        </KeyboardAwareScrollView>
         <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>
           {!!saveError && <Text accessibilityRole="alert" style={s.error}>{saveError}</Text>}
           {!!draftError ? <Text accessibilityRole="alert" style={s.error}>{draftError}</Text> : !!savedAt && <Text accessibilityLiveRegion="polite" style={s.hint}>Draft saved on this device</Text>}
@@ -160,10 +161,10 @@ export default function AddPlantFlow() {
     </View>
   </>;
   if (!ready && !success) return <SafeAreaView style={[styles.screen, { alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator accessibilityLabel="Restoring your draft" color={palette.accent} /></SafeAreaView>;
-  return <SafeAreaView style={styles.screen} edges={['top']}><KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>{content}</KeyboardAvoidingView>
+  return <SafeAreaView style={styles.screen} edges={['top']}><KeyboardAvoidingView style={{ flex: 1 }}>{content}</KeyboardAvoidingView>
     <Modal visible={exitOpen} transparent animationType={reduced ? 'none' : 'fade'} onRequestClose={() => setExitOpen(false)}><View style={styles.scrim}><View style={styles.dialog}><View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}><Icon name="sprout-outline" size={30} /><CloseButton label="Close leave plant confirmation" onPress={() => setExitOpen(false)} color={palette.ink} /></View><Text style={s.sectionTitle}>Leave this plant for now?</Text><Text style={s.hint}>Save a draft to finish later, or discard it and start fresh.</Text><Press label="Keep adding" onPress={() => setExitOpen(false)} style={s.button}><Text style={s.buttonText}>Keep adding</Text></Press><Press label="Save draft and leave" onPress={() => { void flushDraft().then(() => { setExitOpen(false); leave(); }).catch(() => setExitOpen(false)); }} style={[s.button, s.secondary]}><Text style={s.secondaryText}>Save draft and leave</Text></Press><Press label="Discard and leave" onPress={() => { void resetForm().then(() => { setExitOpen(false); leave(); }).catch(() => setSaveError('Could not discard the draft. Please try again.')); }} style={{ padding: 12 }}><Text style={s.hint}>Discard draft</Text></Press></View></View></Modal>
     <Modal visible={!!offer} transparent animationType="fade" onRequestClose={resumeDraft}><View style={styles.scrim}><View style={styles.dialog}><View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}><Icon name="sprout" size={30} /><CloseButton label="Close saved draft prompt" onPress={resumeDraft} color={palette.ink} /></View><Text style={s.sectionTitle}>Continue your plant?</Text><Text style={s.hint}>{offer?.form.name || 'Your plant draft'} is saved on this device. Pick up where you left off.</Text><Press label="Resume plant draft" onPress={resumeDraft} style={s.button}><Text style={s.buttonText}>Resume draft</Text></Press><Press label="Discard saved draft" onPress={() => { void resetForm().catch(() => setSaveError('Could not discard the saved draft.')); }} style={[s.button, s.secondary]}><Text style={s.secondaryText}>Start fresh</Text></Press></View></View></Modal>
-    <Modal visible={accountOpen} transparent animationType="slide" onRequestClose={() => setAccountOpen(false)}><KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.scrim}><View style={[styles.dialog, { maxWidth: 520, maxHeight: '94%' }]}><CloseButton label="Close garden account" onPress={() => setAccountOpen(false)} color={palette.ink} style={{ alignSelf: 'flex-end' }} /><ScrollView keyboardShouldPersistTaps="handled"><AccountPanel /></ScrollView></View></KeyboardAvoidingView></Modal>
+    <Modal visible={accountOpen} transparent animationType="slide" onRequestClose={() => setAccountOpen(false)}><KeyboardAvoidingView style={styles.scrim}><View style={[styles.dialog, { maxWidth: 520, maxHeight: '94%' }]}><CloseButton label="Close garden account" onPress={() => setAccountOpen(false)} color={palette.ink} style={{ alignSelf: 'flex-end' }} /><KeyboardAwareScrollView bottomOffset={24} keyboardShouldPersistTaps="handled"><AccountPanel /></KeyboardAwareScrollView></View></KeyboardAvoidingView></Modal>
   </SafeAreaView>;
 }
 

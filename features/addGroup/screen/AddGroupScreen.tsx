@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, View, TextInput, Text } from 'react-native';
+import { View, TextInput, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import { PlantSelection } from '../components/PlantSelection';
@@ -12,6 +12,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 import { getGroupById, updateGroup, type GroupWithId } from '@/features/groups/api/groupApi';
 import LocationPicker from '@/features/location/LocationPicker';
 import { validCoordinates } from '@/features/location/locationService';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
 export default function AddGroupScreen() {
   const ink = useCollectionTheme();
@@ -103,7 +104,7 @@ export default function AddGroupScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: t.background }}>
       <HomeBackground />
-      <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 22, width: '100%', maxWidth: 660, alignSelf: 'center', gap: 16, paddingBottom: 40 }}>
+      <KeyboardAwareScrollView bottomOffset={24} keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 22, width: '100%', maxWidth: 660, alignSelf: 'center', gap: 16, paddingBottom: 40 }}>
         <View style={{ alignSelf: 'flex-start' }}><CollectionButton label="Back to garden" icon="arrow-left" onPress={() => router.back()} disabled={submitting || adding} /></View>
         <Text style={{ color: ink.lime, fontSize: 10, letterSpacing: 2, marginTop: 12 }}>BETTER TOGETHER</Text>
         <ThemedText type="title" style={{ color: ink.text, fontSize: 34, lineHeight: 40, letterSpacing: -1 }}>
@@ -165,7 +166,7 @@ export default function AddGroupScreen() {
           <CollectionButton label={primaryLabel} primary icon="check" onPress={onPrimaryAction}
             disabled={loading || submitting || adding || groupLoading || selectedPlantIds.length === 0 || (!isAddToGroupMode && (!groupName.trim() || !validCoordinates(location) || locationBusy)) || (isAddToGroupMode && !existingGroup)} />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 }

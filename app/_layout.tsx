@@ -20,6 +20,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 export default function RootLayout() {
   const t = useAppTheme();
@@ -39,7 +40,7 @@ export default function RootLayout() {
   return (
     <AppErrorBoundary theme={t}><GestureHandlerRootView style={{ flex: 1, backgroundColor: t.background }}>
       <Head><title>BudBuddy</title></Head>
-      <SafeAreaProvider>
+      <KeyboardProvider><SafeAreaProvider>
         <PaperProvider theme={theme}>
             <GardenWeatherProvider><NotificationNavigation />
             <ReminderCoordinator />
@@ -49,7 +50,7 @@ export default function RootLayout() {
             </Stack></RouteTransition></NavigationThemeProvider>
             <StatusBar style={light ? "dark" : "light"} /></GardenWeatherProvider>
         </PaperProvider>
-      </SafeAreaProvider>
+      </SafeAreaProvider></KeyboardProvider>
     </GestureHandlerRootView></AppErrorBoundary>
   );
 }

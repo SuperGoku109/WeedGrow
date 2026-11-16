@@ -1,6 +1,7 @@
 import { createSensorProfileId, saveSensorProfile } from '@/services/sensorProfiles';
 import React, { useState } from 'react';
-import { StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { KeyboardAwareScrollView, KeyboardAvoidingView } from 'react-native-keyboard-controller';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput, Button, Text, SegmentedButtons } from 'react-native-paper';
 import { useRouter } from 'expo-router';
@@ -42,8 +43,8 @@ export default function AddSensorProfileScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: t.background }}>
-      <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={styles.container}>
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+        <KeyboardAwareScrollView bottomOffset={24} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.container}>
           <Text style={styles.heading}>Add Sensor Profile</Text>
           {!!error && <Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text>}
           <TextInput dense mode="outlined"
@@ -109,7 +110,7 @@ export default function AddSensorProfileScreen() {
           >
             Save Profile
           </Button>
-        </ScrollView>
+        </KeyboardAwareScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
