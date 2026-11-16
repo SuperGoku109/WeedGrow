@@ -14,7 +14,7 @@ interface Props {
   historyStatus: 'loading' | 'error' | 'ready'; theme: PlantTheme; minimum?: string; canGoBack: boolean;
   onSelect(day: string): void; onJump(day: string): void; onMove(direction: number): void; onToday(): void; onSearch(): void;
 }
-export default function JournalDateNavigator({ today, selected, dates, logs, historyStatus, theme: t, minimum, canGoBack, onSelect, onJump, onMove, onToday, onSearch }: Props) {
+function JournalDateNavigator({ today, selected, dates, logs, historyStatus, theme: t, minimum, canGoBack, onSelect, onJump, onMove, onToday, onSearch }: Props) {
   const [calendarOpen, setCalendarOpen] = React.useState(false);
   const reduced = useReducedMotion();
   const [calendarMonth, setCalendarMonth] = React.useState(selected.slice(0, 7) + '-01');
@@ -72,3 +72,4 @@ export default function JournalDateNavigator({ today, selected, dates, logs, his
     </Modal>
   </View>;
 }
+export default React.memo(JournalDateNavigator);

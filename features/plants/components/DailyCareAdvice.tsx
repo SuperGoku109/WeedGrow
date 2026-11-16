@@ -8,7 +8,7 @@ import type { JournalCategory } from '@/lib/logs/plantJournal';
 import type { PlantTheme } from './plantDetailTheme';
 import { careAction, careFacts } from '../careSuggestionPresentation';
 
-export default function DailyCareAdvice({ cards, loading, error, hasLocation, theme: t, onRefresh, onRecord, canRecord = true }: {
+function DailyCareAdvice({ cards, loading, error, hasLocation, theme: t, onRefresh, onRecord, canRecord = true }: {
   cards: SuggestionCard[]; loading: boolean; error: string; hasLocation: boolean; theme: PlantTheme; onRefresh(): void;
   onRecord?(category: JournalCategory, context?: 'soil-check'): void; canRecord?: boolean;
 }) {
@@ -47,3 +47,4 @@ export default function DailyCareAdvice({ cards, loading, error, hasLocation, th
 const s = StyleSheet.create({
   panel: { marginTop: 16, padding: 16, borderRadius: 18, gap: 12 },
 });
+export default React.memo(DailyCareAdvice);
