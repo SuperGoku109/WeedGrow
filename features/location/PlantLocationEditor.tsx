@@ -1,12 +1,14 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import LocationPicker from './LocationPicker';
-import { defaultLocationTheme, type LocationTheme } from './locationTheme';
+import { type LocationTheme } from './locationTheme';
 import { useSavedLocations } from './SavedLocations';
 import type { Coordinates } from './locationService';
-export default function PlantLocationEditor({ groupId, mode = 'custom', onModeChange, displayName, theme = defaultLocationTheme, compact = false, ...props }: { displayName?: string; theme?: LocationTheme; compact?: boolean; groupId?: string | null; mode?: 'custom' | 'space'; onModeChange(mode: 'custom' | 'space'): void; location?: Coordinates | null; label?: string; onChange(coords: Coordinates | null, label: string): void; disabled?: boolean; onBusyChange?(busy: boolean): void }) {
-  const t = theme;
+export default function PlantLocationEditor({ groupId, mode = 'custom', onModeChange, displayName, theme, compact = false, ...props }: { displayName?: string; theme?: LocationTheme; compact?: boolean; groupId?: string | null; mode?: 'custom' | 'space'; onModeChange(mode: 'custom' | 'space'): void; location?: Coordinates | null; label?: string; onChange(coords: Coordinates | null, label: string): void; disabled?: boolean; onBusyChange?(busy: boolean): void }) {
+  const appTheme = useAppTheme();
+  const t = theme ?? appTheme;
   const { spaces, loading, error, retry } = useSavedLocations();
   const garden = spaces.find(item => item.id === groupId);
   const name = garden?.name || 'your garden';

@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -40,6 +41,7 @@ export function useEditDraft<T>(scope: string, value: T, source: EditBaseline, d
   return { ready: !key || loaded === key, saved, error, baseline, clear, recover, discard };
 }
 export function DraftRecovery<T>({ draft, apply, theme }: { draft: ReturnType<typeof useEditDraft<T>>; apply(value: T): void; theme?: { text: string; muted: string; accent: string; surface: string; danger: string } }) {
-  const t = theme || { text: '#edf0e3', muted: '#bdcbb7', accent: '#d2e4a2', surface: '#29402f', danger: '#ffce9b' };
+  const appTheme = useAppTheme();
+  const t = theme ?? appTheme;
   return <View style={{ gap: 8 }}>{!!draft.error && <Text style={{ color: t.danger }}>{draft.error}</Text>}{draft.saved && <View style={{ padding: 12, backgroundColor: t.surface, borderRadius: 10, gap: 8 }}><Text style={{ color: t.text }}>Unfinished edits saved {new Date(draft.saved.savedAt).toLocaleString()}. Recover them or start with the current details.</Text><Pressable accessibilityRole="button" onPress={() => draft.recover(apply)} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Resume unfinished edits</Text></Pressable><Pressable accessibilityRole="button" onPress={() => void draft.discard()} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Start new</Text></Pressable></View>}</View>;
 }

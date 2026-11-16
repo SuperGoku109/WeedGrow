@@ -18,7 +18,7 @@ jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: jest.requireA
 jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
 jest.mock('../components/PlantEditorFields', () => {
   const React = jest.requireActual('react'), { TextInput, View } = jest.requireActual('react-native');
-  return { EditorTheme: React.createContext({}), EditorField: ({ label, ...props }: any) => React.createElement(TextInput, { ...props, accessibilityLabel: label }), EditorSelect: ({ label, ...props }: any) => React.createElement(View, { ...props, accessibilityLabel: label }) };
+  return { ...jest.requireActual('../components/PlantEditorFields'), EditorField: ({ label, ...props }: any) => React.createElement(TextInput, { ...props, accessibilityLabel: label }), EditorSelect: ({ label, ...props }: any) => React.createElement(View, { ...props, accessibilityLabel: label }) };
 });
 jest.mock('../components/EditorPotSize', () => () => null);
 jest.mock('../components/PlantDateField', () => ({ __esModule: true, default: () => null, displayDay: (day: string) => day }));

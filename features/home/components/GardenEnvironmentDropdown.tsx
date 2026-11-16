@@ -1,11 +1,10 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { View } from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { gardenThemes } from '@/design-system/tokens/garden';
 import type { Group } from '@/firestoreModels';
 
-const t = gardenThemes.grove;
 const options = [
   { label: 'Outdoor', value: 'outdoor' as const },
   { label: 'Indoor', value: 'indoor' as const },
@@ -15,6 +14,7 @@ const options = [
 export default function GardenEnvironmentDropdown({ value, onChange, disabled }: {
   value: Group['environment']; onChange(value: Group['environment']): void; disabled: boolean;
 }) {
+  const t = useAppTheme();
   const [open, setOpen] = React.useState(false);
   React.useEffect(() => { if (disabled) setOpen(false); }, [disabled]);
   return <View style={{ zIndex: 1000 }}>

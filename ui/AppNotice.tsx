@@ -43,7 +43,7 @@ export default function AppNotice({ visible, onDismiss, children, detail, action
   const error = !!actionError || content.tone === 'error';
   const color = error ? t.danger : content.tone === 'success' ? t.accent : t.water;
   return <Portal><View pointerEvents="box-none" style={[s.anchor, { bottom: bottom + insets.bottom }, style]}>
-    <Animated.View pointerEvents={visible ? 'auto' : 'none'} accessibilityElementsHidden={!visible} aria-hidden={!visible} style={[s.notice, { opacity: progress, transform: [{ translateY: progress.interpolate({ inputRange: [0, 1], outputRange: [16, 0] }) }, { scale: progress.interpolate({ inputRange: [0, 1], outputRange: [0.97, 1] }) }] }]}>
+    <Animated.View testID="app-notice" pointerEvents={visible ? 'auto' : 'none'} accessibilityElementsHidden={!visible} aria-hidden={!visible} style={[s.notice, { opacity: progress, transform: [{ translateY: progress.interpolate({ inputRange: [0, 1], outputRange: [16, 0] }) }, { scale: progress.interpolate({ inputRange: [0, 1], outputRange: [0.97, 1] }) }] }]}>
       <MaterialCommunityIcons name={error ? 'alert-circle-outline' : content.tone === 'success' ? 'check-circle-outline' : 'information-outline'} size={22} color={color} accessible={false} />
       <View style={{ flex: 1, gap: 2 }}><Text accessibilityRole={error ? 'alert' : undefined} accessibilityLiveRegion="polite" style={[s.message, content.detail && !error ? { fontWeight: '600' } : undefined]}>{actionError || content.children}</Text>{!!content.detail && !error && <Text style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>{content.detail}</Text>}</View>
       {content.action && <GrowPress accessibilityRole="button" accessibilityLabel={busy ? `${content.action.label}, working` : actionError ? `Retry ${content.action.label}` : content.action.label} accessibilityState={{ busy, disabled: busy }} disabled={busy} onPress={async () => {
@@ -58,9 +58,9 @@ export default function AppNotice({ visible, onDismiss, children, detail, action
 }
 const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   anchor: { position: 'absolute', left: 16, right: 16, alignItems: 'center' },
-  notice: { width: '100%', maxWidth: 520, minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: 10, paddingLeft: 16, paddingRight: 6, paddingVertical: 8, borderRadius: 20, backgroundColor: '#263d30', borderWidth: 1, borderColor: '#577050', boxShadow: '0px 10px 32px rgba(4,15,9,0.32)' },
+  notice: { width: '100%', maxWidth: 520, minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: 10, paddingLeft: 16, paddingRight: 6, paddingVertical: 8, borderRadius: 20, backgroundColor: t.surface, borderWidth: 1, borderColor: t.border, boxShadow: `0px 10px 32px ${t.shadow}52` },
   message: { color: t.text, fontSize: 14, lineHeight: 20 },
-  action: { minHeight: 40, paddingHorizontal: 10, justifyContent: 'center', borderRadius: 12, backgroundColor: '#354e35' },
+  action: { minHeight: 40, paddingHorizontal: 10, justifyContent: 'center', borderRadius: 12, backgroundColor: t.elevated },
   actionText: { color: t.accent, fontSize: 13, fontWeight: '700' },
   dismiss: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
 });

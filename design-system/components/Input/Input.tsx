@@ -1,3 +1,4 @@
+import { useTheme } from '@/design-system/utils/useTheme';
 // design-system/components/Input/Input.tsx
 /**
  * Enhanced Input Component with Design System Integration
@@ -12,7 +13,7 @@ import {
   View,
 } from 'react-native';
 import { Text } from '../Text/Text';
-import { ColorTokens, Spacing, BorderRadius, Typography } from '../../tokens';
+import { Spacing, BorderRadius, Typography } from '../../tokens';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export interface InputProps extends TextInputProps {
@@ -36,6 +37,7 @@ export const Input = forwardRef<TextInput, InputProps>(({
   style,
   ...props
 }, ref) => {
+  const { colors } = useTheme();
   const [isFocused, setIsFocused] = React.useState(false);
 
   const containerStyle = React.useMemo(() => {
@@ -63,29 +65,29 @@ export const Input = forwardRef<TextInput, InputProps>(({
     if (variant === 'outlined') {
       baseStyle.borderWidth = 1;
       baseStyle.borderColor = error
-        ? ColorTokens.status.error
+        ? colors.status.error
         : isFocused
-        ? ColorTokens.brand.primary
-        : ColorTokens.border.primary;
-      baseStyle.backgroundColor = ColorTokens.background.primary;
+        ? colors.brand.primary
+        : colors.border.primary;
+      baseStyle.backgroundColor = colors.background.primary;
     } else {
-      baseStyle.backgroundColor = ColorTokens.background.secondary;
+      baseStyle.backgroundColor = colors.background.secondary;
     }
 
     return baseStyle;
-  }, [variant, error, isFocused]);
+  }, [variant, error, isFocused, colors]);
 
   const inputStyle = React.useMemo(() => {
     return [
       {
         flex: 1,
         fontSize: Typography.sizes.base,
-        color: ColorTokens.text.primary,
+        color: colors.text.primary,
         padding: 0, // Remove default padding
       },
       style,
     ];
-  }, [style]);
+  }, [style, colors]);
 
   const handleFocus = (e: any) => {
     setIsFocused(true);
@@ -105,7 +107,7 @@ export const Input = forwardRef<TextInput, InputProps>(({
           color={error ? 'primary' : 'secondary'}
           style={{
             marginBottom: Spacing.xs,
-            color: error ? ColorTokens.status.error : ColorTokens.text.secondary,
+            color: error ? colors.status.error : colors.text.secondary,
           }}
         >
           {label}
@@ -117,7 +119,7 @@ export const Input = forwardRef<TextInput, InputProps>(({
           <MaterialCommunityIcons
             name={icon}
             size={20}
-            color={error ? ColorTokens.status.error : ColorTokens.text.secondary}
+            color={error ? colors.status.error : colors.text.secondary}
             style={{ marginRight: Spacing.sm }}
           />
         )}
@@ -125,7 +127,7 @@ export const Input = forwardRef<TextInput, InputProps>(({
         <TextInput
           ref={ref}
           style={inputStyle}
-          placeholderTextColor={ColorTokens.text.tertiary}
+          placeholderTextColor={colors.text.tertiary}
           onFocus={handleFocus}
           onBlur={handleBlur}
           {...props}
@@ -135,7 +137,7 @@ export const Input = forwardRef<TextInput, InputProps>(({
           <MaterialCommunityIcons
             name={icon}
             size={20}
-            color={error ? ColorTokens.status.error : ColorTokens.text.secondary}
+            color={error ? colors.status.error : colors.text.secondary}
             style={{ marginLeft: Spacing.sm }}
           />
         )}
@@ -147,7 +149,7 @@ export const Input = forwardRef<TextInput, InputProps>(({
           color={error ? 'primary' : 'secondary'}
           style={{
             marginTop: Spacing.xs,
-            color: error ? ColorTokens.status.error : ColorTokens.text.secondary,
+            color: error ? colors.status.error : colors.text.secondary,
           }}
         >
           {error || helper}

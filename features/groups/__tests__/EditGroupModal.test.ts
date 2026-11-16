@@ -9,7 +9,7 @@ jest.mock('@/features/location/LocationPicker', () => ({ __esModule: true, defau
 jest.mock('@/ui/GrowMotion', () => ({ ...jest.requireActual('@/ui/GrowMotion'), useReducedMotion: () => true }));
 jest.mock('@expo/vector-icons', () => ({ MaterialCommunityIcons: () => null }));
 jest.mock('@/ui/useDiscardGuard', () => ({ useDiscardGuard: () => ({ dialog: null, finish: (action: () => void) => action(), requestClose: (action: () => void) => action() }) }));
-jest.mock('../components/CollectionUI', () => ({ ink: {}, CollectionButton: () => null }));
+jest.mock('../components/CollectionUI', () => ({ ...jest.requireActual('../components/CollectionUI'), CollectionButton: () => null }));
 it('blocks saving until device location finishes and previews followers separately', async () => {
   const save = jest.fn(); let renderer: any;
   const group = { id: 'space', name: 'Patio', environment: 'outdoor', plantIds: ['follow', 'custom'], location: { lat: 1, lng: 2 } } as any;

@@ -5,7 +5,7 @@ const STYLE_ID = 'weedgrow-home-scrollbar';
 const scrollbarCss = `
   [data-testid="home-groups-list"],
   [data-testid="home-plants-list"] {
-    scrollbar-color: #9fbd70 rgba(19, 34, 25, 0.55);
+    scrollbar-color: var(--garden-muted) var(--garden-background);
     scrollbar-width: thin;
   }
 
@@ -16,7 +16,7 @@ const scrollbarCss = `
 
   [data-testid="home-groups-list"]::-webkit-scrollbar-track,
   [data-testid="home-plants-list"]::-webkit-scrollbar-track {
-    background: rgba(19, 34, 25, 0.55);
+    background: var(--garden-background);
     border-radius: 999px;
   }
 
@@ -29,14 +29,14 @@ const scrollbarCss = `
 
   [data-testid="home-groups-list"]::-webkit-scrollbar-thumb,
   [data-testid="home-plants-list"]::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #c8e78b 0%, #779957 100%);
-    border: 2px solid #182a20;
+    background: linear-gradient(180deg, var(--garden-accent) 0%, var(--garden-accent) 100%);
+    border: 2px solid var(--garden-background);
     border-radius: 999px;
   }
 
   [data-testid="home-groups-list"]::-webkit-scrollbar-thumb:hover,
   [data-testid="home-plants-list"]::-webkit-scrollbar-thumb:hover {
-    background: #c8e78b;
+    background: var(--garden-accent);
   }
 `;
 

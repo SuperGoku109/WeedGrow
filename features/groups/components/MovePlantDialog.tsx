@@ -2,17 +2,17 @@ import React from 'react';
 import { Pressable, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import ActionDialog from '@/ui/ActionDialog';
-import { gardenThemes } from '@/design-system/tokens/garden';
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { newLogId } from '@/lib/logs/journalRepository';
 import { movePlantToGarden } from '../api/movePlant';
 import { gardenMoveSignature } from '../gardenMove';
 import type { HomeGarden } from '@/features/home/gardenSelection';
 import type { Plant } from '@/firestoreModels';
 
-const t = gardenThemes.grove;
 export default function MovePlantDialog({ plant, gardens, onClose, onMoved }: {
   plant: Plant & { id: string }; gardens: HomeGarden[]; onClose(): void; onMoved(name: string): void;
 }) {
+  const t = useAppTheme();
   const source = gardens.find(garden => plant.groupId ? garden.id === plant.groupId : garden.plantIds.includes(plant.id));
   const [destination, setDestination] = React.useState<HomeGarden | null>(null);
   const [follow, setFollow] = React.useState(plant.locationMode === 'space');
@@ -24,7 +24,7 @@ export default function MovePlantDialog({ plant, gardens, onClose, onMoved }: {
       expectedPlantUpdatedAt: plant.updatedAt?.toMillis?.() || null, destinationSignature: gardenMoveSignature(destination), followGarden: follow || crossEnvironment, requestId });
     onMoved(destination.name);
   }}>{busy => <View style={{ gap: 10 }}>
-    {gardens.filter(garden => garden.id !== source?.id).map(garden => <Pressable key={garden.id} accessibilityRole="radio" accessibilityLabel={`Move to ${garden.name}`} accessibilityState={{ checked: destination?.id === garden.id, disabled: busy }} disabled={busy} onPress={() => setDestination(garden)} style={{ minHeight: 64, padding: 12, borderRadius: 14, borderWidth: 1, borderColor: destination?.id === garden.id ? t.accent : '#52684b', backgroundColor: destination?.id === garden.id ? t.elevated : t.background, flexDirection: 'row', alignItems: 'center', gap: 10 }}><View style={{ flex: 1, gap: 4 }}><Text style={{ color: t.text, fontSize: 16, fontWeight: '600' }}>{garden.name}</Text><Text style={{ color: t.muted, fontSize: 13, textTransform: 'capitalize' }}>{garden.environment}{garden.locationLabel ? ` · ${garden.locationLabel}` : ''}</Text></View>{destination?.id === garden.id && <MaterialCommunityIcons name="check" size={21} color={t.accent} />}</Pressable>)}
+    {gardens.filter(garden => garden.id !== source?.id).map(garden => <Pressable key={garden.id} accessibilityRole="radio" accessibilityLabel={`Move to ${garden.name}`} accessibilityState={{ checked: destination?.id === garden.id, disabled: busy }} disabled={busy} onPress={() => setDestination(garden)} style={{ minHeight: 64, padding: 12, borderRadius: 14, borderWidth: 1, borderColor: destination?.id === garden.id ? t.accent : t.border, backgroundColor: destination?.id === garden.id ? t.elevated : t.background, flexDirection: 'row', alignItems: 'center', gap: 10 }}><View style={{ flex: 1, gap: 4 }}><Text style={{ color: t.text, fontSize: 16, fontWeight: '600' }}>{garden.name}</Text><Text style={{ color: t.muted, fontSize: 13, textTransform: 'capitalize' }}>{garden.environment}{garden.locationLabel ? ` · ${garden.locationLabel}` : ''}</Text></View>{destination?.id === garden.id && <MaterialCommunityIcons name="check" size={21} color={t.accent} />}</Pressable>)}
     {gardens.filter(garden => garden.id !== source?.id).length === 0 && <Text style={{ color: t.muted, lineHeight: 21 }}>Create another garden from the garden dropdown, then move this plant here.</Text>}
     {destination && <View style={{ padding: 14, borderRadius: 14, backgroundColor: t.elevated, gap: 8 }}>
       <Text style={{ color: t.text, fontWeight: '600' }}>After the move</Text>

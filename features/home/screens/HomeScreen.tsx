@@ -210,5 +210,5 @@ const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   notice: { padding: 14, borderRadius: 14, backgroundColor: t.surface },
   textButton: { minHeight: 48, justifyContent: 'center', paddingVertical: 10 },
   footer: { gap: 8, paddingTop: 8, paddingBottom: 16 },
-  tool: { padding: 16, borderRadius: 18, borderWidth: 1, borderColor: '#40523a', flexDirection: 'row', alignItems: 'center', gap: 12 },
+  tool: { padding: 16, borderRadius: 18, borderWidth: 1, borderColor: t.border, flexDirection: 'row', alignItems: 'center', gap: 12 },
 });

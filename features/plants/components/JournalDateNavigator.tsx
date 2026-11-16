@@ -1,3 +1,4 @@
+import { colorAlpha } from '@/design-system/tokens/garden';
 import CloseButton from '@/ui/CloseButton';
 import React from 'react';
 import { Modal, ScrollView, Text, View } from 'react-native';
@@ -59,7 +60,7 @@ export default function JournalDateNavigator({ today, selected, dates, logs, his
     </View>
     {selected !== today && <GrowPress accessibilityRole="button" accessibilityLabel="Back to today" onPress={onToday} style={{ minHeight: 48, justifyContent: 'center' }}><Text style={{ color: t.accent, fontSize: 14, fontWeight: '600' }}>↩ Back to today</Text></GrowPress>}
     <Modal transparent visible={calendarOpen} animationType={reduced ? 'none' : 'fade'} onRequestClose={() => { setYearsOpen(false); setCalendarOpen(false); }}>
-      <View style={{ flex: 1, backgroundColor: '#08110ccc', justifyContent: 'center', alignItems: 'center', padding: 18 }}><ScrollView style={{ width: '100%', maxWidth: 430, maxHeight: '94%', flexGrow: 0, backgroundColor: t.surface, borderRadius: 24 }} contentContainerStyle={{ padding: 16 }} keyboardShouldPersistTaps="handled"><View accessibilityViewIsModal>
+      <View style={{ flex: 1, backgroundColor: colorAlpha(t.scrim, .8), justifyContent: 'center', alignItems: 'center', padding: 18 }}><ScrollView style={{ width: '100%', maxWidth: 430, maxHeight: '94%', flexGrow: 0, backgroundColor: t.surface, borderRadius: 24 }} contentContainerStyle={{ padding: 16 }} keyboardShouldPersistTaps="handled"><View accessibilityViewIsModal>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}><Text accessibilityRole="header" style={{ color: t.text, fontSize: 20, fontWeight: '700' }}>Choose a day</Text><CloseButton label="Close date picker" onPress={() => { setYearsOpen(false); setCalendarOpen(false); }} color={t.text} /></View>
         <View style={{ marginVertical: 10, zIndex: 2000 }}>
           <Text style={{ color: t.muted, fontSize: 13, marginBottom: 6 }}>Year</Text>

@@ -1,16 +1,18 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native';
 import PlantEditorSheet from '@/features/plants/components/PlantEditorSheet';
 import LocationPicker from '@/features/location/LocationPicker';
 import { validCoordinates, type Coordinates } from '@/features/location/locationService';
-import { gardenControls, gardenThemes } from '@/design-system/tokens/garden';
+import { gardenControls } from '@/design-system/tokens/garden';
 import { GrowPress } from '@/ui/GrowMotion';
 import type { Group } from '@/firestoreModels';
 import { createGarden, newGardenId } from '../api/createGarden';
 import GardenEnvironmentDropdown from './GardenEnvironmentDropdown';
 
-const t = gardenThemes.grove;
 export default function CreateGardenSheet({ onClose, onCreated }: { onClose(): void; onCreated(id: string): void }) {
+  const t = useAppTheme();
+  const s = makeStyles(t);
   const [requestId] = React.useState(newGardenId);
   const [name, setName] = React.useState('');
   const [environment, setEnvironment] = React.useState<Group['environment']>('outdoor');
@@ -35,7 +37,7 @@ export default function CreateGardenSheet({ onClose, onCreated }: { onClose(): v
     <View style={s.field}><Text style={s.label}>Location</Text><Text style={s.hint}>{environment === 'indoor' ? 'For local outdoor weather. Sensors track indoor conditions.' : 'We’ll start collecting local weather here.'}</Text><LocationPicker minimal compactFlow saveContext="garden" location={location} label={label} disabled={busy} onBusyChange={setLocating} onChange={(coords, nextLabel) => { setLocation(coords); setLabel(nextLabel); if (validCoordinates(coords)) Keyboard.dismiss(); }} /></View>
   </PlantEditorSheet>;
 }
-const s = StyleSheet.create({
+const makeStyles = (t: ReturnType<typeof useAppTheme>) => StyleSheet.create({
   field: { gap: 8 }, label: { color: t.text, fontSize: 14, fontWeight: '600' },
   hint: { color: t.muted, fontSize: 13, lineHeight: 19 },
   input: { minHeight: gardenControls.fieldHeight, paddingHorizontal: 14, borderWidth: 1, borderColor: t.border, borderRadius: 12, color: t.text, fontSize: 16, backgroundColor: t.surface },

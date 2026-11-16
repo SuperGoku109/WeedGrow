@@ -1,12 +1,11 @@
 import React from 'react';
 import { ScrollView, View, TextInput, Text } from 'react-native';
 import { Button } from 'react-native-paper';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { PlantSelection } from '../components/PlantSelection';
 import HomeBackground from '@/features/home/components/HomeBackground';
 import { ThemedText } from '@/ui/ThemedText';
-import { CollectionButton, ink } from '@/features/groups/components/CollectionUI';
+import { CollectionButton, useCollectionTheme } from '@/features/groups/components/CollectionUI';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAddGroup } from '../hooks/useAddGroup';
 import { useRouter, useLocalSearchParams } from 'expo-router';
@@ -15,7 +14,8 @@ import LocationPicker from '@/features/location/LocationPicker';
 import { validCoordinates } from '@/features/location/locationService';
 
 export default function AddGroupScreen() {
-  const theme = (useColorScheme() ?? 'dark') as 'light' | 'dark';
+  const ink = useCollectionTheme();
+  const t = useAppTheme();
   const router = useRouter();
   const { groupId } = useLocalSearchParams<{ groupId?: string }>();
 
@@ -101,7 +101,7 @@ export default function AddGroupScreen() {
   const title = isAddToGroupMode ? 'Move plants to garden' : 'Create garden';
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: t.background }}>
       <HomeBackground />
       <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 22, width: '100%', maxWidth: 660, alignSelf: 'center', gap: 16, paddingBottom: 40 }}>
         <View style={{ alignSelf: 'flex-start' }}><CollectionButton label="Back to garden" icon="arrow-left" onPress={() => router.back()} disabled={submitting || adding} /></View>
@@ -125,7 +125,7 @@ export default function AddGroupScreen() {
         {!isAddToGroupMode && <View style={{ gap: 8 }}><Text style={{ color: ink.text, fontWeight: '600' }}>Garden location · Required</Text><Text style={{ color: ink.muted, lineHeight: 21 }}>We’ll start saving local outdoor weather when you create this garden.</Text><LocationPicker compactFlow saveContext="garden" location={location} label={locationLabel} disabled={submitting} onBusyChange={setLocationBusy} onChange={(coords, label) => { setLocation(coords); setLocationLabel(label); }} /></View>}
         <Text style={{ color: ink.muted, fontSize: 13, lineHeight: 21 }}>Choose the plants that belong together. Members share the same environment. Adding a plant moves it from its previous garden.</Text>
         <Text style={{ color: ink.lime, fontSize: 13 }}>{selectedPlantIds.length} selected</Text>
-        {!!(saveError || submitError) && <Text accessibilityRole="alert" style={{ color: '#f0b5a0', lineHeight: 20 }}>{saveError || submitError}</Text>}
+        {!!(saveError || submitError) && <Text accessibilityRole="alert" style={{ color: ink.danger, lineHeight: 20 }}>{saveError || submitError}</Text>}
 
         {(loading || groupLoading) && <Button loading>Loading Plants...</Button>}
         {!!error && <Button>{error}</Button>}

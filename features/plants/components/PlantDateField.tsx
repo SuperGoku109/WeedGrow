@@ -4,11 +4,11 @@ import { Feather } from '@expo/vector-icons';
 import { Calendar } from 'react-native-calendars';
 import { GrowPress } from '@/ui/GrowMotion';
 import { isCalendarDay } from '@/lib/dates/plantDay';
-import { EditorSelect, EditorTheme } from './PlantEditorFields';
+import { EditorSelect, useEditorTheme } from './PlantEditorFields';
 export const displayDay = (day: string) => isCalendarDay(day) ? new Date(day + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : 'Choose date';
 
 export default function PlantDateField({ label, value, onChange, today, minimum, disabled = false, optional = false }: { label: string; value: string; onChange(day: string): void; today: string; minimum?: string; disabled?: boolean; optional?: boolean }) {
-  const t = React.useContext(EditorTheme);
+  const t = useEditorTheme();
   const [open, setOpen] = React.useState(false);
   const [month, setMonth] = React.useState((isCalendarDay(value) ? value : today).slice(0, 7) + '-01');
   React.useEffect(() => { if (disabled) setOpen(false); }, [disabled]);

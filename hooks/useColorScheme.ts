@@ -1,6 +1,5 @@
-// Force a dark color scheme throughout the app
-// Instead of relying on the system preferences we simply
-// return "dark" so every screen is rendered with the dark theme.
+import { useAppTheme } from './useAppTheme';
+
 export function useColorScheme() {
-  return 'dark' as const;
+  return useAppTheme().mode === 'light' ? 'light' as const : 'dark' as const;
 }

@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { effectiveSchedule } from '@/lib/care/reminderSchedules';
 import { contextualCareTasks } from '@/lib/care/contextualReminders';
 import React from 'react';
@@ -18,6 +19,7 @@ export default function ReminderCoordinator() {
   return user && preferences.reminders && Platform.OS !== 'web' ? <ActiveReminders /> : null;
 }
 function ActiveReminders() {
+  const t = useAppTheme();
   const { user } = useSession();
   const { preferences } = usePreferences(user?.uid);
   const { snoozes } = useCareSnoozes(user?.uid);
@@ -53,5 +55,5 @@ function ActiveReminders() {
     return () => { active = false; };
   }, [user, preferences.reminders, loading, error, signature]);
   const feedback = message || intelligenceMessage || stageMessage;
-  return feedback ? <View style={{ backgroundColor: '#392b1e', padding: 10 }}><Text accessibilityRole="alert" style={{ color: '#ffe0a3' }}>{feedback}</Text></View> : null;
+  return feedback ? <View style={{ backgroundColor: t.surface, padding: 10 }}><Text accessibilityRole="alert" style={{ color: t.warm }}>{feedback}</Text></View> : null;
 }

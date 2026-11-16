@@ -1,3 +1,4 @@
+import { colorAlpha , gardenThemes } from '@/design-system/tokens/garden';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { Animated, Easing, Keyboard, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
@@ -5,7 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GrowPress, useReducedMotion } from '@/ui/GrowMotion';
 import { menuPosition, type MenuAnchor } from '@/ui/AnchoredActionMenu';
-import { gardenThemes } from '@/design-system/tokens/garden';
+
 import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, plantSortOptions, countPlantList, type PlantListOptions, type PlantListStage } from '@/lib/plants/plantListOptions';
 import { GROWTH_GUIDE_STAGES } from '@/features/plants/growthStagePresentation';
 import type { Plant } from '@/firestoreModels';
@@ -51,7 +52,7 @@ export default function PlantFilterMenu({ anchor, options, status, plants, query
 
   return <Modal transparent visible animationType="none" statusBarTranslucent onRequestClose={onClose}>
     <View style={{ flex: 1 }}>
-      <Pressable accessibilityRole="button" accessibilityLabel="Dismiss plant filters" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: '#07110c33' }]} />
+      <Pressable accessibilityRole="button" accessibilityLabel="Dismiss plant filters" onPress={onClose} style={[StyleSheet.absoluteFill, { backgroundColor: colorAlpha(t.scrim, .2) }]} />
       <Animated.View accessibilityViewIsModal accessibilityLabel="Filter and sort plants" onAccessibilityEscape={onClose} onLayout={event => setMeasuredHeight(event.nativeEvent.layout.height)} style={[s.menu, { left: position.left, top, width: position.width, maxHeight: position.maxHeight, opacity: progress, transform: [{ translateY: progress.interpolate({ inputRange: [0, 1], outputRange: [position.opensBelow ? -5 : 5, 0] }) }, { scale: progress.interpolate({ inputRange: [0, 1], outputRange: [0.98, 1] }) }] }]}>
         <View style={s.header}><Text accessibilityRole="header" style={s.title}>Filter & sort</Text><GrowPress accessibilityRole="button" accessibilityLabel="Reset plant filters and sorting" onPress={() => { setDraft(DEFAULT_PLANT_LIST_OPTIONS); setDraftStatus('active'); }} style={s.reset}><Text style={{ color: t.accent, fontSize: 12 }}>Reset</Text></GrowPress></View>
         <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} style={{ flexShrink: 1, minHeight: 0 }}>
@@ -68,13 +69,13 @@ export default function PlantFilterMenu({ anchor, options, status, plants, query
   </Modal>;
 }
 const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
-  menu: { position: 'absolute', backgroundColor: t.surface, borderWidth: 1, borderColor: '#52674a', borderRadius: 18, overflow: 'hidden', boxShadow: '0px 10px 32px rgba(0,0,0,0.32)' },
+  menu: { position: 'absolute', backgroundColor: t.surface, borderWidth: 1, borderColor: t.border, borderRadius: 18, overflow: 'hidden', boxShadow: '0px 10px 32px rgba(0,0,0,0.32)' },
   header: { flexDirection: 'row', alignItems: 'center', paddingLeft: 12, paddingRight: 4, paddingVertical: 3, borderBottomWidth: 1, borderColor: t.elevated }, title: { flex: 1, color: t.text, fontSize: 14, fontWeight: '600' },
   reset: { minHeight: 32, paddingHorizontal: 10, justifyContent: 'center' },
   section: { paddingHorizontal: 10, paddingTop: 7, paddingBottom: 8, gap: 5, borderBottomWidth: 1, borderColor: t.elevated },
   groupLabel: { color: t.muted, fontSize: 12, fontWeight: '500', lineHeight: 17 }, tiles: { flexDirection: 'row', flexWrap: 'wrap', gap: 4 },
-  tile: { minHeight: 36, paddingHorizontal: 8, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: '#40543d', alignItems: 'center', justifyContent: 'center' },
-  selectedTile: { backgroundColor: t.elevated, borderColor: '#8baa68' }, tileText: { color: t.muted, fontSize: 12, lineHeight: 17 },
+  tile: { minHeight: 36, paddingHorizontal: 8, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: t.border, alignItems: 'center', justifyContent: 'center' },
+  selectedTile: { backgroundColor: t.elevated, borderColor: t.accent }, tileText: { color: t.muted, fontSize: 12, lineHeight: 17 },
   label: { color: t.muted, fontSize: 13, lineHeight: 19 },
   statusRow: { minHeight: 36, flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, paddingVertical: 6, borderBottomWidth: 1, borderColor: t.elevated },
   checkbox: { width: 18, height: 18, borderRadius: 5, borderWidth: 1, borderColor: t.muted, alignItems: 'center', justifyContent: 'center' },

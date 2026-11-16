@@ -15,16 +15,13 @@ import { prepareRestore, exportGarden, exportJournalCsv, restoreGarden, type Res
 import { validateBackup } from '@/lib/backup/backupFormat';
 import { GrowPress } from '@/ui/GrowMotion';
 import ActionDialog from '@/ui/ActionDialog';
-import { palette as basePalette, s as baseStyles } from '@/features/addPlant/components/FlowUI';
-import { useAppTheme } from '@/hooks/useAppTheme';
+import { useFlowTheme } from '@/features/addPlant/components/FlowUI';
 import ThemePicker from '../components/ThemePicker';
 function MoreContent() {
   const router = useRouter();
   const { user } = useSession();
   const { preferences, error } = usePreferences(user?.uid);
-  const t = useAppTheme();
-  const palette = { ...basePalette, bg: t.background, panel: t.surface, input: t.elevated, ink: t.text, muted: t.muted, accent: t.accent, dark: t.onAccent, border: t.border, error: t.danger };
-  const s = { ...baseStyles, sectionTitle: [baseStyles.sectionTitle, { color: t.text }], hint: [baseStyles.hint, { color: t.muted }] };
+  const { palette, s } = useFlowTheme();
   const operation = useAsyncTask(user?.uid || 'device');
   const busy = operation.status === 'running';
   const [message, setMessage] = React.useState('');

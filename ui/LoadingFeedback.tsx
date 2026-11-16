@@ -1,6 +1,7 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { ActivityIndicator, Animated, Easing, Platform, Text, View, type ViewProps } from 'react-native';
-import { gardenThemes, type GardenTheme } from '@/design-system/tokens/garden';
+import { type GardenTheme } from '@/design-system/tokens/garden';
 import { useReducedMotion } from './GrowMotion';
 
 /** A quiet breathing placeholder; stops after three cycles on slow connections. */
@@ -17,14 +18,16 @@ export function LoadingPulse({ children, style, ...props }: ViewProps) {
   }, [reduced, value]);
   return <Animated.View {...props} accessible={false} accessibilityElementsHidden aria-hidden importantForAccessibility="no-hide-descendants" style={[style, { opacity: value }]}>{children}</Animated.View>;
 }
-export function PendingStatus({ label, theme: t = gardenThemes.grove }: { label: string; theme?: GardenTheme }) {
+export function PendingStatus({ label, theme }: { label: string; theme?: GardenTheme }) {
+  const appTheme = useAppTheme();
+  const t = theme ?? appTheme;
   return <View accessibilityState={{ busy: true }} style={{ backgroundColor: t.surface, borderRadius: 16, paddingHorizontal: 14, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
     <ActivityIndicator size="small" color={t.accent} />
     <Text accessibilityLiveRegion="polite" style={{ flex: 1, color: t.muted, fontSize: 13, lineHeight: 20 }}>{label}</Text>
   </View>;
 }
 export function PlantListSkeleton({ label = 'Loading plants…' }: { label?: string }) {
-  const t = gardenThemes.grove;
+  const t = useAppTheme();
   return <View style={{ gap: 12 }}>
     <PendingStatus label={label} />
     <LoadingPulse style={{ gap: 10 }}>{[0, 1, 2].map(index => <View key={index} style={{ minHeight: 104, borderRadius: 20, padding: 12, backgroundColor: t.surface, flexDirection: 'row', gap: 14, alignItems: 'center' }}>

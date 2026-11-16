@@ -1,3 +1,4 @@
+import { colorAlpha } from '@/design-system/tokens/garden';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -31,7 +32,7 @@ export default function QuickWateringDialog({ plant, onClose, onSaved }: {
   return <ActionDialog title="Log watering" tone="water" singleAction description={
     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
       <Text numberOfLines={1} style={{ flex: 1, color: t.text, fontSize: 16, fontWeight: '600' }}>{plant.name}</Text>
-      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 8, paddingVertical: 5, borderRadius: 9, backgroundColor: '#b4dee30c' }}><MaterialCommunityIcons name="calendar-blank-outline" size={13} color={t.muted} /><Text style={{ color: t.muted, fontSize: 12 }}>{new Date(date + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</Text></View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 8, paddingVertical: 5, borderRadius: 9, backgroundColor: colorAlpha(t.water, .05) }}><MaterialCommunityIcons name="calendar-blank-outline" size={13} color={t.muted} /><Text style={{ color: t.muted, fontSize: 12 }}>{new Date(date + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}</Text></View>
     </View>
   } confirmLabel="Save watering" onClose={onClose} onConfirm={async () => {
     if (amount.trim()) {

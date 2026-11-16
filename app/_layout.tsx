@@ -1,3 +1,5 @@
+import { useThemeDocument } from '@/ui/useThemeDocument';
+import { appThemes } from '@/design-system/appThemes';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import GardenWeatherProvider from '@/features/home/GardenWeatherProvider';
 import WateringRoutineCoordinator from '@/features/plants/WateringRoutineCoordinator';
@@ -11,19 +13,18 @@ import { Stack } from 'expo-router';
 import { useReducedMotion } from '@/ui/GrowMotion';
 import RouteTransition from '@/ui/RouteTransition';
 import Head from 'expo-router/head';
-import { PaperProvider, MD3DarkTheme, MD3LightTheme } from 'react-native-paper';
+import { PaperProvider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { DarkTheme as NavigationDarkTheme, ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
+import { ThemeProvider as NavigationThemeProvider } from '@react-navigation/native';
 
 export default function RootLayout() {
   const t = useAppTheme();
-  const light = t.background === '#f2f1e5';
-  const baseTheme = light ? MD3LightTheme : MD3DarkTheme;
-  const navigationTheme = { ...NavigationDarkTheme, dark: !light, colors: { ...NavigationDarkTheme.colors, background: t.background, card: t.surface, text: t.text, border: t.border, primary: t.accent } };
+  useThemeDocument(t);
+  const { light, paper: theme, navigation: navigationTheme } = appThemes(t);
   const reduced = useReducedMotion();
   useEffect(installErrorReporting, []);
   const [loaded] = useFonts({
@@ -35,18 +36,8 @@ export default function RootLayout() {
     return null;
   }
 
-  const theme = {
-    ...baseTheme,
-    colors: {
-      ...baseTheme.colors,
-      primary: t.accent,
-      background: t.background, surface: t.surface, onSurface: t.text, onSurfaceVariant: t.muted,
-      inverseSurface: t.elevated, inverseOnSurface: t.text, inversePrimary: t.accent,
-    },
-  };
-
   return (
-    <AppErrorBoundary><GestureHandlerRootView style={{ flex: 1, backgroundColor: t.background }}>
+    <AppErrorBoundary theme={t}><GestureHandlerRootView style={{ flex: 1, backgroundColor: t.background }}>
       <Head><title>BudBuddy</title></Head>
       <SafeAreaProvider>
         <PaperProvider theme={theme}>

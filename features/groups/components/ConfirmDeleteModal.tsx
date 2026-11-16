@@ -1,10 +1,12 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
+import { colorAlpha } from '@/design-system/tokens/garden';
 import CloseButton from '@/ui/CloseButton';
 import React from 'react';
 import { Modal, View, StyleSheet, Pressable } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ThemedText } from '@/ui/ThemedText';
-import { ColorTokens, Typography } from '@/design-system/tokens';
+import { Typography } from '@/design-system/tokens';
 import { useReducedMotion } from '@/ui/GrowMotion';
 
 interface ConfirmDeleteModalProps {
@@ -30,39 +32,41 @@ export default function ConfirmDeleteModal({
   loading = false,
   error,
 }: ConfirmDeleteModalProps) {
+  const t = useAppTheme();
+  const styles = makeStyles(t);
   const reduced = useReducedMotion();
   if (!visible) return null;
   return (
     <Modal visible={visible} animationType={reduced ? 'none' : 'fade'} transparent onRequestClose={() => { if (!loading) onCancel(); }}>
       <View style={styles.overlay}>
         <LinearGradient
-          colors={['rgba(255,255,255,0.06)', 'rgba(255,255,255,0.03)']}
+          colors={[colorAlpha(t.text, .06), colorAlpha(t.text, .03)]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={[styles.card]}
         >
           {/* Accent */}
           <LinearGradient
-            colors={['rgba(239,68,68,0.28)', 'rgba(59,130,246,0.14)', 'transparent']}
+            colors={[colorAlpha(t.danger, .28), colorAlpha(t.accent, .14), 'transparent']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.accent}
           />
 
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}><View style={styles.iconWrap}>
-            <MaterialCommunityIcons name="delete-alert" size={28} color={ColorTokens.status.error} />
+            <MaterialCommunityIcons name="delete-alert" size={28} color={t.danger} />
           </View><CloseButton label="Close delete confirmation" disabled={loading} onPress={onCancel} /></View>
           <ThemedText type="title" style={styles.title}>{title}</ThemedText>
           <ThemedText style={styles.subtitle}>{subtitle}</ThemedText>
-          {!!error && <ThemedText accessibilityRole="alert" style={{ color: '#f0b5a0', marginTop: 12 }}>{error}</ThemedText>}
+          {!!error && <ThemedText accessibilityRole="alert" style={{ color: t.danger, marginTop: 12 }}>{error}</ThemedText>}
 
           <View style={styles.row}>
             <Pressable accessibilityRole="button" disabled={loading} onPress={onCancel} style={({ pressed }) => [styles.btn, styles.cancelBtn, pressed && styles.pressed]}>
               <ThemedText style={styles.cancelText}>{cancelLabel}</ThemedText>
             </Pressable>
-            <LinearGradient colors={[ColorTokens.status.error, '#b91c1c']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.confirmGrad}>
+            <LinearGradient colors={[t.danger, t.danger]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.confirmGrad}>
               <Pressable accessibilityRole="button" disabled={loading} onPress={onConfirm} style={({ pressed }) => [styles.btn, styles.confirmBtn, pressed && styles.pressed]}>
-                <MaterialCommunityIcons name="trash-can-outline" size={18} color="#fff" style={{ marginRight: 8 }} />
+                <MaterialCommunityIcons name="trash-can-outline" size={18} color={t.onDanger} style={{ marginRight: 8 }} />
                 <ThemedText style={styles.confirmText}>{loading ? 'Deleting…' : confirmLabel}</ThemedText>
               </Pressable>
             </LinearGradient>
@@ -73,10 +77,10 @@ export default function ConfirmDeleteModal({
   );
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (t: ReturnType<typeof useAppTheme>) => StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.55)',
+    backgroundColor: colorAlpha(t.scrim, .55),
     alignItems: 'center',
     justifyContent: 'center',
     padding: 16,
@@ -88,9 +92,9 @@ const styles = StyleSheet.create({
     padding: 24,
     overflow: 'hidden',
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-    backgroundColor: '#22332a',
-    shadowColor: '#000',
+    borderColor: t.border,
+    backgroundColor: t.surface,
+    shadowColor: t.shadow,
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 0.25,
     shadowRadius: 24,
@@ -112,9 +116,9 @@ const styles = StyleSheet.create({
     borderRadius: 26,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'rgba(239,68,68,0.15)',
+    backgroundColor: colorAlpha(t.danger, .15),
     borderWidth: 1,
-    borderColor: 'rgba(239,68,68,0.3)'
+    borderColor: colorAlpha(t.danger, .3)
   },
   title: {
     ...Typography.styles.h3,
@@ -143,12 +147,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   cancelBtn: {
-    backgroundColor: 'rgba(255,255,255,0.06)',
-    borderColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: colorAlpha(t.text, .06),
+    borderColor: t.border,
     borderWidth: 1,
   },
   cancelText: {
-    color: ColorTokens.text.primary,
+    color: t.text,
     fontWeight: '700',
   },
   confirmGrad: {
@@ -159,7 +163,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   confirmText: {
-    color: '#fff',
+    color: t.onDanger,
     fontWeight: '700',
   },
   pressed: {

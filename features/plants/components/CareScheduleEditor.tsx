@@ -1,12 +1,15 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { GrowPress } from '@/ui/GrowMotion';
 import type { PlantReminderSchedule } from '@/firestoreModels';
-import { plantThemes, type PlantTheme } from './plantDetailTheme';
+import { type PlantTheme } from './plantDetailTheme';
 /** Shared by creation and editing; each care kind has an independent schedule. */
-export default function CareScheduleEditor({ kind, value, onChange, disabled = false, allowSmart = true, theme: t = plantThemes.grove }: {
+export default function CareScheduleEditor({ kind, value, onChange, disabled = false, allowSmart = true, theme }: {
   kind: 'watering' | 'feeding'; value: PlantReminderSchedule; onChange(value: PlantReminderSchedule): void; disabled?: boolean; allowSmart?: boolean; theme?: PlantTheme;
 }) {
+  const appTheme = useAppTheme();
+  const t = theme ?? appTheme;
   const label = kind === 'watering' ? 'Watering' : 'Fertilizing';
   const mode = value.type === 'none' ? 'none' : value.type === 'smart' ? 'smart' : 'custom';
   const button = (name: string, selected: boolean, action: () => void) => <GrowPress key={name} accessibilityRole="button" accessibilityLabel={`${label}: ${name}`} accessibilityState={{ selected }} disabled={disabled} onPress={action} style={{ minHeight: 44, padding: 12, borderRadius: 12, backgroundColor: selected ? t.elevated : t.surface, borderWidth: 1, borderColor: selected ? t.accent : t.border }}><Text style={{ color: selected ? t.accent : t.text }}>{name}</Text></GrowPress>;

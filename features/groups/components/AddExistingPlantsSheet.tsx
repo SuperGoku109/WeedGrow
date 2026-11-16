@@ -1,18 +1,18 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { saveErrorMessage } from '@/lib/errors/saveFeedback';
 import React from 'react';
 import { ActivityIndicator, FlatList, Text, TextInput, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import PlantEditorSheet from '@/features/plants/components/PlantEditorSheet';
 import PlantActionButton from '@/features/plants/components/PlantActionButton';
-import { gardenThemes } from '@/design-system/tokens/garden';
 import { useDiscardGuard } from '@/ui/useDiscardGuard';
 import { updateGroup, type GroupWithId } from '../api/groupApi';
 import { assertSpaceCapacity } from '../groupPolicy';
 import type { Plant } from '@/firestoreModels';
 import ManagePlantRow from './ManagePlantRow';
 
-const t = gardenThemes.grove;
 export default function AddExistingPlantsSheet({ group, plants, gardens, loading, error, onClose, onSaved }: { group: GroupWithId; plants: (Plant & { id: string })[]; gardens: GroupWithId[]; loading: boolean; error: string; onClose(): void; onSaved(count: number): void }) {
+  const t = useAppTheme();
   const baseline = React.useRef(group).current;
   const [selected, setSelected] = React.useState<string[]>([]);
   const [query, setQuery] = React.useState('');

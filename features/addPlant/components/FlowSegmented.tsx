@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelectionIndicator } from '@/ui/GrowMotion';
 import { Animated, Pressable, Text, View } from 'react-native';
-import { Icon, palette, type IconName } from './FlowUI';
+import { Icon, type IconName, useFlowTheme } from './FlowUI';
 
 export default function FlowSegmented({ label, options, value, onChange, compact = false }: {
   label: string; options: readonly { value: string; label: string; icon?: IconName }[];
   value: string; onChange(value: string): void; compact?: boolean;
 }) {
+  const { palette } = useFlowTheme();
   const selection = useSelectionIndicator(value);
   return <View accessibilityRole="radiogroup" accessibilityLabel={label} style={{ flexDirection: 'row', padding: 4, gap: 4, borderWidth: 1, borderColor: palette.border, borderRadius: 14, backgroundColor: palette.input }}>
     <Animated.View pointerEvents="none" style={[selection.indicatorStyle, { backgroundColor: palette.panel, borderRadius: 10 }]} />

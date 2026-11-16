@@ -5,7 +5,7 @@ import { Modal, View, StyleSheet, TextInput, ScrollView, Pressable, Text, Keyboa
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { GroupWithId } from '../api/groupApi';
 import type { PlantWithId } from '../hooks/useGroupDetail';
-import { CollectionButton, ink } from './CollectionUI';
+import { CollectionButton, useCollectionTheme } from './CollectionUI';
 import { groupEditValues } from '../groupCollection';
 import { useReducedMotion } from '@/ui/GrowMotion';
 import { useDiscardGuard } from '@/ui/useDiscardGuard';
@@ -21,6 +21,8 @@ interface EditGroupModalProps {
 }
 
 export default function EditGroupModal({ visible, group, allPlants, onClose, onSave, settingsOnly = false }: EditGroupModalProps) {
+  const ink = useCollectionTheme();
+  const styles = makeStyles(ink);
   const [name, setName] = useState('');
   const [plantIds, setPlantIds] = useState<string[]>([]);
   const [source, setSource] = useState('');
@@ -124,7 +126,7 @@ export default function EditGroupModal({ visible, group, allPlants, onClose, onS
   </Modal>;
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (ink: ReturnType<typeof useCollectionTheme>) => StyleSheet.create({
   overlay: { flex: 1, backgroundColor: 'rgba(7,16,11,0.78)', padding: 18, alignItems: 'center', justifyContent: 'center' },
   modal: { width: '100%', maxWidth: 520, maxHeight: '90%', borderRadius: 28, borderWidth: 1, borderColor: ink.border, backgroundColor: ink.surface, overflow: 'hidden' },
   header: { flexDirection: 'row', alignItems: 'center', padding: 24, borderBottomWidth: 1, borderBottomColor: ink.border },
@@ -137,9 +139,9 @@ const styles = StyleSheet.create({
   count: { color: ink.lime, fontSize: 12 },
   hint: { color: ink.muted, fontSize: 12, lineHeight: 19 },
   plantRow: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, minHeight: 56, borderWidth: 1, borderColor: ink.border, borderRadius: 14 },
-  selected: { backgroundColor: '#30442e', borderColor: '#70855a' },
+  selected: { backgroundColor: ink.elevated, borderColor: ink.accent },
   plantName: { color: ink.text, fontSize: 14, flex: 1 },
   radio: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 44 },
-  error: { color: '#f0b5a0', fontSize: 13, lineHeight: 20 },
+  error: { color: ink.danger, fontSize: 13, lineHeight: 20 },
   footer: { flexDirection: 'row', justifyContent: 'space-between', gap: 12, padding: 20, borderTopWidth: 1, borderTopColor: ink.border },
 });

@@ -1,3 +1,4 @@
+import { useTheme } from '@/design-system/utils/useTheme';
 // design-system/components/Button/Button.tsx
 /**
  * Enhanced Button Component with Design System Integration
@@ -12,7 +13,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Text } from '../Text/Text';
-import { ColorTokens, Spacing, Shadows } from '../../tokens';
+import { Spacing, Shadows } from '../../tokens';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export interface ButtonProps extends Omit<TouchableOpacityProps, 'style'> {
@@ -38,6 +39,7 @@ export const Button: React.FC<ButtonProps> = ({
   style,
   ...props
 }) => {
+  const { colors } = useTheme();
   const buttonStyle = React.useMemo(() => {
     const baseStyle: any = {
       flexDirection: 'row',
@@ -69,15 +71,15 @@ export const Button: React.FC<ButtonProps> = ({
     // Variant styles
     switch (variant) {
       case 'primary':
-        baseStyle.backgroundColor = ColorTokens.brand.primary;
+        baseStyle.backgroundColor = colors.brand.primary;
         break;
       case 'secondary':
-        baseStyle.backgroundColor = ColorTokens.brand.secondary;
+        baseStyle.backgroundColor = colors.brand.secondary;
         break;
       case 'outline':
         baseStyle.backgroundColor = 'transparent';
         baseStyle.borderWidth = 1;
-        baseStyle.borderColor = ColorTokens.brand.primary;
+        baseStyle.borderColor = colors.brand.primary;
         break;
       case 'ghost':
         baseStyle.backgroundColor = 'transparent';
@@ -85,7 +87,7 @@ export const Button: React.FC<ButtonProps> = ({
         baseStyle.elevation = 0;
         break;
       case 'danger':
-        baseStyle.backgroundColor = ColorTokens.status.error;
+        baseStyle.backgroundColor = colors.status.error;
         break;
     }
 
@@ -100,14 +102,14 @@ export const Button: React.FC<ButtonProps> = ({
     }
 
     return [baseStyle, style];
-  }, [variant, size, fullWidth, disabled, loading, style]);
+  }, [variant, size, fullWidth, disabled, loading, style, colors]);
 
   const textColor = React.useMemo(() => {
     if (variant === 'outline' || variant === 'ghost') {
-      return ColorTokens.brand.primary;
+      return colors.brand.primary;
     }
-    return ColorTokens.text.primary;
-  }, [variant]);
+    return variant === 'danger' ? colors.onError : variant === 'secondary' ? colors.onSecondary : colors.onPrimary;
+  }, [variant, colors]);
 
   const iconSize = React.useMemo(() => {
     switch (size) {

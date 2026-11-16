@@ -4,8 +4,7 @@ import { StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-na
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TextInput, Button, Text, SegmentedButtons } from 'react-native-paper';
 import { useRouter } from 'expo-router';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useAppTheme } from '@/hooks/useAppTheme';
 
 export default function AddSensorProfileScreen() {
   const profileId = React.useRef<string | null>(null);
@@ -17,7 +16,7 @@ export default function AddSensorProfileScreen() {
   const [defaultHumidity, setDefaultHumidity] = useState('');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
-  const theme = (useColorScheme() ?? 'dark') as keyof typeof Colors;
+  const t = useAppTheme();
   const router = useRouter();
 
   const handleSave = async () => {
@@ -42,11 +41,11 @@ export default function AddSensorProfileScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors[theme].background }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: t.background }}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView contentContainerStyle={styles.container}>
           <Text style={styles.heading}>Add Sensor Profile</Text>
-          {!!error && <Text accessibilityRole="alert" style={{ color: '#ffb8a8' }}>{error}</Text>}
+          {!!error && <Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text>}
           <TextInput dense mode="outlined"
             label="Profile Name"
             value={name}
@@ -97,7 +96,7 @@ export default function AddSensorProfileScreen() {
             </>
           )}
           {entryType === 'hardware' && (
-            <Text style={{ color: Colors[theme].gray, marginBottom: 8 }}>
+            <Text style={{ color: t.muted, marginBottom: 8 }}>
               Hardware integration coming soon. You can edit this profile later.
             </Text>
           )}

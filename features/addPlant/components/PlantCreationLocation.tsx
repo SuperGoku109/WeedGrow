@@ -3,10 +3,11 @@ import { ActivityIndicator, Text, View } from 'react-native';
 import LocationPicker from '@/features/location/LocationPicker';
 import { useSavedLocations } from '@/features/location/SavedLocations';
 import { validCoordinates, coordinateLabel, type Coordinates } from '@/features/location/locationService';
-import { Icon, palette, Press, s } from './FlowUI';
+import { Icon, Press, useFlowTheme } from './FlowUI';
 import type { StepProps } from './FlowSteps';
 
 export default function PlantCreationLocation({ form, setField, onBusyChange }: Pick<StepProps, 'form' | 'setField' | 'onBusyChange'>) {
+  const { palette, s } = useFlowTheme();
   const { spaces, loading, error, retry } = useSavedLocations();
   const garden = spaces.find(item => item.id === form.groupId);
   const name = garden?.name || form.groupName || 'your garden';

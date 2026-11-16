@@ -2,10 +2,11 @@ import React from 'react';
 import { ActivityIndicator, Text } from 'react-native';
 import { fetchGrowingSpaces, type GrowingSpace } from '../api/growingSpaces';
 import { useSession } from '@/services/session';
-import { Press, Section, palette, s } from './FlowUI';
+import { Press, Section, useFlowTheme } from './FlowUI';
 import FlowDropdown from './FlowDropdown';
 import type { StepProps } from './FlowSteps';
 export default function GrowingSpacePicker({ form, setField, errors, onSignIn }: StepProps) {
+  const { palette, s } = useFlowTheme();
   const { user } = useSession();
   const [spaces, setSpaces] = React.useState<GrowingSpace[]>([]);
   const [loading, setLoading] = React.useState(false);

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, type TextProps } from 'react-native';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { Typography, ColorTokens } from '@/design-system/tokens';
+import { Typography } from '@/design-system/tokens';
 
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
@@ -15,7 +15,7 @@ export function ThemedText({
   type = 'default',
   ...rest
 }: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, type === 'link' ? 'tint' : 'text');
 
   return (
     <Text
@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
   subtitle: Typography.styles.h3,
   link: {
     ...Typography.styles.body,
-    color: ColorTokens.brand.primary,
   },
 });
 

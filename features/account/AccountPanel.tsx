@@ -4,9 +4,10 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswor
 import { syncReminders } from '@/services/reminders';
 import { auth } from '@/services/authClient';
 import { accountError, useSession } from '@/services/session';
-import { Field, Press, palette, s } from '@/features/addPlant/components/FlowUI';
+import { Field, Press, useFlowTheme } from '@/features/addPlant/components/FlowUI';
 
 export default function AccountPanel() {
+  const { palette, s } = useFlowTheme();
   const { user } = useSession();
   const [mode, setMode] = React.useState<'signin' | 'create' | 'reset'>('signin');
   const [email, setEmail] = React.useState('');

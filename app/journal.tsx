@@ -6,9 +6,10 @@ import { useSession } from '@/services/session';
 import { usePlantList } from '@/features/plants/hooks/usePlantList';
 import { journalCategory, localDateKey } from '@/lib/logs/plantJournal';
 import { GrowPress } from '@/ui/GrowMotion';
-import { palette, s, Field } from '@/features/addPlant/components/FlowUI';
+import { Field, useFlowTheme } from '@/features/addPlant/components/FlowUI';
 import { SafeAreaView } from 'react-native-safe-area-context';
 export default function GardenJournal() {
+  const { palette, s } = useFlowTheme();
   const router = useRouter();
   const garden = usePlantList();
   const { user } = useSession();

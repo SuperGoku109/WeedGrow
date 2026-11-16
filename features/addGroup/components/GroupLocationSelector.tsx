@@ -1,18 +1,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { Colors } from '@/constants/Colors';
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { PlantItem } from '../api/fetchPlants';
 
 interface GroupLocationSelectorProps {
   plants: PlantItem[];
   groupLocationPlantId?: string | null;
   onSelectGroupLocationPlantId?: (id: string) => void;
-  theme: 'light' | 'dark';
 }
 
-const GroupLocationSelector: React.FC<GroupLocationSelectorProps> = ({ plants, groupLocationPlantId, onSelectGroupLocationPlantId, theme }) => {
+const GroupLocationSelector: React.FC<GroupLocationSelectorProps> = ({ plants, groupLocationPlantId, onSelectGroupLocationPlantId }) => {
+  const t = useAppTheme();
+  const styles = makeStyles(t);
   if (plants.length === 0) {
-    return <Text style={{ color: Colors[theme].gray }}>No selected plant has a location.</Text>;
+    return <Text style={{ color: t.muted }}>No selected plant has a location.</Text>;
   }
   return (
     <>
@@ -44,7 +45,7 @@ const GroupLocationSelector: React.FC<GroupLocationSelectorProps> = ({ plants, g
   );
 };
 
-const styles = StyleSheet.create({
+const makeStyles = (t: ReturnType<typeof useAppTheme>) => StyleSheet.create({
   locationRadioRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -52,10 +53,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   locationRadioRowSelected: {
-    backgroundColor: 'rgba(0,200,83,0.08)',
+    backgroundColor: t.elevated,
   },
   locationRadioText: {
-    color: '#ECEDEE',
+    color: t.text,
     fontSize: 15,
     marginLeft: 10,
     fontWeight: '500',
@@ -65,20 +66,20 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#ccc',
+    borderColor: t.border,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#222',
+    backgroundColor: t.surface,
   },
   radioOuterSelected: {
-    borderColor: Colors.dark.tint,
-    backgroundColor: '#222',
+    borderColor: t.accent,
+    backgroundColor: t.surface,
   },
   radioInner: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: Colors.dark.tint,
+    backgroundColor: t.accent,
   },
 });
 

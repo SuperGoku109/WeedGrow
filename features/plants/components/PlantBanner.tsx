@@ -40,7 +40,7 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
   return <View style={[s.banner, { backgroundColor: t.surface, borderColor: t.border }]}>
     <View style={[s.cover, { minHeight: coverHeight, backgroundColor: t.hero }]}>
       {hasPhoto ? <Image accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri! }} resizeMode="cover" onError={() => setBroken(true)} style={StyleSheet.absoluteFillObject} /> : <View style={s.botanical} accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
-      <LinearGradient pointerEvents="none" colors={['rgba(9,22,14,0.05)', 'rgba(9,22,14,0.35)', 'rgba(9,22,14,0.92)']} locations={[0, 0.4, 1]} style={StyleSheet.absoluteFillObject} />
+      <LinearGradient pointerEvents="none" colors={['rgba(0,0,0,0.05)', 'rgba(0,0,0,0.35)', 'rgba(0,0,0,0.92)']} locations={[0, 0.4, 1]} style={StyleSheet.absoluteFillObject} />
       <LinearGradient pointerEvents="none" colors={['transparent', t.surface]} style={s.bottomFade} />
       <View pointerEvents="none" accessibilityLabel={`Plant status: ${status}`} style={s.status}><View style={[s.statusDot, { backgroundColor: status === 'active' ? '#c8e78b' : '#d5ddd0' }]} /><Text style={s.statusText}>{status}</Text></View>
       <Pressable accessibilityRole="button" accessibilityLabel={`Edit ${plant.name}`} onPress={onEdit} hitSlop={4} style={({ pressed }) => [s.photoAction, { opacity: pressed ? 0.7 : 1 }]}><MaterialCommunityIcons name="pencil-outline" size={19} color="#edf0e3" aria-hidden={true} /></Pressable>
@@ -58,13 +58,13 @@ const s = StyleSheet.create({
   cover: { width: '100%', minHeight: 156, paddingTop: 58, paddingBottom: 24, paddingHorizontal: 16, alignItems: 'flex-start', justifyContent: 'flex-end' },
   bottomFade: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 28 },
   botanical: { position: 'absolute', right: 24, top: 0 },
-  photoAction: { position: 'absolute', right: 10, top: 10, width: 40, height: 40, borderRadius: 13, backgroundColor: 'rgba(14,30,20,0.78)', justifyContent: 'center', alignItems: 'center' },
+  photoAction: { position: 'absolute', right: 10, top: 10, width: 40, height: 40, borderRadius: 13, backgroundColor: 'rgba(0,0,0,0.78)', justifyContent: 'center', alignItems: 'center' },
   identity: { alignSelf: 'stretch', gap: 2 },
   name: { fontSize: 25, lineHeight: 30, fontWeight: '700', letterSpacing: -0.5, color: '#f5f7ed' },
   strain: { fontSize: 13, lineHeight: 18, color: '#dde5d7', textTransform: 'capitalize' },
   details: { paddingHorizontal: 12, paddingTop: 8, paddingBottom: 6, flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', columnGap: 10, rowGap: 6 },
   stage: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 9 },
-  status: { position: 'absolute', top: 13, left: 12, flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 10, backgroundColor: 'rgba(14,30,20,0.78)' },
+  status: { position: 'absolute', top: 13, left: 12, flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 9, paddingVertical: 5, borderRadius: 10, backgroundColor: 'rgba(0,0,0,0.78)' },
   statusText: { fontSize: 12, lineHeight: 16, fontWeight: '500', color: '#edf0e3', textTransform: 'capitalize' },
   statusDot: { width: 6, height: 6, borderRadius: 3 },
   badgeText: { fontSize: 13, lineHeight: 18, fontWeight: '500', textTransform: 'capitalize' },

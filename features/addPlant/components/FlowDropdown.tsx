@@ -1,12 +1,13 @@
 import React from 'react';
 import { BackHandler, Keyboard, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
-import { Icon, palette, type IconName } from './FlowUI';
+import { Icon, type IconName, useFlowTheme } from './FlowUI';
 
 type Option = { value: string; label: string; icon?: IconName; detail?: string };
 export default function FlowDropdown({ value, onChange, options, label, placeholder, disabled = false, compact = false }: {
   value: string; onChange(value: string): void; label: string; placeholder: string; disabled?: boolean; compact?: boolean;
   options: readonly Option[];
 }) {
+  const { palette } = useFlowTheme();
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState('');
   React.useEffect(() => {

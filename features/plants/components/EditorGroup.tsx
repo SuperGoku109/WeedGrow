@@ -2,10 +2,10 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { GrowPress } from '@/ui/GrowMotion';
-import { EditorTheme } from './PlantEditorFields';
+import { useEditorTheme } from './PlantEditorFields';
 
 export default function EditorGroup({ title, hint, collapsible = false, flat = false, children }: { title: string; hint?: string; collapsible?: boolean; flat?: boolean; children: React.ReactNode }) {
-  const t = React.useContext(EditorTheme);
+  const t = useEditorTheme();
   const [open, setOpen] = React.useState(!collapsible);
   if (flat) return <View style={{ gap: 10 }}>{children}</View>;
   return <View style={{ gap: 10, borderTopWidth: 1, borderTopColor: t.border, paddingTop: collapsible ? 0 : 12 }}>

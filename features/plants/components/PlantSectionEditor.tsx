@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import CareScheduleEditor from './CareScheduleEditor';
 import { effectiveSchedule } from '@/lib/care/reminderSchedules';
 import { contextLabel, contextChoices } from '@/lib/care/plantContext';
@@ -11,7 +12,7 @@ import ActionDialog from '@/ui/ActionDialog';
 import PlantActionButton from './PlantActionButton';
 import { EditorField, EditorSelect } from './PlantEditorFields';
 import { GrowPress } from '@/ui/GrowMotion';
-import { plantThemes, type PlantTheme } from './plantDetailTheme';
+import { type PlantTheme } from './plantDetailTheme';
 import { detailStyles as ds } from './PlantDetailPanels';
 import { fetchSensorProfiles } from '@/features/addPlant/api/environmentApi';
 import PlantLocationEditor from '@/features/location/PlantLocationEditor';
@@ -30,7 +31,8 @@ import { sections, buildSectionUpdates, buildAllSectionUpdates } from '../form/p
 import { rainExposure } from '@/lib/careAlgorithm/setupFacts';
 
 export default function PlantSectionEditor({ plantId, plant, section, onClose, onSaved, onDeleted, theme, presentation = 'sheet', portrait }: { plantId: string; plant: Plant; section: string; onClose: () => void; onSaved: () => void; onDeleted?: () => void; theme?: PlantTheme; presentation?: 'sheet' | 'page'; portrait?: React.ReactNode }) {
-  const t = theme || plantThemes.grove;
+  const appTheme = useAppTheme();
+  const t = theme ?? appTheme;
   const page = presentation === 'page';
   const { width, fontScale } = useWindowDimensions();
   const stackPortrait = width < 360 || fontScale > 1.2;

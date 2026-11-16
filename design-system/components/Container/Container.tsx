@@ -1,3 +1,4 @@
+import { useTheme } from '@/design-system/utils/useTheme';
 // design-system/components/Container/Container.tsx
 /**
  * Enhanced Container Component with Design System Integration
@@ -6,7 +7,7 @@
 
 import React from 'react';
 import { View, ViewProps } from 'react-native';
-import { Spacing, ColorTokens, BorderRadius, Shadows } from '../../tokens';
+import { Spacing, BorderRadius, Shadows } from '../../tokens';
 
 export interface ContainerProps extends ViewProps {
   variant?: 'default' | 'card' | 'surface' | 'modal';
@@ -36,6 +37,7 @@ export const Container: React.FC<ContainerProps> = ({
   children,
   ...props
 }) => {
+  const { colors } = useTheme();
   const containerStyle = React.useMemo(() => {
     const baseStyle: any = {
       flexDirection: direction,
@@ -46,18 +48,18 @@ export const Container: React.FC<ContainerProps> = ({
     // Apply variant-specific styles
     switch (variant) {
       case 'card':
-        baseStyle.backgroundColor = backgroundColor || ColorTokens.background.card;
+        baseStyle.backgroundColor = backgroundColor || colors.background.card;
         baseStyle.borderRadius = BorderRadius.card;
         baseStyle.padding = Spacing.cardPadding;
         Object.assign(baseStyle, Shadows.card);
         break;
       case 'surface':
-        baseStyle.backgroundColor = backgroundColor || ColorTokens.background.surface;
+        baseStyle.backgroundColor = backgroundColor || colors.background.surface;
         baseStyle.borderRadius = BorderRadius.md;
         baseStyle.padding = Spacing.md;
         break;
       case 'modal':
-        baseStyle.backgroundColor = backgroundColor || ColorTokens.background.card;
+        baseStyle.backgroundColor = backgroundColor || colors.background.card;
         baseStyle.borderRadius = BorderRadius.modal;
         baseStyle.padding = Spacing.lg;
         Object.assign(baseStyle, Shadows.modal);
@@ -103,7 +105,7 @@ export const Container: React.FC<ContainerProps> = ({
     radius,
     backgroundColor,
     style,
-  ]);
+  , colors]);
 
   return (
     <View style={containerStyle} {...props}>

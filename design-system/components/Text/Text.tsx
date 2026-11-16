@@ -1,3 +1,4 @@
+import { useTheme } from '@/design-system/utils/useTheme';
 // design-system/components/Text/Text.tsx
 /**
  * Enhanced Text Component with Design System Integration
@@ -6,7 +7,7 @@
 
 import React from 'react';
 import { Text as RNText, TextProps as RNTextProps } from 'react-native';
-import { Typography, ColorTokens } from '../../tokens';
+import { Typography } from '../../tokens';
 
 export interface TextProps extends RNTextProps {
   variant?: keyof typeof Typography.styles;
@@ -26,22 +27,23 @@ export const Text: React.FC<TextProps> = ({
   children,
   ...props
 }) => {
+  const { colors } = useTheme();
   const textColor = React.useMemo(() => {
     switch (color) {
       case 'primary':
-        return ColorTokens.text.primary;
+        return colors.text.primary;
       case 'secondary':
-        return ColorTokens.text.secondary;
+        return colors.text.secondary;
       case 'tertiary':
-        return ColorTokens.text.tertiary;
+        return colors.text.tertiary;
       case 'accent':
-        return ColorTokens.text.accent;
+        return colors.text.accent;
       case 'inverse':
-        return ColorTokens.text.inverse;
+        return colors.text.inverse;
       default:
-        return ColorTokens.text.primary;
+        return colors.text.primary;
     }
-  }, [color]);
+  }, [color, colors]);
 
   const textStyle = React.useMemo(() => {
     const baseStyle = Typography.styles[variant];

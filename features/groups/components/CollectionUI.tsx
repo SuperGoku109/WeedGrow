@@ -1,11 +1,15 @@
-import { gardenCollectionInk as ink } from '@/design-system/tokens/garden';
+import { useAppTheme } from '@/hooks/useAppTheme';
+import { collectionInk } from '@/design-system/tokens/garden';
 import { GrowPress, useReducedMotion } from '@/ui/GrowMotion';
 import React from 'react';
 import { Animated, Easing, Platform, StyleSheet, Text, View, type ViewProps } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Path, Circle, Rect } from 'react-native-svg';
 
-export { gardenCollectionInk as ink } from '@/design-system/tokens/garden';
+export function useCollectionTheme() {
+  const t = useAppTheme();
+  return React.useMemo(() => collectionInk(t), [t]);
+}
 export const environments = {
   indoor: { label: 'Indoor', color: '#c4c6ed', icon: 'home-outline' as const, backdrop: '#343748' },
   outdoor: { label: 'Outdoor', color: '#dce9a6', icon: 'white-balance-sunny' as const, backdrop: '#39462c' },
@@ -28,6 +32,8 @@ export function CollectionReveal({ children, style, delay = 0 }: ViewProps & { d
 export function CollectionButton({ label, icon, onPress, primary = false, disabled = false }: {
   label: string; icon?: React.ComponentProps<typeof MaterialCommunityIcons>['name']; onPress: () => void; primary?: boolean; disabled?: boolean;
 }) {
+  const ink = useCollectionTheme();
+  const styles = makeStyles(ink);
   return <GrowPress accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled }} disabled={disabled} onPress={onPress}
     style={({ pressed }) => [styles.button, primary && styles.primary, { opacity: disabled ? 0.5 : pressed ? 0.78 : 1 }]}>
     {icon && <MaterialCommunityIcons name={icon} size={18} color={primary ? ink.dark : ink.text} />}
@@ -37,6 +43,7 @@ export function CollectionButton({ label, icon, onPress, primary = false, disabl
 
 /** Lightweight architectural illustration; no raster downloads or looping effects. */
 export function SpaceArtwork({ environment }: { environment: string }) {
+  const ink = useCollectionTheme();
   const color = environments[environment as keyof typeof environments]?.color || ink.lime;
   return <View pointerEvents="none" accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
     <Svg width={100} height={88} viewBox="0 0 100 88">
@@ -56,7 +63,7 @@ export function SpaceArtwork({ environment }: { environment: string }) {
   </View>;
 }
 
-const styles = StyleSheet.create({
+const makeStyles = (ink: ReturnType<typeof useCollectionTheme>) => StyleSheet.create({
   button: { minHeight: 40, paddingHorizontal: 12, borderRadius: 14, borderWidth: 1, borderColor: ink.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7 },
   primary: { backgroundColor: ink.lime, borderColor: ink.lime },
   buttonText: { color: ink.text, fontSize: 14, fontWeight: '700' },

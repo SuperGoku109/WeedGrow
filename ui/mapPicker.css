@@ -3,11 +3,11 @@
   height: 48px;
   line-height: 48px;
   font-size: 26px;
-  color: #15231c;
-  background: #fffef4;
+  color: var(--garden-text, #15231c);
+  background: var(--garden-surface, #fffef4);
 }
 .weedgrow-location-map .leaflet-control-zoom a:focus-visible,
 .weedgrow-location-map .leaflet-marker-icon:focus-visible {
-  outline: 3px solid #365c37;
+  outline: 3px solid var(--garden-accent, #365c37);
   outline-offset: 3px;
 }

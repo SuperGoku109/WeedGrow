@@ -8,7 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import type { PlantForm } from '@/features/plants/form/PlantForm';
 import { fetchSensorProfiles, sunlightOptions } from '../api/environmentApi';
 import { displayValue, protectionOptions, soilOptions, type FormErrors } from '../plantFlowModel';
-import { Choices, Disclosure, Field, Icon, palette, PlantIllustration, Press, s, Section, ValidationTarget } from './FlowUI';
+import { Choices, Disclosure, Field, Icon, PlantIllustration, Press, Section, ValidationTarget, useFlowTheme } from './FlowUI';
 import GrowingSpacePicker from './GrowingSpacePicker';
 import GrowthStageDropdown from './GrowthStageDropdown';
 import FlowDropdown from './FlowDropdown';
@@ -23,6 +23,8 @@ import { plantDay } from '@/lib/dates/plantDay';
 export type StepProps = { form: PlantForm; setField<K extends keyof PlantForm>(key: K, value: PlantForm[K]): void; errors: FormErrors; onSignIn?: () => void; onBusyChange?: (busy: boolean) => void };
 
 export function IdentityStep({ form, setField, errors }: StepProps) {
+  const { palette, s } = useFlowTheme();
+  const identityStyles = makeIdentityStyles(palette);
   const ageMode = form.ageMode || (form.ageDays ? 'estimate' : 'unknown');
   const estimatedDays = form.growthStage ? estimatedAgeFields(form.growthStage, plantDay(), form.stageStartedOn).ageDays : null;
   return <View style={{ gap: 12 }}>
@@ -61,18 +63,19 @@ export function IdentityStep({ form, setField, errors }: StepProps) {
   </View>;
 }
 
-const identityStyles = StyleSheet.create({
-  panel: { backgroundColor: palette.panel, borderRadius: 18, borderWidth: 1, borderColor: '#344735', padding: 14, gap: 16 },
+const makeIdentityStyles = (palette: ReturnType<typeof useFlowTheme>['palette']) => StyleSheet.create({
+  panel: { backgroundColor: palette.panel, borderRadius: 18, borderWidth: 1, borderColor: palette.border, padding: 14, gap: 16 },
   headingRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
   optional: { color: palette.muted, fontSize: 12 },
   caption: { color: palette.muted, fontSize: 13, lineHeight: 19 },
   estimateRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },
   estimateTitle: { color: palette.ink, fontSize: 14, fontWeight: '500', lineHeight: 20 },
-  extras: { backgroundColor: palette.panel, borderRadius: 18, borderWidth: 1, borderColor: '#344735', overflow: 'hidden' },
-  divider: { height: 1, backgroundColor: '#344735', marginHorizontal: 14 },
+  extras: { backgroundColor: palette.panel, borderRadius: 18, borderWidth: 1, borderColor: palette.border, overflow: 'hidden' },
+  divider: { height: 1, backgroundColor: palette.border, marginHorizontal: 14 },
 });
 
 export function SetupStep({ form, setField, errors, onSignIn }: StepProps) {
+  const { palette, s } = useFlowTheme();
   const { user } = useSession();
   const [profiles, setProfiles] = useState<{ id: string; name: string }[]>([]);
   const [loading, setLoading] = useState(false);
@@ -111,6 +114,7 @@ export function SetupStep({ form, setField, errors, onSignIn }: StepProps) {
 }
 
 export function LocationStep({ form, setField, errors, onBusyChange }: StepProps) {
+  const { s } = useFlowTheme();
   return <View style={{ gap: 16 }}>
     <ValidationTarget name="location"><PlantCreationLocation form={form} setField={setField} onBusyChange={onBusyChange} /></ValidationTarget>
     {!!errors.location && <Text accessibilityRole="alert" style={s.error}>{errors.location}</Text>}
@@ -118,6 +122,7 @@ export function LocationStep({ form, setField, errors, onBusyChange }: StepProps
 }
 
 export function DetailsStep({ form, setField, errors, onBusyChange }: StepProps) {
+  const { palette, s } = useFlowTheme();
   const [photoError, setPhotoError] = useState('');
   const [picking, setPicking] = useState(false);
   const pick = async (camera: boolean) => {
@@ -169,6 +174,7 @@ export function DetailsStep({ form, setField, errors, onBusyChange }: StepProps)
 }
 
 export function ReviewStep({ form, edit }: { form: PlantForm; edit(step: number): void }) {
+  const { palette, s } = useFlowTheme();
   const { user } = useSession();
   const [sensorName, setSensorName] = useState('Linked profile');
   useEffect(() => {
@@ -189,7 +195,7 @@ export function ReviewStep({ form, edit }: { form: PlantForm; edit(step: number)
   return <View style={{ gap: 18 }}>
     <View style={{ backgroundColor: palette.soft, borderRadius: 20, overflow: 'hidden', padding: 22, flexDirection: 'row', alignItems: 'center', gap: 16 }}>
       {form.imageUri ? <Image accessibilityLabel="Plant cover preview" source={{ uri: form.imageUri }} style={{ width: 80, height: 90, borderRadius: 14 }} /> : <View style={{ width: 60, height: 90, justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}><View style={{ transform: [{ scale: 0.5 }] }}><PlantIllustration stage={form.growthStage} /></View></View>}
-      <View style={{ flex: 1, minWidth: 0, gap: 7 }}><Text style={{ color: '#526344', fontSize: 13, letterSpacing: 0.5 }}>READY FOR YOUR GARDEN</Text><Text style={{ color: palette.dark, fontSize: 26, fontWeight: '600' }}>{form.name}</Text><Text style={{ color: '#526344', fontSize: 13 }}>{displayValue(form.growthStage)} · {displayValue(form.environment)}</Text></View>
+      <View style={{ flex: 1, minWidth: 0, gap: 7 }}><Text style={{ color: palette.dark, fontSize: 13, letterSpacing: 0.5 }}>READY FOR YOUR GARDEN</Text><Text style={{ color: palette.dark, fontSize: 26, fontWeight: '600' }}>{form.name}</Text><Text style={{ color: palette.dark, fontSize: 13 }}>{displayValue(form.growthStage)} · {displayValue(form.environment)}</Text></View>
     </View>
     {sections.map(section => <View key={section.title} style={{ borderWidth: 1, borderColor: palette.border, borderRadius: 17, padding: 18, gap: 14 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}><Text style={[s.sectionTitle, { flex: 1 }]}>{section.title}</Text><Press label={`Edit ${section.title}`} onPress={() => edit(section.step)} style={{ padding: 10 }}><Text style={{ color: palette.accent, fontWeight: '600' }}>Edit</Text></Press></View>

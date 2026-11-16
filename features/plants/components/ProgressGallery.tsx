@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { PlantImage as Image } from '@/ui/PlantImage';
 import React from 'react';
 import { View, FlatList, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
@@ -14,6 +15,7 @@ interface ProgressGalleryProps {
 }
 
 export default function ProgressGallery({ pics, loading }: ProgressGalleryProps) {
+  const styles = makeStyles(useAppTheme());
   const numColumns = 3;
   const size = Math.floor(Dimensions.get('window').width / numColumns) - 8;
 
@@ -42,9 +44,9 @@ export default function ProgressGallery({ pics, loading }: ProgressGalleryProps)
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff', padding: 8 },
+const makeStyles = (t: ReturnType<typeof useAppTheme>) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: t.background, padding: 8 },
   title: { fontWeight: 'bold', fontSize: 20, marginBottom: 12 },
   imageWrapper: { margin: 4 },
-  image: { borderRadius: 10, backgroundColor: '#e0e7ef' },
+  image: { borderRadius: 10, backgroundColor: t.elevated },
 });

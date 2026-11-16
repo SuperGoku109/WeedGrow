@@ -10,7 +10,7 @@ export default function RootHtml({ children }: PropsWithChildren) {
       <meta name="apple-mobile-web-app-title" content="BudBuddy" />
       <meta name="theme-color" content="#15231c" />
       <ScrollViewStyleReset />
-      <style dangerouslySetInnerHTML={{ __html: 'html,body,#root{background-color:#15231c;color-scheme:dark}' }} />
+      <style dangerouslySetInnerHTML={{ __html: 'html,body,#root{background-color:var(--garden-background,#15231c);color-scheme:var(--garden-color-scheme,dark)}' }} />
     </head>
     <body>{children}</body>
   </html>;

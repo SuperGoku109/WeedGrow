@@ -23,7 +23,8 @@ function GrowPress({ style, ...props }: React.ComponentProps<typeof Pressable>) 
 
 
 function ProfileHeroArt({ compact }: { compact: boolean }) {
-  const styles = makeStyles(useAppTheme());
+  const palette = useAppTheme();
+  const styles = makeStyles(palette);
   return (
     <View
       pointerEvents="none"
@@ -34,7 +35,7 @@ function ProfileHeroArt({ compact }: { compact: boolean }) {
     >
       <View style={styles.artHalo} />
       <View style={styles.artRing} />
-      <MaterialCommunityIcons name="tune-variant" size={54} color="#365c37" />
+      <MaterialCommunityIcons name="tune-variant" size={54} color={palette.heroText} />
       <View style={[styles.artDot, styles.artDotOne]} />
       <View style={[styles.artDot, styles.artDotTwo]} />
     </View>
@@ -169,7 +170,7 @@ function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string }
                 <View style={styles.readingsRow}>
                   <View style={styles.reading}><MaterialCommunityIcons name="thermometer" size={17} color={palette.warm} /><View><Text style={styles.readingLabel}>TEMPERATURE</Text><Text style={styles.readingValue}>{isManual && profile.defaultTemp !== undefined ? `${profile.defaultTemp}°C` : 'Not set'}</Text></View></View>
                   <View style={styles.readingDivider} />
-                  <View style={styles.reading}><MaterialCommunityIcons name="water-percent" size={17} color="#a8d5df" /><View><Text style={styles.readingLabel}>HUMIDITY</Text><Text style={styles.readingValue}>{isManual && profile.defaultHumidity !== undefined ? `${profile.defaultHumidity}%` : 'Not set'}</Text></View></View>
+                  <View style={styles.reading}><MaterialCommunityIcons name="water-percent" size={17} color={palette.water} /><View><Text style={styles.readingLabel}>HUMIDITY</Text><Text style={styles.readingValue}>{isManual && profile.defaultHumidity !== undefined ? `${profile.defaultHumidity}%` : 'Not set'}</Text></View></View>
                 </View>
 
                 <View style={styles.sourceRow}><MaterialCommunityIcons name={isManual ? 'pencil-outline' : 'memory'} size={15} color={palette.muted} /><Text style={styles.sourceText}>{isManual ? 'Manual readings' : 'Hardware sensor'}</Text></View>
@@ -233,25 +234,25 @@ const makeStyles = (palette: typeof gardenThemes.grove) => StyleSheet.create({
   hero: { minHeight: 246, borderRadius: 28, backgroundColor: palette.hero, overflow: 'hidden', marginBottom: 28 },
   heroCopy: { padding: 24, paddingBottom: 68, width: '72%', zIndex: 2 },
   heroCopyCompact: { width: '100%', padding: 16, paddingBottom: 60 },
-  eyebrow: { fontSize: 13, fontWeight: '700', letterSpacing: 2, color: '#586547', marginBottom: 10 },
+  eyebrow: { fontSize: 13, fontWeight: '700', letterSpacing: 2, color: palette.heroText, marginBottom: 10 },
   heading: { color: palette.heroText, fontSize: 34, lineHeight: 38, fontWeight: '600', letterSpacing: -1.2 },
   headingCompact: { fontSize: 26, lineHeight: 31 },
-  topInfo: { color: '#5a674b', fontSize: 13, lineHeight: 20, marginTop: 8, maxWidth: 280 },
+  topInfo: { color: palette.heroText, fontSize: 13, lineHeight: 20, marginTop: 8, maxWidth: 280 },
   heroButton: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: palette.heroText, borderRadius: 14, paddingHorizontal: 16, minHeight: 40, marginTop: 12 },
   heroButtonText: { color: palette.hero, fontSize: 13, fontWeight: '700' },
   heroArt: { position: 'absolute', width: 120, height: 120, right: 22, top: 50, alignItems: 'center', justifyContent: 'center' },
   heroArtCompact: { right: -36, opacity: 0.25 },
-  artHalo: { position: 'absolute', width: 106, height: 106, borderRadius: 53, backgroundColor: '#dce7bd', borderWidth: 1, borderColor: '#bacb91' },
-  artRing: { position: 'absolute', width: 120, height: 120, borderRadius: 60, borderWidth: 1, borderColor: 'rgba(88, 101, 71, 0.18)', borderStyle: 'dashed' },
-  artDot: { position: 'absolute', width: 8, height: 8, borderRadius: 4, backgroundColor: '#ce7655' },
+  artHalo: { position: 'absolute', width: 106, height: 106, borderRadius: 53, backgroundColor: palette.hero, borderWidth: 1, borderColor: palette.heroText },
+  artRing: { position: 'absolute', width: 120, height: 120, borderRadius: 60, borderWidth: 1, borderColor: `${palette.heroText}2e`, borderStyle: 'dashed' },
+  artDot: { position: 'absolute', width: 8, height: 8, borderRadius: 4, backgroundColor: palette.heroText },
   artDotOne: { top: 8, right: 15 },
-  artDotTwo: { bottom: 9, left: 10, backgroundColor: '#91aa5e' },
-  heroStatus: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 46, backgroundColor: '#dce5c4', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 24 },
+  artDotTwo: { bottom: 9, left: 10, backgroundColor: palette.heroText },
+  heroStatus: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 46, backgroundColor: palette.hero, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 24 },
   statusItem: { flexDirection: 'row', alignItems: 'baseline', gap: 5 },
   statusValue: { color: palette.heroText, fontSize: 15, fontWeight: '800' },
-  statusLabel: { color: '#4b5b3b', fontSize: 13, letterSpacing: 0.8 },
-  statusDivider: { width: 1, height: 17, backgroundColor: '#b9c7a0', marginHorizontal: 12 },
-  statusMessage: { marginLeft: 'auto', color: '#5b684e', fontSize: 13, flexShrink: 1, paddingLeft: 12 },
+  statusLabel: { color: palette.heroText, fontSize: 13, letterSpacing: 0.8 },
+  statusDivider: { width: 1, height: 17, backgroundColor: palette.heroText, marginHorizontal: 12 },
+  statusMessage: { marginLeft: 'auto', color: palette.heroText, fontSize: 13, flexShrink: 1, paddingLeft: 12 },
   sectionHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 18, paddingHorizontal: 2 },
   sectionEyebrow: { color: palette.muted, fontSize: 13, fontWeight: '600', letterSpacing: 2, marginBottom: 7 },
   sectionTitle: { color: palette.text, fontSize: 22, fontWeight: '600', letterSpacing: -0.7 },
@@ -276,7 +277,7 @@ const makeStyles = (palette: typeof gardenThemes.grove) => StyleSheet.create({
   environmentText: { color: palette.muted, fontSize: 13, textTransform: 'capitalize' },
   readingsRow: { flexDirection: 'row', alignItems: 'center', backgroundColor: palette.background, borderRadius: 14, marginTop: 16, paddingVertical: 14, paddingHorizontal: 14 },
   reading: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
-  readingDivider: { width: 1, height: 29, backgroundColor: '#34493a', marginHorizontal: 12 },
+  readingDivider: { width: 1, height: 29, backgroundColor: palette.border, marginHorizontal: 12 },
   readingLabel: { color: palette.muted, fontSize: 13, letterSpacing: 0 },
   readingValue: { color: palette.text, fontSize: 21, fontWeight: '500', marginTop: 7 },
   sourceRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 10, paddingHorizontal: 2 },
@@ -293,7 +294,7 @@ const makeStyles = (palette: typeof gardenThemes.grove) => StyleSheet.create({
   dialogLabel: { color: palette.muted, fontSize: 13, letterSpacing: 1.4, marginTop: 18, marginBottom: 10 },
   dialogRow: { flexDirection: 'row', gap: 9 },
   dialogChoice: { flex: 1, borderColor: palette.border },
-  input: { backgroundColor: '#1b2b22', fontSize: 16, height: 44 },
+  input: { backgroundColor: palette.background, fontSize: 16, height: 44 },
   readingInputs: { flexDirection: 'row', gap: 9, marginTop: 15 },
   halfInput: { flex: 1 },
   linkedPlant: { flexDirection: 'row', alignItems: 'center', gap: 9, paddingVertical: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: palette.border },

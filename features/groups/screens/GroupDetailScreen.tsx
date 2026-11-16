@@ -1,3 +1,5 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
+import { colorAlpha } from '@/design-system/tokens/garden';
 import { PlantListSkeleton } from '@/ui/LoadingFeedback';
 import React from 'react';
 import { FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -6,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AppNotice from '@/ui/AppNotice';
 import CountBadge from '@/ui/CountBadge';
-import { gardenThemes } from '@/design-system/tokens/garden';
+
 import { usePlantList } from '@/features/plants/hooks/usePlantList';
 import { useOwnedGroups } from '@/hooks/useGardenData';
 import { useGroupDetail } from '../hooks/useGroupDetail';
@@ -24,9 +26,10 @@ import ManagePlantRow from '../components/ManagePlantRow';
 import AddExistingPlantsSheet from '../components/AddExistingPlantsSheet';
 import type { Plant } from '@/firestoreModels';
 
-const t = gardenThemes.grove;
 type Member = Plant & { id: string };
 export default function GroupDetailScreen() {
+  const t = useAppTheme();
+  const s = makeStyles(t);
   const params = useLocalSearchParams<{ id: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const router = useRouter();
@@ -80,7 +83,7 @@ export default function GroupDetailScreen() {
     </View>
   </SafeAreaView>;
 }
-const s = StyleSheet.create({
+const makeStyles = (t: ReturnType<typeof useAppTheme>) => StyleSheet.create({
   safe: { flex: 1, backgroundColor: t.background },
   page: { flex: 1, width: '100%', maxWidth: 760, alignSelf: 'center' },
   toolbar: { flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, paddingVertical: 6 },
@@ -89,8 +92,8 @@ const s = StyleSheet.create({
   list: { paddingHorizontal: 18, paddingTop: 8, paddingBottom: 20 },
   garden: { padding: 16, borderRadius: 20, backgroundColor: t.hero, flexDirection: 'row', alignItems: 'center', gap: 12 },
   gardenName: { color: t.heroText, fontSize: 25, fontWeight: '700', lineHeight: 31, letterSpacing: -0.6 },
-  gardenMeta: { color: '#526344', fontSize: 13, lineHeight: 19 },
-  gardenIcon: { width: 48, height: 48, backgroundColor: '#dce6c4', borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
+  gardenMeta: { color: t.heroText, fontSize: 13, lineHeight: 19 },
+  gardenIcon: { width: 48, height: 48, backgroundColor: colorAlpha(t.heroText, .08), borderRadius: 15, alignItems: 'center', justifyContent: 'center' },
   hint: { color: t.muted, fontSize: 13, lineHeight: 20 },
   search: { flexDirection: 'row', alignItems: 'center', borderRadius: 14, backgroundColor: t.surface, paddingLeft: 12 },
   input: { flex: 1, minWidth: 0, minHeight: 44, paddingHorizontal: 10, color: t.text, fontSize: 16 },

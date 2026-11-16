@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import CloseButton from '@/ui/CloseButton';
 import React from 'react';
 import { ActivityIndicator, Modal, Pressable, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
@@ -7,10 +8,11 @@ import { MapPicker } from '@/ui/MapPicker';
 import { coordinateLabel, validCoordinates, type Coordinates } from './locationService';
 import { useLocationPicker } from './useLocationPicker';
 import { GardenSavedLocations } from './SavedLocations';
-import { defaultLocationTheme, type LocationTheme } from './locationTheme';
+import { type LocationTheme } from './locationTheme';
 
-export default function LocationPicker({ location, label = '', onChange, disabled = false, onBusyChange, allowSaved = true, theme = defaultLocationTheme, compactFlow = false, displayName, saveContext = 'plant', minimal = false }: { location?: Coordinates | null; label?: string; onChange(coords: Coordinates | null, name: string): void; disabled?: boolean; onBusyChange?(busy: boolean): void; allowSaved?: boolean; theme?: LocationTheme; compactFlow?: boolean; displayName?: string; saveContext?: 'plant' | 'garden'; minimal?: boolean }) {
-  const t = theme;
+export default function LocationPicker({ location, label = '', onChange, disabled = false, onBusyChange, allowSaved = true, theme, compactFlow = false, displayName, saveContext = 'plant', minimal = false }: { location?: Coordinates | null; label?: string; onChange(coords: Coordinates | null, name: string): void; disabled?: boolean; onBusyChange?(busy: boolean): void; allowSaved?: boolean; theme?: LocationTheme; compactFlow?: boolean; displayName?: string; saveContext?: 'plant' | 'garden'; minimal?: boolean }) {
+  const appTheme = useAppTheme();
+  const t = theme ?? appTheme;
   const styles = React.useMemo(() => makeStyles(t), [t]);
   const picker = useLocationPicker(location, label, onChange);
   const window = useWindowDimensions();

@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { useSession } from '@/services/session';
 import React from 'react';
 import { Image, View, Text, type ImageProps } from 'react-native';
@@ -20,9 +21,10 @@ export function usePhotoUri(uri?: string | null, fullSize = false) {
 }
 
 export function PlantImage({ source, fullSize = false, ...props }: ImageProps & { fullSize?: boolean }) {
+  const t = useAppTheme();
   const uri = source && !Array.isArray(source) && typeof source === 'object' ? source.uri : undefined;
   const photo = usePhotoUri(uri, fullSize);
   if (!photo.stored) return <Image {...props} source={source} />;
   if (photo.uri) return <Image {...props} source={{ uri: photo.uri }} />;
-  return <View style={props.style} accessibilityLabel={photo.failed ? 'Photo unavailable' : 'Loading photo'}>{photo.failed && <Text style={{ color: '#889785', fontSize: 11 }}>Photo unavailable</Text>}</View>;
+  return <View style={props.style} accessibilityLabel={photo.failed ? 'Photo unavailable' : 'Loading photo'}>{photo.failed && <Text style={{ color: t.muted, fontSize: 11 }}>Photo unavailable</Text>}</View>;
 }

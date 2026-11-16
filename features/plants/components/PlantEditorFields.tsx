@@ -1,3 +1,4 @@
+import { useAppTheme } from '@/hooks/useAppTheme';
 import { gardenControls } from '@/design-system/tokens/garden';
 import React from 'react';
 import { Animated, Keyboard, Pressable, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
@@ -5,13 +6,17 @@ import { Feather } from '@expo/vector-icons';
 import AnchoredSelectMenu from '@/ui/AnchoredSelectMenu';
 import type { MenuAnchor } from '@/ui/AnchoredActionMenu';
 import { useReducedMotion } from '@/ui/GrowMotion';
-import { plantThemes, type PlantTheme } from './plantDetailTheme';
+import { type PlantTheme } from './plantDetailTheme';
 
-const t = plantThemes.grove;
-export const EditorTheme = React.createContext<PlantTheme>(t);
+export const EditorTheme = React.createContext<PlantTheme | undefined>(undefined);
+export function useEditorTheme() {
+  const appTheme = useAppTheme();
+  return React.useContext(EditorTheme) ?? appTheme;
+}
 
 export function EditorField({ label, error, helper, suffix, suffixControl, inputRef, hideLabel = false, ...props }: TextInputProps & { label: string; error?: string; helper?: string; suffix?: string; suffixControl?: React.ReactNode; inputRef?: React.Ref<TextInput>; hideLabel?: boolean }) {
-  const t = React.useContext(EditorTheme);
+  const t = useEditorTheme();
+  const s = makeStyles(t);
   const reduced = useReducedMotion();
   const inputId = React.useId();
   const focus = React.useRef(new Animated.Value(0)).current;
@@ -37,7 +42,8 @@ export function EditorSelect({ label, value, options, onSelect, placeholder, dis
   const [anchor, setAnchor] = React.useState<MenuAnchor | null>(null);
   const trigger = React.useRef<View>(null);
   const measuring = React.useRef(0);
-  const t = React.useContext(EditorTheme);
+  const t = useEditorTheme();
+  const s = makeStyles(t);
   const close = React.useCallback(() => { measuring.current++; setAnchor(null); trigger.current?.focus?.(); }, []);
   React.useEffect(() => { if (disabled) { measuring.current++; setAnchor(null); } }, [disabled]);
   React.useEffect(() => () => { measuring.current++; }, []);
@@ -60,7 +66,7 @@ export function EditorSelect({ label, value, options, onSelect, placeholder, dis
   </View>;
 }
 
-const s = StyleSheet.create({
+const makeStyles = (t: PlantTheme) => StyleSheet.create({
   field: { gap: 5, minWidth: 0 },
   label: { color: t.muted, fontSize: 12, fontWeight: '600', letterSpacing: 0.2 },
   inputFrame: { borderWidth: 1, borderRadius: 12, backgroundColor: t.background, overflow: 'hidden' },
