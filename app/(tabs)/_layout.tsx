@@ -29,7 +29,7 @@ export default function TabLayout() {
         tabBarActiveBackgroundColor: t.elevated,
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          backgroundColor: t.surface,
+          backgroundColor: t.navigation,
           borderTopWidth: 1, borderTopColor: t.elevated, height: 56 + insets.bottom, paddingTop: 3, paddingBottom: Math.max(3, insets.bottom),
         },
       }}>

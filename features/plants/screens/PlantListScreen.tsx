@@ -2,6 +2,7 @@ import { useAppTheme } from '@/hooks/useAppTheme';
 import React from 'react';
 import { PlantListSkeleton } from '@/ui/LoadingFeedback';
 import { FlatList, RefreshControl, Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { useRouter } from 'expo-router';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import AppNotice from '@/ui/AppNotice';
@@ -37,6 +38,7 @@ export default function PlantListScreen({ viewMode = 'list', garden, searchQuery
   const [message, setMessage] = React.useState('');
   const [noticeDetail, setNoticeDetail] = React.useState('');
   const [noticeTone, setNoticeTone] = React.useState<'success' | 'error'>('success');
+  const [initialGridEntrancePlayed, setInitialGridEntrancePlayed] = React.useState(false);
   const [undo, setUndo] = React.useState<{ plantId: string; id: string; mutationId: string } | null>(null);
   const list = React.useRef<FlatList<ListedPlant>>(null);
   const restored = React.useRef(false);
@@ -44,6 +46,9 @@ export default function PlantListScreen({ viewMode = 'list', garden, searchQuery
   React.useEffect(() => { if (restored.current) list.current?.scrollToOffset({ offset: 0, animated: false }); }, [searchQuery, statusFilter, options]);
   const hasFilters = plantFilterValues(options.stage).length > 0 || plantFilterValues(options.environment).length > 0;
   const filtered = React.useMemo(() => selectPlantList(plants, searchQuery, statusFilter, options), [plants, statusFilter, searchQuery, options]);
+  React.useEffect(() => {
+    if (!collection.loading && filtered.length > 0) setInitialGridEntrancePlayed(true);
+  }, [collection.loading, filtered.length]);
   const openPlant = (plant: ListedPlant) => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } });
   const setStatus = (value: string | null) => { setStatusFilter(value); list.current?.scrollToOffset({ offset: 0, animated: false }); onOffsetChange(0); };
   const active = statusFilter === 'active';
@@ -67,7 +72,7 @@ export default function PlantListScreen({ viewMode = 'list', garden, searchQuery
       </View> : null}
       ListHeaderComponent={header}
       ListFooterComponent={footer}
-      renderItem={({ item }) => viewMode === 'grid' ? <View style={{ width: Math.max(0, (layoutWidth - 46) / 2), marginBottom: 10 }}><PlantGridCard plant={item} onPress={() => openPlant(item)} onWater={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} /></View> : <PlantCard plant={item} showEnvironment={false} onPress={() => openPlant(item)} onAddLog={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} />}
+      renderItem={({ item, index }) => viewMode === 'grid' ? <Animated.View entering={!initialGridEntrancePlayed ? FadeInDown.delay(Math.min(index * 55, 220)).duration(300).reduceMotion(ReduceMotion.System) : undefined} style={{ width: Math.max(0, (layoutWidth - 46) / 2), marginBottom: 10 }}><PlantGridCard plant={item} onPress={() => openPlant(item)} onWater={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} /></Animated.View> : <PlantCard plant={item} showEnvironment={false} onPress={() => openPlant(item)} onAddLog={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} />}
     />
     {pastOpen && <PlantEditorSheet title="Past plants" subtitle="Keep every plant's story within reach." theme={t} onClose={() => setPastOpen(false)}>{pastOptions.map(option => <Pressable key={option.label} accessibilityRole="button" accessibilityState={{ selected: statusFilter === option.value }} onPress={() => { setStatus(option.value); setPastOpen(false); }} style={s.menuRow}><Text style={s.menuText}>{option.label}</Text>{statusFilter === option.value && <MaterialCommunityIcons name="check" color={t.accent} size={22} />}</Pressable>)}</PlantEditorSheet>}
     {waterPlant && <QuickWateringDialog plant={waterPlant} onClose={() => setWaterPlant(null)} onSaved={result => { setUndo(result); setNoticeTone('success'); setNoticeDetail(waterPlant.name); setMessage('Watering logged'); care.refresh(); }} />}

@@ -7,6 +7,7 @@ import type { Plant } from '@/firestoreModels';
 import type { CareTask } from '@/lib/care/careTasks';
 import { gardenCareGroups } from '../gardenCare';
 import { useGardenCareSuggestions } from '../hooks/useGardenCareSuggestions';
+import { colorAlpha } from '@/design-system/tokens/garden';
 
 export default function GardenCareOverview({ plants, tasks, now, loading, error, onRetry }: {
   plants: (Plant & { id: string })[]; tasks: CareTask[]; now: Date; loading: boolean; error: string | null; onRetry(): void;
@@ -21,7 +22,7 @@ export default function GardenCareOverview({ plants, tasks, now, loading, error,
   const count = groups.length;
   const title = pending ? 'Checking your garden…' : failed ? 'Care needs a refresh' : count ? `${count} ${count === 1 ? 'thing needs' : 'things need'} checking` : 'No checks due right now';
   const subtitle = pending ? 'Gathering care advice for your plants' : failed ? 'Some care advice is unavailable' : count ? groups.map(group => group.title).join(' · ') : 'Keep an eye on your plants as conditions change';
-  return <View style={[s.card, { backgroundColor: t.surface, borderColor: t.border }]}>
+  return <View style={[s.card, { backgroundColor: t.surface, borderColor: colorAlpha(t.border, 0.48), borderWidth: 0.75 }]}>
     <Pressable accessibilityRole="button" accessibilityLabel={`Today’s garden care. ${title}`} accessibilityState={{ expanded }} onPress={() => setExpanded(value => !value)} style={s.header}>
       <View style={[s.icon, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name="sprout" size={32} color={t.accent} /></View>
       <View style={[s.copy, { borderColor: t.elevated }]}>
