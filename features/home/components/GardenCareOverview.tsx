@@ -1,14 +1,12 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useAppTheme } from '@/hooks/useAppTheme';
-import { useLocalCareRevision } from '@/hooks/useLocalCareRevision';
-import { adviceInput } from '@/lib/suggestions/adviceInputs';
-import { evaluateSuggestionCardsForPlants, type PlantSuggestionResult } from '@/lib/suggestions/suggestionCards';
 import type { Plant } from '@/firestoreModels';
 import type { CareTask } from '@/lib/care/careTasks';
 import { gardenCareGroups } from '../gardenCare';
+import { useGardenCareSuggestions } from '../hooks/useGardenCareSuggestions';
 
 export default function GardenCareOverview({ plants, tasks, now, loading, error, onRetry }: {
   plants: (Plant & { id: string })[]; tasks: CareTask[]; now: Date; loading: boolean; error: string | null; onRetry(): void;
@@ -16,24 +14,10 @@ export default function GardenCareOverview({ plants, tasks, now, loading, error,
   const t = useAppTheme();
   const router = useRouter();
   const [expanded, setExpanded] = React.useState(false);
-  const [refresh, setRefresh] = React.useState(0);
-  const [state, setState] = React.useState<{ key: string; results: PlantSuggestionResult[]; loading: boolean; error: boolean }>({ key: '', results: [], loading: true, error: false });
-  const revision = useLocalCareRevision();
-  const inputKey = JSON.stringify(plants.filter(p => p.status === 'active' && !p.deleting).map(adviceInput));
-  // Refresh on return from recording care, and at the next expiry window.
-  const minute = Math.floor(now.getTime() / 60000);
-  useFocusEffect(React.useCallback(() => { setRefresh(value => value + 1); }, []));
-  React.useEffect(() => {
-    const controller = new AbortController();
-    setState({ key: inputKey, results: [], loading: true, error: false });
-    evaluateSuggestionCardsForPlants(JSON.parse(inputKey), { execution: 'local' }, controller.signal)
-      .then(results => { if (!controller.signal.aborted) setState({ key: inputKey, results, loading: false, error: results.length < JSON.parse(inputKey).length }); })
-      .catch(() => { if (!controller.signal.aborted) setState({ key: inputKey, results: [], loading: false, error: true }); });
-    return () => controller.abort();
-  }, [inputKey, revision, refresh, minute]);
-  const pending = loading || state.loading || state.key !== inputKey;
-  const failed = !!error || state.error;
-  const groups = gardenCareGroups(state.key === inputKey ? state.results : [], tasks, plants, now);
+  const advice = useGardenCareSuggestions(plants, now);
+  const pending = loading || advice.loading;
+  const failed = !!error || advice.error;
+  const groups = React.useMemo(() => gardenCareGroups(advice.results, tasks, plants, now), [advice.results, tasks, plants, now]);
   const count = groups.length;
   const title = pending ? 'Checking your garden…' : failed ? 'Care needs a refresh' : count ? `${count} ${count === 1 ? 'thing needs' : 'things need'} checking` : 'No checks due right now';
   const subtitle = pending ? 'Gathering care advice for your plants' : failed ? 'Some care advice is unavailable' : count ? groups.map(group => group.title).join(' · ') : 'Keep an eye on your plants as conditions change';
@@ -56,7 +40,7 @@ export default function GardenCareOverview({ plants, tasks, now, loading, error,
         </Pressable>)}
       </View>)}
       {!pending && !count && <Text style={[s.subtitle, { color: t.muted }]}>{failed ? 'Refresh to check the latest advice.' : 'Your current care suggestions and routine reminders will appear here when a check is due.'}</Text>}
-      {failed && <Pressable accessibilityRole="button" onPress={() => { onRetry(); setRefresh(value => value + 1); }} style={s.retry}><Text style={{ color: t.accent, fontWeight: '600' }}>Retry care advice</Text></Pressable>}
+      {failed && <Pressable accessibilityRole="button" onPress={() => { onRetry(); advice.refresh(); }} style={s.retry}><Text style={{ color: t.accent, fontWeight: '600' }}>Retry care advice</Text></Pressable>}
     </View>}
   </View>;
 }

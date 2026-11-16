@@ -19,9 +19,9 @@ import HomeBackground from '../components/HomeBackground';
 import GardenDropdown from '../components/GardenDropdown';
 import CreateGardenSheet from '../components/CreateGardenSheet';
 import PlantFilterMenu from '../components/PlantFilterMenu';
-import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, plantListChoiceCount, plantSortOptions, selectPlantList, type PlantListOptions } from '@/lib/plants/plantListOptions';
+import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, plantListChoiceCount, plantSortOptions, countPlantList, type PlantListOptions } from '@/lib/plants/plantListOptions';
 import { guideStage } from '@/features/plants/growthStagePresentation';
-import { decodeGardenSelection, plantsInGarden, resolveGardenSelection, type GardenSelection } from '../gardenSelection';
+import { decodeGardenSelection, plantsInGarden, resolveGardenSelection, summarizeGardenCollection, type GardenSelection } from '../gardenSelection';
 import { useCareTasks } from '@/features/care/useCareTasks';
 import { readGardenListView, saveGardenListView, saveGardenScrollOffset } from '@/services/homeGardenView';
 import AnchoredActionMenu, { type MenuAnchor, type MenuAction } from '@/ui/AnchoredActionMenu';
@@ -58,36 +58,56 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
   const [actionsAnchor, setActionsAnchor] = React.useState<MenuAnchor | null>(null);
   const [editing, setEditing] = React.useState<GroupWithId | null>(null);
   const [watering, setWatering] = React.useState<{ name: string; plants: (Plant & { id: string })[] } | null>(null);
-  const offset = React.useRef(0);
   const lastScope = React.useRef('');
   const pendingGarden = React.useRef<string | null>(null);
   const storageKey = `weedgrow.home-garden.v1.${uid || 'device'}`;
   const preferenceWrites = React.useRef(Promise.resolve());
+  const restoreView = React.useCallback((gardenId: string) => {
+    const view = readGardenListView(uid, gardenId);
+    setQuery(view.query);
+    setStatus(view.status);
+    setOptions(view.options || DEFAULT_PLANT_LIST_OPTIONS);
+  }, [uid]);
+  const persistSelection = (value: GardenSelection, failureMessage: string) => {
+    preferenceWrites.current = preferenceWrites.current.catch(() => {})
+      .then(() => AsyncStorage.setItem(storageKey, JSON.stringify(value)))
+      .catch(() => setMessage(failureMessage));
+  };
   React.useEffect(() => {
     let active = true;
-    void AsyncStorage.getItem(storageKey).then(raw => { if (active) { const next = decodeGardenSelection(raw); setSelection(next); if (next) { const view = readGardenListView(uid, next.kind === 'garden' ? next.id : 'all'); setQuery(view.query); setStatus(view.status); setOptions(view.options || DEFAULT_PLANT_LIST_OPTIONS); offset.current = view.offset; } } }).catch(() => {}).finally(() => { if (active) setPreferenceReady(true); });
+    void AsyncStorage.getItem(storageKey).then(raw => {
+      if (!active) return;
+      const next = decodeGardenSelection(raw);
+      setSelection(next);
+      if (next) restoreView(next.kind === 'garden' ? next.id : 'all');
+    }).catch(() => {}).finally(() => { if (active) setPreferenceReady(true); });
     return () => { active = false; };
-  }, [storageKey, uid]);
+  }, [storageKey, restoreView]);
   const gardens = React.useMemo(() => [...spaces.groups].sort((a, b) => a.name.localeCompare(b.name) || a.id.localeCompare(b.id)), [spaces.groups]);
   const weatherCollection = useGardenWeather();
   React.useEffect(() => {
     if (!preferenceReady || (spaces.status !== 'ready' && spaces.status !== 'refreshing') || spaces.error) return;
     if (selection?.kind === 'garden' && pendingGarden.current === selection.id && !gardens.some(garden => garden.id === selection.id)) return;
     const next = resolveGardenSelection(selection, gardens);
-    if (next !== selection) { const view = readGardenListView(uid, next.kind === 'garden' ? next.id : 'all'); setQuery(view.query); setStatus(view.status); setOptions(view.options || DEFAULT_PLANT_LIST_OPTIONS); offset.current = view.offset; setSelection(next); }
-  }, [gardens, preferenceReady, spaces.status, spaces.error, selection, uid]);
+    if (next !== selection) {
+      restoreView(next.kind === 'garden' ? next.id : 'all');
+      setSelection(next);
+    }
+  }, [gardens, preferenceReady, spaces.status, spaces.error, selection, restoreView]);
   const resolved = resolveGardenSelection(selection, gardens);
   const selected = resolved.kind === 'garden' ? gardens.find(item => item.id === resolved.id) || null : null;
   const scopedPlants = React.useMemo(() => plantsInGarden(collection.plants, selected), [collection.plants, selected]);
   const scopedIds = React.useMemo(() => scopedPlants.map(plant => plant.id), [scopedPlants]);
   const care = useCareTasks(!!uid && preferenceReady, scopedIds);
-  const counts = React.useMemo(() => Object.fromEntries(gardens.map(garden => [garden.id, plantsInGarden(collection.plants, garden).filter(plant => plant.status === 'active').length])), [gardens, collection.plants]);
+  const { counts, unassigned } = React.useMemo(() => summarizeGardenCollection(collection.plants, gardens), [collection.plants, gardens]);
   const ready = preferenceReady && !accountLoading && !spaces.loading;
   const choose = (value: GardenSelection) => {
     const nextKey = value.kind === 'garden' ? value.id : 'all';
-    const view = readGardenListView(uid, nextKey); lastScope.current = nextKey;
-    offset.current = view.offset; setQuery(view.query); setStatus(view.status); setOptions(view.options || DEFAULT_PLANT_LIST_OPTIONS); setSelection(value); setMessage('');
-    preferenceWrites.current = preferenceWrites.current.catch(() => {}).then(() => AsyncStorage.setItem(storageKey, JSON.stringify(value))).catch(() => setMessage('Your garden is open. This device could not remember the selection.'));
+    restoreView(nextKey);
+    lastScope.current = nextKey;
+    setSelection(value);
+    setMessage('');
+    persistSelection(value, 'Your garden is open. This device could not remember the selection.');
   };
   React.useEffect(() => {
     const id = pendingGarden.current;
@@ -99,22 +119,21 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
     if (!uid) { router.push('/account'); return; }
     setCreating(true);
   };
-  const unassigned = collection.plants.filter(plant => !plant.groupId && !gardens.some(garden => garden.plantIds.includes(plant.id))).length;
   const listKey = selected?.id || 'all';
   React.useLayoutEffect(() => {
     if (lastScope.current === listKey || !preferenceReady) return;
-    const view = readGardenListView(uid, listKey);
-    lastScope.current = listKey; offset.current = view.offset; setQuery(view.query); setStatus(view.status); setOptions(view.options || DEFAULT_PLANT_LIST_OPTIONS);
-  }, [listKey, uid, preferenceReady]);
+    lastScope.current = listKey;
+    restoreView(listKey);
+  }, [listKey, preferenceReady, restoreView]);
   const remember = (nextQuery: string, nextStatus: string | null, nextOffset: number, nextOptions = options) => {
-    offset.current = nextOffset; saveGardenListView(uid, listKey, { query: nextQuery, status: nextStatus, offset: nextOffset, options: nextOptions });
+    saveGardenListView(uid, listKey, { query: nextQuery, status: nextStatus, offset: nextOffset, options: nextOptions });
   };
   const changeQuery = (value: string) => { setQuery(value); remember(value, status, 0); };
   const changeStatus = (value: string | null) => { setStatus(value); remember(query, value, 0); };
   const applyOptions = (nextOptions: PlantListOptions, nextStatus: string) => { setOptions(nextOptions); setStatus(nextStatus); remember(query, nextStatus, 0, nextOptions); };
   const resetOptions = () => applyOptions(DEFAULT_PLANT_LIST_OPTIONS, 'active');
   const choiceCount = plantListChoiceCount(options, status);
-  const visibleCount = React.useMemo(() => selectPlantList(scopedPlants, query, status, options).length, [scopedPlants, query, status, options]);
+  const visibleCount = React.useMemo(() => countPlantList(scopedPlants, query, status, options), [scopedPlants, query, status, options]);
   const stageFilters = plantFilterValues(options.stage);
   const environmentFilters = plantFilterValues(options.environment);
   const summary = [stageFilters.length === 1 ? guideStage(stageFilters[0]).title : stageFilters.length ? `${stageFilters.length} stages` : '', environmentFilters.length === 1 ? environmentFilters[0][0].toUpperCase() + environmentFilters[0].slice(1) : environmentFilters.length ? `${environmentFilters.length} environments` : '', options.sort !== 'newest' ? plantSortOptions.find(item => item.value === options.sort)?.label : '', status !== 'active' ? 'Past plants' : ''].filter(Boolean).join(' · ');
@@ -166,7 +185,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
 
       {creating && <CreateGardenSheet onClose={() => setCreating(false)} onCreated={id => {
         pendingGarden.current = id; setSelection({ kind: 'garden', id });
-        preferenceWrites.current = preferenceWrites.current.catch(() => {}).then(() => AsyncStorage.setItem(storageKey, JSON.stringify({ kind: 'garden', id }))).catch(() => setMessage('Garden created. This device could not remember the selection.'));
+        persistSelection({ kind: 'garden', id }, 'Garden created. This device could not remember the selection.');
       }} />}
     </SafeAreaView>
   </View>;

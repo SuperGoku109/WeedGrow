@@ -6,7 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { GrowPress, useReducedMotion } from '@/ui/GrowMotion';
 import { menuPosition, type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import { gardenThemes } from '@/design-system/tokens/garden';
-import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, plantSortOptions, selectPlantList, type PlantListOptions, type PlantListStage } from '@/lib/plants/plantListOptions';
+import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, plantSortOptions, countPlantList, type PlantListOptions, type PlantListStage } from '@/lib/plants/plantListOptions';
 import { GROWTH_GUIDE_STAGES } from '@/features/plants/growthStagePresentation';
 import type { Plant } from '@/firestoreModels';
 
@@ -35,7 +35,7 @@ export default function PlantFilterMenu({ anchor, options, status, plants, query
   }, [reduced, progress]);
   const position = menuPosition(anchor, width, height, (showEnvironment ? 438 : 366) * Math.max(1, fontScale), insets.top, insets.bottom, 340);
   const top = position.opensBelow ? position.top : Math.max(insets.top + 8, anchor.y - Math.min(measuredHeight || 320, position.maxHeight) - 10);
-  const count = selectPlantList(plants, query, draftStatus, draft).length;
+  const count = countPlantList(plants, query, draftStatus, draft);
   const selectedStages = plantFilterValues<PlantListStage>(draft.stage);
   const selectedEnvironments = plantFilterValues<Plant['environment']>(draft.environment);
   const stages = [{ value: 'all', label: 'All' }, ...GROWTH_GUIDE_STAGES.map(item => ({ value: item.key, label: item.title }))];

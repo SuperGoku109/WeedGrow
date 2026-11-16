@@ -23,3 +23,24 @@ export function plantsInGarden<T extends Plant & { id: string }>(plants: T[], ga
   const legacyIds = new Set(garden.plantIds);
   return plants.filter(plant => plant.groupId === garden.id || (!plant.groupId && legacyIds.has(plant.id)));
 }
+
+/** Count direct and legacy memberships without scanning the collection per garden. */
+export function summarizeGardenCollection(plants: (Plant & { id: string })[], gardens: HomeGarden[]) {
+  const byId = new Map(plants.map(plant => [plant.id, plant]));
+  const assignedCounts = new Map<string, number>();
+  for (const plant of plants) {
+    if (plant.groupId && plant.status === 'active') assignedCounts.set(plant.groupId, (assignedCounts.get(plant.groupId) || 0) + 1);
+  }
+  const legacyIds = new Set<string>();
+  const counts = Object.fromEntries(gardens.map(garden => {
+    let count = assignedCounts.get(garden.id) || 0;
+    for (const id of new Set(garden.plantIds)) {
+      legacyIds.add(id);
+      const plant = byId.get(id);
+      if (plant && !plant.groupId && plant.status === 'active') count++;
+    }
+    return [garden.id, count];
+  }));
+  const unassigned = plants.filter(plant => !plant.groupId && !legacyIds.has(plant.id)).length;
+  return { counts, unassigned };
+}

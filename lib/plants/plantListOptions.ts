@@ -17,23 +17,34 @@ export const plantSortOptions = [
 export function plantListChoiceCount(options: PlantListOptions, status: string | null) {
   return plantFilterValues(options.stage).length + plantFilterValues(options.environment).length + Number(options.sort !== 'newest') + Number(status !== 'active');
 }
-export function selectPlantList<T extends Plant & { id: string }>(plants: readonly T[], query: string, status: string | null, options = DEFAULT_PLANT_LIST_OPTIONS): T[] {
+function plantListMatcher(query: string, status: string | null, options: PlantListOptions) {
   const search = query.trim().toLocaleLowerCase();
   const stages = plantFilterValues<PlantListStage>(options.stage);
   const environments = plantFilterValues<Plant['environment']>(options.environment);
+  const now = new Date();
+  return (plant: Plant) => (
+    (status === 'past' || !status ? plant.status !== 'active' : plant.status === status)
+    && (!stages.length || stages.includes(growthPhase(plant))
+      // Pre-flowering is an observed phase within vegetative growth, not a stored plant stage.
+      || stages.includes('preflower') && plant.growthStage === 'vegetative' && isCalendarDay(plant.preflowerObservedOn || '') && plant.preflowerObservedOn! <= plantDay(now, plant.locationTimeZone))
+    && (!environments.length || environments.includes(plant.environment))
+    && `${plant.name} ${plant.strain || ''}`.toLocaleLowerCase().includes(search)
+  );
+}
+
+/** Counts and filter previews share the list's rules, but do not need its sort. */
+export function countPlantList(plants: readonly Plant[], query: string, status: string | null, options = DEFAULT_PLANT_LIST_OPTIONS): number {
+  const matches = plantListMatcher(query, status, options);
+  return plants.reduce((count, plant) => count + Number(matches(plant)), 0);
+}
+
+export function selectPlantList<T extends Plant & { id: string }>(plants: readonly T[], query: string, status: string | null, options = DEFAULT_PLANT_LIST_OPTIONS): T[] {
   const nameOrder = (a: T, b: T) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base', numeric: true }) || a.id.localeCompare(b.id);
   const added = (plant: T) => {
     const value = typeof plant.createdAt?.toMillis === 'function' ? plant.createdAt.toMillis() : null;
     return typeof value === 'number' && Number.isFinite(value) ? value : null;
   };
-  return plants.filter(plant => (
-    (status === 'past' || !status ? plant.status !== 'active' : plant.status === status)
-    && (!stages.length || stages.includes(growthPhase(plant))
-      // Pre-flowering is an observed phase within vegetative growth, not a stored plant stage.
-      || stages.includes('preflower') && plant.growthStage === 'vegetative' && isCalendarDay(plant.preflowerObservedOn || '') && plant.preflowerObservedOn! <= plantDay(new Date(), plant.locationTimeZone))
-    && (!environments.length || environments.includes(plant.environment))
-    && `${plant.name} ${plant.strain || ''}`.toLocaleLowerCase().includes(search)
-  )).sort((a, b) => {
+  return plants.filter(plantListMatcher(query, status, options)).sort((a, b) => {
     if (options.sort === 'nameAsc') return nameOrder(a, b);
     if (options.sort === 'nameDesc') return -nameOrder(a, b);
     const first = added(a); const second = added(b);

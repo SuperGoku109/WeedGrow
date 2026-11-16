@@ -1,0 +1,58 @@
+Starting Metro Bundler
+Static rendering is enabled. Learn more: https://docs.expo.dev/router/reference/static-rendering/
+Web node_modules\expo-router\entry.js ▓▓▓▓░░░░░░░░░░░░ 29.4% (280/516)
+λ node_modules\expo-router\node\render.js ▓▓▓▓▓▓░░░░░░░░░░ 43.1% (491/748)
+| (node:14616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:18460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:7176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:9576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:5548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:26344) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+| (node:5308) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+| (Use `node --trace-warnings ...` to show where the warning was created)
+λ Bundled 3380ms node_modules\expo-router\node\render.js (2327 modules)
+Web node_modules\expo-router\entry.js ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓░ 99.9% (2187/2187)
+Web Bundled 4917ms node_modules\expo-router\entry.js (2187 modules)
+
+› web bundles (7):
+_expo/static/css/accessibilityStyles-46ed2d18db24637cee737f9ed7e06be0.css (337 B)
+_expo/static/css/leaflet-0a73d6787c8f1a38d8aeeeff6d84fadd.css (10.5 kB)
+_expo/static/css/mapPicker-dc485c8d51c73e8068d4de147eec6cb7.css (299 B)
+_expo/static/css/modal.module-33361d5c796745334f151cac6c469469.css (2.27 kB)
+_expo/static/js/web/entry-0b5aab885bbb88cc6fddee6ca4715b89.js (5.14 MB)
+_expo/static/js/web/leaflet-src-f8e3a581de8834eb665186b51a4e7099.js (149 kB)
+_expo/static/js/web/plantCareEvaluation-549321b078a20ad44f30f19686753b97.js (4.22 kB)
+
+› Static routes (24):
+/care (41.9 kB)
+/more (69.2 kB)
+/ (index) (39.9 kB)
+/account (43.4 kB)
+/journal (51.2 kB)
+/_sitemap (39 kB)
+/profiles (49.9 kB)
+/add-group (52.2 kB)
+/locations (42.2 kB)
+/+not-found (40.3 kB)
+/setup-gaps (40.7 kB)
+/group/[id] (45.6 kB)
+/plant/[id] (42.2 kB)
+/(tabs)/more (69.2 kB)
+/(tabs) (55.8 kB)
+/(tabs)/profiles (49.9 kB)
+/add-plant (40.9 kB)
+/plant/[id]/edit (42.2 kB)
+/plant/[id]/growth (42.2 kB)
+/add-sensor-profile (57.6 kB)
+/group/[id]/add-plants (52.2 kB)
+/plant/ProgressGallery (40.6 kB)
+/manage-sensor-profiles (44.5 kB)
+/plant/LogHistoryCalendar (40.3 kB)
+
+Exported: tmp/ui-refinement-second-pass-web

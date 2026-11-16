@@ -1,4 +1,4 @@
-import { decodeGardenSelection, plantsInGarden, resolveGardenSelection, type HomeGarden } from '../gardenSelection';
+import { decodeGardenSelection, plantsInGarden, resolveGardenSelection, summarizeGardenCollection, type HomeGarden } from '../gardenSelection';
 import type { Plant } from '@/firestoreModels';
 
 const home = { id: 'home', name: 'Home', plantIds: ['legacy', 'moved'], environment: 'outdoor' } as HomeGarden;
@@ -22,4 +22,15 @@ it('restores valid selections and falls back after a garden is removed', () => {
 it('rejects corrupt viewing preferences without hiding plants', () => {
   for (const raw of ['broken', '{}', '{"kind":"garden","id":"bad/path"}', '{"kind":"garden","id":42}']) expect(decodeGardenSelection(raw)).toBeNull();
   expect(decodeGardenSelection('{"kind":"garden","id":"home"}')).toEqual({ kind: 'garden', id: 'home' });
+});
+
+it('counts direct and legacy membership consistently, including stale and duplicate reverse indices', () => {
+  const gardens = [{ ...home, plantIds: [...home.plantIds, 'legacy', 'absent', 'past'] }, { ...tent, plantIds: ['legacy'] }];
+  const entries = [...plants.map(plant => ({ ...plant, status: 'active' as const })), { id: 'past', status: 'archived', groupId: null } as Plant & { id: string }];
+  const summary = summarizeGardenCollection(entries, gardens);
+  expect(summary.counts).toEqual({ home: 2, tent: 2 });
+  for (const garden of gardens) expect(summary.counts[garden.id]).toBe(plantsInGarden(entries, garden).filter(plant => plant.status === 'active').length);
+  expect(summary.unassigned).toBe(1);
+  expect(summarizeGardenCollection(entries, []).unassigned).toBe(3);
+  expect(summarizeGardenCollection([], gardens).counts).toEqual({ home: 0, tent: 0 });
 });

@@ -14,9 +14,8 @@ export async function waterPlants(plants: readonly (Plant & { id: string })[]) {
       return { id: plant.id, result: 'failed' as const };
     }
   });
-  return {
-    written: results.filter(item => item.result === 'written').length,
-    skipped: results.filter(item => item.result === 'skipped').length,
-    failed: results.filter(item => item.result === 'failed').length,
-  };
+  return results.reduce((counts, item) => {
+    counts[item.result]++;
+    return counts;
+  }, { written: 0, skipped: 0, failed: 0 });
 }

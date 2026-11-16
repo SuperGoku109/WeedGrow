@@ -1,5 +1,5 @@
 import type { Plant } from '@/firestoreModels';
-import { DEFAULT_PLANT_LIST_OPTIONS as defaults, plantListChoiceCount, selectPlantList } from '../plantListOptions';
+import { DEFAULT_PLANT_LIST_OPTIONS as defaults, countPlantList, plantListChoiceCount, selectPlantList, type PlantListOptions } from '../plantListOptions';
 
 function plant(id: string, name: string, added: number | null, fields: Partial<Plant> = {}) {
   return { id, name, strain: '', status: 'active', growthStage: 'vegetative', environment: 'outdoor', createdAt: added === null ? null : { toMillis: () => added }, ...fields } as Plant & { id: string };
@@ -62,4 +62,17 @@ it('filters pre-flowering from recorded signs without inventing a separate store
   ];
   expect(selectPlantList(entries, '', 'active', { ...defaults, stage: ['preflower'] }).map(item => item.id)).toEqual(['observed']);
   expect(selectPlantList(entries, '', 'active', { ...defaults, stage: ['preflower', 'flowering'] }).map(item => item.id)).toEqual(['flowering', 'observed']);
+});
+
+it('counts the same matches as the list across filters, without reading timestamps to sort', () => {
+  const choices: PlantListOptions[] = [defaults, { ...defaults, stage: ['seedling', 'vegetative'] }, { ...defaults, environment: 'indoor' }];
+  for (const status of ['active', 'past', 'harvested', null]) for (const query of ['', 'Blue', '  plant  ']) {
+    for (const options of choices) {
+      expect(countPlantList(plants, query, status, options)).toBe(selectPlantList(plants, query, status, options).length);
+    }
+  }
+  const readTimestamp = jest.fn(() => 1);
+  const entries = ['a', 'b', 'c'].map(id => plant(id, id, 1, { createdAt: { toMillis: readTimestamp } as unknown as Plant['createdAt'] }));
+  expect(countPlantList(entries, '', 'active')).toBe(3);
+  expect(readTimestamp).not.toHaveBeenCalled();
 });

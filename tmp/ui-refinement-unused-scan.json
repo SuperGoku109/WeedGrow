@@ -1,0 +1,516 @@
+[
+  {
+    "path": "features/addGroup/api/createGroup.ts",
+    "lines": 2,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/api/careApi.ts",
+    "lines": 4,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/api/mediaApi.ts",
+    "lines": 4,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/api/searchPlaces.ts",
+    "lines": 2,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/components/StepIndicatorBar.tsx",
+    "lines": 48,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/screens/Step0SelectStage.tsx",
+    "lines": 172,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/screens/Step1BasicInfo.tsx",
+    "lines": 35,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/screens/Step2Environment.tsx",
+    "lines": 28,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/screens/Step3Location.tsx",
+    "lines": 28,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/screens/Step4Care.tsx",
+    "lines": 28,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/screens/Step5Media.tsx",
+    "lines": 26,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/screens/Step6Review.tsx",
+    "lines": 26,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/types/StepProps.ts",
+    "lines": 23,
+    "referencedBy": [
+      "features/addPlant/screens/Step1BasicInfo.tsx",
+      "features/addPlant/screens/Step2Environment.tsx",
+      "features/addPlant/screens/Step3Location.tsx",
+      "features/addPlant/screens/Step4Care.tsx",
+      "features/addPlant/screens/Step5Media.tsx",
+      "features/addPlant/screens/Step6Review.tsx"
+    ]
+  },
+  {
+    "path": "features/groups/components/GroupDetailHeader.tsx",
+    "lines": 57,
+    "referencedBy": []
+  },
+  {
+    "path": "features/groups/components/GroupPlantList.tsx",
+    "lines": 317,
+    "referencedBy": []
+  },
+  {
+    "path": "features/groups/components/GroupScreenLayout.tsx",
+    "lines": 72,
+    "referencedBy": []
+  },
+  {
+    "path": "features/home/components/FilterChips.tsx",
+    "lines": 41,
+    "referencedBy": []
+  },
+  {
+    "path": "features/home/components/GardenOverview.tsx",
+    "lines": 33,
+    "referencedBy": []
+  },
+  {
+    "path": "features/home/components/GroupList.tsx",
+    "lines": 134,
+    "referencedBy": []
+  },
+  {
+    "path": "features/home/components/GrowHero.tsx",
+    "lines": 67,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/components/DeleteButton.tsx",
+    "lines": 25,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/components/GalleryBar.tsx",
+    "lines": 48,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/components/NotesSection.tsx",
+    "lines": 23,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/components/PlantHeader.tsx",
+    "lines": 266,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/hooks/useCollapsingHeader.ts",
+    "lines": 42,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/hooks/useDailyLogs.ts",
+    "lines": 28,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/hooks/useDeletePlant.ts",
+    "lines": 31,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/hooks/usePlantForm.ts",
+    "lines": 27,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/hooks/useWateringChartHistory.ts",
+    "lines": 13,
+    "referencedBy": []
+  },
+  {
+    "path": "features/plants/hooks/useWateringHistory.ts",
+    "lines": 21,
+    "referencedBy": []
+  },
+  {
+    "path": "hooks/usePlantLogs.ts",
+    "lines": 38,
+    "referencedBy": []
+  },
+  {
+    "path": "lib/arrayIntersection.ts",
+    "lines": 6,
+    "referencedBy": []
+  },
+  {
+    "path": "lib/logs/fetchPlantLogsForDate.ts",
+    "lines": 28,
+    "referencedBy": [
+      "features/plants/hooks/useDailyLogs.ts"
+    ]
+  },
+  {
+    "path": "lib/logs/fetchWateringHistory.ts",
+    "lines": 45,
+    "referencedBy": [
+      "features/plants/hooks/useWateringHistory.ts"
+    ]
+  },
+  {
+    "path": "lib/weather/fetchPlantWeatherContext.ts",
+    "lines": 65,
+    "referencedBy": []
+  },
+  {
+    "path": "lib/weather/getPlantAdvice.ts",
+    "lines": 126,
+    "referencedBy": [
+      "lib/weather/fetchPlantWeatherContext.ts"
+    ]
+  },
+  {
+    "path": "lib/weather/shouldUpdateWeather.ts",
+    "lines": 21,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/Collapsible.tsx",
+    "lines": 60,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/CollapsingHeaderWithGallery.tsx",
+    "lines": 56,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/ExpandedLogPanel.tsx",
+    "lines": 63,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/GradientOverlay.tsx",
+    "lines": 16,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/HapticTab.tsx",
+    "lines": 19,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/InfoTooltip.tsx",
+    "lines": 56,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/SensorProfileBar.tsx",
+    "lines": 44,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/SwipeTabs.tsx",
+    "lines": 56,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/TabBarBackground.tsx",
+    "lines": 24,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/WateringHistoryBar.tsx",
+    "lines": 45,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/WeedGrowDivider.tsx",
+    "lines": 29,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/WeedGrowEnvBadge.tsx",
+    "lines": 55,
+    "referencedBy": []
+  },
+  {
+    "path": "ui/WeedGrowInputStyle.ts",
+    "lines": 30,
+    "referencedBy": []
+  },
+  {
+    "path": "components/ui/TabBarBackground.tsx",
+    "lines": 14,
+    "referencedBy": []
+  },
+  {
+    "path": "features/addPlant/components/BasicInfoForm.tsx",
+    "lines": 245,
+    "referencedBy": [
+      "features/addPlant/screens/Step1BasicInfo.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/components/CareForm.tsx",
+    "lines": 127,
+    "referencedBy": [
+      "features/addPlant/screens/Step4Care.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/components/EnvironmentForm.tsx",
+    "lines": 323,
+    "referencedBy": [
+      "features/addPlant/screens/Step2Environment.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/components/LocationForm.tsx",
+    "lines": 134,
+    "referencedBy": [
+      "features/addPlant/screens/Step3Location.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/components/MediaForm.tsx",
+    "lines": 105,
+    "referencedBy": [
+      "features/addPlant/screens/Step5Media.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/components/ReviewForm.tsx",
+    "lines": 74,
+    "referencedBy": [
+      "features/addPlant/screens/Step6Review.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/components/StepScreen.tsx",
+    "lines": 50,
+    "referencedBy": [
+      "features/addPlant/screens/Step1BasicInfo.tsx",
+      "features/addPlant/screens/Step2Environment.tsx",
+      "features/addPlant/screens/Step3Location.tsx",
+      "features/addPlant/screens/Step4Care.tsx",
+      "features/addPlant/screens/Step5Media.tsx",
+      "features/addPlant/screens/Step6Review.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/hooks/useStep1BasicInfo.ts",
+    "lines": 69,
+    "referencedBy": [
+      "features/addPlant/components/BasicInfoForm.tsx",
+      "features/addPlant/screens/Step1BasicInfo.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/hooks/useStep2Environment.ts",
+    "lines": 116,
+    "referencedBy": [
+      "features/addPlant/components/EnvironmentForm.tsx",
+      "features/addPlant/screens/Step2Environment.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/hooks/useStep3Location.ts",
+    "lines": 76,
+    "referencedBy": [
+      "features/addPlant/components/LocationForm.tsx",
+      "features/addPlant/screens/Step3Location.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/hooks/useStep4Care.ts",
+    "lines": 76,
+    "referencedBy": [
+      "features/addPlant/components/CareForm.tsx",
+      "features/addPlant/screens/Step4Care.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/hooks/useStep5Media.ts",
+    "lines": 57,
+    "referencedBy": [
+      "features/addPlant/components/MediaForm.tsx",
+      "features/addPlant/screens/Step5Media.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/hooks/useStep6Review.ts",
+    "lines": 53,
+    "referencedBy": [
+      "features/addPlant/components/ReviewForm.tsx",
+      "features/addPlant/screens/Step6Review.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/hooks/useStepBackground.ts",
+    "lines": 13,
+    "referencedBy": [
+      "features/addPlant/hooks/useStep1BasicInfo.ts",
+      "features/addPlant/hooks/useStep2Environment.ts",
+      "features/addPlant/hooks/useStep3Location.ts",
+      "features/addPlant/hooks/useStep4Care.ts",
+      "features/addPlant/hooks/useStep5Media.ts",
+      "features/addPlant/hooks/useStep6Review.ts"
+    ]
+  },
+  {
+    "path": "features/addPlant/types/StepLogic.ts",
+    "lines": 17,
+    "referencedBy": [
+      "features/addPlant/hooks/useStep1BasicInfo.ts",
+      "features/addPlant/hooks/useStep2Environment.ts",
+      "features/addPlant/hooks/useStep3Location.ts",
+      "features/addPlant/hooks/useStep4Care.ts",
+      "features/addPlant/hooks/useStep5Media.ts",
+      "features/addPlant/hooks/useStep6Review.ts"
+    ]
+  },
+  {
+    "path": "features/groups/components/GroupCard.tsx",
+    "lines": 79,
+    "referencedBy": [
+      "features/home/components/GroupList.tsx"
+    ]
+  },
+  {
+    "path": "hooks/useSensorProfile.ts",
+    "lines": 8,
+    "referencedBy": [
+      "ui/SensorProfileBar.tsx"
+    ]
+  },
+  {
+    "path": "ui/WeedGrowButtonRow.tsx",
+    "lines": 33,
+    "referencedBy": [
+      "features/addPlant/components/BasicInfoForm.tsx",
+      "features/addPlant/components/CareForm.tsx",
+      "features/addPlant/components/EnvironmentForm.tsx",
+      "features/addPlant/components/LocationForm.tsx",
+      "features/addPlant/components/MediaForm.tsx",
+      "features/addPlant/components/ReviewForm.tsx"
+    ]
+  },
+  {
+    "path": "ui/WeedGrowCard.tsx",
+    "lines": 44,
+    "referencedBy": [
+      "features/addPlant/components/BasicInfoForm.tsx",
+      "features/addPlant/components/CareForm.tsx",
+      "features/addPlant/components/EnvironmentForm.tsx",
+      "features/addPlant/components/LocationForm.tsx",
+      "features/addPlant/components/MediaForm.tsx",
+      "features/addPlant/components/ReviewForm.tsx"
+    ]
+  },
+  {
+    "path": "ui/WeedGrowDropdownInput.tsx",
+    "lines": 116,
+    "referencedBy": [
+      "features/addPlant/components/CareForm.tsx",
+      "features/addPlant/components/EnvironmentForm.tsx"
+    ]
+  },
+  {
+    "path": "ui/WeedGrowFormSection.tsx",
+    "lines": 115,
+    "referencedBy": [
+      "features/addPlant/components/BasicInfoForm.tsx",
+      "features/addPlant/components/CareForm.tsx",
+      "features/addPlant/components/EnvironmentForm.tsx",
+      "features/addPlant/components/LocationForm.tsx",
+      "features/addPlant/components/MediaForm.tsx",
+      "features/addPlant/components/ReviewForm.tsx"
+    ]
+  },
+  {
+    "path": "ui/WeedGrowTextInput.tsx",
+    "lines": 46,
+    "referencedBy": [
+      "features/addPlant/components/CareForm.tsx",
+      "features/addPlant/components/MediaForm.tsx"
+    ]
+  },
+  {
+    "path": "components/ui/AnimatedMakikoChipInput.tsx",
+    "lines": 225,
+    "referencedBy": [
+      "features/addPlant/components/EnvironmentForm.tsx"
+    ]
+  },
+  {
+    "path": "components/ui/AnimatedMakikoDropdownInput.tsx",
+    "lines": 310,
+    "referencedBy": [
+      "features/addPlant/components/BasicInfoForm.tsx",
+      "features/addPlant/components/EnvironmentForm.tsx"
+    ]
+  },
+  {
+    "path": "components/ui/AnimatedMakikoInput.tsx",
+    "lines": 185,
+    "referencedBy": [
+      "features/addPlant/components/BasicInfoForm.tsx",
+      "features/addPlant/components/EnvironmentForm.tsx",
+      "features/addPlant/components/LocationForm.tsx"
+    ]
+  },
+  {
+    "path": "components/ui/WeedGrowCardBackground.tsx",
+    "lines": 70,
+    "referencedBy": [
+      "features/addPlant/components/BasicInfoForm.tsx",
+      "features/addPlant/components/EnvironmentForm.tsx",
+      "features/addPlant/components/LocationForm.tsx"
+    ]
+  },
+  {
+    "path": "features/addPlant/api/basicInfoApi.ts",
+    "lines": 6,
+    "referencedBy": [
+      "features/addPlant/hooks/useStep1BasicInfo.ts"
+    ]
+  },
+  {
+    "path": "features/addPlant/components/ScreenLayout.tsx",
+    "lines": 86,
+    "referencedBy": [
+      "features/addPlant/components/StepScreen.tsx"
+    ]
+  },
+  {
+    "path": "ui/RipplePulse.tsx",
+    "lines": 63,
+    "referencedBy": [
+      "ui/WeedGrowDropdownInput.tsx"
+    ]
+  }
+]
