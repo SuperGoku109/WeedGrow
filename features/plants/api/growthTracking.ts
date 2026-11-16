@@ -31,7 +31,7 @@ export async function confirmGrowthStage(plantId: string, stage: Plant['growthSt
       return;
     }
     const plant = current.data() as Plant;
-    if (plant.deleting || !['active', 'harvested'].includes(plant.status)) throw new Error('Restore this plant before updating its growth stage.');
+    if (plant.deleting || !['active', 'harvested', 'dead'].includes(plant.status)) throw new Error('Restore this plant before updating its growth stage.');
     if ((plant.stageRevision || 0) !== expectedRevision) throw new Error('The stage has changed. Refresh and review it again.');
     assertLivingGrowthChange(plant, { growthStage: stage });
     if (stage === 'harvested' && !livingGrowthEnded(plant) && !details?.harvest) throw new Error('Use Record harvest to save the harvest date and journal entry.');
@@ -75,6 +75,7 @@ export async function confirmGrowthStage(plantId: string, stage: Plant['growthSt
       ...(!(POST_HARVEST_STAGES as readonly string[]).includes(stage) ? { status: 'active', postHarvestTracking: false } : {}),
       ...(stage === 'harvested' ? { status: 'harvested', postHarvestTracking: false } : {}),
       ...(['drying', 'curing'].includes(stage) ? { postHarvestTracking: true, status: 'harvested' } : {}),
+      ...(stage === 'deceased' ? { status: 'dead', postHarvestTracking: false } : {}),
       ...(stage === 'completed' ? { postHarvestTracking: false, status: 'harvested' } : {}), updatedAt: serverTimestamp() });
     if (changedGarden && groupRef && group?.exists()) tx.update(groupRef, { plantIds: arrayRemove(plantId), ...(group.data().weatherSourcePlantId === plantId ? { weatherSourcePlantId: null } : {}), updatedAt: serverTimestamp() });
     const phaseMutation = details ? JSON.stringify({ stage, date, late: !!details.lateFlowering, setup, measurements }) : undefined;

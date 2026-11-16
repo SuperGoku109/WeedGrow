@@ -10,7 +10,7 @@ export default {
     version: "1.0.0",
     // This repo commits its native Android project, so runtime versions must be managed manually.
     // Bump this value and rebuild the native app whenever native code/config changes.
-    runtimeVersion: "1.0.1",
+    runtimeVersion: "1.0.2",
     ...(easProjectId
       ? {
           updates: {

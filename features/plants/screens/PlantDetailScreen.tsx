@@ -97,7 +97,8 @@ export default function PlantDetailScreen() {
     const y = anchors.current[key];
     if (y == null) return;
     const target = Math.max(0, bodyTop.current + y - railHeight.current - 12);
-    positions.current[section] = target;
+    scrollPosition.current = target;
+    restoreTarget.current = target;
     restoring.current = false;
     scroll.current?.scrollTo({ y: target, animated: !reduced });
     pendingAnchor.current = '';
@@ -125,7 +126,7 @@ export default function PlantDetailScreen() {
   const [insightLoading, setInsightLoading] = React.useState(false);
   const [insightError, setInsightError] = React.useState('');
   const scroll = React.useRef<ScrollView>(null);
-  const positions = React.useRef<Record<Section, number>>({ Journal: 0, History: 0, Photos: 0, Details: 0 });
+  const scrollPosition = React.useRef(0);
   const previousSection = React.useRef(section);
   const sectionTranslateX = React.useRef(new Animated.Value(0)).current;
   const sectionOpacity = React.useRef(new Animated.Value(1)).current;
@@ -137,7 +138,7 @@ export default function PlantDetailScreen() {
     : undefined;
   const tabSelection = useSelectionIndicator(section);
   const tabFocusPosition = React.useRef<{ section: Section; y: number } | null>(null);
-  React.useEffect(() => { positions.current = { Journal: 0, History: 0, Photos: 0, Details: 0 }; }, [id]);
+  React.useEffect(() => { scrollPosition.current = 0; restoreTarget.current = 0; }, [id]);
   const restoring = React.useRef(false);
   const restoreTarget = React.useRef(0);
   const [scrollHeight, setScrollHeight] = React.useState(0);
@@ -176,7 +177,7 @@ export default function PlantDetailScreen() {
   }, [section, reduced, width, sectionTranslateX, sectionOpacity]);
   React.useLayoutEffect(() => {
     restoring.current = true;
-    restoreTarget.current = positions.current[section];
+    restoreTarget.current = scrollPosition.current;
     scroll.current?.scrollTo({ y: restoreTarget.current, animated: false });
   }, [section, id]);
   React.useEffect(() => () => {
@@ -238,11 +239,10 @@ export default function PlantDetailScreen() {
     setFocusedEntry('');
     // Focusing a sticky tab can scroll its original layout box into view on web.
     // Keep that focus movement from replacing the outgoing reading position.
-    if (tabFocusPosition.current?.section === section) positions.current[section] = tabFocusPosition.current.y;
+    if (tabFocusPosition.current?.section === section) scrollPosition.current = tabFocusPosition.current.y;
     tabFocusPosition.current = null;
-    // Keep the rail pinned when changing tabs below the plant cover.
-    positions.current[next] = Math.max(positions.current[next], bannerHeight > 0 && positions.current[section] >= bannerHeight - 1 ? Math.ceil(bannerHeight) : 0);
-    restoreTarget.current = positions.current[next];
+    // Every tab shares one scroll position, keeping the sticky rail anchored during switches.
+    restoreTarget.current = scrollPosition.current;
     restoring.current = true;
     setSection(next);
     // Restore the destination's own position after its content mounts.
@@ -262,7 +262,7 @@ export default function PlantDetailScreen() {
     day.select(date, currentDay); setSection('Journal'); setComposer(null); setRefresh(value => value + 1);
     setHighlightLabel(edited ? 'Activity updated' : 'Activity saved'); setFocusedEntry(saved.id); pendingAnchor.current = saved.id;
     setMessage(`${logChoices.find(choice => choice.key === category)?.label || 'Activity'} ${edited ? 'updated' : 'recorded'} for ${date === currentDay ? 'today' : new Date(date + 'T12:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}.`);
-    if (!keepPosition) { positions.current.Journal = 0; scroll.current?.scrollTo({ y: 0, animated: !reduced }); }
+    if (!keepPosition) { scrollPosition.current = 0; restoreTarget.current = 0; scroll.current?.scrollTo({ y: 0, animated: !reduced }); }
   };
   const editEntry = (entry: JournalEntry) => { const category = journalCategory(entry); if (['watering', 'feeding', 'pests', 'training', 'health', 'measurements', 'repotting', 'flushing', 'notes'].includes(category)) setComposer({ entry, category: category as JournalCategory, date: entry.calendarDay || plantDay(entry.timestamp.toDate(), entry.timeZone || plant?.locationTimeZone), origin: 'Journal' }); };
   if (loading) return <LoadingView onBack={goBack} />;
@@ -275,9 +275,9 @@ export default function PlantDetailScreen() {
       <GrowPress accessibilityRole="button" accessibilityLabel={backLabel} onPress={goBack} style={[s.iconButton, { width: 'auto', paddingHorizontal: 4, flexDirection: 'row', alignItems: 'center', gap: 8 }]}><MaterialCommunityIcons name="arrow-left" size={22} color={t.text} /><Text style={{ color: t.text, fontSize: 15 }}>{groupId && params.returnToPlants !== '1' ? 'Garden' : 'Plants'}</Text></GrowPress>
       <View style={{ flex: 1, minWidth: 0 }}>{railPinned && width >= 400 && <Text numberOfLines={1} style={{ color: t.text, fontSize: 15, fontWeight: '600' }}>{plant.name}</Text>}</View>
     </View>
-    <ScrollView ref={scroll} onLayout={event => setScrollHeight(event.nativeEvent.layout.height)} stickyHeaderIndices={[1]} showsVerticalScrollIndicator={false} scrollEventThrottle={16} onScrollBeginDrag={() => { restoring.current = false; tabFocusPosition.current = null; }} onContentSizeChange={() => { if (restoring.current && (section !== 'Journal' || (!data.loading && !insightLoading)) && (section !== 'Photos' || !gallery.loading)) scroll.current?.scrollTo({ y: restoreTarget.current, animated: false }); }} onScroll={event => { if (restoring.current) return; positions.current[section] = event.nativeEvent.contentOffset.y; const next = bannerHeight > 0 && event.nativeEvent.contentOffset.y >= bannerHeight - 1; if (next !== pinned.current) { pinned.current = next; setRailPinned(next); } }} contentContainerStyle={{ width: '100%', maxWidth: 760, alignSelf: 'center', paddingBottom: 26, minHeight: (scrollHeight || Math.max(0, height - insets.top - insets.bottom - 52 - (section === 'Journal' || section === 'Photos' ? 76 : 0))) + Math.max(Math.ceil(bannerHeight), restoring.current ? restoreTarget.current : 0) }}>
+    <ScrollView ref={scroll} onLayout={event => setScrollHeight(event.nativeEvent.layout.height)} stickyHeaderIndices={[1]} showsVerticalScrollIndicator={false} scrollEventThrottle={16} onScrollBeginDrag={() => { restoring.current = false; tabFocusPosition.current = null; }} onContentSizeChange={() => { if (restoring.current && (section !== 'Journal' || (!data.loading && !insightLoading)) && (section !== 'Photos' || !gallery.loading)) scroll.current?.scrollTo({ y: restoreTarget.current, animated: false }); }} onScroll={event => { if (restoring.current) return; const y = event.nativeEvent.contentOffset.y; scrollPosition.current = y; const next = bannerHeight > 0 && y >= bannerHeight - 1; if (next !== pinned.current) { pinned.current = next; setRailPinned(next); } }} contentContainerStyle={{ width: '100%', maxWidth: 760, alignSelf: 'center', paddingBottom: 26, minHeight: (scrollHeight || Math.max(0, height - insets.top - insets.bottom - 52 - (section === 'Journal' || section === 'Photos' ? 76 : 0))) + Math.max(Math.ceil(bannerHeight), restoreTarget.current) }}>
       <View onLayout={event => setBannerHeight(event.nativeEvent.layout.height)} style={{ paddingHorizontal: 18, paddingTop: 4 }}><PlantBanner plant={plant} theme={t} onEdit={editPlant} /></View>
-      <View onLayout={event => { railHeight.current = event.nativeEvent.layout.height; }} style={{ paddingHorizontal: 18, paddingBottom: 8, backgroundColor: t.background }}><View accessibilityRole="tablist" style={{ flexDirection: 'row', backgroundColor: t.surface, borderWidth: 1, borderTopWidth: railPinned ? 1 : 0, borderColor: t.border, borderTopLeftRadius: railPinned ? 20 : 0, borderTopRightRadius: railPinned ? 20 : 0, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 4, paddingTop: 4 }}><Animated.View pointerEvents="none" style={[tabSelection.indicatorStyle, { backgroundColor: t.accent, borderRadius: 12 }]} />{SECTIONS.map(item => <View key={item} onLayout={event => tabSelection.onItemLayout(item, event)} style={{ flex: 1, minWidth: 0 }}><GrowPress {...(Platform.OS === 'web' ? { onMouseDown: (event: { preventDefault(): void }) => event.preventDefault() } : {})} accessibilityRole="tab" hitSlop={{ top: 4, bottom: 4 }} onFocus={() => { if (item !== section) tabFocusPosition.current = { section, y: positions.current[section] }; }} aria-selected={section === item} accessibilityState={{ selected: section === item }} onPress={() => switchSection(item)} style={{ alignItems: 'center', minHeight: 40, justifyContent: 'center', paddingVertical: 8, borderRadius: 12, backgroundColor: 'transparent' }}><Text style={{ color: section === item ? t.onAccent : t.muted, fontSize: 13, fontWeight: '700' }}>{item === 'Details' ? 'Info' : item}</Text></GrowPress></View>)}</View></View>
+      <View onLayout={event => { railHeight.current = event.nativeEvent.layout.height; }} style={{ paddingHorizontal: 18, paddingBottom: 8, backgroundColor: t.background }}><View accessibilityRole="tablist" style={{ flexDirection: 'row', backgroundColor: t.surface, borderWidth: 1, borderTopWidth: railPinned ? 1 : 0, borderColor: t.border, borderTopLeftRadius: railPinned ? 20 : 0, borderTopRightRadius: railPinned ? 20 : 0, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 4, paddingTop: 4 }}><Animated.View pointerEvents="none" style={[tabSelection.indicatorStyle, { backgroundColor: t.accent, borderRadius: 12 }]} />{SECTIONS.map(item => <View key={item} onLayout={event => tabSelection.onItemLayout(item, event)} style={{ flex: 1, minWidth: 0 }}><GrowPress {...(Platform.OS === 'web' ? { onMouseDown: (event: { preventDefault(): void }) => event.preventDefault() } : {})} accessibilityRole="tab" hitSlop={{ top: 4, bottom: 4 }} onFocus={() => { if (item !== section) tabFocusPosition.current = { section, y: scrollPosition.current }; }} aria-selected={section === item} accessibilityState={{ selected: section === item }} onPress={() => switchSection(item)} style={{ alignItems: 'center', minHeight: 40, justifyContent: 'center', paddingVertical: 8, borderRadius: 12, backgroundColor: 'transparent' }}><Text style={{ color: section === item ? t.onAccent : t.muted, fontSize: 13, fontWeight: '700' }}>{item === 'Details' ? 'Info' : item}</Text></GrowPress></View>)}</View></View>
       <Animated.View style={[webSlideStyle, { width: '100%', transform: [{ translateX: Platform.OS === 'web' ? webSectionOffset : sectionTranslateX }], opacity: Platform.OS === 'web' ? webSectionOpacity : sectionOpacity }]}>{contentReady && <GrowReveal onLayout={event => { bodyTop.current = event.nativeEvent.layout.y; }} style={{ paddingHorizontal: 18, paddingBottom: 20 }}>
         {section === 'Journal' && !!data.weatherError && <GrowPress accessibilityRole="button" onPress={data.retry} style={{ minHeight: 48, justifyContent: 'center', marginTop: 12 }}><Text accessibilityRole="alert" style={{ color: t.danger }}>{data.weatherError} Tap to retry.</Text></GrowPress>}
         {showWelcome && <View style={{ marginTop: 16, paddingVertical: 12, borderBottomWidth: 1, borderColor: t.border, gap: 8 }}><Text style={{ color: t.text, fontWeight: '600' }}>Plant added. Your setup is saved.</Text><Text style={{ color: t.muted }}>Your journal is ready whenever you have something to record.</Text><PlantActionButton label="Got it" icon="check" theme={t} onPress={() => { setShowWelcome(false); router.setParams({ welcome: '' }); }} /></View>}

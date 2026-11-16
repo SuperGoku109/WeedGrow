@@ -19,7 +19,7 @@ import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, selectPlantList, type Pl
 import type { Plant } from '@/firestoreModels';
 
 type ListedPlant = Plant & { id: string };
-const pastOptions = [{ value: 'past', label: 'All past plants' }, { value: 'archived', label: 'Archived' }, { value: 'harvested', label: 'Harvested' }, { value: 'dead', label: 'Dead' }];
+const pastOptions = [{ value: 'past', label: 'All past plants' }, { value: 'archived', label: 'Archived' }, { value: 'harvested', label: 'Harvested' }, { value: 'dead', label: 'Deceased' }];
 export default function PlantListScreen({ viewMode = 'list', garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, header, footer, initialOffset = 0, onOffsetChange, options = DEFAULT_PLANT_LIST_OPTIONS, onResetFilters }: {
   viewMode?: 'grid' | 'list'; garden?: HomeGarden | null; searchQuery: string; setSearchQuery(value: string): void; statusFilter: string | null; setStatusFilter(value: string | null): void;
   options?: PlantListOptions; onResetFilters?(): void; header?: React.ReactElement; footer?: React.ReactElement; initialOffset?: number; onOffsetChange(offset: number): void;
@@ -65,8 +65,8 @@ export default function PlantListScreen({ viewMode = 'list', garden, searchQuery
       onContentSizeChange={() => { if (!restored.current && !collection.loading) { restored.current = true; list.current?.scrollToOffset({ offset: initialPosition.current, animated: false }); } }}
       ListEmptyComponent={collection.loading ? <PlantListSkeleton /> : !collection.error ? <View style={s.empty}>
         <MaterialCommunityIcons name={searchQuery || hasFilters ? 'magnify' : active ? 'sprout-outline' : 'archive-outline'} size={30} color={t.accent} />
-        <Text style={s.emptyTitle}>{searchQuery || hasFilters ? 'No matching plants' : active ? 'Room for something new' : 'No past plants here yet'}</Text>
-        <Text style={[s.hint, { textAlign: 'center' }]}>{searchQuery || hasFilters ? 'Try a different search or reset your filters.' : active ? 'Add a plant to start its story in this garden.' : 'Archived, harvested and dead plants stay here with their history.'}</Text>
+        <Text style={s.emptyTitle}>{searchQuery || hasFilters ? 'No matching plants' : active ? 'Room for something new' : statusFilter === 'dead' ? 'No deceased plants yet' : 'No past plants here yet'}</Text>
+        <Text style={[s.hint, { textAlign: 'center' }]}>{searchQuery || hasFilters ? 'Try a different search or reset your filters.' : active ? 'Add a plant to start its story in this garden.' : 'Archived, harvested and deceased plants stay here with their history.'}</Text>
         {hasFilters && onResetFilters && <Pressable accessibilityRole="button" onPress={onResetFilters} style={s.action}><Text style={{ color: t.accent }}>Reset filters</Text></Pressable>}
         {!!searchQuery && <Pressable accessibilityRole="button" onPress={() => setSearchQuery('')} style={s.action}><Text style={{ color: t.accent }}>Clear search</Text></Pressable>}
       </View> : null}

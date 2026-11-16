@@ -13,6 +13,7 @@ import { EditorField, EditorSelect, EditorTheme } from './PlantEditorFields';
 import type { PlantTheme } from './plantDetailTheme';
 import { stageTiming, stageDurationLabel } from '@/lib/plants/stageAgeDefaults';
 import { livingGrowthEnded, POST_HARVEST_STAGES } from '@/lib/plants/growthLifecycle';
+import { growthStageColor } from '../growthStagePresentation';
 
 export default function GrowthStageCard({ plantId, plant, theme: t, onHarvest, onSaved, onEditPlant, controlsOnly = false, onBusyChange }: { plantId: string; plant: Plant; theme: PlantTheme; onHarvest(): void; onSaved(message: string): void; onEditPlant?(): void; controlsOnly?: boolean; onBusyChange?(busy: boolean): void }) {
   const now = useMinuteClock();
@@ -71,12 +72,12 @@ export default function GrowthStageCard({ plantId, plant, theme: t, onHarvest, o
     void run(() => reviewGrowthSuggestion(plantId, suggestion.id, action), message);
   };
   const button = (label: string, onPress: () => void, icon: React.ComponentProps<typeof PlantActionButton>['icon'] = 'sprout-outline', primary = false) => <PlantActionButton key={label} label={label} icon={icon} primary={primary} theme={t} disabled={busy} onPress={onPress} />;
-  const mutable = !plant.deleting && ['active', 'harvested'].includes(plant.status);
+  const mutable = !plant.deleting && ['active', 'harvested', 'dead'].includes(plant.status);
   const observingHere = observing && plant.growthStage === 'vegetative';
   const responding = !editing && !settings && !observingHere;
   const notYetLabel = suggestion?.kind === 'harvest' ? 'Not ready yet' : plant.growthStage === 'seedling' ? 'Still a seedling' : plant.growthStage === 'vegetative' ? 'Not flowering yet' : plant.growthStage === 'flowering' ? 'Still flowering' : plant.growthStage === 'drying' ? 'Still drying' : plant.growthStage === 'curing' ? 'Still curing' : 'Not yet';
   return <EditorTheme.Provider value={t}><View style={{ backgroundColor: t.surface, borderColor: t.border, borderWidth: controlsOnly ? 0 : 1, borderRadius: 16, padding: controlsOnly ? 0 : 16, gap: 12, marginBottom: controlsOnly ? 0 : 14 }}>
-    {!controlsOnly && <><Text style={{ color: t.text, fontSize: 17, fontWeight: '600' }}>Growth stage · {stageLabel(plant.growthStage)}</Text>
+    {!controlsOnly && <><Text style={{ color: plant.status === 'dead' || plant.growthStage === 'deceased' ? growthStageColor('deceased', t.background) : t.text, fontSize: 17, fontWeight: '600' }}>Growth stage · {plant.status === 'dead' ? 'Deceased' : stageLabel(plant.growthStage)}</Text>
     {stageDurationLabel(plant.growthStage) && <Text style={{ color: t.muted, fontSize: 12 }}>Stage window: {stageDurationLabel(plant.growthStage)}</Text>}
     <Text style={{ color: t.muted, lineHeight: 21 }}>{`${timing.estimated ? 'About ' : ''}${elapsed} ${elapsed === 1 ? 'day' : 'days'} in this stage · ${timing.estimated ? 'Estimated start' : 'Started'} ${displayDay(timing.startedOn)}`}</Text>
     {upcoming && upcoming.checkOn > today && <Text style={{ color: t.muted }}>Next check: {displayDay(upcoming.checkOn)}</Text>}
@@ -105,7 +106,7 @@ export default function GrowthStageCard({ plantId, plant, theme: t, onHarvest, o
       {optionsOpen && <>
       {button(editing ? 'Cancel stage edit' : 'Record or change stage', () => { setError(''); if (editing) setEditing(false); else { stageRevision.current = plant.stageRevision || 0; setStage(plant.growthStage); setDate(plant.stageStartedOn || today); setEditing(true); setSettings(false); setObserving(false); } }, 'pencil-outline')}
       {editing && <View style={{ gap: 12 }}>
-        <EditorSelect label="Confirmed growth stage" value={stage} disabled={busy} options={PLANT_STAGES.filter(value => livingGrowthEnded(plant) ? (POST_HARVEST_STAGES as readonly string[]).includes(value) : value !== 'harvested').map(value => ({ value, label: stageLabel(value) }))} onSelect={value => { if (value !== stage) { setStage(value as Plant['growthStage']); setDate(value === plant.growthStage ? plant.stageStartedOn || today : today); setError(''); } }} />
+        <EditorSelect label="Confirmed growth stage" value={stage} disabled={busy} options={PLANT_STAGES.filter(value => value === 'deceased' || plant.status === 'dead' ? true : livingGrowthEnded(plant) ? (POST_HARVEST_STAGES as readonly string[]).includes(value) : value !== 'harvested').map(value => ({ value, label: stageLabel(value) }))} onSelect={value => { if (value !== stage) { setStage(value as Plant['growthStage']); setDate(value === plant.growthStage ? plant.stageStartedOn || today : today); setError(''); } }} />
         <PlantDateField label={stage === 'seedling' ? 'Actual emergence date' : 'Actual stage start date'} value={date} today={today} onChange={setDate} disabled={busy} />
         <Text style={{ color: t.muted, lineHeight: 20 }}>Choose the date you observed this stage. This change will be recorded in the journal.</Text>
         {button('Save confirmed stage', () => { void run(() => confirmGrowthStage(plantId, stage, date, stageRevision.current), 'Growth stage saved.'); }, 'check', true)}

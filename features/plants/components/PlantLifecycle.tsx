@@ -2,6 +2,7 @@ import PlantActionButton from './PlantActionButton';
 import React from 'react';
 import { Text, View } from 'react-native';
 import { recordHarvest } from '../api/plantLifecycle';
+import { confirmGrowthStage } from '../api/growthTracking';
 import { newLogId } from '@/lib/logs/journalRepository';
 import { validateLogDate } from '@/lib/logs/plantJournal';
 import { plantDay } from '@/lib/dates/plantDay';
@@ -29,7 +30,7 @@ export default function PlantLifecycle({ plantId, plant, theme: t, onDeleted, on
   const [action, setAction] = React.useState<'archive' | 'restore' | 'harvest' | 'dead' | 'delete' | null>(null);
   const [error, setError] = React.useState('');
   const closeHarvest = () => { if (busy) return; setHarvesting(false); setWeight(''); setNotes(''); if (harvestOnly) onClose(); };
-  const titles = { archive: 'Archive this plant?', restore: 'Restore this plant?', harvest: 'Finish this grow?', dead: 'Mark this plant as dead?', delete: 'Permanently delete this plant?' };
+  const titles = { archive: 'Archive this plant?', restore: 'Restore this plant?', harvest: 'Finish this grow?', dead: 'Record this plant as deceased?', delete: 'Permanently delete this plant?' };
   const confirm = async () => {
     if (!action || busy) return;
     setBusy(true);
@@ -39,9 +40,12 @@ export default function PlantLifecycle({ plantId, plant, theme: t, onDeleted, on
         await recordHarvest(plantId, date, weight ? Number(weight) : undefined, notes, requestId);
         setHarvesting(false); setWeight(''); setNotes(''); setRequestId(newLogId());
         onSaved('Harvest recorded. Grow marked as harvested.');
+      } else if (action === 'dead') {
+        await confirmGrowthStage(plantId, 'deceased', today, plant.stageRevision || 0);
+        onSaved('Plant marked as deceased. Death recorded in history.');
       } else {
-        await updatePlant(plantId, { status: action === 'archive' ? 'archived' : action === 'dead' ? 'dead' : 'active' }, { status: plant.status });
-        onSaved(action === 'restore' ? 'Plant restored to your active garden.' : action === 'dead' ? 'Plant marked as dead. History retained.' : 'Plant archived. History retained.');
+        await updatePlant(plantId, { status: action === 'archive' ? 'archived' : 'active' }, { status: plant.status });
+        onSaved(action === 'restore' ? 'Plant restored to your active garden.' : 'Plant archived. History retained.');
       }
       setAction(null);
     } finally { setBusy(false); }
@@ -51,7 +55,7 @@ export default function PlantLifecycle({ plantId, plant, theme: t, onDeleted, on
     {!harvestOnly && <>
     <GrowPress accessibilityRole="button" accessibilityLabel="Manage plant" accessibilityState={{ expanded }} onPress={() => { setExpanded(!expanded); onClose(); }} style={{ minHeight: 48, flexDirection: 'row', justifyContent: 'space-between' }}><Text style={{ color: t.text, fontSize: 16, fontWeight: '600' }}>Manage plant</Text><Text style={{ color: t.muted }}>{expanded ? '−' : '+'}</Text></GrowPress>
     {expanded && <><Text style={{ color: t.muted, lineHeight: 21 }}>Status: {plant.status}. Archiving or finishing a grow keeps its journal and photos.</Text>
-      {livingGrowthEnded(plant) ? <Text style={{ color: t.muted, lineHeight: 21 }}>Harvest ended living growth. This record remains available for dates, history and optional post-harvest tracking.</Text> : plant.status === 'active' ? <>{button('Record harvest', () => { setDate(today); setWeight(''); setNotes(''); setRequestId(newLogId()); setHarvesting(true); setError(''); })}{button('Archive plant', () => setAction('archive'))}{button('Mark as dead', () => setAction('dead'))}</> : button('Restore to active garden', () => setAction('restore'))}
+      {plant.status === 'dead' ? <Text style={{ color: t.muted, lineHeight: 21 }}>This plant is recorded as deceased. Change its growth stage to correct or update the record.</Text> : livingGrowthEnded(plant) ? <Text style={{ color: t.muted, lineHeight: 21 }}>Harvest ended living growth. This record remains available for dates, history and optional post-harvest tracking.</Text> : plant.status === 'active' ? <>{button('Record harvest', () => { setDate(today); setWeight(''); setNotes(''); setRequestId(newLogId()); setHarvesting(true); setError(''); })}{button('Archive plant', () => setAction('archive'))}{button('Log plant death', () => setAction('dead'))}</> : button('Restore to active garden', () => setAction('restore'))}
       {button('Permanently delete plant', () => setAction('delete'), true)}
     </>}
     </>}
@@ -61,6 +65,6 @@ export default function PlantLifecycle({ plantId, plant, theme: t, onDeleted, on
       <EditorField label="Harvest notes (optional)" value={notes} onChangeText={setNotes} multiline maxLength={4000} editable={!busy} />
       <Text style={{ color: t.muted, lineHeight: 21 }}>Saving records this harvest in the journal and ends this plant’s living growth. Its history and optional post-harvest tracking are kept.</Text>
     </PlantEditorSheet>}
-    {action && <ActionDialog title={titles[action]} description={action === 'delete' ? 'Permanently removes this plant, its journal, photos and saved conditions. This cannot be undone.' : action === 'harvest' ? 'Save the dated harvest and move this plant out of the active garden. Its history is kept.' : 'Your journal and photos will be kept. You can restore the plant later.'} confirmLabel={action === 'delete' ? 'Delete permanently' : action === 'harvest' ? 'Save harvest' : action === 'dead' ? 'Mark as dead' : action === 'archive' ? 'Archive' : 'Restore'} onClose={() => setAction(null)} onConfirm={confirm} />}
+    {action && <ActionDialog title={titles[action]} description={action === 'delete' ? 'Permanently removes this plant, its journal, photos and saved conditions. This cannot be undone.' : action === 'harvest' ? 'Save the dated harvest and move this plant out of the active garden. Its history is kept.' : 'Your journal and photos will be kept. You can restore the plant later.'} confirmLabel={action === 'delete' ? 'Delete permanently' : action === 'harvest' ? 'Save harvest' : action === 'dead' ? 'Record death' : action === 'archive' ? 'Archive' : 'Restore'} onClose={() => setAction(null)} onConfirm={confirm} />}
   </View>;
 }

@@ -14,7 +14,7 @@ export function plantCardMeta(plant: Plant, showEnvironment = true) {
   return plantCardFacts(plant, showEnvironment).join(' · ');
 }
 export function plantCardStageLabel(plant: Plant) {
-  return plant.status === 'active' ? growthPhase(plant) === 'late_flowering' ? 'Late flowering' : stageLabel(plant.growthStage) : plant.status.charAt(0).toUpperCase() + plant.status.slice(1);
+  return plant.status === 'active' ? growthPhase(plant) === 'late_flowering' ? 'Late flowering' : stageLabel(plant.growthStage) : plant.status === 'dead' ? 'Deceased' : plant.status.charAt(0).toUpperCase() + plant.status.slice(1);
 }
 export function plantCardAgeLabel(plant: Plant, compact = true) {
   return plantAgeLabel(plant, undefined, compact);

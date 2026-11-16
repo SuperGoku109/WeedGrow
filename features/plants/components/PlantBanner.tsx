@@ -8,11 +8,13 @@ import PlantCoverFade from '@/ui/PlantCoverFade';
 import type { Plant } from '@/firestoreModels';
 import { usePhotoUri } from '@/ui/PlantImage';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
+import PlantPhotoHero from '@/ui/PlantPhotoHero';
 import { growthPhase, phaseWindow } from '@/lib/plants/growthPhase';
 import { growthStageColor } from '../growthStagePresentation';
+import { stageLabel } from '@/lib/plants/growthTracking';
 import type { PlantTheme } from './plantDetailTheme';
 
-const stageIcons = { unknown: 'help-circle-outline', germination: 'seed-outline', seedling: 'sprout', vegetative: 'leaf', preflower: 'flower-outline', flowering: 'flower-outline', late_flowering: 'flower-tulip', clone: 'content-cut', harvested: 'basket-outline', drying: 'weather-windy', curing: 'archive-outline', completed: 'check-circle-outline' } as const;
+const stageIcons = { deceased: 'heart-broken', unknown: 'help-circle-outline', germination: 'seed-outline', seedling: 'sprout', vegetative: 'leaf', preflower: 'flower-outline', flowering: 'flower-outline', late_flowering: 'flower-tulip', clone: 'content-cut', harvested: 'basket-outline', drying: 'weather-windy', curing: 'archive-outline', completed: 'check-circle-outline' } as const;
 const environmentIcons = { outdoor: 'white-balance-sunny', indoor: 'home-outline', greenhouse: 'greenhouse' } as const;
 function BotanicalCover({ theme }: { theme: PlantTheme }) {
   return <Svg width="132" height="154" viewBox="0 0 96 112" aria-hidden={true}>
@@ -44,24 +46,25 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
   const photo = transition.active && transition.previewUri ? { ...preview, uri: transition.previewUri, failed: false } : fullPhoto.uri ? fullPhoto : preview;
   const [broken, setBroken] = React.useState(false);
   React.useEffect(() => setBroken(false), [uri]);
-  const stage = growthPhase(plant) || 'unknown';
-  const stageColor = growthStageColor(stage, t.background);
   const status = plant.status || 'active';
+  const stage = status === 'dead' ? 'deceased' : growthPhase(plant) || 'unknown';
+  const stageColor = growthStageColor(stage, t.background);
+  const statusLabel = status === 'dead' ? 'Deceased' : status.charAt(0).toUpperCase() + status.slice(1);
   const environment = plant.environment || 'outdoor';
   const place = plant.locationNickname?.trim() || (plant.plantedIn === 'pot' ? 'Potted plant' : plant.plantedIn === 'ground' ? 'In the ground' : '');
   const hasPhoto = !!photo.uri && !broken && !photo.failed;
   const strain = plant.strain?.trim() || plant.strainType?.trim();
   return <View style={[s.banner, { backgroundColor: t.surface, borderColor: t.border }]}>
     <View ref={cover} onLayout={measureCover} collapsable={false} style={[s.cover, { minHeight: coverHeight, backgroundColor: t.hero }]}>
-      {hasPhoto ? <Image accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri! }} resizeMode="cover" onError={() => setBroken(true)} style={StyleSheet.absoluteFillObject} /> : <View style={s.botanical} accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
+      {hasPhoto ? <PlantPhotoHero id={`plant-photo-${id}`} style={StyleSheet.absoluteFillObject}><Image accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri! }} resizeMode="cover" onError={() => setBroken(true)} style={StyleSheet.absoluteFillObject} /></PlantPhotoHero> : <View style={s.botanical} accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
       <PlantCoverFade surface={t.surface} />
-      <View pointerEvents="none" accessibilityLabel={`Plant status: ${status}`} style={s.status}><View style={[s.statusDot, { backgroundColor: status === 'active' ? '#c8e78b' : '#d5ddd0' }]} /><Text style={s.statusText}>{status}</Text></View>
+      {status !== 'active' && status !== 'dead' && <View pointerEvents="none" accessibilityLabel={`Plant status: ${statusLabel}`} style={s.status}><View style={[s.statusDot, { backgroundColor: '#d5ddd0' }]} /><Text style={s.statusText}>{statusLabel}</Text></View>}
       <Pressable accessibilityRole="button" accessibilityLabel={`Edit ${plant.name}`} onPress={onEdit} hitSlop={4} style={({ pressed }) => [s.photoAction, { opacity: pressed ? 0.7 : 1 }]}><MaterialCommunityIcons name="pencil-outline" size={19} color="#edf0e3" aria-hidden={true} /></Pressable>
       {photo.stored && !photo.uri && !photo.failed && <View pointerEvents="none" style={StyleSheet.absoluteFillObject}><ActivityIndicator style={{ flex: 1 }} size="small" color={t.heroText} accessibilityLabel="Loading plant cover" /></View>}
       <View pointerEvents="none" style={s.identity}><Text accessibilityRole="header" style={s.name}>{plant.name}</Text>{!!strain && <Text style={s.strain}>{strain}</Text>}</View>
     </View>
     <View style={s.details}>
-        <View accessibilityLabel={`Growth stage: ${phaseWindow(stage)?.label || stage}`} style={[s.stage, { backgroundColor: `${stageColor}20` }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={stageColor} aria-hidden={true} /><Text style={[s.badgeText, { color: stageColor }]}>{phaseWindow(stage)?.label || stage}</Text></View>
+        <View accessibilityLabel={`Growth stage: ${phaseWindow(stage)?.label || stageLabel(stage)}`} style={[s.stage, { backgroundColor: `${stageColor}20` }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={stageColor} aria-hidden={true} /><Text style={[s.badgeText, { color: stageColor }]}>{phaseWindow(stage)?.label || stageLabel(stage)}</Text></View>
         <View style={s.context}><MaterialCommunityIcons name={environmentIcons[environment]} size={16} color={t.muted} aria-hidden={true} /><Text style={[s.environment, { color: t.muted }]}>{environment}{place ? ` · ${place}` : ''}</Text></View>
     </View>
   </View>;

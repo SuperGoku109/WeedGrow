@@ -13,6 +13,7 @@ export const GROWTH_GUIDE_STAGES = [
   { key: 'drying', title: 'Drying', icon: 'weather-windy' },
   { key: 'curing', title: 'Curing', icon: 'archive-outline' },
   { key: 'completed', title: 'Completed', icon: 'check-circle-outline' },
+  { key: 'deceased', title: 'Deceased', icon: 'heart-broken' },
   { key: 'clone', title: 'Rooting', icon: 'content-cut' },
   { key: 'unknown', title: 'Not recorded', icon: 'help-circle-outline' },
 ] as const;
@@ -29,6 +30,7 @@ export const GROWTH_STAGE_COLORS: Record<GrowthGuideStage, { light: string; dark
   drying: { light: '#376276', dark: '#8fcde6' },
   curing: { light: '#59427c', dark: '#bba6f4' },
   completed: { light: '#30685b', dark: '#7fd2b0' },
+  deceased: { light: '#b42332', dark: '#ff7580' },
   clone: { light: '#236964', dark: '#74d5cf' },
   unknown: { light: '#5d6861', dark: '#d0d6d2' },
 };

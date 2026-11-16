@@ -4,7 +4,7 @@ import { MEDIUMS } from '@/lib/careAlgorithm/setupFacts';
 import { isCalendarDay } from '@/lib/dates/plantDay';
 /** Field policies shared by forms and the write boundary. Only supplied fields
  * are checked, so an unrelated edit can still repair a legacy record. */
-export const PLANT_STAGES = ['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone', 'harvested', 'drying', 'curing', 'completed'] as const;
+export const PLANT_STAGES = ['unknown', 'germination', 'seedling', 'vegetative', 'flowering', 'clone', 'harvested', 'drying', 'curing', 'completed', 'deceased'] as const;
 export const PLANT_ENVIRONMENTS = ['outdoor', 'indoor', 'greenhouse'] as const;
 export const MAX_PLANT_AGE_DAYS = 36500;
 

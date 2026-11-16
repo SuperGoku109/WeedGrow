@@ -88,6 +88,7 @@ export async function updatePlant(id: string, updates: UpdatePlantFields, baseli
         if (['drying', 'curing', 'completed'].includes(updates.growthStage) && !previous.harvestedOn && !previous.harvest) throw new Error('Record a harvest before starting post-harvest tracking.');
         Object.assign(normalized, stageChangeFields(previous, updates.growthStage, plantDay(new Date(), previous.locationTimeZone)));
         if (['drying', 'curing', 'completed'].includes(updates.growthStage)) Object.assign(normalized, { status: 'harvested', postHarvestTracking: updates.growthStage !== 'completed' });
+        else if (updates.growthStage === 'deceased') Object.assign(normalized, { status: 'dead', postHarvestTracking: false });
         else Object.assign(normalized, { status: 'active', postHarvestTracking: false });
       }
       assertValidPlantFields(normalized, plantDay(new Date(), previous.locationTimeZone));

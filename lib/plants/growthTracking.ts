@@ -30,7 +30,7 @@ export interface StageSuggestion {
   pushOn?: string;
   repeatDays: number;
 }
-export const stageLabel = (stage: string) => stage === 'germination' ? 'Germinating' : stage.charAt(0).toUpperCase() + stage.slice(1);
+export const stageLabel = (stage: string) => stage === 'germination' ? 'Germinating' : stage === 'deceased' ? 'Deceased' : stage.charAt(0).toUpperCase() + stage.slice(1);
 export function daysBetween(from: string, to: string) { return Math.round((Date.parse(to) - Date.parse(from)) / 86400000); }
 export function stageInstanceId(plant: Plant, now = new Date()) {
   return `${plant.growthStage}:${stageTiming(plant, now).startedOn}:${plant.stageRevision || 0}`;
@@ -48,7 +48,7 @@ export function recordedStageReview(plant: Plant, reviewedOn: string): StageRevi
   const next = milestones[plant.growthStage]?.filter(value => value > elapsed).sort((a, b) => a - b)[0];
   const repeat = ['vegetative', 'flowering'].includes(plant.growthStage) ? 21 : 7;
   return { suggestionId: stageInstanceId(plant, now), action: 'stage_recorded', snoozes: 0,
-    nextCheckOn: plant.growthStage === 'harvested' || plant.growthStage === 'completed' ? null : next != null ? addDays(start, next) : addDays(reviewedOn, repeat) };
+    nextCheckOn: ['harvested', 'completed', 'deceased'].includes(plant.growthStage) ? null : next != null ? addDays(start, next) : addDays(reviewedOn, repeat) };
 }
 export function daysInStage(plant: Plant, now = new Date()): number {
   const start = stageTiming(plant, now).startedOn;

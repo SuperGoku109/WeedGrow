@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import type { Plant } from '@/firestoreModels';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import { GrowPress } from '@/ui/GrowMotion';
 import { usePlantImageTransition } from '@/ui/PlantImageTransition';
 import { PlantImage, usePhotoUri } from '@/ui/PlantImage';
+import PlantPhotoHero from '@/ui/PlantPhotoHero';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
 import { growthPhaseProgress } from '@/lib/plants/growthPhase';
 import { growthStageColor, guideStage } from '../growthStagePresentation';
@@ -25,6 +26,7 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
   const uri = getRenderablePlantImageUri(plant.imageUri);
   const photo = usePhotoUri(uri);
   const open = () => {
+    if (Platform.OS !== 'web') { onPress(); return; }
     if (!photo.uri || !imageLoaded.current || !imageFrame.current) { onPress(); return; }
     imageFrame.current.measureInWindow((x, y, width, height) => {
       if (width > 0 && height > 0) transition.start(plant.id, photo.uri!, { x, y, width, height });
@@ -37,7 +39,9 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
     <View pointerEvents="none" style={s.decoration}><MaterialCommunityIcons name="leaf" size={84} color={t.accent} style={{ opacity: .07 }} /></View>
     <GrowPress accessibilityRole="button" accessibilityLabel={`Open ${plant.name}`} onPress={open} style={s.details}>
       <View ref={imageFrame} collapsable={false} style={[s.photo, { backgroundColor: t.elevated }]}>
-        {uri && !failed ? <PlantImage accessibilityLabel={`${plant.name} photo`} source={{ uri }} resizeMode="cover" onLoad={() => { imageLoaded.current = true; }} onError={() => setFailed(true)} style={StyleSheet.absoluteFillObject} /> : <MaterialCommunityIcons name="sprout" size={42} color={color} />}
+        <PlantPhotoHero id={`plant-photo-${plant.id}`} style={StyleSheet.absoluteFillObject}>
+          {uri && !failed ? <PlantImage accessibilityLabel={`${plant.name} photo`} source={{ uri }} resizeMode="cover" onLoad={() => { imageLoaded.current = true; }} onError={() => setFailed(true)} style={StyleSheet.absoluteFillObject} /> : <MaterialCommunityIcons name="sprout" size={42} color={color} />}
+        </PlantPhotoHero>
       </View>
       <Text numberOfLines={2} style={[s.name, { color: t.text }]}>{plant.name}</Text>
       <Text numberOfLines={1} style={[s.meta, { color: t.muted }]}>{plantCardMeta(plant, false)}</Text>

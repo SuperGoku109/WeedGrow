@@ -49,7 +49,7 @@ export default function GrowthStageScreen() {
   const progress = growthPhaseProgress(plant, now);
   const due = progress.attention ? { kind: 'transition', prompt: 'This phase is nearing the end of its timing guide. Review what you see before confirming the next phase.' } : null;
   const next = progress.checkOn && progress.checkOn > today ? { checkOn: progress.checkOn } : null;
-  const mutable = !plant.deleting && ['active', 'harvested'].includes(plant.status);
+  const mutable = !plant.deleting && ['active', 'harvested', 'dead'].includes(plant.status);
   const select = (key: GrowthGuideStage) => setChosen(key);
   return <SafeAreaView edges={['top', 'left', 'right', 'bottom']} style={{ flex: 1, backgroundColor: t.background }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 8, gap: 12 }}>

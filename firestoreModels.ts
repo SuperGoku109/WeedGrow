@@ -60,7 +60,7 @@ export interface Plant {
     wateringRepeat?: import('./lib/logs/wateringRepeat').WateringRepeat | null;
     harvest?: { date: string; weightGrams?: number; notes: string; recordId: string };
     owners: string[];
-    growthStage: 'unknown' | 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone' | 'harvested' | 'drying' | 'curing' | 'completed';
+    growthStage: 'unknown' | 'germination' | 'seedling' | 'vegetative' | 'flowering' | 'clone' | 'harvested' | 'drying' | 'curing' | 'completed' | 'deceased';
     ageDays?: number | null;
     ageKnown?: boolean;
     status: 'active' | 'archived' | 'harvested' | 'dead';

@@ -30,7 +30,7 @@ export interface PlantCardProps {
 export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading = false, waterDisabled = false, onPress, onMore, showEnvironment = true, moreLabel, moreOpen }: PlantCardProps) {
   const colors = useAppTheme();
   const s = makeStyles(colors);
-  const stage = growthPhase(plant);
+  const stage = plant.status === 'dead' ? 'deceased' : growthPhase(plant);
   const stageColor = growthStageColor(stage, colors.background);
   const stageIcon = guideStage(stage).icon;
   const router = useRouter();
