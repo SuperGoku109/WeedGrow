@@ -24,7 +24,7 @@ import { guideStage } from '@/features/plants/growthStagePresentation';
 import { decodeGardenSelection, plantsInGarden, resolveGardenSelection, summarizeGardenCollection, type GardenSelection } from '../gardenSelection';
 import { useCareTasks } from '@/features/care/useCareTasks';
 import { readGardenListView, saveGardenListView, saveGardenScrollOffset } from '@/services/homeGardenView';
-import AnchoredActionMenu, { type MenuAnchor, type MenuAction } from '@/ui/AnchoredActionMenu';
+import AnchoredActionMenu, { type MenuAnchor } from '@/ui/AnchoredActionMenu';
 import EditGroupModal from '@/features/groups/components/EditGroupModal';
 import { updateGroup, type GroupWithId } from '@/features/groups/api/groupApi';
 import { groupEditValues } from '@/features/groups/groupCollection';
@@ -142,7 +142,7 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
   return <View style={{ flex: 1, backgroundColor: t.background }}>
     <HomeBackground />
     <SafeAreaView edges={['top', 'left', 'right']} style={s.safeArea}>
-      <AppHeader showDate={false} onActions={setActionsAnchor} actionsOpen={!!actionsAnchor} />
+      <AppHeader showDate={false} onActions={selected ? setActionsAnchor : undefined} actionsOpen={!!actionsAnchor} />
       <View style={s.top}>
         <GardenDropdown gardens={gardens} selection={resolved} counts={counts} countsReady={!collection.loading && !collection.error} onSelect={choose} onCreate={openCreate} disabled={!ready} onWaterAll={openWaterAll} waterAllDisabled={!uid || collection.loading || !!collection.error || !scopedPlants.some(plant => plant.status === 'active' && !plant.deleting)} />
         {!uid && !accountLoading && <View style={s.notice}><Text style={s.hint}>Sign in to see your plants, or start a plant draft.</Text><Pressable accessibilityRole="button" onPress={() => router.push('/account')} style={s.textButton}><Text style={s.link}>Sign in or create an account →</Text></Pressable></View>}
@@ -169,11 +169,8 @@ function GardenHome({ uid, accountLoading }: { uid?: string; accountLoading: boo
       /></View>}
       {filterAnchor && <PlantFilterMenu anchor={filterAnchor} key={listKey} options={options} status={status} plants={scopedPlants} query={query} showEnvironment={!selected} onApply={applyOptions} onClose={() => { setFilterAnchor(null); filterTrigger.current?.focus?.(); }} />}
       {actionsAnchor && <AnchoredActionMenu anchor={actionsAnchor} title={selected?.name || 'Your plants'} horizontal tone="hero" onClose={() => setActionsAnchor(null)} actions={[
-        ...(selected ? [
-          { label: 'Garden settings', icon: 'tune-variant', onPress: () => setEditing(selected) },
-          { label: 'Manage plants', icon: 'sprout-outline', onPress: () => router.push({ pathname: '/group/[id]', params: { id: selected.id } }) },
-        ] satisfies MenuAction[] : []),
-        { label: status === 'active' ? 'Past plants' : 'Back to active plants', accessibilityLabel: status === 'active' ? 'View past plants' : 'View active plants', icon: status === 'active' ? 'archive-outline' : 'sprout-outline', separate: !!selected, onPress: () => changeStatus(status === 'active' ? 'past' : 'active') },
+        { label: 'Garden settings', icon: 'tune-variant', onPress: () => selected && setEditing(selected) },
+        { label: 'Manage plants', icon: 'sprout-outline', onPress: () => selected && router.push({ pathname: '/group/[id]', params: { id: selected.id } }) },
       ]} />}
       <EditGroupModal visible={!!editing} settingsOnly group={editing} allPlants={collection.plants} onClose={() => setEditing(null)} onSave={async (updated, baseline) => { await updateGroup(updated.id, groupEditValues(updated), baseline as unknown as Record<string, unknown>); setMessage('Garden settings saved.'); }} />
       {watering && <ActionDialog title="Water all plants" tone="water" description={`Log watering for ${watering.plants.length} active ${watering.plants.length === 1 ? 'plant' : 'plants'} in ${watering.name}. Plants already watered today are skipped. This records completed watering.`} confirmLabel="Save watering for all" onClose={() => setWatering(null)} onConfirm={async () => {
