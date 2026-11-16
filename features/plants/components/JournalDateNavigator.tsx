@@ -72,4 +72,4 @@ function JournalDateNavigator({ today, selected, dates, logs, historyStatus, the
     </Modal>
   </View>;
 }
-export default React.memo(JournalDateNavigator);
+export default JournalDateNavigator;
