@@ -61,7 +61,6 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
   const allVisibleSelected = selectablePlants.length > 0 && selectablePlants.every(plant => selectedIds.includes(plant.id));
   React.useEffect(() => { setSelectionMode(false); setSelectedIds([]); setBatchComposerOpen(false); batchRequestIds.current.clear(); }, [garden?.id, statusFilter]);
   React.useEffect(() => { if (selectionMode && selectedIds.length === 0) { setSelectionMode(false); batchRequestIds.current.clear(); } }, [selectionMode, selectedIds.length]);
-  const cancelSelection = () => { setSelectionMode(false); setSelectedIds([]); setBatchComposerOpen(false); batchRequestIds.current.clear(); };
   const startSelection = (plantId: string) => { setSelectionMode(true); setSelectedIds(previous => previous.includes(plantId) ? previous : [...previous, plantId]); };
   const toggleSelected = (plantId: string) => setSelectedIds(previous => previous.includes(plantId) ? previous.filter(id => id !== plantId) : [...previous, plantId]);
   const toggleSelectAll = () => setSelectedIds(allVisibleSelected ? [] : selectablePlants.map(plant => plant.id));

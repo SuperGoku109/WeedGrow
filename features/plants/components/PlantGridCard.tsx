@@ -28,10 +28,6 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
   const photo = usePhotoUri(uri);
   const longPressed = React.useRef(false);
   const longPressReset = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-  const activateCard = () => {
-    if (longPressed.current) { longPressed.current = false; if (longPressReset.current) clearTimeout(longPressReset.current); return; }
-    if (selecting) onSelect?.(); else onPress();
-  };
   const startSelection = () => {
     if (selecting || !onStartSelection) return;
     longPressed.current = true;
@@ -49,6 +45,10 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
       if (width > 0 && height > 0) transition.start(plant.id, photo.uri!, { x, y, width, height });
       onPress();
     });
+  };
+  const activateCard = () => {
+    if (longPressed.current) { longPressed.current = false; if (longPressReset.current) clearTimeout(longPressReset.current); return; }
+    if (selecting) onSelect?.(); else open();
   };
   const [failed, setFailed] = React.useState(false);
   React.useEffect(() => { setFailed(false); imageLoaded.current = false; }, [uri]);
