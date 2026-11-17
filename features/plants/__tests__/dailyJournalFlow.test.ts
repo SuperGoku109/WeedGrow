@@ -78,19 +78,19 @@ it('keeps tabs pinned and ignores layout-driven scroll events while restoring Jo
     main().props.onScroll({ nativeEvent: { contentOffset: { y: 360 } } });
   });
   act(() => tab('Info').props.onPress());
-  // A newly visited short tab still has room to keep the cover scrolled away.
-  expect(main().props.contentContainerStyle.minHeight).toBe(840);
+  // A newly visited tab keeps the exact outgoing offset, even if its content is shorter.
+  expect(main().props.contentContainerStyle.minHeight).toBe(960);
   act(() => {
     main().props.onScrollBeginDrag();
     main().props.onScroll({ nativeEvent: { contentOffset: { y: 700 } } });
   });
   act(() => tab('Journal').props.onPress());
-  expect(main().props.contentContainerStyle.minHeight).toBe(960);
-  // Browser clamping/focus during loading must not overwrite the saved 360px.
+  expect(main().props.contentContainerStyle.minHeight).toBe(1300);
+  // Browser clamping/focus during loading must not overwrite the saved 700px.
   act(() => main().props.onScroll({ nativeEvent: { contentOffset: { y: 0 } } }));
   act(() => tab('Info').props.onPress());
   act(() => tab('Journal').props.onPress());
-  expect(main().props.contentContainerStyle.minHeight).toBe(960);
+  expect(main().props.contentContainerStyle.minHeight).toBe(1300);
 });
 
 it('opens the daily Journal with History, Photos, Info and fixed creation actions', async () => {

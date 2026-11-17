@@ -35,6 +35,7 @@ const DEFAULTS: Record<Plant['growthStage'], { ageDays: number; stageDays: numbe
   drying: { ageDays: drying, stageDays: durationMidpoint('drying') },
   curing: { ageDays: curing, stageDays: durationMidpoint('curing') },
   completed: { ageDays: curing, stageDays: 0 },
+  deceased: { ageDays: 0, stageDays: 0, trackingOnly: true },
   unknown: { ageDays: 0, stageDays: 0, trackingOnly: true },
 };
 export function stageAgeDefault(stage: string) { return Object.prototype.hasOwnProperty.call(DEFAULTS, stage) ? DEFAULTS[stage as Plant['growthStage']] : DEFAULTS.unknown; }
