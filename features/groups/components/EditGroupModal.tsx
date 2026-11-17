@@ -135,7 +135,7 @@ const makeStyles = (ink: ReturnType<typeof useCollectionTheme>) => StyleSheet.cr
   title: { color: ink.text, fontSize: 27, letterSpacing: -0.8, fontWeight: '600' },
   body: { padding: 24, gap: 12 },
   label: { color: ink.text, fontSize: 13, fontWeight: '700' },
-  input: { borderWidth: 1, borderColor: ink.border, backgroundColor: ink.background, color: ink.text, borderRadius: 14, minHeight: 50, paddingHorizontal: 14, fontSize: 15 },
+  input: { borderWidth: 1, borderColor: ink.border, backgroundColor: ink.background, color: ink.text, borderRadius: 14, minHeight: 50, paddingHorizontal: 14, fontSize: 16 },
   sectionRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap', marginTop: 8 },
   count: { color: ink.lime, fontSize: 12 },
   hint: { color: ink.muted, fontSize: 12, lineHeight: 19 },

@@ -193,7 +193,7 @@ function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string }
           <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, paddingLeft: 24, paddingRight: 16, paddingTop: 12, paddingBottom: 12 }}><Text accessibilityRole="header" style={[styles.dialogTitle, { flex: 1 }]}>Edit sensor profile</Text><CloseButton label="Close sensor profile editor" disabled={saving} onPress={() => setEditing(null)} color={palette.text} /></View>
           <ScrollView keyboardShouldPersistTaps="handled" style={{ maxHeight: height * 0.55 }}><Dialog.Content>
             <Text style={styles.dialogHint}>Tune the defaults for this grow space.</Text>
-            <TextInput dense mode="outlined" label="Profile name" value={editName} onChangeText={setEditName} style={styles.input} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} autoFocus left={<TextInput.Icon icon="label-outline" color={palette.muted} />} maxLength={32} />
+            <TextInput dense mode="outlined" contentStyle={{ fontSize: 16 }} label="Profile name" value={editName} onChangeText={setEditName} style={styles.input} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} autoFocus left={<TextInput.Icon icon="label-outline" color={palette.muted} />} maxLength={32} />
             <Text style={styles.dialogLabel}>ENVIRONMENT</Text>
             <View style={styles.dialogRow}>
               <Button mode={editEnv === 'indoor' ? 'contained' : 'outlined'} onPress={() => setEditEnv('indoor')} icon="home-outline" compact contentStyle={{ minHeight: 44 }} labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={editEnv === 'indoor' ? palette.accent : undefined} textColor={editEnv === 'indoor' ? palette.onAccent : palette.text}>Indoor</Button>
@@ -205,8 +205,8 @@ function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string }
               <Button mode={!editManual ? 'contained' : 'outlined'} onPress={() => setEditManual(false)} icon="memory" compact contentStyle={{ minHeight: 44 }} labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={!editManual ? palette.accent : undefined} textColor={!editManual ? palette.onAccent : palette.text}>Hardware</Button>
             </View>
             {editManual && <View style={styles.readingInputs}>
-              <TextInput dense mode="outlined" label="Temperature (°C)" value={editTemp} onChangeText={setEditTemp} keyboardType="numeric" style={[styles.input, styles.halfInput]} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} />
-              <TextInput dense mode="outlined" label="Humidity (%)" value={editHumidity} onChangeText={setEditHumidity} keyboardType="numeric" style={[styles.input, styles.halfInput]} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} />
+              <TextInput dense mode="outlined" contentStyle={{ fontSize: 16 }} label="Temperature (°C)" value={editTemp} onChangeText={setEditTemp} keyboardType="numeric" style={[styles.input, styles.halfInput]} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} />
+              <TextInput dense mode="outlined" contentStyle={{ fontSize: 16 }} label="Humidity (%)" value={editHumidity} onChangeText={setEditHumidity} keyboardType="numeric" style={[styles.input, styles.halfInput]} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} />
             </View>}
             {!!editError && <Text accessibilityRole="alert" style={{ color: palette.danger, marginTop: 12 }}>{editError}</Text>}
           </Dialog.Content></ScrollView>

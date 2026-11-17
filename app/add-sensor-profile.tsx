@@ -47,7 +47,7 @@ export default function AddSensorProfileScreen() {
         <KeyboardAwareScrollView bottomOffset={24} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.container}>
           <Text style={styles.heading}>Add Sensor Profile</Text>
           {!!error && <Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text>}
-          <TextInput dense mode="outlined"
+          <TextInput dense mode="outlined" contentStyle={{ fontSize: 16 }}
             label="Profile Name"
             value={name}
             onChangeText={setName}
@@ -78,7 +78,7 @@ export default function AddSensorProfileScreen() {
           {entryType === 'manual' && (
             <>
               <Text style={styles.label}>Default Readings (Optional)</Text>
-              <TextInput dense mode="outlined"
+              <TextInput dense mode="outlined" contentStyle={{ fontSize: 16 }}
                 label="Default Temperature (°C)"
                 value={defaultTemp}
                 onChangeText={setDefaultTemp}
@@ -86,7 +86,7 @@ export default function AddSensorProfileScreen() {
                 style={styles.input}
                 placeholder="e.g. 24"
               />
-              <TextInput dense mode="outlined"
+              <TextInput dense mode="outlined" contentStyle={{ fontSize: 16 }}
                 label="Default Humidity (%)"
                 value={defaultHumidity}
                 onChangeText={setDefaultHumidity}
