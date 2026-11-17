@@ -12,8 +12,9 @@ import { growthPhaseProgress } from '@/lib/plants/growthPhase';
 import { growthStageColor, guideStage } from '../growthStagePresentation';
 import { plantCardAgeLabel, plantCardMeta, plantCardStageLabel } from '../plantListPresentation';
 
-export default function PlantGridCard({ plant, onPress, onWater, wateredToday, waterDisabled }: {
+export default function PlantGridCard({ plant, onPress, onWater, wateredToday, waterDisabled, selecting = false, selected = false, onSelect, onStartSelection }: {
   plant: Plant & { id: string }; onPress(): void; onWater?: () => void; wateredToday: boolean; waterDisabled: boolean;
+  selecting?: boolean; selected?: boolean; onSelect?(): void; onStartSelection?(): void;
 }) {
   const t = useAppTheme();
   const transition = usePlantImageTransition();
@@ -25,6 +26,22 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
   const progressPercent = progress.fraction == null ? 4 : Math.max(4, Math.round(progress.fraction * 100));
   const uri = getRenderablePlantImageUri(plant.imageUri);
   const photo = usePhotoUri(uri);
+  const longPressed = React.useRef(false);
+  const longPressReset = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const activateCard = () => {
+    if (longPressed.current) { longPressed.current = false; if (longPressReset.current) clearTimeout(longPressReset.current); return; }
+    if (selecting) onSelect?.(); else onPress();
+  };
+  const startSelection = () => {
+    if (selecting || !onStartSelection) return;
+    longPressed.current = true;
+    onStartSelection();
+  };
+  const releaseCard = () => {
+    if (!longPressed.current) return;
+    if (longPressReset.current) clearTimeout(longPressReset.current);
+    longPressReset.current = setTimeout(() => { longPressed.current = false; longPressReset.current = null; }, 100);
+  };
   const open = () => {
     if (Platform.OS !== 'web') { onPress(); return; }
     if (!photo.uri || !imageLoaded.current || !imageFrame.current) { onPress(); return; }
@@ -35,9 +52,9 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
   };
   const [failed, setFailed] = React.useState(false);
   React.useEffect(() => { setFailed(false); imageLoaded.current = false; }, [uri]);
-  return <View style={[s.card, { backgroundColor: t.surface }]}>
+  return <View style={[s.card, { backgroundColor: t.surface, borderColor: selected ? t.accent : 'transparent', borderWidth: selected ? 1.5 : 0 }]}>
     <View pointerEvents="none" style={s.decoration}><MaterialCommunityIcons name="leaf" size={84} color={t.accent} style={{ opacity: .07 }} /></View>
-    <GrowPress accessibilityRole="button" accessibilityLabel={`Open ${plant.name}`} onPress={open} style={s.details}>
+    <GrowPress accessibilityRole="button" accessibilityLabel={selecting ? `${selected ? 'Deselect' : 'Select'} ${plant.name}` : `Open ${plant.name}`} accessibilityHint={selecting ? 'Tap to toggle this plant selection.' : 'Long press to select plants for batch activity.'} accessibilityState={selecting ? { selected } : undefined} onPress={activateCard} onLongPress={startSelection} onPressOut={releaseCard} delayLongPress={350} style={s.details}>
       <View ref={imageFrame} collapsable={false} style={[s.photo, { backgroundColor: t.elevated }]}>
         <PlantPhotoHero id={`plant-photo-${plant.id}`} style={StyleSheet.absoluteFillObject}>
           {uri && !failed ? <PlantImage accessibilityLabel={`${plant.name} photo`} source={{ uri }} resizeMode="cover" onLoad={() => { imageLoaded.current = true; }} onError={() => setFailed(true)} style={StyleSheet.absoluteFillObject} /> : <MaterialCommunityIcons name="sprout" size={42} color={color} />}
@@ -49,11 +66,12 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
         <View style={[s.chip, { backgroundColor: `${color}20` }]}><MaterialCommunityIcons name={stage.icon} size={12} color={color} accessible={false} /><Text numberOfLines={1} ellipsizeMode="tail" style={[s.stage, { color }]}>{plantCardStageLabel(plant)}</Text></View>
         <Text numberOfLines={1} style={[s.age, { color: t.muted }]}>{plantCardAgeLabel(plant)}</Text>
       </View>
+      {selected && <View pointerEvents="none" style={[s.selectedMark, { backgroundColor: t.accent }]}><MaterialCommunityIcons name="check" size={16} color={t.onAccent} /></View>}
     </GrowPress>
     <View accessibilityRole="progressbar" accessibilityLabel={progress.fraction == null ? 'Phase progress not recorded' : `${stage.title} progress${progress.estimated ? ', estimated' : ''}`} accessibilityValue={progress.fraction == null ? { text: 'Not recorded' } : { min: 0, max: 100, now: Math.round(progress.fraction * 100) }} style={[s.track, { backgroundColor: t.elevated }]}>
       <View style={{ height: '100%', width: `${progressPercent}%`, backgroundColor: color, borderRadius: 3 }} />
     </View>
-    {onWater && <GrowPress accessibilityRole="button" accessibilityLabel={`${plant.name}: ${wateredToday ? 'Watering recorded today' : waterDisabled ? 'Checking watering history' : 'Log watering'}`} disabled={wateredToday || waterDisabled} onPress={onWater} style={[s.water, { backgroundColor: wateredToday ? t.elevated : t.accent, opacity: waterDisabled ? .55 : 1 }]}>
+    {onWater && !selecting && <GrowPress accessibilityRole="button" accessibilityLabel={`${plant.name}: ${wateredToday ? 'Watering recorded today' : waterDisabled ? 'Checking watering history' : 'Log watering'}`} disabled={wateredToday || waterDisabled} onPress={onWater} style={[s.water, { backgroundColor: wateredToday ? t.elevated : t.accent, opacity: waterDisabled ? .55 : 1 }]}>
       <MaterialCommunityIcons name={wateredToday ? 'check-circle-outline' : 'water-outline'} size={16} color={wateredToday ? t.accent : t.onAccent} accessible={false} /><Text style={{ color: wateredToday ? t.accent : t.onAccent, fontSize: 12, fontWeight: '600' }}>{wateredToday ? 'Watered' : 'Water'}</Text>
     </GrowPress>}
   </View>;
@@ -61,7 +79,8 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
 const s = StyleSheet.create({
   card: { flex: 1, borderRadius: 18, overflow: 'hidden', padding: 10, gap: 8 },
   decoration: { position: 'absolute', top: -14, left: -24, transform: [{ rotate: '-25deg' }] },
-  details: { alignItems: 'stretch', gap: 4, flex: 1 },
+  details: { position: 'relative', alignItems: 'stretch', gap: 4, flex: 1 },
+  selectedMark: { position: 'absolute', top: 6, right: 6, width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
   photo: { width: '100%', aspectRatio: 1.3, borderRadius: 13, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   name: { fontSize: 16, lineHeight: 20, fontWeight: '700', textAlign: 'left', marginTop: 2 },
   meta: { fontSize: 11, lineHeight: 16, textAlign: 'left' },

@@ -9,8 +9,8 @@ import { useReducedMotion } from '@/ui/GrowMotion';
 import type { GardenSelection, HomeGarden } from '../gardenSelection';
 
 const icons = { outdoor: 'weather-sunny', indoor: 'home-outline', greenhouse: 'greenhouse' } as const;
-export default function GardenDropdown({ gardens, selection, counts, countsReady, onSelect, onCreate, disabled, onWaterAll, waterAllDisabled }: {
-  onWaterAll?(): void; waterAllDisabled?: boolean; gardens: HomeGarden[]; selection: GardenSelection; counts: Record<string, number>;
+export default function GardenDropdown({ gardens, selection, counts, allActiveCount, countsReady, onSelect, onCreate, disabled, onWaterAll, waterAllDisabled }: {
+  onWaterAll?(): void; waterAllDisabled?: boolean; gardens: HomeGarden[]; selection: GardenSelection; counts: Record<string, number>; allActiveCount: number;
   onSelect(value: GardenSelection): void; onCreate(): void; disabled?: boolean; countsReady: boolean;
 }) {
   const t = useAppTheme();
@@ -37,6 +37,7 @@ export default function GardenDropdown({ gardens, selection, counts, countsReady
             <View style={s.subtitleChip}><Text style={s.subtitleChipText}>{garden.environment}</Text></View>
             <Text style={s.subtitleCount}>{countsReady ? counts[garden.id] || 0 : '—'} active</Text>
           </View>}
+          {!garden && selection.kind === 'all' && <Text accessibilityLabel={`${countsReady ? allActiveCount : '—'} active plants`} style={s.subtitleCount}>{countsReady ? allActiveCount : '—'} active</Text>}
         </View>
         <View style={s.chevron}><MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={20} color={t.heroText} /></View>
       </Pressable>
