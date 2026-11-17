@@ -53,7 +53,7 @@ export default function GrowthStageScreen() {
   const select = (key: GrowthGuideStage) => setChosen(key);
   return <SafeAreaView edges={['top', 'left', 'right', 'bottom']} style={{ flex: 1, backgroundColor: t.background }}>
     <View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 8, gap: 12 }}>
-      <GrowPress accessibilityRole="button" accessibilityLabel="Back to plant" disabled={reviewBusy} onPress={back} style={{ minHeight: 40, minWidth: 40, justifyContent: 'center' }}><MaterialCommunityIcons name="arrow-left" size={22} color={t.text} /></GrowPress>
+      <GrowPress accessibilityRole="button" accessibilityLabel="Back to plant" disabled={reviewBusy} onPress={back} style={{ minHeight: 44, minWidth: 44, justifyContent: 'center' }}><MaterialCommunityIcons name="arrow-left" size={22} color={t.text} /></GrowPress>
       <View style={{ flex: 1 }}><Text style={{ color: t.text, fontSize: 15, fontWeight: '600' }}>{plant.name}</Text><Text style={{ color: t.muted, fontSize: 12, marginTop: 3 }}>Stage guide</Text></View>
     </View>
     <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ width: '100%', maxWidth: 760, alignSelf: 'center', padding: 20, paddingBottom: 28, gap: 26 }}>

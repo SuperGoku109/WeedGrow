@@ -51,7 +51,7 @@ export function PlantCard({ plant, onAddLog, wateredToday = false, waterLoading 
         <Text style={s.ageText} numberOfLines={1}>{plantCardAgeLabel(plant)}</Text>
       </View>
     </GrowPress>
-    {!!onAddLog && <GrowPress containerStyle={[s.water, onMore && { top: undefined, marginTop: 0, bottom: 8 }]} hitSlop={4} accessibilityRole="button" accessibilityLabel={`${plant.name}: ${waterDisabled ? 'Checking watering history' : wateredToday ? 'Watering recorded today' : waterLoading ? 'Saving watering' : 'Log watering'}`} accessibilityState={{ disabled: wateredToday || waterLoading || waterDisabled, busy: waterLoading }} disabled={wateredToday || waterLoading || waterDisabled} onPress={() => onAddLog('watering')} style={({ pressed }) => [{ height: 40, width: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 14 }, wateredToday && { backgroundColor: colors.elevated }, pressed && { opacity: 0.75 }]}>
+    {!!onAddLog && <GrowPress containerStyle={[s.water, onMore && { top: undefined, marginTop: 0, bottom: 8 }]} hitSlop={4} accessibilityRole="button" accessibilityLabel={`${plant.name}: ${waterDisabled ? 'Checking watering history' : wateredToday ? 'Watering recorded today' : waterLoading ? 'Saving watering' : 'Log watering'}`} accessibilityState={{ disabled: wateredToday || waterLoading || waterDisabled, busy: waterLoading }} disabled={wateredToday || waterLoading || waterDisabled} onPress={() => onAddLog('watering')} style={({ pressed }) => [{ height: 44, width: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 14 }, wateredToday && { backgroundColor: colors.elevated }, pressed && { opacity: 0.75 }]}>
       <GrowConfirm confirmed={wateredToday}>{waterLoading ? <ActivityIndicator size={18} color={colors.water} /> : <MaterialCommunityIcons name={wateredToday ? 'check-circle-outline' : 'water-outline'} size={18} color={wateredToday ? colors.accent : colors.water} />}</GrowConfirm>
     </GrowPress>}
     {!!onMore && <View style={s.more}><OverflowMenuButton label={moreLabel || `More options for ${plant.name}`} onOpen={onMore} expanded={moreOpen} /></View>}
@@ -71,7 +71,7 @@ const makeStyles = (colors: typeof gardenThemes.grove) => StyleSheet.create({
   stageChip: { flexShrink: 1, backgroundColor: colors.accent, flexDirection: 'row', alignItems: 'center', gap: 4 },
   stageChipText: { flexShrink: 1, fontSize: 10, lineHeight: 14, fontWeight: '700' },
   ageText: { flexShrink: 0, color: colors.muted, fontSize: 11, lineHeight: 16, fontWeight: '500' },
-  water: { position: 'absolute', right: 10, top: '50%', marginTop: -20, height: 40, width: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 14, backgroundColor: colors.background },
+  water: { position: 'absolute', right: 10, top: '50%', marginTop: -22, height: 44, width: 44, alignItems: 'center', justifyContent: 'center', borderRadius: 14, backgroundColor: colors.background },
   more: { position: 'absolute', right: 6, top: 6 },
 });
 export default PlantCard;

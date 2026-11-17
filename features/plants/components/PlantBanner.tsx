@@ -73,7 +73,7 @@ const s = StyleSheet.create({
   banner: { borderWidth: 1, borderBottomWidth: 0, borderTopLeftRadius: 24, borderTopRightRadius: 24, overflow: 'hidden' },
   cover: { width: '100%', minHeight: 156, paddingTop: 58, paddingBottom: 24, paddingHorizontal: 16, alignItems: 'flex-start', justifyContent: 'flex-end' },
   botanical: { position: 'absolute', right: 24, top: 0 },
-  photoAction: { position: 'absolute', right: 10, top: 10, width: 40, height: 40, borderRadius: 13, backgroundColor: 'rgba(0,0,0,0.78)', justifyContent: 'center', alignItems: 'center' },
+  photoAction: { position: 'absolute', right: 10, top: 10, width: 44, height: 44, borderRadius: 13, backgroundColor: 'rgba(0,0,0,0.78)', justifyContent: 'center', alignItems: 'center' },
   identity: { alignSelf: 'stretch', gap: 2 },
   name: { fontSize: 25, lineHeight: 30, fontWeight: '700', letterSpacing: -0.5, color: '#f5f7ed' },
   strain: { fontSize: 13, lineHeight: 18, color: '#dde5d7', textTransform: 'capitalize' },

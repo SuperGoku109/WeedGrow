@@ -28,7 +28,7 @@ export default function GardenDropdown({ gardens, selection, counts, countsReady
     <View ref={trigger} collapsable={false} style={s.panel}><View style={s.trigger}>
       <Pressable accessibilityRole="button" accessibilityLabel={`Select garden, current: ${name}`} accessibilityState={{ expanded: open, disabled }} disabled={disabled}
         onPress={() => trigger.current?.measureInWindow((x, y, measuredWidth, measuredHeight) => { setAnchor({ x, y: y + measuredHeight + 8, width: measuredWidth }); setOpen(true); })}
-        style={({ pressed }) => [{ flex: 1, minWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 8 }, pressed && { opacity: 0.88 }]}>
+        style={({ pressed }) => [{ flex: 1, minWidth: 44, flexDirection: 'row', alignItems: 'center', gap: 8 }, pressed && { opacity: 0.88 }]}>
         <View style={{ flex: 1, minWidth: 0, gap: 3 }}>
           <Text style={s.eyebrow}>{garden ? 'YOUR GARDEN' : gardens.length ? 'YOUR COLLECTION' : 'ROOM TO GROW'}</Text>
           <Text accessibilityRole="header" numberOfLines={garden ? 2 : 1} style={s.title}>{name}</Text>
@@ -76,7 +76,7 @@ export default function GardenDropdown({ gardens, selection, counts, countsReady
 
 const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   panel: { backgroundColor: t.hero, borderRadius: 20 },
-  waterAll: { width: 40, height: 40, borderRadius: 14, backgroundColor: t.background, alignItems: 'center', justifyContent: 'center' },
+  waterAll: { width: 44, height: 44, borderRadius: 15, backgroundColor: t.background, alignItems: 'center', justifyContent: 'center' },
   trigger: { backgroundColor: t.hero, borderRadius: 20, paddingHorizontal: 16, paddingVertical: 8, flexDirection: 'row', alignItems: 'center', gap: 4 },
   eyebrow: { fontSize: 10, lineHeight: 14, letterSpacing: 1.4, fontWeight: '700', color: t.heroText },
   title: { fontSize: 22, lineHeight: 26, fontWeight: '700', letterSpacing: -0.8, color: t.heroText },
@@ -85,7 +85,7 @@ const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   subtitleChip: { backgroundColor: t.heroText, borderRadius: 8, paddingHorizontal: 8, paddingVertical: 3 },
   subtitleChipText: { color: t.hero, fontSize: 10, lineHeight: 14, fontWeight: '700', textTransform: 'capitalize' },
   subtitleCount: { color: t.heroText, fontSize: 11, lineHeight: 16, fontWeight: '600' },
-  chevron: { width: 40, height: 40, backgroundColor: colorAlpha(t.heroText, .08), borderRadius: 15, justifyContent: 'center', alignItems: 'center' },
+  chevron: { width: 44, height: 44, backgroundColor: colorAlpha(t.heroText, .08), borderRadius: 15, justifyContent: 'center', alignItems: 'center' },
   actionButton: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   menu: { backgroundColor: t.surface, borderRadius: 22, borderWidth: 1, borderColor: t.border, padding: 8, boxShadow: '0px 12px 36px rgba(0,0,0,0.3)' },
   menuHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingLeft: 12 },

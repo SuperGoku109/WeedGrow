@@ -14,7 +14,7 @@ export default function SetupGaps() {
     <Pressable accessibilityRole="button" onPress={() => router.back()} style={{ minHeight: 44 }}><Text style={{ color: t.accent }}>← Back</Text></Pressable>
     <Text style={{ color: t.text, fontSize: 26 }}>Complete your garden setup</Text>
     {(loading || accountLoading) && <Text style={{ color: t.muted }}>Checking plant details…</Text>}
-    {!!error && <Pressable accessibilityRole="button" onPress={refresh}><Text style={{ color: t.danger }}>{error} · Retry</Text></Pressable>}
+    {!!error && <Pressable accessibilityRole="button" onPress={refresh} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.danger }}>{error} · Retry</Text></Pressable>}
     {!loading && !accountLoading && !!user && !!plants.length && !error && !missing.length && <Text style={{ color: t.muted }}>All active plants have their important setup details.</Text>}
     {!accountLoading && !user && <Text style={{ color: t.muted }}>Sign in to check your garden’s setup details.</Text>}
     {!loading && !accountLoading && !!user && !plants.length && !error && <Text style={{ color: t.muted }}>Add your first plant to start its setup checklist.</Text>}

@@ -71,7 +71,7 @@ export function MapPicker({ location, onLocationChange, disabled = false, height
       <div ref={container} className="weedgrow-location-map" aria-label="Location map. Click to place a pin, drag the pin to adjust, or use the center button." style={{ height: '100%', width: '100%', isolation: 'isolate', pointerEvents: disabled ? 'none' : 'auto', background: t.elevated }} />
       {(!ready || tilesLoading) && !error && <View pointerEvents="none" accessibilityLiveRegion="polite" style={{ position: 'absolute', top: 12, right: 12, padding: 10, borderRadius: 10, backgroundColor: t.surface, flexDirection: 'row', alignItems: 'center', gap: 8 }}><ActivityIndicator size="small" color={t.accent} /><Text style={{ color: t.text, fontSize: 13 }}>{ready ? 'Loading map imagery…' : 'Opening map…'}</Text></View>}
     </View>
-    {!!error && <><Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text><Pressable accessibilityRole="button" onPress={retry} disabled={disabled} style={{ padding: 10 }}><Text style={{ color: t.accent }}>Retry map</Text></Pressable></>}
+    {!!error && <><Text accessibilityRole="alert" style={{ color: t.danger }}>{error}</Text><Pressable accessibilityRole="button" onPress={retry} disabled={disabled} style={{ minHeight: 44, padding: 10, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Retry map</Text></Pressable></>}
     <Pressable accessibilityRole="button" disabled={!ready || disabled} onPress={() => { if (map.current) select(map.current.getCenter()); }} style={({ pressed }) => ({ minHeight: 48, paddingVertical: 10, opacity: pressed || !ready || disabled ? 0.5 : 1 })}><Text style={{ color: t.accent, fontSize: 13 }}>Place pin at map center</Text></Pressable>
   </View>;
 }

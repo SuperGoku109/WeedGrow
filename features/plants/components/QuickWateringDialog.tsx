@@ -49,7 +49,7 @@ export default function QuickWateringDialog({ plant, onClose, onSaved }: {
       <TextInput accessibilityLabel="Water amount in millilitres" editable={!busy} value={amount} onChangeText={changeAmount} keyboardType="decimal-pad" placeholder="Not measured" placeholderTextColor={t.muted} selectTextOnFocus style={{ flex: 1, minWidth: 0, minHeight: 56, padding: 0, color: t.text, fontSize: 18 }} />
       <Text style={{ color: t.muted, fontSize: 14 }}>ml</Text>
     </View>
-    {!!amount && <GrowPress accessibilityRole="button" accessibilityLabel="Remove water amount" disabled={busy} onPress={() => changeAmount('')} style={{ minHeight: 40, alignSelf: 'flex-start', justifyContent: 'center', borderWidth: 1, borderColor: t.border, borderRadius: 10, paddingHorizontal: 10 }}><Text style={{ color: t.muted, fontSize: 13 }}>Remove amount</Text></GrowPress>}
+    {!!amount && <GrowPress accessibilityRole="button" accessibilityLabel="Remove water amount" disabled={busy} onPress={() => changeAmount('')} style={{ minHeight: 44, alignSelf: 'flex-start', justifyContent: 'center', borderWidth: 1, borderColor: t.border, borderRadius: 10, paddingHorizontal: 10 }}><Text style={{ color: t.muted, fontSize: 13 }}>Remove amount</Text></GrowPress>}
     </ActivityDisclosure>
   </View>}</ActionDialog>;
 }

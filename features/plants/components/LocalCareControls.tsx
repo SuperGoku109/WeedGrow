@@ -110,5 +110,5 @@ function ManualCareControls({ plantId, theme: t }: { plantId: string; theme: Pla
   </View>;
 }
 const s = StyleSheet.create({ panel: { marginTop: 12, borderWidth: 1, borderRadius: 18, padding: 14, gap: 12 }, header: { flexDirection: 'row', justifyContent: 'space-between', gap: 10, minHeight: 32 },
-  note: { fontSize: 13, lineHeight: 19 }, buttons: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 }, button: { minHeight: 42, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 12, borderWidth: 1 },
+  note: { fontSize: 13, lineHeight: 19 }, buttons: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 }, button: { minHeight: 44, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 12, borderWidth: 1 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 }, field: { flexGrow: 1, flexBasis: 145, gap: 5 }, input: { borderWidth: 1, borderRadius: 10, minHeight: 44, paddingHorizontal: 12, fontSize: 15 }, toggle: { flexDirection: 'row', alignItems: 'center', gap: 12 } });

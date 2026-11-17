@@ -60,7 +60,7 @@ const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   anchor: { position: 'absolute', left: 16, right: 16, alignItems: 'center' },
   notice: { width: '100%', maxWidth: 520, minHeight: 64, flexDirection: 'row', alignItems: 'center', gap: 10, paddingLeft: 16, paddingRight: 6, paddingVertical: 8, borderRadius: 20, backgroundColor: t.surface, borderWidth: 1, borderColor: t.border, boxShadow: `0px 10px 32px ${t.shadow}52` },
   message: { color: t.text, fontSize: 14, lineHeight: 20 },
-  action: { minHeight: 40, paddingHorizontal: 10, justifyContent: 'center', borderRadius: 12, backgroundColor: t.elevated },
+  action: { minHeight: 44, paddingHorizontal: 10, justifyContent: 'center', borderRadius: 12, backgroundColor: t.elevated },
   actionText: { color: t.accent, fontSize: 13, fontWeight: '700' },
-  dismiss: { width: 40, height: 40, justifyContent: 'center', alignItems: 'center' },
+  dismiss: { width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
 });

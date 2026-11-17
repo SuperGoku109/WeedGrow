@@ -67,8 +67,8 @@ export default function GrowthStageTimeline({ plant, selectedStage, onSelect, th
         </View>;
       })}
     </ScrollView>
-    {canGoBack && <Pressable accessibilityRole="button" accessibilityLabel="Show earlier growth stages" onPress={() => move(-1)} hitSlop={10} style={({ pressed }) => ({ position: 'absolute', left: 0, top: 12, width: 28, height: 44, backgroundColor: t.surface, alignItems: 'center', justifyContent: 'center', opacity: pressed ? .7 : 1 })}><MaterialCommunityIcons name="chevron-left" size={21} color={t.accent} /></Pressable>}
-    {canGoForward && <Pressable accessibilityRole="button" accessibilityLabel="Show later growth stages" onPress={() => move(1)} hitSlop={10} style={({ pressed }) => ({ position: 'absolute', right: 0, top: 12, width: 28, height: 44, backgroundColor: t.surface, alignItems: 'center', justifyContent: 'center', opacity: pressed ? .7 : 1 })}><MaterialCommunityIcons name="chevron-right" size={21} color={t.accent} /></Pressable>}
+    {canGoBack && <Pressable accessibilityRole="button" accessibilityLabel="Show earlier growth stages" onPress={() => move(-1)} style={({ pressed }) => ({ position: 'absolute', left: 0, top: 12, width: 44, height: 44, backgroundColor: t.surface, alignItems: 'center', justifyContent: 'center', opacity: pressed ? .7 : 1 })}><MaterialCommunityIcons name="chevron-left" size={21} color={t.accent} /></Pressable>}
+    {canGoForward && <Pressable accessibilityRole="button" accessibilityLabel="Show later growth stages" onPress={() => move(1)} style={({ pressed }) => ({ position: 'absolute', right: 0, top: 12, width: 44, height: 44, backgroundColor: t.surface, alignItems: 'center', justifyContent: 'center', opacity: pressed ? .7 : 1 })}><MaterialCommunityIcons name="chevron-right" size={21} color={t.accent} /></Pressable>}
     </View>
   </View>;
 }

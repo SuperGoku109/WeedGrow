@@ -71,13 +71,13 @@ export default function PlantFilterMenu({ anchor, options, status, plants, query
 const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   menu: { position: 'absolute', backgroundColor: t.surface, borderWidth: 1, borderColor: t.border, borderRadius: 18, overflow: 'hidden', boxShadow: '0px 10px 32px rgba(0,0,0,0.32)' },
   header: { flexDirection: 'row', alignItems: 'center', paddingLeft: 12, paddingRight: 4, paddingVertical: 3, borderBottomWidth: 1, borderColor: t.elevated }, title: { flex: 1, color: t.text, fontSize: 14, fontWeight: '600' },
-  reset: { minHeight: 32, paddingHorizontal: 10, justifyContent: 'center' },
+  reset: { minWidth: 44, minHeight: 44, paddingHorizontal: 10, justifyContent: 'center', alignItems: 'center' },
   section: { paddingHorizontal: 10, paddingTop: 7, paddingBottom: 8, gap: 5, borderBottomWidth: 1, borderColor: t.elevated },
   groupLabel: { color: t.muted, fontSize: 12, fontWeight: '500', lineHeight: 17 }, tiles: { flexDirection: 'row', flexWrap: 'wrap', gap: 4 },
-  tile: { minHeight: 36, paddingHorizontal: 8, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: t.border, alignItems: 'center', justifyContent: 'center' },
+  tile: { minWidth: 44, minHeight: 44, paddingHorizontal: 8, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: t.border, alignItems: 'center', justifyContent: 'center' },
   selectedTile: { backgroundColor: t.elevated, borderColor: t.accent }, tileText: { color: t.muted, fontSize: 12, lineHeight: 17 },
   label: { color: t.muted, fontSize: 13, lineHeight: 19 },
-  statusRow: { minHeight: 36, flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, paddingVertical: 6, borderBottomWidth: 1, borderColor: t.elevated },
+  statusRow: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 12, paddingVertical: 6, borderBottomWidth: 1, borderColor: t.elevated },
   checkbox: { width: 18, height: 18, borderRadius: 5, borderWidth: 1, borderColor: t.muted, alignItems: 'center', justifyContent: 'center' },
-  footer: { padding: 8 }, apply: { minHeight: 40, alignItems: 'center', justifyContent: 'center', backgroundColor: t.accent, borderRadius: 11 },
+  footer: { padding: 8 }, apply: { minHeight: 44, alignItems: 'center', justifyContent: 'center', backgroundColor: t.accent, borderRadius: 11 },
 });

@@ -50,6 +50,8 @@ const makeStyles = (t: ReturnType<typeof useAppTheme>) => StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: '100%',
+    minHeight: 44,
+    paddingVertical: 10,
     marginBottom: 16,
   },
   locationRadioRowSelected: {

@@ -30,7 +30,7 @@ export default function EditorHeight({ value, onChange, disabled, theme: t }: { 
   };
   return <View style={{ minWidth: 0 }}>
     <EditorField label="Height" testID="plant-editor-height" value={text} editable={!disabled} keyboardType="decimal-pad" placeholder="—" suffix={unit} onChangeText={raw => { setText(raw); const next = heightInCentimetres(raw, unit); emitted.current = next; onChange(next); }} suffixControl={
-      <Pressable ref={trigger} collapsable={false} accessibilityRole="button" accessibilityLabel={'Height unit: ' + unit} accessibilityHint="Choose a different height unit." accessibilityState={{ expanded: !!anchor, disabled }} disabled={disabled} hitSlop={4} onPress={show} style={({ pressed }) => ({ minHeight: 40, minWidth: 52, margin: 4, paddingHorizontal: 8, borderRadius: 8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5, backgroundColor: t.elevated, opacity: pressed ? .75 : 1 })}>
+      <Pressable ref={trigger} collapsable={false} accessibilityRole="button" accessibilityLabel={'Height unit: ' + unit} accessibilityHint="Choose a different height unit." accessibilityState={{ expanded: !!anchor, disabled }} disabled={disabled} hitSlop={4} onPress={show} style={({ pressed }) => ({ minHeight: 44, minWidth: 52, margin: 4, paddingHorizontal: 8, borderRadius: 8, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 5, backgroundColor: t.elevated, opacity: pressed ? .75 : 1 })}>
         <Text style={{ color: t.accent, fontSize: 12, fontWeight: '600' }}>{unit}</Text><Feather name={anchor ? 'chevron-up' : 'chevron-down'} size={12} color={t.muted} />
       </Pressable>
     } />

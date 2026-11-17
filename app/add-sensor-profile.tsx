@@ -101,7 +101,7 @@ export default function AddSensorProfileScreen() {
               Hardware integration coming soon. You can edit this profile later.
             </Text>
           )}
-          <Button contentStyle={{ minHeight: 40 }} labelStyle={{ fontSize: 13 }}
+          <Button contentStyle={{ minHeight: 44 }} labelStyle={{ fontSize: 13 }}
             mode="contained"
             onPress={handleSave}
             loading={saving}

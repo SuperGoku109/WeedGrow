@@ -196,13 +196,13 @@ function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string }
             <TextInput dense mode="outlined" label="Profile name" value={editName} onChangeText={setEditName} style={styles.input} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} autoFocus left={<TextInput.Icon icon="label-outline" color={palette.muted} />} maxLength={32} />
             <Text style={styles.dialogLabel}>ENVIRONMENT</Text>
             <View style={styles.dialogRow}>
-              <Button mode={editEnv === 'indoor' ? 'contained' : 'outlined'} onPress={() => setEditEnv('indoor')} icon="home-outline" compact labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={editEnv === 'indoor' ? palette.accent : undefined} textColor={editEnv === 'indoor' ? palette.onAccent : palette.text}>Indoor</Button>
-              <Button mode={editEnv === 'greenhouse' ? 'contained' : 'outlined'} onPress={() => setEditEnv('greenhouse')} icon="greenhouse" compact labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={editEnv === 'greenhouse' ? palette.accent : undefined} textColor={editEnv === 'greenhouse' ? palette.onAccent : palette.text}>Greenhouse</Button>
+              <Button mode={editEnv === 'indoor' ? 'contained' : 'outlined'} onPress={() => setEditEnv('indoor')} icon="home-outline" compact contentStyle={{ minHeight: 44 }} labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={editEnv === 'indoor' ? palette.accent : undefined} textColor={editEnv === 'indoor' ? palette.onAccent : palette.text}>Indoor</Button>
+              <Button mode={editEnv === 'greenhouse' ? 'contained' : 'outlined'} onPress={() => setEditEnv('greenhouse')} icon="greenhouse" compact contentStyle={{ minHeight: 44 }} labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={editEnv === 'greenhouse' ? palette.accent : undefined} textColor={editEnv === 'greenhouse' ? palette.onAccent : palette.text}>Greenhouse</Button>
             </View>
             <Text style={styles.dialogLabel}>DATA SOURCE</Text>
             <View style={styles.dialogRow}>
-              <Button mode={editManual ? 'contained' : 'outlined'} onPress={() => setEditManual(true)} icon="pencil-outline" compact labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={editManual ? palette.accent : undefined} textColor={editManual ? palette.onAccent : palette.text}>Manual</Button>
-              <Button mode={!editManual ? 'contained' : 'outlined'} onPress={() => setEditManual(false)} icon="memory" compact labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={!editManual ? palette.accent : undefined} textColor={!editManual ? palette.onAccent : palette.text}>Hardware</Button>
+              <Button mode={editManual ? 'contained' : 'outlined'} onPress={() => setEditManual(true)} icon="pencil-outline" compact contentStyle={{ minHeight: 44 }} labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={editManual ? palette.accent : undefined} textColor={editManual ? palette.onAccent : palette.text}>Manual</Button>
+              <Button mode={!editManual ? 'contained' : 'outlined'} onPress={() => setEditManual(false)} icon="memory" compact contentStyle={{ minHeight: 44 }} labelStyle={{ fontSize: 13, marginHorizontal: 8 }} style={styles.dialogChoice} buttonColor={!editManual ? palette.accent : undefined} textColor={!editManual ? palette.onAccent : palette.text}>Hardware</Button>
             </View>
             {editManual && <View style={styles.readingInputs}>
               <TextInput dense mode="outlined" label="Temperature (°C)" value={editTemp} onChangeText={setEditTemp} keyboardType="numeric" style={[styles.input, styles.halfInput]} outlineColor={palette.border} activeOutlineColor={palette.accent} textColor={palette.text} />
@@ -210,7 +210,7 @@ function ManageSensorProfilesContent({ emptyMessage }: { emptyMessage?: string }
             </View>}
             {!!editError && <Text accessibilityRole="alert" style={{ color: palette.danger, marginTop: 12 }}>{editError}</Text>}
           </Dialog.Content></ScrollView>
-          <Dialog.Actions><Button disabled={saving} textColor={palette.muted} onPress={() => setEditing(null)}>Cancel</Button><Button loading={saving} buttonColor={palette.accent} textColor={palette.onAccent} mode="contained" onPress={handleSaveEdit} disabled={saving || !editName.trim()}>{saving ? 'Saving…' : 'Save changes'}</Button></Dialog.Actions>
+          <Dialog.Actions><Button contentStyle={{ minHeight: 44 }} disabled={saving} textColor={palette.muted} onPress={() => setEditing(null)}>Cancel</Button><Button contentStyle={{ minHeight: 44 }} loading={saving} buttonColor={palette.accent} textColor={palette.onAccent} mode="contained" onPress={handleSaveEdit} disabled={saving || !editName.trim()}>{saving ? 'Saving…' : 'Save changes'}</Button></Dialog.Actions>
         </Dialog>
 
         <Dialog visible={showLinked} onDismiss={() => setShowLinked(false)} style={styles.dialog}>
@@ -238,7 +238,7 @@ const makeStyles = (palette: typeof gardenThemes.grove) => StyleSheet.create({
   heading: { color: palette.heroText, fontSize: 34, lineHeight: 38, fontWeight: '600', letterSpacing: -1.2 },
   headingCompact: { fontSize: 26, lineHeight: 31 },
   topInfo: { color: palette.heroText, fontSize: 13, lineHeight: 20, marginTop: 8, maxWidth: 280 },
-  heroButton: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: palette.heroText, borderRadius: 14, paddingHorizontal: 16, minHeight: 40, marginTop: 12 },
+  heroButton: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 7, backgroundColor: palette.heroText, borderRadius: 14, paddingHorizontal: 16, minHeight: 44, marginTop: 12 },
   heroButtonText: { color: palette.hero, fontSize: 13, fontWeight: '700' },
   heroArt: { position: 'absolute', width: 120, height: 120, right: 22, top: 50, alignItems: 'center', justifyContent: 'center' },
   heroArtCompact: { right: -36, opacity: 0.25 },
@@ -283,17 +283,17 @@ const makeStyles = (palette: typeof gardenThemes.grove) => StyleSheet.create({
   sourceRow: { flexDirection: 'row', alignItems: 'center', gap: 7, marginTop: 10, paddingHorizontal: 2 },
   sourceText: { color: palette.muted, fontSize: 13 },
   actionRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: palette.border },
-  primaryAction: { flex: 1, minWidth: 106, minHeight: 40, borderRadius: 14, backgroundColor: palette.accent, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 10 },
+  primaryAction: { flex: 1, minWidth: 106, minHeight: 44, borderRadius: 14, backgroundColor: palette.accent, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 10 },
   primaryActionText: { color: palette.onAccent, fontSize: 13, fontWeight: '700' },
-  secondaryAction: { flex: 1.2, minWidth: 116, minHeight: 40, borderRadius: 14, borderWidth: 1, borderColor: palette.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 10 },
+  secondaryAction: { flex: 1.2, minWidth: 116, minHeight: 44, borderRadius: 14, borderWidth: 1, borderColor: palette.border, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 10 },
   secondaryActionText: { color: palette.text, fontSize: 13, fontWeight: '600' },
-  deleteAction: { width: 40, height: 40, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
+  deleteAction: { width: 44, height: 44, borderRadius: 14, alignItems: 'center', justifyContent: 'center' },
   dialog: { backgroundColor: palette.surface, borderWidth: 1, borderColor: palette.border, borderRadius: 26, width: '90%', maxWidth: 520, alignSelf: 'center', maxHeight: '85%' },
   dialogTitle: { color: palette.text, fontSize: 25, fontWeight: '600', letterSpacing: -0.6 },
   dialogHint: { color: palette.muted, fontSize: 13, lineHeight: 18, marginBottom: 13 },
   dialogLabel: { color: palette.muted, fontSize: 13, letterSpacing: 1.4, marginTop: 18, marginBottom: 10 },
   dialogRow: { flexDirection: 'row', gap: 9 },
-  dialogChoice: { flex: 1, borderColor: palette.border },
+  dialogChoice: { flex: 1, minHeight: 44, borderColor: palette.border },
   input: { backgroundColor: palette.background, fontSize: 16, height: 44 },
   readingInputs: { flexDirection: 'row', gap: 9, marginTop: 15 },
   halfInput: { flex: 1 },

@@ -70,5 +70,5 @@ const s = StyleSheet.create({
   stage: { fontSize: 9, lineHeight: 13, fontWeight: '700', flexShrink: 1, minWidth: 0 },
   age: { fontSize: 10, lineHeight: 15, flexShrink: 0 },
   track: { height: 4, borderRadius: 3, overflow: 'hidden' },
-  water: { minHeight: 36, borderRadius: 11, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5 },
+  water: { minHeight: 44, borderRadius: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5 },
 });

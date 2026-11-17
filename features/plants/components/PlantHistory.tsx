@@ -20,7 +20,7 @@ export default function PlantHistory({ plantId, plant, theme: t, onViewPhoto, on
       <Text accessibilityRole="header" style={{ color: t.text, fontSize: 20, fontWeight: '600' }}>History</Text>
       <GrowPress accessibilityRole="button" accessibilityLabel="Refresh plant history" disabled={history.loading} onPress={history.refresh} style={{ width: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' }}><MaterialCommunityIcons name="refresh" color={t.muted} size={20} /></GrowPress>
     </View>
-    {!!history.error && <View style={{ backgroundColor: t.surface, borderRadius: 14, padding: 14, gap: 8 }}><Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 13, lineHeight: 19 }}>{history.error}</Text><GrowPress accessibilityRole="button" accessibilityLabel="Retry plant history" onPress={() => history.entries.length && history.hasMore ? void history.loadMore() : history.refresh()} style={{ minHeight: 40, justifyContent: 'center' }}><Text style={{ color: t.accent, fontWeight: '600' }}>Retry</Text></GrowPress></View>}
+    {!!history.error && <View style={{ backgroundColor: t.surface, borderRadius: 14, padding: 14, gap: 8 }}><Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 13, lineHeight: 19 }}>{history.error}</Text><GrowPress accessibilityRole="button" accessibilityLabel="Retry plant history" onPress={() => history.entries.length && history.hasMore ? void history.loadMore() : history.refresh()} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.accent, fontWeight: '600' }}>Retry</Text></GrowPress></View>}
     {!!rows.length && <View>{rows.map(({ log, day, time }, index) => {
       const created = log.id === '__created';
       const event = created ? { title: 'Plant added', icon: 'sprout-outline' as const, color: t.accent } : historyEvent(log, t);
@@ -41,7 +41,7 @@ export default function PlantHistory({ plantId, plant, theme: t, onViewPhoto, on
             </View>
             {log.type === 'photo' && !!log.photoUri && <GrowPress accessibilityRole="button" accessibilityLabel={`Open photo from ${historyDate(day)}`} onPress={event => { event.stopPropagation(); onViewPhoto(log); }}><PlantImage source={{ uri: log.photoUri }} style={{ width: '100%', height: 148, borderRadius: 12, backgroundColor: t.elevated }} /></GrowPress>}
             {!!details && <Text numberOfLines={long && !expanded[log.id] ? 4 : undefined} style={{ color: t.text, fontSize: 13, lineHeight: 20 }}>{details}</Text>}
-            {long && <GrowPress accessibilityRole="button" accessibilityLabel={expanded[log.id] ? 'Collapse event details' : 'Read full event details'} accessibilityState={{ expanded: !!expanded[log.id] }} onPress={event => { event.stopPropagation(); setExpanded(previous => ({ ...previous, [log.id]: !previous[log.id] })); }} style={{ minHeight: 36, justifyContent: 'center' }}><Text style={{ color: t.accent, fontSize: 12 }}>{expanded[log.id] ? 'Show less' : 'Read more'}</Text></GrowPress>}
+            {long && <GrowPress accessibilityRole="button" accessibilityLabel={expanded[log.id] ? 'Collapse event details' : 'Read full event details'} accessibilityState={{ expanded: !!expanded[log.id] }} onPress={event => { event.stopPropagation(); setExpanded(previous => ({ ...previous, [log.id]: !previous[log.id] })); }} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: t.accent, fontSize: 12 }}>{expanded[log.id] ? 'Show less' : 'Read more'}</Text></GrowPress>}
           </GrowPress>
         </View>
       </View>;

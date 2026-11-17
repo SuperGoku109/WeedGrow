@@ -30,11 +30,11 @@ export default function EditorListField({ label, value, onChange, disabled, them
   };
   return <View style={{ gap: 10 }}>
     <EditorField label={label} value={entry} editable={!disabled} maxLength={120} returnKeyType="done" onChangeText={raw => { setEntry(raw); emit(items, raw); }} onSubmitEditing={add} suffixControl={
-      <Pressable accessibilityRole="button" accessibilityLabel={'Add to ' + label.toLowerCase()} disabled={disabled || !entry.trim()} onPress={add} style={{ minHeight: 40, margin: 4, paddingHorizontal: 12, borderRadius: 8, justifyContent: 'center', backgroundColor: t.elevated, opacity: disabled || !entry.trim() ? .45 : 1 }}><Text style={{ color: t.accent, fontSize: 13, fontWeight: '600' }}>Add</Text></Pressable>
+      <Pressable accessibilityRole="button" accessibilityLabel={'Add to ' + label.toLowerCase()} disabled={disabled || !entry.trim()} onPress={add} style={{ minHeight: 44, margin: 4, paddingHorizontal: 12, borderRadius: 8, justifyContent: 'center', backgroundColor: t.elevated, opacity: disabled || !entry.trim() ? .45 : 1 }}><Text style={{ color: t.accent, fontSize: 13, fontWeight: '600' }}>Add</Text></Pressable>
     } />
     {!!items.length && <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>{items.map((item, index) => <View key={item} style={{ maxWidth: '100%', flexDirection: 'row', alignItems: 'center', paddingLeft: 12, borderRadius: 12, backgroundColor: t.elevated }}>
       <Text style={{ color: t.text, fontSize: 13, lineHeight: 20, flexShrink: 1, paddingVertical: 8 }}>{item}</Text>
-      <Pressable accessibilityRole="button" accessibilityLabel={'Remove ' + item + ' from ' + label.toLowerCase()} disabled={disabled} hitSlop={4} onPress={() => { const next = items.filter((_, i) => i !== index); setItems(next); emit(next, entry); }} style={{ minWidth: 40, minHeight: 40, alignItems: 'center', justifyContent: 'center', opacity: disabled ? .45 : 1 }}><Feather name="x" size={15} color={t.muted} /></Pressable>
+      <Pressable accessibilityRole="button" accessibilityLabel={'Remove ' + item + ' from ' + label.toLowerCase()} disabled={disabled} hitSlop={4} onPress={() => { const next = items.filter((_, i) => i !== index); setItems(next); emit(next, entry); }} style={{ minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center', opacity: disabled ? .45 : 1 }}><Feather name="x" size={15} color={t.muted} /></Pressable>
     </View>)}</View>}
   </View>;
 }

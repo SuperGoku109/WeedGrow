@@ -84,6 +84,6 @@ const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({
   historyContext: { marginHorizontal: 18, paddingBottom: 6, borderBottomWidth: 1, borderColor: t.border, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 4 },
   historyFilter: { flexDirection: 'row', alignItems: 'center', gap: 6, minHeight: 44 },
   backToPlants: { flexDirection: 'row', alignItems: 'center', gap: 6, minHeight: 44, paddingHorizontal: 6 },
-  notice: { paddingHorizontal: 18, paddingVertical: 8 }, empty: { alignItems: 'center', paddingVertical: 28, paddingHorizontal: 16, gap: 12 }, emptyTitle: { color: t.text, fontSize: 19, fontWeight: '600' },
+  notice: { minHeight: 44, paddingHorizontal: 18, paddingVertical: 8, justifyContent: 'center' }, empty: { alignItems: 'center', paddingVertical: 28, paddingHorizontal: 16, gap: 12 }, emptyTitle: { color: t.text, fontSize: 19, fontWeight: '600' },
   action: { minHeight: 48, justifyContent: 'center', paddingHorizontal: 16 }, menuRow: { minHeight: 58, flexDirection: 'row', gap: 12, alignItems: 'center', paddingHorizontal: 4, borderBottomWidth: 1, borderColor: t.border }, menuText: { color: t.text, fontSize: 16, flex: 1 },
 });

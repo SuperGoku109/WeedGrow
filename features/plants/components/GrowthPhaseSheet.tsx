@@ -84,7 +84,7 @@ export default function GrowthPhaseSheet({ plantId, plant, theme: t, onClose, on
       {setup.environment !== 'indoor' && <EditorSelect label="Sunlight" value={setup.sunlightExposure} options={['', 'Full Sun', 'Partial Sun', 'Mostly Shade', 'Not Sure'].map(value => ({ value, label: value || 'Not recorded' }))} disabled={busy} onSelect={value => setSetup(previous => ({ ...previous, sunlightExposure: value }))} />}
       {!!plant.groupId && setup.environment !== plant.environment && <Text style={{ color: t.muted, fontSize: 12, lineHeight: 18 }}>Changing environment moves this plant out of its current garden.</Text>}
     </ActivityDisclosure>
-    {onGuide && <GrowPress accessibilityRole="button" accessibilityLabel="Open growth stage guide" disabled={busy} onPress={onGuide} style={{ minHeight: 40, flexDirection: 'row', alignItems: 'center', gap: 7 }}><MaterialCommunityIcons name="book-open-outline" size={17} color={t.muted} /><Text style={{ color: t.muted, fontSize: 13 }}>Explore the stage guide</Text></GrowPress>}
+    {onGuide && <GrowPress accessibilityRole="button" accessibilityLabel="Open growth stage guide" disabled={busy} onPress={onGuide} style={{ minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 7 }}><MaterialCommunityIcons name="book-open-outline" size={17} color={t.muted} /><Text style={{ color: t.muted, fontSize: 13 }}>Explore the stage guide</Text></GrowPress>}
     {harvestConfirm && <ActionDialog title="Finish this grow?" description="This records the harvest and ends living growth. The journal is kept, and repeating watering stops." confirmLabel="Save harvest" onClose={() => setHarvestConfirm(false)} onConfirm={save} />}
   </PlantEditorSheet>;
 }
