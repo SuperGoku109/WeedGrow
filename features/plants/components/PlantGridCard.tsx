@@ -68,7 +68,7 @@ export default function PlantGridCard({ plant, onPress, wateredToday, waterStatu
       <Text numberOfLines={1} style={[s.meta, { color: t.muted }]}>{plantCardMeta(plant, false)}</Text>
       <View style={s.facts}>
         <View style={[s.chip, { backgroundColor: `${color}20` }]}><MaterialCommunityIcons name={stage.icon} size={12} color={color} accessible={false} /><Text numberOfLines={1} ellipsizeMode="tail" style={[s.stage, { color }]}>{plantCardStageLabel(plant)}</Text></View>
-        <Text numberOfLines={1} style={[s.age, { color: t.muted }]}>{plantCardAgeLabel(plant)}</Text>
+        <Text numberOfLines={1} style={[s.age, { color: t.muted }]}>{plantCardAgeLabel(plant).replace(/^~/, '')}</Text>
       </View>
       {careAlertCount > 0 && <View pointerEvents="none" accessibilityLabel={`${careAlertCount} care ${careAlertCount === 1 ? 'alert' : 'alerts'}`} style={[s.alertCount, { backgroundColor: t.danger }]}><Text style={{ color: t.onDanger, fontSize: 11, lineHeight: 18, fontWeight: '700' }}>{careAlertCount}</Text></View>}
       {selected && <View pointerEvents="none" style={[s.selectedMark, { backgroundColor: t.accent }]}><MaterialCommunityIcons name="check" size={16} color={t.onAccent} /></View>}

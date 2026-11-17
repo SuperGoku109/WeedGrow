@@ -7,25 +7,27 @@ import { useAppTheme } from '@/hooks/useAppTheme';
 import type { Plant } from '@/firestoreModels';
 import type { CareTask } from '@/lib/care/careTasks';
 import { gardenCareGroups } from '../gardenCare';
-import type { useGardenCareSuggestions } from '../hooks/useGardenCareSuggestions';
+import { useGardenCareSuggestions } from '../hooks/useGardenCareSuggestions';
 import { colorAlpha } from '@/design-system/tokens/garden';
 
 // Survive Home remounts without showing the transient refresh state again.
 const completedSummaries = new Map<string, ReturnType<typeof gardenCareGroups>>();
 
-export default function GardenCareOverview({ advice, plants, tasks, now, loading, error, onRetry, label, cacheKey }: {
-  label: string;
-  advice: ReturnType<typeof useGardenCareSuggestions>;
+export default function GardenCareOverview({ advice, plants, tasks, now, loading, error, onRetry, label = 'TODAY’S GARDEN CARE', cacheKey }: {
+  label?: string;
+  advice?: ReturnType<typeof useGardenCareSuggestions>;
   cacheKey?: string; plants: (Plant & { id: string })[]; tasks: CareTask[]; now: Date; loading: boolean; error: string | null; onRetry(): void;
 }) {
   const t = useAppTheme();
   const router = useRouter();
   const [expanded, setExpanded] = React.useState(false);
-  const pending = loading || advice.loading;
-  const failed = !!error || advice.error;
+  const fallbackAdvice = useGardenCareSuggestions(advice ? [] : plants, now);
+  const careAdvice = advice || fallbackAdvice;
+  const pending = loading || careAdvice.loading;
+  const failed = !!error || careAdvice.error;
   const scope = JSON.stringify([cacheKey, plants.filter(plant => plant.status === 'active' && !plant.deleting).map(plant => [plant.id, plant.name, plantDay(now, plant.locationTimeZone)]).sort((a, b) => a[0].localeCompare(b[0]))]);
   const settled = React.useRef<{ scope: string; groups: ReturnType<typeof gardenCareGroups> } | null>(null);
-  const latestGroups = React.useMemo(() => gardenCareGroups(advice.results, tasks, plants, now), [advice.results, tasks, plants, now]);
+  const latestGroups = React.useMemo(() => gardenCareGroups(careAdvice.results, tasks, plants, now), [careAdvice.results, tasks, plants, now]);
   const previousGroups = settled.current?.scope === scope ? settled.current.groups : cacheKey ? completedSummaries.get(scope) : undefined;
   const groups = pending && previousGroups ? previousGroups : latestGroups;
   const initialLoading = pending && !previousGroups;
@@ -62,7 +64,7 @@ export default function GardenCareOverview({ advice, plants, tasks, now, loading
         </Pressable>)}
       </View>)}
       {!initialLoading && !count && <Text style={[s.subtitle, { color: t.muted }]}>{failed ? 'Refresh to check the latest advice.' : 'Your current care suggestions and routine reminders will appear here when a check is due.'}</Text>}
-      {failed && <Pressable accessibilityRole="button" onPress={() => { onRetry(); advice.refresh(); }} style={s.retry}><Text style={{ color: t.accent, fontWeight: '600' }}>Retry care advice</Text></Pressable>}
+      {failed && <Pressable accessibilityRole="button" onPress={() => { onRetry(); careAdvice.refresh(); }} style={s.retry}><Text style={{ color: t.accent, fontWeight: '600' }}>Retry care advice</Text></Pressable>}
     </View>}
   </View>;
 }

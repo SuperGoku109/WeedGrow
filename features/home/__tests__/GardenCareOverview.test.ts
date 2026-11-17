@@ -18,7 +18,7 @@ afterEach(() => act(() => tree?.unmount()));
 it('expands inline, opens the affected plant, and collapses again', async () => {
   (evaluateSuggestionCardsForPlants as jest.Mock).mockResolvedValue([{ plantId: 'a', cards: [{ id: 'a:wind', kind: 'weather', active: true, severity: 'warn', title: 'Wind alert', summary: 'Shelter this plant.', algorithmVersion: 'hops-8.4.0', metrics: { expiresAtUtc: now.getTime() / 1000 + 3600 } }] }]);
   await act(async () => { tree = create(React.createElement(GardenCareOverview, { plants, tasks: [], now, loading: false, error: null, onRetry: jest.fn() })); });
-  const label = 'Today’s garden care. 1 thing needs checking';
+  const label = 'Today’s garden care. Wind alert';
   expect(button('Open care for Basil: Wind alert')).toBeUndefined();
   act(() => button(label).props.onPress());
   expect(button(label).props.accessibilityState.expanded).toBe(true);
@@ -42,13 +42,13 @@ it('keeps the completed garden summary while refreshing after Home remounts', as
   evaluate.mockResolvedValueOnce([{ plantId: 'a', cards: [{ id: 'a:wind', kind: 'weather', active: true, severity: 'warn', title: 'Wind alert', summary: 'Shelter this plant.', algorithmVersion: 'hops-8.4.0', metrics: { expiresAtUtc: now.getTime() / 1000 + 3600 } }] }]);
   const props = { cacheKey: 'account-a:garden-a', plants, tasks: [], now, loading: false, error: null, onRetry: jest.fn() };
   await act(async () => { tree = create(React.createElement(GardenCareOverview, props)); });
-  expect(button('Today’s garden care. 1 thing needs checking')).toBeDefined();
+  expect(button('Today’s garden care. Wind alert')).toBeDefined();
   act(() => tree.unmount());
   evaluate.mockImplementation(() => new Promise(() => {}));
   await act(async () => { tree = create(React.createElement(GardenCareOverview, { ...props, loading: true })); });
-  expect(button('Today’s garden care. 1 thing needs checking')).toBeDefined();
+  expect(button('Today’s garden care. Wind alert')).toBeDefined();
   expect(button('Today’s garden care. Checking your garden…')).toBeUndefined();
-  act(() => button('Today’s garden care. 1 thing needs checking').props.onPress());
+  act(() => button('Today’s garden care. Wind alert').props.onPress());
   expect(button('Open care for Basil: Wind alert')).toBeDefined();
   await act(async () => tree.update(React.createElement(GardenCareOverview, { ...props, cacheKey: 'account-b:garden-a', loading: true })));
   expect(button('Today’s garden care. Checking your garden…')).toBeDefined();
