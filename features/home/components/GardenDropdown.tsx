@@ -41,7 +41,7 @@ export default function GardenDropdown({ gardens, selection, counts, allActiveCo
         </View>
         <View style={s.chevron}><MaterialCommunityIcons name={open ? 'chevron-up' : 'chevron-down'} size={20} color={t.heroText} /></View>
       </Pressable>
-      {onWaterAll && <Pressable accessibilityRole="button" accessibilityLabel={garden ? `Water all plants in ${name}` : 'Water all plants'} disabled={disabled || waterAllDisabled} onPress={onWaterAll} style={({ pressed }) => [s.waterAll, { opacity: disabled || waterAllDisabled ? .5 : pressed ? .72 : 1 }]}><MaterialCommunityIcons name="water-outline" size={19} color={t.water} accessible={false} /></Pressable>}
+      {onWaterAll && garden && <Pressable accessibilityRole="button" accessibilityLabel={`Water all plants in ${name}`} disabled={disabled || waterAllDisabled} onPress={onWaterAll} style={({ pressed }) => [s.waterAll, { opacity: disabled || waterAllDisabled ? .5 : pressed ? .72 : 1 }]}><MaterialCommunityIcons name="water-outline" size={19} color={t.water} accessible={false} /></Pressable>}
     </View>
     </View>
     <Modal visible={open} transparent animationType={reduced ? 'none' : 'fade'} onRequestClose={() => setOpen(false)}>

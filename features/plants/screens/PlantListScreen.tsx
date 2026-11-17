@@ -16,17 +16,18 @@ import { gardenThemes } from '@/design-system/tokens/garden';
 import { usePlantList } from '../hooks/usePlantList';
 import { usePlantsWateredToday } from '../hooks/usePlantsWateredToday';
 import PlantGridCard from '../components/PlantGridCard';
-import QuickWateringDialog from '../components/QuickWateringDialog';
 import PlantEditorSheet from '../components/PlantEditorSheet';
-import { deleteJournalEntry } from '@/lib/logs/journalRepository';
 import { plantsInGarden, type HomeGarden } from '@/features/home/gardenSelection';
 import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, selectPlantList, type PlantListOptions } from '@/lib/plants/plantListOptions';
 import type { Plant } from '@/firestoreModels';
+import type { PlantSuggestionResult } from '@/lib/suggestions/suggestionCards';
+import type { GardenCareGroup } from '@/features/home/gardenCare';
 
 type ListedPlant = Plant & { id: string };
 const pastOptions = [{ value: 'past', label: 'All past plants' }, { value: 'archived', label: 'Archived' }, { value: 'harvested', label: 'Harvested' }, { value: 'dead', label: 'Deceased' }];
-export default function PlantListScreen({ garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, title, onAddPlant, header, footer, initialOffset = 0, onOffsetChange, options = DEFAULT_PLANT_LIST_OPTIONS, onResetFilters }: {
+export default function PlantListScreen({ garden, searchQuery, setSearchQuery, statusFilter, setStatusFilter, title, onAddPlant, careGroups, careResults, careAdviceLoading, careAdviceError, header, footer, initialOffset = 0, onOffsetChange, options = DEFAULT_PLANT_LIST_OPTIONS, onResetFilters }: {
   title: string; onAddPlant(): void;
+  careGroups: GardenCareGroup[]; careResults: PlantSuggestionResult[]; careAdviceLoading: boolean; careAdviceError: boolean;
   garden?: HomeGarden | null; searchQuery: string; setSearchQuery(value: string): void; statusFilter: string | null; setStatusFilter(value: string | null): void;
   options?: PlantListOptions; onResetFilters?(): void; header?: React.ReactElement; footer?: React.ReactElement; initialOffset?: number; onOffsetChange(offset: number): void;
 }) {
@@ -40,16 +41,12 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
   const ids = React.useMemo(() => activePlants.map(plant => plant.id), [activePlants]);
   const care = usePlantsWateredToday(ids, activePlants);
   const [pastOpen, setPastOpen] = React.useState(false);
-  const [waterPlant, setWaterPlant] = React.useState<ListedPlant | null>(null);
   const [selectionMode, setSelectionMode] = React.useState(false);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [batchComposerOpen, setBatchComposerOpen] = React.useState(false);
   const batchRequestIds = React.useRef(new Map<string, Map<string, string>>());
   const [message, setMessage] = React.useState('');
-  const [noticeDetail, setNoticeDetail] = React.useState('');
-  const [noticeTone, setNoticeTone] = React.useState<'success' | 'error'>('success');
   const [initialGridEntrancePlayed, setInitialGridEntrancePlayed] = React.useState(false);
-  const [undo, setUndo] = React.useState<{ plantId: string; id: string; mutationId: string } | null>(null);
   const list = React.useRef<FlatList<ListedPlant>>(null);
   const restored = React.useRef(false);
   const initialPosition = React.useRef(initialOffset);
@@ -57,6 +54,12 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
   const hasFilters = plantFilterValues(options.stage).length > 0 || plantFilterValues(options.environment).length > 0;
   const filtered = React.useMemo(() => selectPlantList(plants, searchQuery, statusFilter, options), [plants, statusFilter, searchQuery, options]);
   const selectedPlants = React.useMemo(() => plants.filter(plant => selectedIds.includes(plant.id) && plant.status === 'active' && !plant.deleting), [plants, selectedIds]);
+  const careGroupsByPlant = React.useMemo(() => {
+    const map = new Map<string, GardenCareGroup[]>();
+    for (const group of careGroups) for (const plant of group.plants) map.set(plant.id, [...(map.get(plant.id) || []), group]);
+    return map;
+  }, [careGroups]);
+  const wateringByPlant = React.useMemo(() => new Map(careResults.map(result => [result.plantId, result.cards.find(card => card.kind === 'watering' && card.active)])), [careResults]);
   const selectablePlants = React.useMemo(() => filtered.filter(plant => plant.status === 'active' && !plant.deleting), [filtered]);
   const allVisibleSelected = selectablePlants.length > 0 && selectablePlants.every(plant => selectedIds.includes(plant.id));
   React.useEffect(() => { setSelectionMode(false); setSelectedIds([]); setBatchComposerOpen(false); batchRequestIds.current.clear(); }, [garden?.id, statusFilter]);
@@ -81,7 +84,7 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
     setSelectedIds([]);
     collection.refresh(); care.refresh();
     const label = logChoices.find(choice => choice.key === category)?.label || 'Activity';
-    setNoticeTone('success'); setNoticeDetail(''); setMessage(`${label} recorded for ${selectedPlants.length} ${selectedPlants.length === 1 ? 'plant' : 'plants'}.`);
+    setMessage(`${label} recorded for ${selectedPlants.length} ${selectedPlants.length === 1 ? 'plant' : 'plants'}.`);
   };
   React.useEffect(() => {
     if (!collection.loading && filtered.length > 0) setInitialGridEntrancePlayed(true);
@@ -109,15 +112,20 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
       </View> : null}
       ListHeaderComponent={<>{header}<Animated.View layout={LinearTransition.duration(180).reduceMotion(ReduceMotion.System)} style={s.listHeading}><Text accessibilityRole="header" style={s.section}>{title}</Text><Animated.View key={selectionMode ? 'select-all-action' : 'add-plant-action'} entering={FadeIn.duration(180).reduceMotion(ReduceMotion.System)} exiting={FadeOut.duration(120).reduceMotion(ReduceMotion.System)}>{selectionMode ? <Pressable accessibilityRole="checkbox" accessibilityLabel="Select all plants shown" accessibilityState={{ checked: allVisibleSelected, disabled: !selectablePlants.length }} aria-checked={allVisibleSelected} disabled={!selectablePlants.length} onPress={toggleSelectAll} style={s.selectAll}><View style={[s.selectCheckbox, { borderColor: allVisibleSelected ? t.accent : t.border, backgroundColor: allVisibleSelected ? t.accent : 'transparent' }]}>{allVisibleSelected && <MaterialCommunityIcons name="check" size={15} color={t.onAccent} />}</View><Text style={{ color: t.accent, fontSize: 14, fontWeight: '600' }}>Select All</Text></Pressable> : <GrowPress accessibilityRole="button" accessibilityLabel="Add plant" onPress={onAddPlant} style={s.add}><MaterialCommunityIcons name="plus" size={19} color={t.accent} /><Text style={s.addText}>Add plant</Text></GrowPress>}</Animated.View></Animated.View></>}
       ListFooterComponent={footer}
-      renderItem={({ item, index }) => <Animated.View entering={!initialGridEntrancePlayed ? FadeInDown.delay(Math.min(index * 55, 220)).duration(300).reduceMotion(ReduceMotion.System) : undefined} style={{ width: Math.max(0, (layoutWidth - 46) / 2), marginBottom: 10 }}><PlantGridCard plant={item} onPress={() => openPlant(item)} onWater={item.status === 'active' ? () => setWaterPlant(item) : undefined} wateredToday={!!care.wateredMap[item.id]} waterDisabled={care.loading || !!care.error} selecting={selectionMode} selected={selectedIds.includes(item.id)} onSelect={() => toggleSelected(item.id)} onStartSelection={item.status === 'active' ? () => startSelection(item.id) : undefined} /></Animated.View>}
+      renderItem={({ item, index }) => {
+        const alerts = careGroupsByPlant.get(item.id) || [];
+        const wateringCard = wateringByPlant.get(item.id);
+        const routineDue = alerts.some(group => group.key === 'routine:watering');
+        const waterStatus = care.wateredMap[item.id] ? 'watered' : !care.loading && !care.error && !careAdviceLoading && !careAdviceError && (wateringCard?.metrics.needsWater === true || routineDue) ? 'water' : 'check';
+        return <Animated.View entering={!initialGridEntrancePlayed ? FadeInDown.delay(Math.min(index * 55, 220)).duration(300).reduceMotion(ReduceMotion.System) : undefined} style={{ width: Math.max(0, (layoutWidth - 46) / 2), marginBottom: 10 }}><PlantGridCard plant={item} onPress={() => openPlant(item)} wateredToday={!!care.wateredMap[item.id]} waterStatus={waterStatus} careAlertCount={alerts.length} selecting={selectionMode} selected={selectedIds.includes(item.id)} onSelect={() => toggleSelected(item.id)} onStartSelection={item.status === 'active' ? () => startSelection(item.id) : undefined} /></Animated.View>;
+      }}
     />
     {selectionMode && <View style={s.batchBar}>
       <GrowPress accessibilityRole="button" accessibilityLabel={`Log activity for ${selectedPlants.length} ${selectedPlants.length === 1 ? 'plant' : 'plants'}`} disabled={!selectedPlants.length} onPress={() => setBatchComposerOpen(true)} style={[s.batchAction, { backgroundColor: t.accent, opacity: selectedPlants.length ? 1 : .5 }]}><MaterialCommunityIcons name="notebook-plus-outline" size={20} color={t.onAccent} /><Text style={{ color: t.onAccent, fontSize: 16, fontWeight: '700' }}>Log activity for {selectedPlants.length} {selectedPlants.length === 1 ? 'plant' : 'plants'}</Text></GrowPress>
     </View>}
     {batchComposerOpen && selectedPlants[0] && <PlantLogComposer key={`batch:${selectedIds.join(',')}`} plantId={selectedPlants[0].id} name={`${selectedPlants.length} ${selectedPlants.length === 1 ? 'plant' : 'plants'}`} theme={t} timeZone={selectedPlants[0].locationTimeZone} configuration={careConfiguration(selectedPlants[0])} initialDate={plantDay(new Date(), selectedPlants[0].locationTimeZone)} onClose={() => setBatchComposerOpen(false)} onSave={saveBatchActivity} onSaved={batchActivitySaved} />}
     {pastOpen && <PlantEditorSheet title="Past plants" subtitle="Keep every plant's story within reach." theme={t} onClose={() => setPastOpen(false)}>{pastOptions.map(option => <Pressable key={option.label} accessibilityRole="button" accessibilityState={{ selected: statusFilter === option.value }} onPress={() => { setStatus(option.value); setPastOpen(false); }} style={s.menuRow}><Text style={s.menuText}>{option.label}</Text>{statusFilter === option.value && <MaterialCommunityIcons name="check" color={t.accent} size={22} />}</Pressable>)}</PlantEditorSheet>}
-    {waterPlant && <QuickWateringDialog plant={waterPlant} onClose={() => setWaterPlant(null)} onSaved={result => { setUndo(result); setNoticeTone('success'); setNoticeDetail(waterPlant.name); setMessage('Watering logged'); care.refresh(); }} />}
-    <AppNotice detail={noticeDetail} tone={noticeTone} visible={!!message} onDismiss={() => setMessage('')} duration={6000} action={undo ? { label: noticeTone === 'error' ? 'Retry' : 'Undo', onPress: async () => { try { await deleteJournalEntry(undo.plantId, undo.id, undo.mutationId); setNoticeTone('success'); setNoticeDetail(''); setMessage('Watering undone.'); setUndo(null); care.refresh(); } catch (error) { setNoticeTone('error'); setNoticeDetail(''); setMessage(error instanceof Error ? error.message : 'Could not undo watering.'); } } } : undefined}>{message}</AppNotice>
+    <AppNotice visible={!!message} onDismiss={() => setMessage('')} duration={6000}>{message}</AppNotice>
   </View>;
 }
 const makeStyles = (t: typeof gardenThemes.grove) => StyleSheet.create({

@@ -7,19 +7,20 @@ import { useAppTheme } from '@/hooks/useAppTheme';
 import type { Plant } from '@/firestoreModels';
 import type { CareTask } from '@/lib/care/careTasks';
 import { gardenCareGroups } from '../gardenCare';
-import { useGardenCareSuggestions } from '../hooks/useGardenCareSuggestions';
+import type { useGardenCareSuggestions } from '../hooks/useGardenCareSuggestions';
 import { colorAlpha } from '@/design-system/tokens/garden';
 
 // Survive Home remounts without showing the transient refresh state again.
 const completedSummaries = new Map<string, ReturnType<typeof gardenCareGroups>>();
 
-export default function GardenCareOverview({ plants, tasks, now, loading, error, onRetry, cacheKey }: {
+export default function GardenCareOverview({ advice, plants, tasks, now, loading, error, onRetry, label, cacheKey }: {
+  label: string;
+  advice: ReturnType<typeof useGardenCareSuggestions>;
   cacheKey?: string; plants: (Plant & { id: string })[]; tasks: CareTask[]; now: Date; loading: boolean; error: string | null; onRetry(): void;
 }) {
   const t = useAppTheme();
   const router = useRouter();
   const [expanded, setExpanded] = React.useState(false);
-  const advice = useGardenCareSuggestions(plants, now);
   const pending = loading || advice.loading;
   const failed = !!error || advice.error;
   const scope = JSON.stringify([cacheKey, plants.filter(plant => plant.status === 'active' && !plant.deleting).map(plant => [plant.id, plant.name, plantDay(now, plant.locationTimeZone)]).sort((a, b) => a[0].localeCompare(b[0]))]);
@@ -37,13 +38,16 @@ export default function GardenCareOverview({ plants, tasks, now, loading, error,
     }
   }, [scope, latestGroups, pending, failed, cacheKey]);
   const count = groups.length;
-  const title = initialLoading ? 'Checking your garden…' : failed ? 'Care needs a refresh' : count ? `${count} ${count === 1 ? 'thing needs' : 'things need'} checking` : 'No checks due right now';
-  const subtitle = initialLoading ? 'Gathering care advice for your plants' : failed ? 'Some care advice is unavailable' : count ? groups.map(group => group.title).join(' · ') : 'Keep an eye on your plants as conditions change';
+  const primary = groups[0];
+  const otherCount = Math.max(0, count - 1);
+  const affectedCount = primary?.plants.length || 0;
+  const title = initialLoading ? 'Checking your garden…' : failed ? 'Care needs a refresh' : count ? primary.title : 'No checks due right now';
+  const subtitle = initialLoading ? 'Gathering care advice for your plants' : failed ? 'Some care advice is unavailable' : count ? `${affectedCount} ${affectedCount === 1 ? 'plant' : 'plants'} affected${otherCount ? ` · ${otherCount} other care ${otherCount === 1 ? 'item' : 'items'}` : ''}` : 'Keep an eye on your plants as conditions change';
   return <View style={[s.card, { backgroundColor: t.surface, borderColor: colorAlpha(t.border, 0.48), borderWidth: 0.75 }]}>
     <Pressable accessibilityRole="button" accessibilityLabel={`Today’s garden care. ${title}`} accessibilityState={{ expanded }} onPress={() => setExpanded(value => !value)} style={s.header}>
       <View style={[s.icon, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name="sprout" size={32} color={t.accent} /></View>
       <View style={[s.copy, { borderColor: t.elevated }]}>
-        <Text style={[s.eyebrow, { color: t.accent }]}>TODAY’S GARDEN CARE</Text>
+      <Text style={[s.eyebrow, { color: t.accent }]}>{label}</Text>
         <Text accessibilityLiveRegion="polite" style={[s.title, { color: t.text }]}>{title}</Text>
         <Text numberOfLines={expanded ? undefined : 1} style={[s.subtitle, { color: t.muted }]}>{subtitle}</Text>
       </View>

@@ -12,8 +12,9 @@ import { growthPhaseProgress } from '@/lib/plants/growthPhase';
 import { growthStageColor, guideStage } from '../growthStagePresentation';
 import { plantCardAgeLabel, plantCardMeta, plantCardStageLabel } from '../plantListPresentation';
 
-export default function PlantGridCard({ plant, onPress, onWater, wateredToday, waterDisabled, selecting = false, selected = false, onSelect, onStartSelection }: {
-  plant: Plant & { id: string }; onPress(): void; onWater?: () => void; wateredToday: boolean; waterDisabled: boolean;
+export default function PlantGridCard({ plant, onPress, wateredToday, waterStatus, careAlertCount = 0, selecting = false, selected = false, onSelect, onStartSelection }: {
+  plant: Plant & { id: string }; onPress(): void; wateredToday: boolean;
+  waterStatus: 'watered' | 'check' | 'water'; careAlertCount?: number;
   selecting?: boolean; selected?: boolean; onSelect?(): void; onStartSelection?(): void;
 }) {
   const t = useAppTheme();
@@ -24,6 +25,9 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
   const color = growthStageColor(progress.phase, t.background);
   const stage = guideStage(progress.phase);
   const progressPercent = progress.fraction == null ? 4 : Math.max(4, Math.round(progress.fraction * 100));
+  const waterPresentation = wateredToday || waterStatus === 'watered' ? { label: 'Watered', icon: 'check-circle-outline' as const, color: t.muted }
+    : waterStatus === 'water' ? { label: 'Water', icon: 'water-outline' as const, color: t.danger }
+    : { label: 'Check', icon: 'water-outline' as const, color: t.warm };
   const uri = getRenderablePlantImageUri(plant.imageUri);
   const photo = usePhotoUri(uri);
   const longPressed = React.useRef(false);
@@ -66,21 +70,23 @@ export default function PlantGridCard({ plant, onPress, onWater, wateredToday, w
         <View style={[s.chip, { backgroundColor: `${color}20` }]}><MaterialCommunityIcons name={stage.icon} size={12} color={color} accessible={false} /><Text numberOfLines={1} ellipsizeMode="tail" style={[s.stage, { color }]}>{plantCardStageLabel(plant)}</Text></View>
         <Text numberOfLines={1} style={[s.age, { color: t.muted }]}>{plantCardAgeLabel(plant)}</Text>
       </View>
+      {careAlertCount > 0 && <View pointerEvents="none" accessibilityLabel={`${careAlertCount} care ${careAlertCount === 1 ? 'alert' : 'alerts'}`} style={[s.alertCount, { backgroundColor: t.danger }]}><Text style={{ color: t.onDanger, fontSize: 11, lineHeight: 18, fontWeight: '700' }}>{careAlertCount}</Text></View>}
       {selected && <View pointerEvents="none" style={[s.selectedMark, { backgroundColor: t.accent }]}><MaterialCommunityIcons name="check" size={16} color={t.onAccent} /></View>}
     </GrowPress>
     <View accessibilityRole="progressbar" accessibilityLabel={progress.fraction == null ? 'Phase progress not recorded' : `${stage.title} progress${progress.estimated ? ', estimated' : ''}`} accessibilityValue={progress.fraction == null ? { text: 'Not recorded' } : { min: 0, max: 100, now: Math.round(progress.fraction * 100) }} style={[s.track, { backgroundColor: t.elevated }]}>
       <View style={{ height: '100%', width: `${progressPercent}%`, backgroundColor: color, borderRadius: 3 }} />
     </View>
-    {onWater && !selecting && <GrowPress accessibilityRole="button" accessibilityLabel={`${plant.name}: ${wateredToday ? 'Watering recorded today' : waterDisabled ? 'Checking watering history' : 'Log watering'}`} disabled={wateredToday || waterDisabled} onPress={onWater} style={[s.water, { backgroundColor: wateredToday ? t.elevated : t.accent, opacity: waterDisabled ? .55 : 1 }]}>
-      <MaterialCommunityIcons name={wateredToday ? 'check-circle-outline' : 'water-outline'} size={16} color={wateredToday ? t.accent : t.onAccent} accessible={false} /><Text style={{ color: wateredToday ? t.accent : t.onAccent, fontSize: 12, fontWeight: '600' }}>{wateredToday ? 'Watered' : 'Water'}</Text>
-    </GrowPress>}
+    {plant.status === 'active' && !selecting && <View accessible accessibilityLabel={`${plant.name}: ${waterPresentation.label}${careAlertCount ? `; ${careAlertCount} care ${careAlertCount === 1 ? 'alert' : 'alerts'}` : ''}`} style={s.statusRow}>
+      <View style={s.statusItem}><MaterialCommunityIcons name={waterPresentation.icon} size={16} color={waterPresentation.color} accessible={false} /><Text numberOfLines={1} style={[s.statusText, { color: waterPresentation.color }]}>{waterPresentation.label}</Text></View>
+    </View>}
   </View>;
 }
 const s = StyleSheet.create({
   card: { flex: 1, borderRadius: 18, overflow: 'hidden', padding: 10, gap: 8 },
   decoration: { position: 'absolute', top: -14, left: -24, transform: [{ rotate: '-25deg' }] },
   details: { position: 'relative', alignItems: 'stretch', gap: 4, flex: 1 },
-  selectedMark: { position: 'absolute', top: 6, right: 6, width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  selectedMark: { position: 'absolute', top: 6, left: 6, width: 26, height: 26, borderRadius: 13, alignItems: 'center', justifyContent: 'center' },
+  alertCount: { position: 'absolute', top: 6, right: 6, minWidth: 22, height: 22, paddingHorizontal: 4, borderRadius: 11, alignItems: 'center', justifyContent: 'center' },
   photo: { width: '100%', aspectRatio: 1.3, borderRadius: 13, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
   name: { fontSize: 16, lineHeight: 20, fontWeight: '700', textAlign: 'left', marginTop: 2 },
   meta: { fontSize: 11, lineHeight: 16, textAlign: 'left' },
@@ -89,5 +95,5 @@ const s = StyleSheet.create({
   stage: { fontSize: 9, lineHeight: 13, fontWeight: '700', flexShrink: 1, minWidth: 0 },
   age: { fontSize: 10, lineHeight: 15, flexShrink: 0 },
   track: { height: 4, borderRadius: 3, overflow: 'hidden' },
-  water: { minHeight: 44, borderRadius: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5 },
+  statusRow: { minHeight: 24, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 2 }, statusItem: { minWidth: 0, flex: 1, flexDirection: 'row', alignItems: 'center', gap: 4 }, statusText: { minWidth: 0, flexShrink: 1, fontSize: 10, lineHeight: 14, fontWeight: '600' },
 });
