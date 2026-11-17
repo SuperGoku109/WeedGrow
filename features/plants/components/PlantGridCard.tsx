@@ -76,7 +76,7 @@ export default function PlantGridCard({ plant, onPress, wateredToday, waterStatu
     <View accessibilityRole="progressbar" accessibilityLabel={progress.fraction == null ? 'Phase progress not recorded' : `${stage.title} progress${progress.estimated ? ', estimated' : ''}`} accessibilityValue={progress.fraction == null ? { text: 'Not recorded' } : { min: 0, max: 100, now: Math.round(progress.fraction * 100) }} style={[s.track, { backgroundColor: t.elevated }]}>
       <View style={{ height: '100%', width: `${progressPercent}%`, backgroundColor: color, borderRadius: 3 }} />
     </View>
-    {plant.status === 'active' && !selecting && <View accessible accessibilityLabel={`${plant.name}: ${waterPresentation.label}${careAlertCount ? `; ${careAlertCount} care ${careAlertCount === 1 ? 'alert' : 'alerts'}` : ''}`} style={s.statusRow}>
+    {plant.status === 'active' && <View accessible accessibilityLabel={`${plant.name}: ${waterPresentation.label}${careAlertCount ? `; ${careAlertCount} care ${careAlertCount === 1 ? 'alert' : 'alerts'}` : ''}`} style={s.statusRow}>
       <View style={s.statusItem}><MaterialCommunityIcons name={waterPresentation.icon} size={16} color={waterPresentation.color} accessible={false} /><Text numberOfLines={1} style={[s.statusText, { color: waterPresentation.color }]}>{waterPresentation.label}</Text></View>
     </View>}
   </View>;
