@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router';
 import { usePlantImageTransition } from '@/ui/PlantImageTransition';
-import { ActivityIndicator, Image, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { ActivityIndicator, Image, Platform, Pressable, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Svg, { Circle, Ellipse, Path } from 'react-native-svg';
 import PlantCoverFade from '@/ui/PlantCoverFade';
@@ -13,6 +13,7 @@ import { growthPhase, phaseWindow } from '@/lib/plants/growthPhase';
 import { growthStageColor } from '../growthStagePresentation';
 import { stageLabel } from '@/lib/plants/growthTracking';
 import type { PlantTheme } from './plantDetailTheme';
+import GrowthPhaseProgress from './GrowthPhaseProgress';
 
 const stageIcons = { deceased: 'heart-broken', unknown: 'help-circle-outline', germination: 'seed-outline', seedling: 'sprout', vegetative: 'leaf', preflower: 'flower-outline', flowering: 'flower-outline', late_flowering: 'flower-tulip', clone: 'content-cut', harvested: 'basket-outline', drying: 'weather-windy', curing: 'archive-outline', completed: 'check-circle-outline' } as const;
 const environmentIcons = { outdoor: 'white-balance-sunny', indoor: 'home-outline', greenhouse: 'greenhouse' } as const;
@@ -27,23 +28,34 @@ function BotanicalCover({ theme }: { theme: PlantTheme }) {
 }
 
 /** Photo, identity and compact facts share the section rail's card. */
-export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant; theme: PlantTheme; onEdit(): void }) {
+export default function PlantBanner({ plant, theme: t, onEdit, now }: { plant: Plant; theme: PlantTheme; onEdit(): void; now?: Date }) {
   const { width } = useWindowDimensions();
   const { id } = useLocalSearchParams<{ id: string }>();
   const transition = usePlantImageTransition();
+  const android = Platform.OS === 'android';
+  const handoff = android && transition.active && transition.plantId === id;
+  const uri = getRenderablePlantImageUri(plant.imageUri);
+  const [entryPhoto] = React.useState(() => handoff ? { uri, preview: transition.previewUri } : null);
+  const [loadedCover, setLoadedCover] = React.useState('');
+  const [loadedFull, setLoadedFull] = React.useState('');
   const cover = React.useRef<View>(null);
   const measureCover = React.useCallback(() => {
-    if (!transition.active) return;
+    if (!transition.active || (android && (!handoff || loadedCover !== transition.previewUri))) return;
     cover.current?.measureInWindow((x, y, width, height) => {
       if (width > 0 && height > 0) transition.arrive(id, { x, y, width, height });
     });
-  }, [id, transition]);
+  }, [android, handoff, id, loadedCover, transition]);
   React.useLayoutEffect(measureCover, [measureCover]);
   const coverHeight = Math.min(200, Math.max(156, (width - 36) * 0.48));
-  const uri = getRenderablePlantImageUri(plant.imageUri);
   const fullPhoto = usePhotoUri(transition.active ? null : uri, true);
   const preview = usePhotoUri(uri);
-  const photo = transition.active && transition.previewUri ? { ...preview, uri: transition.previewUri, failed: false } : fullPhoto.uri ? fullPhoto : preview;
+  const entryPreview = entryPhoto && entryPhoto.uri === uri ? entryPhoto.preview : '';
+  const androidPreview = handoff ? transition.previewUri : entryPreview || preview.uri;
+  const photo = android ? { ...preview, uri: androidPreview, failed: !androidPreview && preview.failed }
+    : transition.active && transition.previewUri ? { ...preview, uri: transition.previewUri, failed: false }
+    : fullPhoto.uri ? fullPhoto : preview;
+  const fullCoverUri = android && fullPhoto.uri !== androidPreview ? fullPhoto.uri : undefined;
+  const showFullCover = !!fullCoverUri && loadedFull === fullCoverUri && !handoff;
   const [broken, setBroken] = React.useState(false);
   React.useEffect(() => setBroken(false), [uri]);
   const status = plant.status || 'active';
@@ -52,21 +64,34 @@ export default function PlantBanner({ plant, theme: t, onEdit }: { plant: Plant;
   const statusLabel = status === 'dead' ? 'Deceased' : status.charAt(0).toUpperCase() + status.slice(1);
   const environment = plant.environment || 'outdoor';
   const place = plant.locationNickname?.trim() || (plant.plantedIn === 'pot' ? 'Potted plant' : plant.plantedIn === 'ground' ? 'In the ground' : '');
-  const hasPhoto = !!photo.uri && !broken && !photo.failed;
+  const hasPhoto = (!!photo.uri && !broken && !photo.failed) || showFullCover;
   const strain = plant.strain?.trim() || plant.strainType?.trim();
   return <View style={[s.banner, { backgroundColor: t.surface, borderColor: t.border }]}>
     <View ref={cover} onLayout={measureCover} collapsable={false} style={[s.cover, { minHeight: coverHeight, backgroundColor: t.hero }]}>
-      {hasPhoto ? <PlantPhotoHero id={`plant-photo-${id}`} style={StyleSheet.absoluteFillObject}><Image accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri! }} resizeMode="cover" onError={() => setBroken(true)} style={StyleSheet.absoluteFillObject} /></PlantPhotoHero> : <View style={s.botanical} accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
+      {!hasPhoto && <View style={s.botanical} accessibilityLabel={uri ? 'Plant cover unavailable' : 'Botanical plant illustration'}><BotanicalCover theme={t} /></View>}
+      {(hasPhoto || fullCoverUri) && <PlantPhotoHero id={`plant-photo-${id}`} style={StyleSheet.absoluteFillObject}>
+        {!!photo.uri && !broken && !photo.failed && <Image
+          accessibilityLabel={`${plant.name} cover photo`} source={{ uri: photo.uri }} resizeMode="cover"
+          fadeDuration={android ? 0 : undefined} onLoad={android ? () => setLoadedCover(photo.uri || '') : undefined}
+          onError={() => setBroken(true)} style={StyleSheet.absoluteFillObject}
+        />}
+        {!!fullCoverUri && <Image
+          accessible={showFullCover && (!photo.uri || broken)} accessibilityLabel={`${plant.name} cover photo`} source={{ uri: fullCoverUri }}
+          resizeMode="cover" fadeDuration={0} onLoad={() => setLoadedFull(fullCoverUri)}
+          style={[StyleSheet.absoluteFillObject, { opacity: showFullCover ? 1 : 0 }]}
+        />}
+      </PlantPhotoHero>}
       <PlantCoverFade surface={t.surface} />
-      {status !== 'active' && status !== 'dead' && <View pointerEvents="none" accessibilityLabel={`Plant status: ${statusLabel}`} style={s.status}><View style={[s.statusDot, { backgroundColor: '#d5ddd0' }]} /><Text style={s.statusText}>{statusLabel}</Text></View>}
-      <Pressable accessibilityRole="button" accessibilityLabel={`Edit ${plant.name}`} onPress={onEdit} hitSlop={4} style={({ pressed }) => [s.photoAction, { opacity: pressed ? 0.7 : 1 }]}><MaterialCommunityIcons name="pencil-outline" size={19} color="#edf0e3" aria-hidden={true} /></Pressable>
+      {!handoff && status !== 'active' && status !== 'dead' && <View pointerEvents="none" accessibilityLabel={`Plant status: ${statusLabel}`} style={s.status}><View style={[s.statusDot, { backgroundColor: '#d5ddd0' }]} /><Text style={s.statusText}>{statusLabel}</Text></View>}
+      {!handoff && <Pressable accessibilityRole="button" accessibilityLabel={`Edit ${plant.name}`} onPress={onEdit} hitSlop={4} style={({ pressed }) => [s.photoAction, { opacity: pressed ? 0.7 : 1 }]}><MaterialCommunityIcons name="pencil-outline" size={19} color="#edf0e3" aria-hidden={true} /></Pressable>}
       {photo.stored && !photo.uri && !photo.failed && <View pointerEvents="none" style={StyleSheet.absoluteFillObject}><ActivityIndicator style={{ flex: 1 }} size="small" color={t.heroText} accessibilityLabel="Loading plant cover" /></View>}
-      <View pointerEvents="none" style={s.identity}><Text accessibilityRole="header" style={s.name}>{plant.name}</Text>{!!strain && <Text style={s.strain}>{strain}</Text>}</View>
+      <View pointerEvents="none" style={[s.identity, handoff && { opacity: 0 }]}><Text accessibilityRole="header" style={s.name}>{plant.name}</Text>{!!strain && <Text style={s.strain}>{strain}</Text>}</View>
     </View>
     <View style={s.details}>
         <View accessibilityLabel={`Growth stage: ${phaseWindow(stage)?.label || stageLabel(stage)}`} style={[s.stage, { backgroundColor: `${stageColor}20` }]}><MaterialCommunityIcons name={stageIcons[stage]} size={16} color={stageColor} aria-hidden={true} /><Text style={[s.badgeText, { color: stageColor }]}>{phaseWindow(stage)?.label || stageLabel(stage)}</Text></View>
         <View style={s.context}><MaterialCommunityIcons name={environmentIcons[environment]} size={16} color={t.muted} aria-hidden={true} /><Text style={[s.environment, { color: t.muted }]}>{environment}{place ? ` · ${place}` : ''}</Text></View>
     </View>
+    {phaseWindow(stage) && <View style={s.phase}><GrowthPhaseProgress plant={plant} theme={t} now={now} compact /></View>}
   </View>;
 }
 const s = StyleSheet.create({
@@ -83,6 +108,7 @@ const s = StyleSheet.create({
   statusText: { fontSize: 12, lineHeight: 16, fontWeight: '500', color: '#edf0e3', textTransform: 'capitalize' },
   statusDot: { width: 6, height: 6, borderRadius: 3 },
   badgeText: { fontSize: 13, lineHeight: 18, fontWeight: '500', textTransform: 'capitalize' },
+  phase: { paddingHorizontal: 12, paddingTop: 4, paddingBottom: 9 },
   context: { flexDirection: 'row', alignItems: 'center', gap: 5, flexGrow: 1, flexShrink: 1, flexBasis: 130 },
   environment: { flex: 1, fontSize: 13, lineHeight: 19, textTransform: 'capitalize' },
 });

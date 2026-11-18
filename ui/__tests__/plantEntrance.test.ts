@@ -28,3 +28,13 @@ it('overlaps chrome and the photo handoff, then admits content before completion
   expect(entrancePhase(-1, 0.3, 0.7)).toBe(0);
   expect(entrancePhase(2, 0.3, 0.7)).toBe(1);
 });
+
+it('keeps the first frame fixed when Android receives the destination size', () => {
+  const atSource = coverTransform(source, source, image, 0, source);
+  expect(coverTransform(source, target, image, 0, source)).toEqual(atSource);
+  const atTarget = coverTransform(source, target, image, 1, source);
+  expect(atTarget.scaleX * source.width).toBeCloseTo(target.width);
+  expect(atTarget.scaleY * source.height).toBeCloseTo(target.height);
+  expect(atTarget.translateX + (source.width - target.width) / 2).toBeCloseTo(target.x);
+  expect(atTarget.translateY + (source.height - target.height) / 2).toBeCloseTo(target.y);
+});

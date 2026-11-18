@@ -13,7 +13,7 @@ import { colorAlpha } from '@/design-system/tokens/garden';
 // Survive Home remounts without showing the transient refresh state again.
 const completedSummaries = new Map<string, ReturnType<typeof gardenCareGroups>>();
 
-export default function GardenCareOverview({ advice, plants, tasks, now, loading, error, onRetry, label = 'TODAY’S GARDEN CARE', cacheKey }: {
+export default function GardenCareOverview({ advice, plants, tasks, now, loading, error, onRetry, label = 'Today’s care', cacheKey }: {
   label?: string;
   advice?: ReturnType<typeof useGardenCareSuggestions>;
   cacheKey?: string; plants: (Plant & { id: string })[]; tasks: CareTask[]; now: Date; loading: boolean; error: string | null; onRetry(): void;
@@ -43,15 +43,15 @@ export default function GardenCareOverview({ advice, plants, tasks, now, loading
   const primary = groups[0];
   const otherCount = Math.max(0, count - 1);
   const affectedCount = primary?.plants.length || 0;
-  const title = initialLoading ? 'Checking your garden…' : failed ? 'Care needs a refresh' : count ? primary.title : 'No checks due right now';
-  const subtitle = initialLoading ? 'Gathering care advice for your plants' : failed ? 'Some care advice is unavailable' : count ? `${affectedCount} ${affectedCount === 1 ? 'plant' : 'plants'} affected${otherCount ? ` · ${otherCount} other care ${otherCount === 1 ? 'item' : 'items'}` : ''}` : 'Keep an eye on your plants as conditions change';
+  const title = initialLoading ? 'Checking your garden…' : failed ? 'Care needs a refresh' : count ? primary.title : 'No care items flagged';
+  const subtitle = initialLoading ? 'Gathering care advice for your plants' : failed ? 'Some care advice is unavailable' : count ? `${affectedCount} ${affectedCount === 1 ? 'plant' : 'plants'} affected${otherCount ? ` · ${otherCount} other care ${otherCount === 1 ? 'item' : 'items'}` : ''}` : '';
   return <View style={[s.card, { backgroundColor: t.surface, borderColor: colorAlpha(t.border, 0.48), borderWidth: 0.75 }]}>
     <Pressable accessibilityRole="button" accessibilityLabel={`Today’s garden care. ${title}`} accessibilityState={{ expanded }} onPress={() => setExpanded(value => !value)} style={s.header}>
       <View style={[s.icon, { backgroundColor: t.elevated }]}><MaterialCommunityIcons name="sprout" size={32} color={t.accent} /></View>
-      <View style={[s.copy, { borderColor: t.elevated }]}>
-      <Text style={[s.eyebrow, { color: t.accent }]}>{label}</Text>
+      <View style={s.copy}>
+        <Text style={[s.label, { color: t.muted }]}>{label}</Text>
         <Text accessibilityLiveRegion="polite" style={[s.title, { color: t.text }]}>{title}</Text>
-        <Text numberOfLines={expanded ? undefined : 1} style={[s.subtitle, { color: t.muted }]}>{subtitle}</Text>
+        {!!subtitle && <Text style={[s.subtitle, { color: t.muted }]}>{subtitle}</Text>}
       </View>
       <MaterialCommunityIcons name={expanded ? 'chevron-down' : 'chevron-right'} size={25} color={t.accent} />
     </Pressable>
@@ -69,11 +69,11 @@ export default function GardenCareOverview({ advice, plants, tasks, now, loading
   </View>;
 }
 const s = StyleSheet.create({
-  card: { borderWidth: 1, borderRadius: 22, marginBottom: 12, overflow: 'hidden' },
-  header: { flexDirection: 'row', alignItems: 'center', padding: 12, gap: 10, minHeight: 100 },
-  icon: { width: 48, height: 56, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
-  copy: { flex: 1, minWidth: 0, borderLeftWidth: 1, paddingLeft: 12, gap: 5 },
-  eyebrow: { fontSize: 10, letterSpacing: 1.5, fontWeight: '700' },
+  card: { borderWidth: 1, borderRadius: 22, marginBottom: 2, overflow: 'hidden' },
+  header: { flexDirection: 'row', alignItems: 'center', padding: 12, gap: 10, minHeight: 72 },
+  icon: { width: 40, height: 40, borderRadius: 17, alignItems: 'center', justifyContent: 'center' },
+  copy: { flex: 1, minWidth: 0, gap: 4 },
+  label: { fontSize: 12, lineHeight: 16, fontWeight: '500' },
   title: { fontSize: 18, lineHeight: 24, fontWeight: '700', letterSpacing: -0.4 },
   subtitle: { fontSize: 13, lineHeight: 20 },
   details: { borderTopWidth: 1, marginHorizontal: 14, paddingVertical: 14, gap: 16 },

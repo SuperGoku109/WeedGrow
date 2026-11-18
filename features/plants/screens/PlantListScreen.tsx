@@ -22,6 +22,7 @@ import { DEFAULT_PLANT_LIST_OPTIONS, plantFilterValues, selectPlantList, type Pl
 import type { Plant } from '@/firestoreModels';
 import type { PlantSuggestionResult } from '@/lib/suggestions/suggestionCards';
 import type { GardenCareGroup } from '@/features/home/gardenCare';
+import { presentCareCard } from '../plantCare';
 
 type ListedPlant = Plant & { id: string };
 const pastOptions = [{ value: 'past', label: 'All past plants' }, { value: 'archived', label: 'Archived' }, { value: 'harvested', label: 'Harvested' }, { value: 'dead', label: 'Deceased' }];
@@ -114,9 +115,16 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
       ListFooterComponent={footer}
       renderItem={({ item, index }) => {
         const alerts = careGroupsByPlant.get(item.id) || [];
-        const wateringCard = wateringByPlant.get(item.id);
+        const wateringGroup = alerts.find(group => group.key.startsWith('watering:'));
+        const wateringCard = wateringGroup && wateringByPlant.get(item.id);
+        const wateringDecision = wateringCard && presentCareCard(wateringCard, false, false);
         const routineDue = alerts.some(group => group.key === 'routine:watering');
-        const waterStatus = care.wateredMap[item.id] ? 'watered' : !care.loading && !care.error && !careAdviceLoading && !careAdviceError && (wateringCard?.metrics.needsWater === true || routineDue) ? 'water' : 'check';
+        const readyForCare = !care.loading && !care.error && !careAdviceLoading && !careAdviceError;
+        const waterStatus = !readyForCare ? undefined
+          : wateringDecision?.active && wateringDecision.metrics.needsWater === true ? 'water'
+          : routineDue ? 'reminder'
+          : wateringGroup ? 'check'
+          : undefined;
         return <Animated.View entering={!initialGridEntrancePlayed ? FadeInDown.delay(Math.min(index * 55, 220)).duration(300).reduceMotion(ReduceMotion.System) : undefined} style={{ width: Math.max(0, (layoutWidth - 46) / 2), marginBottom: 10 }}><PlantGridCard plant={item} onPress={() => openPlant(item)} wateredToday={!!care.wateredMap[item.id]} waterStatus={waterStatus} careAlertCount={alerts.length} selecting={selectionMode} selected={selectedIds.includes(item.id)} onSelect={() => toggleSelected(item.id)} onStartSelection={item.status === 'active' ? () => startSelection(item.id) : undefined} /></Animated.View>;
       }}
     />

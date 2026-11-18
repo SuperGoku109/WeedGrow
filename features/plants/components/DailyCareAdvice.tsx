@@ -8,13 +8,13 @@ import type { JournalCategory } from '@/lib/logs/plantJournal';
 import type { PlantTheme } from './plantDetailTheme';
 import { careAction, careFacts } from '../careSuggestionPresentation';
 
-function DailyCareAdvice({ cards, loading, error, hasLocation, theme: t, onRefresh, onRecord, canRecord = true }: {
+function DailyCareAdvice({ cards, loading, error, hasLocation, theme: t, onRefresh, onRecord, onSetLocation, canRecord = true }: {
   cards: SuggestionCard[]; loading: boolean; error: string; hasLocation: boolean; theme: PlantTheme; onRefresh(): void;
-  onRecord?(category: JournalCategory, context?: 'soil-check'): void; canRecord?: boolean;
+  onRecord?(category: JournalCategory, context?: 'soil-check'): void; canRecord?: boolean; onSetLocation?(): void;
 }) {
   const [open, setOpen] = React.useState<Record<string, boolean>>({});
   const retry = (label: string) => <GrowPress accessibilityRole="button" accessibilityLabel={label} onPress={onRefresh} style={{ minHeight: 44, justifyContent: 'center', alignSelf: 'flex-start' }}><Text style={{ color: t.accent, fontSize: 14 }}>{label}</Text></GrowPress>;
-  if (!hasLocation && !loading && !cards.some(card => card.metrics.experimental === true || card.metrics.observationDriven === true)) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text style={{ color: t.muted, fontSize: 14, lineHeight: 22 }}>Add a location in Plant info for local care advice.</Text></View>;
+  if (!hasLocation && !loading && !cards.some(card => card.metrics.experimental === true || card.metrics.observationDriven === true)) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text style={{ color: t.muted, fontSize: 14, lineHeight: 22 }}>Add a location to see local care advice.</Text>{onSetLocation && <GrowPress accessibilityRole="button" onPress={onSetLocation} style={{ minHeight: 44, justifyContent: 'center', alignSelf: 'flex-start' }}><Text style={{ color: t.accent, fontSize: 14, fontWeight: '600' }}>Set location</Text></GrowPress>}</View>;
   if (loading) return <PendingStatus label="Checking today’s care…" theme={t} />;
   if (error) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text accessibilityRole="alert" style={{ color: t.danger, fontSize: 14, lineHeight: 22 }}>{error}</Text>{retry('Retry care advice')}</View>;
   if (!cards.length) return <View style={[s.panel, { backgroundColor: t.surface }]}><Text style={{ color: t.muted, fontSize: 14 }}>Care advice is unavailable.</Text>{retry('Refresh care advice')}</View>;
