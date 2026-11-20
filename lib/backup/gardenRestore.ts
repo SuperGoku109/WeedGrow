@@ -6,6 +6,7 @@ import { validateRestorePlan, type RestorePlan } from './restorePlan';
 import { validateBackup, type GardenBackup, type BackupRecord } from './backupFormat';
 import { decodeBackupRecord } from './backupCodec';
 import { utf8Bytes } from './backupLimits';
+import { isCareTipRecord, remapCareTipPlant } from '@/lib/care/careTipHistory';
 export { validateRestorePlan, type RestorePlan } from './restorePlan';
 function fingerprint(raw: string) { let a = 2166136261, b = 5381; for (let i = 0; i < raw.length; i++) { a = Math.imul(a ^ raw.charCodeAt(i), 16777619); b = Math.imul(b, 33) ^ raw.charCodeAt(i); } return `${raw.length}-${a >>> 0}-${b >>> 0}`; }
 function buildPlan(backup: GardenBackup): RestorePlan { return { operationId: doc(collection(db, 'restoreIds')).id, paths: Object.fromEntries(backup.records.filter(record => record.path.split('/').length === 2).map(record => [record.path, `${record.path.split('/')[0]}/${doc(collection(db, record.path.split('/')[0])).id}`])) }; }
@@ -26,7 +27,14 @@ export async function restoreGarden(raw: string, inputPlan?: RestorePlan, onProg
   const prepare = (record: BackupRecord) => {
     const data = decodeBackupRecord(record.data); const parts = record.path.split('/');
     if (parts.length === 2) {
-      if (parts[0] === 'plants') { data.owners = [uid]; data.wateringRepeat = null; } else data.createdBy = uid;
+      if (parts[0] === 'plants') {
+        data.owners = [uid];
+        data.wateringRepeat = null;
+        if (Array.isArray(data.careTipHistory)) {
+          const plantId = remapPath(record.path).split('/')[1];
+          data.careTipHistory = data.careTipHistory.filter(isCareTipRecord).map(tip => remapCareTipPlant(tip, parts[1], plantId));
+        }
+      } else data.createdBy = uid;
       data.createdAt = serverTimestamp(); data.updatedAt = serverTimestamp(); data.restoreOperationId = plan.operationId;
       if (typeof data.groupId === 'string' && data.groupId) data.groupId = mapping.get(`groups/${data.groupId}`)?.split('/')[1] || null;
       if (typeof data.sensorProfileId === 'string' && data.sensorProfileId) data.sensorProfileId = mapping.get(`sensorProfiles/${data.sensorProfileId}`)?.split('/')[1] || null;

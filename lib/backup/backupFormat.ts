@@ -1,6 +1,7 @@
 import { PLANT_STAGES, validatePlantFields } from '@/lib/plants/plantValidation';
 import { isRecord } from '@/lib/data/recordDecoders';
 import { isCalendarDay } from '@/lib/dates/plantDay';
+import { CARE_TIP_HISTORY_LIMIT, isCareTipRecord } from '@/lib/care/careTipHistory';
 import { MAX_BACKUP_BYTES, MAX_BACKUP_RECORDS, utf8Bytes } from './backupLimits';
 export interface BackupRecord { path: string; data: Record<string, unknown> }
 export interface GardenBackup { format: 'weedgrow'; version: 1; backupId: string; exportedAt: string; records: BackupRecord[]; warnings?: string[] }
@@ -16,6 +17,7 @@ const allowed: Record<string, string[]> = {
 };
 allowed.plants.push('rainReception', 'careMedium', 'potMaterial', 'potType', 'growingSite', 'potDrainage', 'fertilizerForm', 'feedingReminderSchedule');
 allowed.plants.push('wateringRepeat');
+allowed.plants.push('careTipHistory');
 allowed.logs.push('recordingSource', 'wateringRepeatChange');
 allowed.logs.push('moistureState', 'moistureConfiguration', 'inspectionFeedback', 'rainfallObservation');
 allowed.plants.push('stageStartedOn', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn', 'stageTrackingVersion', 'stageRevision', 'growthProfile', 'stageReview', 'stagePush', 'stageReminders', 'postHarvestTracking');
@@ -38,6 +40,10 @@ export function validateBackup(raw: string): GardenBackup {
     const kind = parts.length === 4 ? parts[2] : parts[0];
     if (Object.keys(record.data).some(key => !allowed[kind]?.includes(key))) throw new Error(`Unsupported fields in ${record.path}.`);
     const data = record.data;
+    if (kind === 'plants' && data.careTipHistory !== undefined && (!Array.isArray(data.careTipHistory)
+      || data.careTipHistory.length > CARE_TIP_HISTORY_LIMIT || !data.careTipHistory.every(isCareTipRecord))) {
+      throw new Error('A saved care tip history is invalid.');
+    }
     if (kind === 'plants') {
       const tracking = ['stageStartedOn', 'stageStartedOnEstimated', 'ageEstimateSource', 'germinationStartedOn', 'emergedOn', 'preflowerObservedOn', 'floweringStartedOn', 'harvestedOn', 'lastStageReviewedOn', 'stageRevision', 'growthProfile', 'stageReview', 'stagePush', 'stageReminders', 'postHarvestTracking'];
       const errors = validatePlantFields(Object.fromEntries(tracking.filter(key => !key.endsWith('On') && data[key] != null).map(key => [key, data[key]])));

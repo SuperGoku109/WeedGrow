@@ -21,13 +21,14 @@ function LongNote({ field, theme: t }: { field: ProfileField; theme: PlantTheme 
   const collapsible = field.value.length > 100 || field.value.split('\n').length > 4;
   return <View style={{ gap: 6 }}><Text style={[s.label, { color: t.muted }]}>{field.label}</Text><Text selectable numberOfLines={collapsible && !expanded ? 5 : undefined} style={[s.note, { color: t.text }]}>{field.value}</Text>{collapsible && <GrowPress accessibilityRole="button" accessibilityLabel={`${expanded ? 'Collapse' : 'Read full'} ${field.label.toLowerCase()}`} aria-expanded={expanded} onPress={() => setExpanded(value => !value)} style={{ minHeight: 48, paddingHorizontal: 12, borderWidth: 1, borderColor: t.border, borderRadius: 10, backgroundColor: t.elevated, flexDirection: 'row', alignItems: 'center', gap: 8 }}><Text style={{ color: t.accent, fontSize: 14 }}>{expanded ? 'Show less' : 'Read full note'}</Text><MaterialCommunityIcons name={expanded ? 'chevron-up' : 'chevron-down'} size={20} color={t.accent} /></GrowPress>}</View>;
 }
-export default function PlantDetails({ plant, theme: t, locationHistory, onSectionLayout, highlightedSection, onSetLocation }: { plant: Plant; theme: PlantTheme; locationHistory?: React.ReactNode; onSectionLayout?(key: string, y: number): void; highlightedSection?: string; onSetLocation?(): void }) {
+export default function PlantDetails({ plant, theme: t, overview, locationHistory, onSectionLayout, highlightedSection, onSetLocation }: { plant: Plant; theme: PlantTheme; overview?: React.ReactNode; locationHistory?: React.ReactNode; onSectionLayout?(key: string, y: number): void; highlightedSection?: string; onSetLocation?(): void }) {
   const profile = plantProfile(plant);
   const [technical, setTechnical] = React.useState(false);
   const [recordOpen, setRecordOpen] = React.useState(false);
   const location = plant.locationNickname?.trim() || plant.locationLabel?.trim();
   const anchor = (key: string) => ({ onLayout: (y: number) => onSectionLayout?.(key, y), highlighted: highlightedSection === key });
   return <View style={{ gap: 16 }}>
+    {overview}
     <ProfileCard {...anchor('Basics')} title="Basics" icon="sprout-outline" theme={t}><Facts fields={profile.basics} theme={t} /></ProfileCard>
     <ProfileCard {...anchor('Growing setup')} title="Growing setup" icon="flower-poppy" theme={t}><Facts fields={profile.setup} theme={t} /></ProfileCard>
     <ProfileCard {...anchor('Care plan')} title="Care routine" icon="watering-can-outline" theme={t}>

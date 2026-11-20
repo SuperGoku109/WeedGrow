@@ -49,6 +49,26 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
     const serverDb = admin('firebase-admin/firestore').getFirestore();
     for (const pid of ids) await serverDb.doc(`plants/${pid}`).update({ careEventProtocol: 1 });
     const id = ids[0];
+    const { saveCareTips } = require('../services/careTipHistory.ts');
+    const { careTipKey } = require('../lib/care/careTipHistory.ts');
+    const seenAt = Date.now();
+    const day = new Date(seenAt).toISOString().slice(0, 10);
+    const targets = ids.slice(0, 2).map(plantId => ({ plantId, tip: {
+      key: careTipKey(plant, day, JSON.stringify([plantId + ':weather:wind', 'HIGH'])), day,
+      kind: 'weather', title: 'Wind alert', detail: 'Secure exposed supports.', seenAt,
+    } }));
+    await saveCareTips(user.uid, targets);
+    await assert.rejects(saveCareTips(user.uid, [targets[0], { ...targets[1], plantId: `${prefix}-missing` }], true));
+    assert.equal((await f.getDoc(f.doc(db, 'plants', id))).data().careTipHistory[0].handledAt, undefined);
+    await Promise.all([saveCareTips(user.uid, targets, true), saveCareTips(user.uid, targets)]);
+    for (const { plantId } of targets) {
+      const snapshot = await f.getDoc(f.doc(db, 'plants', plantId));
+      assert.equal(snapshot.data().careTipHistory.length, 1);
+      assert.equal(snapshot.data().careTipHistory[0].seenAt, seenAt);
+      assert(snapshot.data().careTipHistory[0].handledAt >= seenAt);
+      assert.equal((await f.getDocs(f.collection(snapshot.ref, 'logs'))).size, 0);
+    }
+    console.log('PASS: shared care acknowledgement is saved atomically and leaves watering logs alone.');
     // Repeating watering uses real owner rules, atomic schedule saves and catch-up.
     const repeats = require('../services/wateringRoutine.ts');
     const repeatRef = f.doc(db, 'plants', `${prefix}-repeat`);
@@ -273,6 +293,10 @@ function stub(file, exports) { const filename = path.join(root, file); require.c
     const restorePlan = createRestorePlan(rawBackup);
     await restoreGarden(rawBackup, restorePlan);
     await restoreGarden(rawBackup, restorePlan); // Lost-response retry must not create another garden.
+    const restoredCarePlant = await f.getDoc(f.doc(db, restorePlan.paths[`plants/${id}`]));
+    const restoredTip = restoredCarePlant.data().careTipHistory[0];
+    assert.equal(restoredTip.key, careTipKey(plant, day, JSON.stringify([restoredCarePlant.id + ':weather:wind', 'HIGH'])));
+    assert(restoredTip.handledAt >= seenAt);
     const after = await f.getDocs(f.query(f.collection(db, 'plants'), f.where('owners', 'array-contains', user.uid)));
     assert.equal(after.size, 16, 'Backup restore creates owned copies');
     // A westward move can repeat a calendar date already closed at the old site.

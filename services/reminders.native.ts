@@ -47,11 +47,17 @@ export function syncReminders(uid: string | undefined, tasks: CareTask[], enable
 
 let intelligenceQueue = Promise.resolve();
 let intelligenceRequest = 0;
-export function syncCareRecommendations(uid: string | undefined, recommendations: readonly CareRecommendation[], enabled: boolean, resolvedIds?: readonly string[]) {
+export function syncCareRecommendations(uid: string | undefined, recommendations: readonly CareRecommendation[], enabled: boolean, resolvedIds?: readonly string[], handledIds: readonly string[] = []) {
   const request = ++intelligenceRequest;
   const job = intelligenceQueue.catch(() => {}).then(async () => {
     const scheduled = await Notifications.getAllScheduledNotificationsAsync();
     for (const item of scheduled.filter(item => item.identifier.startsWith('weedgrow-intelligence:'))) await Notifications.cancelScheduledNotificationAsync(item.identifier);
+    if (uid && handledIds.length) {
+      const handled = new Set(handledIds.flatMap(id => [`weedgrow-intelligence:${uid}:${id}`, `weedgrow-intelligence:${uid}:${id}:planned-check`]));
+      const presented = await Notifications.getPresentedNotificationsAsync();
+      await Promise.all(presented.filter(item => handled.has(item.request.identifier))
+        .map(item => Notifications.dismissNotificationAsync(item.request.identifier)));
+    }
     if (!uid || !enabled || !(await Notifications.getPermissionsAsync()).granted) return;
     const key = `weedgrow.intelligence.v1.${uid}`;
     const saved = await AsyncStorage.getItem(key);

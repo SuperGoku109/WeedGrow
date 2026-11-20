@@ -42,8 +42,10 @@ import { useLocalCareRevision } from '@/hooks/useLocalCareRevision';
 import PlantLogComposer, { logChoices, type ActivitySaveOptions, type ActivitySaveResult } from '../components/PlantLogComposer';
 import { PhotoComposer, PlantPhotoGallery, pickProgressPhoto } from '../components/PlantPhotoGallery';
 import { presentCareCard, weatherFreshness } from '../plantCare';
+import { cardTipSignature, findHandledCareTip } from '@/lib/care/careTipHistory';
 import PlantLifecycle from '../components/PlantLifecycle';
 import GrowthStageSummary from '../components/GrowthStageSummary';
+import WateringCareCard from '../components/WateringCareCard';
 import PlantWeather from '../components/PlantWeather';
 import PlantHistory from '../components/PlantHistory';
 import PlantEditorSheet from '../components/PlantEditorSheet';
@@ -208,7 +210,9 @@ function PlantDetailContent() {
   }, [section, data.loading, gallery.loading, insightLoading]);
   const todayLogs = React.useMemo(() => data.logs[today] || [], [data.logs, today]);
   const selectedLogs = React.useMemo(() => data.logs[selected] || [], [data.logs, selected]);
-  const displayCards = React.useMemo(() => cards.map(card => presentCareCard(card, todayLogs.some(log => log.type === 'watering'), card.algorithmVersion.startsWith('hops-') ? false : weatherFreshness(data.weather[today]).stale, clock)).filter(card => card.active), [cards, todayLogs, data.weather, today, clock]);
+  const displayCards = React.useMemo(() => cards.filter(card => !findHandledCareTip(plant, cardTipSignature(card), clock, card.kind))
+    .map(card => presentCareCard(card, todayLogs.some(log => log.type === 'watering'), card.algorithmVersion.startsWith('hops-') ? false : weatherFreshness(data.weather[today]).stale, clock))
+    .filter(card => card.active), [cards, plant, todayLogs, data.weather, today, clock]);
   const activitySignature = React.useMemo(() => todayLogs.filter(log => log.type === 'watering' || log.moistureState || log.rainfallObservation || log.category === 'pests').map(log => `${log.id}:${log.mutationId || log.timestamp?.toMillis?.()}`).sort().join(','), [todayLogs]);
   const adviceKey = React.useMemo(() => JSON.stringify(plant ? adviceInput({ ...plant, id }) : null), [plant, id]);
   const adviceWeatherTime = data.weather[today]?.fetchedAt?.toMillis?.();
@@ -309,7 +313,17 @@ function PlantDetailContent() {
         </View>
         {section === 'History' && <PlantHistory plantId={id} plant={plant} theme={t} onViewDay={(date, entry) => { jump(date); switchSection('Journal'); setFocusedEntry(entry.id); pendingAnchor.current = entry.id; }} onViewPhoto={entry => { const photoId = entry.id.startsWith('photo_') ? entry.id.slice(6) : entry.id === 'setup-photo' ? entry.id : ''; setNewPhotoId(photoId); switchSection('Photos'); pendingAnchor.current = photoId; }} />}
         {section === 'Photos' && <PlantPhotoGallery plantId={id} hasMore={gallery.hasMore} onMore={() => void gallery.loadMore()} onRefresh={gallery.refresh} pics={gallery.pics} loading={gallery.loading} error={gallery.error} theme={t} onAdd={() => void addPhoto()} timeZone={plant.locationTimeZone} highlightId={newPhotoId} onPhotoLayout={(photoId, y) => rememberAnchor(photoId, y)} />}
-        <View key={'profile:' + id} style={{ display: section === 'Details' ? 'flex' : 'none', gap: 16, paddingTop: 8 }}><PlantDetails plant={plant} theme={t} onSetLocation={editLocation} onSectionLayout={rememberAnchor} highlightedSection={focusedEntry} locationHistory={<PlantMovementHistory plantId={id} theme={t} active={section === 'Details'} />} />{section === 'Details' && <GrowthStageSummary flush plant={plant} theme={t} now={clock} onPress={openGrowth} />}{section === 'Details' && <LocalCareControls plantId={id} plant={plant} theme={t} onEditSetup={editPlant} />}<View onLayout={event => rememberAnchor("Manage plant", event.nativeEvent.layout.y)}><PlantLifecycle plantId={id} plant={plant} theme={t} open={manageOpen} onClose={() => setManageOpen(false)} onDeleted={goBack} onSaved={value => { setMessage(value); setRefresh(previous => previous + 1); }} /></View></View>
+        <View key={'profile:' + id} style={{ display: section === 'Details' ? 'flex' : 'none', gap: 16, paddingTop: 8 }}>
+          <PlantDetails plant={plant} theme={t} onSetLocation={editLocation} onSectionLayout={rememberAnchor}
+            highlightedSection={focusedEntry}
+            locationHistory={<PlantMovementHistory plantId={id} theme={t} active={section === 'Details'} />}
+            overview={section === 'Details' && <WateringCareCard plant={plant} theme={t} />} />
+          {section === 'Details' && <LocalCareControls plantId={id} plant={plant} theme={t} onEditSetup={editPlant} />}
+          <View onLayout={event => rememberAnchor('Manage plant', event.nativeEvent.layout.y)}>
+            <PlantLifecycle plantId={id} plant={plant} theme={t} open={manageOpen} onClose={() => setManageOpen(false)} onDeleted={goBack}
+              onSaved={value => { setMessage(value); setRefresh(previous => previous + 1); }} />
+          </View>
+        </View>
       </SectionBody>}</Animated.View>
     </ScrollView>
     {section !== 'Details' && section !== 'History' && <View style={{ backgroundColor: t.background, borderTopWidth: 1, borderColor: t.border, paddingBottom: Math.max(12, insets.bottom), paddingTop: 10, paddingHorizontal: 18 }}><View style={{ width: '100%', maxWidth: 724, alignSelf: 'center', gap: 8 }}>

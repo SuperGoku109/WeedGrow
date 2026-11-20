@@ -13,7 +13,9 @@ import DailyCareAdvice from '../components/DailyCareAdvice';
 import PlantSectionEditor from '../components/PlantSectionEditor';
 import PlantWeather from '../components/PlantWeather';
 import PlantHistory from '../components/PlantHistory';
+import PlantDetails from '../components/PlantDetails';
 import GrowthStageSummary from '../components/GrowthStageSummary';
+import WateringCareCard from '../components/WateringCareCard';
 import { saveJournalEntry } from '@/lib/logs/journalRepository';
 import type { PlantLog } from '@/firestoreModels';
 let mockNow = new Date('2026-10-26T12:00:00Z');
@@ -171,8 +173,17 @@ it('refreshes current observation advice at its expiry while the plant screen st
   expect(jest.mocked(evaluateSuggestionCardsForPlant).mock.calls.length).toBeGreaterThan(initialCalls);
 });
 
-it('opens the full stage guide directly from the Journal summary', async () => {
+it('keeps growth on Journal and shows the watering preview at the top of Info', async () => {
   await mount();
+  expect(renderer.root.findAllByType(WateringCareCard)).toHaveLength(0);
   act(() => renderer.root.findByType(GrowthStageSummary).props.onPress());
   expect(mockRouter.push).toHaveBeenCalledWith({ pathname: '/plant/[id]/growth', params: { id: 'plant', theme: 'grove' } });
+  act(() => tab('Info').props.onPress());
+  expect(selectedTab()).toBe('Info');
+  const info = renderer.root.findByType(PlantDetails);
+  expect(info.findAllByType(GrowthStageSummary)).toHaveLength(0);
+  const panels = info.findAll((node: any) =>
+    node.type === WateringCareCard || node.props.accessibilityRole === 'header' && node.props.children === 'Basics');
+  expect(panels[0].type).toBe(WateringCareCard);
+  expect(panels[1].props.children).toBe('Basics');
 });

@@ -7,6 +7,15 @@ export interface ProgressPic { calendarDay?: string; timeZone?: string; id: stri
 // ================================
 export interface CareSummaryEntry { id: string; mutationId?: string; timestamp: Timestamp; calendarDay?: string; timeZone?: string }
 export interface CareSummary { version: 1; revision: number; watering: CareSummaryEntry | null; fertilizing: CareSummaryEntry | null }
+export interface CareTipRecord {
+    key: string;
+    day: string;
+    title: string;
+    kind: 'watering' | 'powderyMildew' | 'rootRot' | 'weather' | 'weatherContext' | 'health';
+    detail: string;
+    seenAt: number;
+    handledAt?: number;
+}
 export interface PlantReminderSchedule { type: 'interval' | 'custom' | 'smart' | 'none'; intervalDays?: number; customDays?: string[]; timeOfDay?: string }
 export interface Plant {
     /** Confirmed calendar dates use the same YYYY-MM-DD convention as startedOn. */
@@ -56,6 +65,7 @@ export interface Plant {
     locationTimeZone?: string | null;
     careSnoozes?: { watering?: number; feeding?: number };
     careSkips?: { watering?: string; feeding?: string };
+    careTipHistory?: CareTipRecord[];
     deleting?: boolean;
     wateringRepeat?: import('./lib/logs/wateringRepeat').WateringRepeat | null;
     harvest?: { date: string; weightGrams?: number; notes: string; recordId: string };

@@ -11,6 +11,8 @@ import { syncCareRecommendations, syncReminders } from '@/services/reminders';
 import { reminderDue } from '@/lib/care/careTasks';
 import { useCareTasks } from './useCareTasks';
 import { syncStageReminders } from '@/services/stageReminders';
+import { findHandledCareTip } from '@/lib/care/careTipHistory';
+import { recommendationSignature } from '@/lib/careAlgorithm/outdoorIntelligence';
 export default function ReminderCoordinator() {
   const { user } = useSession();
   const { preferences } = usePreferences(user?.uid);
@@ -23,20 +25,26 @@ function ActiveReminders() {
   const { user } = useSession();
   const { preferences } = usePreferences(user?.uid);
   const { snoozes } = useCareSnoozes(user?.uid);
-  const { tasks, plants, loading, error, plantLoading, plantError } = useCareTasks();
+  const { tasks, plants, loading, error, plantLoading, plantError, now } = useCareTasks();
   const intelligence = useWateringSuggestions(plants);
   const [intelligenceMessage, setIntelligenceMessage] = React.useState('');
   const resolvedKey = JSON.stringify(intelligence.insights.flatMap(i => i.careEvaluation?.outdoor?.resolvedRecommendationIds ?? []));
-  const recommendationKey = JSON.stringify(intelligence.insights.flatMap(i => (i.careEvaluation?.outdoor?.recommendations ?? []).filter(r => r.type !== 'watering' || plants.some(p => p.id === r.plantId && effectiveSchedule(p, 'watering').type === 'smart'))));
+  const plantById = new Map(plants.map(plant => [plant.id, plant]));
+  const recommendations = intelligence.insights.flatMap(i => i.careEvaluation?.outdoor?.recommendations ?? []);
+  const handledIds = new Set(recommendations.filter(r => findHandledCareTip(plantById.get(r.plantId), recommendationSignature(r), now, r.type)).map(r => r.id));
+  const handledKey = JSON.stringify([...handledIds].sort());
+  const remaining = recommendations.filter(r => !handledIds.has(r.id));
+  const recommendationKey = JSON.stringify(remaining.filter(r => r.type !== 'watering'
+    || plants.some(p => p.id === r.plantId && effectiveSchedule(p, 'watering').type === 'smart')));
   React.useEffect(() => {
     if (intelligence.loading || intelligence.error || intelligence.stale) return;
-    void syncCareRecommendations(user?.uid, JSON.parse(recommendationKey), preferences.reminders, JSON.parse(resolvedKey)).then(() => setIntelligenceMessage('')).catch(() => setIntelligenceMessage('Device care alerts could not be updated. Retry from care advice or check notification permissions.'));
-  }, [user?.uid, recommendationKey, resolvedKey, preferences.reminders, intelligence.loading, intelligence.error, intelligence.stale]);
+    void syncCareRecommendations(user?.uid, JSON.parse(recommendationKey), preferences.reminders, JSON.parse(resolvedKey), JSON.parse(handledKey)).then(() => setIntelligenceMessage('')).catch(() => setIntelligenceMessage('Device care alerts could not be updated. Retry from care advice or check notification permissions.'));
+  }, [user?.uid, recommendationKey, resolvedKey, handledKey, preferences.reminders, intelligence.loading, intelligence.error, intelligence.stale]);
   const [message, setMessage] = React.useState('');
   const [stageMessage, setStageMessage] = React.useState('');
   const stageKey = JSON.stringify(plants);
   const stageMinute = Math.floor(Date.now() / 60000);
-  const weatherAlerts = intelligence.insights.flatMap(i => i.careEvaluation?.outdoor?.recommendations ?? []).filter(r => r.status === 'active' && r.priority === 'HIGH');
+  const weatherAlerts = remaining.filter(r => r.status === 'active' && r.priority === 'HIGH');
   const weatherBusyUntil = weatherAlerts.length ? stageMinute * 60000 + 3600000 : 0;
   // Re-evaluate reservations from the live plant records; completed/harvested plants remain eligible.
   React.useEffect(() => {
