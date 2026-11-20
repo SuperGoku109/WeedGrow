@@ -1,15 +1,14 @@
-import { collection, documentId, getDocs, limit, onSnapshot, orderBy, query, Timestamp, where } from 'firebase/firestore';
+import { collection, getDocs, limit, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 import type { PlantLog, WeatherCacheEntry } from '@/firestoreModels';
-import { addDays, plantDay, zonedTime } from '@/lib/dates/plantDay';
+import { plantDay } from '@/lib/dates/plantDay';
 import { decodeLog, decodeWeather, publishDecoded } from '@/lib/data/recordDecoders';
 import { createLiveStore } from '@/lib/data/liveStore';
+import { journalRangeQuery, journalWeatherRangeQuery } from '@/lib/logs/journalRangeQueries';
 export type JournalDays = Record<string, (PlantLog & { id: string })[]>;
 export const journalDaysStore = createLiveStore<JournalDays>({}, key => (next, fail) => {
   const [, id, start, end, zone] = JSON.parse(key) as [string, string, string, string, string | null];
-  return onSnapshot(query(collection(db, 'plants', id, 'logs'),
-    where('timestamp', '>=', Timestamp.fromDate(zonedTime(addDays(start, -2), '00:00', zone))),
-    where('timestamp', '<', Timestamp.fromDate(zonedTime(addDays(end, 3), '00:00', zone)))), snapshot => {
+  return onSnapshot(journalRangeQuery(id, start, end, zone), snapshot => {
     try {
     const grouped: JournalDays = {};
     snapshot.docs.forEach(item => {
@@ -25,7 +24,7 @@ export const journalDaysStore = createLiveStore<JournalDays>({}, key => (next, f
 }, 'Activity could not be loaded. Check your connection and retry.');
 export const journalWeatherStore = createLiveStore<{ entries: Record<string, WeatherCacheEntry>; errors: Record<string, string> }>({ entries: {}, errors: {} }, key => (next, fail) => {
   const [, id, start, end] = JSON.parse(key) as string[];
-  return onSnapshot(query(collection(db, 'plants', id, 'weatherCache'), where(documentId(), '>=', start), where(documentId(), '<=', end)), snapshot => {
+  return onSnapshot(journalWeatherRangeQuery(id, start, end), snapshot => {
     const entries: Record<string, WeatherCacheEntry> = {};
     const errors: Record<string, string> = {};
     for (const item of snapshot.docs) {

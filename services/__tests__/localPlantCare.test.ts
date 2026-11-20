@@ -79,6 +79,32 @@ test('starts weather while journal history is pending and skips a redundant cach
   finishHistory({});
   expect((await pending).diagnostic.journalHistoryReadFailed).toBe(false);
 });
+test('shares overlapping journal reads for the same revision and fetches fresh data after they settle', async () => {
+  let finishReads!: (history: Awaited<ReturnType<typeof fetchLogsAndWeatherForRange>>) => void;
+  const history = new Promise<Awaited<ReturnType<typeof fetchLogsAndWeatherForRange>>>(resolve => { finishReads = resolve; });
+  jest.mocked(fetchLogsAndWeatherForRange).mockReturnValueOnce(history).mockReturnValueOnce(history);
+  const weather = openMeteoWeatherResponse(meteoFixture(), Date.now());
+  let allStarted!: () => void;
+  const started = new Promise<void>(resolve => { allStarted = resolve; });
+  jest.mocked(fetchWeather).mockResolvedValueOnce(weather).mockResolvedValueOnce(weather).mockImplementationOnce(async () => {
+    allStarted();
+    return weather;
+  });
+
+  const current = { ...plant, careRevision: 1 };
+  const calls = [
+    readLocalPlantCare(plant.id, current, now),
+    readLocalPlantCare(plant.id, current, now),
+    readLocalPlantCare(plant.id, { ...current, careRevision: 2 }, now),
+  ];
+  await started;
+  expect(fetchLogsAndWeatherForRange).toHaveBeenCalledTimes(2);
+  finishReads({});
+  await Promise.all(calls);
+
+  await readLocalPlantCare(plant.id, current, now);
+  expect(fetchLogsAndWeatherForRange).toHaveBeenCalledTimes(3);
+});
 test('reads saved weather when the provider fails', async () => {
   const fetchedAt = now.getTime() - 5 * 60 * 1000;
   jest.mocked(fetchWeather).mockRejectedValueOnce(new Error('offline'));
