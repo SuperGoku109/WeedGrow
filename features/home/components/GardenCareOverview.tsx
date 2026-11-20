@@ -4,61 +4,53 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import type { Plant } from '@/firestoreModels';
-import type { CareTask } from '@/lib/care/careTasks';
 import { plantDay } from '@/lib/dates/plantDay';
-import { gardenCareGroups, pendingCareGroups } from '../gardenCare';
-import { useGardenCareSuggestions } from '../hooks/useGardenCareSuggestions';
+import { pendingCareGroups, type GardenCareGroup } from '../gardenCare';
 import { CareTipRows } from '@/features/care/CareTipRows';
 import { useCareTipHistory } from '@/features/care/useCareTipHistory';
 import { GrowPress } from '@/ui/GrowMotion';
 
 // Keep the last settled groups visible during a refresh in the same garden.
-const completedSummaries = new Map<string, ReturnType<typeof gardenCareGroups>>();
+const completedSummaries = new Map<string, GardenCareGroup[]>();
 
-export default function GardenCareOverview({ advice, plants, tasks, now, loading, error, onRetry, cacheKey, uid, gardenId }: {
-  advice?: ReturnType<typeof useGardenCareSuggestions>;
+export default function GardenCareOverview({ groups: latest, plants, now, loading, failed, onRetry, cacheKey, uid, gardenId }: {
+  groups: GardenCareGroup[];
   cacheKey?: string;
   uid?: string;
   gardenId?: string;
   plants: (Plant & { id: string })[];
-  tasks: CareTask[];
   now: Date;
   loading: boolean;
-  error: string | null;
+  failed: boolean;
   onRetry(): void;
 }) {
   const t = useAppTheme();
   const router = useRouter();
-  const fallbackAdvice = useGardenCareSuggestions(advice ? [] : plants, now);
-  const careAdvice = advice || fallbackAdvice;
-  const pending = loading || careAdvice.loading;
-  const failed = !!error || careAdvice.error;
   const scope = JSON.stringify([cacheKey, plants.filter(plant => plant.status === 'active' && !plant.deleting)
     .map(plant => [plant.id, plant.name, plant.locationRevision, plantDay(now, plant.locationTimeZone)])
     .sort((a, b) => String(a[0]).localeCompare(String(b[0])))]);
-  const settled = React.useRef<{ scope: string; groups: ReturnType<typeof gardenCareGroups> } | null>(null);
-  const latest = React.useMemo(() => gardenCareGroups(careAdvice.results, tasks, plants, now), [careAdvice.results, tasks, plants, now]);
+  const settled = React.useRef<{ scope: string; groups: GardenCareGroup[] } | null>(null);
   const previous = settled.current?.scope === scope ? settled.current.groups : cacheKey ? completedSummaries.get(scope) : undefined;
-  const groups = pending && previous ? pendingCareGroups(previous, plants) : latest;
-  const history = useCareTipHistory(uid, latest, plants, !pending && !failed);
+  const groups = loading && previous ? pendingCareGroups(previous, plants) : latest;
+  const history = useCareTipHistory(uid, latest, plants, !loading && !failed);
   React.useEffect(() => {
-    if (pending || failed) return;
+    if (loading || failed) return;
     settled.current = { scope, groups: latest };
     if (cacheKey) {
       completedSummaries.delete(scope);
       completedSummaries.set(scope, latest);
       if (completedSummaries.size > 24) completedSummaries.delete(completedSummaries.keys().next().value!);
     }
-  }, [scope, latest, pending, failed, cacheKey]);
+  }, [scope, latest, loading, failed, cacheKey]);
 
   return <View style={s.section}>
     <Text accessibilityRole="header" style={[s.heading, { color: t.text }]}>Today’s care</Text>
     {!groups.length && <Text accessibilityLiveRegion="polite" style={[s.hint, { color: t.muted }]}>
-      {pending && !previous ? 'Checking your garden…' : failed ? 'Some care tips could not be loaded.' : 'No care items flagged.'}
+      {loading && !previous ? 'Checking your garden…' : failed ? 'Some care tips could not be loaded.' : 'No care items flagged.'}
     </Text>}
     <CareTipRows featureFirst confirmQuickAction groups={groups.slice(0, 3)} complete={history.complete} />
     {!!history.error && <Text accessibilityRole="alert" style={[s.hint, { color: t.danger }]}>{history.error}</Text>}
-    {(failed || !!history.error) && <Pressable accessibilityRole="button" accessibilityLabel="Retry care advice" onPress={() => { onRetry(); careAdvice.refresh(); history.refresh(); }} style={s.link}>
+    {(failed || !!history.error) && <Pressable accessibilityRole="button" accessibilityLabel="Retry care advice" onPress={() => { onRetry(); history.refresh(); }} style={s.link}>
       <Text style={{ color: t.accent, fontWeight: '600' }}>Retry care advice</Text>
     </Pressable>}
     <GrowPress accessibilityRole="button" accessibilityLabel="Show all care"

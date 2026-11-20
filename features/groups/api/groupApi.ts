@@ -1,18 +1,10 @@
 import { saveGrowingSpace } from './membership';
-import { waterGrowingSpace } from '@/lib/logs/groupWatering';
 import { requireUserId } from '@/services/session';
 /**
  * Group API Module
  * Handles all Firestore operations related to plant groups
  */
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  doc,
-  getDoc,
-} from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/services/firebase';
 import type { Group } from '@/firestoreModels';
 import logger from '@/lib/logger';
@@ -36,28 +28,10 @@ export interface CreateGroupOptions {
   createdBy: string;
   sensorProfileId?: string;
 }
-
 /**
  * Options for updating an existing group
  */
 export type UpdateGroupOptions = Partial<Omit<Group, 'createdAt' | 'createdBy'>>;
-
-/**
- * Fetches all groups created by a specific user
- * @param userId - The user ID to fetch groups for
- * @returns Promise containing array of groups with IDs
- */
-export async function getUserGroups(userId: string): Promise<GroupWithId[]> {
-  try {
-    if (userId !== requireUserId()) throw new Error('Sign in to your own garden.');
-    const q = query(collection(db, 'groups'), where('createdBy', '==', userId));
-    const snap = await getDocs(q);
-    return snap.docs.map((d) => ({ id: d.id, ...(d.data() as Group) }));
-  } catch (error) {
-    logger.error('Error fetching user groups:', error);
-    throw new Error('Could not load your gardens. Please try again.');
-  }
-}
 
 /**
  * Creates a new plant group
@@ -106,16 +80,4 @@ export async function getGroupById(groupId: string): Promise<GroupWithId | null>
     logger.error('Error fetching group details:', error);
     throw new Error('Could not load this garden.');
   }
-}
-
-/**
- * Waters all plants in the group using the provided userId
- * @param groupId - ID of the group containing plants to water
- * @param userId - ID of the user performing the action
- */
-export async function waterAllPlantsInGroup(
-  groupId: string,
-  userId: string,
-) {
-  return waterGrowingSpace(groupId);
 }

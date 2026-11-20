@@ -20,6 +20,22 @@ test('nonzero offsets do not shift Unix instants twice; segments use the named l
   expect(today.detailedTemps?.morn).toBeCloseTo(17); // 06:00 local = 04:00 UTC.
   expect(today.observationUtc).toBe(Math.floor(now / 900) * 900);
 });
+test('groups hourly readings across a 25-hour local day when daylight saving ends', () => {
+  const instant = Date.parse('2026-11-01T12:20:00Z');
+  const raw = meteoFixture(instant / 1000);
+  raw.timezone = 'America/New_York';
+  const midnight = Date.parse('2026-11-01T04:00:00Z') / 1000;
+  raw.daily!.time = [midnight - 2 * 86400, midnight - 86400, midnight, midnight + 25 * 3600, midnight + 49 * 3600];
+  const readings = raw.hourly.time.filter(t => t >= midnight && t < midnight + 25 * 3600);
+  raw.hourly.relative_humidity_2m = raw.hourly.time.map(t => t === midnight + 24 * 3600 ? 80 : 55);
+
+  const [day] = openMeteoWeatherResponse(raw, instant).daily!;
+  expect(readings).toHaveLength(25);
+  expect(day).toMatchObject({ dt: midnight, humidity: 56, temp: {
+    morn: raw.hourly.temperature_2m[raw.hourly.time.indexOf(midnight + 7 * 3600)],
+    night: raw.hourly.temperature_2m[raw.hourly.time.indexOf(midnight + 24 * 3600)],
+  } });
+});
 test('missing independent fields stay unknown; usable daily highs and lows survive', () => {
   const raw = meteoFixture(now); raw.current!.wind_gusts_10m = null;
   delete raw.hourly.uv_index; delete raw.hourly.relative_humidity_2m;

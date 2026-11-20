@@ -7,13 +7,9 @@ import { plantDay } from '@/lib/dates/plantDay';
 import type { Group, WeatherCacheEntry } from '@/firestoreModels';
 import { fetchWeather } from './fetchWeather';
 import { parseWeatherData } from './parseWeatherData';
+import { prepareWeatherCacheEntry } from './prepareWeatherCacheEntry';
 
 const pending = new Map<string, Promise<void>>();
-function defined(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(defined);
-  if (value && typeof value === 'object' && !('toDate' in value)) return Object.fromEntries(Object.entries(value).filter(([, child]) => child !== undefined).map(([key, child]) => [key, defined(child)]));
-  return value;
-}
 
 // Garden weather starts before plants exist. Never write it into a plant's history.
 export function refreshGardenWeather(id: string, force = false): Promise<void> {
@@ -48,7 +44,7 @@ export function refreshGardenWeather(id: string, force = false): Promise<void> {
         if (old && (old.fetchedAt?.toMillis?.() || 0) > weather.fetchedAt.toMillis()) { committed[date] = old; return; }
         const history = [...(old?.previousLocations || [])];
         if (old && date === today && !sameLocation(old.sourceCoordinates, location)) { const { previousLocations: _history, ...prior } = old; history.push(prior); }
-        const entry = defined({ ...weather, sourceCoordinates: location, locationLabel: current.locationLabel || '', ...(history.length ? { previousLocations: history } : {}) }) as WeatherCacheEntry;
+        const entry = prepareWeatherCacheEntry({ ...weather, sourceCoordinates: location, locationLabel: current.locationLabel || '', ...(history.length ? { previousLocations: history } : {}) });
         if (JSON.stringify(entry).length > 800000) throw new Error('This day has too much saved weather history to refresh safely.');
         committed[date] = entry;
         tx.set(refs[index], entry);

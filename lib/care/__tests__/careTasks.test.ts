@@ -19,6 +19,17 @@ it('future care logs do not complete today or move the next routine into the fut
   const logs: PlantLog[] = [{ type: 'watering', updatedBy: 'user-a', timestamp: timestamp('2026-10-21T16:00:00') }];
   expect(buildCareTasks(plant, logs, now)[0].due).toEqual(buildCareTasks(plant, [], now)[0].due);
 });
+it('finds the latest usable watering log in an unordered history', () => {
+  const logs: PlantLog[] = [
+    { type: 'watering', updatedBy: 'user-a', timestamp: timestamp('2026-10-19T16:00:00') },
+    { type: 'watering', updatedBy: 'user-a', timestamp: timestamp('2026-10-17T12:00:00') },
+    { type: 'watering', updatedBy: 'user-a', timestamp: timestamp('2026-10-20T10:00:00'), calendarDay: '2026-10-21' },
+    { type: 'watering', updatedBy: 'user-a', timestamp: timestamp('invalid') },
+  ];
+  const [task] = buildCareTasks(plant, logs, now);
+  expect(task.completedToday).toBe(false);
+  expect(task.due).toEqual(new Date('2026-10-21T09:00:00'));
+});
 it('does not invent a care frequency for an unspecified routine', () => {
   expect(routineDays('As needed')).toBeNull();
   expect(buildCareTasks({ ...plant, wateringFrequency: '', feedingFrequency: '' }, [], now)).toEqual([]);

@@ -97,12 +97,24 @@ export function openMeteoWeatherResponse(raw: unknown, fetchedAt = Date.now()): 
     if (current.temp === undefined || current.humidity === undefined || current.wind_speed === undefined) notes.push('Some current fields are unavailable; daily values are not substituted.');
   }
   const daily: WeatherSample[] = [];
-  for (const [i, t] of (native.daily?.time ?? []).entries()) {
-    const d = native.daily!; const day = plantDay(new Date(t * 1000), native.timezone);
-    if (day < plantDay(new Date(fetchedAt), native.timezone)) continue;
-    const rows = h.time.map((at, index) => ({ at, index })).filter(row => plantDay(new Date(row.at * 1000), native.timezone) === day);
+  const d = native.daily;
+  const today = plantDay(new Date(fetchedAt), native.timezone);
+  const forecastDays = (d?.time ?? []).map((at, index) => ({ at, index, day: plantDay(new Date(at * 1000), native.timezone) }))
+    .filter(row => row.day >= today);
+  const hourlyByDay = new Map(forecastDays.map(({ day }) => [day, [] as { index: number; hour: number }[]]));
+  if (hourlyByDay.size) {
+    const hourFormatter = new Intl.DateTimeFormat('en-GB', { timeZone: native.timezone, hour: '2-digit', hourCycle: 'h23' });
+    h.time.forEach((at, index) => {
+      const date = new Date(at * 1000);
+      const rows = hourlyByDay.get(plantDay(date, native.timezone));
+      if (rows) rows.push({ index, hour: Number(hourFormatter.format(date)) });
+    });
+  }
+  const currentDay = current && plantDay(new Date(current.dt * 1000), native.timezone);
+  if (d) for (const { at: t, index: i, day } of forecastDays) {
+    const rows = hourlyByDay.get(day)!;
     const atHour = (hour: number) => {
-      const row = rows.find(row => Number(new Intl.DateTimeFormat('en-GB', { timeZone: native.timezone, hour: '2-digit', hourCycle: 'h23' }).format(new Date(row.at * 1000))) === hour);
+      const row = rows.find(row => row.hour === hour);
       return row ? meteoValue(h, 'temperature_2m', row.index) : undefined;
     };
     const mean = (field: string) => { const values = rows.map(row => meteoValue(h, field, row.index)); return values.length >= 23 && values.every(v => v !== undefined) ? values.reduce((a, b) => a! + b!, 0)! / values.length : undefined; };
@@ -117,7 +129,11 @@ export function openMeteoWeatherResponse(raw: unknown, fetchedAt = Date.now()): 
       pop: meteoValue(d, 'precipitation_probability_max', i) === undefined ? undefined : meteoValue(d, 'precipitation_probability_max', i)! / 100,
       weather: first ? point(native, first.index).weather : [] });
   }
-  if (current) { const today = daily.find(d => plantDay(new Date(d.dt * 1000), native.timezone) === plantDay(new Date(current.dt * 1000), native.timezone)); current.sunrise = today?.sunrise; current.sunset = today?.sunset; }
+  if (current) {
+    const forecast = daily[forecastDays.findIndex(row => row.day === currentDay)];
+    current.sunrise = forecast?.sunrise;
+    current.sunset = forecast?.sunset;
+  }
   return { current, daily, hourly: h.time.flatMap((t, i) => t >= now - 86400 && t <= now + 48 * 3600 ? [point(native, i)] : []),
     timezone: native.timezone, timezone_offset: native.utc_offset_seconds, _weedgrowFetchedAt: fetchedAt, _weedgrowProvider: 'Open-Meteo', _weedgrowMeteo: native, _weedgrowNotes: [...new Set(notes)] };
 }

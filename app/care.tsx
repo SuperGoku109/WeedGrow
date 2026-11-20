@@ -36,6 +36,21 @@ export default function CareScreen() {
   const [message, setMessage] = React.useState('');
   const [feedbackError, setFeedbackError] = React.useState(false);
   const showError = (text: string) => { setFeedbackError(true); setMessage(text); };
+  const recordCare = async () => {
+    if (!action) return;
+    const day = plantDay(new Date(), action.timeZone);
+    const watering = action.kind === 'watering';
+    await saveJournalEntry(action.plantId, {
+      type: watering ? 'watering' : 'fertilizing',
+      category: action.kind,
+      description: notes.trim() || 'Completed from care checklist.',
+      ...(amount.trim() ? { [watering ? 'waterMl' : 'nutrientMlPerL']: Number(amount) } : {}),
+      ...(ph.trim() ? { ph: Number(ph) } : {}),
+      updatedBy: '',
+    }, day, undefined, `care_${action.kind}_${day}`);
+    setFeedbackError(false);
+    setMessage('Care recorded.');
+  };
   return <SafeAreaView edges={['top', 'bottom', 'left', 'right']} style={{ flex: 1, backgroundColor: palette.bg }}><ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ padding: 20, gap: 16, width: '100%', maxWidth: 760, alignSelf: 'center' }}>
     <GrowPress accessibilityRole="button" onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)?tabIndex=1')} style={{ minHeight: 44, justifyContent: 'center' }}><Text style={{ color: palette.accent, fontSize: 15 }}>← Garden</Text></GrowPress><Text accessibilityRole="header" style={{ color: palette.ink, fontSize: 28, lineHeight: 34, fontWeight: '700' }}>Care checklist</Text>
     <Text style={s.hint}>Your saved watering and feeding routines. Check the soil and plant before recording care.</Text>
@@ -53,7 +68,7 @@ export default function CareScreen() {
       </View>;
     })}
     {!loading && !!plants.length && <Text style={s.hint}>{plants.filter(plant => plant.status === 'active').length} active {plants.filter(plant => plant.status === 'active').length === 1 ? 'plant' : 'plants'}. Only plants with a routine appear above.</Text>}
-    {action && <ActionDialog title={`Record ${action.kind}?`} description={`Confirm you have completed this care for ${action.plantName}. This creates a journal entry.`} confirmLabel="Record care" onClose={() => setAction(null)} onConfirm={async () => { await saveJournalEntry(action.plantId, { type: action.kind === 'watering' ? 'watering' : 'fertilizing', category: action.kind, description: notes.trim() || 'Completed from care checklist.', ...(amount.trim() ? action.kind === 'watering' ? { waterMl: Number(amount) } : { nutrientMlPerL: Number(amount) } : {}), ...(ph.trim() ? { ph: Number(ph) } : {}), updatedBy: '' }, plantDay(new Date(), action.timeZone), undefined, `care_${action.kind}_${plantDay(new Date(), action.timeZone)}`); setFeedbackError(false); setMessage('Care recorded.'); }}>{saving => <><TextInput editable={!saving} accessibilityLabel={action.kind === 'watering' ? 'Water amount in ml' : 'Nutrients in ml per litre'} value={amount} onChangeText={setAmount} keyboardType="decimal-pad" placeholder={action.kind === 'watering' ? 'Water ml (optional)' : 'Nutrients ml/L (optional)'} placeholderTextColor={palette.muted} style={{ padding: 12, borderWidth: 1, borderColor: palette.border, borderRadius: 10, color: palette.ink, fontSize: 16 }} /><TextInput editable={!saving} accessibilityLabel="Measured pH" value={ph} onChangeText={setPh} keyboardType="decimal-pad" placeholder="Measured pH (optional)" placeholderTextColor={palette.muted} style={{ padding: 12, borderWidth: 1, borderColor: palette.border, borderRadius: 10, color: palette.ink, fontSize: 16 }} /><TextInput editable={!saving} accessibilityLabel="Care observations" value={notes} onChangeText={setNotes} maxLength={4000} placeholder="Observations (optional)" placeholderTextColor={palette.muted} style={{ padding: 12, borderWidth: 1, borderColor: palette.border, borderRadius: 10, color: palette.ink, fontSize: 16 }} /></>}</ActionDialog>}
+    {action && <ActionDialog title={`Record ${action.kind}?`} description={`Confirm you have completed this care for ${action.plantName}. This creates a journal entry.`} confirmLabel="Record care" onClose={() => setAction(null)} onConfirm={recordCare}>{saving => <><TextInput editable={!saving} accessibilityLabel={action.kind === 'watering' ? 'Water amount in ml' : 'Nutrients in ml per litre'} value={amount} onChangeText={setAmount} keyboardType="decimal-pad" placeholder={action.kind === 'watering' ? 'Water ml (optional)' : 'Nutrients ml/L (optional)'} placeholderTextColor={palette.muted} style={{ padding: 12, borderWidth: 1, borderColor: palette.border, borderRadius: 10, color: palette.ink, fontSize: 16 }} /><TextInput editable={!saving} accessibilityLabel="Measured pH" value={ph} onChangeText={setPh} keyboardType="decimal-pad" placeholder="Measured pH (optional)" placeholderTextColor={palette.muted} style={{ padding: 12, borderWidth: 1, borderColor: palette.border, borderRadius: 10, color: palette.ink, fontSize: 16 }} /><TextInput editable={!saving} accessibilityLabel="Care observations" value={notes} onChangeText={setNotes} maxLength={4000} placeholder="Observations (optional)" placeholderTextColor={palette.muted} style={{ padding: 12, borderWidth: 1, borderColor: palette.border, borderRadius: 10, color: palette.ink, fontSize: 16 }} /></>}</ActionDialog>}
     {skip && <ActionDialog title="Skip this check today?" description={"This records a skipped check for " + skip.plantName + ". It does not record watering or feeding and does not reset the care routine."} confirmLabel="Skip today" onClose={() => setSkip(null)} onConfirm={async () => { await skipCareTask(skip.plantId, skip.kind, true, plantDay(now, skip.timeZone)); setFeedbackError(false); setMessage('Check skipped for today.'); }} />}
   </ScrollView></SafeAreaView>;
 }

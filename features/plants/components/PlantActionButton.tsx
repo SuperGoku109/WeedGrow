@@ -7,12 +7,6 @@ import type { PlantTheme } from './plantDetailTheme';
 
 type Icon = React.ComponentProps<typeof MaterialCommunityIcons>['name'];
 type Props = { label: string; icon: Icon; theme: PlantTheme; onPress(): void; disabled?: boolean; busy?: boolean; danger?: boolean; primary?: boolean; compact?: boolean; accessibilityLabel?: string; expanded?: boolean };
-export function PlantIconButton({ label, icon, theme: t, onPress, disabled = false, busy = false }: Props) {
-  return <GrowPress accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ disabled: disabled || busy, busy }} disabled={disabled || busy} onPress={onPress}
-    style={{ width: gardenControls.height, height: gardenControls.height, flexShrink: 0, borderRadius: 14, alignItems: 'center', justifyContent: 'center', backgroundColor: t.elevated, opacity: disabled ? 0.5 : 1 }}>
-    {busy ? <ActivityIndicator size="small" color={t.accent} /> : <MaterialCommunityIcons name={icon} size={gardenControls.iconSize} color={t.accent} accessible={false} />}
-  </GrowPress>;
-}
 export default function PlantActionButton({ label, icon, theme: t, onPress, disabled = false, busy = false, danger = false, primary = false, compact = false, accessibilityLabel, expanded }: Props) {
   const color = primary ? t.onAccent : danger ? t.danger : t.accent;
   return <GrowPress accessibilityRole="button" accessibilityLabel={accessibilityLabel || label} accessibilityState={{ disabled: disabled || busy, busy, ...(expanded != null ? { expanded } : {}) }} disabled={disabled || busy} onPress={onPress}

@@ -27,7 +27,9 @@ it('does not refetch for notes or clock ticks, and exposes an explicit refresh f
   // The provider result is newer than the sampled minute clock, but not in the real future.
   jest.setSystemTime(mockClock.getTime() + 2000);
   await act(async () => { jest.advanceTimersByTime(100); });
-  expect(evaluateWateringInsights).toHaveBeenCalledTimes(1); expect(advice.plantsNeedingWater).toHaveLength(1);
+  expect(evaluateWateringInsights).toHaveBeenCalledTimes(1);
+  expect(advice.insights).toHaveLength(1);
+  expect(advice.stale).toBe(false);
   expect(evaluateWateringInsights).toHaveBeenCalledWith(expect.any(Array), { execution: 'local' }, expect.any(AbortSignal));
   mockClock = new Date('2026-10-24T12:05:00Z');
   jest.setSystemTime(mockClock);
@@ -39,7 +41,7 @@ it('does not refetch for notes or clock ticks, and exposes an explicit refresh f
   mockClock = new Date('2026-10-24T19:05:00Z');
   jest.setSystemTime(mockClock);
   await act(async () => renderer.update(React.createElement(Probe, { notes: 'Another edit' })));
-  expect(advice.stale).toBe(true); expect(advice.plantsNeedingWater).toEqual([]);
+  expect(advice.stale).toBe(true);
   expect(evaluateWateringInsights).toHaveBeenCalledTimes(2);
   act(() => renderer.unmount()); jest.useRealTimers();
 });
