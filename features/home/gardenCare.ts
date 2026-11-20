@@ -2,8 +2,7 @@ import type { Plant } from '@/firestoreModels';
 import type { PlantSuggestionResult } from '@/lib/suggestions/suggestionCards';
 import type { CareTask } from '@/lib/care/careTasks';
 import { presentCareCard } from '@/features/plants/plantCare';
-import { cardTipSignature, careTipKey, careTipRecords, findHandledCareTip, type CareTipTarget } from '@/lib/care/careTipHistory';
-import { plantDay } from '@/lib/dates/plantDay';
+import { cardTipSignature, careTipRecords, careTipsForDay, type CareTipTarget } from '@/lib/care/careTipHistory';
 
 export interface GardenCareGroup {
   key: string; title: string; priority: number;
@@ -25,19 +24,20 @@ export function gardenCareGroups(results: Pick<PlantSuggestionResult, 'plantId' 
     }
     groups.set(key, group);
   };
-  for (const result of results) for (const raw of result.cards) {
+  for (const result of results) {
     const plant = active.get(result.plantId);
-    if (!plant) continue;
-    const card = presentCareCard(raw, false, false, now);
-    if (!card.active || card.severity === 'info' && !(card.kind === 'watering' && !card.metrics.observationDriven && card.metrics.needsWater !== false)) continue;
-    const day = plantDay(now, plant.locationTimeZone);
-    const signature = cardTipSignature(raw);
-    const key = careTipKey(plant, day, signature);
-    const handled = findHandledCareTip(plant, signature, now, card.kind);
-    if (!includeHandled && handled) continue;
-    const saved = handled ?? careTipRecords(plant).find(record => record.key === key);
-    const tip = saved || { key, day, kind: card.kind, title: card.title, detail: card.summary.slice(0, 900), seenAt: now.getTime() };
-    add(`${card.kind}:${card.title}`, card.title, { critical: 0, warn: 1, watch: 2, info: 3 }[card.severity], result.plantId, card.summary, { plantId: result.plantId, tip });
+    if (!plant || !result.cards.length) continue;
+    const history = careTipsForDay(plant, now);
+    for (const raw of result.cards) {
+      const card = presentCareCard(raw, false, false, now);
+      if (!card.active || card.severity === 'info' && !(card.kind === 'watering' && !card.metrics.observationDriven && card.metrics.needsWater !== false)) continue;
+      const signature = cardTipSignature(raw);
+      const handled = history.findHandled(signature, card.kind);
+      if (!includeHandled && handled) continue;
+      const key = history.key(signature);
+      const tip = handled ?? history.find(key) ?? { key, day: history.day, kind: card.kind, title: card.title, detail: card.summary.slice(0, 900), seenAt: now.getTime() };
+      add(`${card.kind}:${card.title}`, card.title, { critical: 0, warn: 1, watch: 2, info: 3 }[card.severity], result.plantId, card.summary, { plantId: result.plantId, tip });
+    }
   }
   for (const task of tasks) {
     const plant = active.get(task.plantId);

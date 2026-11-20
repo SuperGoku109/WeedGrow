@@ -2,6 +2,7 @@ import { collection, doc, getDoc, getDocs, limit, orderBy, query, runTransaction
 import { db } from './firebase';
 import { requireUserId } from './session';
 import type { CareSummary, CareSummaryEntry } from '@/firestoreModels';
+import { currentCareSummary } from '@/lib/care/careSummary';
 const pending = new Map<string, Promise<void>>();
 /** Revision-checked derived data. Journal mutations invalidate it in the same transaction. */
 export async function ensureCareSummary(id: string): Promise<void> {
@@ -12,8 +13,8 @@ export async function ensureCareSummary(id: string): Promise<void> {
     for (let attempt = 0; attempt < 3; attempt++) {
       const initial = await getDoc(ref); const data = initial.data();
       if (!data || !data.owners?.includes(uid) || data.deleting) return;
-      const revision = data.careRevision || 0;
-      if (data.careSummary?.version === 1 && data.careSummary.revision === revision) return;
+      const revision = data.careRevision ?? 0;
+      if (currentCareSummary(data)) return;
       const summary: CareSummary = { version: 1, revision, watering: null, fertilizing: null };
       for (const kind of ['watering', 'fertilizing'] as const) {
         const result = await getDocs(query(collection(db, 'plants', id, 'logs'), where('type', '==', kind), orderBy('timestamp', 'desc'), limit(1)));
@@ -25,8 +26,8 @@ export async function ensureCareSummary(id: string): Promise<void> {
         if (requireUserId() !== uid) return false;
         const current = await tx.get(ref); const plant = current.data();
         if (!plant || plant.deleting || !plant.owners?.includes(uid)) return true;
-        if ((plant.careRevision || 0) !== revision) return false;
-        if (plant.careSummary?.version === 1 && plant.careSummary.revision === revision) return true;
+        if ((plant.careRevision ?? 0) !== revision) return false;
+        if (currentCareSummary(plant)) return true;
         tx.update(ref, { careSummary: summary }); return true;
       });
       if (saved) return;

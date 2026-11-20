@@ -21,6 +21,19 @@ test('rain reception uncertainty brackets zero/full rather than guessing a perce
   const out = replayWater(input); expect(out.states[0].reserveL[0]).toBeCloseTo(.6); expect(out.states[0].reserveL[1]).toBeCloseTo(1);
   expect(out.candidate).toBe('uncertain');
 });
+test('offset rain bins preserve partial demand bounds and ignore identical weather retries', () => {
+  const input = basic(1, 2.5);
+  const [loss, rain] = input.weather;
+  input.weather = [
+    { ...rain, valid_start_utc: 1800 },
+    loss,
+    { ...rain, valid_end_utc: 1800 },
+    { ...loss },
+  ];
+  const result = replayWater(input);
+  expect(result.states[0].reserveL).toEqual([0, 1]);
+  expect(result.reasonCodes).toContain('partial_completed_integral_zero_full_bounds');
+});
 function staged(): ReplayInput {
   const old = { ...profile, version: 'veg', scenarios: [{ ...scenario, initialReserveL: [1.6, 1.6] as const }] };
   const next = { ...profile, version: 'flower', domain: { ...profile.domain, stages: ['flowering'] }, scenarios: [{ ...scenario, id: 'flower', effectiveLossM2: .4 }] };

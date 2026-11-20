@@ -25,6 +25,12 @@ function sameProfile(a: Profile, b: Profile) { return revisionFingerprint(a) ===
 const fail = (reason: string, coverageIssue?: WaterResult['coverageIssue']) => ({ states: [] as BankState[], candidate: 'uncertain' as const, reasonCodes: [reason],
   ...(coverageIssue ? { coverageIssue } : {}) });
 
+function forcingBounds(row: WeatherSample | undefined, start: number, end: number) {
+  if (!row || row.value === null || row.valid_start_utc > start || row.valid_end_utc < end) return null;
+  const partial = row.valid_start_utc !== start || row.valid_end_utc !== end;
+  return { lower: partial ? 0 : row.value, upper: row.value, partial };
+}
+
 /** Event timing bounds use completed forcing-bin edges, not invented occurrence timestamps or uniform showers. */
 export function replayTimeline(input: WaterTimelineInput) {
   const { anchorUtc, evaluationUtc: now } = input;
@@ -94,19 +100,25 @@ export function replayTimeline(input: WaterTimelineInput) {
     const end = segments[segmentIndex];
     const required = [et0Source, ...(setup.soilRain === 'no' ? [] : [rainSource])];
     if (required.some(s => !profile.domain.sourceKeys.includes(`${s.provider}/${s.product}/${s.modelSelection}`))) return fail('unsupported_source_domain');
-    const lossRows = selectSamples(input.weather, 'et0_mm', et0Source, setup.locationRevision, now);
-    const rainRows = selectSamples(input.weather, 'liquid_rain_mm', rainSource, setup.locationRevision, now);
     if (start < end) {
+      const lossRows = selectSamples(input.weather, 'et0_mm', et0Source, setup.locationRevision, now);
+      const rainRows = setup.soilRain === 'no' ? [] : selectSamples(input.weather, 'liquid_rain_mm', rainSource, setup.locationRevision, now);
       const lossPath = boundedOccurredIntegral(lossRows, start, end);
       const rainPath = setup.soilRain === 'no' ? { complete: true, rows: [] as WeatherSample[] } : boundedOccurredIntegral(rainRows, start, end);
       if (!lossPath.complete) return fail('history_gap', occurredCoverageIssue(lossRows, 'et0_mm', start, end));
       if (!rainPath.complete) return fail('history_gap', occurredCoverageIssue(rainRows, 'liquid_rain_mm', start, end));
       const boundaries = [...new Set([start, end, ...lossPath.rows.map(r => r.valid_end_utc), ...rainPath.rows.map(r => r.valid_end_utc)])].filter(t => t >= start && t <= end).sort((a, b) => a - b);
+      let lossIndex = 0;
+      let rainIndex = 0;
       for (let i = 1; i < boundaries.length; i++) {
         const a = boundaries[i - 1], b = boundaries[i];
-        const loss = boundedOccurredIntegral(lossRows, a, b);
-        const rain = setup.soilRain === 'no' ? { complete: true, lower: 0, upper: 0, partial: false } : boundedOccurredIntegral(rainRows, a, b);
-        if (!loss.complete || !rain.complete) return fail('forcing_subinterval_unavailable');
+        // Each path is already validated and every bin end is a boundary,
+        // so a subinterval is covered by at most one bin from each path.
+        if (lossPath.rows[lossIndex]?.valid_end_utc === a) lossIndex++;
+        if (rainPath.rows[rainIndex]?.valid_end_utc === a) rainIndex++;
+        const loss = forcingBounds(lossPath.rows[lossIndex], a, b);
+        const rain = setup.soilRain === 'no' ? { lower: 0, upper: 0, partial: false } : forcingBounds(rainPath.rows[rainIndex], a, b);
+        if (!loss || !rain) return fail('forcing_subinterval_unavailable');
         if (loss.partial || rain.partial) reasons.add('partial_completed_integral_zero_full_bounds');
         effects.weatherDemand ||= loss.upper > 0 && states.some(s => s.scenario.effectiveLossM2 > 0);
         effects.directRain ||= rain.lower > 0 && setup.soilRain === 'yes' && states.some(s => s.scenario.catchmentM2 * s.scenario.rainDelivery > 0);

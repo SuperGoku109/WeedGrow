@@ -46,13 +46,25 @@ export function isCareTipRecord(value: unknown): value is CareTipRecord {
     && (record.handledAt === undefined || typeof record.handledAt === 'number' && Number.isFinite(record.handledAt) && record.handledAt >= 0);
 }
 
-export function findHandledCareTip(plant: Plant | null | undefined, signature: string, now: Date, kind: SuggestionCard['kind']) {
-  if (!plant) return undefined;
+export function careTipsForDay(plant: Plant, now: Date) {
   const day = plantDay(now, plant.locationTimeZone);
-  const todayKey = careTipKey(plant, day, signature);
-  const previousKey = kind === 'weather' ? careTipKey(plant, addDays(day, -1), signature) : null;
-  return careTipRecords(plant).find(record => record.handledAt !== undefined
-    && (record.key === todayKey || (record.key === previousKey && now.getTime() - record.handledAt < 24 * 3600000)));
+  const records = careTipRecords(plant);
+  const key = (signature: string) => careTipKey(plant, day, signature);
+  return {
+    day,
+    key,
+    find: (recordKey: string) => records.find(record => record.key === recordKey),
+    findHandled(signature: string, kind: SuggestionCard['kind']) {
+      const todayKey = key(signature);
+      const previousKey = kind === 'weather' ? careTipKey(plant, addDays(day, -1), signature) : null;
+      return records.find(record => record.handledAt !== undefined
+        && (record.key === todayKey || (record.key === previousKey && now.getTime() - record.handledAt < 24 * 3600000)));
+    },
+  };
+}
+
+export function findHandledCareTip(plant: Plant | null | undefined, signature: string, now: Date, kind: SuggestionCard['kind']) {
+  return plant ? careTipsForDay(plant, now).findHandled(signature, kind) : undefined;
 }
 
 export function mergeCareTipHistory(existing: CareTipRecord[], tips: CareTipRecord[], handledAt?: number) {

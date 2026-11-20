@@ -7,6 +7,18 @@ import { plantDay, addDays, zonedTime } from '@/lib/dates/plantDay';
 import { fetchWeather, readCachedWeatherResponse } from '@/lib/weather/fetchWeather';
 import type { CareReadResult } from '@/lib/careAlgorithm/careDiagnostics';
 
+async function readCareWeather(pin: Plant['location'], refresh: boolean) {
+  if (!pin) return { raw: undefined, failed: false };
+  if (refresh) {
+    try { return { raw: await fetchWeather(pin.lat, pin.lng), failed: false }; }
+    catch { /* Fall back to locally saved weather. */ }
+  }
+  const raw = Number.isFinite(pin.lat) && Number.isFinite(pin.lng)
+    ? await readCachedWeatherResponse(pin.lat, pin.lng)
+    : undefined;
+  return { raw, failed: refresh };
+}
+
 /** Interactive path: reads existing inputs and calculates locally; no backend snapshot or server writes. */
 export async function readLocalPlantCare(plantId: string, plant: Plant, now: Date): Promise<CareReadResult> {
   const uid = requireUserId();
@@ -19,20 +31,17 @@ export async function readLocalPlantCare(plantId: string, plant: Plant, now: Dat
   catch { settings = defaultLocalCareSettings(at); issues.push('local_test_settings_invalid'); }
   const automatic = settings.profileMode !== 'manual' ? { basis: ['Soil observations', 'Care history', 'Qualitative weather'] } : undefined;
   if (automatic) settings = { ...settings, enabled: true, weatherMode: 'open-meteo' as const, includeJournal: true, anchorUtc: zonedTime(addDays(plantDay(now, zone), -13), '00:00', zone).getTime() / 1000 };
-  let logs: import('@/firestoreModels').PlantLog[] = [];
-  let historyFailed = false;
-  if (settings.enabled && settings.includeJournal && settings.anchorUtc <= at && at - settings.anchorUtc <= 14 * 86400) {
-    try {
-      const range = await fetchLogsAndWeatherForRange(plantId, plantDay(new Date(settings.anchorUtc * 1000), zone), plantDay(now, zone), zone, { logsOnly: true });
-      logs = Object.values(range).flatMap(entry => entry.logs);
-    } catch { historyFailed = true; }
-  }
-  const pin = plant.location;
-  let raw = pin && Number.isFinite(pin.lat) && Number.isFinite(pin.lng) ? await readCachedWeatherResponse(pin.lat, pin.lng) : undefined;
-  if (settings.enabled && settings.weatherMode === 'open-meteo' && pin) {
-    try { raw = await fetchWeather(pin.lat, pin.lng); } catch { issues.push('local_meteo_unavailable'); }
-  }
+  const readHistory = settings.enabled && settings.includeJournal && settings.anchorUtc <= at && at - settings.anchorUtc <= 14 * 86400;
+  const [history, { raw, failed: weatherFailed }] = await Promise.all([
+    readHistory
+      ? fetchLogsAndWeatherForRange(plantId, plantDay(new Date(settings.anchorUtc * 1000), zone), plantDay(now, zone), zone, { logsOnly: true }).catch(() => null)
+      : undefined,
+    readCareWeather(plant.location, settings.enabled && settings.weatherMode === 'open-meteo'),
+  ]);
   if (requireUserId() !== uid) throw new Error('Account changed.');
+  const historyFailed = history === null;
+  const logs = history ? Object.values(history).flatMap(entry => entry.logs) : [];
+  if (weatherFailed) issues.push('local_meteo_unavailable');
   if (historyFailed) issues.push('local_journal_read_failed');
   const evaluationUtc = Math.max(at, Date.now() / 1000);
   const identifiedPlant = { ...plant, id: plantId, locationTimeZone: zone };

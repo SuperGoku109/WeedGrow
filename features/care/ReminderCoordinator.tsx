@@ -34,8 +34,11 @@ function ActiveReminders() {
   const handledIds = new Set(recommendations.filter(r => findHandledCareTip(plantById.get(r.plantId), recommendationSignature(r), now, r.type)).map(r => r.id));
   const handledKey = JSON.stringify([...handledIds].sort());
   const remaining = recommendations.filter(r => !handledIds.has(r.id));
-  const recommendationKey = JSON.stringify(remaining.filter(r => r.type !== 'watering'
-    || plants.some(p => p.id === r.plantId && effectiveSchedule(p, 'watering').type === 'smart')));
+  const recommendationKey = JSON.stringify(remaining.filter(r => {
+    if (r.type !== 'watering') return true;
+    const plant = plantById.get(r.plantId);
+    return !!plant && effectiveSchedule(plant, 'watering').type === 'smart';
+  }));
   React.useEffect(() => {
     if (intelligence.loading || intelligence.error || intelligence.stale) return;
     void syncCareRecommendations(user?.uid, JSON.parse(recommendationKey), preferences.reminders, JSON.parse(resolvedKey), JSON.parse(handledKey)).then(() => setIntelligenceMessage('')).catch(() => setIntelligenceMessage('Device care alerts could not be updated. Retry from care advice or check notification permissions.'));

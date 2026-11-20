@@ -1,6 +1,7 @@
 import { parseVolumeL } from './profiles';
 import { windPlantContext, windThresholds } from './windPolicy';
 import type { Plant, PlantLog } from '@/firestoreModels';
+import { currentCareSummary } from '../care/careSummary';
 import type { WaterResult, WeatherSample } from './types';
 import { careConfiguration, dryingConditions, normalizeObservations, normalizeOutdoorWeather, OUTDOOR_POLICY, utcSeconds, careEventWindow, localTemperatureBaseline,
   type Drying, type Observation, type OutdoorPolicy } from './outdoorContext';
@@ -77,7 +78,7 @@ export function evaluateOutdoorCare(input: { plantId: string; plant: Plant; logs
     recommendations.push({ id: `${plantId}:${type}:${category}`, plantId, type, category, priority, action, title, description,
       reasonCodes: [code], evidence, dataQuality: drying === 'UNKNOWN' || rain.length < 24 || input.historyReliable === false ? 'PARTIAL' : 'GOOD', generatedAt: now, expiresAt: now + p.recommendationLifetimeMinutes * 60, status: 'active' });
   };
-  const summaryWatering = plant.careSummary?.version === 1 && plant.careSummary.revision === (plant.careRevision ?? 0) ? utcSeconds(plant.careSummary.watering?.timestamp) : null;
+  const summaryWatering = utcSeconds(currentCareSummary(plant)?.watering?.timestamp);
   const latestWater = [...watering].sort((a, b) => b.end - a.end)[0];
   const useSummary = summaryWatering !== null && summaryWatering <= now && (!latestWater || summaryWatering > latestWater.end);
   const lastWateringUtc = input.historyReliable === false ? null : useSummary ? summaryWatering : latestWater ? latestWater.precise ? latestWater.end : latestWater.start : null;

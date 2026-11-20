@@ -62,6 +62,31 @@ test('no saved test configuration is required for automatic care', async () => {
   expect(result.evaluation?.water.reasonCodes).not.toContain('local_test_inputs_required');
   expect(fetchWeather).toHaveBeenCalled(); expect(fetchLogsAndWeatherForRange).toHaveBeenCalled();
 });
+test('starts weather while journal history is pending and skips a redundant cache read', async () => {
+  let finishHistory!: (history: Awaited<ReturnType<typeof fetchLogsAndWeatherForRange>>) => void;
+  jest.mocked(fetchLogsAndWeatherForRange).mockReturnValueOnce(new Promise(resolve => { finishHistory = resolve; }));
+  let weatherStarted!: () => void;
+  const started = new Promise<void>(resolve => { weatherStarted = resolve; });
+  jest.mocked(fetchWeather).mockImplementationOnce(async () => {
+    weatherStarted();
+    return openMeteoWeatherResponse(meteoFixture(), Date.now());
+  });
+
+  const pending = readLocalPlantCare(plant.id, plant, now);
+  await started;
+  expect(fetchLogsAndWeatherForRange).toHaveBeenCalled();
+  expect(readCachedWeatherResponse).not.toHaveBeenCalled();
+  finishHistory({});
+  expect((await pending).diagnostic.journalHistoryReadFailed).toBe(false);
+});
+test('reads saved weather when the provider fails', async () => {
+  const fetchedAt = now.getTime() - 5 * 60 * 1000;
+  jest.mocked(fetchWeather).mockRejectedValueOnce(new Error('offline'));
+  jest.mocked(readCachedWeatherResponse).mockResolvedValueOnce(openMeteoWeatherResponse(meteoFixture(fetchedAt / 1000), fetchedAt));
+  const result = await readLocalPlantCare(plant.id, plant, now);
+  expect(readCachedWeatherResponse).toHaveBeenCalledWith(plant.location!.lat, plant.location!.lng);
+  expect(result.evaluation?.localInputs?.weatherRetrievedUtc).toBe(fetchedAt / 1000);
+});
 test('failed journal reads are visible and cannot produce a watering or watering-dependent warning', async () => {
   await saveLocalCareSettings(plant.id, localCarePreset('dry', now.getTime() / 1000));
   jest.mocked(fetchLogsAndWeatherForRange).mockRejectedValueOnce(new Error('offline'));

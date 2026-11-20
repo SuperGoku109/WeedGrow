@@ -7,7 +7,7 @@ import type { GardenCareGroup } from '@/features/home/gardenCare';
 export function useCareTipHistory(uid: string | undefined, groups: GardenCareGroup[], plants: (Plant & { id: string })[], ready: boolean) {
   const [error, setError] = React.useState('');
   const [retry, refresh] = React.useReducer(value => value + 1, 0);
-  const known = new Map(plants.map(plant => [plant.id, new Set(careTipRecords(plant).map(tip => tip.key))]));
+  const known = React.useMemo(() => new Map(plants.map(plant => [plant.id, new Set(careTipRecords(plant).map(tip => tip.key))])), [plants]);
   const missing = ready && uid ? groups.flatMap(group => group.tips ?? [])
     .filter(({ plantId, tip }) => !known.get(plantId)?.has(tip.key)) : [];
   const key = JSON.stringify(missing.map(({ plantId, tip }) => [plantId, tip.key]).sort());
@@ -15,7 +15,8 @@ export function useCareTipHistory(uid: string | undefined, groups: GardenCareGro
   targets.current = missing;
 
   React.useEffect(() => {
-    if (!uid || key === '[]') return;
+    if (!uid || (ready && key === '[]')) { setError(''); return; }
+    if (key === '[]') return;
     let current = true;
     // A bounded write keeps one large garden from making an oversized request.
     const pending = targets.current;
@@ -28,7 +29,7 @@ export function useCareTipHistory(uid: string | undefined, groups: GardenCareGro
       if (current) setError('Could not save recent tips to history.');
     });
     return () => { current = false; };
-  }, [key, retry, uid]);
+  }, [key, ready, retry, uid]);
 
   const complete = React.useCallback(async (tips: readonly CareTipTarget[]) => {
     if (!uid) throw new Error('Sign in to update care.');
