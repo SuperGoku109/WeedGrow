@@ -1,4 +1,4 @@
-import { usePlantImageTransition } from '@/ui/PlantImageTransition';
+import { useAndroidPlantArrival, usePlantImageTransition } from '@/ui/PlantImageTransition';
 import { careConfiguration } from '@/lib/careAlgorithm/outdoorContext';
 import PlantActionButton from '../components/PlantActionButton';
 import LoadError from '@/ui/LoadError';
@@ -14,6 +14,7 @@ import { journalEntryDay } from '../journalPresentation';
 import React from 'react';
 import { Animated, BackHandler, Easing, Platform, ScrollView, StyleSheet, Text, View, useWindowDimensions, type ViewStyle } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import Reanimated from 'react-native-reanimated';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -50,7 +51,18 @@ import PlantEditorSheet from '../components/PlantEditorSheet';
 type Section = 'Journal' | 'History' | 'Photos' | 'Details';
 const SECTIONS: Section[] = ['Journal', 'Details', 'Photos', 'History'];
 export default function PlantDetailScreen() {
-  const params = useLocalSearchParams<{ id: string; section?: string; fromGroupId?: string; welcome?: string; editSection?: string; journalDate?: string; managePlant?: string; returnToPlants?: string }>();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const { themeName } = usePlantAppearance();
+  const { scene, backdrop } = useAndroidPlantArrival(Array.isArray(id) ? id[0] : id);
+  if (Platform.OS !== 'android') return <PlantDetailContent />;
+  return <View style={s.androidScene}>
+    <Reanimated.View pointerEvents="none" style={[StyleSheet.absoluteFillObject, { backgroundColor: plantThemes[themeName].background }, backdrop]} />
+    <Reanimated.View style={[s.androidScene, scene]}><PlantDetailContent /></Reanimated.View>
+  </View>;
+}
+
+function PlantDetailContent() {
+  const params = useLocalSearchParams<{ id: string; section?: string; fromGroupId?: string; welcome?: string; editSection?: string; journalDate?: string; managePlant?: string; returnToPlants?: string; photoEntry?: string }>();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const groupId = Array.isArray(params.fromGroupId) ? params.fromGroupId[0] : params.fromGroupId;
   const router = useRouter();
@@ -58,6 +70,8 @@ export default function PlantDetailScreen() {
   const { width, height } = useWindowDimensions();
   const reduced = useReducedMotion();
   const { contentReady } = usePlantImageTransition();
+  const photoEntry = Platform.OS === 'android' && params.photoEntry === '1';
+  const SectionBody = photoEntry ? View : GrowReveal;
   const { plant, loading, error: plantError, refresh: retryPlant } = usePlant(id);
   const { user } = useSession();
   const uid = user?.uid;
@@ -122,7 +136,7 @@ export default function PlantDetailScreen() {
   const [refresh, setRefresh] = React.useState(0);
   const localCareRevision = useLocalCareRevision();
   const [cards, setCards] = React.useState<SuggestionCard[]>([]);
-  const [insightLoading, setInsightLoading] = React.useState(false);
+  const [insightLoading, setInsightLoading] = React.useState(photoEntry);
   const [insightError, setInsightError] = React.useState('');
   const scroll = React.useRef<ScrollView>(null);
   const scrollPosition = React.useRef(0);
@@ -200,7 +214,7 @@ export default function PlantDetailScreen() {
   const adviceWeatherTime = data.weather[today]?.fetchedAt?.toMillis?.();
 
   const hasLocation = typeof plant?.location?.lat === 'number' && typeof plant?.location?.lng === 'number';
-  React.useEffect(() => { setCards([]); setInsightError(''); setInsightLoading(false); }, [id]);
+  React.useEffect(() => { setCards([]); setInsightError(''); setInsightLoading(photoEntry); }, [id, photoEntry]);
   React.useEffect(() => { if (typeof params.journalDate === 'string' && plant) { if (isCalendarDay(params.journalDate)) { setSection('Journal'); jump(params.journalDate); } router.setParams({ journalDate: undefined }); } }, [params.journalDate, plant, router, jump]);
   const goBack = React.useCallback(() => {
     if (params.returnToPlants === '1') { router.dismissTo({ pathname: '/(tabs)', params: { tabIndex: '1' } }); return; }
@@ -216,14 +230,15 @@ export default function PlantDetailScreen() {
   React.useEffect(() => {
     let cancelled = false; const controller = new AbortController();
     setInsightError('');
-    if (!contentReady || adviceKey === 'null' || !id || !isToday) { setInsightLoading(false); return; }
+    if (adviceKey === 'null' || !id || !isToday) { setInsightLoading(false); return; }
+    if (!contentReady) { setInsightLoading(photoEntry); return; }
     setInsightLoading(true);
     if (data.loading || data.weatherLoading) return () => controller.abort();
     evaluateSuggestionCardsForPlant(JSON.parse(adviceKey), { execution: 'local' }, controller.signal).then(result => { if (!cancelled) setCards(result?.cards || []); })
       .catch(() => { if (!cancelled) setInsightError('Care suggestions could not be refreshed.'); })
       .finally(() => { if (!cancelled) setInsightLoading(false); });
     return () => { cancelled = true; controller.abort(); };
-  }, [contentReady, adviceKey, id, hasLocation, today, activitySignature, refresh, isToday, adviceWeatherTime, data.loading, data.weatherLoading, localCareRevision]);
+  }, [contentReady, photoEntry, adviceKey, id, hasLocation, today, activitySignature, refresh, isToday, adviceWeatherTime, data.loading, data.weatherLoading, localCareRevision]);
   React.useEffect(() => {
     if (!isToday || insightLoading) return;
     const due = Math.min(...cards.flatMap(card => card.metrics.observationDriven && typeof card.metrics.expiresAtUtc === 'number' ? [card.metrics.expiresAtUtc] : []));
@@ -278,13 +293,13 @@ export default function PlantDetailScreen() {
     <ScrollView ref={scroll} onLayout={event => setScrollHeight(event.nativeEvent.layout.height)} stickyHeaderIndices={[1]} showsVerticalScrollIndicator={false} scrollEventThrottle={16} onScrollBeginDrag={() => { restoring.current = false; tabFocusPosition.current = null; }} onContentSizeChange={() => { if (restoring.current && (section !== 'Journal' || (!data.loading && !insightLoading)) && (section !== 'Photos' || !gallery.loading)) scroll.current?.scrollTo({ y: restoreTarget.current, animated: false }); }} onScroll={event => { if (restoring.current) return; const y = event.nativeEvent.contentOffset.y; scrollPosition.current = y; const next = bannerHeight > 0 && y >= bannerHeight - 1; if (next !== pinned.current) { pinned.current = next; setRailPinned(next); } }} contentContainerStyle={{ width: '100%', maxWidth: 760, alignSelf: 'center', paddingBottom: 26, minHeight: (scrollHeight || Math.max(0, height - insets.top - insets.bottom - 52 - (section === 'Journal' || section === 'Photos' ? 76 : 0))) + Math.max(Math.ceil(bannerHeight), restoreTarget.current) }}>
       <View onLayout={event => setBannerHeight(event.nativeEvent.layout.height)} style={{ paddingHorizontal: 18, paddingTop: 4 }}><PlantBanner plant={plant} theme={t} onEdit={editPlant} now={clock} /></View>
       <View onLayout={event => { railHeight.current = event.nativeEvent.layout.height; }} style={{ paddingHorizontal: 18, paddingBottom: 8, backgroundColor: t.background }}><View accessibilityRole="tablist" style={{ flexDirection: 'row', backgroundColor: t.surface, borderWidth: 1, borderTopWidth: railPinned ? 1 : 0, borderColor: t.border, borderTopLeftRadius: railPinned ? 20 : 0, borderTopRightRadius: railPinned ? 20 : 0, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 4, paddingTop: 4 }}><Animated.View pointerEvents="none" style={[tabSelection.indicatorStyle, { backgroundColor: t.accent, borderRadius: 12 }]} />{SECTIONS.map(item => <View key={item} onLayout={event => tabSelection.onItemLayout(item, event)} style={{ flex: 1, minWidth: 0 }}><GrowPress {...(Platform.OS === 'web' ? { onMouseDown: (event: { preventDefault(): void }) => event.preventDefault() } : {})} accessibilityRole="tab" hitSlop={{ top: 4, bottom: 4 }} onFocus={() => { if (item !== section) tabFocusPosition.current = { section, y: scrollPosition.current }; }} aria-selected={section === item} accessibilityState={{ selected: section === item }} onPress={() => switchSection(item)} style={{ alignItems: 'center', minHeight: 44, justifyContent: 'center', paddingVertical: 8, borderRadius: 12, backgroundColor: 'transparent' }}><Text style={{ color: section === item ? t.onAccent : t.muted, fontSize: 13, fontWeight: '700' }}>{item === 'Details' ? 'Info' : item}</Text></GrowPress></View>)}</View></View>
-      <Animated.View style={[webSlideStyle, { width: '100%', transform: [{ translateX: Platform.OS === 'web' ? webSectionOffset : sectionTranslateX }], opacity: Platform.OS === 'web' ? webSectionOpacity : sectionOpacity }]}>{contentReady && <GrowReveal onLayout={event => { bodyTop.current = event.nativeEvent.layout.y; }} style={{ paddingHorizontal: 18, paddingBottom: 20 }}>
+      <Animated.View style={[webSlideStyle, { width: '100%', transform: [{ translateX: Platform.OS === 'web' ? webSectionOffset : sectionTranslateX }], opacity: Platform.OS === 'web' ? webSectionOpacity : sectionOpacity }]}>{(contentReady || photoEntry) && <SectionBody onLayout={event => { bodyTop.current = event.nativeEvent.layout.y; }} style={{ paddingHorizontal: 18, paddingBottom: 20 }}>
         {section === 'Journal' && !!data.weatherError && <GrowPress accessibilityRole="button" onPress={data.retry} style={{ minHeight: 48, justifyContent: 'center', marginTop: 12 }}><Text accessibilityRole="alert" style={{ color: t.danger }}>{data.weatherError} Tap to retry.</Text></GrowPress>}
         {showWelcome && <View style={{ marginTop: 16, paddingVertical: 12, borderBottomWidth: 1, borderColor: t.border, gap: 8 }}><Text style={{ color: t.text, fontWeight: '600' }}>Plant added. Your setup is saved.</Text><Text style={{ color: t.muted }}>Your journal is ready whenever you have something to record.</Text><PlantActionButton label="Got it" icon="check" theme={t} onPress={() => { setShowWelcome(false); router.setParams({ welcome: '' }); }} /></View>}
         <View style={{ display: section === 'Journal' ? 'flex' : 'none' }} onLayout={event => { journalTop.current = event.nativeEvent.layout.y; }}>
           {returnToSearch && <GrowPress accessibilityRole="button" onPress={() => setSearchOpen(true)} style={{ minHeight: 48, justifyContent: 'center' }}><Text style={{ color: t.accent }}>Back to search results</Text></GrowPress>}
           <JournalDateNavigator today={today} selected={selected} dates={dates} logs={data.logs} historyStatus={data.loading ? 'loading' : data.error ? 'error' : 'ready'} theme={t} minimum={day.minimum} canGoBack={day.canGoBack} onSelect={day.select} onJump={day.jump} onMove={day.moveWeek} onToday={day.backToToday} onSearch={showJournalSearch} />
-          {isToday && <><DailyCareAdvice key={id} cards={displayCards} loading={(insightLoading || data.loading || data.weatherLoading) && !displayCards.length} error={insightError} hasLocation={hasLocation} theme={t} onRecord={openLog} onSetLocation={editLocation} canRecord={plant.status === 'active'} onRefresh={refreshCare} /></>}
+          {isToday && <><DailyCareAdvice key={id} cards={displayCards} loading={(!contentReady || insightLoading || data.loading || data.weatherLoading) && !displayCards.length} error={insightError} hasLocation={hasLocation} theme={t} onRecord={openLog} onSetLocation={editLocation} canRecord={plant.status === 'active'} onRefresh={refreshCare} /></>}
           <JournalSectionTitle title={isToday ? 'Recorded today' : isFuture ? dayLabel : 'Recorded'} theme={t} caption={isFuture ? 'FORECAST' : data.loading ? undefined : data.error ? 'Unavailable' : selectedLogs.length ? selectedLogs.length + (selectedLogs.length === 1 ? ' entry' : ' entries') : undefined} />
           {!isFuture && <View onLayout={event => { timelineTop.current = event.nativeEvent.layout.y; }}><JournalTimeline key={'activity:' + selected} compactEmpty emptyMessage={isToday ? 'Nothing recorded today.' : 'No activity recorded on this day.'} logs={selectedLogs} loading={data.loading} error={data.error} theme={t} timeZone={plant.locationTimeZone} onEdit={editEntry} onDelete={setDeletingEntry} highlightedId={focusedEntry} highlightLabel={highlightLabel} onRetry={data.retry} onViewPhoto={entry => { const photoId = entry.id.startsWith('photo_') ? entry.id.slice(6) : entry.id === 'setup-photo' ? entry.id : ''; setNewPhotoId(photoId); switchSection('Photos'); pendingAnchor.current = photoId; }} onEntryLayout={(entryId, y) => rememberAnchor(entryId, journalTop.current + timelineTop.current + y)} /></View>}
           {isFuture && <Text style={[ds.body, { color: t.muted }]}>Forecast only. Choose today or an earlier date to record completed activities.</Text>}
@@ -295,7 +310,7 @@ export default function PlantDetailScreen() {
         {section === 'History' && <PlantHistory plantId={id} plant={plant} theme={t} onViewDay={(date, entry) => { jump(date); switchSection('Journal'); setFocusedEntry(entry.id); pendingAnchor.current = entry.id; }} onViewPhoto={entry => { const photoId = entry.id.startsWith('photo_') ? entry.id.slice(6) : entry.id === 'setup-photo' ? entry.id : ''; setNewPhotoId(photoId); switchSection('Photos'); pendingAnchor.current = photoId; }} />}
         {section === 'Photos' && <PlantPhotoGallery plantId={id} hasMore={gallery.hasMore} onMore={() => void gallery.loadMore()} onRefresh={gallery.refresh} pics={gallery.pics} loading={gallery.loading} error={gallery.error} theme={t} onAdd={() => void addPhoto()} timeZone={plant.locationTimeZone} highlightId={newPhotoId} onPhotoLayout={(photoId, y) => rememberAnchor(photoId, y)} />}
         <View key={'profile:' + id} style={{ display: section === 'Details' ? 'flex' : 'none', gap: 16, paddingTop: 8 }}><PlantDetails plant={plant} theme={t} onSetLocation={editLocation} onSectionLayout={rememberAnchor} highlightedSection={focusedEntry} locationHistory={<PlantMovementHistory plantId={id} theme={t} active={section === 'Details'} />} />{section === 'Details' && <GrowthStageSummary flush plant={plant} theme={t} now={clock} onPress={openGrowth} />}{section === 'Details' && <LocalCareControls plantId={id} plant={plant} theme={t} onEditSetup={editPlant} />}<View onLayout={event => rememberAnchor("Manage plant", event.nativeEvent.layout.y)}><PlantLifecycle plantId={id} plant={plant} theme={t} open={manageOpen} onClose={() => setManageOpen(false)} onDeleted={goBack} onSaved={value => { setMessage(value); setRefresh(previous => previous + 1); }} /></View></View>
-      </GrowReveal>}</Animated.View>
+      </SectionBody>}</Animated.View>
     </ScrollView>
     {section !== 'Details' && section !== 'History' && <View style={{ backgroundColor: t.background, borderTopWidth: 1, borderColor: t.border, paddingBottom: Math.max(12, insets.bottom), paddingTop: 10, paddingHorizontal: 18 }}><View style={{ width: '100%', maxWidth: 724, alignSelf: 'center', gap: 8 }}>
       {plant.status !== 'active' && section === 'Journal' ? <GrowPress accessibilityRole="button" onPress={() => { switchSection('Details'); setManageOpen(true); pendingAnchor.current = 'Manage plant'; setTimeout(() => scrollToAnchor('Manage plant'), 0); }} style={[ds.button, { backgroundColor: t.surface }]}><Text style={{ color: t.accent }}>Manage {plant.status} plant</Text></GrowPress> : <View style={{ flexDirection: 'row', gap: 8 }}>
@@ -312,4 +327,4 @@ export default function PlantDetailScreen() {
     <AppNotice visible={!!message} onDismiss={() => setMessage('')} duration={4000} style={{ bottom: 82 }}>{message}</AppNotice>
   </SafeAreaView>;
 }
-const s = StyleSheet.create({ toolbar: { width: '100%', maxWidth: 760, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 6, gap: 8 }, iconButton: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' } });
+const s = StyleSheet.create({ androidScene: { flex: 1 }, toolbar: { width: '100%', maxWidth: 760, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 6, gap: 8 }, iconButton: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' } });

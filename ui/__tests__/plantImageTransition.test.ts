@@ -62,6 +62,7 @@ it('keeps the source screen available until its overlay image can take over', ()
   expect(navigate).not.toHaveBeenCalled();
   act(() => jest.advanceTimersByTime(20));
   expect(navigate).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledWith(true);
   expect(transition.preparing).toBe(false);
   expect(transition.previewUri).toBe(uri);
 });
@@ -72,6 +73,7 @@ it('falls back to ordinary navigation when the photo stalls and ignores a late l
   const lateLoad = overlayImage().props.onLoad;
   act(() => jest.advanceTimersByTime(510));
   expect(navigate).toHaveBeenCalledTimes(1);
+  expect(navigate).toHaveBeenCalledWith();
   expect(transition.active).toBe(false);
   expect(transition.contentReady).toBe(true);
   act(() => { lateLoad(); jest.advanceTimersByTime(20); });

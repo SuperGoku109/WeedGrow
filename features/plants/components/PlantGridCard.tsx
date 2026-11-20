@@ -1,10 +1,12 @@
 import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Reanimated, { useAnimatedStyle } from 'react-native-reanimated';
 import type { Plant } from '@/firestoreModels';
 import { useAppTheme } from '@/hooks/useAppTheme';
 import { GrowPress } from '@/ui/GrowMotion';
 import { usePlantImageTransition } from '@/ui/PlantImageTransition';
+import { entrancePhase } from '@/ui/plantEntrance';
 import { PlantImage, usePhotoUri } from '@/ui/PlantImage';
 import PlantPhotoHero from '@/ui/PlantPhotoHero';
 import { getRenderablePlantImageUri } from '@/lib/plants/plantImages';
@@ -13,14 +15,20 @@ import { growthStageColor, guideStage } from '../growthStagePresentation';
 import { plantCardAgeLabel, plantCardMeta, plantCardStageLabel } from '../plantListPresentation';
 
 export default function PlantGridCard({ plant, onPress, wateredToday, waterStatus, careAlertCount = 0, selecting = false, selected = false, onSelect, onStartSelection }: {
-  plant: Plant & { id: string }; onPress(): void; wateredToday: boolean;
+  plant: Plant & { id: string }; onPress(photoEntry?: boolean): void; wateredToday: boolean;
   waterStatus?: 'check' | 'water' | 'reminder'; careAlertCount?: number;
   selecting?: boolean; selected?: boolean; onSelect?(): void; onStartSelection?(): void;
 }) {
   const t = useAppTheme();
   const transition = usePlantImageTransition();
   const imageFrame = React.useRef<View>(null);
+  const title = React.useRef<React.ElementRef<typeof Text>>(null);
   const imageLoaded = React.useRef(false);
+  const android = Platform.OS === 'android';
+  const isSource = android && transition.active && transition.plantId === plant.id;
+  const { timeline, carriesTitle } = transition;
+  const sourcePhotoStyle = useAnimatedStyle(() => ({ opacity: isSource ? 1 - entrancePhase(timeline.value, 0.01, 0.13) : 1 }));
+  const sourceTitleStyle = useAnimatedStyle(() => ({ opacity: isSource && carriesTitle ? 1 - entrancePhase(timeline.value, 0.01, 0.13) : 1 }));
   const progress = growthPhaseProgress(plant);
   const color = growthStageColor(progress.phase, t.background);
   const stage = guideStage(progress.phase);
@@ -55,8 +63,13 @@ export default function PlantGridCard({ plant, onPress, wateredToday, waterStatu
     imageFrame.current.measureInWindow((x, y, width, height) => {
       if (width > 0 && height > 0) {
         const frame = { x, y, width, height };
-        if (Platform.OS === 'android') {
-          transition.start(plant.id, previewUri, frame, onPress);
+        if (android) {
+          if (title.current) {
+            title.current.measureInWindow((x, y, width, height) => {
+              const label = width > 0 && height > 0 && height <= 24 ? { text: plant.name, frame: { x, y, width, height } } : undefined;
+              transition.start(plant.id, previewUri, frame, onPress, label);
+            });
+          } else transition.start(plant.id, previewUri, frame, onPress);
           return;
         }
         transition.start(plant.id, previewUri, frame);
@@ -72,13 +85,13 @@ export default function PlantGridCard({ plant, onPress, wateredToday, waterStatu
   React.useEffect(() => { setFailed(false); imageLoaded.current = false; }, [uri]);
   return <View style={[s.card, { backgroundColor: t.surface, borderColor: selected ? t.accent : 'transparent', borderWidth: selected ? 1.5 : 0 }]}>
     <GrowPress accessibilityRole="button" accessibilityLabel={selecting ? `${selected ? 'Deselect' : 'Select'} ${plant.name}` : `Open ${plant.name}`} accessibilityHint={selecting ? 'Tap to toggle this plant selection.' : 'Long press to select plants for batch activity.'} accessibilityState={selecting ? { selected } : undefined} onPress={activateCard} onLongPress={startSelection} onPressOut={releaseCard} delayLongPress={350} style={s.details}>
-      <View ref={imageFrame} collapsable={false} style={[s.photo, { backgroundColor: t.elevated }]}>
+      <Reanimated.View ref={imageFrame} collapsable={false} style={[s.photo, { backgroundColor: t.elevated }, sourcePhotoStyle]}>
         <PlantPhotoHero id={`plant-photo-${plant.id}`} style={StyleSheet.absoluteFillObject}>
           {uri && !failed ? <PlantImage accessibilityLabel={`${plant.name} photo`} source={{ uri }} resizeMode="cover" fadeDuration={Platform.OS === 'android' ? 0 : undefined} onLoad={() => { imageLoaded.current = true; }} onError={() => setFailed(true)} style={StyleSheet.absoluteFillObject} /> : <MaterialCommunityIcons name="sprout" size={42} color={color} />}
         </PlantPhotoHero>
-      </View>
+      </Reanimated.View>
       <View style={s.identity}>
-        <Text numberOfLines={2} style={[s.name, { color: t.text }]}>{plant.name}</Text>
+        <Reanimated.View style={sourceTitleStyle}><Text ref={title} numberOfLines={2} style={[s.name, { color: t.text }]}>{plant.name}</Text></Reanimated.View>
         <Text numberOfLines={1} style={[s.meta, { color: t.muted }]}>{plantCardMeta(plant, false)}</Text>
         <View style={s.facts}>
           <View style={[s.chip, { backgroundColor: `${color}20` }]}><MaterialCommunityIcons name={stage.icon} size={12} color={color} accessible={false} /><Text numberOfLines={1} ellipsizeMode="tail" style={[s.stage, { color }]}>{plantCardStageLabel(plant)}</Text></View>

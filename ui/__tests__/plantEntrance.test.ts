@@ -1,4 +1,4 @@
-import { coverTransform, entrancePhase, plantEntrance, type ImageFrame } from '../plantEntrance';
+import { androidPlantEntrance, coverTransform, entrancePhase, photoProgress, plantEntrance, type ImageFrame } from '../plantEntrance';
 const source: ImageFrame = { x: 22, y: 310, width: 146, height: 112 };
 const target: ImageFrame = { x: 19, y: 57, width: 318, height: 174 };
 const image = { width: 1200, height: 1600 };
@@ -37,4 +37,13 @@ it('keeps the first frame fixed when Android receives the destination size', () 
   expect(atTarget.scaleY * source.height).toBeCloseTo(target.height);
   expect(atTarget.translateX + (source.width - target.width) / 2).toBeCloseTo(target.x);
   expect(atTarget.translateY + (source.height - target.height) / 2).toBeCloseTo(target.y);
+});
+
+it('starts the Android photo before receding Home and finishes the handoff after the chrome arrives', () => {
+  const phase = androidPlantEntrance;
+  expect(photoProgress(phase.backdropStart, true)).toBeGreaterThan(0);
+  expect(1 - entrancePhase(phase.chromeStart, phase.backdropStart, phase.backdropEnd)).toBeLessThan(0.2);
+  expect(phase.chromeEnd).toBeLessThan(phase.titleStart);
+  expect(phase.titleStart).toBeLessThan(phase.handoffEnd);
+  expect(photoProgress(phase.handoffEnd, true)).toBe(1);
 });

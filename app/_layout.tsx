@@ -4,6 +4,7 @@ import { useAppTheme } from '@/hooks/useAppTheme';
 import GardenWeatherProvider from '@/features/home/GardenWeatherProvider';
 import WateringRoutineCoordinator from '@/features/plants/WateringRoutineCoordinator';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import { installErrorReporting } from '@/services/errorReporting';
 import AppErrorBoundary from '@/ui/AppErrorBoundary';
 import NotificationNavigation from '@/features/care/NotificationNavigation';
@@ -60,5 +61,12 @@ function PlantNavigation({ children }: { children: React.ReactNode }) {
   const t = useAppTheme();
   const reduced = useReducedMotion();
   const shared = usePlantImageTransition();
-  return <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: t.background }, animation: reduced || shared.active ? 'none' : 'fade_from_bottom', animationDuration: 260, gestureEnabled: false }}>{children}</Stack>;
+  return <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: t.background }, animation: reduced || shared.active ? 'none' : 'fade_from_bottom', animationDuration: 260, gestureEnabled: false }}>
+    <Stack.Screen name="plant" options={({ route }) => {
+      const params = route.params as { photoEntry?: string; params?: { photoEntry?: string } } | undefined;
+      const fromPhoto = Platform.OS === 'android' && (params?.photoEntry === '1' || params?.params?.photoEntry === '1');
+      return fromPhoto ? { presentation: 'transparentModal', contentStyle: { backgroundColor: 'transparent' } } : {};
+    }} />
+    {children}
+  </Stack>;
 }

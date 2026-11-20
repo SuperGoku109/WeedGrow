@@ -90,7 +90,10 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
   React.useEffect(() => {
     if (!collection.loading && filtered.length > 0) setInitialGridEntrancePlayed(true);
   }, [collection.loading, filtered.length]);
-  const openPlant = (plant: ListedPlant) => router.push({ pathname: '/plant/[id]', params: { id: plant.id, returnToPlants: '1' } });
+  const openPlant = (plant: ListedPlant, photoEntry?: boolean) => router.push({
+    pathname: '/plant/[id]',
+    params: { id: plant.id, returnToPlants: '1', ...(photoEntry ? { photoEntry: '1' } : {}) },
+  });
   const setStatus = (value: string | null) => { setStatusFilter(value); list.current?.scrollToOffset({ offset: 0, animated: false }); onOffsetChange(0); };
   const active = statusFilter === 'active';
   return <View onLayout={event => setLayoutWidth(event.nativeEvent.layout.width)} style={{ flex: 1 }}>
@@ -125,7 +128,7 @@ export default function PlantListScreen({ garden, searchQuery, setSearchQuery, s
           : routineDue ? 'reminder'
           : wateringGroup ? 'check'
           : undefined;
-        return <Animated.View entering={!initialGridEntrancePlayed ? FadeInDown.delay(Math.min(index * 55, 220)).duration(300).reduceMotion(ReduceMotion.System) : undefined} style={{ width: Math.max(0, (layoutWidth - 46) / 2), marginBottom: 10 }}><PlantGridCard plant={item} onPress={() => openPlant(item)} wateredToday={!!care.wateredMap[item.id]} waterStatus={waterStatus} careAlertCount={alerts.length} selecting={selectionMode} selected={selectedIds.includes(item.id)} onSelect={() => toggleSelected(item.id)} onStartSelection={item.status === 'active' ? () => startSelection(item.id) : undefined} /></Animated.View>;
+        return <Animated.View entering={!initialGridEntrancePlayed ? FadeInDown.delay(Math.min(index * 55, 220)).duration(300).reduceMotion(ReduceMotion.System) : undefined} style={{ width: Math.max(0, (layoutWidth - 46) / 2), marginBottom: 10 }}><PlantGridCard plant={item} onPress={photoEntry => openPlant(item, photoEntry)} wateredToday={!!care.wateredMap[item.id]} waterStatus={waterStatus} careAlertCount={alerts.length} selecting={selectionMode} selected={selectedIds.includes(item.id)} onSelect={() => toggleSelected(item.id)} onStartSelection={item.status === 'active' ? () => startSelection(item.id) : undefined} /></Animated.View>;
       }}
     />
     {selectionMode && <GrowPress accessibilityRole="button" accessibilityLabel={`Log activity for ${selectedPlants.length} ${selectedPlants.length === 1 ? 'plant' : 'plants'}`} disabled={!selectedPlants.length} onPress={() => setBatchComposerOpen(true)} style={[s.batchAction, { backgroundColor: t.accent, opacity: selectedPlants.length ? 1 : .5 }]}><MaterialCommunityIcons name="notebook-plus-outline" size={20} color={t.onAccent} /><Text style={{ color: t.onAccent, fontSize: 16, fontWeight: '700' }}>Log activity for {selectedPlants.length} {selectedPlants.length === 1 ? 'plant' : 'plants'}</Text></GrowPress>}
